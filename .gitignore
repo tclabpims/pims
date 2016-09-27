@@ -43,7 +43,4 @@ Temporary Items
 .apdisk
 .idea/*
 target/*
-<<<<<<< HEAD
 src/main/webapp/WEB-INF/lib/*
-=======
->>>>>>> origin/master
