@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MenuConfig>
+    <Displayers>
+        <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
+    </Displayers>
+    <Menus>
+        <!-- <Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER"/> -->
+        <Menu name="SampleManage" title="sample.manage.title" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        	<Item name="Input" title="sample.manage.input" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        	<Item name="Execute" title="sample.manage.execute" page="/manage/execute" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="Modify" title="sample.manage.modify" page="/manage/modify" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="Receive" title="sample.manage.receive" page="/manage/sampleHandover" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="Audit" title="sample.manage.audit" page="/manage/audit" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="Search" title="sample.manage.search" page="/manage/sampleQuery" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="Critical" title="sample.manage.critical" page="/critical/undeal" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="Invalid" title="sample.manage.invalid" page="/manage/invalid" roles="ROLE_ADMIN,ROLE_USER"/>
+        </Menu>
+        <Menu name="SampleSet" title="set.title" page="/rule/list" roles="ROLE_ADMIN,ROLE_USER">
+        	<Item name="RuleManage" title="set.rule" page="/rule/list"/>
+        	<Item name="RuleManage" title="set.description" page="/description/list"/>
+            <!-- <Item name="Hospital" title="set.hospital" page="/set/hospital"/> -->
+            <Item name="Section" title="set.section" page="/set/section"/>
+            <Item name="Device" title="set.device" page="/set/device"/>
+            <Item name="YlSF" title="set.ylsf" page="/set/ylsf"/>
+            <Item name="SOP" title="set.sop" page="/set/sop"/>
+            <Item name="Dictionary" title="set.dictionary" page="/set/dictionary"/>
+            <Item name="Channel" title="set.channelset" page="/set/channelset"/>
+            <Item name="CalculateFormula" title="set.calculateformula" page="/set/calculateformula"/>
+            <Item name="DeviceRelationList" title="sample.inspectionName" page="/set/devicerelationlist"/>
+            <Item name="Profiletest" title="set.profiletest" page="/set/profiletest"/>
+        </Menu>
+        <Menu name="Reagent" title="reagent.title" page="/reagent/stock" roles="ROLE_ADMIN,ROLE_USER">
+        	<Item name="Stock" title="reagent.stock" page="/reagent/stock" />
+            <Item name="In" title="reagent.in" page="/reagent/in"/>
+            <Item name="Out" title="reagent.out" page="/reagent/out"/>
+            <Item name="Detail" title="reagent.detail" page="/reagent/detail"/>
+            <Item name="Set" title="reagent.set" page="/reagent/set"/>
+            <Item name="Combo" title="reagent.combo" page="/reagent/combo"/>
+        </Menu>
+        <Menu name="Statistic" title="statistic.title" page="/home" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        </Menu>
+        <Menu name="Quality" title="quality.title" page="/home" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        	<Item name="InvalidForm" title="menu.quality.form" page="/quality/invalidSampleForm" />
+        	<Item name="InvalidList" title="menu.quality.list" page="/quality/invalidSamples" />
+        	<Item name="SampleTrace" title="menu.quality.trace" page="/quality/sampleTrace" />
+        	<Item name="QcData" title="menu.quality.qc.data" page="/qc/data" />
+        	<Item name="QcRule" title="menu.quality.qc.rule" page="/qc/rule" />
+        </Menu>
+        <Menu name="Individual" title="individual.title" page="/userform" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+            <Item name="EditUser" title="menu.user" page="/userform" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="Collect" title="individual.collect" page="/user/collect" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="Ranking" title="individual.ranking" page="/user/rank" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="Attendance" title="individual.attendance" page="/user/attendance" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="DataInterface" title="individual.data.interface" page="/user/interface" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="ViewUsers" title="menu.admin.users" page="/users" roles="ROLE_ADMIN"/>
+            <Item name="ActiveUsers" title="home.activeUsers" page="/admin/activeUsers" roles="ROLE_ADMIN"/>
+            <Item name="ScheduleInfo" title="individual.schedule.info" page="/pb/pbcx" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="Schedule" title="individual.schedule" page="/pb/pb" roles="ROLE_ADMIN,ROLE_USER"/>
+            <Item name="StuPb" title="individual.StuPb" page="/pb/sxgroupPb" roles="ROLE_ADMIN,ROLE_WORKER"/>
+            <Item name="StuPbCx" title="pb.sxgroupcx" page="/pb/sxgroupPbcx" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="ScheduleSet" title="individual.scheduleSet" page="/pb/sz" roles="ROLE_ADMIN"/>
+        </Menu>
+
+        <Menu name="CustomerManage" title="customerManage.title" page="/dsf" roles="ROLE_ADMIN">
+            <Item name="EditCustomer" title="menu.customer" page="/dsf/customer/viewCustomer" roles="ROLE_ADMIN"/>
+            <Item name="TestObjective" title="menu.testObjective" page="/dsf/testObjective/viewTestObjective" roles="ROLE_ADMIN"/>
+            <Item name="ControlTestItems" title="menu.controlTestItems" page="/dsf/controlTestItems/viewControlTestItems" roles="ROLE_ADMIN"/>
+            <Item name="CustomerDiscount" title="menu.customerDiscount" page="/dsf/customerDiscount/viewCustomerDiscount" roles="ROLE_ADMIN"/>
+        </Menu>
+
+        <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        </Menus>
+
+
+
+
+</MenuConfig>

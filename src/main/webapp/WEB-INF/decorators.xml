@@ -1,0 +1,25 @@
+<decorators defaultdir="/decorators">
+    <excludes>
+        <pattern>/40*.jsp</pattern>
+        <pattern>/*ajax=true*</pattern>
+        <pattern>/struts/*</pattern>
+        <pattern>/resources/*</pattern>
+        <pattern>*ajax*</pattern>
+        <pattern>*print*</pattern>
+        <pattern>/doctor/*</pattern>
+    </excludes>
+    <decorator name="default" page="default.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+    <decorator name="rule" page="rule.jsp">
+        <pattern>/rule/*</pattern>
+        <pattern>/result/*</pattern>
+        <pattern>/index/*</pattern>
+    </decorator>
+    <decorator name="description" page="description.jsp">
+        <pattern>/description/*</pattern>
+    </decorator>
+    <decorator name="login" page="defaultlogin.jsp">
+        <pattern>/login</pattern>
+    </decorator>
+</decorators>
