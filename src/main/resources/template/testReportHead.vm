@@ -1,0 +1,46 @@
+<div class="head">
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <div class="llogo"><img src="http://127.0.0.1:8082/images/l_logo.jpg"/></div>
+            </td>
+            <td style="text-align:center"><span class="headtitle">检验报告单</span></td>
+            <td>
+                <div class="rlogo"><img src="http://127.0.0.1:8082/images/r_logo.jpg"/></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"><b>检验目的:$!examinaim</b></td>
+        </tr>
+    </table>
+</div>
+<div class="patientinfo">
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td>姓&#12288;&#12288;名:<span style="font-weight: bold">$!patientName</span></td>
+            <td>性&#12288;&#12288;别:<span>$!sex</span></td>
+            <td>年&#12288;&#12288;龄:<span>$!age$!ageUnit</span></td>
+            <td>标&#8194;识&#8194;号:<span>$!barCode</span></td>
+        </tr>
+        <tr>
+            #if($!staymode ==2)
+                <td>病&#12288;&#12288;区:<span>$!section</span></td>
+                <td>住&#8194;院&#8194;号:<span>$!blh</span></td>
+            #else
+                <td>科&#12288;&#12288;别:<span>$!section</span></td>
+                <td>就&#8194;诊&#8194;号:<span>$!blh</span></td>
+            #end
+            <td>床&#12288;&#12288;号:<span>$!bed</span></td>
+            <td>标&#8194;本&#8194;号:<span>$!sampleNo</span></td>
+        </tr>
+        <tr>
+            <td>标本类型:<span>$!sampleType</span></td>
+            <td>标本状态:<span>$!note</span></td>
+            <td>送检医师:<span>$!requester</span></td>
+            <td>检验仪器:</td>
+        </tr>
+        <tr>
+            <td colspan="4">临床诊断:<span>$!diagnostic</span></td>
+        </tr>
+    </table>
+</div>
