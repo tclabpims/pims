@@ -1,14 +1,17 @@
 package com.pims.model;
 
+import com.smart.model.BaseObject;
+
 import javax.persistence.*;
 import java.sql.Time;
 
 /**
  * Created by king on 2016/9/28.
+ * 病种类别POJO
  */
 @Entity
 @Table(name = "PIMS_SYS_PATHOLOGY", schema = "KFTEST", catalog = "")
-public class PimsSysPathology {
+public class PimsSysPathology extends BaseObject {
     private long pathologyid;
     private String patnamech;
     private String patnameen;
@@ -239,6 +242,16 @@ public class PimsSysPathology {
 
     public void setPatcreateuser(String patcreateuser) {
         this.patcreateuser = patcreateuser;
+    }
+
+    /**
+     * Returns a multi-line String with key=value pairs.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return null;
     }
 
     @Override
