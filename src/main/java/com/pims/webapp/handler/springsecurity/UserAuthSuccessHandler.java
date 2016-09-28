@@ -31,6 +31,8 @@ public class UserAuthSuccessHandler implements AuthenticationSuccessHandler {
 
     protected final Log log = LogFactory.getLog(getClass());
 
+    public static final String LOGIN_SUCCESS_REDIRECT = "/home";
+
     /**
      * @param httpServletRequest
      * @param httpServletResponse
@@ -48,6 +50,7 @@ public class UserAuthSuccessHandler implements AuthenticationSuccessHandler {
             String[] pathologyLibNameId = paramMap.get(USER_PATHOLOGY_LIB_ID);
             UserBussinessRelate ubr = new UserBussinessRelate(pathologyLibName[0], pathologyLibNameId[0]);
             user.setUserBussinessRelate(ubr);
+            httpServletResponse.sendRedirect(new StringBuilder(httpServletRequest.getContextPath()).append(LOGIN_SUCCESS_REDIRECT).toString());
         }
     }
 }
