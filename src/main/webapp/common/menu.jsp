@@ -70,7 +70,7 @@ $(function() {
 </ul>
 <input type="hidden" id="scode" value="210800"/>
 <input type="hidden" id="pathologyLibId" />
-<ul id="hospital" class="nav navbar-nav" style="display:none;float:right;">
+<ul id="hospital" class="nav navbar-nav" style="float:right;">
 	<li><a href="#" id="userText"></a></li>
 	<li><fmt:message key="menu.user.pathology"/> <a href="#" id="pathologyLib"></a></li>
 </ul>
