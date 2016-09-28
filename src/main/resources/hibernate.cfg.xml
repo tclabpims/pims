@@ -8,6 +8,8 @@
 
 <hibernate-configuration>
     <session-factory>
+        <property name="connection.url">jdbc:oracle:thin:@//127.0.0.1:1521/kftest</property>
+        <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
         <mapping class="com.smart.model.lis.TestTube"/>
         <mapping class="com.smart.model.qc.QcTest"/>
         <mapping class="com.smart.model.qc.QcBatch"/>
@@ -88,5 +90,48 @@
         <mapping class="com.smart.model.dsf.DSF_TestItems"/>
         <mapping class="com.smart.model.dsf.DSF_ControlTestItems"/>
         <mapping class="com.smart.model.dsf.DSF_CustomerBaseDiscount"/>
+        <mapping class="com.pims.model.PimsConsultationDetail"/>
+        <mapping class="com.pims.model.PimsPathologyConsultation"/>
+        <mapping class="com.pims.model.PimsPathologyFavorite"/>
+        <mapping class="com.pims.model.PimsPathologyFee"/>
+        <mapping class="com.pims.model.PimsPathologyFollowup"/>
+        <mapping class="com.pims.model.PimsPathologyMessage"/>
+        <mapping class="com.pims.model.PimsPathologyOrder"/>
+        <mapping class="com.pims.model.PimsPathologyOrderCheck"/>
+        <mapping class="com.pims.model.PimsPathologyOrderChild"/>
+        <mapping class="com.pims.model.PimsPathologyParaffin"/>
+        <mapping class="com.pims.model.PimsPathologyPictures"/>
+        <mapping class="com.pims.model.PimsPathologyPieces"/>
+        <mapping class="com.pims.model.PimsPathologyReportDelay"/>
+        <mapping class="com.pims.model.PimsPathologyReportPdf"/>
+        <mapping class="com.pims.model.PimsPathologyRequisition"/>
+        <mapping class="com.pims.model.PimsPathologySample"/>
+        <mapping class="com.pims.model.PimsPathologySignature"/>
+        <mapping class="com.pims.model.PimsPathologySlide"/>
+        <mapping class="com.pims.model.PimsPathologyTask"/>
+        <mapping class="com.pims.model.PimsPathologyTemplate"/>
+        <mapping class="com.pims.model.PimsRequisitionField"/>
+        <mapping class="com.pims.model.PimsRequisitionMaterial"/>
+        <mapping class="com.pims.model.PimsRequisitionTestitem"/>
+        <mapping class="com.pims.model.PimsSampleResult"/>
+        <mapping class="com.pims.model.PimsSysChargeItems"/>
+        <mapping class="com.pims.model.PimsSysChargeitemRef"/>
+        <mapping class="com.pims.model.PimsSysColor"/>
+        <mapping class="com.pims.model.PimsSysCustomerBasedata"/>
+        <mapping class="com.pims.model.PimsSysHospitalInfos"/>
+        <mapping class="com.pims.model.PimsSysMaxid"/>
+        <mapping class="com.pims.model.PimsSysModuleFunc"/>
+        <mapping class="com.pims.model.PimsSysModuleInfo"/>
+        <mapping class="com.pims.model.PimsSysOperationLogs"/>
+        <mapping class="com.pims.model.PimsSysPathology"/>
+        <mapping class="com.pims.model.PimsSysReportFormate"/>
+        <mapping class="com.pims.model.PimsSysReportItems"/>
+        <mapping class="com.pims.model.PimsSysReqField"/>
+        <mapping class="com.pims.model.PimsSysReqMaterial"/>
+        <mapping class="com.pims.model.PimsSysReqTestitem"/>
+        <mapping class="com.pims.model.PimsSysRoleInfo"/>
+        <mapping class="com.pims.model.PimsSysRolePower"/>
+        <mapping class="com.pims.model.PimsSysUserInfo"/>
+        <mapping class="com.pims.model.PimsSysUserRole"/>
     </session-factory>
 </hibernate-configuration>
