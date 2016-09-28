@@ -4,7 +4,7 @@
         <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
     </Displayers>
     <Menus>
-        <!-- <Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER"/> -->
+        <!-- <Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER"/>
         <Menu name="SampleManage" title="sample.manage.title" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         	<Item name="Input" title="sample.manage.input" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         	<Item name="Execute" title="sample.manage.execute" page="/manage/execute" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
@@ -15,11 +15,11 @@
             <Item name="Critical" title="sample.manage.critical" page="/critical/undeal" roles="ROLE_ADMIN,ROLE_USER"/>
             <Item name="Invalid" title="sample.manage.invalid" page="/manage/invalid" roles="ROLE_ADMIN,ROLE_USER"/>
         </Menu>
-        <Menu name="SampleSet" title="set.title" page="/rule/list" roles="ROLE_ADMIN,ROLE_USER">
+         <Menu name="SampleSet" title="set.title" page="/rule/list" roles="ROLE_ADMIN,ROLE_USER">
         	<Item name="RuleManage" title="set.rule" page="/rule/list"/>
         	<Item name="RuleManage" title="set.description" page="/description/list"/>
-            <!-- <Item name="Hospital" title="set.hospital" page="/set/hospital"/> -->
-            <Item name="Section" title="set.section" page="/set/section"/>
+            <Item name="Hospital" title="set.hospital" page="/set/hospital"/>
+           <Item name="Section" title="set.section" page="/set/section"/>
             <Item name="Device" title="set.device" page="/set/device"/>
             <Item name="YlSF" title="set.ylsf" page="/set/ylsf"/>
             <Item name="SOP" title="set.sop" page="/set/sop"/>
@@ -46,6 +46,57 @@
         	<Item name="QcData" title="menu.quality.qc.data" page="/qc/data" />
         	<Item name="QcRule" title="menu.quality.qc.rule" page="/qc/rule" />
         </Menu>
+
+
+        <Menu name="CustomerManage" title="customerManage.title" page="/dsf" roles="ROLE_ADMIN">
+            <Item name="EditCustomer" title="menu.customer" page="/dsf/customer/viewCustomer" roles="ROLE_ADMIN"/>
+            <Item name="TestObjective" title="menu.testObjective" page="/dsf/testObjective/viewTestObjective" roles="ROLE_ADMIN"/>
+            <Item name="ControlTestItems" title="menu.controlTestItems" page="/dsf/controlTestItems/viewControlTestItems" roles="ROLE_ADMIN"/>
+            <Item name="CustomerDiscount" title="menu.customerDiscount" page="/dsf/customerDiscount/viewCustomerDiscount" roles="ROLE_ADMIN"/>
+        </Menu>-->
+
+        <Menu name="SpecimenReg" title="SpecimenReg.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        </Menu>
+
+        <Menu name="SpecimenDispose" title="SpecimenDispose.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+            <Item name="SamplingManage" title="menu.samplingManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="EmbeddingManage" title="menu.embeddingManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="SectionManage" title="menu.sectionManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        </Menu>
+
+        <Menu name="PathologicalDiagnosis" title="PathologicalDiagnosis.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        </Menu>
+
+        <Menu name="MedicalOrderTreatment" title="MedicalOrderTreatment.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+            <Item name="MOTManageDoctor" title="menu.MOTManageDoctor" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="MOTManageTechnician" title="menu.MOTManageTechnician" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        </Menu>
+
+
+        <Menu name="InquiryStatistics" title="InquiryStatistics.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+            <Item name="PathologicalReportQuery" title="menu.pathologicalReportQuery" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="PathologicalStatisticalManagement" title="menu.PathologicalStatisticalManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="DelayReportManagement" title="menu.DelayReportManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        </Menu>
+
+
+        <Menu name="OtherManage" title="OtherManage.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+            <Item name="MedicalDisposableMaterial" title="menu.MedicalDisposableMaterial" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="LoanManagement" title="menu.LoanManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="PathologyLearningManagement" title="menu.PathologyLearningManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="SpecialGlassPrint" title="menu.SpecialGlassPrint" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="AdviceGlassPrint" title="menu.AdviceGlassPrint" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        </Menu>
+
+        <Menu name="BasicData" title="BasicData.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+            <Item name="TypeMaintenance" title="menu.TypeMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="DataMaintenance" title="menu.DataMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="TemplateMaintenance" title="menu.TemplateMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="DiseaseCategoriesMaintenance" title="menu.DiseaseCategoriesMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="MaintenanceFees" title="menu.MaintenanceFees" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="AdviceCategoriesMaintenance" title="menu.AdviceCategoriesMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        </Menu>
+
         <Menu name="Individual" title="individual.title" page="/userform" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
             <Item name="EditUser" title="menu.user" page="/userform" roles="ROLE_ADMIN,ROLE_USER"/>
             <Item name="Collect" title="individual.collect" page="/user/collect" roles="ROLE_ADMIN,ROLE_USER"/>
@@ -61,15 +112,11 @@
             <Item name="ScheduleSet" title="individual.scheduleSet" page="/pb/sz" roles="ROLE_ADMIN"/>
         </Menu>
 
-        <Menu name="CustomerManage" title="customerManage.title" page="/dsf" roles="ROLE_ADMIN">
-            <Item name="EditCustomer" title="menu.customer" page="/dsf/customer/viewCustomer" roles="ROLE_ADMIN"/>
-            <Item name="TestObjective" title="menu.testObjective" page="/dsf/testObjective/viewTestObjective" roles="ROLE_ADMIN"/>
-            <Item name="ControlTestItems" title="menu.controlTestItems" page="/dsf/controlTestItems/viewControlTestItems" roles="ROLE_ADMIN"/>
-            <Item name="CustomerDiscount" title="menu.customerDiscount" page="/dsf/customerDiscount/viewCustomerDiscount" roles="ROLE_ADMIN"/>
+        <Menu name="ElectronicApplyManage" title="ElectronicApplyManage.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         </Menu>
 
         <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
-        </Menus>
+    </Menus>
 
 
 

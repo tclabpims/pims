@@ -59,20 +59,30 @@ $(function() {
         </li>
     </c:if>
 
-    <menu:displayMenu name="SampleManage"/>
-	<menu:displayMenu name="SampleSet"/>
-	<menu:displayMenu name="Reagent"/>
-	<menu:displayMenu name="Statistic"/>
-	<menu:displayMenu name="Quality"/>
-	<menu:displayMenu name="Individual"/>
-	<menu:displayMenu name="CustomerManage"/>
-	<menu:displayMenu name="Logout"/>
+	<%--<menu:displayMenu name="SampleManage"/>
+    <menu:displayMenu name="SampleSet"/>
+    <menu:displayMenu name="Reagent"/>
+    <menu:displayMenu name="Statistic"/>
+    <menu:displayMenu name="Quality"/>
+    <menu:displayMenu name="Individual"/>
+    <menu:displayMenu name="CustomerManage"/>--%>
+
+    <menu:displayMenu name="SpecimenReg"/>
+    <menu:displayMenu name="SpecimenDispose"/>
+    <menu:displayMenu name="PathologicalDiagnosis"/>
+    <menu:displayMenu name="MedicalOrderTreatment"/>
+    <menu:displayMenu name="InquiryStatistics"/>
+    <menu:displayMenu name="OtherManage"/>
+    <menu:displayMenu name="BasicData"/>
+    <menu:displayMenu name="Individual"/>
+    <menu:displayMenu name="ElectronicApplyManage"/>
+    <menu:displayMenu name="Logout"/>
 </ul>
 <input type="hidden" id="scode" value="210800"/>
 <input type="hidden" id="pathologyLibId" />
 <ul id="hospital" class="nav navbar-nav" style="float:right;">
-	<li><a href="#" id="userText"></a></li>
-	<li><fmt:message key="menu.user.pathology"/> <a href="#" id="pathologyLib"></a></li>
+    <li><a href="#" id="userText"></a></li>
+    <li><fmt:message key="menu.user.pathology"/> <a href="#" id="pathologyLib"></a></li>
 </ul>
 </div>
 
