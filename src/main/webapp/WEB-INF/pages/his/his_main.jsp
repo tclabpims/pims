@@ -4,8 +4,9 @@
 <head>
     <title><fmt:message key="ElectronicApplyManage.title"/></title>
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
-    	
-    <script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="../scripts/his/jquery.autocomplete.css"/>
+
+	<script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../scripts/i18n/grid.locale-cn.js"></script>
@@ -14,7 +15,8 @@
     <script type="text/javascript" src="<c:url value="/scripts/ace-elements.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
-    <script type="text/javascript" src="../scripts/his/input.js"></script>
+    <script type="text/javascript" src="../scripts/his/his_main.js"></script>
+	<!--<script src="../scripts/his/jquery.autocomplete.js" type="text/javascript"></script>-->
 </head>
 <style>
 	select {
@@ -41,6 +43,8 @@
 				打印
 			</button>
 		</div>
+</div>
+<div class="row widget-main">
 	<div class="input-group" style="float: left;">
 		<span class="input-group-addon">电子申请单</span>
 		<input type="text" class="form-control" placeholder="申请单号" id="req_code" value="" onkeypress="receive(this,event)"/>
@@ -49,14 +53,17 @@
 		<span class="input-group-addon">送检医院</span>
 		<input type="text" class="form-control" value="" id="send_hosptail"/>
 		<span class="input-group-addon">申请年月</span>
-		<input type="text" class="form-control" placeholder="" value="" id="req_bf_time"/>
-		<input type="text" class="form-control" placeholder="" value="" id="req_af_time"/>
+		<input type="text" class="form-control" placeholder="" value="${receivetime}" id="req_bf_time"/>
+		<span class="input-group-addon">-</span>
+		<input type="text" class="form-control" placeholder="" value="${receivetime}" id="req_af_time"/>
+	</div>
+	<div class="input-group" style="float: left;">
 		<span class="input-group-addon">送检科室</span>
 		<input type="text" class="form-control" value="" id="send_dept"/>
 		<span class="input-group-addon">送检医生</span>
 		<input type="text" class="form-control" id="send_doctor"/>
 		<span class="input-group-addon">申请状态</span>
-		<select id="req_sts">
+		<select class="form-control" id="req_sts">
 			<option value="">全  部</option>
 			<option value="">已申请</option>
 			<option value="">已登记</option>
@@ -64,8 +71,8 @@
 			<option value="">已延迟</option>
 		</select>
 		<span class="input-group-btn">
-			<button type="button" class="btn btn-info btn-sm">
-				<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+			<button type="button" class="btn btn-info btn-sm" onclick="searchList()">
+				<span class="ace-icon fa fa-search icon-on-right"></span>
 				查询
 			</button>
 		</span>
@@ -87,7 +94,7 @@
 <div id="formDialog" style="display:none;">
 	<form class="form-horizontal" role="form" style="margin-top:5px;" id="sampleForm">
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="stayhospitaimode">在院方式</label>
+			<label class="col-sm-1 control-label no-padding-right" >在院方式</label>
 			<div class="col-sm-2">
 				<select class="col-sm-12" id="stayhospitalmode">
 					<option value="1">门诊</option>
@@ -102,22 +109,22 @@
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="doctadviseno">医嘱号</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="doctadviseno" onkeypress="getData(this,event)"></input>
+				<input type="text" class="col-sm-12" id="doctadviseno" onkeypress="getData(this,event)"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="sampleno">样本号</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="sampleno" onkeypress="getData(this,event)" value="${sampleno}"></input>
+				<input type="text" class="col-sm-12" id="sampleno" onkeypress="getData(this,event)" value="${sampleno}"/>
 				<input type="hidden" id="hiddenSegment" value="${segment}"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="patientid">就诊卡号</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="patientid" onkeypress="getPatient(this,event)"></input>
+				<input type="text" class="col-sm-12" id="patientid" onkeypress="getPatient(this,event)"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-right" for="patientname">姓&nbsp;名</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="patientname"></input>
+				<input type="text" class="col-sm-12" id="patientname"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="sex">性&nbsp;别</label>
 			<div class="col-sm-2">
@@ -130,7 +137,7 @@
 			<label class="col-sm-1 control-label no-padding-right" for="age">年&nbsp;龄</label>
 			<div class="col-sm-2">
 				<span class="input-icon input-icon-right" style="width:100%">
-					<input type="text" id="age" style="float:left;width:75%"></input>
+					<input type="text" id="age" style="float:left;width:75%"/>
 					<select  style="float:left;width:25%" id="ageunit">
 						<option value="岁">岁</option>
 						<option value="月">月</option>
@@ -140,14 +147,14 @@
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="diagnostic">诊&nbsp;断</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="diagnostic"></input>
+				<input type="text" class="col-sm-12" id="diagnostic"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-right" for="section">科&nbsp;室</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="section"></input>
-				<input type="text" id="sectionCode" style="display:none;"></input>
+				<input type="text" class="col-sm-12" id="section"/>
+				<input type="text" id="sectionCode" style="display:none;"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="sampletype">样本类型</label>
 			<div class="col-sm-2">
@@ -159,25 +166,25 @@
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="requester">送检医生</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="requester"></input>
+				<input type="text" class="col-sm-12" id="requester"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="fee">收费金额</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="fee"></input>
+				<input type="text" class="col-sm-12" id="fee"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-right" for="feestatus">收费状态</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="feestatus"></input>
+				<input type="text" class="col-sm-12" id="feestatus"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="executetime">采样时间</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12 input-mask-date" id="executetime"></input>
+				<input type="text" class="col-sm-12 input-mask-date" id="executetime"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="receivetime">接收时间</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12 input-mask-date" id="receivetime" value='${receivetime}'></input>
+				<input type="text" class="col-sm-12 input-mask-date" id="receivetime" value='${receivetime}'/>
 			</div>
 			<div class="col-sm-3">&nbsp;
 			</div>
@@ -187,7 +194,7 @@
 			<div class="col-sm-8" id="examTag">
 				<input type="text" name="examinaim" id="examinaim" placeholder="输入检验目的的中文、拼音" class="col-sm-12"/>
 			</div>
-			<input type="text" id="ylxh" style="display:none;"></input>
+			<input type="text" id="ylxh" style="display:none;"/>
 			<div class="col-sm-1">&nbsp;</div>
 			<div class="col-sm-2">
 				<button type="button" class="btn btn-sm btn-success" title="提交样本信息" onclick="sample()">

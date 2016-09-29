@@ -20,7 +20,8 @@
                 <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                 <!-- Hibernate Search index directory -->
                 <prop key="hibernate.search.default.indexBase">${app.search.index.basedir}</prop>
-                 <!--<prop key="hibernate.show_sql">true</prop>-->
+                <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</prop>
+                <!--<prop key="hibernate.show_sql">true</prop>-->
             </props>
             <!-- Turn batching off for better error messages under PostgreSQL -->
             <!-- hibernate.jdbc.batch_size=0 -->
@@ -36,7 +37,7 @@
     <context:annotation-config/>
 
     <!-- Activates scanning of @Repository -->
-    <context:component-scan base-package="com.smart.dao"/>
+    <context:component-scan base-package="com.smart.dao,com.pims.dao"/>
     
     <bean id="bayesDao" class="com.smart.dao.hibernate.lis.BayesDaoHibernate">
     	<property name="jdbcTemplate" ref="jdbcTemplatelocal" />

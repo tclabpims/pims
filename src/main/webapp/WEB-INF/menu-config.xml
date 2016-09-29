@@ -112,7 +112,7 @@
             <Item name="ScheduleSet" title="individual.scheduleSet" page="/pb/sz" roles="ROLE_ADMIN"/>
         </Menu>
 
-        <Menu name="ElectronicApplyManage" title="ElectronicApplyManage.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        <Menu name="ElectronicApplyManage" title="ElectronicApplyManage.title" page="/his/his_main" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         </Menu>
 
         <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>

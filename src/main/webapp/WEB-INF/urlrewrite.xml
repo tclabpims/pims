@@ -74,7 +74,6 @@
         <from>/logout*</from>
         <to>/logout.jsp</to>
     </rule>
-    
     <rule>
         <from>/barcode</from>
         <to>/barcode</to>

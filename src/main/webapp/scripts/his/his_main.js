@@ -387,6 +387,7 @@ function clearData() {
 }
 
 $(function() {
+    /**
 	$("#sampletype").val("C");
 	
 	$("#section").autocomplete({
@@ -437,49 +438,45 @@ $(function() {
         },
         minLength: 1
 	});
-	
-	var tag_input = $('#examinaim');
-	tag_input.tag({
-		placeholder:tag_input.attr('placeholder'),
-		style:tag_input.attr('class'),
-		source: function(query, process) {
-			$.get("../ajax/searchYlsf",{query:query},function(data) {
-				var json = jQuery.parseJSON(data);
-				process(json.list);
-			});
-		}
-	});
-	var $tag_obj = $('#examinaim').data('tag');
-	//$tag_obj.add('Programmatically Added');
-	
+	**/
 	$("#new").jqGrid({
-		url: "../sample/ajax/getReceived",
+		url: "../pimspathology/ajax/pathology",
 		mtype: "GET",
 		datatype: "json",
-		colNames: ['样本号', '在院方式', '姓名','科室','床号','性别','年龄','医嘱号','接收时间','检验目的','样本类型','就诊卡号','收费状态','临床诊断','生理周期','申请者','采集部位','申请模式','金额'],
+		colNames: ['临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
 		colModel: [
-			{ name: 'sampleno', index: 'sampleno', width: 120},
-			{ name: 'shm', index: 'shm', width: 70},
-			{ name: 'pname', index: 'pname', width: 80 },
-			{ name: 'section', index: 'section', width: 80 },
-			{ name: 'bed', index: 'bed', width: 40 },
-			{ name: 'sex', index: 'sex', width: 40 },
-			{ name: 'age', index: 'age', width: 40 },
-			{ name: 'id', index: 'id', width: 80 },
-			{ name: 'receivetime', index: 'receivetime', width: 130 },
-			{ name: 'exam', index: 'exam', width: 100 },
-			{ name: 'sampletype', index: 'sampletype', width: 70 },
-			{ name: 'pid', index: 'pid', width: 100 },
-			{ name: 'feestatus', index: 'feestatus', width: 70 },
-			{ name: 'diag', index: 'diag', width: 100 },
-			{ name: 'cycle', index: 'cycle', width: 70 },
-			{ name: 'requester', index: 'requester', width: 70 },
-			{ name: 'part', index: 'part', width: 70 },
-			{ name: 'requestmode', index: 'requestmode', width: 70 },
-			{ name: 'fee', index: 'fee', width: 40 }
+			{ name: 'requisitionno', index: 'requisitionno', width: 120},
+			{ name: 'reqpathologyid', index: 'reqpathologyid', width: 70},
+			{ name: 'reqdate', index: 'reqdate', width: 80 },
+			{ name: 'reqpatientname', index: 'reqpatientname', width: 80 },
+			{ name: 'reqsendhospital', index: 'reqsendhospital', width: 40 },
+			{ name: 'reqdeptname', index: 'reqdeptname', width: 40 },
+			{ name: 'reqdoctorname', index: 'reqdoctorname', width: 40 }
 		],
 		viewrecords: true,
 		height:"100%",
 		rowNum:-1
 	});
 });
+
+function searchList() {
+    alert("111111");
+    $("#new").jqGrid({
+        url: "../pimspathology/ajax/pathology",
+        mtype: "GET",
+        datatype: "json",
+        colNames: ['临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
+        colModel: [
+            { name: 'requisitionno', index: 'requisitionno'},
+            { name: 'reqpathologyid', index: 'reqpathologyid'},
+            { name: 'reqdate', index: 'reqdate' },
+            { name: 'reqpatientname', index: 'reqpatientname'},
+            { name: 'reqsendhospital', index: 'reqsendhospital'},
+            { name: 'reqdeptname', index: 'reqdeptname'},
+            { name: 'reqdoctorname', index: 'reqdoctorname'}
+        ],
+        viewrecords: true,
+        height:"100%",
+        rowNum:-1
+    });
+}

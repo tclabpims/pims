@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/9/28.
@@ -20,55 +21,47 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
     public PimsPathologyRequisitionDaoHibernate(){super(PimsPathologyRequisition.class);}
 
     /**
-     *
-     * @param req_code 申请单号
-     * @param patient_name 病人姓名
-     * @param send_hosptail 送检医院
-     * @param req_bf_time 送检起始时间
-     * @param req_af_time  送检截至时间
-     * @param send_dept 送检科室
-     * @param send_doctor 送检医生
-     * @param req_sts  送检状态
-     * @return 返回申请列表
+     * 查询申请单列表
+     * @param map
+     * @return
      */
-    public List<PimsPathologyRequisition> getRequisitionInfo(String req_code, String patient_name, String send_hosptail, String req_bf_time,
-                                                      String req_af_time, String send_dept, String send_doctor, String req_sts){
+    public List<PimsPathologyRequisition> getRequisitionInfo(Map map){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
         StringBuffer buffer = new StringBuffer();
-        buffer.append("from Pims_Pathology_Requisition where 1 = 1 ");
-        if(!StringUtils.isEmpty(req_code)){
-            buffer.append("and RequisitionNo = " +  req_code);
+        buffer.append(" from Pims_Pathology_Requisition where 1 = 1 ");
+        if(!StringUtils.isEmpty(map.get("req_code"))){
+            buffer.append("and RequisitionNo = " +  map.get("req_code"));
         }
-        if(!StringUtils.isEmpty(patient_name)){
-            buffer.append(" and ReqPatientName  = " + patient_name);
+        if(!StringUtils.isEmpty(map.get("patient_name"))){
+            buffer.append(" and ReqPatientName  = " + map.get("patient_name"));
         }
-        if(!StringUtils.isEmpty(send_hosptail)){
-            buffer.append(" and  ReqSendHospital = " + send_hosptail);
+        if(!StringUtils.isEmpty(map.get("send_hosptail"))){
+            buffer.append(" and  ReqSendHospital = " + map.get("send_hosptail"));
         }
-        if(!StringUtils.isEmpty(req_bf_time)){
-            try {
-                buffer.append(" and ReqDate >= " + sdf.parse(req_bf_time));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+        if(!StringUtils.isEmpty(map.get("req_bf_time"))){
+            buffer.append(" and ReqDate >= to_date('" + map.get("req_bf_time")+"','YYYYMMDD')");
         }
-        if(!StringUtils.isEmpty(req_af_time)){
-            try {
-                buffer.append(" and  ReqDate < " + sdf.parse(req_af_time));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+        if(!StringUtils.isEmpty(map.get("req_af_time"))){
+            buffer.append(" and  ReqDate < to_date('" + map.get("req_af_time")+"','YYYYMMDD')+1");
         }
-        if(!StringUtils.isEmpty(send_dept)){
-            buffer.append(" and  ReqDeptName = " + send_dept);
+        if(!StringUtils.isEmpty(map.get("send_dept"))){
+            buffer.append(" and  ReqDeptName = " + map.get("send_dept"));
         }
-        if(!StringUtils.isEmpty(send_doctor)){
-            buffer.append(" and ReqDoctorName = " + send_doctor);
+        if(!StringUtils.isEmpty(map.get("send_doctor"))){
+            buffer.append(" and ReqDoctorName = " + map.get("send_doctor"));
         }
-        if(!StringUtils.isEmpty(req_sts)){
-            buffer.append(" and  ReqState = " + req_sts);
+        if(!StringUtils.isEmpty(map.get("req_sts"))){
+            buffer.append(" and  ReqState = " + map.get("req_sts"));
         }
-        Query query = getSession().createQuery(buffer.toString());
-        return query.list();
+        //Query query = getSession().createQuery(buffer.toString());
+        StringBuffer buff = new StringBuffer();
+        buff.append( "from Pims_Pathology_Requisition where 1=1 ");
+        Query query = getSession().createQuery(buff.toString());
+        System.out.println(query.getQueryString());
+        List<PimsPathologyRequisition> list = query.list();
+        if(list == null){
+           return null;
+        }
+        return list;
     }
 }
