@@ -7,10 +7,10 @@ import java.sql.Time;
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_TEMPLATE", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_TEMPLATE")
 public class PimsPathologyTemplate {
     private long templateid;
-    private String temcustomercode;
+    private long temcustomerid;
     private long tempathologyid;
     private long temtype;
     private long temclass;
@@ -31,6 +31,26 @@ public class PimsPathologyTemplate {
     private Time temcreatetime;
     private String temcreateuser;
 
+    private String tempathologyname;
+
+    private String temcustomername;
+
+    public String getTempathologyname() {
+        return tempathologyname;
+    }
+
+    public void setTempathologyname(String tempathologyname) {
+        this.tempathologyname = tempathologyname;
+    }
+
+    public String getTemcustomername() {
+        return temcustomername;
+    }
+
+    public void setTemcustomername(String temcustomername) {
+        this.temcustomername = temcustomername;
+    }
+
     @Id
     @Column(name = "TEMPLATEID")
     public long getTemplateid() {
@@ -42,13 +62,13 @@ public class PimsPathologyTemplate {
     }
 
     @Basic
-    @Column(name = "TEMCUSTOMERCODE")
-    public String getTemcustomercode() {
-        return temcustomercode;
+    @Column(name = "TEMCUSTOMERID")
+    public long getTemcustomerid() {
+        return temcustomerid;
     }
 
-    public void setTemcustomercode(String temcustomercode) {
-        this.temcustomercode = temcustomercode;
+    public void setTemcustomerid(long temcustomerid) {
+        this.temcustomerid = temcustomerid;
     }
 
     @Basic
@@ -252,7 +272,7 @@ public class PimsPathologyTemplate {
         if (tempathologyid != that.tempathologyid) return false;
         if (temtype != that.temtype) return false;
         if (temclass != that.temclass) return false;
-        if (temcustomercode != null ? !temcustomercode.equals(that.temcustomercode) : that.temcustomercode != null)
+        if (temcustomerid !=that.temcustomerid)
             return false;
         if (temownerid != null ? !temownerid.equals(that.temownerid) : that.temownerid != null) return false;
         if (temownername != null ? !temownername.equals(that.temownername) : that.temownername != null) return false;
@@ -280,7 +300,7 @@ public class PimsPathologyTemplate {
     @Override
     public int hashCode() {
         int result = (int) (templateid ^ (templateid >>> 32));
-        result = 31 * result + (temcustomercode != null ? temcustomercode.hashCode() : 0);
+        result = 31 * result + (int)(temcustomerid ^ (temcustomerid >>> 32));
         result = 31 * result + (int) (tempathologyid ^ (tempathologyid >>> 32));
         result = 31 * result + (int) (temtype ^ (temtype >>> 32));
         result = 31 * result + (int) (temclass ^ (temclass >>> 32));
