@@ -3,9 +3,12 @@ package com.pims.service.impl.pimssyspathology;
 import com.pims.dao.pimssyspathology.PimsSysPathologyDao;
 import com.pims.model.PimsSysPathology;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
+import com.pims.webapp.controller.GridQuery;
 import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by 909436637@qq.com on 2016/9/28.
@@ -19,6 +22,31 @@ public class PimsSysPathologyManagerImpl extends GenericManagerImpl<PimsSysPatho
     @Autowired
     public void setPimsSysPathologyDao(PimsSysPathologyDao pimsSysPathologyDao) {
         this.dao = pimsSysPathologyDao;
+        this.pimsSysPathologyDao = pimsSysPathologyDao;
     }
 
+    @Override
+    public List<PimsSysPathology> getPimsSysPathologyList(GridQuery gridQuery) {
+
+        StringBuilder hql = new StringBuilder("from PimsSysPathology psp where 1=1");
+        String query = gridQuery.getQuery();
+        String sidx = gridQuery.getSidx();
+        if(query != null && !"".equals(query.trim())) {
+            hql.append(" and psp.patnamech||psp.patnameen  like '%" +query +"%'");
+        }
+
+        sidx = (sidx == null || sidx.trim().equals(""))?"psp.patsort ":sidx;
+        hql.append(" order by  ").append(sidx).append(gridQuery.getSord());
+
+        return pimsSysPathologyDao.getPimsSysPathologyList(hql.toString(), gridQuery.getStart(), gridQuery.getEnd());
+    }
+
+    @Override
+    public Integer getPimsSysPathologyTotal(String queryString) {
+        StringBuilder hql = new StringBuilder("select count(1) cnt from pims_sys_pathology psp");
+        if(queryString != null && !"".equals(queryString.trim())) {
+            hql.append(" where psp.patnamech||psp.patnameen  like '%" +queryString +"%'");
+        }
+        return pimsSysPathologyDao.getPimsSysPathologyTotal(hql.toString());
+    }
 }

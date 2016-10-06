@@ -1,4 +1,6 @@
-package com.smart.dao;
+package com.pims.dao;
+
+import com.pims.dao.SearchException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.Map;
  * @param <T> a type variable
  * @param <PK> the primary key for that type
  */
-public interface GenericDao <T, PK extends Serializable> {
+public interface GenericDao<T, PK extends Serializable> {
 
     /**
      * Generic method used to get all objects of a particular type. This
@@ -99,19 +101,7 @@ public interface GenericDao <T, PK extends Serializable> {
      */
     void reindexAll(boolean async);
 
-    /**
-     * 分页查询数据
-     * @param s hql
-     * @param start
-     * @param end
-     * @return
-     */
     List pagingList(String s, int start, int end);
 
-    /**
-     * 查询满足条件的总数
-     * @param s hql
-     * @return
-     */
     Integer countTotal(String s);
 }
