@@ -71,15 +71,14 @@
 			<option value="">已延迟</option>
 		</select>
 		<span class="input-group-btn">
-			<button type="button" class="btn btn-info btn-sm" onclick="searchList()">
-				<span class="ace-icon fa fa-search icon-on-right"></span>
+			<button type="button" class="btn btn-sm btn-success" title="提交样本信息" onclick="searchList()">
+				<i class="ace-icon fa fa-print bigger-110"></i>
 				查询
 			</button>
 		</span>
 	</div>
 </div>
 <div class="row">
-<div class="col-sm-12">
 	<div class="widget-box widget-color-green">
 		<div class="widget-body" style="height:700px;overflow:auto;">
 			<div class="widget-main no-padding">
@@ -89,37 +88,38 @@
 		</div>
 	</div>
 </div>
-</div>
 
 <div id="formDialog" style="display:none;">
 	<form class="form-horizontal" role="form" style="margin-top:5px;" id="sampleForm">
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" >在院方式</label>
+			<label class="col-sm-1 control-label no-padding-right" for="requisitionno">申请单号</label>
 			<div class="col-sm-2">
-				<select class="col-sm-12" id="stayhospitalmode">
-					<option value="1">门诊</option>
-					<option value="2">住院</option>
-					<option value="3">体检</option>
-					<option value="4">血库</option>
-					<option value="5">外单位</option>
-					<option value="6">药物验证</option>
-					<option value="7">科研</option>
-					<option value="8">电子档案</option>
+				<input type="hidden" id="requisitionid" value="${requisitionid}"/>
+				<input type="text" class="col-sm-12" id="requisitionno" onkeypress="getData(this,event)" value="${requisitionno}"/>
+			</div>
+			<label class="col-sm-1 control-label no-padding-right" >检查项目</label>
+			<div class="col-sm-2">
+				<select class="col-sm-12" id="reqitemnames">
+					<option value="1">111</option>
+					<option value="2">222</option>
+					<option value="3">333</option>
+					<option value="4">444</option>
 				</select>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="doctadviseno">医嘱号</label>
+			<label class="col-sm-1 control-label no-padding-right" >病种类别</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="doctadviseno" onkeypress="getData(this,event)"/>
+				<select class="col-sm-12" id="reqpathologyid">
+					<option value="1">常规病理</option>
+					<option value="2">常规病理</option>
+					<option value="3">液基细胞学</option>
+				</select>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="sampleno">样本号</label>
-			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="sampleno" onkeypress="getData(this,event)" value="${sampleno}"/>
-				<input type="hidden" id="hiddenSegment" value="${segment}"/>
-			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="patientid">就诊卡号</label>
-			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="patientid" onkeypress="getPatient(this,event)"/>
-			</div>
+			<label class="col-sm-3 control-label no-padding-right">
+				<button type="button" class="btn btn-sm btn-success" title="提交信息" onclick="saveInfo()">
+					<i class="ace-icon fa fa-print bigger-110"></i>
+					提交
+				</button>
+			</label>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-right" for="patientname">姓&nbsp;名</label>
@@ -145,66 +145,63 @@
 					</select>
 				</span>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="diagnostic">诊&nbsp;断</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqpattelephone">联系电话</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="diagnostic"/>
+				<input type="text" class="col-sm-12" id="reqpattelephone"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="section">科&nbsp;室</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqirnpatientno">住院号</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="section"/>
-				<input type="text" id="sectionCode" style="display:none;"/>
+				<input type="text" class="col-sm-12" id="reqirnpatientno"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="sampletype">样本类型</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqpatientnumber">床&nbsp;号</label>
 			<div class="col-sm-2">
-				<select class="col-sm-12" id="sampletype">
-					<c:forEach var="sType" items="${typelist}">
-						<option value='<c:out value="${sType.sign}" />'><c:out value="${sType.value}" /></option>
-					</c:forEach>
-				</select>
+				<input type="text" class="col-sm-12" id="reqpatientnumber"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="requester">送检医生</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqfirstv">邮&nbsp;编</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="requester"/>
+				<input type="text" class="col-sm-12" id="reqfirstv"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="fee">收费金额</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqpataddress">联系地址</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="fee"/>
+				<input type="text" class="col-sm-12" id="reqpataddress"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="feestatus">收费状态</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqsendhospital">送检医院</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="feestatus"/>
+				<input type="text" class="col-sm-12" id="reqsendhospital"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="executetime">采样时间</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqdeptcode">送检科室</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12 input-mask-date" id="executetime"/>
+				<input type="text" class="col-sm-12" id="reqdeptcode"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="receivetime">接收时间</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqdoctorid">送检医生</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12 input-mask-date" id="receivetime" value='${receivetime}'/>
+				<input type="text" class="col-sm-12" id="reqdoctorid"/>
 			</div>
-			<div class="col-sm-3">&nbsp;
+			<label class="col-sm-1 control-label no-padding-right" for="reqdate">送检时间</label>
+			<div class="col-sm-2">
+				<input type="text" class="col-sm-12" id="reqdate"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="examinaim">检验目的</label>
-			<div class="col-sm-8" id="examTag">
-				<input type="text" name="examinaim" id="examinaim" placeholder="输入检验目的的中文、拼音" class="col-sm-12"/>
-			</div>
-			<input type="text" id="ylxh" style="display:none;"/>
-			<div class="col-sm-1">&nbsp;</div>
+			<label class="col-sm-1 control-label no-padding-right" for="reqsendphone">送检电话</label>
 			<div class="col-sm-2">
-				<button type="button" class="btn btn-sm btn-success" title="提交样本信息" onclick="sample()">
-					<i class="ace-icon fa fa-print bigger-110"></i>
-					提交
-				</button>
-				<button type="button" class="btn btn-sm btn-info" title="清空样本信息" onclick="clearData()">
-					<i class="ace-icon fa fa-undo bigger-110"></i>
-					清空
-				</button>
+				<input type="text" class="col-sm-12" id="reqsendphone"/>
+			</div>
+			<label class="col-sm-1 control-label no-padding-right" for="reqplanexectime">接收时间</label>
+			<div class="col-sm-2">
+				<input type="text" class="col-sm-12 input-mask-date" id="reqplanexectime"/>
+			</div>
+			<label class="col-sm-1 control-label no-padding-right" for="reqsecondv">手术医生</label>
+			<div class="col-sm-2">
+				<input type="text" class="col-sm-12 input-mask-date" id="reqsecondv" />
+			</div>
+			<label class="col-sm-1 control-label no-padding-right" for="reqfirstn">手术电话</label>
+			<div class="col-sm-2">
+				<input type="text" class="col-sm-12 input-mask-date" id="reqfirstn" />
 			</div>
 		</div>
 	</form>

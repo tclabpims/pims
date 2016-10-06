@@ -3,7 +3,7 @@ package com.pims.service.impl.his;
 import com.pims.dao.his.PimsPathologyRequisitionDao;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.service.his.PimsPathologyRequisitionManager;
-import com.pims.service.impl.GenericManagerImpl;
+import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +33,34 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
     public List<PimsPathologyRequisition> getRequisitionInfo(Map map) {
         return pimsPathologyRequisitionDao.getRequisitionInfo(map);
     }
+
+    /**
+     * 逻辑删除单据号
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean delete(Long id) {
+        return pimsPathologyRequisitionDao.delete(id);
+    }
+
+    /**
+     * 查询单据号是否存在
+     * @param id
+     * @return
+     */
+    @Override
+    public PimsPathologyRequisition getBySampleNo(Long id) {
+        return pimsPathologyRequisitionDao.getBySampleNo(id);
+    }
+
+    /**
+     * 获取最大ID
+     * @return
+     */
+    @Override
+    public Long getMaxId() {
+        return pimsPathologyRequisitionDao.getMaxId();
+    }
+
 }

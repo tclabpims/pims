@@ -95,18 +95,15 @@ function getData(obj,event) {
 	}
 }
 
-function getSampleData(id, type) {
-	$.get("../sample/ajax/get",{id:id,type:type},function(data) {
+function getSampleData(id) {
+	$.get("../pimspathology/get",{id:id},function(data) {
 		if(data != "") {
 			var data = JSON.parse(data);
-			$("#stayhospitalmode").val(data.stayhospitalmode);
-			$("#doctadviseno").val(data.doctadviseno);
-			if(data.sampleno != '0') {
-				$("#sampleno").val(data.sampleno);
-			}
-			$("#patientid").val(data.patientid);
-			$("#section").val(data.section);
-			$("#sectionCode").val(data.sectionCode);
+			$("#requisitionid").val(data.requisitionid);
+			$("#requisitionno").val(data.requisitionno);
+			$("#reqitemnames").val(data.reqitemnames);
+			$("#reqpathologyid").val(data.reqpathologyid);
+			$("#patientname").val(data.patientname);
 			$("#patientname").val(data.patientname);
 			$("#sex").val(data.sex);
 			$("#age").val(data.age);
@@ -183,132 +180,37 @@ function isDate(str){
 	}
 } 
 
-function sample() {
-	var operate,shm,doct,sampleno,pid,section,sectionCode,pname,sex,age,diag,ylxh,exam,feestatus,requester,receivetime,executetime,fee;
+function saveInfo() {
+
+	var requisitionid,requisitionno,reqitemnames,reqpathologyid,patientname,sex,age,ageunit,reqpattelephone,reqirnpatientno,reqpatientnumber,reqfirstv,reqpataddress,reqsendhospital,reqdeptcode,
+		reqdoctorid,reqdate,reqsendphone,reqplanexectime,reqsecondv,reqfirstn;
 	operate = $("#operate").val();
 	if(operate == 'cancel') {
 		$('#sampleForm')[0].reset();
 		$('#examinaim').data('tag').clear();
 	} else {
-		ylxh = "";
-		exam ="";
-		shm = $("#stayhospitalmode").val();
-		doct = $("#doctadviseno").val();
-		sampleno = $("#sampleno").val();
-		pid = $("#patientid").val();
-		section = $("#section").val();
-		sectionCode = $("#sectionCode").val();
-		pname = $("#patientname").val();
-		sex = $("#sex").val();
-		age = $("#age").val();
-		ageunit = $("#ageunit").val();
-		diag = $("#diagnostic").val();
-		var len = $('#examTag .tag').length - 1;
-		$('#examTag .tag').each(function(i) {
-			if(i == len) {
-				ylxh += this.id;
-				exam += $(this).text().replace("×","");
-			} else {
-				ylxh += this.id + "+";
-				exam += $(this).text().replace("×","") + "+";
-			}
-		});
-		sampletype = $("#sampletype").val();
-		fee = $("#fee").val();
-		feestatus = $("#feestatus").val();
-		requester = $("#requester").val();
-		receivetime = $("#receivetime").val();
-		executetime = $("#executetime").val();
-		
+		requisitionid = $("#requisitionid").val();
+		requisitionno = $("#requisitionno").val();
+		reqitemnames = $("#reqitemnames").val();
+		reqpathologyid = $("#reqpathologyid").val();
 		var msg = "";
 		var post = true;
-		if(ylxh == "") {
-			msg = "检验目的不能为空！";
-			post = false;
-		}
-		if(pname == "") {
-			msg = "患者姓名不能为空！";
-			post = false;
-		}
-		if(sampleno.length != 14) {
-			msg = "样本号长度错误，格式不正确！";
-			post = false;
-		} else {
-			if(!isDate(sampleno.substring(0,8))) {
-				msg = "样本号日期格式不正确！";
-				post = false;
-			}
-			if($("#hiddenSegment").val().indexOf(sampleno.substring(8,11)) == -1) {
-				msg = "样本号检验段格式不正确！";
-				post = false;
-			}
-			if(isNaN(Number(sampleno.substring(11,14)))) {
-				msg = "样本号后3位编号不是数字！";
-				post = false;
-			}
-		}
-		
 		if(post) {
-			$.post("../sample/ajax/editSample", {
-				operate : operate,
-				shm : shm,
-				doct : doct,
-				sampleno : sampleno,
-				pid : pid,
-				section : section,
-				sectionCode : sectionCode,
-				pname : pname,
-				sex : sex,
-				age : age,
-				ageunit : ageunit,
-				diag : diag,
-				sampletype : sampletype,
-				fee : fee,
-				feestatus : feestatus,
-				requester : requester,
-				receivetime : receivetime,
-				executetime : executetime,
-				exam : exam,
-				ylxh : ylxh
+			$.post("../pimspathology/editSample", {
+					operate : operate,
+					requisitionid : requisitionid,
+					requisitionno : requisitionno,
+					reqitemnames : reqitemnames,
+					reqpathologyid : reqpathologyid
 			},
 			function(data) {
 				var data = JSON.parse(data);
-				var sampleno = $("#sampleno").val();
-				$('#sampleForm')[0].reset();
-				$('#examinaim').data('tag').clear();
-				$("#sampleno").val(sampleno.substring(0,11) + Pad((parseInt(sampleno.substring(11,14)) + 1),3));
-				var html = "";
-				html += "<tr><td><b>医嘱号</b></td><td>" + data.id + "</td></tr>";
-				html += "<tr><td><b>样本号</b></td><td>" + data.sampleno + "</td></tr>";
-				html += "<tr><td><b>姓名</b></td><td>" + data.pname + "</td></tr>";
-				html += "<tr><td><b>就诊卡号</b></td><td>" + data.pid + "</td></tr>";
-				html += "<tr><td><b>性别</b></td><td>" + data.sex + "</td></tr>";
-				html += "<tr><td><b>年龄</b></td><td>" + data.age + "</td></tr>";
-				html += "<tr><td><b>诊断</b></td><td>" + data.diag + "</td></tr>";
-				html += "<tr><td><b>检验目的</b></td><td>" + data.exam + "</td></tr>";
-				html += "<tr><td><b>检验时间</b></td><td>" + data.receivetime + "</td></tr>";
-				$("#now").html(html);
 				if(data.success) {
 					var rowData = {
-						id:data.id,
-						sampleno:data.sampleno,
-						shm:data.shm,
-						pname:data.pname,
-						section:data.section,
-						bed:data.bed,
-						sex:data.sex,
-						age:data.age,
-						receivetime:data.receivetime,
-						exam:data.exam,
-						sampletype:data.sampletype,
-						pid:data.pid,
-						feestatus:data.feestatus,
-						diag:data.diag,
-						cycle:data.cycle,
-						requester:data.requester,
-						part:data.part,
-						requestmode:data.requestmode,
-						fee:data.fee
+						requisitionid:data.requisitionid,
+						requisitionno:data.requisitionno,
+						reqitemnames:data.reqitemnames,
+						reqpathologyid:data.reqpathologyid
 					};
 					var ids = $('#new').jqGrid('getDataIDs');
 		            var newId = parseInt(ids[ids.length - 1] || 0) + 1;
@@ -325,7 +227,7 @@ function sample() {
 }
 
 function addSample() {
-	$("#sampleno").val($("#sampleno_text").val());
+	// $("#sampleno").val($("#sampleno_text").val());
 	$("#operate").val("add");
 	layer.open({
 		type: 1,
@@ -334,13 +236,13 @@ function addSample() {
 		fix: false, //不固定
 		maxmin: false,
 		shade:0.6,
-		title: "样本信息录入",
+		title: "申请信息录入",
 		content: $("#formDialog")
 	});
 }
 
 function editSample() {
-	$("#sampleno").val($("#sampleno_text").val());
+	// $("#sampleno").val($("#sampleno_text").val());
 	$("#operate").val("edit");
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
     if (id == null || id == 0) {
@@ -361,7 +263,7 @@ function editSample() {
 }
 
 function deleteSample() {
-	$("#sampleno").val($("#sampleno_text").val());
+	// $("#sampleno").val($("#sampleno_text").val());
 	$("#operate").val("delete");
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
     if (id == null || id == 0) {
@@ -443,15 +345,16 @@ $(function() {
 		url: "../pimspathology/ajax/pathology",
 		mtype: "GET",
 		datatype: "json",
-		colNames: ['临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
+		colNames: ['ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
 		colModel: [
-			{ name: 'requisitionno', index: 'requisitionno', width: 120},
-			{ name: 'reqpathologyid', index: 'reqpathologyid', width: 70},
-			{ name: 'reqdate', index: 'reqdate', width: 80 },
-			{ name: 'reqpatientname', index: 'reqpatientname', width: 80 },
-			{ name: 'reqsendhospital', index: 'reqsendhospital', width: 40 },
-			{ name: 'reqdeptname', index: 'reqdeptname', width: 40 },
-			{ name: 'reqdoctorname', index: 'reqdoctorname', width: 40 }
+			{name:'requisitionid',hidden:true},
+			{ name: 'requisitionno', index: 'requisitionno'},
+			{ name: 'reqpathologyid', index: 'reqpathologyid'},
+			{ name: 'reqdate', index: 'reqdate'},
+			{ name: 'reqpatientname', index: 'reqpatientname'},
+			{ name: 'reqsendhospital', index: 'reqsendhospital'},
+			{ name: 'reqdeptname', index: 'reqdeptname'},
+			{ name: 'reqdoctorname', index: 'reqdoctorname'}
 		],
 		viewrecords: true,
 		height:"100%",
@@ -459,24 +362,35 @@ $(function() {
 	});
 });
 
+function removeAllChild(pnode)
+{
+	var childs=pnode.childNodes;
+	for(var i=childs.length-1;i>=0;i--){
+		pnode.removeChild(childs.item(i));
+	}
+}
+
 function searchList() {
-    alert("111111");
-    $("#new").jqGrid({
-        url: "../pimspathology/ajax/pathology",
-        mtype: "GET",
-        datatype: "json",
-        colNames: ['临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
-        colModel: [
-            { name: 'requisitionno', index: 'requisitionno'},
-            { name: 'reqpathologyid', index: 'reqpathologyid'},
-            { name: 'reqdate', index: 'reqdate' },
-            { name: 'reqpatientname', index: 'reqpatientname'},
-            { name: 'reqsendhospital', index: 'reqsendhospital'},
-            { name: 'reqdeptname', index: 'reqdeptname'},
-            { name: 'reqdoctorname', index: 'reqdoctorname'}
-        ],
-        viewrecords: true,
-        height:"100%",
-        rowNum:-1
-    });
+	var pnode = document.getElementById("new");
+	removeAllChild(pnode);
+	alert(pnode);
+	// $("#new").jqGrid({
+    //     url: "../pimspathology/ajax/pathology",
+    //     mtype: "GET",
+    //     datatype: "json",
+    //     colNames: ['ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
+    //     colModel: [
+		// 	{name:'requisitionid',hidden:true},
+    //         { name: 'requisitionno', index: 'requisitionno'},
+    //         { name: 'reqpathologyid', index: 'reqpathologyid'},
+    //         { name: 'reqdate', index: 'reqdate'},
+    //         { name: 'reqpatientname', index: 'reqpatientname'},
+    //         { name: 'reqsendhospital', index: 'reqsendhospital'},
+    //         { name: 'reqdeptname', index: 'reqdeptname'},
+    //         { name: 'reqdoctorname', index: 'reqdoctorname'}
+    //     ],
+    //     viewrecords: true,
+    //     height:"100%",
+    //     rowNum:-1
+    // });
 }

@@ -1,14 +1,13 @@
 package com.pims.dao.hibernate.his;
 
-import com.pims.dao.hibernate.GenericDaoHibernate;
 import com.pims.dao.his.PimsPathologyRequisitionDao;
 import com.pims.model.PimsPathologyRequisition;
+import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +25,8 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
      * @return
      */
     public List<PimsPathologyRequisition> getRequisitionInfo(Map map){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
         StringBuffer buffer = new StringBuffer();
-        buffer.append(" from Pims_Pathology_Requisition where 1 = 1 ");
+        buffer.append(" from PimsPathologyRequisition where 1 = 1 ");
         if(!StringUtils.isEmpty(map.get("req_code"))){
             buffer.append("and RequisitionNo = " +  map.get("req_code"));
         }
@@ -53,15 +51,59 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         if(!StringUtils.isEmpty(map.get("req_sts"))){
             buffer.append(" and  ReqState = " + map.get("req_sts"));
         }
-        //Query query = getSession().createQuery(buffer.toString());
-        StringBuffer buff = new StringBuffer();
-        buff.append( "from Pims_Pathology_Requisition where 1=1 ");
-        Query query = getSession().createQuery(buff.toString());
+        Query query = getSession().createQuery(buffer.toString());
+//        StringBuffer buff = new StringBuffer();
+//        buff.append( "from PimsPathologyRequisition where 1=1 ");
+//        Query query = getSession().createQuery(buff.toString());
         System.out.println(query.getQueryString());
         List<PimsPathologyRequisition> list = query.list();
-        if(list == null){
-           return null;
-        }
         return list;
+    }
+
+    /**
+     * 逻辑删除单据号
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean delete(Long id) {
+        if(id == null){
+            return false;
+        }else{
+            Query query = getSession().createQuery("from PimsPathologyRequisition set ReqState = 'N' where requisitionid = "+ id);
+            query.executeUpdate();
+            return true;
+        }
+    }
+
+    /**
+     * 查询单据号是否存在
+     * @param id
+     * @return
+     */
+    @Override
+    public PimsPathologyRequisition getBySampleNo(Long id) {
+        if(id == null){
+            return null;
+        }else{
+            Query query = getSession().createQuery("from PimsPathologyRequisition where requisitionid = "+ id);
+            if(query.list() == null || query.list().size() != 1){
+                return null;
+            }else{
+               return (PimsPathologyRequisition)query.list().get(0);
+            }
+        }
+    }
+
+    /**
+     * 获取最大ID
+     * @return
+     */
+    @Override
+    public Long getMaxId() {
+        String sql = "select  Seq_RequisitionId.nextval nextvalue from dual";
+        Long maxId = (Long)(getSession().createSQLQuery(sql).addScalar("nextvalue", StandardBasicTypes.LONG) ).uniqueResult();
+        System.out.println("申请单最大ID为：" + maxId);
+        return maxId;
     }
 }

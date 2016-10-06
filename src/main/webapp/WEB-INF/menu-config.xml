@@ -4,7 +4,7 @@
         <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
     </Displayers>
     <Menus>
-        <!-- <Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER"/>
+        <!--<Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER"/>
         <Menu name="SampleManage" title="sample.manage.title" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         	<Item name="Input" title="sample.manage.input" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         	<Item name="Execute" title="sample.manage.execute" page="/manage/execute" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
@@ -29,15 +29,15 @@
             <Item name="DeviceRelationList" title="sample.inspectionName" page="/set/devicerelationlist"/>
             <Item name="Profiletest" title="set.profiletest" page="/set/profiletest"/>
         </Menu>
-        <Menu name="Reagent" title="reagent.title" page="/reagent/stock" roles="ROLE_ADMIN,ROLE_USER">
+        <Menu name="Reagent" title="reagent.title" page="/reagent/stock" roles="ROLE_ADMIN,ROLE_ADMIN,ROLE_USER">
         	<Item name="Stock" title="reagent.stock" page="/reagent/stock" />
             <Item name="In" title="reagent.in" page="/reagent/in"/>
             <Item name="Out" title="reagent.out" page="/reagent/out"/>
             <Item name="Detail" title="reagent.detail" page="/reagent/detail"/>
             <Item name="Set" title="reagent.set" page="/reagent/set"/>
             <Item name="Combo" title="reagent.combo" page="/reagent/combo"/>
-        </Menu>
-        <Menu name="Statistic" title="statistic.title" page="/home" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        </Menu>-->
+        <!--<Menu name="Statistic" title="statistic.title" page="/home" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         </Menu>
         <Menu name="Quality" title="quality.title" page="/home" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         	<Item name="InvalidForm" title="menu.quality.form" page="/quality/invalidSampleForm" />
@@ -58,8 +58,8 @@
         <Menu name="SpecimenReg" title="SpecimenReg.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         </Menu>
 
-        <Menu name="SpecimenDispose" title="SpecimenDispose.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
-            <Item name="SamplingManage" title="menu.samplingManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        <Menu name="SpecimenDispose" title="SpecimenDispose.title" page="/reagent/in" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+            <Item name="SamplingManage" title="menu.samplingManage" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="EmbeddingManage" title="menu.embeddingManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="SectionManage" title="menu.sectionManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>

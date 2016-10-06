@@ -878,25 +878,19 @@
         </dependency>
 
         <dependency>
-            <groupId>org.pdf4ml</groupId>
+            <groupId>com.zju</groupId>
             <artifactId>fonts</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fonts.jar</systemPath>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
-        <groupId>org.pdf4ml</groupId>
-        <artifactId>pd4ml</artifactId>
-        <version>1.0.0</version>
-        <scope>system</scope>
-        <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/pd4ml_demo.jar</systemPath>
-    </dependency>
+            <groupId>com.zju</groupId>
+            <artifactId>ss_css2</artifactId>
+            <version>1.1.0</version>
+        </dependency>
         <dependency>
-            <groupId>org.pdf4ml</groupId>
+            <groupId>com.zju</groupId>
             <artifactId>pd4ml</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ss_css2.jar</systemPath>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -1145,9 +1139,9 @@
                 <jdbc.artifactId>ojdbc14</jdbc.artifactId>
                 <jdbc.version>10.2.0.4.0</jdbc.version>
                 <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
-                <jdbc.url>jdbc:oracle:thin:@localhost:1521:orcl</jdbc.url>
-                <jdbc.username>system</jdbc.username>
-                <jdbc.password>Orcl123456789</jdbc.password>
+                <jdbc.url>jdbc:oracle:thin:@localhost:1521:kftest</jdbc.url>
+                <jdbc.username>kftest</jdbc.username>
+                <jdbc.password>kftest</jdbc.password>
                 <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
             </properties>
         </profile>
@@ -1245,9 +1239,9 @@
         <jdbc.artifactId>ojdbc14</jdbc.artifactId>
         <jdbc.version>10.2.0.4.0</jdbc.version>
         <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName> 
-        <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</jdbc.url>
-        <jdbc.username>pims</jdbc.username>
-        <jdbc.password>pims</jdbc.password>
+        <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:kftest</jdbc.url>
+        <jdbc.username>kftest</jdbc.username>
+        <jdbc.password>kftest</jdbc.password>
         <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
         
         <!-- <dbunit.dataTypeFactoryName>org.dbunit.ext.mysql.MySqlDataTypeFactory</dbunit.dataTypeFactoryName>
