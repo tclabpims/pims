@@ -21,6 +21,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -213,5 +214,32 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      */
     public void reindexAll(boolean async) {
         HibernateSearchTools.reindexAll(async, getSessionFactory().getCurrentSession());
+    }
+
+    /**
+     *
+     * @param s hql
+     * @param start
+     * @param end
+     * @return
+     */
+    public List pagingList(String s, int start, int end) {
+        Session session = getSession();
+        Query query = session.createQuery(s);
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        return query.list();
+    }
+
+    /**
+     *
+     * @param s hql
+     * @return
+     */
+    public Integer countTotal(String s) {
+        Query query = getSession().createSQLQuery(s);
+        Object total = query.uniqueResult();
+        if(total == null) return 0;
+        return ((BigDecimal)total).intValue();
     }
 }

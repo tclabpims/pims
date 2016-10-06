@@ -98,4 +98,20 @@ public interface GenericDao <T, PK extends Serializable> {
      * @param async true to perform the reindexing asynchronously
      */
     void reindexAll(boolean async);
+
+    /**
+     * 分页查询数据
+     * @param s hql
+     * @param start
+     * @param end
+     * @return
+     */
+    List pagingList(String s, int start, int end);
+
+    /**
+     * 查询满足条件的总数
+     * @param s hql
+     * @return
+     */
+    Integer countTotal(String s);
 }

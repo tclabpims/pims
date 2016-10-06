@@ -80,7 +80,7 @@ public class UserController {
 			jsonObject.put("userId", String.valueOf(ud.getId()));
 			jsonObject.put("pathologyLib", ud.getUserBussinessRelate().getPathologyLib());
 			jsonObject.put("pathologyLibId", ud.getUserBussinessRelate().getPathologyLibId());
-			PrintwriterUtil.print(response,jsonObject);
+			PrintwriterUtil.print(response,jsonObject.toString());
 		} catch (JSONException e) {
 			if(log.isErrorEnabled()) {
 				log.error("调用UserController.getUserInfo方法发生错误："+e.getCause().getMessage());

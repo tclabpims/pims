@@ -8,8 +8,6 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:oracle:thin:@//127.0.0.1:1521/kftest</property>
-        <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
         <mapping class="com.smart.model.lis.TestTube"/>
         <mapping class="com.smart.model.qc.QcTest"/>
         <mapping class="com.smart.model.qc.QcBatch"/>

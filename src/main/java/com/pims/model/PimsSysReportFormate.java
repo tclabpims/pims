@@ -1,14 +1,17 @@
 package com.pims.model;
 
+import com.smart.model.BaseObject;
+
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_REPORT_FORMATE", schema = "KFTEST", catalog = "")
-public class PimsSysReportFormate {
+@Table(name = "PIMS_SYS_REPORT_FORMATE")
+public class PimsSysReportFormate extends BaseObject {
     private long formateid;
     private long formpathologyid;
     private String formname;
@@ -24,10 +27,11 @@ public class PimsSysReportFormate {
     private String formremark;
     private Long fomsecondn;
     private String formcreateuser;
-    private Time formcreatetime;
+    private Date formcreatetime;
 
     @Id
-    @Column(name = "FORMATEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PIMSSYSREPORTFORMATE")
+    @SequenceGenerator(name = "SEQ_PIMSSYSREPORTFORMATE", sequenceName = "pimssysreportformate", allocationSize = 1)
     public long getFormateid() {
         return formateid;
     }
@@ -178,12 +182,22 @@ public class PimsSysReportFormate {
 
     @Basic
     @Column(name = "FORMCREATETIME")
-    public Time getFormcreatetime() {
+    public Date getFormcreatetime() {
         return formcreatetime;
     }
 
-    public void setFormcreatetime(Time formcreatetime) {
+    public void setFormcreatetime(Date formcreatetime) {
         this.formcreatetime = formcreatetime;
+    }
+
+    /**
+     * Returns a multi-line String with key=value pairs.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return null;
     }
 
     @Override

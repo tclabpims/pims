@@ -92,7 +92,7 @@
             <Item name="TypeMaintenance" title="menu.TypeMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="DataMaintenance" title="menu.DataMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="TemplateMaintenance" title="menu.TemplateMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
-            <Item name="DiseaseCategoriesMaintenance" title="menu.DiseaseCategoriesMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="DiseaseCategoriesMaintenance" title="menu.DiseaseCategoriesMaintenance" page="/pspathology/dcm" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="MaintenanceFees" title="menu.MaintenanceFees" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="AdviceCategoriesMaintenance" title="menu.AdviceCategoriesMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>

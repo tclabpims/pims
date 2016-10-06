@@ -4,13 +4,14 @@ import com.smart.model.BaseObject;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  * 病种类别POJO
  */
 @Entity
-@Table(name = "PIMS_SYS_PATHOLOGY", schema = "KFTEST", catalog = "")
+@Table(name = "pims_sys_pathology")
 public class PimsSysPathology extends BaseObject {
     private long pathologyid;
     private String patnamech;
@@ -30,12 +31,13 @@ public class PimsSysPathology extends BaseObject {
     private String patsecondv;
     private String patthirdv;
     private Long patfirstn;
-    private Time patfirstd;
-    private Time patcreatetime;
+    private Date patfirstd;
+    private Date patcreatetime;
     private String patcreateuser;
 
     @Id
-    @Column(name = "PATHOLOGYID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PIMSSYSPATHOLOGY")
+    @SequenceGenerator(name = "SEQ_PIMSSYSPATHOLOGY", sequenceName = "pimssyspathology", allocationSize = 1)
     public long getPathologyid() {
         return pathologyid;
     }
@@ -216,21 +218,21 @@ public class PimsSysPathology extends BaseObject {
 
     @Basic
     @Column(name = "PATFIRSTD")
-    public Time getPatfirstd() {
+    public Date getPatfirstd() {
         return patfirstd;
     }
 
-    public void setPatfirstd(Time patfirstd) {
+    public void setPatfirstd(Date patfirstd) {
         this.patfirstd = patfirstd;
     }
 
     @Basic
     @Column(name = "PATCREATETIME")
-    public Time getPatcreatetime() {
+    public Date getPatcreatetime() {
         return patcreatetime;
     }
 
-    public void setPatcreatetime(Time patcreatetime) {
+    public void setPatcreatetime(Date patcreatetime) {
         this.patcreatetime = patcreatetime;
     }
 

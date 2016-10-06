@@ -10,17 +10,18 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.util.Version;
-import org.hibernate.HibernateException;
 import org.hibernate.IdentifierLoadAccess;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -39,11 +40,11 @@ import org.hibernate.search.Search;
  *      &lt;/bean&gt;
  * </pre>
  *
- * @author <a href="mailto:bwnoll@gmail.com">Bryan Noll</a>
- *      Updated by jgarcia: update hibernate3 to hibernate4
- * @author jgarcia (update: added full text search + reindexing)
- * @param <T> a type variable
+ * @param <T>  a type variable
  * @param <PK> the primary key for that type
+ * @author <a href="mailto:bwnoll@gmail.com">Bryan Noll</a>
+ *         Updated by jgarcia: update hibernate3 to hibernate4
+ * @author jgarcia (update: added full text search + reindexing)
  */
 public class GenericDaoHibernate<T, PK extends Serializable> implements GenericDao<T, PK> {
     /**
@@ -83,12 +84,12 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     }
 
     public Session getSession() {
-    	Session sess = null;
-    	try {
-    		sess =  getSessionFactory().getCurrentSession();
-    	} catch(Exception e) {
-    		sess = getSessionFactory().openSession();
-    	}
+        Session sess = null;
+        try {
+            sess = getSessionFactory().getCurrentSession();
+        } catch (Exception e) {
+            sess = getSessionFactory().openSession();
+        }
         return sess;
     }
 
@@ -217,5 +218,32 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      */
     public void reindexAll(boolean async) {
         HibernateSearchTools.reindexAll(async, getSessionFactory().getCurrentSession());
+    }
+
+    /**
+     *
+     * @param s hql
+     * @param start
+     * @param end
+     * @return
+     */
+    public List pagingList(String s, int start, int end) {
+        Session session = getSession();
+        Query query = session.createQuery(s);
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        return query.list();
+    }
+
+    /**
+     *
+     * @param s hql
+     * @return
+     */
+    public Integer countTotal(String s) {
+        Query query = getSession().createSQLQuery(s);
+        Object total = query.uniqueResult();
+        if(total == null) return 0;
+        return ((BigDecimal)total).intValue();
     }
 }

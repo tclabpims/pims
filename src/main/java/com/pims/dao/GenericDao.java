@@ -100,4 +100,8 @@ public interface GenericDao<T, PK extends Serializable> {
      * @param async true to perform the reindexing asynchronously
      */
     void reindexAll(boolean async);
+
+    List pagingList(String s, int start, int end);
+
+    Integer countTotal(String s);
 }
