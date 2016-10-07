@@ -319,7 +319,7 @@ function editSection(){
             //设置数据
             $('#templateid').val(rowData.templateid);
             $('#temsort').val(msg.temsort);
-            $('#tempathologyname').val(msg.tempathologyname);
+            $('#tempathologyname').val(rowData.tempathologyname);
             $('#tempathologyid').val(msg.tempathologyid);
             $('#temcontent').val(msg.temcontent);
             $('#temcustomername').val(rowData.temcustomername);

@@ -149,7 +149,7 @@
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="tempathologyname"> 病种类别 </label>
                     <div class="col-xs-8" style="">
-                        <input type="text" id="tempathologyname" onclick="showPathology()" readonly name= "tempathologyname" placeholder="病种类别" class="col-xs-8" datatype="*2-255" />
+                        <input type="text" id="tempathologyname" onclick="showPathology()"  name= "tempathologyname" placeholder="病种类别" class="col-xs-8" datatype="*2-255" />
                         <input type="hidden" id="tempathologyid" name="tempathologyid">
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="temcustomername"> 客户 </label>
                     <div class="col-xs-8">
-                        <input type="text" id="temcustomername" onclick="showHospital()" readonly name="temcustomername" placeholder="客户" class="col-xs-8" datatype="*2-255"/>
+                        <input type="text" id="temcustomername" onclick="showHospital()"  name="temcustomername" placeholder="客户" class="col-xs-8" datatype="*2-255"/>
                         <input type="hidden" id="temcustomerid" name="temcustomerid">
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="temownername">归所用户 </label>
                     <div class="col-xs-8">
-                        <input type="text" id="temownername" name="temownername"  readonly onclick="initValue()" placeholder="归所用户" class="col-xs-8" datatype="*2-255"/>
+                        <input type="text" id="temownername" name="temownername"  onclick="initValue()" placeholder="归所用户" class="col-xs-8" datatype="*2-255"/>
                         <input type="hidden" id="temownerid" name="temownerid">
                     </div>
                 </div>
