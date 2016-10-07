@@ -1,5 +1,6 @@
 package com.smart.service.impl;
 
+import com.pims.webapp.controller.GridQuery;
 import com.smart.service.*;
 import org.apache.commons.lang.StringUtils;
 

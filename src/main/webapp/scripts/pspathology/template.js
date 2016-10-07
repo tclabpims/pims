@@ -2,6 +2,103 @@
  * Created by lenovo on 2016/10/6.
  */
 
+var SYSTEM_DEFAULT_ID = 9999999999;
+
+function initValue() {
+    var selectedValue = $("#temtype").val();
+    if(selectedValue == 0) {
+        $("#temownername").val("System");
+        $("#temownerid").val(SYSTEM_DEFAULT_ID);
+    } else {
+        //弹出用户选择窗口选择用户
+        layer.open({
+            type: 1,
+            area: ['800px','500px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade:0.5,
+            title: "用户列表",
+            content: $('#userGrid'),
+            btn:["保存","取消"],
+            yes: function(index, layero){
+                var id = $('#sectionList3').jqGrid('getGridParam','selrow');
+                if(id==null || id.length==0){
+                    layer.msg('请先选择用户', {icon: 2,time: 1000});
+                    return false;
+                }
+                var rowData = $("#sectionList3").jqGrid('getRowData',id);
+                $("#temownername").val(rowData.name);
+                $("#temownerid").val(rowData.id);
+                layer.close(index);
+            }
+        })
+    }
+}
+
+function changeOwner() {
+    var selectedValue = $("#temtype").val();
+    if(selectedValue == 0) {
+        $("#temownername").val("System");
+        $("#temownerid").val(SYSTEM_DEFAULT_ID);
+    } else {
+        var name = $("#temownername").val();
+        var id = $("#temownerid").val();
+
+        if(name == "System" && id == SYSTEM_DEFAULT_ID) {
+            $("#temownername").val("");
+            $("#temownerid").val();
+        }
+    }
+}
+
+function showPathology() {
+    layer.open({
+        type: 1,
+        area: ['800px','500px'],
+        fix: false, //不固定
+        maxmin: true,
+        shade:0.5,
+        title: "病种列表",
+        content: $('#pathologyGrid'),
+        btn:["保存","取消"],
+        yes: function(index, layero){
+            var id = $('#sectionList1').jqGrid('getGridParam','selrow');
+            if(id==null || id.length==0){
+                layer.msg('请先选择病种类别', {icon: 2,time: 1000});
+                return false;
+            }
+            var rowData = $("#sectionList1").jqGrid('getRowData',id);
+            $("#tempathologyname").val(rowData.patnamech);
+            $("#tempathologyid").val(rowData.pathologyid);
+            layer.close(index);
+        }
+    })
+}
+
+function showHospital() {
+    layer.open({
+        type: 1,
+        area: ['800px','500px'],
+        fix: false, //不固定
+        maxmin: true,
+        shade:0.5,
+        title: "医院列表",
+        content: $('#hospitalGrid'),
+        btn:["保存","取消"],
+        yes: function(index, layero){
+            var id = $('#sectionList2').jqGrid('getGridParam','selrow');
+            if(id==null || id.length==0){
+                layer.msg('请先选择病种类别', {icon: 2,time: 1000});
+                return false;
+            }
+            var rowData = $("#sectionList2").jqGrid('getRowData',id);
+            $("#temcustomerid").val(rowData.id);
+            $("#temcustomername").val(rowData.name);
+            layer.close(index);
+        }
+    })
+}
+
 function reportFormat(op) {
     var id = $('#sectionList').jqGrid('getGridParam','selrow');
     var fid = $('#sectionCode').jqGrid('getGridParam','selrow');
@@ -145,7 +242,7 @@ function Delete(id){
  *  add by zcw 2015-05-16
  * **********************************/
 function  AddSection(){
-    clearData(1);
+    clearData();
     layer.open({
         type: 1,
         area: ['800px','500px'],
@@ -156,7 +253,7 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
-            $.post('../template/template/edit', {temcustomerid:$('#temcustomerid').val(),
+            $.post('../template/edit', {temcustomerid:$('#temcustomerid').val(),temcontent:$('#temcontent').val(),
                 temownerid : $('#temownerid').val(), tempathologyid : $('#tempathologyid').val(),
                 tempathologyname : $('#tempathologyname').val(), temcustomername : $('#temcustomername').val(),
                 temtype : $('#temtype').val(), temclass : $('#temclass').val(),
@@ -181,11 +278,10 @@ function deleteSection(){
         layer.msg('请先选择要删除的数据', {icon: 2,time: 1000});
         return false;
     }
-    layer.confirm('确定删除选择数据？', {icon: 2, title:'警告'}, function(index){
-        $.post('../pspathology/dcm/remove',{pathologyid:rowData.pathologyid},function(data) {
+    layer.confirm('确定删除选择的数据？', {icon: 2, title:'警告'}, function(index){
+        $.post('../template/remove',{templateid:rowData.templateid},function(data) {
             layer.close(index);
             $("#sectionList").trigger('reloadGrid');
-            jQuery("#sectionCode").jqGrid("clearGridData");
         });
     });
 }
@@ -195,9 +291,9 @@ function deleteSection(){
 function search(){
     var query = $('#query').val()||'';
     jQuery("#sectionList").jqGrid('setGridParam',{
-        url: "../pspathology/dcm/query",
+        url: "../template/query",
         //发送数据
-        postData : {"query":query,"sidx":"patsort"},
+        postData : {"query":query,"sidx":"temownerid"},
         page : 1
     }).trigger('reloadGrid');//重新载入
     jQuery("#sectionCode").jqGrid("clearGridData");
@@ -215,26 +311,28 @@ function editSection(){
     }
     var bindData = $.ajax({
         type : "GET",
-        url: "../pspathology/dcm/data",
+        url: "../template/data",
         data: {
-            pathologyid : rowData.pathologyid
+            templateid : rowData.templateid
         },
         success:function( msg ) {
             //设置数据
-            $('#pathologyid').val(rowData.pathologyid);
-            $('#patnamech').val(msg.patnamech);
-            $('#patnameen').val(msg.patnameen);
-            $('#patreporttitle').val(msg.patreporttitle);
-            $('#patreportremark').val(msg.patreportremark);
-            $('#patdefaultdiagnosis').val(msg.patdefaultdiagnosis);
-            $('#patcoddingprechar').val(msg.patcoddingprechar);
-            $('#patcoddinglength').val(msg.patcoddinglength);
-            $('#patstartcodding').val(msg.patstartcodding);
-            $("#patuseflag").val(msg.patuseflag);
-            $("#patissampling").val(msg.patissampling);
-            $("#patisspecialcheck").val(msg.patisspecialcheck);
-            $("#patclass").val(msg.patclass);
-            var sortNo = msg.patsort;
+            $('#templateid').val(rowData.templateid);
+            $('#temsort').val(msg.temsort);
+            $('#tempathologyname').val(msg.tempathologyname);
+            $('#tempathologyid').val(msg.tempathologyid);
+            $('#temcontent').val(msg.temcontent);
+            $('#temcustomername').val(rowData.temcustomername);
+            $('#temcustomerid').val(msg.temcustomerid);
+            $('#temtype').val(msg.temtype);
+            $('#temownername').val(msg.temownername);
+            $("#temownerid").val(msg.temownerid);
+            $("#temclass").val(msg.temclass);
+            $("#temkey").val(msg.temkey);
+            $("#tempinyin").val(msg.tempinyin);
+            $("#temfivestroke").val(msg.temfivestroke);
+            $("#temspellcode").val(msg.temspellcode);
+            var sortNo = msg.temsort;
             $("#FN").val(sortNo.charAt(1));
             $("#SN").val(sortNo.charAt(2));
             $("#TN").val(sortNo.charAt(3));
@@ -244,21 +342,21 @@ function editSection(){
                 fix: false, //不固定
                 maxmin: false,
                 shade:0.6,
-                title: "编辑病种",
+                title: "编辑病理模板",
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
-                    $.post('../pspathology/dcm/edit', {pathologyid:rowData.pathologyid,patnamech:$('#patnamech').val(),
-                        patnameen : $('#patnameen').val(), patreporttitle : $('#patreporttitle').val(),
-                        patreportremark : $('#patreportremark').val(), patdefaultdiagnosis : $('#patdefaultdiagnosis').val(),
-                        patcoddingprechar : $('#patcoddingprechar').val(), patcoddinglength : $('#patcoddinglength').val(),
-                        patuseflag : $('#patuseflag').val(), patissampling : $('#patissampling').val(),
-                        patisspecialcheck : $('#patisspecialcheck').val(), patclass : $('#patclass').val(),
-                        patstartcodding : $('#patstartcodding').val(), patsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+                    $.post('../template/edit', {templateid:rowData.templateid,
+                        tempathologyname : $('#tempathologyname').val(), tempathologyid : $('#tempathologyid').val(),
+                        temcontent : $('#temcontent').val(), temcustomername : $('#temcustomername').val(),
+                        temcustomerid : $('#temcustomerid').val(), temtype : $('#temtype').val(),
+                        temownername : $('#temownername').val(), temownerid : $('#temownerid').val(),
+                        temclass : $('#temclass').val(), temkey : $('#temkey').val(),
+                        tempinyin : $('#tempinyin').val(), temfivestroke : $('#temfivestroke').val(),
+                        temspellcode : $('#temspellcode').val(), temsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
                     },function(data){
                         layer.close(index);
                         $("#sectionList").trigger('reloadGrid');
-                        jQuery("#sectionCode").jqGrid("clearGridData");
                     })
                 }
             });
@@ -298,9 +396,118 @@ $(function(){
     var clientHeight= $(window).innerHeight();
     var height =clientHeight-$('#head').height()- $('#toolbar').height()-$('.footer-content').height()-150;
 
+    $("#sectionList3").jqGrid({
+        caption: "用户列表",
+        url: "../pimsuser/userlist",
+        mtype: "GET",
+        datatype: "json",
+        width:$('.leftContent').width(),
+        colNames: ['id','姓名', '登录账号'],
+        colModel: [
+            { name: 'id', index: 'id', width: 30, hidden: true },
+            { name: 'name', index: 'name', width: 30},
+            { name: 'username', index: 'phone', width: 60}
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        ondblClickRow: function (id) {
+        },
+        viewrecords: true,
+        shrinkToFit: true,
+        altRows:true,
+        height: 'auto',
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // the width of the row numbers columns
+        pager: "#pager3",
+        onSelectRow: function(id){
+
+        }
+    });
+
+    $("#sectionList2").jqGrid({
+        caption: "医院列表",
+        url: "../set/hospital/queryHospital",
+        mtype: "GET",
+        datatype: "json",
+        width:$('.leftContent').width(),
+        colNames: ['id','医院名称', '联系电话', '组织代码', '地址'],
+        colModel: [
+            { name: 'id', index: 'id', width: 30, hidden: true },
+            { name: 'name', index: 'name', width: 30},
+            { name: 'phone', index: 'phone', width: 60},
+            { name: 'idCard', index: 'idCard', width: 50 },
+            { name: 'address', index: 'address', width: 50}
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        ondblClickRow: function (id) {
+        },
+        viewrecords: true,
+        shrinkToFit: true,
+        altRows:true,
+        height: 'auto',
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // the width of the row numbers columns
+        pager: "#pager2",
+        onSelectRow: function(id){
+
+        }
+    });
+
+    $("#sectionList1").jqGrid({
+        caption: "病种类别",
+        url: "../pspathology/dcm/query",
+        mtype: "GET",
+        datatype: "json",
+        width:$('.leftContent').width(),
+        colNames: ['pathologyid','排序号', '病种名称', '病种名称（英文）', '病种分类','使用状态','是否取材','是否特检'],
+        colModel: [
+            { name: 'pathologyid', index: 'pathologyid', width: 30, hidden: true },
+            { name: 'patsort', index: 'patsort', width: 30},
+            { name: 'patnamech', index: 'patnamech', width: 60},
+            { name: 'patnameen', index: 'patnameen', width: 50 },
+            { name: 'patclass', index: 'patclass', width: 50,formatter: "select", editoptions:{value:"1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学"}},
+            { name: 'patuseflag', index: 'patuseflag', width: 30,formatter: "select", editoptions:{value:"0:使用;1:停用"}},
+            { name: 'patissampling', index: 'patissampling', width: 30,formatter: "select", editoptions:{value:"0:是;1:否"}},
+            { name: 'patisspecialcheck', index: 'patisspecialcheck', width: 30,formatter: "select", editoptions:{value:"0:是;1:否"}}
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        ondblClickRow: function (id) {
+        },
+        viewrecords: true,
+        shrinkToFit: true,
+        altRows:true,
+        height: 'auto',
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // the width of the row numbers columns
+        pager: "#pager1",
+        onSelectRow: function(id){
+
+        }
+    });
+
     $("#sectionList").jqGrid({
         caption: "病理模板",
-        url: "../pspathology/dcm/query",
+        url: "../template/query",
         mtype: "GET",
         datatype: "json",
         width:$('.leftContent').width(),
@@ -314,7 +521,7 @@ $(function(){
             { name: 'tempathologyname', index: 'tempathologyname', width: 30},
             { name: 'temcustomername', index: 'temcustomername', width: 30},
             { name: 'temtype', index: 'temtype', width: 30,formatter: "select", editoptions:{value:"0:系统公用;1:用户私有"}},
-            { name: 'temclass', index: 'temclass', width: 30,formatter: "select", editoptions:{value:"0:大体所见模板;1:病理所见模板,2:病理诊断模板"}},
+            { name: 'temclass', index: 'temclass', width: 30,formatter: "select", editoptions:{value:"0:大体所见模板;1:病理所见模板;2:病理诊断模板"}},
             { name: 'temownername', index: 'temownername', width: 60},
             { name: 'temkey', index: 'temkey', width: 50 },
             { name: 'tempinyin', index: 'tempinyin', width: 30},
@@ -407,33 +614,23 @@ $(function(){
     });
 
 });
-function  clearData(flag){
-    if(flag ==1){
-        $('#pathologyid').val('');
-        $('#patnamech').val('');
-        $('#patnameen').val('');
-        $('#patreporttitle').val('');
-        $('#patreportremark').val('');
-        $('#patdefaultdiagnosis').val('');
-        $('#patcoddingprechar').val('');
-        $('#patcoddinglength').val('');
-        $('#patuseflag').val('0');
-        $('#patissampling').val('0');
-        $('#patisspecialcheck').val('0');
-        $('#patclass').val('1');
-        $('#patstartcodding').val('');
+function  clearData(){
+        $('#tempathologyname').val('');
+        $('#tempathologyid').val('0');
+        $('#temcustomername').val('');
+        $('#temcustomerid').val('0');
+        $('#temtype').val('0');
+        $('#temownername').val('System');
+        $('#temownerid').val(SYSTEM_DEFAULT_ID);
+        $('#temclass').val('0');
+        $('#temkey').val('');
+        $('#tempinyin').val('');
+        $('#temfivestroke').val('');
+        $('#temspellcode').val('');
+        $('#temsort').val('');
+        $('#temcontent').val('');
         $("#FN").val('0');$("#SN").val('0');$("#TN").val('0');
-    } else if(flag == 2) {
-        $('#formateid').val('');
-        $('#formname').val('');
-        $('#formweburl').val('');
-        $('#formpicturenum').val('');
-        $('#formremark').val('');
-        $('#formuseflag').val('0');
-        $('#formisdefault').val('0');
-        $('#formsort').val();
-        $("#FN1").val('0');$("#SN1").val('0');$("#TN1").val('0');
-    }
+
 }
 function updatePagerIcons(table) {
     var replacement =

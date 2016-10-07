@@ -1,13 +1,7 @@
 package com.smart.webapp.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
-import com.smart.lisservice.WebService;
 import com.smart.model.user.User;
 import com.smart.service.UserManager;
 import com.smart.service.lis.HospitalManager;
@@ -15,14 +9,12 @@ import com.smart.service.lis.SectionManager;
 import com.smart.webapp.util.PrintwriterUtil;
 import com.smart.webapp.util.SectionUtil;
 import com.zju.api.service.RMIService;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
@@ -30,6 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -43,7 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/users*")
-public class UserController {
+public class UserController extends PIMSBaseController {
 
 	protected Log log = LogFactory.getLog(getClass());
 

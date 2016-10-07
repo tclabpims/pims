@@ -1,14 +1,17 @@
 package com.pims.model;
 
+import com.smart.model.BaseObject;
+
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
 @Table(name = "PIMS_PATHOLOGY_TEMPLATE")
-public class PimsPathologyTemplate {
+public class PimsPathologyTemplate extends BaseObject {
     private long templateid;
     private long temcustomerid;
     private long tempathologyid;
@@ -27,14 +30,15 @@ public class PimsPathologyTemplate {
     private String temsecondv;
     private String temthirdv;
     private Long temfirstn;
-    private Time temfirstd;
-    private Time temcreatetime;
+    private Date temfirstd;
+    private Date temcreatetime;
     private String temcreateuser;
 
     private String tempathologyname;
 
     private String temcustomername;
 
+    @Transient
     public String getTempathologyname() {
         return tempathologyname;
     }
@@ -43,6 +47,7 @@ public class PimsPathologyTemplate {
         this.tempathologyname = tempathologyname;
     }
 
+    @Transient
     public String getTemcustomername() {
         return temcustomername;
     }
@@ -52,7 +57,8 @@ public class PimsPathologyTemplate {
     }
 
     @Id
-    @Column(name = "TEMPLATEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PIMSSYSTEMPLATE")
+    @SequenceGenerator(name = "SEQ_PIMSSYSTEMPLATE", sequenceName = "seq_templateid", allocationSize = 1)
     public long getTemplateid() {
         return templateid;
     }
@@ -233,21 +239,21 @@ public class PimsPathologyTemplate {
 
     @Basic
     @Column(name = "TEMFIRSTD")
-    public Time getTemfirstd() {
+    public Date getTemfirstd() {
         return temfirstd;
     }
 
-    public void setTemfirstd(Time temfirstd) {
+    public void setTemfirstd(Date temfirstd) {
         this.temfirstd = temfirstd;
     }
 
     @Basic
     @Column(name = "TEMCREATETIME")
-    public Time getTemcreatetime() {
+    public Date getTemcreatetime() {
         return temcreatetime;
     }
 
-    public void setTemcreatetime(Time temcreatetime) {
+    public void setTemcreatetime(Date temcreatetime) {
         this.temcreatetime = temcreatetime;
     }
 
@@ -259,6 +265,16 @@ public class PimsPathologyTemplate {
 
     public void setTemcreateuser(String temcreateuser) {
         this.temcreateuser = temcreateuser;
+    }
+
+    /**
+     * Returns a multi-line String with key=value pairs.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return null;
     }
 
     @Override

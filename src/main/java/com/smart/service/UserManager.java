@@ -1,5 +1,6 @@
 package com.smart.service;
 
+import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.UserDao;
 import com.smart.model.user.User;
 

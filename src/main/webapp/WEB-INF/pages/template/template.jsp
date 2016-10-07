@@ -58,7 +58,7 @@
                     删除模板
                 </button>
                 <div class="input-group col-sm-3 " style="float: right;">
-                    <input type="text" id="query" class="form-control search-query" placeholder="输入编号或名称" />
+                    <input type="text" id="query" class="form-control search-query" placeholder="输入归属用户或客户" />
                     <span class="input-group-btn">
 					<button type="button" class="btn btn-purple btn-sm" onclick="search()">
 						<fmt:message key="button.search"/>
@@ -78,9 +78,30 @@
     </div>
 </div>
 
+<div  class="row" id="pathologyGrid" style="display: none;">
+    <div class="col-xs-12 leftContent">
+        <table id="sectionList1"></table>
+        <div id="pager1"></div>
+    </div>
+</div>
+
+<div  class="row" id="hospitalGrid" style="display: none;">
+    <div class="col-xs-12 leftContent">
+        <table id="sectionList2"></table>
+        <div id="pager2"></div>
+    </div>
+</div>
+
+<div  class="row" id="userGrid" style="display: none;">
+    <div class="col-xs-12 leftContent">
+        <table id="sectionList3"></table>
+        <div id="pager3"></div>
+    </div>
+</div>
 
 <div id="addDialog" style="display: none;" class="col-xs-12">
     <form class="form-horizontal" id="addSectionForm" action="#" method="post">
+        <input type="hidden" name="templateid" id="templateid">
         <div style="padding-top: 5px;">
             <div style="">
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
@@ -128,26 +149,41 @@
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="tempathologyname"> 病种类别 </label>
                     <div class="col-xs-8" style="">
-                        <input type="text" id="tempathologyname" name= "tempathologyname" placeholder="病种类别" class="col-xs-8" datatype="*2-255" />
+                        <input type="text" id="tempathologyname" onclick="showPathology()" readonly name= "tempathologyname" placeholder="病种类别" class="col-xs-8" datatype="*2-255" />
                         <input type="hidden" id="tempathologyid" name="tempathologyid">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="temcontent"> 模板内容 </label>
+                    <div class="col-xs-8">
+                        <textarea type="text" cols="10" id="temcontent" name="temcontent" placeholder="模板内容" class="col-xs-8" datatype="*2-255"></textarea>
                     </div>
                 </div>
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="temcustomername"> 客户 </label>
                     <div class="col-xs-8">
-                        <input type="text" id="temcustomername" name="temcustomername" placeholder="客户" class="col-xs-8" datatype="*2-255"/>
+                        <input type="text" id="temcustomername" onclick="showHospital()" readonly name="temcustomername" placeholder="客户" class="col-xs-8" datatype="*2-255"/>
                         <input type="hidden" id="temcustomerid" name="temcustomerid">
                     </div>
                 </div>
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="temtype">模板类型</label>
                     <div class="col-xs-8">
-                        <select type="text" id="temtype" name="temtype" class="col-xs-3">
+                        <select type="text" id="temtype" name="temtype" onchange="changeOwner()" class="col-xs-3">
                             <option value="0">系统公用</option>
                             <option value="1">用户私有</option>
                         </select>
                     </div>
                 </div>
+
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="temownername">归所用户 </label>
+                    <div class="col-xs-8">
+                        <input type="text" id="temownername" name="temownername"  readonly onclick="initValue()" placeholder="归所用户" class="col-xs-8" datatype="*2-255"/>
+                        <input type="hidden" id="temownerid" name="temownerid">
+                    </div>
+                </div>
+
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="temclass">模板分类</label>
                     <div class="col-xs-8">
@@ -158,13 +194,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" style="margin-left:0px;margin-right:0px;">
-                    <label class="col-xs-3 control-label no-padding-right" for="temownername">归所用户 </label>
-                    <div class="col-xs-8">
-                        <input type="text" id="temownername" name="temownername" placeholder="归所用户" class="col-xs-8" datatype="*2-255"/>
-                        <input type="hidden" id="temownerid" name="temownerid">
-                    </div>
-                </div>
+
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="temkey">关键字 </label>
                     <div class="col-xs-8">
