@@ -16,6 +16,7 @@
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/his/his_main.js"></script>
+	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<!--<script src="../scripts/his/jquery.autocomplete.js" type="text/javascript"></script>-->
 </head>
 <style>
@@ -24,7 +25,7 @@
 	}
 </style>
 <body>
-<div class="row widget-main">
+<div class="row widget-main" id="div_1">
 		<div>
 			<button type="button" class="btn btn-sm btn-primary " title="新增申请" onclick="addSample()">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
@@ -38,13 +39,13 @@
 				<i class="ace-icon fa fa-times bigger-110"></i>
 				删除
 			</button>
-			<button type="button" class="btn btn-sm btn-info" title="打印签收单" onclick="print()" disabled>
+			<button type="button" class="btn btn-sm btn-info" title="打印签收单" onclick="print()">
 				<i class="ace-icon fa fa-print bigger-110"></i>
 				打印
 			</button>
 		</div>
 </div>
-<div class="row widget-main">
+<div class="row widget-main" id="div_2">
 	<div class="input-group" style="float: left;">
 		<span class="input-group-addon">电子申请单</span>
 		<input type="text" class="form-control" placeholder="申请单号" id="req_code" value="" onkeypress="receive(this,event)"/>
@@ -71,7 +72,7 @@
 			<option value="">已延迟</option>
 		</select>
 		<span class="input-group-btn">
-			<button type="button" class="btn btn-sm btn-success" title="提交样本信息" onclick="searchList()">
+			<button type="button" class="btn btn-sm btn-success" title="查询信息" onclick="searchList()">
 				<i class="ace-icon fa fa-print bigger-110"></i>
 				查询
 			</button>
@@ -80,26 +81,28 @@
 </div>
 <div class="row">
 	<div class="widget-box widget-color-green">
-		<div class="widget-body" style="height:700px;overflow:auto;">
+		<div class="widget-body" style="overflow:auto;">
 			<div class="widget-main no-padding">
 				<table id="new" class="table table-striped table-bordered table-hover">
 				</table>
+				<div id="pager"></div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div id="formDialog" style="display:none;">
+<div id="formDialog" style="display:none;" class="col-sm-12">
 	<form class="form-horizontal" role="form" style="margin-top:5px;" id="sampleForm">
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-right" for="requisitionno">申请单号</label>
 			<div class="col-sm-2">
+                <input type="hidden" id="reqcustomerid" value="${reqcustomerid}">
 				<input type="hidden" id="requisitionid" value="${requisitionid}"/>
-				<input type="text" class="col-sm-12" id="requisitionno" onkeypress="getData(this,event)" value="${requisitionno}"/>
+				<input type="text" class="col-sm-12" id="requisitionno" name="requisitionno" onkeypress="getData(this,event)" value="${requisitionno}"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" >检查项目</label>
 			<div class="col-sm-2">
-				<select class="col-sm-12" id="reqitemnames">
+				<select class="col-sm-12" id="reqitemids" onchange="changethId()">
 					<option value="1">111</option>
 					<option value="2">222</option>
 					<option value="3">333</option>
@@ -114,34 +117,36 @@
 					<option value="3">液基细胞学</option>
 				</select>
 			</div>
-			<label class="col-sm-3 control-label no-padding-right">
-				<button type="button" class="btn btn-sm btn-success" title="提交信息" onclick="saveInfo()">
+			<label class="col-sm-2 control-label no-padding-center">
+				<button type="submit" class="btn btn-sm btn-success" id="addinfo" title="提交信息" onclick="saveInfo()">
 					<i class="ace-icon fa fa-print bigger-110"></i>
 					提交
 				</button>
 			</label>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="patientname">姓&nbsp;名</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqpatientname">姓&nbsp;名</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="patientname"/>
+				<input type="text" class="col-sm-12" id="reqpatientname" name="reqpatientname" placeholder="姓名" datatype="s1-16" errormsg="至少1个字符,最多16个字符！" />
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="sex">性&nbsp;别</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqpatientsex">性&nbsp;别</label>
 			<div class="col-sm-2">
-				<select class="col-sm-12" id="sex">
+				<select class="col-sm-12" id="reqpatientsex">
 					<option value="1">男</option>
 					<option value="2">女</option>
 					<option value="3">未知</option>
 				</select>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="age">年&nbsp;龄</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqpatientage">年&nbsp;龄</label>
 			<div class="col-sm-2">
 				<span class="input-icon input-icon-right" style="width:100%">
-					<input type="text" id="age" style="float:left;width:75%"/>
-					<select  style="float:left;width:25%" id="ageunit">
-						<option value="岁">岁</option>
-						<option value="月">月</option>
-						<option value="天">天</option>
+					<input type="text" id="reqpatientage" style="float:left;width:75%"/>
+					<select  style="float:left;width:25%" id="reqpatagetype">
+						<option value="1">岁</option>
+						<option value="2">月</option>
+						<option value="4">周</option>
+						<option value="5">日</option>
+						<option value="6">小时</option>
 					</select>
 				</span>
 			</div>
@@ -151,13 +156,13 @@
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="reqirnpatientno">住院号</label>
-			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="reqirnpatientno"/>
-			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="reqpatientnumber">床&nbsp;号</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqpatientnumber">住院号</label>
 			<div class="col-sm-2">
 				<input type="text" class="col-sm-12" id="reqpatientnumber"/>
+			</div>
+			<label class="col-sm-1 control-label no-padding-right" for="reqwardcode">床&nbsp;号</label>
+			<div class="col-sm-2">
+				<input type="text" class="col-sm-12" id="reqwardcode"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="reqfirstv">邮&nbsp;编</label>
 			<div class="col-sm-2">
@@ -173,17 +178,17 @@
 			<div class="col-sm-2">
 				<input type="text" class="col-sm-12" id="reqsendhospital"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="reqdeptcode">送检科室</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqdeptname">送检科室</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="reqdeptcode"/>
+				<input type="text" class="col-sm-12" id="reqdeptname"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="reqdoctorid">送检医生</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqdoctorname">送检医生</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="reqdoctorid"/>
+				<input type="text" class="col-sm-12" id="reqdoctorname"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="reqdate">送检时间</label>
+			<label class="col-sm-1 control-label no-padding-right" for="reqdatechar">送检时间</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="reqdate"/>
+				<input type="text" class="col-sm-12" id="reqdatechar"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
@@ -195,13 +200,75 @@
 			<div class="col-sm-2">
 				<input type="text" class="col-sm-12 input-mask-date" id="reqplanexectime"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="reqsecondv">手术医生</label>
-			<div class="col-sm-2">
-				<input type="text" class="col-sm-12 input-mask-date" id="reqsecondv" />
+			<label class="col-sm-1 control-label no-padding-right" for="reqpatdiagnosis">临床诊断</label>
+			<div class="col-sm-5">
+				<input type="text" class="col-sm-12 input-mask-date" id="reqpatdiagnosis" />
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="reqfirstn">手术电话</label>
-			<div class="col-sm-2">
-				<input type="text" class="col-sm-12 input-mask-date" id="reqfirstn" />
+		</div>
+		<div class="row col-sm-12">
+			<div class="widget-box widget-color-green">
+					<div class="widget-main no-padding  col-sm-7" style="margin-top: 5px">
+						<div class="form-group" style="margin-right:0px;margin-left:0px;">
+							<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;组织信息</label>
+							<button type="button" class="btn btn-sm btn-primary " title="追加行" onclick="addRow()">
+								<i class="ace-icon fa fa-fire bigger-110"></i>
+								追加行
+							</button>
+							<button type="button" class="btn btn-sm btn-danger" title="删除行" onclick="delRow()">
+								<i class="ace-icon fa fa-times bigger-110"></i>
+								删除行
+							</button>
+						</div>
+						<div class="form-group " style="margin-right:0px;margin-left:0px;">
+							<table id="new1" class="table table-striped table-bordered table-hover">
+							</table>
+						</div>
+					</div>
+					<div class="widget-main no-padding  col-sm-5" style="margin-top: 5px">
+						<div class="form-group" style="margin-right:0px;margin-left:0px;">
+							<label class="col-sm-12 control-label" style="text-align: left;">影像学检查</label>
+						</div>
+						<div class="form-group" style="margin-right:0px;margin-left:0px;">
+							<label class="col-sm-2 control-label no-padding-right" for="X">X 光</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12" id="X"/>
+							</div>
+							<label class="col-sm-2 control-label no-padding-right" for="CT">C T</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12 input-mask-date" id="CT"/>
+							</div>
+						</div>
+						<div class="form-group" style="margin-right:0px;margin-left:0px;">
+							<label class="col-sm-2 control-label no-padding-right" for="B">B 超</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12" id="B"/>
+							</div>
+							<label class="col-sm-2 control-label no-padding-right" for="previous">婚 史</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12 input-mask-date" id="previous"/>
+							</div>
+						</div>
+						<div class="form-group" style="margin-right:0px;margin-left:0px;">
+							<label class="col-sm-2 control-label no-padding-right" for="menses">月经初潮</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12" id="menses"/>
+							</div>
+							<label class="col-sm-2 control-label no-padding-right" for="cycle">周 期</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12 input-mask-date" id="cycle"/>
+							</div>
+						</div>
+						<div class="form-group" style="margin-right:0px;margin-left:0px;">
+							<label class="col-sm-2 control-label no-padding-right" for="cesarean">产 史</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12" id="cesarean"/>
+							</div>
+							<label class="col-sm-2 control-label no-padding-right" for="endmenses">末次月经</label>
+							<div class="col-sm-4">
+								<input type="text" class="col-sm-12 input-mask-date" id="endmenses"/>
+							</div>
+						</div>
+					</div>
 			</div>
 		</div>
 	</form>

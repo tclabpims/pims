@@ -1,6 +1,6 @@
 package com.pims.dao;
 
-import com.pims.dao.SearchException;
+import com.smart.dao.SearchException;
 
 import java.io.Serializable;
 import java.util.List;

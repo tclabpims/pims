@@ -1,6 +1,7 @@
 package com.pims.dao.hibernate.his;
 
 import com.pims.dao.his.PimsPathologyRequisitionDao;
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
@@ -21,43 +22,44 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
 
     /**
      * 查询申请单列表
-     * @param map
+     * @param pims
      * @return
      */
-    public List<PimsPathologyRequisition> getRequisitionInfo(Map map){
+    public List<PimsPathologyRequisition> getRequisitionInfo(PimsBaseModel pims){
         StringBuffer buffer = new StringBuffer();
-        buffer.append(" from PimsPathologyRequisition where 1 = 1 ");
-        if(!StringUtils.isEmpty(map.get("req_code"))){
-            buffer.append("and RequisitionNo = " +  map.get("req_code"));
+        buffer.append(" from PimsPathologyRequisition where ReqIsDeleted = 0 ");
+        if(!StringUtils.isEmpty(pims.getReq_code())){
+            buffer.append("and RequisitionNo = " +  pims.getReq_code());
         }
-        if(!StringUtils.isEmpty(map.get("patient_name"))){
-            buffer.append(" and ReqPatientName  = " + map.get("patient_name"));
+        if(!StringUtils.isEmpty(pims.getPatient_name())){
+            buffer.append(" and ReqPatientName  = " + pims.getPatient_name());
         }
-        if(!StringUtils.isEmpty(map.get("send_hosptail"))){
-            buffer.append(" and  ReqSendHospital = " + map.get("send_hosptail"));
+        if(!StringUtils.isEmpty(pims.getSend_hosptail())){
+            buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());
         }
-        if(!StringUtils.isEmpty(map.get("req_bf_time"))){
-            buffer.append(" and ReqDate >= to_date('" + map.get("req_bf_time")+"','YYYYMMDD')");
+        if(!StringUtils.isEmpty(pims.getReq_bf_time())){
+            buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time()+"','YYYYMMDD')");
         }
-        if(!StringUtils.isEmpty(map.get("req_af_time"))){
-            buffer.append(" and  ReqDate < to_date('" + map.get("req_af_time")+"','YYYYMMDD')+1");
+        if(!StringUtils.isEmpty(pims.getReq_af_time())){
+            buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time()+"','YYYYMMDD')+1");
         }
-        if(!StringUtils.isEmpty(map.get("send_dept"))){
-            buffer.append(" and  ReqDeptName = " + map.get("send_dept"));
+        if(!StringUtils.isEmpty(pims.getSend_dept())){
+            buffer.append(" and  ReqDeptName = " + pims.getSend_dept());
         }
-        if(!StringUtils.isEmpty(map.get("send_doctor"))){
-            buffer.append(" and ReqDoctorName = " + map.get("send_doctor"));
+        if(!StringUtils.isEmpty(pims.getSend_doctor())){
+            buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());
         }
-        if(!StringUtils.isEmpty(map.get("req_sts"))){
-            buffer.append(" and  ReqState = " + map.get("req_sts"));
+        if(!StringUtils.isEmpty(pims.getReq_sts())){
+            buffer.append(" and  ReqState = " + pims.getReq_sts());
         }
-        Query query = getSession().createQuery(buffer.toString());
-//        StringBuffer buff = new StringBuffer();
-//        buff.append( "from PimsPathologyRequisition where 1=1 ");
-//        Query query = getSession().createQuery(buff.toString());
-        System.out.println(query.getQueryString());
-        List<PimsPathologyRequisition> list = query.list();
-        return list;
+        String orderby = (pims.getSidx()==null|| pims.getSidx().trim().equals(""))?"reqcustomercode":pims.getSidx();
+        buffer.append(" order by " + orderby + " " +pims.getSord());
+        System.out.println(buffer.toString());
+        return pagingList(buffer.toString(),pims.getStart(),pims.getEnd());
+//        Query query = getSession().createQuery(buffer.toString());
+//        System.out.println(query.getQueryString());
+//        List<PimsPathologyRequisition> list = query.list();
+//        return list;
     }
 
     /**
@@ -70,7 +72,7 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         if(id == null){
             return false;
         }else{
-            Query query = getSession().createQuery("from PimsPathologyRequisition set ReqState = 'N' where requisitionid = "+ id);
+            Query query = getSession().createSQLQuery(" update PIMS_PATHOLOGY_REQUISITION set ReqIsDeleted = 1 where requisitionid = "+ id);
             query.executeUpdate();
             return true;
         }
@@ -105,5 +107,42 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         Long maxId = (Long)(getSession().createSQLQuery(sql).addScalar("nextvalue", StandardBasicTypes.LONG) ).uniqueResult();
         System.out.println("申请单最大ID为：" + maxId);
         return maxId;
+    }
+
+    /**
+     * 获取总数量
+     * @param pims
+     * @return
+     */
+    @Override
+    public int getReqListNum(PimsBaseModel pims) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(" select count(1) from PIMS_PATHOLOGY_REQUISITION where ReqIsDeleted = 0 ");
+        if(!StringUtils.isEmpty(pims.getReq_code())){
+            buffer.append("and RequisitionNo = " +  pims.getReq_code());
+        }
+        if(!StringUtils.isEmpty(pims.getPatient_name())){
+            buffer.append(" and ReqPatientName  = " + pims.getPatient_name());
+        }
+        if(!StringUtils.isEmpty(pims.getSend_hosptail())){
+            buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());
+        }
+        if(!StringUtils.isEmpty(pims.getReq_bf_time())){
+            buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time()+"','YYYYMMDD')");
+        }
+        if(!StringUtils.isEmpty(pims.getReq_af_time())){
+            buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time()+"','YYYYMMDD')+1");
+        }
+        if(!StringUtils.isEmpty(pims.getSend_dept())){
+            buffer.append(" and  ReqDeptName = " + pims.getSend_dept());
+        }
+        if(!StringUtils.isEmpty(pims.getSend_doctor())){
+            buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());
+        }
+        if(!StringUtils.isEmpty(pims.getReq_sts())){
+            buffer.append(" and  ReqState = " + pims.getReq_sts());
+        }
+        System.out.println(buffer.toString());
+        return countTotal(buffer.toString()).intValue();
     }
 }

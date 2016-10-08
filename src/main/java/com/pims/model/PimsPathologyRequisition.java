@@ -2,6 +2,7 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by king on 2016/9/28.
@@ -66,10 +67,11 @@ public class PimsPathologyRequisition {
     private String reqcreateuser;
     private Date reqcreatetime;
 
+
     @Id
     @Column(name = "REQUISITIONID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_REQUISITIONID")
-    @SequenceGenerator(name = "SEQ_REQUISITIONID", sequenceName = "pimspathologyrequisition_sequence", allocationSize=1)
+    @SequenceGenerator(name = "SEQ_REQUISITIONID", sequenceName = "SEQ_REQUISITIONID", allocationSize=1)
     public int getRequisitionid() {
         return requisitionid;
     }

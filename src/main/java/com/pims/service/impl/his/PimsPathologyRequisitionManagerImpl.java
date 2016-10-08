@@ -1,8 +1,10 @@
 package com.pims.service.impl.his;
 
 import com.pims.dao.his.PimsPathologyRequisitionDao;
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.service.his.PimsPathologyRequisitionManager;
+import com.pims.webapp.controller.GridQuery;
 import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +28,12 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
 
     /**
      * 获取申请单列表
-     * @param map
+     * @param pims
      * @return
      */
     @Override
-    public List<PimsPathologyRequisition> getRequisitionInfo(Map map) {
-        return pimsPathologyRequisitionDao.getRequisitionInfo(map);
+    public List<PimsPathologyRequisition> getRequisitionInfo(PimsBaseModel pims) {
+        return pimsPathologyRequisitionDao.getRequisitionInfo(pims);
     }
 
     /**
@@ -63,4 +65,13 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
         return pimsPathologyRequisitionDao.getMaxId();
     }
 
+    /**
+     * 获取总数量
+     * @param pims
+     * @return
+     */
+    @Override
+    public int getReqListNum(PimsBaseModel pims) {
+        return pimsPathologyRequisitionDao.getReqListNum(pims);
+    }
 }

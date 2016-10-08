@@ -1,6 +1,8 @@
 package com.pims.service.his;
 
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
+import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
 
 import java.util.List;
@@ -12,14 +14,21 @@ import java.util.Map;
 public interface PimsPathologyRequisitionManager extends GenericManager<PimsPathologyRequisition,Long> {
     /**
      * 获取申请单列表
-     * @param map
+     * @param
      * @return
      */
-    List<PimsPathologyRequisition> getRequisitionInfo(Map map);
+    List<PimsPathologyRequisition> getRequisitionInfo(PimsBaseModel pims);
+
+    /**
+     *
+     * @param pims
+     * @return
+     */
+    int getReqListNum(PimsBaseModel pims);
     /**
      * 逻辑删除申请单
      * @param id
-     * @return
+     * @returnpims
      */
     boolean delete(Long id);
 
