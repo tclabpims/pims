@@ -222,10 +222,10 @@ function sample() {
 		
 		var msg = "";
 		var post = true;
-		if(ylxh == "") {
-			msg = "检验目的不能为空！";
-			post = false;
-		}
+		// if(ylxh == "") {
+		// 	msg = "检验目的不能为空！";
+		// 	post = false;
+		// }
 		if(pname == "") {
 			msg = "患者姓名不能为空！";
 			post = false;

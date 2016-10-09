@@ -7,7 +7,7 @@ import java.sql.Time;
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_REQ_TESTITEM", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_SYS_REQ_TESTITEM")
 public class PimsSysReqTestitem {
     private long testitemid;
     private String teschinesename;
@@ -29,6 +29,8 @@ public class PimsSysReqTestitem {
 
     @Id
     @Column(name = "TESTITEMID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_TESTITEM")
+    @SequenceGenerator(name = "SEQ_TESTITEM", sequenceName = "SEQ_TESTITEM", allocationSize=1)
     public long getTestitemid() {
         return testitemid;
     }

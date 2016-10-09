@@ -1,8 +1,3 @@
-function deleteYlxh(obj) {
-	var fee = $("#fee").val();
-	$("#fee").val(parseInt(fee) - parseInt(obj.id));
-}
-
 function receive(obj,event) {
 	var e=e||event;
     var key = event.keyCode;
@@ -95,41 +90,67 @@ function getData(obj,event) {
 	}
 }
 
-function getSampleData(id, type) {
-	$.get("../sample/ajax/get",{id:id,type:type},function(data) {
+function getSampleData(id) {
+	$.get("../pimspathology/get",{id:id},function(data) {
 		if(data != "") {
-			var data = JSON.parse(data);
-			$("#stayhospitalmode").val(data.stayhospitalmode);
-			$("#doctadviseno").val(data.doctadviseno);
-			if(data.sampleno != '0') {
-				$("#sampleno").val(data.sampleno);
-			}
-			$("#patientid").val(data.patientid);
-			$("#section").val(data.section);
-			$("#sectionCode").val(data.sectionCode);
-			$("#patientname").val(data.patientname);
-			$("#sex").val(data.sex);
-			$("#age").val(data.age);
-			$("#diagnostic").val(data.diagnostic);
-			var $tag_obj = $('#examinaim').data('tag');
-			$tag_obj.clear();
-			var ylxhMap = data.ylxhMap;
-			var feeMap = data.feeMap;
-			for(var key in ylxhMap) {
-				$tag_obj.add(ylxhMap[key], key, feeMap[key]);
-			}
-			$("#sampletype").val(data.sampletype);
-			$("#fee").val(data.fee);
-			$("#feestatus").val(data.feestatus);
-			$("#requester").val(data.requester);
-			$("#receivetime").val(data.receivetime);
-			$("#executetime").val(data.executetime);
+			$("#requisitionid").val(data.requisitionid);
+			$("#reqcustomercode").val(data.reqcustomercode);
+			$("#reqpathologyid").val(data.reqpathologyid);
+			$("#requisitionno").val(data.requisitionno);
+			$("#reqsource").val(data.reqsource);
+			$("#reqtype").val(data.reqtype);
+			$("#reqdate").val(data.reqdate);
+			$("#reqinspectionid").val(data.reqinspectionid);
+			$("#reqdatechar").val(data.reqdatechar);
+			$("#reqdeptcode").val(data.reqdeptcode);
+			$("#reqdeptname").val(data.reqdeptname);
+			$("#reqwardcode").val(data.reqwardcode);
+			$("#reqwardname").val(data.reqwardname);
+			$("#reqdoctorid").val(data.reqdoctorid);
+			$("#reqdoctorname").val(data.reqdoctorname);
+			$("#reqplanexectime").val(data.reqplanexectime);
+			$("#reqdigcode").val(data.reqdigcode);
+			$("#reqchargestatus").val(data.reqchargestatus);
+			$("#reqsendhospital").val(data.reqsendhospital);
+			$("#reqsendphone").val(data.reqsendphone);
+			$("#reqstate").val(data.reqstate);
+			$("#reqitemids").val(data.reqitemids);
+			$("#reqitemnames").val(data.reqitemnames);
+			$("#reqpatientid").val(data.reqpatientid);
+			$("#reqinpatientid").val(data.reqinpatientid);
+			$("#reqinpatientno").val(data.reqinpatientno);
+			$("#reqpatienttype").val(data.reqpatienttype);
+			$("#reqpatientnumber").val(data.reqpatientnumber);
+			$("#reqpatientname").val(data.reqpatientname);
+			$("#reqpatientsex").val(data.reqpatientsex);
+			$("#reqpatientage").val(data.reqpatientage);
+			$("#reqpatagetype").val(data.reqpatagetype);
+			$("#reqpatbirthday").val(data.reqpatbirthday);
+			$("#reqpatidcard").val(data.reqpatidcard);
+			$("#reqpattelephone").val(data.reqpattelephone);
+			$("#reqpataddress").val(data.reqpataddress);
+			$("#reqpatdiagnosis").val(data.reqpatdiagnosis);
+			$("#reqismenopause").val(data.reqismenopause);
+			$("#reqlastmenstruation").val(data.reqlastmenstruation);
+			$("#reqpatcompany").val(data.reqpatcompany);
+			$("#reqsendhisorder").val(data.reqsendhisorder);
+			$("#reqsampleid").val(data.reqsampleid);
+			$("#reqisdeleted").val(data.reqisdeleted);
+			$("#reqprintuser").val(data.reqprintuser);
+			$("#reqprintusername").val(data.reqprintusername);
+			$("#reqprinttime").val(data.reqprinttime);
+			$("#reqsendtime").val(data.reqsendtime);
+			$("#reqremark").val(data.reqremark);
+			$("#reqfirstv").val(data.reqfirstv);
+			$("#reqsecondv").val(data.reqsecondv);
+			//$("#reqthirdv").val(data.reqthirdv);
+			$("#reqfirstd").val(data.reqfirstd);
+			$("#reqsecondd").val(data.reqsecondd);
+			$("#reqfirstn").val(data.reqfirstn);
+			$("#reqcreateuser").val(data.reqcreateuser);
+			$("#reqcreatetime").val(data.reqcreatetime);
 		} else {
-			if(type == 1) {
-				layer.msg("医嘱号为" + id + "的标本不存在！", {icon: 0, time: 1000});
-			} else {
-				layer.msg("样本号为" + id + "的标本不存在！", {icon: 0, time: 1000});
-			}
+			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
 	});
 }
@@ -183,132 +204,84 @@ function isDate(str){
 	}
 } 
 
-function sample() {
-	var operate,shm,doct,sampleno,pid,section,sectionCode,pname,sex,age,diag,ylxh,exam,feestatus,requester,receivetime,executetime,fee;
+function saveInfo() {
 	operate = $("#operate").val();
 	if(operate == 'cancel') {
 		$('#sampleForm')[0].reset();
 		$('#examinaim').data('tag').clear();
 	} else {
-		ylxh = "";
-		exam ="";
-		shm = $("#stayhospitalmode").val();
-		doct = $("#doctadviseno").val();
-		sampleno = $("#sampleno").val();
-		pid = $("#patientid").val();
-		section = $("#section").val();
-		sectionCode = $("#sectionCode").val();
-		pname = $("#patientname").val();
-		sex = $("#sex").val();
-		age = $("#age").val();
-		ageunit = $("#ageunit").val();
-		diag = $("#diagnostic").val();
-		var len = $('#examTag .tag').length - 1;
-		$('#examTag .tag').each(function(i) {
-			if(i == len) {
-				ylxh += this.id;
-				exam += $(this).text().replace("×","");
-			} else {
-				ylxh += this.id + "+";
-				exam += $(this).text().replace("×","") + "+";
-			}
-		});
-		sampletype = $("#sampletype").val();
-		fee = $("#fee").val();
-		feestatus = $("#feestatus").val();
-		requester = $("#requester").val();
-		receivetime = $("#receivetime").val();
-		executetime = $("#executetime").val();
-		
+        var rowdatas = $('#new1').jqGrid('getRowData');
 		var msg = "";
 		var post = true;
-		if(ylxh == "") {
-			msg = "检验目的不能为空！";
-			post = false;
-		}
-		if(pname == "") {
-			msg = "患者姓名不能为空！";
-			post = false;
-		}
-		if(sampleno.length != 14) {
-			msg = "样本号长度错误，格式不正确！";
-			post = false;
-		} else {
-			if(!isDate(sampleno.substring(0,8))) {
-				msg = "样本号日期格式不正确！";
-				post = false;
-			}
-			if($("#hiddenSegment").val().indexOf(sampleno.substring(8,11)) == -1) {
-				msg = "样本号检验段格式不正确！";
-				post = false;
-			}
-			if(isNaN(Number(sampleno.substring(11,14)))) {
-				msg = "样本号后3位编号不是数字！";
-				post = false;
-			}
-		}
-		
 		if(post) {
-			$.post("../sample/ajax/editSample", {
-				operate : operate,
-				shm : shm,
-				doct : doct,
-				sampleno : sampleno,
-				pid : pid,
-				section : section,
-				sectionCode : sectionCode,
-				pname : pname,
-				sex : sex,
-				age : age,
-				ageunit : ageunit,
-				diag : diag,
-				sampletype : sampletype,
-				fee : fee,
-				feestatus : feestatus,
-				requester : requester,
-				receivetime : receivetime,
-				executetime : executetime,
-				exam : exam,
-				ylxh : ylxh
+			$.post("../pimspathology/editSample", {
+			    reqthirdv:JSON.stringify(rowdatas),
+                requisitionid:$("#requisitionid").val(),
+                reqcustomercode:$("#reqcustomercode").val(),
+                reqpathologyid:$("#reqpathologyid").val(),
+                requisitionno:$("#requisitionno").val(),
+                reqsource:$("#reqsource").val(),
+                reqtype:$("#reqtype").val(),
+                reqdate:$("#reqdate").val(),
+                reqinspectionid:$("#reqinspectionid").val(),
+                reqdatechar:$("#reqdatechar").val(),
+                reqdeptcode:$("#reqdeptcode").val(),
+                reqdeptname:$("#reqdeptname").val(),
+                reqwardcode:$("#reqwardcode").val(),
+                reqwardname:$("#reqwardname").val(),
+                reqdoctorid:$("#reqdoctorid").val(),
+                reqdoctorname:$("#reqdoctorname").val(),
+                reqplanexectime:$("#reqplanexectime").val(),
+                reqdigcode:$("#reqdigcode").val(),
+                reqchargestatus:$("#reqchargestatus").val(),
+                reqsendhospital:$("#reqsendhospital").val(),
+                reqsendphone:$("#reqsendphone").val(),
+                reqstate:$("#reqstate").val(),
+                reqitemids:$("#reqitemids").val(),
+                reqitemnames:$("#reqitemnames").val(),
+                reqpatientid:$("#reqpatientid").val(),
+                reqinpatientid:$("#reqinpatientid").val(),
+                reqinpatientno:$("#reqinpatientno").val(),
+                reqpatienttype:$("#reqpatienttype").val(),
+                reqpatientnumber:$("#reqpatientnumber").val(),
+                reqpatientname:$("#reqpatientname").val(),
+                reqpatientsex:$("#reqpatientsex").val(),
+                reqpatientage:$("#reqpatientage").val(),
+                reqpatagetype:$("#reqpatagetype").val(),
+                reqpatbirthday:$("#reqpatbirthday").val(),
+                reqpatidcard:$("#reqpatidcard").val(),
+                reqpattelephone:$("#reqpattelephone").val(),
+                reqpataddress:$("#reqpataddress").val(),
+                reqpatdiagnosis:$("#reqpatdiagnosis").val(),
+                reqismenopause:$("#reqismenopause").val(),
+                reqlastmenstruation:$("#reqlastmenstruation").val(),
+                reqpatcompany:$("#reqpatcompany").val(),
+                reqsendhisorder:$("#reqsendhisorder").val(),
+                reqsampleid:$("#reqsampleid").val(),
+                reqisdeleted:$("#reqisdeleted").val(),
+                reqprintuser:$("#reqprintuser").val(),
+                reqprintusername:$("#reqprintusername").val(),
+                reqprinttime:$("#reqprinttime").val(),
+                reqsendtime:$("#reqsendtime").val(),
+                reqremark:$("#reqremark").val(),
+                reqfirstv:$("#reqfirstv").val(),
+                reqsecondv:$("#reqsecondv").val(),
+                //reqthirdv:$("#reqthirdv").val(),
+                reqfirstd:$("#reqfirstd").val(),
+                reqsecondd:$("#reqsecondd").val(),
+                reqfirstn:$("#reqfirstn").val(),
+                reqcreateuser:$("#reqcreateuser").val(),
+                reqcreatetime:$("#reqcreatetime").val()
 			},
 			function(data) {
 				var data = JSON.parse(data);
-				var sampleno = $("#sampleno").val();
-				$('#sampleForm')[0].reset();
-				$('#examinaim').data('tag').clear();
-				$("#sampleno").val(sampleno.substring(0,11) + Pad((parseInt(sampleno.substring(11,14)) + 1),3));
-				var html = "";
-				html += "<tr><td><b>医嘱号</b></td><td>" + data.id + "</td></tr>";
-				html += "<tr><td><b>样本号</b></td><td>" + data.sampleno + "</td></tr>";
-				html += "<tr><td><b>姓名</b></td><td>" + data.pname + "</td></tr>";
-				html += "<tr><td><b>就诊卡号</b></td><td>" + data.pid + "</td></tr>";
-				html += "<tr><td><b>性别</b></td><td>" + data.sex + "</td></tr>";
-				html += "<tr><td><b>年龄</b></td><td>" + data.age + "</td></tr>";
-				html += "<tr><td><b>诊断</b></td><td>" + data.diag + "</td></tr>";
-				html += "<tr><td><b>检验目的</b></td><td>" + data.exam + "</td></tr>";
-				html += "<tr><td><b>检验时间</b></td><td>" + data.receivetime + "</td></tr>";
-				$("#now").html(html);
 				if(data.success) {
+					layer.closeAll();
 					var rowData = {
-						id:data.id,
-						sampleno:data.sampleno,
-						shm:data.shm,
-						pname:data.pname,
-						section:data.section,
-						bed:data.bed,
-						sex:data.sex,
-						age:data.age,
-						receivetime:data.receivetime,
-						exam:data.exam,
-						sampletype:data.sampletype,
-						pid:data.pid,
-						feestatus:data.feestatus,
-						diag:data.diag,
-						cycle:data.cycle,
-						requester:data.requester,
-						part:data.part,
-						requestmode:data.requestmode,
-						fee:data.fee
+						requisitionid:data.requisitionid,
+						requisitionno:data.requisitionno,
+						reqitemnames:data.reqitemnames,
+						reqpathologyid:data.reqpathologyid
 					};
 					var ids = $('#new').jqGrid('getDataIDs');
 		            var newId = parseInt(ids[ids.length - 1] || 0) + 1;
@@ -324,33 +297,80 @@ function sample() {
 	}
 }
 
+function createNew1(reqid){
+    $("#new1").jqGrid({
+        url:"../pimspathology/ajax/getmaterial",
+        datatype: "json",
+        mtype:"GET",
+        height: 170,
+        width: 540,
+        postData:{"reqId":reqid},
+        colNames: ['申请单ID','ID','切取部位', '送检材料'],
+        colModel: [
+            {name:'requisitionid',hidden:true},
+            {name:'materialid',hidden:true},
+            { name: 'reqmsamplingparts', index: 'reqmsamplingparts',editable:true,edittype: "select",formatter: "select", editoptions:{value:"1:输卵管;2:肝脏;3:肺"}},
+            { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select", editoptions:{value:"1:输卵管切除组织;2:肝脏切除组织;3:肺切除组织"}}
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        multiselect: true,
+        cellsubmit: "clientArray",
+        //autowidth: true,
+        cellEdit:true,
+        rownumbers : true,
+        onSelectAll:function(aRowids,status){
+            var rowIds = $("#new1").jqGrid('getDataIDs');
+            //alert(rowIds);
+            for(var k = 0; k<rowIds.length; k++) {
+                var curRowData = jQuery("#new1").jqGrid('getRowData', rowIds[k]);
+                var curChk = $("#"+rowIds[k]+"").find(":checkbox");
+                if(status){
+                    curChk.attr('checked', 'true');   //设置所有checkbox被选中
+                }else{
+                    curChk.attr('checked', 'false');   //设置所有checkbox被选中
+                }
+            }
+        }
+    });
+}
 function addSample() {
-	$("#sampleno").val($("#sampleno_text").val());
-	$("#operate").val("add");
+	clearData();
 	layer.open({
 		type: 1,
-		area: ['1000px','360px'],
+		area: ['1000px','600px'],
 		skin: 'layui-layer-molv',
 		fix: false, //不固定
 		maxmin: false,
 		shade:0.6,
-		title: "样本信息录入",
+		title: "申请信息录入",
 		content: $("#formDialog")
 	});
 }
 
 function editSample() {
-	$("#sampleno").val($("#sampleno_text").val());
-	$("#operate").val("edit");
+	clearData();
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
+	var rowData = $("#new").jqGrid('getRowData',id);
     if (id == null || id == 0) {
         layer.msg('请先选择要修改的数据', {icon: 2, time: 1000});
         return false;
     }
-    getSampleData(id,1);
+    getSampleData(rowData.requisitionid);
+    //createNew1(rowData.requisitionid);
+    jQuery("#new1").jqGrid('setGridParam',{
+        url: "../pimspathology/ajax/getmaterial",
+        //发送数据
+        postData : {"reqId":rowData.requisitionid}
+    }).trigger('reloadGrid');//重新载入
 	layer.open({
 		type: 1,
-		area: ['1000px','360px'],
+		area: ['1000px','600px'],
 		skin: 'layui-layer-molv',
 		fix: false, //不固定
 		maxmin: false,
@@ -361,36 +381,34 @@ function editSample() {
 }
 
 function deleteSample() {
-	$("#sampleno").val($("#sampleno_text").val());
-	$("#operate").val("delete");
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
+	var rowData = $("#new").jqGrid('getRowData',id);
     if (id == null || id == 0) {
         layer.msg('请先选择要删除的数据', {icon: 2, time: 1000});
         return false;
     }
-    getSampleData(id,1);
-	layer.open({
-		type: 1,
-		area: ['1000px','360px'],
-		skin: 'layui-layer-molv',
-		fix: false, //不固定
-		maxmin: false,
-		shade:0.6,
-		title: "样本信息删除",
-		content: $("#formDialog")
+	layer.confirm('确定删除选择数据？', {icon: 2, title:'警告'}, function(index){
+		$.post('../pimspathology/deleteSample',{requisitionid:rowData.requisitionid},function(data) {
+			layer.close(index);
+			$("#new").trigger('reloadGrid');
+		});
 	});
 }
 
 function clearData() {
 	$('#sampleForm')[0].reset();
-	$('#examinaim').data('tag').clear();
+    jQuery("#new1").jqGrid("clearGridData");
 }
 
 $(function() {
-    /**
-	$("#sampletype").val("C");
-	
-	$("#section").autocomplete({
+	//表单校验
+	$("#sampleForm").Validform({
+		btnSubmit:"#addinfo",
+		tiptype:4,
+		callback:function(){
+		}
+	});
+	$("#reqitemids").autocomplete({
         source: function( request, response ) {
             $.ajax({
             	url: "../ajax/searchSection",
@@ -438,45 +456,123 @@ $(function() {
         },
         minLength: 1
 	});
-	**/
+	var clientHeight= $(window).innerHeight();
+	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
+	var req_code = $('#req_code').val();
+	var patient_name = $('#patient_name').val();
+	var send_hosptail = $('#send_hosptail').val();
+	var req_bf_time = $('#req_bf_time').val();
+	var req_af_time = $('#req_af_time').val();
+	var send_dept = $('#send_dept').val();
+	var send_doctor = $('#send_doctor').val();
+	var req_sts = $('#req_sts').val();
 	$("#new").jqGrid({
 		url: "../pimspathology/ajax/pathology",
 		mtype: "GET",
 		datatype: "json",
-		colNames: ['临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
+		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
+			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
+		colNames: ['ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
 		colModel: [
-			{ name: 'requisitionno', index: 'requisitionno', width: 120},
-			{ name: 'reqpathologyid', index: 'reqpathologyid', width: 70},
-			{ name: 'reqdate', index: 'reqdate', width: 80 },
-			{ name: 'reqpatientname', index: 'reqpatientname', width: 80 },
-			{ name: 'reqsendhospital', index: 'reqsendhospital', width: 40 },
-			{ name: 'reqdeptname', index: 'reqdeptname', width: 40 },
-			{ name: 'reqdoctorname', index: 'reqdoctorname', width: 40 }
+			{name:'requisitionid',hidden:true},
+			{ name: 'requisitionno', index: 'requisitionno'},
+			{ name: 'reqpathologyid', index: 'reqpathologyid'},
+			{ name: 'reqdate', index: 'reqdate',formatter:function(cellvalue, options, row){return new Date(cellvalue).toLocaleString()},formatoptions:{newformat: 'y-m-d'}},
+			{ name: 'reqpatientname', index: 'reqpatientname'},
+			{ name: 'reqsendhospital', index: 'reqsendhospital'},
+			{ name: 'reqdeptname', index: 'reqdeptname'},
+			{ name: 'reqdoctorname', index: 'reqdoctorname'}
 		],
+		loadComplete : function() {
+			var table = this;
+			setTimeout(function(){
+				updatePagerIcons(table);
+			}, 0);
+		},
+		ondblClickRow: function (id) {
+			editSample();
+		},
 		viewrecords: true,
-		height:"100%",
-		rowNum:-1
+		height:height,
+		autowidth: true,
+		rowNum: 10,
+		rowList:[10,20,30],
+		rownumbers: true, // 显示行号
+		rownumWidth: 35, // the width of the row numbers columns
+		pager: "#pager"
 	});
+    createNew1("");
 });
 
 function searchList() {
-    alert("111111");
-    $("#new").jqGrid({
-        url: "../pimspathology/ajax/pathology",
-        mtype: "GET",
-        datatype: "json",
-        colNames: ['临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
-        colModel: [
-            { name: 'requisitionno', index: 'requisitionno'},
-            { name: 'reqpathologyid', index: 'reqpathologyid'},
-            { name: 'reqdate', index: 'reqdate' },
-            { name: 'reqpatientname', index: 'reqpatientname'},
-            { name: 'reqsendhospital', index: 'reqsendhospital'},
-            { name: 'reqdeptname', index: 'reqdeptname'},
-            { name: 'reqdoctorname', index: 'reqdoctorname'}
-        ],
-        viewrecords: true,
-        height:"100%",
-        rowNum:-1
-    });
+	var req_code = $('#req_code').val();
+	var patient_name = $('#patient_name').val();
+	var send_hosptail = $('#send_hosptail').val();
+	var req_bf_time = $('#req_bf_time').val();
+	var req_af_time = $('#req_af_time').val();
+	var send_dept = $('#send_dept').val();
+	var send_doctor = $('#send_doctor').val();
+	var req_sts = $('#req_sts').val();
+	jQuery("#new").jqGrid("clearGridData");
+	jQuery("#new").jqGrid('setGridParam',{
+		url: "../pimspathology/ajax/pathology",
+		//发送数据
+		postData : {"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
+			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
+		page : 1
+	}).trigger('reloadGrid');//重新载入
+}
+
+function addRow(){
+	var selectedId = $("#new1").jqGrid("getGridParam", "selrow");
+    var  requisitionid = $('#requisitionid').val();
+	var dataRow = {
+        requisitionid:requisitionid,
+		materialid: "",
+		reqmsamplingparts: 1,
+		reqmmaterialtype:1
+	};
+	var ids = $("#new1").jqGrid('getDataIDs');
+	var rowid = 1;
+	if(Math.max.apply(Math,ids) > ids.length ){
+		rowid = Math.max.apply(Math,ids) + 1;
+	}else{
+		rowid = ids.length + 1;
+	}
+	if (selectedId) {
+		$("#new1").jqGrid("addRowData", rowid, dataRow, "after", selectedId);
+	} else {
+		$("#new1").jqGrid("addRowData", rowid, dataRow, "last");
+	}
+	$('#plsfList').jqGrid('editRow', rowid, false);
+}
+function delRow(){
+	var selectedId = $("#new1").jqGrid("getGridParam","selrow");
+	if(!selectedId){
+		alert("请选择要删除的行!");
+		return;
+	}else{
+		$("#new1").jqGrid("delRowData", selectedId);
+	}
+}
+
+function changethId() {
+    var reqitemids = $('#reqitemids').val();
+    $.ajax(
+        {
+            url:"/changeCity.action?province="+reqitemids,
+            dataType:"json",
+            cache:false,
+            success:function(arr){
+                var html = "";
+                for(var i=0;i<arr.length;i++){
+                    var o = arr[i];
+                    var code = o.code;
+                    var name = o.name;
+                    html += "<option value='"+code+"'>"+name+"</option>";
+                }
+                $(city).html(html);
+            }
+        }
+    )
 }

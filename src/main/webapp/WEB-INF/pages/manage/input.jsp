@@ -198,7 +198,7 @@
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-right" for="examinaim">检验目的</label>
 			<div class="col-sm-8" id="examTag">
-				<input type="text" name="examinaim" id="examinaim" placeholder="输入检验目的的中文、拼音" class="col-sm-12"/>
+				<input type="text" name="examinaim" id="examinaim" class="col-sm-12"/>
 			</div>
 			<input type="text" id="ylxh" style="display:none;"></input>
 			<div class="col-sm-1">&nbsp;</div>

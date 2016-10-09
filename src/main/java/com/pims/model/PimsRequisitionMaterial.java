@@ -2,12 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_REQUISITION_MATERIAL", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_REQUISITION_MATERIAL")
 @IdClass(PimsRequisitionMaterialPK.class)
 public class PimsRequisitionMaterial {
     private long requisitionid;
@@ -21,11 +22,11 @@ public class PimsRequisitionMaterial {
     private String reqmfirstv;
     private String reqmsecondv;
     private Long reqmfirstn;
-    private Time reqmfirstd;
+    private Date reqmfirstd;
     private String reqmcreateuser;
-    private Time reqmcreatetime;
+    private Date reqmcreatetime;
 
-    @Id
+    @Basic
     @Column(name = "REQUISITIONID")
     public long getRequisitionid() {
         return requisitionid;
@@ -37,6 +38,8 @@ public class PimsRequisitionMaterial {
 
     @Id
     @Column(name = "MATERIALID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_MATERIALID")
+    @SequenceGenerator(name = "SEQ_MATERIALID", sequenceName = "SEQ_MATERIALID", allocationSize=1)
     public long getMaterialid() {
         return materialid;
     }
@@ -137,11 +140,11 @@ public class PimsRequisitionMaterial {
 
     @Basic
     @Column(name = "REQMFIRSTD")
-    public Time getReqmfirstd() {
+    public Date getReqmfirstd() {
         return reqmfirstd;
     }
 
-    public void setReqmfirstd(Time reqmfirstd) {
+    public void setReqmfirstd(Date reqmfirstd) {
         this.reqmfirstd = reqmfirstd;
     }
 
@@ -157,11 +160,11 @@ public class PimsRequisitionMaterial {
 
     @Basic
     @Column(name = "REQMCREATETIME")
-    public Time getReqmcreatetime() {
+    public Date getReqmcreatetime() {
         return reqmcreatetime;
     }
 
-    public void setReqmcreatetime(Time reqmcreatetime) {
+    public void setReqmcreatetime(Date reqmcreatetime) {
         this.reqmcreatetime = reqmcreatetime;
     }
 

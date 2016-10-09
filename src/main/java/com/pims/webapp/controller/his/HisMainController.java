@@ -20,7 +20,7 @@ public class HisMainController {
         //User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String today = Constants.DF3.format(new Date());
         ModelAndView view = new ModelAndView();
-        //view.addObject("receivetime", Constants.SDF.format(new Date()));
+        view.addObject("requisitionno", Constants.DF3.format(new Date())+"0001");
         view.addObject("receivetime", today);
         return view;
     }
