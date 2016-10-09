@@ -243,77 +243,77 @@
             </testResource>
         </testResources>
         <pluginManagement>
-        	<plugins>
-        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        		<plugin>
-        			<groupId>org.eclipse.m2e</groupId>
-        			<artifactId>lifecycle-mapping</artifactId>
-        			<version>1.0.0</version>
-        			<configuration>
-        				<lifecycleMappingMetadata>
-        					<pluginExecutions>
-        						<pluginExecution>
-        							<pluginExecutionFilter>
-        								<groupId>
-        									org.codehaus.mojo
-        								</groupId>
-        								<artifactId>
-        									hibernate3-maven-plugin
-        								</artifactId>
-        								<versionRange>
-        									[2.2,)
-        								</versionRange>
-        								<goals>
-        									<goal>hbm2ddl</goal>
-        								</goals>
-        							</pluginExecutionFilter>
-        							<action>
-        								<ignore></ignore>
-        							</action>
-        						</pluginExecution>
-        						<pluginExecution>
-        							<pluginExecutionFilter>
-        								<groupId>
-        									org.codehaus.mojo
-        								</groupId>
-        								<artifactId>
-        									dbunit-maven-plugin
-        								</artifactId>
-        								<versionRange>
-        									[1.0-beta-3,)
-        								</versionRange>
-        								<goals>
-        									<goal>operation</goal>
-        								</goals>
-        							</pluginExecutionFilter>
-        							<action>
-        								<ignore></ignore>
-        							</action>
-        						</pluginExecution>
-        						<pluginExecution>
-        							<pluginExecutionFilter>
-        								<groupId>
-        									org.codehaus.mojo
-        								</groupId>
-        								<artifactId>
-        									native2ascii-maven-plugin
-        								</artifactId>
-        								<versionRange>
-        									[1.0-alpha-1,)
-        								</versionRange>
-        								<goals>
-        									<goal>native2ascii</goal>
-        								</goals>
-        							</pluginExecutionFilter>
-        							<action>
-        								<ignore></ignore>
-        							</action>
-        						</pluginExecution>
-        					</pluginExecutions>
-        				</lifecycleMappingMetadata>
-        			</configuration>
-        		</plugin>
-        	</plugins>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            hibernate3-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [2.2,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>hbm2ddl</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            dbunit-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.0-beta-3,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>operation</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            native2ascii-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.0-alpha-1,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>native2ascii</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
         </pluginManagement>
     </build>
 
@@ -775,40 +775,40 @@
             </exclusions>
         </dependency>
         <dependency>
-		    <groupId>org.codehaus.jettison</groupId>
-		    <artifactId>jettison</artifactId>
-		    <version>1.3.3</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.codehaus.jettison</groupId>
-		    <artifactId>jettison</artifactId>
-		    <version>1.3.3</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.barcode4j</groupId>
-			<artifactId>barcode4j</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>avalon-framework</groupId>
-			<artifactId>avalon-framework-api</artifactId>
-			<version>4.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-compiler</artifactId>
-			<version>6.2.0.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-core</artifactId>
-			<version>6.2.0.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>net.coobird</groupId>
-			<artifactId>thumbnailator</artifactId>
-			<version>0.4.8</version>
-		</dependency>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework-api</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>6.2.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>6.2.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -844,27 +844,27 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.16</version>
         </dependency>
-		<dependency>
-			<groupId>com.zju.api</groupId>
-			<artifactId>zju-api</artifactId>
-			<version>1.0.1</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>com.zju.jxl</groupId>
-			<artifactId>zju-jxl</artifactId>
-			<version>1.0.1</version>
-			<type>jar</type>
-		</dependency>
+        <dependency>
+            <groupId>com.zju.api</groupId>
+            <artifactId>zju-api</artifactId>
+            <version>1.0.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.zju.jxl</groupId>
+            <artifactId>zju-jxl</artifactId>
+            <version>1.0.1</version>
+            <type>jar</type>
+        </dependency>
         <!--<dependency>-->
-            <!--<groupId>com.itextpdf</groupId>-->
-            <!--<artifactId>itextpdf</artifactId>-->
-            <!--<version>5.0.6</version>-->
+        <!--<groupId>com.itextpdf</groupId>-->
+        <!--<artifactId>itextpdf</artifactId>-->
+        <!--<version>5.0.6</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>com.itextpdf</groupId>-->
-            <!--<artifactId>itext-asian</artifactId>-->
-            <!--<version>5.2.0</version>-->
+        <!--<groupId>com.itextpdf</groupId>-->
+        <!--<artifactId>itext-asian</artifactId>-->
+        <!--<version>5.2.0</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>com.lowagie</groupId>
@@ -878,25 +878,19 @@
         </dependency>
 
         <dependency>
-            <groupId>org.pdf4ml</groupId>
+            <groupId>com.zju</groupId>
             <artifactId>fonts</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fonts.jar</systemPath>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
-        <groupId>org.pdf4ml</groupId>
-        <artifactId>pd4ml</artifactId>
-        <version>1.0.0</version>
-        <scope>system</scope>
-        <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/pd4ml_demo.jar</systemPath>
-    </dependency>
+            <groupId>com.zju</groupId>
+            <artifactId>ss_css2</artifactId>
+            <version>1.1.0</version>
+        </dependency>
         <dependency>
-            <groupId>org.pdf4ml</groupId>
+            <groupId>com.zju</groupId>
             <artifactId>pd4ml</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ss_css2.jar</systemPath>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
@@ -905,14 +899,14 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.w3c.css/sac -->
         <!--<dependency>-->
-            <!--<groupId>org.w3c.css</groupId>-->
-            <!--<artifactId>sac</artifactId>-->
-            <!--<version>1.3</version>-->
+        <!--<groupId>org.w3c.css</groupId>-->
+        <!--<artifactId>sac</artifactId>-->
+        <!--<version>1.3</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>net.sourceforge.cssparser</groupId>-->
-            <!--<artifactId>cssparser</artifactId>-->
-            <!--<version>0.9.20</version>-->
+        <!--<groupId>net.sourceforge.cssparser</groupId>-->
+        <!--<artifactId>cssparser</artifactId>-->
+        <!--<version>0.9.20</version>-->
         <!--</dependency>-->
     </dependencies>
 
@@ -1244,12 +1238,12 @@
         <jdbc.groupId>com.oracle</jdbc.groupId>
         <jdbc.artifactId>ojdbc14</jdbc.artifactId>
         <jdbc.version>10.2.0.4.0</jdbc.version>
-        <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName> 
+        <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
         <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</jdbc.url>
-        <jdbc.username>pims</jdbc.username>
-        <jdbc.password>pims</jdbc.password>
+        <jdbc.username>system</jdbc.username>
+        <jdbc.password>Orcl123456789</jdbc.password>
         <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
-        
+
         <!-- <dbunit.dataTypeFactoryName>org.dbunit.ext.mysql.MySqlDataTypeFactory</dbunit.dataTypeFactoryName>
         <dbunit.operation.type>CLEAN_INSERT</dbunit.operation.type>
         <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
