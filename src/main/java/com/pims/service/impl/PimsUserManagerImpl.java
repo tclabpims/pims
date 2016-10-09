@@ -4,6 +4,7 @@ import com.pims.dao.PimsUserDao;
 import com.pims.service.PimsUserManager;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.model.user.User;
+import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

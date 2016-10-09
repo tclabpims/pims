@@ -1,6 +1,7 @@
 package com.pims.dao.hibernate;
 
 import com.pims.dao.PimsUserDao;
+import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
 import org.springframework.stereotype.Repository;
 

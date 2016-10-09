@@ -2,9 +2,9 @@ package com.pims.service.impl.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsSysReqMaterialDao;
 import com.pims.model.PimsSysReqMaterial;
-import com.pims.service.impl.GenericManagerImpl;
 import com.pims.service.pimssyspathology.PimsSysReqMaterialManager;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,14 +44,14 @@ public class PimsSysReqMaterialManagerImpl extends GenericManagerImpl<PimsSysReq
             for (Object[] obj : result) {
                 PimsSysReqMaterial psrm = new PimsSysReqMaterial();
                 psrm.setMaterialid(((BigDecimal) obj[0]).longValue());
-                psrm.setMatname(String.valueOf(obj[1]));
+                psrm.setMatname(String.valueOf(obj[1]==null?"":obj[1]));
                 psrm.setMattype(((BigDecimal) obj[2]).longValue());
                 psrm.setMatsort(String.valueOf(obj[3]));
                 psrm.setMatuseflag(((BigDecimal) obj[4]).longValue());
-                psrm.setMatpinyincode(String.valueOf(obj[5]));
-                psrm.setMatfivestrokecode(String.valueOf(obj[6]));
-                psrm.setMatspecial(String.valueOf(obj[7]));
-                psrm.setMattypename(String.valueOf(obj[8]));
+                psrm.setMatpinyincode(String.valueOf(obj[5]==null?"":obj[5]));
+                psrm.setMatfivestrokecode(String.valueOf(obj[6]==null?"":obj[6]));
+                psrm.setMatspecial(String.valueOf(obj[7]==null?"":obj[7]));
+                psrm.setMattypename(String.valueOf(obj[8]==null?"":obj[8]));
                 pimsSysReqMaterialList.add(psrm);
             }
         }

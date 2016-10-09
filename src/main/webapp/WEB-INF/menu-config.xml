@@ -95,6 +95,7 @@
             <Item name="DiseaseCategoriesMaintenance" title="menu.DiseaseCategoriesMaintenance" page="/pspathology/dcm" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="ReqField" title="menu.ReqField" page="/reqfield/reqfield" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="ReqMaterial" title="menu.ReqMaterial" page="/reqmaterial/reqmaterial" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="ReqTestItem" title="menu.ReqTestItem" page="/estitem/testitem" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="MaintenanceFees" title="menu.MaintenanceFees" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="AdviceCategoriesMaintenance" title="menu.AdviceCategoriesMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>

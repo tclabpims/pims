@@ -114,4 +114,6 @@ public interface GenericDao <T, PK extends Serializable> {
      * @return
      */
     Integer countTotal(String s);
+
+    List<Object[]> sqlPagingQuery(String s, int start, int end);
 }

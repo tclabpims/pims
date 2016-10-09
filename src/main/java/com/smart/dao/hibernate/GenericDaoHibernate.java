@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.smart.dao.GenericDao;
 import com.smart.dao.SearchException;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.ObjectRetrievalFailureException;
@@ -22,9 +22,6 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.util.Version;
-import org.hibernate.IdentifierLoadAccess;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 
@@ -245,5 +242,13 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         Object total = query.uniqueResult();
         if(total == null) return 0;
         return ((BigDecimal)total).intValue();
+    }
+
+    @Override
+    public List<Object[]> sqlPagingQuery(String s, int start, int end) {
+        SQLQuery query = getSession().createSQLQuery(s);
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        return query.list();
     }
 }

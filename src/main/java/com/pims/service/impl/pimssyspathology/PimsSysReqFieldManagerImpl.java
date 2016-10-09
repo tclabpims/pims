@@ -2,9 +2,9 @@ package com.pims.service.impl.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsSysReqFieldDao;
 import com.pims.model.PimsSysReqField;
-import com.pims.service.impl.GenericManagerImpl;
 import com.pims.service.pimssyspathology.PimsSysReqFieldManager;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * Description:
  */
 @Service("psrm")
-public class PimsSysReqFieldManagerImpl extends GenericManagerImpl<PimsSysReqField, Long>  implements PimsSysReqFieldManager {
+public class PimsSysReqFieldManagerImpl extends GenericManagerImpl<PimsSysReqField, Long> implements PimsSysReqFieldManager {
 
     private PimsSysReqFieldDao pimsSysReqFieldDao;
 

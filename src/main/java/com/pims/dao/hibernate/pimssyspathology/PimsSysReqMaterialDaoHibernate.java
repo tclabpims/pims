@@ -1,8 +1,8 @@
 package com.pims.dao.hibernate.pimssyspathology;
 
-import com.pims.dao.hibernate.GenericDaoHibernate;
 import com.pims.dao.pimssyspathology.PimsSysReqMaterialDao;
 import com.pims.model.PimsSysReqMaterial;
+import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.springframework.stereotype.Repository;
 
 /**

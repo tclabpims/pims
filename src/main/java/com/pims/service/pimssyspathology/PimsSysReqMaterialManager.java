@@ -1,8 +1,8 @@
 package com.pims.service.pimssyspathology;
 
 import com.pims.model.PimsSysReqMaterial;
-import com.pims.service.GenericManager;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.service.GenericManager;
 
 import java.util.List;
 

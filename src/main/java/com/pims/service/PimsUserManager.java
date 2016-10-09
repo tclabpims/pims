@@ -2,6 +2,7 @@ package com.pims.service;
 
 import com.pims.webapp.controller.GridQuery;
 import com.smart.model.user.User;
+import com.smart.service.GenericManager;
 
 import java.util.List;
 

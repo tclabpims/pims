@@ -1,14 +1,17 @@
 package com.pims.model;
 
+import com.smart.model.BaseObject;
+
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
 @Table(name = "PIMS_SYS_REQ_TESTITEM")
-public class PimsSysReqTestitem {
+public class PimsSysReqTestitem extends BaseObject {
     private long testitemid;
     private String teschinesename;
     private String tesenglishname;
@@ -17,6 +20,7 @@ public class PimsSysReqTestitem {
     private String tesfivestroke;
     private long tesitemtype;
     private Long tespathologyid;
+    private String tespathologyname;
     private Long tesitemhandle;
     private long tesischarge;
     private long tesuseflag;
@@ -25,7 +29,16 @@ public class PimsSysReqTestitem {
     private Long tesfirstn;
     private String tesreamrk;
     private String tescreateuser;
-    private Time tescreatetime;
+    private Date tescreatetime;
+
+    @Transient
+    public String getTespathologyname() {
+        return tespathologyname;
+    }
+
+    public void setTespathologyname(String tespathologyname) {
+        this.tespathologyname = tespathologyname;
+    }
 
     @Id
     @Column(name = "TESTITEMID")
@@ -191,12 +204,22 @@ public class PimsSysReqTestitem {
 
     @Basic
     @Column(name = "TESCREATETIME")
-    public Time getTescreatetime() {
+    public Date getTescreatetime() {
         return tescreatetime;
     }
 
-    public void setTescreatetime(Time tescreatetime) {
+    public void setTescreatetime(Date tescreatetime) {
         this.tescreatetime = tescreatetime;
+    }
+
+    /**
+     * Returns a multi-line String with key=value pairs.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return null;
     }
 
     @Override

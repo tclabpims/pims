@@ -1,6 +1,7 @@
 package com.pims.service.pimssysreqtestitem;
 
 import com.pims.model.PimsSysReqTestitem;
+import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
 
 import java.util.List;
@@ -15,4 +16,8 @@ public interface PimsSysReqTestitemManager extends GenericManager<PimsSysReqTest
      * @return
      */
     List<PimsSysReqTestitem> getTestitemInfo();
+
+    List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery);
+
+    Integer countReqTestitem(String query);
 }
