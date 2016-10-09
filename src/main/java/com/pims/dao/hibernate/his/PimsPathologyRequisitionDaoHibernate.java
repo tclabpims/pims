@@ -145,4 +145,22 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         System.out.println(buffer.toString());
         return countTotal(buffer.toString()).intValue();
     }
+
+    /**
+     * 根据病种类别查询最大单据号
+     * @param reqpathologyid
+     * @return
+     */
+    @Override
+    public String getMaxCode(int reqpathologyid) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select max(requisitionno) from pims_pathology_requisition where reqisdeleted = 0 ");
+        if(reqpathologyid != 999){
+            sb.append(" and reqpathologyid = " + reqpathologyid);
+        }
+        Query query = getSession().createSQLQuery(sb.toString());
+        Object o = query.uniqueResult();
+        if(o == null) return null;
+        return o.toString();
+    }
 }

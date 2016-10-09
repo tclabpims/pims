@@ -28,7 +28,7 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
      * @return
      */
     @Override
-    public List<PimsSysReqTestitem> getTestitemInfo() {
-        return pimsSysReqTestitemDao.getTestitemInfo();
+    public List<PimsSysReqTestitem> getTestitemInfo(String name) {
+        return pimsSysReqTestitemDao.getTestitemInfo(name);
     }
 }

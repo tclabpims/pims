@@ -46,6 +46,11 @@ public interface PimsPathologyRequisitionDao extends GenericDao<PimsPathologyReq
      */
     int getReqListNum(PimsBaseModel pims);
 
-
+    /**
+     * 根据病种类别查询最大单据号
+     * @param reqpathologyid
+     * @return
+     */
+    String getMaxCode(int reqpathologyid);
 }
 

@@ -14,5 +14,5 @@ public interface PimsSysReqTestitemManager extends GenericManager<PimsSysReqTest
      * @param
      * @return
      */
-    List<PimsSysReqTestitem> getTestitemInfo();
+    List<PimsSysReqTestitem> getTestitemInfo(String name);
 }

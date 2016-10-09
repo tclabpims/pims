@@ -213,6 +213,8 @@ function saveInfo() {
         var rowdatas = $('#new1').jqGrid('getRowData');
 		var msg = "";
 		var post = true;
+		// alert(rowdatas);
+		// return false;
 		if(post) {
 			$.post("../pimspathology/editSample", {
 			    reqthirdv:JSON.stringify(rowdatas),
@@ -226,11 +228,11 @@ function saveInfo() {
                 reqinspectionid:$("#reqinspectionid").val(),
                 reqdatechar:$("#reqdatechar").val(),
                 reqdeptcode:$("#reqdeptcode").val(),
-                reqdeptname:$("#reqdeptname").val(),
+                reqdeptname:$("#reqdeptcode").find("option:selected").text(),
                 reqwardcode:$("#reqwardcode").val(),
-                reqwardname:$("#reqwardname").val(),
+                reqwardname:$("#reqwardcode").find("option:selected").text(),
                 reqdoctorid:$("#reqdoctorid").val(),
-                reqdoctorname:$("#reqdoctorname").val(),
+                reqdoctorname:$("#reqdoctorid").find("option:selected").text(),
                 reqplanexectime:$("#reqplanexectime").val(),
                 reqdigcode:$("#reqdigcode").val(),
                 reqchargestatus:$("#reqchargestatus").val(),
@@ -276,7 +278,7 @@ function saveInfo() {
 			function(data) {
 				var data = JSON.parse(data);
 				if(data.success) {
-					layer.closeAll();
+					//layer.closeAll();
 					var rowData = {
 						requisitionid:data.requisitionid,
 						requisitionno:data.requisitionno,
@@ -396,7 +398,7 @@ function deleteSample() {
 }
 
 function clearData() {
-	$('#sampleForm')[0].reset();
+    $('#sampleForm')[0].reset();
     jQuery("#new1").jqGrid("clearGridData");
 }
 
@@ -408,10 +410,12 @@ $(function() {
 		callback:function(){
 		}
 	});
-	$("#reqitemids").autocomplete({
+
+
+	$("#reqitemnames").autocomplete({
         source: function( request, response ) {
             $.ajax({
-            	url: "../ajax/searchSection",
+            	url: "../estitem/ajax/item",
                 dataType: "json",
                 data: {
                     name : request.term
@@ -427,14 +431,52 @@ $(function() {
                 }
             });
         },
-        minLength: 1,
+        minLength: 0,
         select: function( event, ui ) {
-        	$( "#sectionCode" ).val(ui.item.id);
-        	$( "#section" ).val(ui.item.value);
-            return false;
+        	$( "#reqitemids" ).val(ui.item.id);
+        	$( "#reqitemnames" ).val(ui.item.name);
+            //return false;
 		}
-	});
-	
+	})
+	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		 return $( "<li>" )
+			 .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			 .appendTo( ul );
+	 };
+
+	// $("#reqitemnames").autocomplete("../estitem/ajax/item", {
+	// 	minChars: 0,
+	// 	max: 100,
+	// 	mustMatch: true,
+	// 	dataType: 'json',
+	// 	scrollHeight: 220,
+	// 	width: 300,
+	// 	parse: function(data){
+	// 		return $.map(data, function(row) {
+	// 			return {
+	// 				data: row,
+	// 				value: row.id,
+	// 				result: row.name
+	// 			}
+	// 		});
+	// 	},
+	// 	formatItem: function(data, i, max) {
+	// 		return data.name ;
+	// 	},
+	// 	formatMatch: function(data, i, max) {
+	// 		return data.name ;
+	// 	},
+	// 	extraParams : { 'name' : function(){return $("#reqitemnames").val()}, 'columnsName' : 'id,name'}
+	// }).result(function(event,data) {
+	// 	if(data != undefined){
+	// 		$("#reqitemids").val(data.id) ;
+	// 		$("#reqitemnames").val(data.name) ;
+	// 	}else{
+	// 		$("#reqitemids").val("") ;
+	// 		$("#reqitemnames").val("") ;
+	// 	}
+	// });
+	/**
 	$("#requester").autocomplete({
         source: function( request, response ) {
             $.ajax({
@@ -456,6 +498,10 @@ $(function() {
         },
         minLength: 1
 	});
+	 **/
+
+
+
 	var clientHeight= $(window).innerHeight();
 	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
 	var req_code = $('#req_code').val();
