@@ -11,13 +11,13 @@
        		});
        		$("#searchButton").click(function() {
        			var search = $("#searchText").val();
-       			location.href="../index/list?text="+search;
+       			location.href="../index/list?name="+search;
        		});
        		
        		$("#searchText").bind('keyup', function(event){
        		    if (event.keyCode=="13") {
        		    	var search = $("#searchText").val();
-           			location.href="../index/list?text="+search;
+           			location.href="../index/list?name="+search;
        		    }
        		 });
        		

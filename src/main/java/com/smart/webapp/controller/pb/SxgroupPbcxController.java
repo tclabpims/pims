@@ -130,7 +130,7 @@ public class SxgroupPbcxController extends PbBaseController{
 			
 			String html = "";
 			for(Shift shift : pbShifts){
-				html += "<div class='col-sm-12'><div class='col-sm-1' style='text-align: right;'>";
+				html += "<div class='col-sm-12'><div class='col-sm-1' style='name-align: right;'>";
 				html += "<span>"+shift.getName()+"</span></div>";
 				
 				List<WInfo> sxnames = sxks.get(shift.getAb());
@@ -157,7 +157,7 @@ public class SxgroupPbcxController extends PbBaseController{
 					}
 					i++;
 				}
-				html += "<div class='col-sm-11'><table class=' table-hover' style='font-size:8px;text-align:center;margin-bottom:5px;' border='1px;'>";
+				html += "<div class='col-sm-11'><table class=' table-hover' style='font-size:8px;name-align:center;margin-bottom:5px;' border='1px;'>";
 //				html += "<thread>"+ th + "</thread>";
 //				html += "<tr>"+ td + "</tr>";
 				html += tr;

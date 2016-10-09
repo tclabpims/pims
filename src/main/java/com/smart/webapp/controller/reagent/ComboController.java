@@ -78,7 +78,7 @@ public class ComboController extends ReagentBaseController {
 			index++;
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -142,7 +142,7 @@ public class ComboController extends ReagentBaseController {
 			index++;
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 }

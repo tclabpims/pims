@@ -291,7 +291,7 @@ public class ExecuteController {
             array.add(object);
         }
         o.put("labOrders", array);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}
@@ -317,7 +317,7 @@ public class ExecuteController {
 		SectionUtil sectionUtil = SectionUtil.getInstance(rmiService, sectionManager);
 		for(LabOrder l : list){
 			html.append("<div style='background:#999;width:450px;height:350px;padding:10px 10px;margin:15px 10px;float:left;'>");
-			html.append("<div id='top' style='text-align:center;'>"+
+			html.append("<div id='top' style='name-align:center;'>"+
 							"<p><span >浙一医院 门诊 检验回执单</span></p>"+
 							"<p><span >检验部门:<b name='section'>"+sectionUtil.getLabValue(l.getLabdepartment().toString())+"</b></span></p>"+
 						"</div>");
@@ -374,9 +374,9 @@ public class ExecuteController {
 			html.append("</div>");//sample
 			html.append("<div id='hints'>"
 							+"<div class='col-sm-12' >"
-								+"<p style='font-size:10px; text-align:center;margin-bottom:2px;'  id='hint1' >*法定节假日(如春节等)仪器故障报告时间顺延*</p>"
-								+"<p style='font-size:10px; text-align:center;margin-bottom:2px;'  id='hint2' >*抽血时请带就诊卡，凭此单或就诊卡去检验报告*</p>"
-								+"<p style='font-size:10px; text-align:center;margin-bottom:2px;'  id='hint3' >再挂号窗口留下核对密码，或者ucmed.cn//zszy.html下载掌上浙一软件或关注微信账号查询检查报告</p>"
+								+"<p style='font-size:10px; name-align:center;margin-bottom:2px;'  id='hint1' >*法定节假日(如春节等)仪器故障报告时间顺延*</p>"
+								+"<p style='font-size:10px; name-align:center;margin-bottom:2px;'  id='hint2' >*抽血时请带就诊卡，凭此单或就诊卡去检验报告*</p>"
+								+"<p style='font-size:10px; name-align:center;margin-bottom:2px;'  id='hint3' >再挂号窗口留下核对密码，或者ucmed.cn//zszy.html下载掌上浙一软件或关注微信账号查询检查报告</p>"
 							+"</div>"
 						+"</div>");
 			html.append("</div>");//回执单结束
@@ -402,7 +402,7 @@ public class ExecuteController {
 						+"</div>"
 						+"<div class='col-sm-12' style='width:99%;float:left;'>"
 							+"<span class='col-sm-4 sfont'  name='sampleid'>"+l.getLaborder()+"</span>"
-							+"<span class='col-sm-8 sfont' name='sampleno' style='text-align:right;'>"+(l.getSampleno().equals("0")?"":l.getSampleno())+"</span>"
+							+"<span class='col-sm-8 sfont' name='sampleno' style='name-align:right;'>"+(l.getSampleno().equals("0")?"":l.getSampleno())+"</span>"
 						+"</div>");
 			html.append("</div></div>");
 			
@@ -455,7 +455,7 @@ public class ExecuteController {
 		JSONObject object = new JSONObject();
 		object.put("data", "false");
 		if(laborders == null || jzkh == null ){
-			response.setContentType("text/html; charset=UTF-8");
+			response.setContentType("name/html; charset=UTF-8");
 			response.getWriter().write(object.toString());
 			return null;
 		}
@@ -479,7 +479,7 @@ public class ExecuteController {
 		}
 		object.put("data", "true");
 		
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(object.toString());
 		return null;
 		

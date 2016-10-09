@@ -65,7 +65,7 @@ public class ItemAjaxController {
 			}
 		}
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}
@@ -99,7 +99,7 @@ public class ItemAjaxController {
 		obj.put("value", index.getName()+":"+value+" ("+index.getSampleFrom()+unit+")");
 		obj.put("id", "I" + newItem.getId().toString());
 
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 		return null;
 	}

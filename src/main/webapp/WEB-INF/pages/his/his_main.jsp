@@ -16,7 +16,7 @@
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/his/his_main.js"></script>
-	<!--<script src="../scripts/his/jquery.autocomplete.js" type="text/javascript"></script>-->
+	<!--<script src="../scripts/his/jquery.autocomplete.js" type="name/javascript"></script>-->
 </head>
 <style>
 	select {

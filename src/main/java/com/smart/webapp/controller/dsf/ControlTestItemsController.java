@@ -80,7 +80,7 @@ public class ControlTestItemsController {
                 o.put("id", testItems.getId());
                 o.put("name", testItems.getName());
             }
-            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("name/html;charset=UTF-8");
             response.getWriter().print(o.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,7 +154,7 @@ public class ControlTestItemsController {
             dataRows.add(map);
         }
         dataResponse.setRows(dataRows);
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("name/html;charset=UTF-8");
         return dataResponse;
     }
 

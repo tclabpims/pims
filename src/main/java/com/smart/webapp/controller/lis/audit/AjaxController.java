@@ -217,7 +217,7 @@ public class AjaxController extends BaseAuditController {
 		}
 		JSONObject obj = new JSONObject();
 		obj.put("html", html);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 		return null;
 	}
@@ -283,7 +283,7 @@ public class AjaxController extends BaseAuditController {
 		JSONObject obj = new JSONObject();
 		String imgurl = "../images/bmp/"+username+".bmp";
 		obj.put("imgurl", imgurl);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 	}
 	
@@ -410,7 +410,7 @@ public class AjaxController extends BaseAuditController {
 		}else
 			obj.put("exit", "false");
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 	}
 	
@@ -426,7 +426,7 @@ public class AjaxController extends BaseAuditController {
 			obj.put("list", nwc.getList());
 			array.put(obj);
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 	}
 	/**

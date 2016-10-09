@@ -51,7 +51,7 @@ public class TestResultAjaxController extends BaseAuditController{
 //			obj.put("test", profile.getTest());
 //			array.put(obj);
 //		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 	}
 	
@@ -84,7 +84,7 @@ public class TestResultAjaxController extends BaseAuditController{
 			obj.put("name", name);
 			array.put(obj);
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 	}
 	
@@ -264,7 +264,7 @@ public class TestResultAjaxController extends BaseAuditController{
 		}else{
 			return error;
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}

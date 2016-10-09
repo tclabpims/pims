@@ -10,7 +10,7 @@ import java.util.List;
  * for your domain objects.
  *
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
- *  Updated by jgarcia: added full text search + reindexing
+ *  Updated by jgarcia: added full name search + reindexing
  * @param <T> a type variable
  * @param <PK> the primary key for that type
  */
@@ -68,12 +68,12 @@ public interface GenericManager<T, PK extends Serializable> {
      */
     List<T> search(String searchTerm, Class clazz);
     /**
-     * Generic method to regenerate full text index of the persistent class T
+     * Generic method to regenerate full name index of the persistent class T
      */
     void reindex();
 
     /**
-     * Generic method to regenerate full text index of all indexed classes
+     * Generic method to regenerate full name index of all indexed classes
      *
      * @param async
      *            true to perform the reindexing asynchronously

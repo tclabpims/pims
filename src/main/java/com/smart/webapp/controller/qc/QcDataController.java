@@ -54,7 +54,7 @@ public class QcDataController {
 		List<QcBatch> list = qcBatchManager.getByDevice(deviceid);
 		JSONObject o = new JSONObject();
 		
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}

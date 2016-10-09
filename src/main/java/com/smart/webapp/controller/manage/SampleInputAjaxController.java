@@ -137,7 +137,7 @@ public class SampleInputAjaxController {
 		o.put("executetime", sp.getEXECUTETIME() == null ? Constants.SDF.format(new Date()) : Constants.SDF.format(sp.getEXECUTETIME()));
 		o.put("receivetime", Constants.SDF.format(new Date()));
 		o.put("ylxh", sp.getYLXH());*/
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}
@@ -184,7 +184,7 @@ public class SampleInputAjaxController {
 			dataRows.add(map);
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -202,7 +202,7 @@ public class SampleInputAjaxController {
 			o.put("age", patient.getAge());
 			o.put("sex", patient.getSex());
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}
@@ -366,7 +366,7 @@ public class SampleInputAjaxController {
 		o.put("part", sample.getPart() == null ? "" : sample.getPart());
 		o.put("requestmode", sample.getRequestMode());
 		o.put("requester", process.getRequester());
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}
@@ -446,7 +446,7 @@ public class SampleInputAjaxController {
 			o.put("requestmode", sample.getRequestMode());
 			o.put("requester", process.getRequester());
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}

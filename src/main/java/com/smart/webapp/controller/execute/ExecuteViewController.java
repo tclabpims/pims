@@ -165,7 +165,7 @@ public class ExecuteViewController {
                     break;
             }
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(jsonArray.toString());
 		return null;
 	}

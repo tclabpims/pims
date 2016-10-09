@@ -58,7 +58,7 @@ public class ReagentAjaxController extends ReagentBaseController {
 				array.put(o);
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(array.toString());
 		return null;
 	}
@@ -100,7 +100,7 @@ public class ReagentAjaxController extends ReagentBaseController {
 				}
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(array.toString());
 		return null;
 	}
@@ -146,14 +146,14 @@ public class ReagentAjaxController extends ReagentBaseController {
 				SyncReagent sr = srMap.get(r.getProductcode());
 				map.put("id", r.getId());
 				map.put("name", r.getNameAndSpecification());
-				map.put("batch", "<input type='text' id='" + r.getId() + "_batch' style='height:18px;width:98%' value='" + sr.getProduct_lot() + "'>" + "</input>");
+				map.put("batch", "<input type='name' id='" + r.getId() + "_batch' style='height:18px;width:98%' value='" + sr.getProduct_lot() + "'>" + "</input>");
 				map.put("place", r.getPlaceoforigin());
 				map.put("brand", r.getBrand());
 				map.put("baozhuang", r.getBaozhuang());
 				map.put("price", r.getPrice());
-				map.put("num", "<input type='text' id='" + r.getId() + "_num' style='height:18px;width:98%' value='" + sr.getQuantity() + "'>" + "</input>");
+				map.put("num", "<input type='name' id='" + r.getId() + "_num' style='height:18px;width:98%' value='" + sr.getQuantity() + "'>" + "</input>");
 				map.put("isqualified", "是");
-				map.put("exedate", "<input type='text' id='" + r.getId() + "_exedate' style='height:18px;width:98%' value='" + sr.getExpired_date() + "'>" + "</input>");
+				map.put("exedate", "<input type='name' id='" + r.getId() + "_exedate' style='height:18px;width:98%' value='" + sr.getExpired_date() + "'>" + "</input>");
 				dataRows.add(map);
 			}
 		} else if(type == 2) {
@@ -161,14 +161,14 @@ public class ReagentAjaxController extends ReagentBaseController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("id", r.getId());
 			map.put("name", r.getNameAndSpecification());
-			map.put("batch", "<input type='text' id='" + r.getId() + "_batch' style='height:18px;width:98%'>" + "</input>");
+			map.put("batch", "<input type='name' id='" + r.getId() + "_batch' style='height:18px;width:98%'>" + "</input>");
 			map.put("place", r.getPlaceoforigin());
 			map.put("brand", r.getBrand());
 			map.put("baozhuang", r.getBaozhuang());
 			map.put("price", r.getPrice());
-			map.put("num", "<input type='text' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
+			map.put("num", "<input type='name' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
 			map.put("isqualified", "是");
-			map.put("exedate", "<input type='text' id='" + r.getId() + "_exedate' style='height:18px;width:98%'>" + "</input>");
+			map.put("exedate", "<input type='name' id='" + r.getId() + "_exedate' style='height:18px;width:98%'>" + "</input>");
 			dataRows.add(map);
 			dataResponse.setRecords(1);
 		} else {
@@ -178,20 +178,20 @@ public class ReagentAjaxController extends ReagentBaseController {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", r.getId());
 				map.put("name", r.getNameAndSpecification());
-				map.put("batch", "<input type='text' id='" + r.getId() + "_batch' style='height:18px;width:98%'>" + "</input>");
+				map.put("batch", "<input type='name' id='" + r.getId() + "_batch' style='height:18px;width:98%'>" + "</input>");
 				map.put("place", r.getPlaceoforigin());
 				map.put("brand", r.getBrand());
 				map.put("baozhuang", r.getBaozhuang());
 				map.put("price", r.getPrice());
-				map.put("num", "<input type='text' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
+				map.put("num", "<input type='name' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
 				map.put("isqualified", "是");
-				map.put("exedate", "<input type='text' id='" + r.getId() + "_exedate' style='height:18px;width:98%'>" + "</input>");
+				map.put("exedate", "<input type='name' id='" + r.getId() + "_exedate' style='height:18px;width:98%'>" + "</input>");
 				dataRows.add(map);
 			}
 			dataResponse.setRecords(dataRows.size());
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -225,7 +225,7 @@ public class ReagentAjaxController extends ReagentBaseController {
 			map.put("brand", r.getBrand());
 			map.put("baozhuang", r.getBaozhuang());
 			map.put("price", r.getPrice());
-			map.put("num", "<input type='text' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
+			map.put("num", "<input type='name' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
 			dataRows.add(map);
 			dataResponse.setRecords(1);
 		} else {
@@ -251,13 +251,13 @@ public class ReagentAjaxController extends ReagentBaseController {
 				map.put("brand", r.getBrand());
 				map.put("baozhuang", r.getBaozhuang());
 				map.put("price", r.getPrice());
-				map.put("num", "<input type='text' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
+				map.put("num", "<input type='name' id='" + r.getId() + "_num' style='height:18px;width:98%' value='1'>" + "</input>");
 				dataRows.add(map);
 			}
 			dataResponse.setRecords(dataRows.size());
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 
@@ -305,7 +305,7 @@ public class ReagentAjaxController extends ReagentBaseController {
 		}
 		work.close();
 		in.close();
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(jsonArray.toString());
 		return null;
 	}

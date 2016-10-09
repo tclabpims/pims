@@ -55,7 +55,7 @@ public class ResultAjaxController {
 			}
 		}
 	
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}

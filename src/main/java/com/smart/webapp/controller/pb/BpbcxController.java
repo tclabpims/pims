@@ -151,7 +151,7 @@ public class BpbcxController extends PbBaseController{
             	Date date = c.getTime();
             	String sday = startdaytemp<10?"0"+startdaytemp:startdaytemp+"";
                 
-                	shifts[j*2-1][0] = "<th colspan='2' style='background:#7FFFD4;text-align: center;' id='day" + sday + "-1'>" + sdf3.format(date) +"("+ sdf2.format(date) + ")</th>";
+                	shifts[j*2-1][0] = "<th colspan='2' style='background:#7FFFD4;name-align: center;' id='day" + sday + "-1'>" + sdf3.format(date) +"("+ sdf2.format(date) + ")</th>";
                 	shifts[j*2][0] = "";
                 	
                 	shifts[j*2-1][1] = "<th style='background:#7FFFD4' id='day" + sday + "-1'>上午</th>";
@@ -166,7 +166,7 @@ public class BpbcxController extends PbBaseController{
         c.add(GregorianCalendar.DATE, -5);
         
 		
-        shifts[0][0] = "<th rowspan='2' style='background:#7FFFD4;text-align: center;' id='nmshow'>" + (month<10 ? "0" + month : month)+"月-"+weeknum+ "周</th>";
+        shifts[0][0] = "<th rowspan='2' style='background:#7FFFD4;name-align: center;' id='nmshow'>" + (month<10 ? "0" + month : month)+"月-"+weeknum+ "周</th>";
         shifts[0][1] = "";
         for(int m=2;m<i;m++) {
         	shifts[0][m] = "<th id='nmshow' name='nm"+map.get(m).getName()+"' style='background:#7FFFD4'>" + map.get(m).getName() + "</th>";

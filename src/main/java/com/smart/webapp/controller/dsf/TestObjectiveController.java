@@ -139,7 +139,7 @@ public class TestObjectiveController {
             dataRows.add(map);
         }
         dataResponse.setRows(dataRows);
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("name/html;charset=UTF-8");
         return dataResponse;
     }
 
@@ -210,7 +210,7 @@ public class TestObjectiveController {
                 }
                 obj.put("profiletest3", jsonArray);
             }
-            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("name/html;charset=UTF-8");
             response.getWriter().print(obj.toString());
         } catch (Exception e) {
             e.printStackTrace();

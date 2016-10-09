@@ -197,13 +197,13 @@ public class BpbController extends PbBaseController {
             	String sday = startdaytemp<10?"0"+startdaytemp:startdaytemp+"";
                 
 //                if (sdf2.format(date).contains("六") || sdf2.format(date).contains("日")) {
-//                	shifts[j*2-1][0] = "<th colspan='2' style='background:#7CFC00;text-align: center;' id='day" + sday + "-1'>" + sdf3.format(date) +"("+ sdf2.format(date) + ")</th>";
+//                	shifts[j*2-1][0] = "<th colspan='2' style='background:#7CFC00;name-align: center;' id='day" + sday + "-1'>" + sdf3.format(date) +"("+ sdf2.format(date) + ")</th>";
 //                	shifts[j*2][0] = "";
 //                	
 //                	shifts[j*2-1][1] = "<th style='background:#7CFC00' id='day" + sday + "-1'>上午</th>";
 //                	shifts[j*2][1] = "<th style='background:#7CFC00' id='day" + sday + "-2'>下午</th>";
 //                } else {
-                	shifts[j*2-1][0] = "<th colspan='2' style='background:#7FFFD4;text-align: center;' id='day" + sday + "-1'>" + sdf3.format(date) +"("+ sdf2.format(date) + ")</th>";
+                	shifts[j*2-1][0] = "<th colspan='2' style='background:#7FFFD4;name-align: center;' id='day" + sday + "-1'>" + sdf3.format(date) +"("+ sdf2.format(date) + ")</th>";
                 	shifts[j*2][0] = "";
                 	
                 	shifts[j*2-1][1] = "<th style='background:#7FFFD4' id='day" + sday + "-1'>上午</th>";
@@ -221,7 +221,7 @@ public class BpbController extends PbBaseController {
         c.add(GregorianCalendar.DATE, -5);
         
 		
-        shifts[0][0] = "<th rowspan='2' style='background:#7FFFD4;text-align: center;' id='nmshow'>" + (month<10 ? "0" + month : month)+"月-"+weeknum+ "周</th>";
+        shifts[0][0] = "<th rowspan='2' style='background:#7FFFD4;name-align: center;' id='nmshow'>" + (month<10 ? "0" + month : month)+"月-"+weeknum+ "周</th>";
         shifts[0][1] = "";
         for(int m=2;m<i;m++) {
         	shifts[0][m] = "<th id='nmshow' name='nm"+map.get(m).getName()+"' style='background:#7FFFD4'>" + map.get(m).getName() + "</th>";
@@ -427,7 +427,7 @@ public class BpbController extends PbBaseController {
 			array.put(o);
 		}
 		
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(array.toString());
 		
 		return null;

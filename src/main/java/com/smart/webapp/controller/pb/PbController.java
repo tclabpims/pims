@@ -100,7 +100,7 @@ public class PbController {
 		String isLxsy = IsLxsyOutOfRange(text, wInfos);
 		if(isLxsy!=null && !isLxsy.isEmpty()){
 			o.put("data", isLxsy);
-			response.setContentType("text/html;charset=UTF-8");
+			response.setContentType("name/html;charset=UTF-8");
 			response.getWriter().print(o.toString());
 			return null;
 		}
@@ -187,7 +187,7 @@ public class PbController {
 		arrangeManager.saveAll(list);
 		System.out.println(list.size()+"保存完成");
 		o.put("data", "true");
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(o.toString());
 		return null;
 	}

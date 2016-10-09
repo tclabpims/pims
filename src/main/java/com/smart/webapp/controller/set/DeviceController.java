@@ -124,7 +124,7 @@ public class DeviceController {
             dataRows.add(map);
         }
         dataResponse.setRows(dataRows);
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("name/html;charset=UTF-8");
         return dataResponse;
     }
 
@@ -221,7 +221,7 @@ public class DeviceController {
 
         JSONObject o = new JSONObject();
         o.put("list",list);
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("name/html; charset=UTF-8");
         response.getWriter().write(o.toString());
         return null;
     }

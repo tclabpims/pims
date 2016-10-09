@@ -349,7 +349,7 @@ public class PbszCountController extends PbBaseController{
 			}
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		
 		
 		return dataResponse;

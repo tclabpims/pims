@@ -142,7 +142,7 @@ public class PbgrController extends PbBaseController {
 		if(wCount!=null)
 			o.put("worktime", wCount.getWorkTime());
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(o.toString());
 		return null;
 	}

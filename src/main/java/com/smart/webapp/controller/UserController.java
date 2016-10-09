@@ -118,7 +118,7 @@ public class UserController extends PIMSBaseController {
     	obj.put("labCode", labCode);
     	obj.put("lab", sectionUtil.getLabValue(labCode));
     	obj.put("labMap", labMap);
-    	response.setContentType("text/html; charset=UTF-8");
+    	response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(obj.toString());
 		return null;
     }

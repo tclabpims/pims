@@ -1,14 +1,17 @@
 package com.pims.model;
 
+import com.smart.model.BaseObject;
+
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_REQ_FIELD", schema = "KFTEST", catalog = "")
-public class PimsSysReqField {
+@Table(name = "PIMS_SYS_REQ_FIELD")
+public class PimsSysReqField extends BaseObject {
     private long fieldid;
     private String fieelementid;
     private String fieelementname;
@@ -23,10 +26,11 @@ public class PimsSysReqField {
     private Long fiefisrtn;
     private String fieremark;
     private String fiecreateuser;
-    private Time fiecreatetime;
+    private Date fiecreatetime;
 
     @Id
-    @Column(name = "FIELDID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REQFIELD")
+    @SequenceGenerator(name = "SEQ_REQFIELD", sequenceName = "seq_field", allocationSize = 1)
     public long getFieldid() {
         return fieldid;
     }
@@ -167,12 +171,22 @@ public class PimsSysReqField {
 
     @Basic
     @Column(name = "FIECREATETIME")
-    public Time getFiecreatetime() {
+    public Date getFiecreatetime() {
         return fiecreatetime;
     }
 
-    public void setFiecreatetime(Time fiecreatetime) {
+    public void setFiecreatetime(Date fiecreatetime) {
         this.fiecreatetime = fiecreatetime;
+    }
+
+    /**
+     * Returns a multi-line String with key=value pairs.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return null;
     }
 
     @Override

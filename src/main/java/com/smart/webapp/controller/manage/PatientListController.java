@@ -145,7 +145,7 @@ public class PatientListController extends BaseAuditController {
 		}
 		List<ReasoningModify> modifyList = reasoningModifyManager.getBySampleId(id);
 		dataResponse.setRows(modifyData(modifyList, dataRows));
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -384,7 +384,7 @@ public class PatientListController extends BaseAuditController {
 		dataResponse.setRows(dataRows);
 		dataResponse.setRecords(dataRows.size());
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -461,7 +461,7 @@ public class PatientListController extends BaseAuditController {
 		}
 		dataResponse.setRows(dataRows);
 
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 

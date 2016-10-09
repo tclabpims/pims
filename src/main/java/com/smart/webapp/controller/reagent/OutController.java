@@ -31,7 +31,7 @@ public class OutController {
 		List<Map<String, Object>> dataRows = new ArrayList<Map<String, Object>>();
 		dataResponse.setRecords(0);
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 }

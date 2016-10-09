@@ -123,7 +123,7 @@ public class ReceiveController {
 			e.printStackTrace();
 			obj.put("type", 1);
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 		return null;
 	}

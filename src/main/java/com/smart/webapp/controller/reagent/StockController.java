@@ -194,7 +194,7 @@ public class StockController extends ReagentBaseController {
 		}
 		
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -219,7 +219,7 @@ public class StockController extends ReagentBaseController {
 			dataRows.add(map);
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		return dataResponse;
 	}
 }

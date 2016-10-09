@@ -57,7 +57,7 @@ public class ReloadController {
             response.sendRedirect(response.encodeRedirectURL(referer));
             return null;
         } else {
-            response.setContentType("text/html");
+            response.setContentType("name/html");
 
             PrintWriter out = response.getWriter();
 
@@ -66,7 +66,7 @@ public class ReloadController {
             out.println("<title>Context Reloaded</title>");
             out.println("</head>");
             out.println("<body bgcolor=\"white\">");
-            out.println("<script type=\"text/javascript\">");
+            out.println("<script type=\"name/javascript\">");
             out.println("alert('Context Reload Succeeded! Click OK to continue.');");
             out.println("history.back();");
             out.println("</script>");

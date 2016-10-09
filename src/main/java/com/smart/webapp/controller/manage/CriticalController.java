@@ -345,7 +345,7 @@ public class CriticalController {
 		root.put("requesterSection", contactInfor.getSECTION());
 		root.put("requesterPhone", contactInfor.getVIRTUALPHONE());
 
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(root.toString());
 		
 		return null;

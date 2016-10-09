@@ -269,7 +269,7 @@ public class PbcxController extends PbBaseController {
 			}
 			String html = "";
 			for(String s : wMap.keySet()){
-				html += "<div class='col-sm-12'><div class='col-sm-1' style='text-align: right;'>";
+				html += "<div class='col-sm-12'><div class='col-sm-1' style='name-align: right;'>";
 				html += "<span>"+labMap.get(s)+"</span></div>";
 				
 				String winames = wMap.get(s);
@@ -296,7 +296,7 @@ public class PbcxController extends PbBaseController {
 					}
 					i++;
 				}
-				html += "<div class='col-sm-11'><table class=' table-hover' style='font-size:8px;text-align:center;margin-bottom:5px;' border='1px;'>";
+				html += "<div class='col-sm-11'><table class=' table-hover' style='font-size:8px;name-align:center;margin-bottom:5px;' border='1px;'>";
 				html += tr;
 				html += "</table></div>";
 				

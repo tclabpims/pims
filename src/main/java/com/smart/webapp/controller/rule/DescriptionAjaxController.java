@@ -46,7 +46,7 @@ public class DescriptionAjaxController {
 			if (bags.size() != 0)
 				isChanged.set(false);
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(bagJson);
 		return null;
 	}
@@ -113,7 +113,7 @@ public class DescriptionAjaxController {
 		}
 		
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 		
 		return null;

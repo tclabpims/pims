@@ -122,7 +122,7 @@ public class YlsfController extends BaseAuditController {
 
 		dataResponse.setRows(dataRows);
 
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -230,7 +230,7 @@ public class YlsfController extends BaseAuditController {
 			}
 			obj.put("profiletest3", jsonArray);
 		}
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("name/html;charset=UTF-8");
         response.getWriter().print(obj.toString());
         return null;
 	}
@@ -271,10 +271,10 @@ public class YlsfController extends BaseAuditController {
 				obj.put("name", name);
 				array.put(obj);
 			}
-			response.setContentType("text/html;charset=UTF-8");
+			response.setContentType("name/html;charset=UTF-8");
 			response.getWriter().print(array.toString());
 		}else{
-			response.setContentType("text/html;charset=UTF-8");
+			response.setContentType("name/html;charset=UTF-8");
 			response.getWriter().print("".toString());
 		}
 	}

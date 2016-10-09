@@ -52,7 +52,7 @@ public class RuleAjaxController extends BaseAuditController {
 			if (bags.size() != 0)
 				isChanged.set(false);
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(bagJson);
 		return null;
 	}
@@ -180,7 +180,7 @@ public class RuleAjaxController extends BaseAuditController {
 			array.put(t);
 		}
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 		
 		return null;
@@ -204,7 +204,7 @@ public class RuleAjaxController extends BaseAuditController {
 				json = null;
 			}
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(json);
 		return null;
 	}

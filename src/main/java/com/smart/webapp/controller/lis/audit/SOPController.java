@@ -77,7 +77,7 @@ public class SOPController {
 		o.put("g2", g2);
 		o.put("g3", g3);
 		o.put("g4", g4);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}
@@ -127,7 +127,7 @@ public class SOPController {
 		}
 		JSONObject o = new JSONObject();
 		o.put("html", html);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}

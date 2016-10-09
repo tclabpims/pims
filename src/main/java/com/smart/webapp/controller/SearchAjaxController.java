@@ -66,7 +66,7 @@ public class SearchAjaxController extends BaseAuditController {
             }
         }
 
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("name/html; charset=UTF-8");
         response.getWriter().print(array.toString());
         return null;
     }
@@ -102,7 +102,7 @@ public class SearchAjaxController extends BaseAuditController {
             }
         }
 
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("name/html; charset=UTF-8");
         response.getWriter().print(array.toString());
         return null;
     }
@@ -138,7 +138,7 @@ public class SearchAjaxController extends BaseAuditController {
 			}
 		}
 
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}
@@ -173,7 +173,7 @@ public class SearchAjaxController extends BaseAuditController {
                 array.put(jsonObject);
             }
         }
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("name/html; charset=UTF-8");
         response.getWriter().print(array.toString());
         return null;
     }
@@ -222,7 +222,7 @@ public class SearchAjaxController extends BaseAuditController {
 				array.put(o);
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(array.toString());
 		return null;
 	}
@@ -244,7 +244,7 @@ public class SearchAjaxController extends BaseAuditController {
 				array.put(o);
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(array.toString());
 		return null;
 	}
@@ -260,7 +260,7 @@ public class SearchAjaxController extends BaseAuditController {
 			list.add(sfxm.getId() + " " + sfxm.getName() + " " + sfxm.getYblx() +" " + sfxm.getPrice());
 		}
 		o.put("list", list);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}
@@ -287,7 +287,7 @@ public class SearchAjaxController extends BaseAuditController {
 				array.put(o);
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}
@@ -316,7 +316,7 @@ public class SearchAjaxController extends BaseAuditController {
 			}
 		}
 
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}
@@ -352,7 +352,7 @@ public class SearchAjaxController extends BaseAuditController {
 			}
 		}
 
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}
@@ -387,7 +387,7 @@ public class SearchAjaxController extends BaseAuditController {
 			}
 		}
 
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}
@@ -410,7 +410,7 @@ public class SearchAjaxController extends BaseAuditController {
 				array.put(o);
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}

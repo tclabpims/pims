@@ -177,7 +177,7 @@ public class PbszController extends PbBaseController {
 			}
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -216,7 +216,7 @@ public class PbszController extends PbBaseController {
 			index++;
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}*/
 	
@@ -256,7 +256,7 @@ public class PbszController extends PbBaseController {
 			index++;
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -297,7 +297,7 @@ public class PbszController extends PbBaseController {
 			index++;
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -548,7 +548,7 @@ public class PbszController extends PbBaseController {
 		o.put("schools", sname);
 		o.put("sectionListStr", sectionList.substring(0,sectionList.length()-1));
 		
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;
 	}

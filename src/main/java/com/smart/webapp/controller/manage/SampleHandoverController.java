@@ -145,7 +145,7 @@ public class SampleHandoverController {
 			e.printStackTrace();
 			obj.put("type", 1);
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 		return null;
 	}
@@ -222,7 +222,7 @@ public class SampleHandoverController {
 			e.printStackTrace();
 			obj.put("type", 1);
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 		return null;
 	}
@@ -298,7 +298,7 @@ public class SampleHandoverController {
 		}
 		
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 		
 	}
@@ -374,7 +374,7 @@ public class SampleHandoverController {
 		}
 		
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 		
 	}

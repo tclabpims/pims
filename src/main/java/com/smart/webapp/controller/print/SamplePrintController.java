@@ -268,7 +268,7 @@ public class SamplePrintController extends BaseAuditController {
 			}
 		}
 		info.put("imghtml", imghtml);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(info.toString());
 		return null;
 	}
@@ -377,7 +377,7 @@ public class SamplePrintController extends BaseAuditController {
 			}
 			info.put("chartlist", chartlist);
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(info.toString());
 		return null;
 	}
@@ -472,7 +472,7 @@ public class SamplePrintController extends BaseAuditController {
 			}
 		}
 		info.put("chartlist", chartlist);
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(info.toString());
 		return null;
 	}
@@ -492,8 +492,8 @@ public class SamplePrintController extends BaseAuditController {
 				html.append(hisTitle);
 			}
 			html.append("</div>");
-			html.append("<div style='float:left;width:10%;text-align:center;'>单位</div>");
-			html.append("<div style='float:left;width:25%;text-align:center;'>注释</div>");
+			html.append("<div style='float:left;width:10%;name-align:center;'>单位</div>");
+			html.append("<div style='float:left;width:25%;name-align:center;'>注释</div>");
 			html.append("</b></div>");
 			for(int i = 1; i<=list.size(); i++) {
 				TestResult re = list.get(i-1); 
@@ -547,8 +547,8 @@ public class SamplePrintController extends BaseAuditController {
 					html.append("<div style='float:left;width:12%;'>" + last + "</div>");
 				}
 				html.append("<div style='float:left;width:3%;'>" + lastflag + "</div>");
-				html.append("<div style='float:left;width:10%;text-align:center;'>" + (re.getUnit() == null ? "&nbsp;" : re.getUnit()) + "</div>");
-				html.append("<div style='float:left;width:25%;text-align:center;'>" + idMap.get(re.getTestId()).getDescription() + "</div>");
+				html.append("<div style='float:left;width:10%;name-align:center;'>" + (re.getUnit() == null ? "&nbsp;" : re.getUnit()) + "</div>");
+				html.append("<div style='float:left;width:25%;name-align:center;'>" + idMap.get(re.getTestId()).getDescription() + "</div>");
 				html.append("</div>");
 			}
 		} else if(type == 2) {
@@ -562,8 +562,8 @@ public class SamplePrintController extends BaseAuditController {
 				html.append(hisTitle);
 			}
 			html.append("</div>");
-			html.append("<div style='float:left;width:12%;text-align:center;'>参考范围</div>");
-			html.append("<div style='float:left;width:5%;text-align:center;'>单位</div>");
+			html.append("<div style='float:left;width:12%;name-align:center;'>参考范围</div>");
+			html.append("<div style='float:left;width:5%;name-align:center;'>单位</div>");
 			html.append("<div style='float:left;width:17%;border-left:1px solid #000000;'>项目</div>");
 			html.append("<div style='float:left;width:8%;'>结果</div>");
 			html.append("<div style='float:left;width:8%;'>");
@@ -573,7 +573,7 @@ public class SamplePrintController extends BaseAuditController {
 				html.append(hisTitle);
 			}
 			html.append("</div>");
-			html.append("<div style='float:left;width:12%;text-align:center;'>参考范围</div>");
+			html.append("<div style='float:left;width:12%;name-align:center;'>参考范围</div>");
 			html.append("<div style='float:left;width:5%;'>单位</div>");
 			html.append("</b></div>");
 			int num = 0;
@@ -640,7 +640,7 @@ public class SamplePrintController extends BaseAuditController {
 					html.append("<div style='float:left;width:13%;'>" + last + "</div>");
 				}
 				html.append("<div style='float:left;width:3%;'>" + lastflag + "</div>");
-				html.append("<div style='float:left;width:24%;text-align:center;'>" + scope + "</div>");
+				html.append("<div style='float:left;width:24%;name-align:center;'>" + scope + "</div>");
 				html.append("<div style='float:left;width:10%;'>" + (re.getUnit() == null ? "&nbsp;" : re.getUnit()) + "</div>");
 				html.append("</div>");
 				
@@ -661,8 +661,8 @@ public class SamplePrintController extends BaseAuditController {
 				html.append(hisTitle);
 			}
 			html.append("</div>");
-			html.append("<div style='float:left;width:20%;text-align:center;'>参考范围</div>");
-			html.append("<div style='float:left;width:10%;text-align:center;'>单位</div>");
+			html.append("<div style='float:left;width:20%;name-align:center;'>参考范围</div>");
+			html.append("<div style='float:left;width:10%;name-align:center;'>单位</div>");
 			html.append("</b></div>");
 			for(int i = 1; i<=list.size(); i++) {
 				TestResult re = list.get(i-1); 
@@ -730,8 +730,8 @@ public class SamplePrintController extends BaseAuditController {
 					html.append("<div style='float:left;width:12%;'>" + last + "</div>");
 				}
 				html.append("<div style='float:left;width:3%;'>" + lastflag + "</div>");
-				html.append("<div style='float:left;width:20%;text-align:center;'>" + scope + "</div>");
-				html.append("<div style='float:left;width:10%;text-align:center;'>" + (re.getUnit() == null ? "&nbsp;" : re.getUnit()) + "</div>");
+				html.append("<div style='float:left;width:20%;name-align:center;'>" + scope + "</div>");
+				html.append("<div style='float:left;width:10%;name-align:center;'>" + (re.getUnit() == null ? "&nbsp;" : re.getUnit()) + "</div>");
 				html.append("</div>");
 			}
 		}
@@ -1156,7 +1156,7 @@ public class SamplePrintController extends BaseAuditController {
 
 		//GenericPdfUtil.createPdf(s.getSampleNo()+".pdf",writer.toString());
 		GenericPdfUtil.html2Pdf(s.getSampleNo()+".pdf",writer.toString());
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(writer.toString());
 		return null;
 	}

@@ -829,7 +829,7 @@ public class AuditController extends BaseAuditController {
 		}
 		dataResponse.setRows(dataRows);
 
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -936,7 +936,7 @@ public class AuditController extends BaseAuditController {
 		dataResponse.setRows(dataRows);
 		dataResponse.setRecords(dataRows.size());
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	/**
@@ -962,7 +962,7 @@ public class AuditController extends BaseAuditController {
 			array.put(obj);
 		}
 		
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}
@@ -1011,7 +1011,7 @@ public class AuditController extends BaseAuditController {
 				array.put(obj);
 			}
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		response.getWriter().print(array.toString());
 		return null;
 	}

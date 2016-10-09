@@ -8,7 +8,7 @@
 <script type="text/javascript">
 function searchSample(){
 	var text = $("#sampleSearch").val();
-	location.href="../quality/invalidSamples?text="+text;
+	location.href="../quality/invalidSamples?name="+text;
 }
 $(function(){
 	$("#addInvalidSample").click(function(){

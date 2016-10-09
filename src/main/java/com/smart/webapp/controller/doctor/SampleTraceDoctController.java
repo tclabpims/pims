@@ -189,7 +189,7 @@ public class SampleTraceDoctController {
 			index++;
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -312,7 +312,7 @@ public class SampleTraceDoctController {
 			index++;
 		}
 		dataResponse.setRows(dataRows);
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("name/html;charset=UTF-8");
 		return dataResponse;
 	}
 	
@@ -503,7 +503,7 @@ public class SampleTraceDoctController {
 				}
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		response.setContentType("name/html; charset=UTF-8");
 		response.getWriter().write(array.toString());
 		return null;
 	}

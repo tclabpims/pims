@@ -10,7 +10,7 @@
     <title>病理模板信息维护</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
-    <!--script type="text/javascript" src="../scripts/bootstrap.min.js"></script-->
+    <!--script type="name/javascript" src="../scripts/bootstrap.min.js"></script-->
     <script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../scripts/i18n/grid.locale-cn.js"></script>
     <script type="text/javascript" src="../scripts/jquery.jqGrid.js"></script>

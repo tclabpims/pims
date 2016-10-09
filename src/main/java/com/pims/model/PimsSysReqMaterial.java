@@ -2,16 +2,18 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_REQ_MATERIAL", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_SYS_REQ_MATERIAL")
 public class PimsSysReqMaterial {
     private long materialid;
     private String matname;
     private long mattype;
+    private String mattypename;
     private String matspecial;
     private String matsort;
     private Long matuseflag;
@@ -20,12 +22,22 @@ public class PimsSysReqMaterial {
     private String matreamrk;
     private String matfirstv;
     private String matfirstn;
-    private Time matfirstd;
+    private Date matfirstd;
     private String matcreateuser;
-    private Time matcreatetime;
+    private Date matcreatetime;
+
+    @Transient
+    public String getMattypename() {
+        return mattypename;
+    }
+
+    public void setMattypename(String mattypename) {
+        this.mattypename = mattypename;
+    }
 
     @Id
-    @Column(name = "MATERIALID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REQMATERIAL")
+    @SequenceGenerator(name = "SEQ_REQMATERIAL", sequenceName = "seq_material", allocationSize = 1)
     public long getMaterialid() {
         return materialid;
     }
@@ -136,11 +148,11 @@ public class PimsSysReqMaterial {
 
     @Basic
     @Column(name = "MATFIRSTD")
-    public Time getMatfirstd() {
+    public Date getMatfirstd() {
         return matfirstd;
     }
 
-    public void setMatfirstd(Time matfirstd) {
+    public void setMatfirstd(Date matfirstd) {
         this.matfirstd = matfirstd;
     }
 
@@ -156,11 +168,11 @@ public class PimsSysReqMaterial {
 
     @Basic
     @Column(name = "MATCREATETIME")
-    public Time getMatcreatetime() {
+    public Date getMatcreatetime() {
         return matcreatetime;
     }
 
-    public void setMatcreatetime(Time matcreatetime) {
+    public void setMatcreatetime(Date matcreatetime) {
         this.matcreatetime = matcreatetime;
     }
 

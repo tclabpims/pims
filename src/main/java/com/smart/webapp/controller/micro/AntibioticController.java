@@ -96,7 +96,7 @@ public class AntibioticController {
             dataRows.add(map);
         }
         dataResponse.setRows(dataRows);
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("name/html;charset=UTF-8");
         return dataResponse;
     }
     /**
