@@ -74,4 +74,14 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
     public int getReqListNum(PimsBaseModel pims) {
         return pimsPathologyRequisitionDao.getReqListNum(pims);
     }
+
+    /**
+     * 根据病种类别查询最大单据号
+     * @param reqpathologyid
+     * @return
+     */
+    @Override
+    public String getMaxCode(int reqpathologyid) {
+        return pimsPathologyRequisitionDao.getMaxCode(reqpathologyid);
+    }
 }

@@ -6,15 +6,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsRequisitionMaterial;
+import com.pims.model.PimsSysReqTestitem;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.his.PimsRequisitionMaterialManager;
+import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
+import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,12 +37,21 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	private PimsPathologyRequisitionManager pimsPathologyRequisitionManager;
 	@Autowired
 	private PimsRequisitionMaterialManager pimsRequisitionMaterialManager;
+	@Autowired
+	private PimsSysReqTestitemManager pimsSysReqTestitemManager;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
 		String today = Constants.DF3.format(new Date());
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+		List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(null);//查询申请项目列表
 		ModelAndView view = new ModelAndView();
-		view.addObject("receivetime", today);
+		view.addObject("receivetime", today);//当前时间
+		view.addObject("reqcustomerid",user.getHospitalId());//账号所属医院
+		view.addObject("reqpathologyid",logylibid);//当前用户选择的病例库
+		view.addObject("reqsource",0);//申请单来源
+		view.addObject("testList",getResultMap(list));//申请项目列表
 		return view;
 	}
 
@@ -53,11 +66,7 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	@RequestMapping(value = "/ajax/pathology*", method = RequestMethod.GET)
 	@ResponseBody
 	public DataResponse getRequisitionInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//获取当前用户选择的病种库
-//		User ud = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		String logylibid = ud.getUserBussinessRelate().getPathologyLibId();
 		DataResponse dataResponse = new DataResponse();
-//		String today = Constants.DF3.format(new Date());
 		PimsBaseModel ppr = new PimsBaseModel(request);
 		List<PimsPathologyRequisition> list = pimsPathologyRequisitionManager.getRequisitionInfo(ppr);
         int num = pimsPathologyRequisitionManager.getReqListNum(ppr);
@@ -92,85 +101,32 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 
 	@RequestMapping(value = "/editSample*", method = RequestMethod.POST)
 	public String editSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		PimsPathologyRequisition ppr = new PimsPathologyRequisition();
-		//PimsPathologyRequisition ppr = (PimsPathologyRequisition)setBeanProperty(request,PimsPathologyRequisition.class);
-		//User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String requisitionid = request.getParameter("requisitionid");
-		String requisitionno = request.getParameter("requisitionno");
-		String reqitemnames = request.getParameter("reqitemnames");
-		String reqpathologyid = request.getParameter("reqpathologyid");
-		String operate = request.getParameter("operate");
+		PimsPathologyRequisition ppr = (PimsPathologyRequisition)setBeanProperty(request,PimsPathologyRequisition.class);
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String materiallist = request.getParameter("reqthirdv");
 		JSONArray materials = JSON.parseArray(materiallist);
 		JSONObject o = new JSONObject();
-		if(StringUtils.isEmpty(requisitionid)){
-			ppr.setReqcustomercode("1");
-			ppr.setRequisitionno("1");
-			ppr.setReqsource("1");
-			ppr.setReqtype(1);
+		if(StringUtils.isEmpty(String.valueOf(ppr.getRequisitionid())) || String.valueOf(ppr.getRequisitionid()).equals("0")){
 			ppr.setReqdate(new Date());
-			ppr.setReqinspectionid("1");
-			ppr.setReqdatechar("1");
-			ppr.setReqdeptcode("1");
-			ppr.setReqdeptname("1");
-			ppr.setReqwardcode("1");
-			ppr.setReqwardname("1");
-			ppr.setReqdoctorid("1");
-			ppr.setReqdoctorname("1");
+			ppr.setReqdatechar(Constants.DF3.format(new Date()));
 			ppr.setReqplanexectime(new Date());
-			ppr.setReqdigcode("1");
-			ppr.setReqchargestatus("1");
-			ppr.setReqsendhospital("1");
-			ppr.setReqsendphone("1");
-			ppr.setReqstate(1);
-			ppr.setReqitemids("1");
-			ppr.setReqitemnames("1");
+			ppr.setReqstate(0);
+			ppr.setReqisdeleted(0);
 			ppr.setReqpatientid("1");
 			ppr.setReqinpatientid("1");
-			ppr.setReqinpatientno(1);
-			ppr.setReqpatienttype(1);
-			ppr.setReqpatientnumber("1");
-			ppr.setReqpatientname("1");
-			ppr.setReqpatientsex(1);
-			ppr.setReqpatientage("1");
-			ppr.setReqpatagetype(1);
-			ppr.setReqpatbirthday(new Date());
-			ppr.setReqpatidcard("1");
-			ppr.setReqpattelephone("1");
-			ppr.setReqpataddress("1");
-			ppr.setReqpatdiagnosis("1");
-			ppr.setReqismenopause(1);
-			ppr.setReqlastmenstruation(new Date());
-			ppr.setReqpatcompany("1");
-			ppr.setReqsendhisorder(1);
-			ppr.setReqsampleid(1);
-			ppr.setReqisdeleted(0);
-			ppr.setReqprintuser("1");
-			ppr.setReqprintusername("1");
-			ppr.setReqprinttime(new Date());
-			ppr.setReqsendtime(new Date());
-			ppr.setReqremark("1");
-			ppr.setReqfirstv("1");
-			ppr.setReqsecondv("1");
-			ppr.setReqthirdv("1");
-			ppr.setReqfirstd(new Date());
-			ppr.setReqsecondd(new Date());
-			ppr.setReqfirstn(1);
-			ppr.setReqcreateuser("1");
+			ppr.setReqthirdv("");
+			ppr.setReqcreateuser(String.valueOf(user.getId()));
 			ppr.setReqcreatetime(new Date());
-			ppr.setRequisitionno(requisitionno);
-			ppr.setReqitemnames(reqitemnames);
-			ppr.setReqpathologyid(Integer.parseInt(reqpathologyid));
 			ppr = pimsPathologyRequisitionManager.save(ppr);
-			o.put("message", "样本号为"+ requisitionid + "的标本添加成功！");
+			o.put("message", "申请添加成功！");
 			o.put("success", true);
 		} else{
-			ppr = pimsPathologyRequisitionManager.getBySampleNo(Long.parseLong(requisitionid));
-			ppr.setRequisitionno(requisitionno);
-			ppr.setReqitemnames(reqitemnames);
-			ppr.setReqpathologyid(Integer.parseInt(reqpathologyid));
+			PimsPathologyRequisition ppr1 = pimsPathologyRequisitionManager.getBySampleNo((long) ppr.getRequisitionid());
+			ppr.setReqdate(ppr1.getReqdate());
+			ppr.setReqplanexectime(ppr1.getReqplanexectime());
+			ppr.setReqthirdv("");
 			pimsPathologyRequisitionManager.save(ppr);
-			o.put("message", "样本号为"+ requisitionno + "的标本编辑成功！");
+			o.put("message", "申请编辑成功！");
 			o.put("success", true);
 		}
 		for(int i= 0;i<materials.size();i++){
@@ -178,18 +134,16 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 			Map map = (Map) materials.get(i);
 			mater.setReqmmaterialtype((String) map.get("reqmmaterialtype"));
 			mater.setReqmsamplingparts((String)map.get("reqmsamplingparts"));
-			mater.setReqmcustomercode("1");
-			mater.setReqmmaterialname("1");
-			mater.setReqmcustomercode("1");
+			mater.setReqmcustomercode(ppr.getReqcustomercode());
 			mater.setReqmcreatetime(new Date());
-			mater.setReqmcreateuser("1");
+			mater.setReqmcreateuser(String.valueOf(user.getId()));
 			mater.setRequisitionid(ppr.getRequisitionid());
 			pimsRequisitionMaterialManager.save(mater);
 		}
 		o.put("requisitionid", ppr.getRequisitionid());
-		o.put("requisitionno", requisitionno);
-		o.put("reqitemnames", reqitemnames);
-		o.put("reqpathologyid", reqpathologyid);
+		o.put("requisitionno", ppr.getRequisitionno());
+		o.put("reqitemnames", ppr.getReqitemnames());
+		o.put("reqpathologyid", ppr.getReqpathologyid());
 		response.setContentType("text/html; charset=UTF-8");
 		response.getWriter().write(o.toString());
 		return null;

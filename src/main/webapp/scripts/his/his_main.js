@@ -213,8 +213,11 @@ function saveInfo() {
         var rowdatas = $('#new1').jqGrid('getRowData');
 		var msg = "";
 		var post = true;
+		// alert(rowdatas);
+		// return false;
 		if(post) {
 			$.post("../pimspathology/editSample", {
+					aaaa:"1",
 			    reqthirdv:JSON.stringify(rowdatas),
                 requisitionid:$("#requisitionid").val(),
                 reqcustomercode:$("#reqcustomercode").val(),
@@ -226,11 +229,11 @@ function saveInfo() {
                 reqinspectionid:$("#reqinspectionid").val(),
                 reqdatechar:$("#reqdatechar").val(),
                 reqdeptcode:$("#reqdeptcode").val(),
-                reqdeptname:$("#reqdeptname").val(),
+                reqdeptname:$("#reqdeptcode").find("option:selected").text(),
                 reqwardcode:$("#reqwardcode").val(),
-                reqwardname:$("#reqwardname").val(),
+                reqwardname:$("#reqwardcode").find("option:selected").text(),
                 reqdoctorid:$("#reqdoctorid").val(),
-                reqdoctorname:$("#reqdoctorname").val(),
+                reqdoctorname:$("#reqdoctorid").find("option:selected").text(),
                 reqplanexectime:$("#reqplanexectime").val(),
                 reqdigcode:$("#reqdigcode").val(),
                 reqchargestatus:$("#reqchargestatus").val(),
@@ -276,7 +279,7 @@ function saveInfo() {
 			function(data) {
 				var data = JSON.parse(data);
 				if(data.success) {
-					layer.closeAll();
+					//layer.closeAll();
 					var rowData = {
 						requisitionid:data.requisitionid,
 						requisitionno:data.requisitionno,
@@ -396,7 +399,7 @@ function deleteSample() {
 }
 
 function clearData() {
-	$('#sampleForm')[0].reset();
+    $('#sampleForm')[0].reset();
     jQuery("#new1").jqGrid("clearGridData");
 }
 
@@ -408,10 +411,17 @@ $(function() {
 		callback:function(){
 		}
 	});
-	$("#reqitemids").autocomplete({
+	$(".form_datetime").datetimepicker({
+		minView: "month", //选择日期后，不会再跳转去选择时分秒
+		format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+		language: 'zh-CN', //汉化
+		todayBtn:  1,
+		autoclose:true //选择日期后自动关闭
+	});
+	$("#reqitemnames").autocomplete({
         source: function( request, response ) {
             $.ajax({
-            	url: "../ajax/searchSection",
+            	url: "../estitem/ajax/item",
                 dataType: "json",
                 data: {
                     name : request.term
@@ -427,35 +437,18 @@ $(function() {
                 }
             });
         },
-        minLength: 1,
+        minLength: 0,
         select: function( event, ui ) {
-        	$( "#sectionCode" ).val(ui.item.id);
-        	$( "#section" ).val(ui.item.value);
-            return false;
+        	$( "#reqitemids" ).val(ui.item.id);
+        	$( "#reqitemnames" ).val(ui.item.name);
+            //return false;
 		}
-	});
-	
-	$("#requester").autocomplete({
-        source: function( request, response ) {
-            $.ajax({
-            	url: "../ajax/searchContactInfo",
-                dataType: "json",
-                data: {
-                    name : request.term
-                },
-                success: function( data ) {
-                	response( $.map( data, function( result ) {
-                        return {
-                            label: result.id + " : " + result.name,
-                            value: result.name,
-                            id : result.id
-                        }
-                    }));
-                }
-            });
-        },
-        minLength: 1
-	});
+	})
+	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		 return $( "<li>" )
+			 .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			 .appendTo( ul );
+	 };
 	var clientHeight= $(window).innerHeight();
 	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
 	var req_code = $('#req_code').val();

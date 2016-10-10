@@ -76,41 +76,48 @@ public class PIMSBaseController {
                     Set<String> paramsNames = parameterEntry.keySet();
                     for (String name : paramsNames) {
                         PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(ins, name);
+                        if(pd == null){
+                            continue;
+                        }
                         String propertyTypeName = pd.getPropertyType().getName();
                         String value = parameterEntry.get(name)[0];
-                        if (propertyTypeName.equals(int.class.getName())
-                                || propertyTypeName.equals(Integer.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, Integer.valueOf(value));
-                        } else if (propertyTypeName.equals(long.class.getName())
-                                || propertyTypeName.equals(Long.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, Long.valueOf(value));
-                        } else if (propertyTypeName.equals(double.class.getName())
-                                || propertyTypeName.equals(Double.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, Double.valueOf(value));
-                        } else if (propertyTypeName.equals(float.class.getName())
-                                || propertyTypeName.equals(Float.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, Float.valueOf(value));
-                        } else if (propertyTypeName.equals(byte.class.getName())
-                                || propertyTypeName.equals(Byte.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, Byte.valueOf(value));
-                        } else if (propertyTypeName.equals(short.class.getName())
-                                || propertyTypeName.equals(Short.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, Short.valueOf(value));
-                        } else if (propertyTypeName.equals(char[].class.getName())
-                                || propertyTypeName.equals(Character[].class.getName())) {
-                            pd.getWriteMethod().invoke(ins, (Object) value.toCharArray());
-                        } else if (propertyTypeName.equals(boolean.class.getName())
-                                || propertyTypeName.equals(Boolean.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, Boolean.valueOf(value));
-                        } else if (propertyTypeName.equals(String.class.getName())) {
-                            pd.getWriteMethod().invoke(ins, value);
-                        } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
-                            try {
-                                pd.getWriteMethod().invoke(ins, new SimpleDateFormat().parse(value));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                        System.out.println("name== "+ name + "propertyTypeName====" + propertyTypeName);
+                        if(value != null && !value.trim().equals("")){
+                            if (propertyTypeName.equals(int.class.getName())
+                                    || propertyTypeName.equals(Integer.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Integer.valueOf(value));
+                            } else if (propertyTypeName.equals(long.class.getName())
+                                    || propertyTypeName.equals(Long.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Long.valueOf(value));
+                            } else if (propertyTypeName.equals(double.class.getName())
+                                    || propertyTypeName.equals(Double.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Double.valueOf(value));
+                            } else if (propertyTypeName.equals(float.class.getName())
+                                    || propertyTypeName.equals(Float.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Float.valueOf(value));
+                            } else if (propertyTypeName.equals(byte.class.getName())
+                                    || propertyTypeName.equals(Byte.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Byte.valueOf(value));
+                            } else if (propertyTypeName.equals(short.class.getName())
+                                    || propertyTypeName.equals(Short.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Short.valueOf(value));
+                            } else if (propertyTypeName.equals(char[].class.getName())
+                                    || propertyTypeName.equals(Character[].class.getName())) {
+                                pd.getWriteMethod().invoke(ins, (Object) value.toCharArray());
+                            } else if (propertyTypeName.equals(boolean.class.getName())
+                                    || propertyTypeName.equals(Boolean.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Boolean.valueOf(value));
+                            } else if (propertyTypeName.equals(String.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, value);
+                            } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
+                                try {
+                                    pd.getWriteMethod().invoke(ins, new SimpleDateFormat().parse(value));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
+
                     }
                 }
             } catch (InvocationTargetException | NoSuchMethodException e) {

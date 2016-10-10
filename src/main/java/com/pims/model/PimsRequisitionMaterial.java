@@ -9,7 +9,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "PIMS_REQUISITION_MATERIAL")
-@IdClass(PimsRequisitionMaterialPK.class)
 public class PimsRequisitionMaterial {
     private long requisitionid;
     private long materialid;
