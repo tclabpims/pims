@@ -45,7 +45,7 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		String today = Constants.DF3.format(new Date());
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
-		List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo();//查询申请项目列表
+		List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(null);//查询申请项目列表
 		ModelAndView view = new ModelAndView();
 		view.addObject("receivetime", today);//当前时间
 		view.addObject("reqcustomerid",user.getHospitalId());//账号所属医院

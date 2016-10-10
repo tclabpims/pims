@@ -128,10 +128,10 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
             buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());
         }
         if(!StringUtils.isEmpty(pims.getReq_bf_time())){
-            buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time()+"','YYYYMMDD')");
+            buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time()+"','YYYY-MM-DD')");
         }
         if(!StringUtils.isEmpty(pims.getReq_af_time())){
-            buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time()+"','YYYYMMDD')+1");
+            buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time()+"','YYYY-MM-DD')+1");
         }
         if(!StringUtils.isEmpty(pims.getSend_dept())){
             buffer.append(" and  ReqDeptName = " + pims.getSend_dept());

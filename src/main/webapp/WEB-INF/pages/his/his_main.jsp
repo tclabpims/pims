@@ -4,7 +4,7 @@
 <head>
     <title><fmt:message key="ElectronicApplyManage.title"/></title>
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
-
+	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>" />
 	<script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap.min.js"></script>
@@ -16,8 +16,7 @@
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/his/his_main.js"></script>
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
-	<%--<script type="text/javascript" src="../scripts/bootstrap-typeahead.js"></script>--%>
-	<%--<script src="../scripts/his/jquery.autocomplete.js" type="text/javascript"></script>--%>
+	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 </head>
 <style>
 	select {
@@ -50,18 +49,18 @@
 </div>
 <div class="row widget-main" id="div_2">
 	<div class="input-group" style="float: left;">
-		<span class="input-group-addon">电子申请单</span>
+		<span class="input-group-addon ">申请单号</span>
 		<input type="text" class="form-control" placeholder="申请单号" id="req_code" value="" onkeypress="receive(this,event)"/>
 		<span class="input-group-addon">病人姓名</span>
 		<input type="text" class="form-control" value="" id="patient_name"/>
-		<span class="input-group-addon">送检医院</span>
-		<input type="text" class="form-control" value="" id="send_hosptail"/>
 		<span class="input-group-addon">申请年月</span>
-		<input type="text" class="form-control" placeholder="" value="${receivetime}" id="req_bf_time"/>
+		<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}" id="req_bf_time"/>
 		<span class="input-group-addon">-</span>
-		<input type="text" class="form-control" placeholder="" value="${receivetime}" id="req_af_time"/>
+		<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}"  id="req_af_time"/>
 	</div>
 	<div class="input-group" style="float: left;">
+		<span class="input-group-addon">送检医院</span>
+		<input type="text" class="form-control" value="" id="send_hosptail"/>
 		<span class="input-group-addon">送检科室</span>
 		<input type="text" class="form-control" value="" id="send_dept"/>
 		<span class="input-group-addon">送检医生</span>
@@ -176,11 +175,7 @@
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="reqinpatientno">住院序号</label>
 			<div class="col-sm-2">
-				<select class="col-sm-12" id="reqinpatientno">
-					<option value="1">男</option>
-					<option value="2">女</option>
-					<option value="3">未知</option>
-				</select>
+				<input type="text" class="col-sm-12" id="reqinpatientno" />
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="reqpatienttype">患者类型</label>
 			<div class="col-sm-2">
@@ -227,7 +222,7 @@
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="reqpatbirthday">出生日期</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="reqpatbirthday"/>
+				<input type="text" class="form_datetime col-sm-12" id="reqpatbirthday"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">

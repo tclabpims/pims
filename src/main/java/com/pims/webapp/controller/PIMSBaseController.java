@@ -76,6 +76,9 @@ public class PIMSBaseController {
                     Set<String> paramsNames = parameterEntry.keySet();
                     for (String name : paramsNames) {
                         PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(ins, name);
+                        if(pd == null){
+                            continue;
+                        }
                         String propertyTypeName = pd.getPropertyType().getName();
                         String value = parameterEntry.get(name)[0];
                         System.out.println("name== "+ name + "propertyTypeName====" + propertyTypeName);

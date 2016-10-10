@@ -217,6 +217,7 @@ function saveInfo() {
 		// return false;
 		if(post) {
 			$.post("../pimspathology/editSample", {
+					aaaa:"1",
 			    reqthirdv:JSON.stringify(rowdatas),
                 requisitionid:$("#requisitionid").val(),
                 reqcustomercode:$("#reqcustomercode").val(),
@@ -410,8 +411,13 @@ $(function() {
 		callback:function(){
 		}
 	});
-
-
+	$(".form_datetime").datetimepicker({
+		minView: "month", //选择日期后，不会再跳转去选择时分秒
+		format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+		language: 'zh-CN', //汉化
+		todayBtn:  1,
+		autoclose:true //选择日期后自动关闭
+	});
 	$("#reqitemnames").autocomplete({
         source: function( request, response ) {
             $.ajax({
@@ -443,65 +449,6 @@ $(function() {
 			 .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
 			 .appendTo( ul );
 	 };
-
-	// $("#reqitemnames").autocomplete("../estitem/ajax/item", {
-	// 	minChars: 0,
-	// 	max: 100,
-	// 	mustMatch: true,
-	// 	dataType: 'json',
-	// 	scrollHeight: 220,
-	// 	width: 300,
-	// 	parse: function(data){
-	// 		return $.map(data, function(row) {
-	// 			return {
-	// 				data: row,
-	// 				value: row.id,
-	// 				result: row.name
-	// 			}
-	// 		});
-	// 	},
-	// 	formatItem: function(data, i, max) {
-	// 		return data.name ;
-	// 	},
-	// 	formatMatch: function(data, i, max) {
-	// 		return data.name ;
-	// 	},
-	// 	extraParams : { 'name' : function(){return $("#reqitemnames").val()}, 'columnsName' : 'id,name'}
-	// }).result(function(event,data) {
-	// 	if(data != undefined){
-	// 		$("#reqitemids").val(data.id) ;
-	// 		$("#reqitemnames").val(data.name) ;
-	// 	}else{
-	// 		$("#reqitemids").val("") ;
-	// 		$("#reqitemnames").val("") ;
-	// 	}
-	// });
-	/**
-	$("#requester").autocomplete({
-        source: function( request, response ) {
-            $.ajax({
-            	url: "../ajax/searchContactInfo",
-                dataType: "json",
-                data: {
-                    name : request.term
-                },
-                success: function( data ) {
-                	response( $.map( data, function( result ) {
-                        return {
-                            label: result.id + " : " + result.name,
-                            value: result.name,
-                            id : result.id
-                        }
-                    }));
-                }
-            });
-        },
-        minLength: 1
-	});
-	 **/
-
-
-
 	var clientHeight= $(window).innerHeight();
 	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
 	var req_code = $('#req_code').val();
