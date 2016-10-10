@@ -2,12 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_REPORT_ITEMS", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_SYS_REPORT_ITEMS")
 public class PimsSysReportItems {
     private long reportitemid;
     private String rptname;
@@ -25,10 +26,11 @@ public class PimsSysReportItems {
     private String rptrefvalue2;
     private String rptavgvalue2;
     private String rptcreateuser;
-    private Time rptcreatetime;
+    private Date rptcreatetime;
 
     @Id
-    @Column(name = "REPORTITEMID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REQMATERIAL")
+    @SequenceGenerator(name = "SEQ_REQMATERIAL", sequenceName = "seq_reportitem", allocationSize = 1)
     public long getReportitemid() {
         return reportitemid;
     }
@@ -189,11 +191,11 @@ public class PimsSysReportItems {
 
     @Basic
     @Column(name = "RPTCREATETIME")
-    public Time getRptcreatetime() {
+    public Date getRptcreatetime() {
         return rptcreatetime;
     }
 
-    public void setRptcreatetime(Time rptcreatetime) {
+    public void setRptcreatetime(Date rptcreatetime) {
         this.rptcreatetime = rptcreatetime;
     }
 

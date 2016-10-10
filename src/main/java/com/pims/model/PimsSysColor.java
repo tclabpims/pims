@@ -2,17 +2,20 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_COLOR", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_SYS_COLOR")
 public class PimsSysColor {
     private long colorid;
     private String colcustomercode;
+    private String colcustomername;
     private String coltype;
     private String colowner;
+    private String colownername;
     private String colobject;
     private String colmodule;
     private String colobjectstate;
@@ -21,10 +24,29 @@ public class PimsSysColor {
     private String colsecondv;
     private Long colfirstn;
     private String colcreateuser;
-    private Time colcreatetime;
+    private Date colcreatetime;
+
+    @Transient
+    public String getColcustomername() {
+        return colcustomername;
+    }
+
+    public void setColcustomername(String colcustomername) {
+        this.colcustomername = colcustomername;
+    }
+
+    @Transient
+    public String getColownername() {
+        return colownername;
+    }
+
+    public void setColownername(String colownername) {
+        this.colownername = colownername;
+    }
 
     @Id
-    @Column(name = "COLORID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REQMATERIAL")
+    @SequenceGenerator(name = "SEQ_REQMATERIAL", sequenceName = "seq_syscolor", allocationSize = 1)
     public long getColorid() {
         return colorid;
     }
@@ -145,11 +167,11 @@ public class PimsSysColor {
 
     @Basic
     @Column(name = "COLCREATETIME")
-    public Time getColcreatetime() {
+    public Date getColcreatetime() {
         return colcreatetime;
     }
 
-    public void setColcreatetime(Time colcreatetime) {
+    public void setColcreatetime(Date colcreatetime) {
         this.colcreatetime = colcreatetime;
     }
 

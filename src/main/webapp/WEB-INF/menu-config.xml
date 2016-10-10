@@ -89,13 +89,14 @@
         </Menu>
 
         <Menu name="BasicData" title="BasicData.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
-            <Item name="TypeMaintenance" title="menu.TypeMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="SysColor" title="menu.SysColor" page="/syscolor/syscolor" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="DataMaintenance" title="menu.DataMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="TemplateMaintenance" title="menu.TemplateMaintenance" page="/template/template" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="DiseaseCategoriesMaintenance" title="menu.DiseaseCategoriesMaintenance" page="/pspathology/dcm" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="ReqField" title="menu.ReqField" page="/reqfield/reqfield" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="ReqMaterial" title="menu.ReqMaterial" page="/reqmaterial/reqmaterial" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="ReqTestItem" title="menu.ReqTestItem" page="/estitem/testitem" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="ReportItem" title="menu.ReportItem" page="/reportitem/reportitem" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="MaintenanceFees" title="menu.MaintenanceFees" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="AdviceCategoriesMaintenance" title="menu.AdviceCategoriesMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
