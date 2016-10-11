@@ -1,13 +1,13 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_SAMPLE", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_SAMPLE")
 public class PimsPathologySample {
     private long sampleid;
     private String saminspectionid;
@@ -34,10 +34,10 @@ public class PimsPathologySample {
     private Long samisdecacified;
     private Long samissamplingall;
     private long samsamplestatus;
-    private Time samreqtime;
+    private Date samreqtime;
     private String samreqdocid;
     private String samreqdocname;
-    private Time samsendtime;
+    private Date samsendtime;
     private String samsenddoctorid;
     private String samsenddoctorname;
     private String samsendhospital;
@@ -53,21 +53,21 @@ public class PimsPathologySample {
     private String sampatientphoneno;
     private String sampatientcompany;
     private Long samismenopause;
-    private Time reqlastmenstruation;
+    private Date reqlastmenstruation;
     private Long samischarged;
-    private Time samreceivertime;
+    private Date samreceivertime;
     private String samreceiverid;
     private String samreceivername;
-    private Time samregisttime;
+    private Date samregisttime;
     private String samregisterid;
     private String samregistername;
-    private Time saminitiallytime;
+    private Date saminitiallytime;
     private String saminitiallyuserid;
     private String saminitiallyusername;
-    private Time samauditedtime;
+    private Date samauditedtime;
     private String samauditerid;
     private String samauditer;
-    private Time samreportedtime;
+    private Date samreportedtime;
     private String samreportorid;
     private String samreportor;
     private Long samisdeleted;
@@ -79,14 +79,16 @@ public class PimsPathologySample {
     private String samfirstv;
     private String samsecondv;
     private String samthirdv;
-    private Time samfirstd;
-    private Time samsecondd;
+    private Date samfirstd;
+    private Date samsecondd;
     private Long samfirstn;
-    private Time samcreatetime;
+    private Date samcreatetime;
     private String samcreateuser;
 
     @Id
     @Column(name = "SAMPLEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_SAMPLEID")
+    @SequenceGenerator(name = "SEQ_SAMPLEID", sequenceName = "SEQ_SAMPLEID", allocationSize=1)
     public long getSampleid() {
         return sampleid;
     }
@@ -337,11 +339,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMREQTIME")
-    public Time getSamreqtime() {
+    public Date getSamreqtime() {
         return samreqtime;
     }
 
-    public void setSamreqtime(Time samreqtime) {
+    public void setSamreqtime(Date samreqtime) {
         this.samreqtime = samreqtime;
     }
 
@@ -367,11 +369,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMSENDTIME")
-    public Time getSamsendtime() {
+    public Date getSamsendtime() {
         return samsendtime;
     }
 
-    public void setSamsendtime(Time samsendtime) {
+    public void setSamsendtime(Date samsendtime) {
         this.samsendtime = samsendtime;
     }
 
@@ -527,11 +529,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "REQLASTMENSTRUATION")
-    public Time getReqlastmenstruation() {
+    public Date getReqlastmenstruation() {
         return reqlastmenstruation;
     }
 
-    public void setReqlastmenstruation(Time reqlastmenstruation) {
+    public void setReqlastmenstruation(Date reqlastmenstruation) {
         this.reqlastmenstruation = reqlastmenstruation;
     }
 
@@ -547,11 +549,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMRECEIVERTIME")
-    public Time getSamreceivertime() {
+    public Date getSamreceivertime() {
         return samreceivertime;
     }
 
-    public void setSamreceivertime(Time samreceivertime) {
+    public void setSamreceivertime(Date samreceivertime) {
         this.samreceivertime = samreceivertime;
     }
 
@@ -577,11 +579,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMREGISTTIME")
-    public Time getSamregisttime() {
+    public Date getSamregisttime() {
         return samregisttime;
     }
 
-    public void setSamregisttime(Time samregisttime) {
+    public void setSamregisttime(Date samregisttime) {
         this.samregisttime = samregisttime;
     }
 
@@ -607,11 +609,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMINITIALLYTIME")
-    public Time getSaminitiallytime() {
+    public Date getSaminitiallytime() {
         return saminitiallytime;
     }
 
-    public void setSaminitiallytime(Time saminitiallytime) {
+    public void setSaminitiallytime(Date saminitiallytime) {
         this.saminitiallytime = saminitiallytime;
     }
 
@@ -637,11 +639,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMAUDITEDTIME")
-    public Time getSamauditedtime() {
+    public Date getSamauditedtime() {
         return samauditedtime;
     }
 
-    public void setSamauditedtime(Time samauditedtime) {
+    public void setSamauditedtime(Date samauditedtime) {
         this.samauditedtime = samauditedtime;
     }
 
@@ -667,11 +669,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMREPORTEDTIME")
-    public Time getSamreportedtime() {
+    public Date getSamreportedtime() {
         return samreportedtime;
     }
 
-    public void setSamreportedtime(Time samreportedtime) {
+    public void setSamreportedtime(Date samreportedtime) {
         this.samreportedtime = samreportedtime;
     }
 
@@ -787,21 +789,21 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMFIRSTD")
-    public Time getSamfirstd() {
+    public Date getSamfirstd() {
         return samfirstd;
     }
 
-    public void setSamfirstd(Time samfirstd) {
+    public void setSamfirstd(Date samfirstd) {
         this.samfirstd = samfirstd;
     }
 
     @Basic
     @Column(name = "SAMSECONDD")
-    public Time getSamsecondd() {
+    public Date getSamsecondd() {
         return samsecondd;
     }
 
-    public void setSamsecondd(Time samsecondd) {
+    public void setSamsecondd(Date samsecondd) {
         this.samsecondd = samsecondd;
     }
 
@@ -817,11 +819,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMCREATETIME")
-    public Time getSamcreatetime() {
+    public Date getSamcreatetime() {
         return samcreatetime;
     }
 
-    public void setSamcreatetime(Time samcreatetime) {
+    public void setSamcreatetime(Date samcreatetime) {
         this.samcreatetime = samcreatetime;
     }
 
