@@ -2,12 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_CHARGE_ITEMS", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_SYS_CHARGE_ITEMS")
 public class PimsSysChargeItems {
     private long chargeitemid;
     private String chinesename;
@@ -15,13 +16,15 @@ public class PimsSysChargeItems {
     private String chiitemsort;
     private String chicategory;
     private Double chiprice;
-    private String chiuseflag;
+    private long chiuseflag;
     private String chiremark;
     private String chicreateuser;
-    private Time chicreatetime;
+    private Date chicreatetime;
 
     @Id
     @Column(name = "CHARGEITEMID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_CHARGE_ITEMS")
+    @SequenceGenerator(name = "SEQ_CHARGE_ITEMS", sequenceName = "SEQ_CHARGE_ITEMS", allocationSize=1)
     public long getChargeitemid() {
         return chargeitemid;
     }
@@ -82,11 +85,11 @@ public class PimsSysChargeItems {
 
     @Basic
     @Column(name = "CHIUSEFLAG")
-    public String getChiuseflag() {
+    public long getChiuseflag() {
         return chiuseflag;
     }
 
-    public void setChiuseflag(String chiuseflag) {
+    public void setChiuseflag(long chiuseflag) {
         this.chiuseflag = chiuseflag;
     }
 
@@ -112,11 +115,11 @@ public class PimsSysChargeItems {
 
     @Basic
     @Column(name = "CHICREATETIME")
-    public Time getChicreatetime() {
+    public Date getChicreatetime() {
         return chicreatetime;
     }
 
-    public void setChicreatetime(Time chicreatetime) {
+    public void setChicreatetime(Date chicreatetime) {
         this.chicreatetime = chicreatetime;
     }
 
@@ -134,7 +137,7 @@ public class PimsSysChargeItems {
         if (chiitemsort != null ? !chiitemsort.equals(that.chiitemsort) : that.chiitemsort != null) return false;
         if (chicategory != null ? !chicategory.equals(that.chicategory) : that.chicategory != null) return false;
         if (chiprice != null ? !chiprice.equals(that.chiprice) : that.chiprice != null) return false;
-        if (chiuseflag != null ? !chiuseflag.equals(that.chiuseflag) : that.chiuseflag != null) return false;
+        if (chiuseflag != that.chiuseflag) return false;
         if (chiremark != null ? !chiremark.equals(that.chiremark) : that.chiremark != null) return false;
         if (chicreateuser != null ? !chicreateuser.equals(that.chicreateuser) : that.chicreateuser != null)
             return false;
@@ -152,7 +155,7 @@ public class PimsSysChargeItems {
         result = 31 * result + (chiitemsort != null ? chiitemsort.hashCode() : 0);
         result = 31 * result + (chicategory != null ? chicategory.hashCode() : 0);
         result = 31 * result + (chiprice != null ? chiprice.hashCode() : 0);
-        result = 31 * result + (chiuseflag != null ? chiuseflag.hashCode() : 0);
+        result = 31 * result + (int)(chiuseflag ^ (chiuseflag >>> 32));
         result = 31 * result + (chiremark != null ? chiremark.hashCode() : 0);
         result = 31 * result + (chicreateuser != null ? chicreateuser.hashCode() : 0);
         result = 31 * result + (chicreatetime != null ? chicreatetime.hashCode() : 0);

@@ -2,12 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_CHARGEITEM_REF", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_SYS_CHARGEITEM_REF")
 public class PimsSysChargeitemRef {
     private long referenceid;
     private long chargeitemid;
@@ -15,13 +16,15 @@ public class PimsSysChargeitemRef {
     private String refhischargeid;
     private String refhischargename;
     private double refhisprice;
-    private String refsendhis;
+    private long refsendhis;
     private String refremark;
-    private Time refcreatetime;
+    private Date refcreatetime;
     private String refcreateuser;
 
     @Id
     @Column(name = "REFERENCEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_CHARGE_ITEMS_REF")
+    @SequenceGenerator(name = "SEQ_CHARGE_ITEMS_REF", sequenceName = "SEQ_CHARGE_ITEMS_REF", allocationSize=1)
     public long getReferenceid() {
         return referenceid;
     }
@@ -82,11 +85,11 @@ public class PimsSysChargeitemRef {
 
     @Basic
     @Column(name = "REFSENDHIS")
-    public String getRefsendhis() {
+    public long getRefsendhis() {
         return refsendhis;
     }
 
-    public void setRefsendhis(String refsendhis) {
+    public void setRefsendhis(long refsendhis) {
         this.refsendhis = refsendhis;
     }
 
@@ -102,11 +105,11 @@ public class PimsSysChargeitemRef {
 
     @Basic
     @Column(name = "REFCREATETIME")
-    public Time getRefcreatetime() {
+    public Date getRefcreatetime() {
         return refcreatetime;
     }
 
-    public void setRefcreatetime(Time refcreatetime) {
+    public void setRefcreatetime(Date refcreatetime) {
         this.refcreatetime = refcreatetime;
     }
 
@@ -135,7 +138,7 @@ public class PimsSysChargeitemRef {
             return false;
         if (refhischargename != null ? !refhischargename.equals(that.refhischargename) : that.refhischargename != null)
             return false;
-        if (refsendhis != null ? !refsendhis.equals(that.refsendhis) : that.refsendhis != null) return false;
+        if (refsendhis != that.refsendhis) return false;
         if (refremark != null ? !refremark.equals(that.refremark) : that.refremark != null) return false;
         if (refcreatetime != null ? !refcreatetime.equals(that.refcreatetime) : that.refcreatetime != null)
             return false;
@@ -156,7 +159,7 @@ public class PimsSysChargeitemRef {
         result = 31 * result + (refhischargename != null ? refhischargename.hashCode() : 0);
         temp = Double.doubleToLongBits(refhisprice);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (refsendhis != null ? refsendhis.hashCode() : 0);
+        result = 31 * result + (int)(refsendhis^( refsendhis >>>32));
         result = 31 * result + (refremark != null ? refremark.hashCode() : 0);
         result = 31 * result + (refcreatetime != null ? refcreatetime.hashCode() : 0);
         result = 31 * result + (refcreateuser != null ? refcreateuser.hashCode() : 0);
