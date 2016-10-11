@@ -2,7 +2,7 @@ package com.pims.service.impl.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsSysReportFormatDao;
 import com.pims.model.PimsSysReportFormate;
-import com.pims.service.impl.GenericManagerImpl;
+import com.smart.service.impl.GenericManagerImpl;
 import com.pims.service.pimssyspathology.PimsSysReportFormatManager;
 import com.pims.webapp.controller.GridQuery;
 import org.springframework.beans.factory.annotation.Autowired;

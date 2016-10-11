@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 public class PimsBaseModel {
 
     private HttpServletRequest request;
-
+    private String logyid;
     private String req_code;
     private String patient_name;
     private String send_hosptail;
@@ -39,6 +39,7 @@ public class PimsBaseModel {
         this.req_sts = request.getParameter("req_sts");
         this.sidx = request.getParameter("sidx");
         this.sord = request.getParameter("sord");
+        this.logyid = request.getParameter("logyid");
         this.page = Integer.parseInt(pages);
         this.row = Integer.parseInt(rows);
         this.start = row * (page - 1);
@@ -163,5 +164,13 @@ public class PimsBaseModel {
 
     public void setSord(String sord) {
         this.sord = sord;
+    }
+
+    public String getLogyid() {
+        return logyid;
+    }
+
+    public void setLogyid(String logyid) {
+        this.logyid = logyid;
     }
 }

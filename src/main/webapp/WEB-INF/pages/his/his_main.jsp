@@ -222,7 +222,7 @@
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="reqpatbirthday">出生日期</label>
 			<div class="col-sm-2">
-				<input type="text" class="form_datetime col-sm-12" id="reqpatbirthday"/>
+				<input type="text" class="col-sm-12" id="reqpatbirthday"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
