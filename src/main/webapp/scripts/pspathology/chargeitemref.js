@@ -91,6 +91,10 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
+            if($('#chargeitemid').val()=='' || $('#customercode').val()=='' || $('#refhischargeid').val() =='') {
+                layer.msg('请先完善信息', {icon: 2,time: 1000});
+                return false;
+            }
             $.post('../chargeitemref/edit', {chargeitemid:$('#chargeitemid').val(),customercode:$('#customercode').val(),
                 refhischargeid : $('#refhischargeid').val(),
                 refhischargename : $('#refhischargename').val(), refhisprice : $('#refhisprice').val(),
@@ -182,6 +186,10 @@ function editSection(){
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
+                    if($('#chargeitemid').val()=='' || $('#customercode').val()=='' || $('#refhischargeid').val() =='') {
+                        layer.msg('请先完善信息', {icon: 2,time: 1000});
+                        return false;
+                    }
                     $.post('../chargeitemref/edit', {referenceid:$('#referenceid').val(),chargeitemid:$('#chargeitemid').val(),customercode:$('#customercode').val(),
                         refhischargeid : $('#refhischargeid').val(),
                         refhischargename : $('#refhischargename').val(), refhisprice : $('#refhisprice').val(),
