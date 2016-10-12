@@ -21,6 +21,28 @@ public class PimsSysChargeitemRef {
     private Date refcreatetime;
     private String refcreateuser;
 
+    private String chargeItemName;
+
+    private String customerName;
+
+    @Transient
+    public String getChargeItemName() {
+        return chargeItemName;
+    }
+
+    public void setChargeItemName(String chargeItemName) {
+        this.chargeItemName = chargeItemName;
+    }
+
+    @Transient
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
     @Id
     @Column(name = "REFERENCEID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_CHARGE_ITEMS_REF")

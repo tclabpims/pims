@@ -108,4 +108,8 @@
 	<bean id="rmiService" class="com.smart.service.impl.zy.RMIServiceImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplatez1" />
 	</bean>
+
+    <bean id="hisService" class="com.pims.service.impl.QueryHisDataServiceImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplatez1" />
+    </bean>
 </beans>

@@ -35,7 +35,9 @@ public class RMIServiceImpl implements RMIService {
     
     private SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat ymdh = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    
+
+
+
 	public List<Ksdm> getAllKsdm() {
 		String sql ="select KSDM,KSMC from gy_ksdm";
 		return jdbcTemplate.query(sql, new RowMapper<Ksdm>() {

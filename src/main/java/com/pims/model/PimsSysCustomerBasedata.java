@@ -2,12 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SYS_CUSTOMER_BASEDATA", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_SYS_CUSTOMER_BASEDATA")
 public class PimsSysCustomerBasedata {
     private long basedataid;
     private String bascustomercode;
@@ -38,10 +39,12 @@ public class PimsSysCustomerBasedata {
     private Long basthirdn;
     private Long basfourthn;
     private String bascreateuser;
-    private Time bascreatetime;
+    private Date bascreatetime;
 
     @Id
     @Column(name = "BASEDATAID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_CUSTOMER_BASEDATA")
+    @SequenceGenerator(name = "SEQ_CUSTOMER_BASEDATA", sequenceName = "SEQ_CUSTOMER_BASEDATA", allocationSize=1)
     public long getBasedataid() {
         return basedataid;
     }
@@ -332,11 +335,11 @@ public class PimsSysCustomerBasedata {
 
     @Basic
     @Column(name = "BASCREATETIME")
-    public Time getBascreatetime() {
+    public Date getBascreatetime() {
         return bascreatetime;
     }
 
-    public void setBascreatetime(Time bascreatetime) {
+    public void setBascreatetime(Date bascreatetime) {
         this.bascreatetime = bascreatetime;
     }
 
