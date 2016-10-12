@@ -374,6 +374,10 @@ $(function(){
         ondblClickRow: function (id) {
             //editSection();
         },
+        loadError:function(){
+            layer.msg('连接HIS数据库服务器异常，请先检查网络连接', {icon: 2,time: 5000});
+            return false;
+        },
         viewrecords: true,
         shrinkToFit: true,
         altRows:true,
