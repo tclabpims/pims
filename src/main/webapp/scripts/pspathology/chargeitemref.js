@@ -358,7 +358,7 @@ $(function(){
         url: "../chargeitemref/query_his_charge",
         mtype: "GET",
         datatype: "json",
-        width:$('.leftContent').width(),
+        width:770,
         colNames: ['HIS收费ID','HIS收费名称','HIS收费价格'],
         colModel: [
             { name: 'sfxmid', index: 'sfxmid', width: 30},
