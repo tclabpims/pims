@@ -33,6 +33,7 @@ public class UserAuthSuccessHandler implements AuthenticationSuccessHandler {
 
     public static final String LOGIN_SUCCESS_REDIRECT = "/home";
 
+
     /**
      * @param httpServletRequest
      * @param httpServletResponse

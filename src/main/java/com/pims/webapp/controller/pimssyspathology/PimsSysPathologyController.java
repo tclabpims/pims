@@ -1,5 +1,6 @@
 package com.pims.webapp.controller.pimssyspathology;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsSysPathology;
 import com.pims.model.PimsSysReportFormate;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/9/28.
@@ -71,6 +73,12 @@ public class PimsSysPathologyController extends PIMSBaseController {
         dr.setRows(getResultMap(result));
         response.setContentType(contentType);
         return dr;
+    }
+
+    @RequestMapping(method = {RequestMethod.GET}, value = "/querytype")
+    @ResponseBody
+    public void queryPathologyType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PrintwriterUtil.print(response, pimsSysPathologyManager.getPathologyType().toJSONString());
     }
 
     @RequestMapping(method = {RequestMethod.GET}, value = "/queryReportFormat")

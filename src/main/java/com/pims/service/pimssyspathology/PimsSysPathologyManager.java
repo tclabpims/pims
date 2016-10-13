@@ -1,5 +1,6 @@
 package com.pims.service.pimssyspathology;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsSysPathology;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
@@ -15,5 +16,7 @@ public interface PimsSysPathologyManager extends GenericManager<PimsSysPathology
     List<PimsSysPathology> getPimsSysPathologyList(GridQuery gridQuery);
 
     Integer getPimsSysPathologyTotal(String queryString);
+
+    JSONArray getPathologyType();
 
 }

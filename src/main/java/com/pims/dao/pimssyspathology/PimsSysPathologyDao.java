@@ -18,4 +18,6 @@ public interface PimsSysPathologyDao extends GenericDao<PimsSysPathology, Long> 
     List<PimsSysPathology> getPimsSysPathologyList(String s, int start, int end);
 
     Integer getPimsSysPathologyTotal(String s);
+
+    List<PimsSysPathology> findEnabledPathology(String hql);
 }

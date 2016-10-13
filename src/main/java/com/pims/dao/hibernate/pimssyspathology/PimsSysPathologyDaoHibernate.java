@@ -51,4 +51,9 @@ public class PimsSysPathologyDaoHibernate extends GenericDaoHibernate<PimsSysPat
 
         return countTotal(s);
     }
+
+    @Override
+    public List<PimsSysPathology> findEnabledPathology(String hql) {
+        return getSession().createQuery(hql).list();
+    }
 }
