@@ -15,21 +15,7 @@ public class PimsSysCustomerBasedata {
     private long baspathologyid;
     private long bastype;
     private long basrefdataid;
-    private Long basparentdataid;
-    private String baswebeletname;
-    private String basshowlevel;
     private long basuseflag;
-    private String basinputsort;
-    private String basreportsort;
-    private String bascheckboxf;
-    private String bascheckboxs;
-    private String basinputf;
-    private String basinputs;
-    private String basdefaultvalue;
-    private String basrefvalue1;
-    private String basavgvalue1;
-    private String basrefvalue2;
-    private String basavgvalue2;
     private String basfirstv;
     private String bassecondv;
     private String basthirdv;
@@ -40,6 +26,49 @@ public class PimsSysCustomerBasedata {
     private Long basfourthn;
     private String bascreateuser;
     private Date bascreatetime;
+
+    private String baspathologyname;
+
+    private String bascustomername;
+
+    private String basrefdataname;
+
+    @Transient
+    public String getBasrefdataname() {
+        return basrefdataname;
+    }
+
+    public void setBasrefdataname(String basrefdataname) {
+        this.basrefdataname = basrefdataname;
+    }
+
+    @Transient
+    public String getBaspathologyname() {
+        return baspathologyname;
+    }
+
+    public void setBaspathologyname(String baspathologyname) {
+        this.baspathologyname = baspathologyname;
+    }
+
+    @Transient
+    public String getBascustomername() {
+        return bascustomername;
+    }
+
+    public void setBascustomername(String bascustomername) {
+        this.bascustomername = bascustomername;
+    }
+
+    @Basic
+    @Column(name = "BASUSEFLAG")
+    public long getBasuseflag() {
+        return basuseflag;
+    }
+
+    public void setBasuseflag(long basuseflag) {
+        this.basuseflag = basuseflag;
+    }
 
     @Id
     @Column(name = "BASEDATAID")
@@ -91,156 +120,6 @@ public class PimsSysCustomerBasedata {
 
     public void setBasrefdataid(long basrefdataid) {
         this.basrefdataid = basrefdataid;
-    }
-
-    @Basic
-    @Column(name = "BASPARENTDATAID")
-    public Long getBasparentdataid() {
-        return basparentdataid;
-    }
-
-    public void setBasparentdataid(Long basparentdataid) {
-        this.basparentdataid = basparentdataid;
-    }
-
-    @Basic
-    @Column(name = "BASWEBELETNAME")
-    public String getBaswebeletname() {
-        return baswebeletname;
-    }
-
-    public void setBaswebeletname(String baswebeletname) {
-        this.baswebeletname = baswebeletname;
-    }
-
-    @Basic
-    @Column(name = "BASSHOWLEVEL")
-    public String getBasshowlevel() {
-        return basshowlevel;
-    }
-
-    public void setBasshowlevel(String basshowlevel) {
-        this.basshowlevel = basshowlevel;
-    }
-
-    @Basic
-    @Column(name = "BASUSEFLAG")
-    public long getBasuseflag() {
-        return basuseflag;
-    }
-
-    public void setBasuseflag(long basuseflag) {
-        this.basuseflag = basuseflag;
-    }
-
-    @Basic
-    @Column(name = "BASINPUTSORT")
-    public String getBasinputsort() {
-        return basinputsort;
-    }
-
-    public void setBasinputsort(String basinputsort) {
-        this.basinputsort = basinputsort;
-    }
-
-    @Basic
-    @Column(name = "BASREPORTSORT")
-    public String getBasreportsort() {
-        return basreportsort;
-    }
-
-    public void setBasreportsort(String basreportsort) {
-        this.basreportsort = basreportsort;
-    }
-
-    @Basic
-    @Column(name = "BASCHECKBOXF")
-    public String getBascheckboxf() {
-        return bascheckboxf;
-    }
-
-    public void setBascheckboxf(String bascheckboxf) {
-        this.bascheckboxf = bascheckboxf;
-    }
-
-    @Basic
-    @Column(name = "BASCHECKBOXS")
-    public String getBascheckboxs() {
-        return bascheckboxs;
-    }
-
-    public void setBascheckboxs(String bascheckboxs) {
-        this.bascheckboxs = bascheckboxs;
-    }
-
-    @Basic
-    @Column(name = "BASINPUTF")
-    public String getBasinputf() {
-        return basinputf;
-    }
-
-    public void setBasinputf(String basinputf) {
-        this.basinputf = basinputf;
-    }
-
-    @Basic
-    @Column(name = "BASINPUTS")
-    public String getBasinputs() {
-        return basinputs;
-    }
-
-    public void setBasinputs(String basinputs) {
-        this.basinputs = basinputs;
-    }
-
-    @Basic
-    @Column(name = "BASDEFAULTVALUE")
-    public String getBasdefaultvalue() {
-        return basdefaultvalue;
-    }
-
-    public void setBasdefaultvalue(String basdefaultvalue) {
-        this.basdefaultvalue = basdefaultvalue;
-    }
-
-    @Basic
-    @Column(name = "BASREFVALUE1")
-    public String getBasrefvalue1() {
-        return basrefvalue1;
-    }
-
-    public void setBasrefvalue1(String basrefvalue1) {
-        this.basrefvalue1 = basrefvalue1;
-    }
-
-    @Basic
-    @Column(name = "BASAVGVALUE1")
-    public String getBasavgvalue1() {
-        return basavgvalue1;
-    }
-
-    public void setBasavgvalue1(String basavgvalue1) {
-        this.basavgvalue1 = basavgvalue1;
-    }
-
-    @Basic
-    @Column(name = "BASREFVALUE2")
-    public String getBasrefvalue2() {
-        return basrefvalue2;
-    }
-
-    public void setBasrefvalue2(String basrefvalue2) {
-        this.basrefvalue2 = basrefvalue2;
-    }
-
-    @Basic
-    @Column(name = "BASAVGVALUE2")
-    public String getBasavgvalue2() {
-        return basavgvalue2;
-    }
-
-    public void setBasavgvalue2(String basavgvalue2) {
-        this.basavgvalue2 = basavgvalue2;
     }
 
     @Basic
@@ -354,27 +233,6 @@ public class PimsSysCustomerBasedata {
         if (baspathologyid != that.baspathologyid) return false;
         if (bastype != that.bastype) return false;
         if (basrefdataid != that.basrefdataid) return false;
-        if (basuseflag != that.basuseflag) return false;
-        if (bascustomercode != null ? !bascustomercode.equals(that.bascustomercode) : that.bascustomercode != null)
-            return false;
-        if (basparentdataid != null ? !basparentdataid.equals(that.basparentdataid) : that.basparentdataid != null)
-            return false;
-        if (baswebeletname != null ? !baswebeletname.equals(that.baswebeletname) : that.baswebeletname != null)
-            return false;
-        if (basshowlevel != null ? !basshowlevel.equals(that.basshowlevel) : that.basshowlevel != null) return false;
-        if (basinputsort != null ? !basinputsort.equals(that.basinputsort) : that.basinputsort != null) return false;
-        if (basreportsort != null ? !basreportsort.equals(that.basreportsort) : that.basreportsort != null)
-            return false;
-        if (bascheckboxf != null ? !bascheckboxf.equals(that.bascheckboxf) : that.bascheckboxf != null) return false;
-        if (bascheckboxs != null ? !bascheckboxs.equals(that.bascheckboxs) : that.bascheckboxs != null) return false;
-        if (basinputf != null ? !basinputf.equals(that.basinputf) : that.basinputf != null) return false;
-        if (basinputs != null ? !basinputs.equals(that.basinputs) : that.basinputs != null) return false;
-        if (basdefaultvalue != null ? !basdefaultvalue.equals(that.basdefaultvalue) : that.basdefaultvalue != null)
-            return false;
-        if (basrefvalue1 != null ? !basrefvalue1.equals(that.basrefvalue1) : that.basrefvalue1 != null) return false;
-        if (basavgvalue1 != null ? !basavgvalue1.equals(that.basavgvalue1) : that.basavgvalue1 != null) return false;
-        if (basrefvalue2 != null ? !basrefvalue2.equals(that.basrefvalue2) : that.basrefvalue2 != null) return false;
-        if (basavgvalue2 != null ? !basavgvalue2.equals(that.basavgvalue2) : that.basavgvalue2 != null) return false;
         if (basfirstv != null ? !basfirstv.equals(that.basfirstv) : that.basfirstv != null) return false;
         if (bassecondv != null ? !bassecondv.equals(that.bassecondv) : that.bassecondv != null) return false;
         if (basthirdv != null ? !basthirdv.equals(that.basthirdv) : that.basthirdv != null) return false;
@@ -398,21 +256,6 @@ public class PimsSysCustomerBasedata {
         result = 31 * result + (int) (baspathologyid ^ (baspathologyid >>> 32));
         result = 31 * result + (int) (bastype ^ (bastype >>> 32));
         result = 31 * result + (int) (basrefdataid ^ (basrefdataid >>> 32));
-        result = 31 * result + (basparentdataid != null ? basparentdataid.hashCode() : 0);
-        result = 31 * result + (baswebeletname != null ? baswebeletname.hashCode() : 0);
-        result = 31 * result + (basshowlevel != null ? basshowlevel.hashCode() : 0);
-        result = 31 * result + (int) (basuseflag ^ (basuseflag >>> 32));
-        result = 31 * result + (basinputsort != null ? basinputsort.hashCode() : 0);
-        result = 31 * result + (basreportsort != null ? basreportsort.hashCode() : 0);
-        result = 31 * result + (bascheckboxf != null ? bascheckboxf.hashCode() : 0);
-        result = 31 * result + (bascheckboxs != null ? bascheckboxs.hashCode() : 0);
-        result = 31 * result + (basinputf != null ? basinputf.hashCode() : 0);
-        result = 31 * result + (basinputs != null ? basinputs.hashCode() : 0);
-        result = 31 * result + (basdefaultvalue != null ? basdefaultvalue.hashCode() : 0);
-        result = 31 * result + (basrefvalue1 != null ? basrefvalue1.hashCode() : 0);
-        result = 31 * result + (basavgvalue1 != null ? basavgvalue1.hashCode() : 0);
-        result = 31 * result + (basrefvalue2 != null ? basrefvalue2.hashCode() : 0);
-        result = 31 * result + (basavgvalue2 != null ? basavgvalue2.hashCode() : 0);
         result = 31 * result + (basfirstv != null ? basfirstv.hashCode() : 0);
         result = 31 * result + (bassecondv != null ? bassecondv.hashCode() : 0);
         result = 31 * result + (basthirdv != null ? basthirdv.hashCode() : 0);
