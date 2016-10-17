@@ -217,7 +217,6 @@ function saveInfo() {
 		// return false;
 		if(post) {
 			$.post("../pimspathology/editSample", {
-					aaaa:"1",
 			    reqthirdv:JSON.stringify(rowdatas),
                 requisitionid:$("#requisitionid").val(),
                 reqcustomercode:$("#reqcustomercode").val(),
@@ -277,19 +276,21 @@ function saveInfo() {
                 reqcreatetime:$("#reqcreatetime").val()
 			},
 			function(data) {
-				var data = JSON.parse(data);
+				//var data = JSON.parse(data);
 				if(data.success) {
-					//layer.closeAll();
-					var rowData = {
-						requisitionid:data.requisitionid,
-						requisitionno:data.requisitionno,
-						reqitemnames:data.reqitemnames,
-						reqpathologyid:data.reqpathologyid
-					};
-					var ids = $('#new').jqGrid('getDataIDs');
-		            var newId = parseInt(ids[ids.length - 1] || 0) + 1;
-					$("#new").jqGrid('addRowData', newId, rowData);
 					layer.msg(data.message, {icon: 1, time: 1000});
+					layer.closeAll();
+					// var rowData = {
+					// 	requisitionid:data.requisitionid,
+					// 	requisitionno:data.requisitionno,
+					// 	reqitemnames:data.reqitemnames,
+					// 	reqpathologyid:data.reqpathologyid
+					// };
+					// var ids = $('#new').jqGrid('getDataIDs');
+                    // var newId = parseInt(ids[ids.length - 1] || 0) + 1;
+					// $("#new").jqGrid('addRowData', newId, rowData);
+					$("#new").trigger("reloadGrid");
+
 				} else {
 					layer.msg(data.message, {icon:2, time: 1000});
 				}
@@ -344,6 +345,13 @@ function createNew1(reqid){
 }
 function addSample() {
 	clearData();
+	$.get("../pimspathology/editSample", {},
+		function(data) {
+			if(data.success) {
+				$("#requisitionno").val(date.maxcode);
+			} else {
+			}
+		});
 	layer.open({
 		type: 1,
 		area: ['1000px','600px'],
@@ -364,23 +372,31 @@ function editSample() {
         layer.msg('请先选择要修改的数据', {icon: 2, time: 1000});
         return false;
     }
-    getSampleData(rowData.requisitionid);
-    //createNew1(rowData.requisitionid);
-    jQuery("#new1").jqGrid('setGridParam',{
-        url: "../pimspathology/ajax/getmaterial",
-        //发送数据
-        postData : {"reqId":rowData.requisitionid}
-    }).trigger('reloadGrid');//重新载入
-	layer.open({
-		type: 1,
-		area: ['1000px','600px'],
-		skin: 'layui-layer-molv',
-		fix: false, //不固定
-		maxmin: false,
-		shade:0.6,
-		title: "样本信息编辑",
-		content: $("#formDialog")
-	});
+	$.get("../pimspathology/canchange", {
+			id:rowData.requisitionid
+		},
+		function(data) {
+			if(data.success) {
+				getSampleData(rowData.requisitionid);
+				jQuery("#new1").jqGrid('setGridParam',{
+					url: "../pimspathology/ajax/getmaterial",
+					//发送数据
+					postData : {"reqId":rowData.requisitionid}
+				}).trigger('reloadGrid');//重新载入
+				layer.open({
+					type: 1,
+					area: ['1000px','600px'],
+					skin: 'layui-layer-molv',
+					fix: false, //不固定
+					maxmin: false,
+					shade:0.6,
+					title: "样本信息编辑",
+					content: $("#formDialog")
+				});
+			}else{
+				layer.msg(data.message, {icon:2, time: 1000});
+			}
+		});
 }
 
 function deleteSample() {
@@ -390,12 +406,21 @@ function deleteSample() {
         layer.msg('请先选择要删除的数据', {icon: 2, time: 1000});
         return false;
     }
-	layer.confirm('确定删除选择数据？', {icon: 2, title:'警告'}, function(index){
-		$.post('../pimspathology/deleteSample',{requisitionid:rowData.requisitionid},function(data) {
-			layer.close(index);
-			$("#new").trigger('reloadGrid');
+	$.get("../pimspathology/canchange", {
+			id:rowData.requisitionid
+		},
+		function(data) {
+			if(data.success) {
+				layer.confirm('确定删除选择数据？', {icon: 2, title:'警告'}, function(index){
+					$.post('../pimspathology/deleteSample',{requisitionid:rowData.requisitionid},function(data) {
+						layer.close(index);
+						$("#new").trigger('reloadGrid');
+					});
+				});
+			}else{
+				layer.msg(data.message, {icon:2, time: 1000});
+			}
 		});
-	});
 }
 
 function clearData() {
@@ -405,12 +430,12 @@ function clearData() {
 
 $(function() {
 	//表单校验
-	$("#sampleForm").Validform({
-		btnSubmit:"#addinfo",
-		tiptype:4,
-		callback:function(){
-		}
-	});
+	// $("#sampleForm").Validform({
+	// 	btnSubmit:"#addinfo",
+	// 	tiptype:4,
+	// 	callback:function(){
+	// 	}
+	// });
 	$(".form_datetime").datetimepicker({
 		minView: "month", //选择日期后，不会再跳转去选择时分秒
 		format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式

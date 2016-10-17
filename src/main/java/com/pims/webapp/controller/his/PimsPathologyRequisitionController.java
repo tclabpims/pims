@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,23 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		PimsPathologyRequisition pathology = pimsPathologyRequisitionManager.getBySampleNo(Long.parseLong(code));
 		JSONObject pathMap = getJSONObject(pathology);
 		PrintwriterUtil.print(response, pathMap.toString());
+	}
+
+	@RequestMapping(value = "/getcode*", method = RequestMethod.GET)
+	public void getMaxCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int nowyear = Calendar.getInstance().get(Calendar.YEAR);//获取当前年份
+		String requisitionno = "";
+		String maxCode = pimsPathologyRequisitionManager.getMaxCode(null);
+		if(maxCode == null || !maxCode.contains(String.valueOf(nowyear))){
+			requisitionno = nowyear + "00000001";
+		}else if(maxCode.contains(String.valueOf(nowyear))){
+			long a = Long.valueOf(maxCode).longValue() + 1;
+			requisitionno =  String.valueOf(a);
+		}
+		JSONObject o = new JSONObject();
+		o.put("success",true);
+		o.put("maxcode",requisitionno);
+		PrintwriterUtil.print(response, o.toString());
 	}
 	
 	@RequestMapping(value = "/ajax/pathology*", method = RequestMethod.GET)
@@ -107,6 +125,10 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		JSONArray materials = JSON.parseArray(materiallist);
 		JSONObject o = new JSONObject();
 		if(StringUtils.isEmpty(String.valueOf(ppr.getRequisitionid())) || String.valueOf(ppr.getRequisitionid()).equals("0")){
+			String maxCode = pimsPathologyRequisitionManager.getMaxCode(null);
+			if(!StringUtils.isEmpty(maxCode) && Long.parseLong(maxCode) >= Long.parseLong(ppr.getRequisitionno()) ){
+				ppr.setRequisitionno(String.valueOf(Long.parseLong(maxCode)+1));
+			}
 			ppr.setReqdate(new Date());
 			ppr.setReqdatechar(Constants.DF3.format(new Date()));
 			ppr.setReqplanexectime(new Date());
@@ -122,13 +144,13 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 			o.put("success", true);
 		} else{
 			PimsPathologyRequisition ppr1 = pimsPathologyRequisitionManager.getBySampleNo((long) ppr.getRequisitionid());
-			ppr.setReqdate(ppr1.getReqdate());
-			ppr.setReqplanexectime(ppr1.getReqplanexectime());
 			ppr.setReqthirdv("");
 			pimsPathologyRequisitionManager.save(ppr);
 			o.put("message", "申请编辑成功！");
 			o.put("success", true);
 		}
+		//删除组织信息
+		pimsRequisitionMaterialManager.delete((long) ppr.getRequisitionid());
 		for(int i= 0;i<materials.size();i++){
 			PimsRequisitionMaterial mater = new PimsRequisitionMaterial();
 			Map map = (Map) materials.get(i);
@@ -144,8 +166,9 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		o.put("requisitionno", ppr.getRequisitionno());
 		o.put("reqitemnames", ppr.getReqitemnames());
 		o.put("reqpathologyid", ppr.getReqpathologyid());
-		response.setContentType("text/html; charset=UTF-8");
-		response.getWriter().write(o.toString());
+//		response.setContentType("text/html; charset=UTF-8");
+//		response.getWriter().write(o.toString());
+		PrintwriterUtil.print(response, o.toString());
 		return null;
 	}
 
@@ -163,8 +186,29 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 			o.put("message", "样本号为"+ ppr.getRequisitionid() + "的标本删除成功！");
 			o.put("success", true);
 		}
-		response.setContentType("text/html; charset=UTF-8");
-		response.getWriter().write(o.toString());
+//		response.setContentType("text/html; charset=UTF-8");
+//		response.getWriter().write(o.toString());
+		PrintwriterUtil.print(response, o.toString());
+	}
+
+	/**
+	 * 查看单据是否可修改
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/canchange*", method = RequestMethod.GET)
+	public void canChange(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String code = request.getParameter("id");
+		JSONObject o = new JSONObject();
+		if(pimsPathologyRequisitionManager.canChange(Long.parseLong(code))){
+			o.put("success", true);
+		}else{
+			o.put("success", false);
+			o.put("message","无法进行该操作！");
+		}
+		PrintwriterUtil.print(response, o.toString());
 	}
 
 }

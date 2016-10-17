@@ -24,6 +24,9 @@ public class PimsBaseModel {
     private int end;
     private String sidx;
     private String sord;
+    public PimsBaseModel(){
+
+    }
     public  PimsBaseModel(HttpServletRequest request) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
         this.request = request;

@@ -36,7 +36,7 @@ public class HisMainController extends PIMSBaseController {
         List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(null);//查询申请项目列表
         int nowyear = Calendar.getInstance().get(Calendar.YEAR);//获取当前年份
         String requisitionno = "";
-        String maxCode = pimsPathologyRequisitionManager.getMaxCode(999);
+        String maxCode = pimsPathologyRequisitionManager.getMaxCode(null);
         if(maxCode == null || !maxCode.contains(String.valueOf(nowyear))){
             requisitionno = nowyear + "00000001";
         }else if(maxCode.contains(String.valueOf(nowyear))){

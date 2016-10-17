@@ -2,6 +2,7 @@ package com.pims.dao.his;
 
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
+import com.pims.model.PimsPathologySample;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.GenericDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +52,21 @@ public interface PimsPathologyRequisitionDao extends GenericDao<PimsPathologyReq
      * @param reqpathologyid
      * @return
      */
-    String getMaxCode(int reqpathologyid);
+    String getMaxCode(String reqpathologyid);
+
+    /**
+     * 更新申请单的可使用状态
+     * @param ppr
+     * @param state
+     * @return
+     */
+    boolean updateReqState(PimsPathologySample ppr, int state);
+
+    /**
+     * 是否可以被修改或删除
+     * @param id
+     * @return
+     */
+    boolean canChange(Long id);
 }
 

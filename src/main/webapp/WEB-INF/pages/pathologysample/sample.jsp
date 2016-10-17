@@ -25,53 +25,69 @@
 	.ui-autocomplete {
 		z-index: 99999999;
 	}
+    label {
+        font-size: 13px;
+    }
+    .form-group{
+        margin-bottom: 0px;
+    }
 </style>
 <body>
 <div class="row widget-main" id="div_1">
-		<div>
-			<button type="button" class="btn btn-sm btn-primary " title="新增标本" onclick="addSample()">
-				<i class="ace-icon fa fa-fire bigger-110"></i>
-				新增
-			</button>
-			<button type="button" class="btn btn-sm  btn-success" title="修改标本" onclick="editSample()">
-				<i class="ace-icon fa fa-pencil-square bigger-110"></i>
-				修改
-			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="删除标本" onclick="deleteSample()">
-				<i class="ace-icon fa fa-times bigger-110"></i>
-				删除
-			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="保存标本" id="saveButton" onclick="deleteSample()">
-				<i class="ace-icon fa fa-fire bigger-110"></i>
-				保存
-			</button>
-			<button type="button" class="btn btn-sm btn-info" title="打印" onclick="print()">
-				<i class="ace-icon fa fa-print bigger-110"></i>
-				打印
-			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="上一个" onclick="upSample()">
-				<i class="ace-icon fa fa-times bigger-110"></i>
-				上一个
-			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="下一个" onclick="downSample()">
-				<i class="ace-icon fa fa-fire bigger-110"></i>
-				下一个
-			</button>
-			<button type="button" class="btn btn-sm btn-info" title="计费调整" onclick="hisChange()">
-				<i class="ace-icon fa fa-print bigger-110"></i>
-				计费调整
-			</button>
-		</div>
+	<div>
+		<button type="button" class="btn btn-sm btn-primary " title="新增标本" onclick="addSample()">
+			<i class="ace-icon fa fa-fire bigger-110"></i>
+			新增
+		</button>
+		<button type="button" class="btn btn-sm  btn-success" title="修改标本" id="editButton" onclick="editSample()">
+			<i class="ace-icon fa fa-pencil-square bigger-110"></i>
+			修改
+		</button>
+		<button type="button" class="btn btn-sm btn-danger" title="删除标本" id="deleteButton" onclick="deleteSample()">
+			<i class="ace-icon fa fa-times bigger-110"></i>
+			删除
+		</button>
+		<button type="button" class="btn btn-sm btn-danger" title="保存标本" id="saveButton" onclick="saveInfo()">
+			<i class="ace-icon fa fa-fire bigger-110"></i>
+			保存
+		</button>
+		<button type="button" class="btn btn-sm btn-info" title="打印" onclick="print()">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			打印
+		</button>
+		<button type="button" class="btn btn-sm btn-danger" title="上一个" onclick="upSample()">
+			<i class="ace-icon fa fa-times bigger-110"></i>
+			上一个
+		</button>
+		<button type="button" class="btn btn-sm btn-danger" title="下一个" onclick="downSample()">
+			<i class="ace-icon fa fa-fire bigger-110"></i>
+			下一个
+		</button>
+		<button type="button" class="btn btn-sm btn-info" title="计费调整" onclick="hisChange()">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			计费调整
+		</button>
+	</div>
 </div>
 <div class="row">
 <div id="formDialog" class="col-sm-7 leftContent" style="border-style: solid;border-color: #0A246A;border-width: 1px">
-	<form class="form-horizontal" role="form" style="margin-top:5px;" id="sampleForm" >
+	<form class="form-horizontal"  action="#" method="post" id="sampleForm" >
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-left" for="saminspectionid">条形码:</label>
 			<div class="col-sm-3">
-				<input type="hidden" id="sampleid" value="${sampleid}"><!--标本id-->
-				<input type="hidden" id="samcustomerid" value="${samcustomerid}"/><!--客户id-->
-				<input type="hidden" id="samsource" value="${samsource}"/><!--是否外送-->
+				<input type="hidden" id="sampleid"><!--标本id-->
+				<input type="hidden" id="samcustomerid"/><!--客户id-->
+                <input type="hidden" id="samcustomercode" /><!--客户id-->
+				<input type="hidden" id="samsource"/><!--是否外送-->
+                <input type="hidden" id="samisdeleted"/><!--删除标记-->
+                <input type="hidden" id="sampatientid" /><!--患者唯一号(病案号)-->
+                <input type="hidden" id="saminpatientid" /><!--就诊id(患者每一次来院的id)-->
+                <input type="hidden" id="sampatienttype"/><!--患者类型-->
+                <input type="hidden" id="samsampleclass"/><!--标本种类-->
+                <input type="hidden" id="sampopuser"/><!--标本检查项目id-->
+                <input type="hidden" id="samsamplestatus"/><!--标本状态-->
+                <input type="hidden" id="samregisttime"/><!--登记时间-->
+                <input type="hidden" id="samregisterid"/><!--等级人员-->
 				<input type="text" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="samrequistionid">临床申请:</label>
@@ -173,11 +189,11 @@
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
 			<label class="col-sm-1 control-label no-padding-right" >送检时间:</label>
 			<div class="col-sm-3">
-				<input type="text" class="form_datetime" value="${samsendtime}" id="samsendtime"/>
+				<input type="text" class="form_datetime1" value="${samsendtime}" id="samsendtime"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="samreceivertime">接收日期:</label>
 			<div class="col-sm-3">
-				<input type="text" class="form_datetime" value="${samreceivertime}" id="samreceivertime"/>
+				<input type="text" class="form_datetime1" value="${samreceivertime}" id="samreceivertime"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="samfirstn">组织袋数:</label>
 			<div class="col-sm-3">
@@ -212,8 +228,9 @@
 	</form>
 	<div class="widget-main no-padding">
 		<p1>电子申请单列表</p1>
-		<table id="new1" class="table table-striped table-bordered table-hover">
+		<table id="new1" class="table table-striped table-bordered table-hover" style="height: 50px">
 		</table>
+        <div id="pager1"></div>
 	</div>
 	<div class="widget-main no-padding">
 		<p1>费用列表</p1>
@@ -247,8 +264,8 @@
 		<span class="input-group-addon ">送检医院</span>
 		<select class="form-control"  id="send_hosptail">
 			<option value="1" <c:if test="${send_hosptail == 1}">selected</c:if>>杭州国际医院</option>
-			<option value="2" <c:if test="${send_hosptail == 1}">selected</c:if>>袍江医院</option>
-			<option value="3" <c:if test="${send_hosptail == 1}">selected</c:if>>温州人民医院</option>
+			<option value="2" <c:if test="${send_hosptail == 2}">selected</c:if>>袍江医院</option>
+			<option value="3" <c:if test="${send_hosptail == 3}">selected</c:if>>温州人民医院</option>
 		</select>
 	</div>
 	<div class="input-group" style="float: left;">

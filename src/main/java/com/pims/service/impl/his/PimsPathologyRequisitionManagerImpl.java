@@ -3,6 +3,7 @@ package com.pims.service.impl.his;
 import com.pims.dao.his.PimsPathologyRequisitionDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
+import com.pims.model.PimsPathologySample;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.service.impl.GenericManagerImpl;
@@ -81,7 +82,28 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
      * @return
      */
     @Override
-    public String getMaxCode(int reqpathologyid) {
+    public String getMaxCode(String reqpathologyid) {
         return pimsPathologyRequisitionDao.getMaxCode(reqpathologyid);
+    }
+
+    /**
+     * 更新申请单的可使用状态
+     * @param ppr
+     * @param state
+     * @return
+     */
+    @Override
+    public boolean updateReqState(PimsPathologySample ppr, int state) {
+        return pimsPathologyRequisitionDao.updateReqState(ppr,state);
+    }
+
+    /**
+     * 是否可以被修改或删除
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean canChange(Long id) {
+        return pimsPathologyRequisitionDao.canChange(id);
     }
 }
