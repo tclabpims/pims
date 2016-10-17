@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by king on 2016/10/10.
  */
-@Service("pimsPathologySample")
+@Service("pimsPathologySampleManager")
 public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPathologySample,Long> implements PimsPathologySampleManager {
     private PimsPathologySampleDao pimsPathologySampleDao;
     @Autowired

@@ -15,7 +15,7 @@
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/his/his_main.js"></script>
-	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
+	<%--<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>--%>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 </head>
 <style>
@@ -106,6 +106,10 @@
 				<input type="hidden" id="reqdate" value="${reqdate}"/>
 				<input type="hidden" id="reqisdeleted" value="${reqisdeleted}"/>
 				<input type="hidden" id="reqinpatientid" value="${reqinpatientid}"/>
+
+				<input type="hidden" id="reqplanexectime" value="${reqplanexectime}"/>
+				<input type="hidden" id="reqcreateuser"  value="${reqcreateuser}"/>
+				<input type="hidden" id="reqcreatetime" value="${reqcreatetime}"/>
 				<input type="text" class="col-sm-12" id="requisitionno" name="requisitionno" onkeypress="getData(this,event)" value="${requisitionno}"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" >检查项目</label>
@@ -222,7 +226,7 @@
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" for="reqpatbirthday">出生日期</label>
 			<div class="col-sm-2">
-				<input type="text" class="col-sm-12" id="reqpatbirthday"/>
+				<input type="text" class=" col-sm-12" id="reqpatbirthday"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">

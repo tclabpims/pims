@@ -60,8 +60,8 @@
 
         <Menu name="SpecimenDispose" title="SpecimenDispose.title" page="/reagent/in" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
             <Item name="SpecimenReg" title="SpecimenReg.title" page="/pathologysample/sample" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
-            <Item name="SamplingManage" title="menu.samplingManage" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
-            <Item name="EmbeddingManage" title="menu.embeddingManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="SamplingManage" title="menu.samplingManage" page="/pathologysample/pieces" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="EmbeddingManage" title="menu.embeddingManage" page="/pathologysample/paraffin" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="SectionManage" title="menu.sectionManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 

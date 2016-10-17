@@ -7,7 +7,7 @@ import java.sql.Time;
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_PARAFFIN", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_PARAFFIN")
 public class PimsPathologyParaffin {
     private long paraffinid;
     private long parsampleid;
@@ -36,6 +36,8 @@ public class PimsPathologyParaffin {
 
     @Id
     @Column(name = "PARAFFINID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_PARAFFINID")
+    @SequenceGenerator(name = "SEQ_PARAFFINID", sequenceName = "SEQ_PARAFFINID", allocationSize=1)
     public long getParaffinid() {
         return paraffinid;
     }

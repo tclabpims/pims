@@ -1,22 +1,34 @@
 package com.pims.dao.hibernate.pimsPathologySample;
 
+import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.PimsBaseModel;
+import com.pims.model.PimsPathologyPieces;
 import com.pims.model.PimsPathologySample;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
  * Created by king on 2016/10/10.
  */
-@Repository("pimsPathologySampleDao")
-public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPathologySample,Long> implements PimsPathologySampleDao {
-
-    public PimsPathologySampleDaoHibernate(){super(PimsPathologySample.class);}
-
+@Repository("pimsPathologyPiecesDao")
+public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPathologyPieces,Long> implements PimsPathologyPiecesDao {
+    public PimsPathologyPiecesDaoHibernate(){super(PimsPathologyPieces.class);}
+    /**
+     * 查询材块列表不分页
+     * @param code
+     * @return
+     */
+    @Override
+    public List<PimsPathologyPieces> getSampleListNoPage(String code) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyPieces where piesampleid = "+ code);
+        return getSession().createQuery(sb.toString()).list();
+    }
     /**
      * 查询标本列表
      * @param map
@@ -33,16 +45,20 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             sb.append(" and samregisttime >= to_date('" + map.getReq_bf_time()+"','YYYY-MM-DD')");
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
-            sb.append(" and samsecondv = " + map.getReq_sts());
+            if(map.getReq_sts().equals("1")){
+                sb.append(" and samsamplestatus = " + map.getReq_sts());
+            }else{
+                sb.append(" and samsamplestatus =  0");
+            }
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
-            sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
+            //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
             sb.append(" and sampathologycode = " + map.getSend_dept());
         }
         if(!StringUtils.isEmpty(map.getSend_hosptail())){
-            sb.append(" and samsendhospital = " + map.getSend_hosptail());
+            //sb.append(" and samsendhospital = " + map.getSend_hosptail());
         }
         if(!StringUtils.isEmpty(map.getPatient_name())){
             sb.append(" and sampatientname = " + map.getPatient_name());
@@ -51,7 +67,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             sb.append(" and  samregisttime < to_date('" + map.getReq_af_time()+"','YYYY-MM-DD')+1");
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
-            sb.append(" and saminspectionid = " + map.getReq_code());
+            //sb.append(" and saminspectionid = " + map.getReq_code());
         }
         String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"saminspectionid":map.getSidx();
         sb.append(" order by " + orderby + " " +map.getSord());
@@ -67,7 +83,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
     @Override
     public int getReqListNum(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select count(1) from PIMS_PATHOLOGY_SAMPLE where samisdeleted = 0 ");
+        sb.append(" select count(1) from pims_pathology_sample where samisdeleted = 0 ");
         if(!StringUtils.isEmpty(map.getLogyid())){
             sb.append(" and sampathologyid = " + map.getLogyid());
         }
@@ -75,16 +91,20 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             sb.append(" and samregisttime >= to_date('" + map.getReq_bf_time()+"','YYYY-MM-DD')");
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
-            sb.append(" and samsecondv = " + map.getReq_sts());
+            if(map.getReq_sts().equals("1")){
+                sb.append(" and samsamplestatus = " + map.getReq_sts());
+            }else{
+                sb.append(" and samsamplestatus =  0");
+            }
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
-            sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
+            //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
             sb.append(" and sampathologycode = " + map.getSend_dept());
         }
         if(!StringUtils.isEmpty(map.getSend_hosptail())){
-            sb.append(" and samsendhospital = " + map.getSend_hosptail());
+            //sb.append(" and samsendhospital = " + map.getSend_hosptail());
         }
         if(!StringUtils.isEmpty(map.getPatient_name())){
             sb.append(" and sampatientname = " + map.getPatient_name());
@@ -93,7 +113,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             sb.append(" and  samregisttime < to_date('" + map.getReq_af_time()+"','YYYY-MM-DD')+1");
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
-            sb.append(" and saminspectionid = " + map.getReq_code());
+            //sb.append(" and saminspectionid = " + map.getReq_code());
         }
         return countTotal(sb.toString()).intValue();
     }
@@ -118,7 +138,42 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
     }
 
     /**
-     * 逻辑删除标本单
+     * 更新标本信息
+     * @param map
+     * @return
+     */
+    @Override
+    public boolean updateSample(PimsPathologySample map) {
+        if(map == null || StringUtils.isEmpty(String.valueOf(map.getSampleid()))){
+            return false;
+        }else{
+            StringBuffer sb = new StringBuffer();
+            long samissamplingall = StringUtils.isEmpty(String.valueOf(map.getSamissamplingall()))?0:map.getSamissamplingall();
+            long samisdecacified = StringUtils.isEmpty(String.valueOf(map.getSamisdecacified()))?0:map.getSamisdecacified();
+            sb.append("update pims_pathology_sample set samsamplestatus = 1, samissamplingall = "+ samissamplingall + ", samisdecacified = " +
+                    samisdecacified + "  where sampleid = "+map.getSampleid());
+            getSession().createSQLQuery(sb.toString()).executeUpdate();
+            return true;
+        }
+    }
+    /**
+     * 更新标本信息
+     * @param map,sts
+     * @return
+     */
+    @Override
+    public boolean updateSampleSts(PimsPathologySample map,int sts) {
+        if(map == null || StringUtils.isEmpty(String.valueOf(map.getSampleid()))){
+            return false;
+        }else{
+            StringBuffer sb = new StringBuffer();
+            sb.append("update pims_pathology_sample set samsamplestatus = "+ sts +"  where sampleid = "+map.getSampleid());
+            getSession().createSQLQuery(sb.toString()).executeUpdate();
+            return true;
+        }
+    }
+    /**
+     * 删除材块单
      * @param id
      * @return
      */
@@ -127,14 +182,13 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(id == null){
             return false;
         }else{
-            Query query = getSession().createSQLQuery(" update PIMS_PATHOLOGY_SAMPLE set samisdeleted = 1 where sampleid = "+ id);
+            Query query = getSession().createSQLQuery(" delete from  pims_pathology_pieces where pieceid = "+ id);
             query.executeUpdate();
             return true;
         }
     }
-
     /**
-     * 查询单据是否可以被修改或删除
+     * 查询材块单据是否可以被修改或删除
      * @param id
      * @return
      */
@@ -143,12 +197,14 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(id == null || StringUtils.isEmpty(sts)){
             return false;
         }else if(sts.equals("1")){
-            String sql =  "select count(1) from PIMS_PATHOLOGY_SAMPLE where samsamplestatus in (0,1,2,3,4) and sampleid = "+ id;
+            String sql =  "select count(1) from pims_pathology_pieces a,pims_pathology_sample b where b.sampleid = a.piesampleid and " +
+                    "b.samsamplestatus < 5 and a.pieceid = "+ id;
             if(countTotal(sql).intValue() == 1){
                 return true;
             }
         }else if(sts.equals("2")){
-            String sql =  "select count(1) from PIMS_PATHOLOGY_SAMPLE where samsamplestatus = 0 and sampleid = "+ id;
+            String sql =  "select count(1) from pims_pathology_pieces a,pims_pathology_sample b where b.sampleid = a.piesampleid and " +
+                    " b.samsamplestatus < 2 and a.pieceid = "+ id;
             if(countTotal(sql).intValue() == 1){
                 return true;
             }

@@ -1,13 +1,13 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_SLIDE", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_SLIDE")
 public class PimsPathologySlide {
     private long slideid;
     private long slisampleid;
@@ -28,21 +28,23 @@ public class PimsPathologySlide {
     private String slitestitemname;
     private String slilabelcontent;
     private Long sliifprint;
-    private Time sliprinttime;
+    private Date sliprinttime;
     private String sliprintuser;
     private String sliprinttimes;
     private String slistockin;
     private String slistockinuser;
-    private Time slistockintime;
+    private Date slistockintime;
     private String slifirstv;
     private String slisecondv;
     private Long slifirstn;
-    private Time slifirstd;
+    private Date slifirstd;
     private String slicreateuser;
-    private Time slicreatetime;
+    private Date slicreatetime;
 
     @Id
     @Column(name = "SLIDEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_SLIDEID")
+    @SequenceGenerator(name = "SEQ_SLIDEID", sequenceName = "SEQ_SLIDEID", allocationSize=1)
     public long getSlideid() {
         return slideid;
     }
@@ -233,11 +235,11 @@ public class PimsPathologySlide {
 
     @Basic
     @Column(name = "SLIPRINTTIME")
-    public Time getSliprinttime() {
+    public Date getSliprinttime() {
         return sliprinttime;
     }
 
-    public void setSliprinttime(Time sliprinttime) {
+    public void setSliprinttime(Date sliprinttime) {
         this.sliprinttime = sliprinttime;
     }
 
@@ -283,11 +285,11 @@ public class PimsPathologySlide {
 
     @Basic
     @Column(name = "SLISTOCKINTIME")
-    public Time getSlistockintime() {
+    public Date getSlistockintime() {
         return slistockintime;
     }
 
-    public void setSlistockintime(Time slistockintime) {
+    public void setSlistockintime(Date slistockintime) {
         this.slistockintime = slistockintime;
     }
 
@@ -323,11 +325,11 @@ public class PimsPathologySlide {
 
     @Basic
     @Column(name = "SLIFIRSTD")
-    public Time getSlifirstd() {
+    public Date getSlifirstd() {
         return slifirstd;
     }
 
-    public void setSlifirstd(Time slifirstd) {
+    public void setSlifirstd(Date slifirstd) {
         this.slifirstd = slifirstd;
     }
 
@@ -343,11 +345,11 @@ public class PimsPathologySlide {
 
     @Basic
     @Column(name = "SLICREATETIME")
-    public Time getSlicreatetime() {
+    public Date getSlicreatetime() {
         return slicreatetime;
     }
 
-    public void setSlicreatetime(Time slicreatetime) {
+    public void setSlicreatetime(Date slicreatetime) {
         this.slicreatetime = slicreatetime;
     }
 

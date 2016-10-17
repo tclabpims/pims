@@ -3,11 +3,12 @@ package com.pims.dao.hibernate.his;
 import com.pims.dao.his.PimsPathologyRequisitionDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
+import com.pims.model.PimsPathologySample;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -28,32 +29,37 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
     public List<PimsPathologyRequisition> getRequisitionInfo(PimsBaseModel pims){
         StringBuffer buffer = new StringBuffer();
         buffer.append(" from PimsPathologyRequisition where ReqIsDeleted = 0 ");
-        if(!StringUtils.isEmpty(pims.getReq_code())){
-            buffer.append("and RequisitionNo = " +  pims.getReq_code());
+        if(pims != null) {
+            if (!StringUtils.isEmpty(pims.getReq_code())) {
+                buffer.append("and RequisitionNo = " + pims.getReq_code());
+            }
+            if (!StringUtils.isEmpty(pims.getPatient_name())) {
+                buffer.append(" and ReqPatientName  = " + pims.getPatient_name());
+            }
+            if (!StringUtils.isEmpty(pims.getSend_hosptail())) {
+                buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());
+            }
+            if (!StringUtils.isEmpty(pims.getReq_bf_time())) {
+                buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time() + "','YYYY-MM-DD')");
+            }
+            if (!StringUtils.isEmpty(pims.getReq_af_time())) {
+                buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time() + "','YYYY-MM-DD')+1");
+            }
+            if (!StringUtils.isEmpty(pims.getSend_dept())) {
+                buffer.append(" and  ReqDeptName = " + pims.getSend_dept());
+            }
+            if (!StringUtils.isEmpty(pims.getSend_doctor())) {
+                buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());
+            }
+            if (!StringUtils.isEmpty(pims.getReq_sts())) {
+                buffer.append(" and  ReqState = " + pims.getReq_sts());
+            }
+            if (!StringUtils.isEmpty(pims.getReq_sts())) {
+                buffer.append(" and  ReqState = " + pims.getReq_sts());
+            }
+            String orderby = (pims.getSidx()==null|| pims.getSidx().trim().equals(""))?"reqcustomercode":pims.getSidx();
+            buffer.append(" order by " + orderby + " " +pims.getSord());
         }
-        if(!StringUtils.isEmpty(pims.getPatient_name())){
-            buffer.append(" and ReqPatientName  = " + pims.getPatient_name());
-        }
-        if(!StringUtils.isEmpty(pims.getSend_hosptail())){
-            buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());
-        }
-        if(!StringUtils.isEmpty(pims.getReq_bf_time())){
-            buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time()+"','YYYY-MM-DD')");
-        }
-        if(!StringUtils.isEmpty(pims.getReq_af_time())){
-            buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time()+"','YYYY-MM-DD')+1");
-        }
-        if(!StringUtils.isEmpty(pims.getSend_dept())){
-            buffer.append(" and  ReqDeptName = " + pims.getSend_dept());
-        }
-        if(!StringUtils.isEmpty(pims.getSend_doctor())){
-            buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());
-        }
-        if(!StringUtils.isEmpty(pims.getReq_sts())){
-            buffer.append(" and  ReqState = " + pims.getReq_sts());
-        }
-        String orderby = (pims.getSidx()==null|| pims.getSidx().trim().equals(""))?"reqcustomercode":pims.getSidx();
-        buffer.append(" order by " + orderby + " " +pims.getSord());
         System.out.println(buffer.toString());
         return pagingList(buffer.toString(),pims.getStart(),pims.getEnd());
 //        Query query = getSession().createQuery(buffer.toString());
@@ -152,15 +158,50 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
      * @return
      */
     @Override
-    public String getMaxCode(int reqpathologyid) {
+    public String getMaxCode(String reqpathologyid) {
         StringBuffer sb = new StringBuffer();
         sb.append(" select max(requisitionno) from pims_pathology_requisition where reqisdeleted = 0 ");
-        if(reqpathologyid != 999){
+        if(!StringUtils.isEmpty(reqpathologyid)){
             sb.append(" and reqpathologyid = " + reqpathologyid);
         }
         Query query = getSession().createSQLQuery(sb.toString());
         Object o = query.uniqueResult();
         if(o == null) return null;
         return o.toString();
+    }
+
+    /**
+     * 更新申请单的可使用状态
+     * @param ppr
+     * @param state
+     * @return
+     */
+    @Override
+    public boolean updateReqState(PimsPathologySample ppr, int state) {
+        if(ppr == null){
+            return false;
+        }else{
+            getSession().createSQLQuery("update pims_pathology_requisition set reqstate ="+ state +",reqsampleid ="
+                    + ppr.getSampleid()+"  where requisitionid = " + ppr.getSamrequistionid()).executeUpdate();
+            return  true;
+        }
+    }
+
+    /**
+     * 是否可以被修改或删除
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean canChange(Long id) {
+        if(StringUtils.isEmpty(String.valueOf(id))){
+            return false;
+        }else{
+            List list = getSession().createSQLQuery("select 1 from pims_pathology_requisition where reqstate = 0 and requisitionid = " + id).list();
+            if(list == null || list.size() == 0){
+                return false;
+            }
+            return true;
+        }
     }
 }

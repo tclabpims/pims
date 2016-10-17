@@ -1,13 +1,13 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_PIECES", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_PIECES")
 public class PimsPathologyPieces {
     private long pieceid;
     private long piesampleid;
@@ -21,25 +21,27 @@ public class PimsPathologyPieces {
     private String piespecial;
     private Long pienullslidenum;
     private Long piestate;
-    private Time piesamplingtime;
+    private Date piesamplingtime;
     private String piedoctorid;
     private String piedoctorname;
     private String pierecorderid;
     private String pierecordername;
     private String pieisdeprivation;
-    private Time piedeprivationtime;
+    private Date piedeprivationtime;
     private String pieisembed;
-    private Time pieembedtime;
+    private Date pieembedtime;
     private String pieembeddoctorid;
     private String pieembeddoctorname;
     private String pieparaffinid;
     private String piefirstv;
     private String piesecondv;
     private Long piefirstn;
-    private Time piefirstd;
+    private Date piefirstd;
 
     @Id
     @Column(name = "PIECEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_PIECEID")
+    @SequenceGenerator(name = "SEQ_PIECEID", sequenceName = "SEQ_PIECEID", allocationSize=1)
     public long getPieceid() {
         return pieceid;
     }
@@ -160,11 +162,11 @@ public class PimsPathologyPieces {
 
     @Basic
     @Column(name = "PIESAMPLINGTIME")
-    public Time getPiesamplingtime() {
+    public Date getPiesamplingtime() {
         return piesamplingtime;
     }
 
-    public void setPiesamplingtime(Time piesamplingtime) {
+    public void setPiesamplingtime(Date piesamplingtime) {
         this.piesamplingtime = piesamplingtime;
     }
 
@@ -220,11 +222,11 @@ public class PimsPathologyPieces {
 
     @Basic
     @Column(name = "PIEDEPRIVATIONTIME")
-    public Time getPiedeprivationtime() {
+    public Date getPiedeprivationtime() {
         return piedeprivationtime;
     }
 
-    public void setPiedeprivationtime(Time piedeprivationtime) {
+    public void setPiedeprivationtime(Date piedeprivationtime) {
         this.piedeprivationtime = piedeprivationtime;
     }
 
@@ -240,11 +242,11 @@ public class PimsPathologyPieces {
 
     @Basic
     @Column(name = "PIEEMBEDTIME")
-    public Time getPieembedtime() {
+    public Date getPieembedtime() {
         return pieembedtime;
     }
 
-    public void setPieembedtime(Time pieembedtime) {
+    public void setPieembedtime(Date pieembedtime) {
         this.pieembedtime = pieembedtime;
     }
 
@@ -310,11 +312,11 @@ public class PimsPathologyPieces {
 
     @Basic
     @Column(name = "PIEFIRSTD")
-    public Time getPiefirstd() {
+    public Date getPiefirstd() {
         return piefirstd;
     }
 
-    public void setPiefirstd(Time piefirstd) {
+    public void setPiefirstd(Date piefirstd) {
         this.piefirstd = piefirstd;
     }
 

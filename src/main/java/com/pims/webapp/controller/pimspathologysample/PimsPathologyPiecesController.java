@@ -2,8 +2,12 @@ package com.pims.webapp.controller.pimspathologysample;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.pims.model.*;
+import com.pims.model.PimsBaseModel;
+import com.pims.model.PimsPathologyPieces;
+import com.pims.model.PimsPathologyRequisition;
+import com.pims.model.PimsPathologySample;
 import com.pims.service.his.PimsPathologyRequisitionManager;
+import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
@@ -15,6 +19,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,22 +27,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by king on 2016/10/10.
  */
 @Controller
-@RequestMapping("/pathologysample/sample")
-public class PimsPathologySampleController extends PIMSBaseController{
+@RequestMapping("/pathologysample/pieces")
+public class PimsPathologyPiecesController extends PIMSBaseController{
     @Autowired
-    private PimsPathologyRequisitionManager pimsPathologyRequisitionManager;
-    @Autowired
-    private PimsPathologySampleManager pimsPathologySampleManager;
-
+    private PimsPathologyPiecesManager pimsPathologyPiecesManager;
     /**
      * 渲染视图
      * @param request
@@ -46,18 +45,18 @@ public class PimsPathologySampleController extends PIMSBaseController{
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, - 7);
-        Date monday = c.getTime();
-        String sevenDay = Constants.DF2.format(monday);
-        String today = Constants.DF2.format(new Date());
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+//        Calendar c = Calendar.getInstance();
+//        c.add(Calendar.DATE, - 7);
+//        Date monday = c.getTime();
+//        String sevenDay = Constants.DF2.format(monday);
+//        String today = Constants.DF2.format(new Date());
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
         ModelAndView view = new ModelAndView();
-        view.addObject("logyid",logylibid);//当前用户选择的病例库
-        view.addObject("sevenday", sevenDay);//7天前
-        view.addObject("receivetime", today);//当前时间
-        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
+//        view.addObject("logyid",logylibid);//当前用户选择的病例库
+//        view.addObject("sevenday", sevenDay);//7天前
+//        view.addObject("receivetime", today);//当前时间
+//        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
         return view;
     }
 
@@ -70,7 +69,7 @@ public class PimsPathologySampleController extends PIMSBaseController{
     @RequestMapping(value = "/get*", method = RequestMethod.GET)
     public void getsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String code = request.getParameter("id");
-        PimsPathologySample pathology = pimsPathologySampleManager.getBySampleNo(Long.parseLong(code));
+        PimsPathologySample pathology = pimsPathologyPiecesManager.getBySampleNo(Long.parseLong(code));
         JSONObject pathMap = getJSONObject(pathology);
         PrintwriterUtil.print(response, pathMap.toString());
     }
@@ -87,8 +86,8 @@ public class PimsPathologySampleController extends PIMSBaseController{
     public DataResponse getRequisitionInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dataResponse = new DataResponse();
         PimsBaseModel ppr = new PimsBaseModel(request);
-        List<PimsPathologySample> list = pimsPathologySampleManager.getSampleList(ppr);
-        int num = pimsPathologySampleManager.getReqListNum(ppr);
+        List<PimsPathologySample> list = pimsPathologyPiecesManager.getSampleList(ppr);
+        int num = pimsPathologyPiecesManager.getReqListNum(ppr);
         if(list == null || list.size() == 0) {
             return null;
         }
@@ -101,42 +100,29 @@ public class PimsPathologySampleController extends PIMSBaseController{
     }
 
     /**
-     * 获取申请单列表
+     * 获取材块列表
      * @param request
      * @param response
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/ajax/getreqinfo*", method = RequestMethod.GET)
+    @RequestMapping(value = "/ajax/getItem*", method = RequestMethod.GET)
     @ResponseBody
     public DataResponse getListByReqId(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dataResponse = new DataResponse();
-        PimsBaseModel ppr = new PimsBaseModel();
-        int row = Integer.parseInt(request.getParameter("rows"));
-        int page = Integer.parseInt(request.getParameter("page"));
-        ppr.setPage(page);
-        ppr.setRow(row);
-        ppr.setStart( row * (page - 1));
-        ppr.setEnd( row * page);
-        ppr.setSord(request.getParameter("sord"));
-        ppr.setReq_sts("0");
         String code = request.getParameter("reqId");
-//        if(StringUtils.isEmpty(code)){
-//            return null;
-//        }
-        List<PimsPathologyRequisition> list = pimsPathologyRequisitionManager.getRequisitionInfo(ppr);
+        if(StringUtils.isEmpty(code)){
+            return null;
+        }
+        List<PimsPathologyPieces> list = pimsPathologyPiecesManager.getSampleListNoPage(code);
         if(list == null || list.size() == 0) {
             return null;
         }
-        int num = pimsPathologyRequisitionManager.getReqListNum(ppr);
-        dataResponse.setRecords(num);
-        dataResponse.setPage(ppr.getPage());
-        dataResponse.setTotal(getTotalPage(num, ppr.getRow(), ppr.getPage()));
+        dataResponse.setRecords(list.size());
         dataResponse.setRows(getResultMap(list));
         response.setContentType("text/html; charset=UTF-8");
         return dataResponse;
     }
-
     /**
      * 查看单据是否可修改
      * @param request
@@ -149,7 +135,7 @@ public class PimsPathologySampleController extends PIMSBaseController{
         String code = request.getParameter("id");
         String sts = request.getParameter("sts");
         JSONObject o = new JSONObject();
-        if(pimsPathologySampleManager.canChange(Long.parseLong(code),sts)){
+        if(pimsPathologyPiecesManager.canChange(Long.parseLong(code),sts)){
             o.put("success", true);
         }else{
             o.put("success", false);
@@ -165,33 +151,55 @@ public class PimsPathologySampleController extends PIMSBaseController{
      * @return
      * @throws Exception
      */
+    @Transactional
     @RequestMapping(value = "/editSample*", method = RequestMethod.POST)
     public void editSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsPathologySample ppr = (PimsPathologySample)setBeanProperty(request,PimsPathologySample.class);
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String materiallist = request.getParameter("samthirdv");
+        String savenum = request.getParameter("savenum");
+        JSONArray materials = JSON.parseArray(materiallist);
         JSONObject o = new JSONObject();
-        if(StringUtils.isEmpty(String.valueOf(ppr.getSampleid())) || String.valueOf(ppr.getSampleid()).equals("0")){
-            if(StringUtils.isEmpty(String.valueOf(ppr.getSamsource()))){
-                ppr.setSamsource(0);
+        //查询该标本的材块信息
+        List<PimsPathologyPieces> list = pimsPathologyPiecesManager.getSampleListNoPage(String.valueOf(ppr.getSampleid()));
+        List list1 = new ArrayList();
+        List list2 = new ArrayList();
+        if(savenum.equals("1")) {//取材
+            //更新标本状态为已取材
+            pimsPathologyPiecesManager.updateSample(ppr);
+            for (int i = 0; i < materials.size(); i++) {
+                Map map = (Map) materials.get(i);
+                PimsPathologyPieces mater = (PimsPathologyPieces) setBeanProperty(map, PimsPathologyPieces.class);
+                if (mater.getPiestate().longValue() == 0) {
+                    mater.setPiestate(Long.valueOf(1));
+                }
+                mater = pimsPathologyPiecesManager.save(mater);
+                list1.add(mater.getPieceid());
             }
-            ppr.setSamregisttime(new Date());
-            ppr.setSamregisterid(String.valueOf(user.getId()));
-            ppr = pimsPathologySampleManager.save(ppr);
-            //更新电子申请单已被使用
-            pimsPathologyRequisitionManager.updateReqState(ppr,1);
-            o.put("message", "标本添加成功！");
-            o.put("success", true);
-        } else{
-            if(StringUtils.isEmpty(String.valueOf(ppr.getSamsource()))){
-                ppr.setSamsource(0);
+        }else{//保存
+            for (int i = 0; i < materials.size(); i++) {
+                Map map = (Map) materials.get(i);
+                PimsPathologyPieces mater = (PimsPathologyPieces) setBeanProperty(map, PimsPathologyPieces.class);
+                if (!list2.contains(mater.getPiestate().toString())) {
+                    list2.add(mater.getPiestate().toString());
+                }
+                mater = pimsPathologyPiecesManager.save(mater);
+                list1.add(mater.getPieceid());
             }
-            ppr.setSamregisttime(new Date());
-            pimsPathologySampleManager.save(ppr);
-            o.put("message", "标本编辑成功！");
-            o.put("success", true);
+            if(list2.contains("0")){
+                pimsPathologyPiecesManager.updateSampleSts(ppr,0);
+            }else{
+                pimsPathologyPiecesManager.updateSampleSts(ppr,1);
+            }
         }
-//        response.setContentType("text/html; charset=UTF-8");
-//        response.getWriter().write(o.toString());
+        //删除不存在的材块
+        for(PimsPathologyPieces pps : list){
+            if(!list1.contains(pps.getPieceid())){
+                pimsPathologyPiecesManager.delete(pps.getPieceid());
+            }
+        }
+        o.put("message", "取材成功！");
+        o.put("success", true);
         PrintwriterUtil.print(response, o.toString());
     }
 
@@ -203,20 +211,16 @@ public class PimsPathologySampleController extends PIMSBaseController{
      */
     @RequestMapping(value = "/deleteSample*", method = RequestMethod.POST)
     public void deleteSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PimsPathologySample ppr = (PimsPathologySample)setBeanProperty(request,PimsPathologySample.class);
+        String id = request.getParameter("pieceid");
         JSONObject o = new JSONObject();
-        if(StringUtils.isEmpty(String.valueOf(ppr.getSampleid()))){
-            o.put("message", "查不到该标本的信息！");
+        if(StringUtils.isEmpty(id)){
+            o.put("message", "查不到该材块的信息！");
             o.put("success", false);
         }else{
-            pimsPathologySampleManager.delete((long) ppr.getSampleid());
-            //更新电子申请单未被使用
-            pimsPathologyRequisitionManager.updateReqState(ppr,0);
+            pimsPathologyPiecesManager.delete(Long.parseLong(id));
             o.put("message", "标本删除成功！");
             o.put("success", true);
         }
-//        response.setContentType("text/html; charset=UTF-8");
-//        response.getWriter().write(o.toString());
         PrintwriterUtil.print(response, o.toString());
     }
 
