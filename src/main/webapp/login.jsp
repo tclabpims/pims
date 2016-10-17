@@ -1,3 +1,8 @@
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
+<%@ page import="org.springframework.context.ApplicationContext" %>
+<%@ page import="com.pims.service.pimssyspathology.PimsSysPathologyManager" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.alibaba.fastjson.JSONObject" %>
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -343,15 +348,21 @@
                     <div class="cell"><fmt:message key="label.pathologyLib"/>
                         <span class="block input-icon input-icon-right">
                         <select name="pathologyLibId" id="pathologyLibId">
-                            <option value="15">骨髓细胞学</option>
-                            <option value="16">免疫组化</option>
-                            <option value="17">常规细胞学</option>
-                            <option value="18">液基细胞学</option>
-                            <option value="20">病理会诊</option>
-                            <option value="32">常规病理</option>
-                            <option value="34">术中冰冻</option>
-                            <option value="35">HPV</option>
-                            <option value="36">外周血细胞</option>
+                            <%
+                                ApplicationContext ctx= WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+                                PimsSysPathologyManager pimsSysPathologyManager = (PimsSysPathologyManager) ctx.getBean("pimsSysPathologyManager");
+                                JSONArray items = pimsSysPathologyManager.getPathologyType();
+                                for(Object obj : items) {
+                                    JSONObject o = (JSONObject)obj;
+                                    StringBuilder builder = new StringBuilder();
+                                    builder.append("<option value=\"")
+                                            .append(o.get("pathologyLibId"))
+                                            .append("\">")
+                                            .append(o.get("pathologyLib"))
+                                            .append("</option>\n");
+                                    out.print(builder.toString());
+                                }
+                            %>
                         </select>
                         <i class="ace-icon fa fa-lock"></i>
                            <input type="hidden" id="pathologyLib" name="pathologyLib">

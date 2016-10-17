@@ -8,6 +8,9 @@
         <pattern>*print*</pattern>
         <pattern>/doctor/*</pattern>
     </excludes>
+    <decorator name="none" page="Main.html">
+        <pattern>/scripts/picture/*.htm*</pattern>
+    </decorator>
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>
     </decorator>
