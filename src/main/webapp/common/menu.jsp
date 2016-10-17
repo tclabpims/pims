@@ -58,15 +58,6 @@ $(function() {
             <span class="form-control" style="width:100px;"><a href="/lab/pb/pbcx"><fmt:message key="menu.pb.pbcx"/></a></span>
         </li>
     </c:if>
-
-	<%--<menu:displayMenu name="SampleManage"/>
-    <menu:displayMenu name="SampleSet"/>
-    <menu:displayMenu name="Reagent"/>
-    <menu:displayMenu name="Statistic"/>
-    <menu:displayMenu name="Quality"/>
-    <menu:displayMenu name="Individual"/>
-    <menu:displayMenu name="CustomerManage"/>--%>
-
     <menu:displayMenu name="SpecimenReg"/>
     <menu:displayMenu name="SpecimenDispose"/>
     <menu:displayMenu name="PathologicalDiagnosis"/>

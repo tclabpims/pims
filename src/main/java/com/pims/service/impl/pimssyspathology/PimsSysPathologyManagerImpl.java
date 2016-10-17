@@ -1,5 +1,7 @@
 package com.pims.service.impl.pimssyspathology;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pims.dao.pimssyspathology.PimsSysPathologyDao;
 import com.pims.model.PimsSysPathology;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
@@ -48,5 +50,18 @@ public class PimsSysPathologyManagerImpl extends GenericManagerImpl<PimsSysPatho
             hql.append(" where psp.patnamech||psp.patnameen  like '%" +queryString +"%'");
         }
         return pimsSysPathologyDao.getPimsSysPathologyTotal(hql.toString());
+    }
+
+    @Override
+    public JSONArray getPathologyType() {
+        JSONArray array = new JSONArray();
+        List<PimsSysPathology> data = pimsSysPathologyDao.findEnabledPathology("from PimsSysPathology psp where psp.patuseflag=0 order by psp.patsort");
+        for(PimsSysPathology p : data) {
+            JSONObject obj = new JSONObject();
+            obj.put("pathologyLibId", p.getPathologyid());
+            obj.put("pathologyLib", p.getPatnamech());
+            array.add(obj);
+        }
+        return array;
     }
 }
