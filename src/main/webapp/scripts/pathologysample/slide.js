@@ -1,5 +1,5 @@
 /**
- * 包埋
+ * 切片
  */
 function saveInfo(num) {
 	var rowdatas = $('#new1').jqGrid('getRowData');
@@ -7,18 +7,18 @@ function saveInfo(num) {
 	var arr = new Array();
 	if(selectedIds.length > 0){
 		$(selectedIds).each(function () {
-				var rowData1 = $("#new").jqGrid('getRowData',this.toString());
-				arr.push(rowData1);
+			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
+			arr.push(rowData1);
 			}
 		);
 	}
 	var post = true;
 	if(post) {
-		$.post("../pathologysample/paraffin/editSample", {
-				states:"1",
-				savenum:num,
-				samples:JSON.stringify(arr),
-				slides:JSON.stringify(rowdatas)
+		$.post("../pathologysample/slide/editSample", {
+			states:"1",
+			savenum:num,
+			samples:JSON.stringify(arr),
+			slides:JSON.stringify(rowdatas)
 			},
 			function(data) {
 				if(data.success) {
@@ -38,7 +38,7 @@ function clearData() {
 	jQuery("#new1").jqGrid("clearGridData");
 }
 /**
- * 查询包埋状态
+ * 查询切片状态
  */
 function searchSts(){
 	var req_sts = $("#req_sts").val();
@@ -67,43 +67,51 @@ $(function() {
 	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
 	//var logyid = $("#logyid").val();
 	var logyid ="";
-	var send_hosptail = "";
-	var req_code = $('#req_code').val();
 	var patient_name = $('#patient_name').val();//病人姓名
-	//var send_hosptail = $('#send_hosptail').val();
+	var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();//病理号
-	//var send_doctor = $('#send_doctor').val();//内部医嘱
 	var send_doctor = "";//内部医嘱
 	if($("#send_doctor").is(':checked')){
-		send_doctor = "1";
+		req_code = "1";
+	}
+	var req_code = "";//预留白片
+	if($("#req_code").is(':checked')){
+		req_code = "1";
 	}
 	var req_sts = $('#req_sts').val();//包埋状态
 	$("#new").jqGrid({
-		url: "../pathologysample/paraffin/ajax/sample",
+		url: "../pathologysample/slide/ajax/sample",
 		mtype: "GET",
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['材块ID','标本id','病理状态','病理状态', '病理号','材块编号','补取医嘱','材块数','白片数', '取材部位','特殊要求', '取材时间','取材医生ID','取材医生','序号','包埋状态'],
+		colNames: ['蜡块ID','标本id','病理状态','蜡块状态', '病理号','病人名','送检医生','送检科室','包埋医生', '包埋时间','切片医生', '切片时间','打印状态','白片数',
+		'材块ID','材块编号','取材医生','取材时间','客户代码','蜡块序号','取材部位','病种类别'],
 		colModel: [
+			{name:'paraffinid',hidden:true},
+			{name:'sampleid',hidden:true},
+			{name:'samsamplestatus',hidden:true},
+			{ name: 'parissectioned', index: 'parissectioned',formatter: "select", editoptions:{value:"0:未切片;1:已切片"},width:100},
+			{ name: 'sampathologycode', index: 'sampathologycode',width:100},
+			{ name: 'sampatientname', index: 'sampatientname',width:100},
+			{ name: 'samsenddoctorname', index: 'samsenddoctorname',width:100},
+			{name:'samdeptname',index:'samdeptname',width:100},
+			{name:'pieembeddoctorname',index:'pieembeddoctorname',width:100},
+			{name:'pieembedtime',index:'pieembedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},
+			{name:'parsectioneddoctor',index:'parsectioneddoctor',width:100},
+			{name:'parsectionedtime',index:'parsectionedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},
+			{name:'parisprintlabel',index:'parisprintlabel',width:100},
+			{name:'parnullslidenum',hidden:true},
 			{name:'pieceid',hidden:true},//材块ID
-			{name:'sampleid',hidden:true},//标本id
-			{name:'samsamplestatus',hidden:true},//病理状态
-			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"1:未包埋;2:已包埋"}},//病理状态
-			{ name: 'piepathologycode', index: 'piepathologycode'},//病理号
-			{ name: 'piecode', index: 'piecode'},//材块编号
-			{ name: 'piefirstv', index: 'piefirstv'},//补取医嘱
-			{name:'piecounts',hidden:true},//材块数
-			{name:'pienullslidenum',hidden:true},//白片数
-			{name:'pieparts',hidden:true},//取材部位
-			{name:'piespecial',hidden:true},//特殊要求
-			{name:'piesamplingtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
-			{name:'piedoctorid',hidden:true},//取材医生ID
+			{name:'piecode',hidden:true},//材块编号
 			{name:'piedoctorname',hidden:true},//取材医生
-			{name:'piesamplingno',hidden:true},//序号
-			{name:'pieisembed',hidden:true},//包埋状态
+			{name:'piesamplingtime',hidden:true},//取材时间
+			{name:'samcustomerid',hidden:true},//客户代码
+			{name:'parparaffinno',hidden:true},//蜡块序号
+			{name:'parpieceparts',hidden:true},//取材部位
+			{name:'sampathologyid',hidden:true}//病种类别
 		],
 		loadComplete : function() {
 			var table = this;
@@ -115,13 +123,7 @@ $(function() {
 		ondblClickRow: function (id) {
 		},
 		onSelectRow:function(id,status){
-			if(status){
 				fillInfo(id);
-			}else{
-				//delRow(id);
-				fillInfo(id);
-			}
-
 		},
 		onSelectAll:function(aRowids,status){
 			if(status){
@@ -133,7 +135,10 @@ $(function() {
 		multiselect: true,
 		viewrecords: true,
 		height:300,
-		autowidth: true,
+		width:440,
+		//autowidth: true,
+		shrinkToFit:false,
+		autoScroll: true,
 		rowNum: 10,
 		rowList:[10,20,30],
 		rownumbers: true, // 显示行号
@@ -142,47 +147,46 @@ $(function() {
 	});
 });
 /**
- * 初始化包埋列表
+ * 初始化玻片列表
  * @param reqid
  */
 function createNew1(reqid){
 	$("#new1").jqGrid({
-		url:"../pathologysample/pieces/ajax/getItem",
+		url:"../pathologysample/slide/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
 		height: 170,
 		width:880,
 		postData:{"reqId":reqid},
-		colNames: ['样本ID','材块ID','蜡块ID','病理编号','蜡块名称','蜡块序号','蜡块标签','蜡块条码号','材块编号','材块数','白片数', '取材部位',
-			'是否已切片','切片医生','切片时间','是否已打印标签','标签打印人员','标签打印时间','剩余处理','特殊要求', '取材时间','取材医生',
-			'包埋时间','包埋医生ID','包埋医生', '包埋状态'],
+		colNames: ['样本ID','材块ID','蜡块ID','材块编号','玻片类型','玻片序号','取材医生','取材时间','包埋医生', '包埋时间','切片医生', '切片时间','切片状态','印刷状态','分类', '特检项目',
+		'玻片id','客户代码','玻片条码号','病理编号','玻片来源','玻片使用状态','玻片号','蜡块序号','取材部位'],
 		colModel: [
-			{name:'parsampleid',hidden:true},//样本ID
-			{name:'parpieceids',hidden:true},//材块ID
-			{name:'paraffinid',hidden:true},//蜡块ID
-			{name:'parpathologycode',hidden:true},//病理编号
-			{name:'parname',hidden:true},//蜡块名称
-			{name:'parparaffinno',hidden:true},//蜡块序号
-			{name:'parparaffincode',hidden:true},//蜡块标签
-			{name:'parbarcode',hidden:true},//蜡块条码号
-			{ name: 'piecode', index: 'piecode'},//材块编号
-			{ name: 'parpiececount', index: 'parpiececount'},//材块数
-			{ name: 'parnullslidenum', index: 'parnullslidenum'},//白片数
-			{ name: 'parpieceparts', index: 'parpieceparts',edittype: "select",formatter: "select", editoptions:{value:"1:肌腱;2:肺;3:肝脏"}},//取材部位
-			{name:'parissectioned',hidden:true},//是否已切片
-			{name:'parsectioneddoctor',hidden:true},//切片医生
-			{name:'parsectionedtime',hidden:true},//切片时间
-			{name:'parisprintlabel',hidden:true},//是否已打印标签
-			{name:'parprintuser',hidden:true},//标签打印人员
-			{name:'parprinttime',hidden:true},//标签打印时间
-			{name:'parremaining',hidden:true},//剩余处理
-			{ name: 'piespecial', index: 'piespecial'},//特殊要求
-			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
-			{ name: 'piedoctorname', index: 'piedoctorname'},//取材医生
-			{ name: 'pieembedtime', index: 'pieembedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//包埋时间
-			{name:'pieembeddoctorid',hidden:true},//包埋医生ID
-			{ name: 'pieembeddoctorname', index: 'pieembeddoctorname'},//包埋医生
-			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"}}//包埋状态
+			{name:'slisampleid',hidden:true},
+			{name:'pieceid',hidden:true},
+			{name:'sliparaffinid',hidden:true},
+			{name:'sliparaffincode',index:'sliparaffincode'},
+			{name:'slislidetype',index:'slislidetype',formatter: "select", editoptions:{value:"0:常规;1:白片"}},
+			{name:'slislideno',index:'slislideno'},
+			{name:'piedoctorname',index:'piedoctorname'},
+			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},
+				formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'},width:100},
+			{ name: 'pieembeddoctorname', index: 'pieembeddoctorname',width:100},
+			{ name: 'pieembedtime', index: 'pieembedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},
+			{ name: 'parsectioneddoctor', index: 'parsectioneddoctor',width:100},
+			{ name: 'parsectionedtime', index: 'parsectionedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},
+			{ name: 'parissectioned', index: 'parissectioned',formatter: "select", editoptions:{value:"0:未切片;1:已切片"},width:100},
+			{ name: 'sliifprint', index: 'sliifprint',formatter: "select", editoptions:{value:"0:未打印;1:已打印"},width:100},
+			{ name: 'sampathologyid', index: 'sampathologyid',width:100},
+			{ name: 'slitestitemname', index: 'slitestitemname',width:100},
+			{name:'slideid',hidden:true},
+			{name:'slicustomerid',hidden:true},
+			{name:'slislidebarcode',hidden:true},
+			{name:'slipathologycode',hidden:true},
+			{name:'slislidesource',hidden:true},
+			{name:'sliuseflag',hidden:true},
+			{name:'slislidecode',hidden:true},
+			{name:'sliparaffinno',hidden:true},
+			{name:'slisamplingparts',hidden:true}
 			],
 		loadComplete : function() {
 			var table = this;
@@ -198,12 +202,12 @@ function createNew1(reqid){
 		ondblClickRow: function (id) {
 			var rowData = $("#new1").jqGrid('getRowData',id);
 			$('#sampleForm')[0].reset();
-			getSampleData(rowData.parsampleid);
+			getSampleData(rowData.slisampleid);
 		},
 		onSelectRow:function(id,status){
 			var rowData = $("#new1").jqGrid('getRowData',id);
 			$('#sampleForm')[0].reset();
-			getSampleData(rowData.parsampleid);
+			getSampleData(rowData.slisampleid);
 		},
 		onSelectAll:function(aRowids,status){
 			var rowIds = $("#new1").jqGrid('getDataIDs');
@@ -224,21 +228,23 @@ function createNew1(reqid){
  */
 function searchList() {
 	clearData();
-	var req_code = $('#req_code').val();
 	var patient_name = $('#patient_name').val();
 	var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();
-	//var send_doctor = $('#send_doctor').val();
+	var req_sts = $('#req_sts').val();
 	var send_doctor = "";//内部医嘱
 	if($("#send_doctor").is(':checked')){
 		send_doctor = "1";
 	}
-	var req_sts = $('#req_sts').val();
+	var req_code = "";//预留白片
+	if($("#req_code").is(':checked')){
+		req_code = "1";
+	}
 	jQuery("#new").jqGrid("clearGridData");
 	jQuery("#new").jqGrid('setGridParam',{
-		url: "../pathologysample/paraffin/ajax/sample",
+		url: "../pathologysample/slide/ajax/sample",
 		//发送数据
 		postData : {"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
@@ -254,19 +260,19 @@ function fillInfo(id){
 	}
 	clearData();
 	var rowData = $("#new").jqGrid('getRowData',maxSelectId);
-	getSampleData(rowData.piesampleid);
+	getSampleData(rowData.sampleid);
 	var dataIds = "";
 	$(selectedIds).each(function () {
 			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
 			if(dataIds == ""){
-				dataIds = "'" + rowData1.pieceid + "'";
+				dataIds = "'" + rowData1.paraffinid + "'";
 			}else{
-				dataIds = dataIds +",'"+ rowData1.pieceid+"'";
+				dataIds = dataIds +",'"+ rowData1.paraffinid+"'";
 			}
 		}
 	);
 	var req_sts = $("#req_sts").val();
-	if(req_sts == "1"){
+	if(req_sts == "0"){
 		$(selectedIds).each(function () {
 				var rowData2 = $("#new").jqGrid('getRowData',this.toString());
 				addRow(rowData2);
@@ -274,7 +280,7 @@ function fillInfo(id){
 		);
 	}else{
 		jQuery("#new1").jqGrid('setGridParam',{
-			url: "../pathologysample/paraffin/ajax/getItem",
+			url: "../pathologysample/slide/ajax/getItem",
 			//发送数据
 			postData : {"reqId":dataIds}
 		}).trigger('reloadGrid');//重新载入
@@ -282,7 +288,7 @@ function fillInfo(id){
 
 }
 function getSampleData(id) {
-	$.get("../pathologysample/paraffin/get",{id:id},function(data) {
+	$.get("../pathologysample/slide/get",{id:id},function(data) {
 		if(data != "") {
 			$("#sampathologycode").val(data.sampathologycode);
 			$("#sampleid").val(data.sampleid);
@@ -310,47 +316,69 @@ function addRow(data){
 		maxId = Math.max.apply(Math,ids)+1;
 	}
 	var  sampathologycode = $('#sampathologycode').val();
+	var bpnum = parseInt(data.parnullslidenum);
 	var dataRow = {
-		parsampleid:data.sampleid,//样本ID
-		parpieceids:data.pieceid,//材块ID
-		paraffinid:"",//蜡块ID
-		parpathologycode:data.piepathologycode,//病理编号
-		parname:"",//蜡块名称
-		parparaffinno:data.piesamplingno,//蜡块序号
-		parparaffincode:data.piecode,//蜡块标签
-		parbarcode:"",//蜡块条码号
-		piecode:data.piecode,//材块编号
-		parpiececount:data.piecounts,//材块数
-		parnullslidenum:data.pienullslidenum,//白片数
-		parpieceparts:data.pieparts,//取材部位
-		parissectioned:0,//是否已切片
-		parsectioneddoctor:"",//切片医生
-		parsectionedtime:"",//切片时间
-		parisprintlabel:"",//是否已打印标签
-		parprintuser:"",//标签打印人员
-		parprinttime:"",//标签打印时间
-		parremaining:"",//剩余处理
-		piespecial:data.piespecial,//特殊要求
-		piesamplingtime:data.piesamplingtime,//取材时间
-		piedoctorname:data.piedoctorname,//取材医生
-		pieembedtime:new Date(),//包埋时间
-		pieembeddoctorid:$("#local_name_id").val(),//包埋医生ID
-		pieembeddoctorname:$("#local_name").val(),//包埋医生
-		pieisembed:data.pieisembed//包埋状态
+		slisampleid:data.sampleid,//样本ID
+		pieceid:data.pieceid,//材块ID
+		sliparaffinid: data.paraffinid,//蜡块ID
+		sliparaffincode:data.paraffinid,//材块编号
+		slislidetype:0,//玻片类型
+		slislideno: 1,//玻片序号
+		piedoctorname: data.piedoctorname,//取材医生
+		piesamplingtime: data.piesamplingtime,//取材时间piesamplingtime
+		pieembeddoctorname: data.pieembeddoctorname,//包埋医生
+		pieembedtime:data.pieembedtime,//包埋时间
+		parsectioneddoctor:$("#local_name").val(),//切片医生
+		parsectionedtime: new Date(),//切片时间
+		parissectioned:0,//切片状态
+		sliifprint: 0,//印刷状态
+		sampathologyid:data.sampathologyid,//分类
+		slitestitemname: "",//特检项目
+		slideid: "",//玻片id
+		slicustomerid: data.samcustomerid,//客户代码
+		slislidebarcode:"",//玻片条码号
+		slipathologycode:data.sampathologycode ,//病理编号
+		slislidesource: 0,//玻片来源
+		sliuseflag:0,//玻片使用状态
+		slislidecode: data.paraffinid+"-1",//玻片号
+		sliparaffinno:data.parparaffinno,//蜡块序号
+		slisamplingparts: data.parpieceparts//取材部位
 	};
-	// var rowid = 1;
-	// if(Math.max.apply(Math,ids) > ids.length ){
-	// 	rowid = Math.max.apply(Math,ids) + 1;
-	// }else{
-	// 	rowid = ids.length + 1;
-	// }
 	$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
-	// if (selectedId) {
-	// 	$("#new1").jqGrid("addRowData", rowid, dataRow, "after", selectedId);
-	// } else {
-	// 	$("#new1").jqGrid("addRowData", rowid, dataRow, "last");
-	// }
-	//$('#plsfList').jqGrid('editRow', rowid, false);
+	if(bpnum > 0){
+		for(var i=0;i<bpnum;i++){
+			maxId = maxId + 1;
+			var xh = 2 + i;
+			var dataRow = {
+				slisampleid:data.sampleid,//样本ID
+				pieceid:data.pieceid,//材块ID
+				sliparaffinid: data.paraffinid,//蜡块ID
+				sliparaffincode:data.paraffinid,//材块编号
+				slislidetype:1,//玻片类型
+				slislideno: xh,//玻片序号
+				piedoctorname: data.piedoctorname,//取材医生
+				piesamplingtime: data.piesamplingtime,//取材时间
+				pieembeddoctorname: data.pieembeddoctorname,//包埋医生
+				pieembedtime:data.pieembedtime,//包埋时间
+				parsectioneddoctor:$("#local_name").val(),//切片医生
+				parsectionedtime: new Date(),//切片时间
+				parissectioned:0,//切片状态
+				sliifprint: 0,//印刷状态
+				sampathologyid:data.sampathologyid,//分类
+				slitestitemname: "",//特检项目
+				slideid: "",//玻片id
+				slicustomerid: data.samcustomerid,//客户代码
+				slislidebarcode:"",//玻片条码号
+				slipathologycode:data.sampathologycode ,//病理编号
+				slislidesource: 0,//玻片来源
+				sliuseflag:0,//玻片使用状态
+				slislidecode: data.paraffinid+"-"+ xh,//玻片号
+				sliparaffinno:data.parparaffinno,//蜡块序号
+				slisamplingparts: data.parpieceparts//取材部位
+			};
+			$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
+		}
+	}
 }
 function delRow(id){
 	var selectIds = $("#new").jqGrid("getGridParam","selarrrow");

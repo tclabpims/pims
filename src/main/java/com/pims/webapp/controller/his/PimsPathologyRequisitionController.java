@@ -41,6 +41,12 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	@Autowired
 	private PimsSysReqTestitemManager pimsSysReqTestitemManager;
 
+	/**
+	 * 渲染视图
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
 		String today = Constants.DF3.format(new Date());
@@ -56,6 +62,12 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		return view;
 	}
 
+	/**
+	 * 获取申请单详细信息
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/get*", method = RequestMethod.GET)
 	public void getsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String code = request.getParameter("id");
@@ -64,6 +76,12 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		PrintwriterUtil.print(response, pathMap.toString());
 	}
 
+	/**
+	 * 获取最大单号
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/getcode*", method = RequestMethod.GET)
 	public void getMaxCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int nowyear = Calendar.getInstance().get(Calendar.YEAR);//获取当前年份
@@ -80,7 +98,14 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		o.put("maxcode",requisitionno);
 		PrintwriterUtil.print(response, o.toString());
 	}
-	
+
+	/**
+	 * 获取申请单列表
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/ajax/pathology*", method = RequestMethod.GET)
 	@ResponseBody
 	public DataResponse getRequisitionInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -99,6 +124,13 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		return dataResponse;
 	}
 
+	/**
+	 * 获取申请组织列表
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/ajax/getmaterial*", method = RequestMethod.GET)
 	@ResponseBody
 	public DataResponse getListByReqId(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -117,77 +149,47 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		return dataResponse;
 	}
 
+	/**
+	 * 保存单据
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/editSample*", method = RequestMethod.POST)
 	public String editSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PimsPathologyRequisition ppr = (PimsPathologyRequisition)setBeanProperty(request,PimsPathologyRequisition.class);
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String materiallist = request.getParameter("reqthirdv");
+		String materiallist = request.getParameter("material");
 		JSONArray materials = JSON.parseArray(materiallist);
 		JSONObject o = new JSONObject();
-		if(StringUtils.isEmpty(String.valueOf(ppr.getRequisitionid())) || String.valueOf(ppr.getRequisitionid()).equals("0")){
-			String maxCode = pimsPathologyRequisitionManager.getMaxCode(null);
-			if(!StringUtils.isEmpty(maxCode) && Long.parseLong(maxCode) >= Long.parseLong(ppr.getRequisitionno()) ){
-				ppr.setRequisitionno(String.valueOf(Long.parseLong(maxCode)+1));
-			}
-			ppr.setReqdate(new Date());
-			ppr.setReqdatechar(Constants.DF3.format(new Date()));
-			ppr.setReqplanexectime(new Date());
-			ppr.setReqstate(0);
-			ppr.setReqisdeleted(0);
-			ppr.setReqpatientid("1");
-			ppr.setReqinpatientid("1");
-			ppr.setReqthirdv("");
-			ppr.setReqcreateuser(String.valueOf(user.getId()));
-			ppr.setReqcreatetime(new Date());
-			ppr = pimsPathologyRequisitionManager.save(ppr);
-			o.put("message", "申请添加成功！");
-			o.put("success", true);
-		} else{
-			PimsPathologyRequisition ppr1 = pimsPathologyRequisitionManager.getBySampleNo((long) ppr.getRequisitionid());
-			ppr.setReqthirdv("");
-			pimsPathologyRequisitionManager.save(ppr);
-			o.put("message", "申请编辑成功！");
-			o.put("success", true);
-		}
-		//删除组织信息
-		pimsRequisitionMaterialManager.delete((long) ppr.getRequisitionid());
-		for(int i= 0;i<materials.size();i++){
-			PimsRequisitionMaterial mater = new PimsRequisitionMaterial();
-			Map map = (Map) materials.get(i);
-			mater.setReqmmaterialtype((String) map.get("reqmmaterialtype"));
-			mater.setReqmsamplingparts((String)map.get("reqmsamplingparts"));
-			mater.setReqmcustomercode(ppr.getReqcustomercode());
-			mater.setReqmcreatetime(new Date());
-			mater.setReqmcreateuser(String.valueOf(user.getId()));
-			mater.setRequisitionid(ppr.getRequisitionid());
-			pimsRequisitionMaterialManager.save(mater);
-		}
+		ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr);
 		o.put("requisitionid", ppr.getRequisitionid());
 		o.put("requisitionno", ppr.getRequisitionno());
 		o.put("reqitemnames", ppr.getReqitemnames());
 		o.put("reqpathologyid", ppr.getReqpathologyid());
-//		response.setContentType("text/html; charset=UTF-8");
-//		response.getWriter().write(o.toString());
 		PrintwriterUtil.print(response, o.toString());
 		return null;
 	}
 
+	/**
+	 * 删除单据
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/deleteSample*", method = RequestMethod.POST)
 	public void deleteSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PimsPathologyRequisition ppr = (PimsPathologyRequisition)setBeanProperty(request,PimsPathologyRequisition.class);
-		//User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		JSONObject o = new JSONObject();
 		if(StringUtils.isEmpty(String.valueOf(ppr.getRequisitionid()))){
 			o.put("message", "查不到该申请单的信息！");
 			o.put("success", false);
 		}else{
 			pimsPathologyRequisitionManager.delete((long) ppr.getRequisitionid());
-			pimsRequisitionMaterialManager.delete((long) ppr.getRequisitionid());
 			o.put("message", "样本号为"+ ppr.getRequisitionid() + "的标本删除成功！");
 			o.put("success", true);
 		}
-//		response.setContentType("text/html; charset=UTF-8");
-//		response.getWriter().write(o.toString());
 		PrintwriterUtil.print(response, o.toString());
 	}
 
@@ -210,5 +212,4 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		}
 		PrintwriterUtil.print(response, o.toString());
 	}
-
 }

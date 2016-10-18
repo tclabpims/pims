@@ -1,5 +1,6 @@
 package com.pims.service.his;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsPathologySample;
@@ -41,12 +42,6 @@ public interface PimsPathologyRequisitionManager extends GenericManager<PimsPath
     PimsPathologyRequisition getBySampleNo(Long id);
 
     /**
-     * 获取最大ID
-     * @return
-     */
-    Long getMaxId();
-
-    /**
      * 根据病种类别查询最大单据号
      * @param reqpathologyid
      * @return
@@ -67,6 +62,14 @@ public interface PimsPathologyRequisitionManager extends GenericManager<PimsPath
      * @return
      */
     boolean canChange(Long id);
+
+    /**
+     * 保存申请单据
+     * @param materials
+     * @param ppr
+     * @return
+     */
+    PimsPathologyRequisition insertOrUpdate(JSONArray materials,PimsPathologyRequisition ppr);
 
 
 }

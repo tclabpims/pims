@@ -1,15 +1,18 @@
 package com.pims.dao.hibernate.his;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.his.PimsPathologyRequisitionDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsPathologySample;
+import com.pims.model.PimsRequisitionMaterial;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,52 +25,66 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
     public PimsPathologyRequisitionDaoHibernate(){super(PimsPathologyRequisition.class);}
 
     /**
+     * 组装sql
+     * @param buffer
+     * @param pims
+     * @return
+     */
+    public StringBuffer getStringSql(StringBuffer buffer,PimsBaseModel pims){
+        if (!StringUtils.isEmpty(pims.getReq_code())) {
+            buffer.append("and RequisitionNo like '%" + pims.getReq_code()+"%'");//申请单号
+        }
+        if (!StringUtils.isEmpty(pims.getPatient_name())) {
+            buffer.append(" and ReqPatientName  like '%" + pims.getPatient_name()+"%'");//病人姓名
+        }
+        if (!StringUtils.isEmpty(pims.getSend_hosptail())) {
+            buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());//送检医院
+        }
+        if (pims.getReq_bf_time() != null) {
+            buffer.append(" and ReqDate >= :req_bf_time");//起始时间
+        }
+        if (pims.getReq_af_time() != null) {
+            buffer.append(" and  ReqDate < :req_af_time");//截至时间
+        }
+        if (!StringUtils.isEmpty(pims.getSend_dept())) {
+            buffer.append(" and  ReqDeptName = " + pims.getSend_dept());//送检科室
+        }
+        if (!StringUtils.isEmpty(pims.getSend_doctor())) {
+            buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());//送检医生
+        }
+        if (!StringUtils.isEmpty(pims.getReq_sts())) {
+            buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
+        }
+        return buffer;
+    }
+
+    /**
      * 查询申请单列表
      * @param pims
      * @return
      */
     public List<PimsPathologyRequisition> getRequisitionInfo(PimsBaseModel pims){
         StringBuffer buffer = new StringBuffer();
-        buffer.append(" from PimsPathologyRequisition where ReqIsDeleted = 0 ");
-        if(pims != null) {
-            if (!StringUtils.isEmpty(pims.getReq_code())) {
-                buffer.append("and RequisitionNo = " + pims.getReq_code());
-            }
-            if (!StringUtils.isEmpty(pims.getPatient_name())) {
-                buffer.append(" and ReqPatientName  = " + pims.getPatient_name());
-            }
-            if (!StringUtils.isEmpty(pims.getSend_hosptail())) {
-                buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());
-            }
-            if (!StringUtils.isEmpty(pims.getReq_bf_time())) {
-                buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time() + "','YYYY-MM-DD')");
-            }
-            if (!StringUtils.isEmpty(pims.getReq_af_time())) {
-                buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time() + "','YYYY-MM-DD')+1");
-            }
-            if (!StringUtils.isEmpty(pims.getSend_dept())) {
-                buffer.append(" and  ReqDeptName = " + pims.getSend_dept());
-            }
-            if (!StringUtils.isEmpty(pims.getSend_doctor())) {
-                buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());
-            }
-            if (!StringUtils.isEmpty(pims.getReq_sts())) {
-                buffer.append(" and  ReqState = " + pims.getReq_sts());
-            }
-            if (!StringUtils.isEmpty(pims.getReq_sts())) {
-                buffer.append(" and  ReqState = " + pims.getReq_sts());
-            }
-            String orderby = (pims.getSidx()==null|| pims.getSidx().trim().equals(""))?"reqcustomercode":pims.getSidx();
-            buffer.append(" order by " + orderby + " " +pims.getSord());
-        }
+        buffer.append(" from PimsPathologyRequisition where ReqIsDeleted = 0 ");//正常单据
+        buffer = getStringSql(buffer,pims);
+        String orderby = (pims.getSidx()==null|| pims.getSidx().trim().equals(""))?"requisitionno":pims.getSidx();
+        buffer.append(" order by " + orderby + " " +pims.getSord());
         System.out.println(buffer.toString());
-        return pagingList(buffer.toString(),pims.getStart(),pims.getEnd());
-//        Query query = getSession().createQuery(buffer.toString());
-//        System.out.println(query.getQueryString());
-//        List<PimsPathologyRequisition> list = query.list();
-//        return list;
+        return pagingList(buffer.toString(),pims.getStart(),pims.getEnd(),pims.getReq_bf_time(),pims.getReq_af_time());
     }
-
+    /**
+     * 获取总数量
+     * @param pims
+     * @return
+     */
+    @Override
+    public int getReqListNum(PimsBaseModel pims) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(" select count(1) from PIMS_PATHOLOGY_REQUISITION where ReqIsDeleted = 0 ");
+        buffer = getStringSql(buffer,pims);
+        System.out.println(buffer.toString());
+        return countTotal(buffer.toString(),pims.getReq_bf_time(),pims.getReq_af_time()).intValue();
+    }
     /**
      * 逻辑删除单据号
      * @param id
@@ -78,80 +95,22 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         if(id == null){
             return false;
         }else{
-            Query query = getSession().createSQLQuery(" update PIMS_PATHOLOGY_REQUISITION set ReqIsDeleted = 1 where requisitionid = "+ id);
+            Query query = getSession().createSQLQuery(" update PIMS_PATHOLOGY_REQUISITION set ReqIsDeleted = 1 where requisitionid = "+ id);//逻辑删除申请单
             query.executeUpdate();
+            getSession().createSQLQuery("delete from pims_requisition_material where requisitionid = "+ id).executeUpdate();//删除申请材料表
+            getSession().createSQLQuery("delete from pims_requisition_testitem where requisitionid = "+ id).executeUpdate();//删除检查项目表
             return true;
         }
     }
-
     /**
-     * 查询单据号是否存在
+     * 查询申请单详细信息
      * @param id
      * @return
      */
     @Override
     public PimsPathologyRequisition getBySampleNo(Long id) {
-        if(id == null){
-            return null;
-        }else{
-            Query query = getSession().createQuery("from PimsPathologyRequisition where requisitionid = "+ id);
-            if(query.list() == null || query.list().size() != 1){
-                return null;
-            }else{
-               return (PimsPathologyRequisition)query.list().get(0);
-            }
-        }
+        return (PimsPathologyRequisition)getSession().createQuery("from PimsPathologyRequisition where requisitionid = "+ id).uniqueResult();
     }
-
-    /**
-     * 获取最大ID
-     * @return
-     */
-    @Override
-    public Long getMaxId() {
-        String sql = "select  Seq_RequisitionId.nextval nextvalue from dual";
-        Long maxId = (Long)(getSession().createSQLQuery(sql).addScalar("nextvalue", StandardBasicTypes.LONG) ).uniqueResult();
-        System.out.println("申请单最大ID为：" + maxId);
-        return maxId;
-    }
-
-    /**
-     * 获取总数量
-     * @param pims
-     * @return
-     */
-    @Override
-    public int getReqListNum(PimsBaseModel pims) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(" select count(1) from PIMS_PATHOLOGY_REQUISITION where ReqIsDeleted = 0 ");
-        if(!StringUtils.isEmpty(pims.getReq_code())){
-            buffer.append("and RequisitionNo = " +  pims.getReq_code());
-        }
-        if(!StringUtils.isEmpty(pims.getPatient_name())){
-            buffer.append(" and ReqPatientName  = " + pims.getPatient_name());
-        }
-        if(!StringUtils.isEmpty(pims.getSend_hosptail())){
-            buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());
-        }
-        if(!StringUtils.isEmpty(pims.getReq_bf_time())){
-            buffer.append(" and ReqDate >= to_date('" + pims.getReq_bf_time()+"','YYYY-MM-DD')");
-        }
-        if(!StringUtils.isEmpty(pims.getReq_af_time())){
-            buffer.append(" and  ReqDate < to_date('" + pims.getReq_af_time()+"','YYYY-MM-DD')+1");
-        }
-        if(!StringUtils.isEmpty(pims.getSend_dept())){
-            buffer.append(" and  ReqDeptName = " + pims.getSend_dept());
-        }
-        if(!StringUtils.isEmpty(pims.getSend_doctor())){
-            buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());
-        }
-        if(!StringUtils.isEmpty(pims.getReq_sts())){
-            buffer.append(" and  ReqState = " + pims.getReq_sts());
-        }
-        System.out.println(buffer.toString());
-        return countTotal(buffer.toString()).intValue();
-    }
-
     /**
      * 根据病种类别查询最大单据号
      * @param reqpathologyid
@@ -169,7 +128,6 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         if(o == null) return null;
         return o.toString();
     }
-
     /**
      * 更新申请单的可使用状态
      * @param ppr
@@ -203,5 +161,45 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
             }
             return true;
         }
+    }
+
+    /**
+     * 保存申请单据
+     * @param materials
+     * @param ppr
+     * @return
+     */
+    @Override
+    public PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr) {
+        if(StringUtils.isEmpty(String.valueOf(ppr.getRequisitionid())) || String.valueOf(ppr.getRequisitionid()).equals("0")){
+            String maxCode = getMaxCode(null);
+            if(!StringUtils.isEmpty(maxCode) && Long.parseLong(maxCode) >= Long.parseLong(ppr.getRequisitionno()) ){
+                ppr.setRequisitionno(String.valueOf(Long.parseLong(maxCode)+1));
+            }
+        }
+        ppr = save(ppr);
+        //删除组织信息
+        getSession().createSQLQuery("delete from pims_requisition_material where requisitionid = "+ ppr.getRequisitionid()).executeUpdate();//删除申请材料表
+        getSession().createSQLQuery("delete from pims_requisition_testitem where requisitionid = "+ ppr.getRequisitionid()).executeUpdate();//删除检查项目表
+        for(int i= 0;i<materials.size();i++){
+            Map map = (Map) materials.get(i);
+            PimsRequisitionMaterial mater = (PimsRequisitionMaterial) setBeanProperty(map,PimsRequisitionMaterial.class);
+            String sql = "insert into pims_requisition_material (requisitionid,materialid,reqmcustomerid,reqmmaterialname,reqmmaterialtype,reqmsamplingparts," +
+                    "reqmspecialrequirements,reqmremark,reqmcreateuser,reqmcreatetime) values (:requisitionid,:materialid,:reqmcustomerid,:reqmmaterialname," +
+                    ":reqmmaterialtype,:reqmsamplingparts,:reqmspecialrequirements,:reqmremark,:reqmcreateuser,:reqmcreatetime)";
+            Query query = getSession().createSQLQuery(sql);
+            query.setLong("requisitionid",mater.getRequisitionid());
+            query.setLong("materialid",mater.getMaterialid());
+            query.setString("reqmcustomerid",mater.getReqmcustomercode());
+            query.setString("reqmmaterialname",mater.getReqmmaterialname());
+            query.setString("reqmmaterialtype",mater.getReqmmaterialtype());
+            query.setString("reqmsamplingparts",mater.getReqmsamplingparts());
+            query.setString("reqmspecialrequirements",mater.getReqmspecialrequirements());
+            query.setString("reqmremark",mater.getReqmremark());
+            query.setString("reqmcreateuser",mater.getReqmcreateuser());
+            query.setTimestamp("reqmcreatetime",mater.getReqmcreatetime());
+            query.executeUpdate();
+        }
+        return ppr;
     }
 }

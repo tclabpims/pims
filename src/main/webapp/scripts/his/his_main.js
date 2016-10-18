@@ -1,3 +1,8 @@
+/**
+ * 回车事件
+ * @param obj
+ * @param event
+ */
 function receive(obj,event) {
 	var e=e||event;
     var key = event.keyCode;
@@ -7,89 +12,15 @@ function receive(obj,event) {
 		key=event.keyCode;
 	}
 	switch(key){
-		case 13 : 
-			var id=obj.value;
-			var sampleno = $("#sampleno_text").val();
-			$.get("../sample/ajax/receive",{id:id,sampleno:sampleno},function(data) {
-				var data = JSON.parse(data);
-				if(data.success == 1) {
-					layer.msg(data.message, {icon: 2, time: 1000});
-				} else if(data.success == 2) {
-					layer.msg(data.message, {icon: 2, time: 1000});
-					var html = "";
-					html += "<tr><td><b>医嘱号</b></td><td>" + data.id + "</td></tr>";
-					html += "<tr><td><b>样本号</b></td><td>" + data.sampleno + "</td></tr>";
-					html += "<tr><td><b>姓名</b></td><td>" + data.pname + "</td></tr>";
-					html += "<tr><td><b>就诊卡号</b></td><td>" + data.pid + "</td></tr>";
-					html += "<tr><td><b>性别</b></td><td>" + data.sex + "</td></tr>";
-					html += "<tr><td><b>年龄</b></td><td>" + data.age + "</td></tr>";
-					html += "<tr><td><b>诊断</b></td><td>" + data.diag + "</td></tr>";
-					html += "<tr><td><b>检验目的</b></td><td>" + data.exam + "</td></tr>";
-					html += "<tr><td><b>检验时间</b></td><td>" + data.receivetime + "</td></tr>";
-					$("#now").html(html);
-				} else {
-					var html = "";
-					html += "<tr><td><b>医嘱号</b></td><td>" + data.id + "</td></tr>";
-					html += "<tr><td><b>样本号</b></td><td>" + data.sampleno + "</td></tr>";
-					html += "<tr><td><b>姓名</b></td><td>" + data.pname + "</td></tr>";
-					html += "<tr><td><b>就诊卡号</b></td><td>" + data.pid + "</td></tr>";
-					html += "<tr><td><b>性别</b></td><td>" + data.sex + "</td></tr>";
-					html += "<tr><td><b>年龄</b></td><td>" + data.age + "</td></tr>";
-					html += "<tr><td><b>诊断</b></td><td>" + data.diag + "</td></tr>";
-					html += "<tr><td><b>检验目的</b></td><td>" + data.exam + "</td></tr>";
-					html += "<tr><td><b>检验时间</b></td><td>" + data.receivetime + "</td></tr>";
-					$("#now").html(html);
-					var rowData = {
-						id:data.id,
-						sampleno:data.sampleno,
-						shm:data.shm,
-						pname:data.pname,
-						section:data.section,
-						bed:data.bed,
-						sex:data.sex,
-						age:data.age,
-						receivetime:data.receivetime,
-						exam:data.exam,
-						sampletype:data.sampletype,
-						pid:data.pid,
-						feestatus:data.feestatus,
-						diag:data.diag,
-						cycle:data.cycle,
-						requester:data.requester,
-						part:data.part,
-						requestmode:data.requestmode,
-						fee:data.fee
-					};
-					var ids = $('#new').jqGrid('getDataIDs');
-		            var newId = parseInt(ids[ids.length - 1] || 0) + 1;
-					$("#new").jqGrid('addRowData', newId, rowData);
-					layer.msg(data.message, {icon: 1, time: 1000});
-				}
-			});
+		case 13 :
+			searchList();
 			break;
 	}
 }
-
-function getData(obj,event) {
-	var e=e||event;
-    var key = event.keyCode;
-    if(navigator.appName=="Netscape"){
-		key=e.which;
-	}else{
-		key=event.keyCode;
-	}
-	switch(key){
-		case 13 : 
-			var id=obj.value;
-			var type = 1;
-			if(obj.id == 'sampleno') {
-				type = 2;
-			}
-			getSampleData(id, type);
-			break;
-	}
-}
-
+/**
+ * 获取申请单详细信息
+ * @param id
+ */
 function getSampleData(id) {
 	$.get("../pimspathology/get",{id:id},function(data) {
 		if(data != "") {
@@ -154,56 +85,9 @@ function getSampleData(id) {
 		}
 	});
 }
-
-function getPatient(obj,event) {
-	var e=e||event;
-    var key = event.keyCode;
-    if(navigator.appName=="Netscape"){
-		key=e.which;
-	}else{
-		key=event.keyCode;
-	}
-	switch(key){
-		case 13 : 
-			$.get("../sample/ajax/getpatient",{pid:obj.value},function(data) {
-				var data = JSON.parse(data);
-				if($("#doctadviseno").val() == "") {
-					if(data.ispid) {
-						$("#patientid").val(data.pid);
-						$("#patientname").val(data.pname);
-						$("#sex").val(data.sex);
-						$("#age").val(data.age);
-					} else{
-						layer.msg("就诊卡号为" + obj.value + "的病人不存在！", {icon: 0, time: 1000})
-					}
-				} else {
-					layer.msg("医嘱号已存在，无权限修改接诊卡号！", {icon: 0, time: 1000});
-				}
-			});
-			break;
-	}
-}
-
-function Pad(num, n) {
-    return (Array(n).join(0) + num).slice(-n);
-}
-
-function isDate(str){
-	if(!isNaN(str.substring(0,4)) && !isNaN(str.substring(4,6)) && !isNaN(str.substring(6,8))) {
-		var year = parseInt(str.substring(0,4));
-		var month = parseInt(str.substring(4,6))-1;
-		var day = parseInt(str.substring(6,8));
-		var date=new Date(year,month,day);
-		if(date.getFullYear()==year&&date.getMonth()==month&&date.getDate()==day) {
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-} 
-
+/**
+ * 保存信息
+ */
 function saveInfo() {
 	operate = $("#operate").val();
 	if(operate == 'cancel') {
@@ -211,13 +95,10 @@ function saveInfo() {
 		$('#examinaim').data('tag').clear();
 	} else {
         var rowdatas = $('#new1').jqGrid('getRowData');
-		var msg = "";
 		var post = true;
-		// alert(rowdatas);
-		// return false;
 		if(post) {
 			$.post("../pimspathology/editSample", {
-			    reqthirdv:JSON.stringify(rowdatas),
+			    material:JSON.stringify(rowdatas),
                 requisitionid:$("#requisitionid").val(),
                 reqcustomercode:$("#reqcustomercode").val(),
                 reqpathologyid:$("#reqpathologyid").val(),
@@ -276,21 +157,10 @@ function saveInfo() {
                 reqcreatetime:$("#reqcreatetime").val()
 			},
 			function(data) {
-				//var data = JSON.parse(data);
 				if(data.success) {
 					layer.msg(data.message, {icon: 1, time: 1000});
 					layer.closeAll();
-					// var rowData = {
-					// 	requisitionid:data.requisitionid,
-					// 	requisitionno:data.requisitionno,
-					// 	reqitemnames:data.reqitemnames,
-					// 	reqpathologyid:data.reqpathologyid
-					// };
-					// var ids = $('#new').jqGrid('getDataIDs');
-                    // var newId = parseInt(ids[ids.length - 1] || 0) + 1;
-					// $("#new").jqGrid('addRowData', newId, rowData);
 					$("#new").trigger("reloadGrid");
-
 				} else {
 					layer.msg(data.message, {icon:2, time: 1000});
 				}
@@ -300,7 +170,10 @@ function saveInfo() {
 		}
 	}
 }
-
+/**
+ * 创建取材材料单据
+ * @param reqid
+ */
 function createNew1(reqid){
     $("#new1").jqGrid({
         url:"../pimspathology/ajax/getmaterial",
@@ -309,12 +182,20 @@ function createNew1(reqid){
         height: 170,
         width: 540,
         postData:{"reqId":reqid},
-        colNames: ['申请单ID','ID','切取部位', '送检材料'],
+        colNames: ['申请单ID','ID','切取部位', '送检材料','客户id','材料名称','取材特殊要求','备注信息','录入人员','录入时间'],
         colModel: [
-            {name:'requisitionid',hidden:true},
-            {name:'materialid',hidden:true},
-            { name: 'reqmsamplingparts', index: 'reqmsamplingparts',editable:true,edittype: "select",formatter: "select", editoptions:{value:"1:输卵管;2:肝脏;3:肺"}},
-            { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select", editoptions:{value:"1:输卵管切除组织;2:肝脏切除组织;3:肺切除组织"}}
+            {name:'requisitionid',hidden:true},//申请单ID
+            {name:'materialid',hidden:true},//ID
+            { name: 'reqmsamplingparts', index: 'reqmsamplingparts',editable:true,edittype: "select",formatter: "select",
+				editoptions:{value:"1:输卵管;2:肝脏;3:肺"}},//切取部位
+            { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select",
+				editoptions:{value:"1:输卵管切除组织;2:肝脏切除组织;3:肺切除组织"}},//送检材料
+			{name:'reqcustomercode',hidden:true},//客户id
+			{name:'reqmmaterialname',hidden:true},//材料名称
+			{name:'reqmspecialrequirements',hidden:true},//取材特殊要求
+			{name:'reqmremark',hidden:true},//备注信息
+			{name:'reqmcreateuser',hidden:true},//录入人员
+			{name:'reqmcreatetime',hidden:true},//录入时间
         ],
         loadComplete : function() {
             var table = this;
@@ -325,12 +206,10 @@ function createNew1(reqid){
         viewrecords: true,
         multiselect: true,
         cellsubmit: "clientArray",
-        //autowidth: true,
         cellEdit:true,
         rownumbers : true,
         onSelectAll:function(aRowids,status){
             var rowIds = $("#new1").jqGrid('getDataIDs');
-            //alert(rowIds);
             for(var k = 0; k<rowIds.length; k++) {
                 var curRowData = jQuery("#new1").jqGrid('getRowData', rowIds[k]);
                 var curChk = $("#"+rowIds[k]+"").find(":checkbox");
@@ -343,15 +222,27 @@ function createNew1(reqid){
         }
     });
 }
+/**
+ * 新增单据
+ */
 function addSample() {
 	clearData();
-	$.get("../pimspathology/editSample", {},
+	$.get("../pimspathology/getcode", {},
 		function(data) {
 			if(data.success) {
 				$("#requisitionno").val(date.maxcode);
 			} else {
 			}
 		});
+	$("#reqdate").val(CurentTime(new Date()));
+	$("#reqdatechar").val(CurentTime(new Date()));
+	$("#reqplanexectime").val(CurentTime(new Date()));
+	$("#reqcreatetime").val(CurentTime(new Date()));
+	$("#reqcreateuser").val($("#local_userid").val());
+	$("#reqstate").val("0");
+	$("#reqisdeleted").val("0");
+	$("#reqpatientid").val("1");
+	$("#reqinpatientid").val("1");
 	layer.open({
 		type: 1,
 		area: ['1000px','600px'],
@@ -363,7 +254,10 @@ function addSample() {
 		content: $("#formDialog")
 	});
 }
-
+/**
+ * 修改数据
+ * @returns {boolean}
+ */
 function editSample() {
 	clearData();
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
@@ -398,7 +292,10 @@ function editSample() {
 			}
 		});
 }
-
+/**
+ * 删除数据
+ * @returns {boolean}
+ */
 function deleteSample() {
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
 	var rowData = $("#new").jqGrid('getRowData',id);
@@ -422,12 +319,16 @@ function deleteSample() {
 			}
 		});
 }
-
+/**
+ * 清除数据
+ */
 function clearData() {
     $('#sampleForm')[0].reset();
     jQuery("#new1").jqGrid("clearGridData");
 }
-
+/**
+ * 初始化
+ */
 $(function() {
 	//表单校验
 	// $("#sampleForm").Validform({
@@ -521,7 +422,9 @@ $(function() {
 	});
     createNew1("");
 });
-
+/**
+ * 查询数据
+ */
 function searchList() {
 	var req_code = $('#req_code').val();
 	var patient_name = $('#patient_name').val();
@@ -540,15 +443,23 @@ function searchList() {
 		page : 1
 	}).trigger('reloadGrid');//重新载入
 }
-
+/**
+ * 增加行
+ */
 function addRow(){
 	var selectedId = $("#new1").jqGrid("getGridParam", "selrow");
     var  requisitionid = $('#requisitionid').val();
 	var dataRow = {
-        requisitionid:requisitionid,
-		materialid: "",
-		reqmsamplingparts: 1,
-		reqmmaterialtype:1
+		requisitionid:requisitionid,//申请单ID
+		materialid:"",//ID
+		reqmsamplingparts:1,//切取部位
+		reqmmaterialtype:1,//送检材料
+		reqcustomercode:$("#reqcustomercode").val(),//客户id
+		reqmmaterialname:"",//材料名称
+		reqmspecialrequirements:"",//取材特殊要求
+		reqmremark:"",//备注信息
+		reqmcreateuser:$("#local_userid").val(),//录入人员
+		reqmcreatetime:CurentTime(new Date())//录入时间
 	};
 	var ids = $("#new1").jqGrid('getDataIDs');
 	var rowid = 1;
@@ -564,6 +475,9 @@ function addRow(){
 	}
 	$('#plsfList').jqGrid('editRow', rowid, false);
 }
+/**
+ * 删除行
+ */
 function delRow(){
 	var selectedId = $("#new1").jqGrid("getGridParam","selrow");
 	if(!selectedId){
@@ -593,4 +507,29 @@ function changethId() {
             }
         }
     )
+}
+
+function CurentTime(now) {
+	//var now = new Date();
+	var year = now.getFullYear();       //年
+	var month = now.getMonth() + 1;     //月
+	var day = now.getDate();            //日
+	var hh = now.getHours();            //时
+	var mm = now.getMinutes();          //分
+	var ss = now.getMilliseconds();    //秒
+	var clock = year + "-";
+	if(month < 10)
+		clock += "0";
+	clock += month + "-";
+	if(day < 10)
+		clock += "0";
+	clock += day + " ";
+	if(hh < 10)
+		clock += "0";
+	clock += hh + ":";
+	if (mm < 10) clock += '0';
+	clock += mm + ":";
+	if(ss < 10) clock +='0';
+	clock += ss;
+	return(clock);
 }

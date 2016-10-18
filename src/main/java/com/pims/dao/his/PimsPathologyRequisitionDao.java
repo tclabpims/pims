@@ -1,5 +1,6 @@
 package com.pims.dao.his;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsPathologySample;
@@ -36,11 +37,6 @@ public interface PimsPathologyRequisitionDao extends GenericDao<PimsPathologyReq
     @Transactional
     PimsPathologyRequisition getBySampleNo(Long id);
     /**
-     * 查询最大ID号
-     */
-    Long getMaxId();
-
-    /**
      * 获取总数量
      * @param pims
      * @return
@@ -68,5 +64,13 @@ public interface PimsPathologyRequisitionDao extends GenericDao<PimsPathologyReq
      * @return
      */
     boolean canChange(Long id);
+
+    /**
+     * 保存申请单据
+     * @param materials
+     * @param ppr
+     * @return
+     */
+    PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr);
 }
 

@@ -1,5 +1,6 @@
 package com.pims.service.impl.pimspathologysample;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.pimspathologysample.PimsPathologyParaffinDao;
 import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.model.PimsBaseModel;
@@ -42,7 +43,7 @@ public class PimsPathologyParaffinManagerImpl extends GenericManagerImpl<PimsPat
      * @return
      */
     @Override
-    public List<PimsPathologyPieces> getSampleList(PimsBaseModel map) {
+    public List getSampleList(PimsBaseModel map) {
         return pimsPathologyParaffinDao.getSampleList(map);
     }
 
@@ -67,22 +68,17 @@ public class PimsPathologyParaffinManagerImpl extends GenericManagerImpl<PimsPat
     }
 
     /**
-     * 更新标本信息
-     * @param sampleid,sts
-     * @return
-     */
-    @Override
-    public boolean updateSample(long sampleid,int sts) {
-        return pimsPathologyParaffinDao.updateSample(sampleid,sts);
-    }
-    /**
-     * 更新材块、包埋信息
+     *
+     * @param slideList
+     * @param paraList
+     * @param sampleList
      * @param sts
+     * @param state
      * @return
      */
     @Override
-    public boolean updateSampleSts(PimsPathologyPieces piece,int sts) {
-        return pimsPathologyParaffinDao.updateSampleSts(piece,sts);
+    public boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state) {
+        return pimsPathologyParaffinDao.updateSampleSts(slideList,paraList,sampleList,sts,state);
     }
 
     /**

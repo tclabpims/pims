@@ -202,18 +202,14 @@ public class PIMSBaseController {
                                 pd.getWriteMethod().invoke(ins, value);
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
                                 try {
-                                    pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
-                                } catch (ParseException e) {
-                                    try {
+                                    if(value.length() == 19){
+                                        pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
+                                    }else if(value.length() == 10){
                                         pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));
-                                    } catch (ParseException e1) {
-                                        try {
-                                            pd.getWriteMethod().invoke(ins, Constants.DF3.parse(value));
-                                        } catch (ParseException e2) {
-                                            e2.printStackTrace();
-                                        }
-                                        e1.printStackTrace();
+                                    }else if(value.length() == 8){
+                                        pd.getWriteMethod().invoke(ins, Constants.DF3.parse(value));
                                     }
+                                } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                             }

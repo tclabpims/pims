@@ -54,13 +54,18 @@
 		<span class="input-group-addon">病人姓名</span>
 		<input type="text" class="form-control" value="" id="patient_name"/>
 		<span class="input-group-addon">申请年月</span>
-		<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}" id="req_bf_time"/>
+		<input type="text" class="form_datetime form-control" placeholder="" value="${sevenday}" id="req_bf_time"/>
 		<span class="input-group-addon">-</span>
 		<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}"  id="req_af_time"/>
 	</div>
 	<div class="input-group" style="float: left;">
 		<span class="input-group-addon">送检医院</span>
 		<input type="text" class="form-control" value="" id="send_hosptail"/>
+		<input type="hidden" id="logylibid" value="${logylibid}"/><!--当前病理库-->
+		<input type="hidden" id="item_source" value="${reqsource}"/><!--申请单来源-->
+		<input type="hidden" id="all_hosptial" value="${reqcustomerid}"/><!--账号所属医院-->
+		<input type="hidden" id="local_user" value="${local_user}"/><!--用户姓名-->
+		<input type="hidden" id="local_userid" value="${local_userid}"/><!--用户ID-->
 		<span class="input-group-addon">送检科室</span>
 		<input type="text" class="form-control" value="" id="send_dept"/>
 		<span class="input-group-addon">送检医生</span>
@@ -110,7 +115,7 @@
 				<input type="hidden" id="reqplanexectime" value="${reqplanexectime}"/>
 				<input type="hidden" id="reqcreateuser"  value="${reqcreateuser}"/>
 				<input type="hidden" id="reqcreatetime" value="${reqcreatetime}"/>
-				<input type="text" class="col-sm-12" id="requisitionno" name="requisitionno" onkeypress="getData(this,event)" value="${requisitionno}"/>
+				<input type="text" class="col-sm-12" id="requisitionno" name="requisitionno" value="${requisitionno}"/>
 			</div>
 			<label class="col-sm-1 control-label no-padding-right" >检查项目</label>
 			<div class="col-sm-2 ">

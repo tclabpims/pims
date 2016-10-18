@@ -29,8 +29,8 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(!StringUtils.isEmpty(map.getLogyid())){
             sb.append(" and sampathologyid = " + map.getLogyid());
         }
-        if(!StringUtils.isEmpty(map.getReq_bf_time())){
-            sb.append(" and samregisttime >= to_date('" + map.getReq_bf_time()+"','YYYY-MM-DD')");
+        if(map.getReq_bf_time() != null){
+            sb.append(" and samregisttime >= :req_bf_time");
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
             sb.append(" and samsecondv = " + map.getReq_sts());
@@ -47,8 +47,8 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(!StringUtils.isEmpty(map.getPatient_name())){
             sb.append(" and sampatientname = " + map.getPatient_name());
         }
-        if(!StringUtils.isEmpty(map.getReq_af_time())){
-            sb.append(" and  samregisttime < to_date('" + map.getReq_af_time()+"','YYYY-MM-DD')+1");
+        if(map.getReq_af_time()  != null){
+            sb.append(" and  samregisttime < :req_af_time");
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             sb.append(" and saminspectionid = " + map.getReq_code());
@@ -56,7 +56,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"saminspectionid":map.getSidx();
         sb.append(" order by " + orderby + " " +map.getSord());
         System.out.println(sb.toString());
-        return pagingList(sb.toString(),map.getStart(),map.getEnd());
+        return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
     }
 
     /**
@@ -71,8 +71,8 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(!StringUtils.isEmpty(map.getLogyid())){
             sb.append(" and sampathologyid = " + map.getLogyid());
         }
-        if(!StringUtils.isEmpty(map.getReq_bf_time())){
-            sb.append(" and samregisttime >= to_date('" + map.getReq_bf_time()+"','YYYY-MM-DD')");
+        if(map.getReq_bf_time() != null){
+            sb.append(" and samregisttime >= :req_bf_time");
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
             sb.append(" and samsecondv = " + map.getReq_sts());
@@ -89,13 +89,13 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(!StringUtils.isEmpty(map.getPatient_name())){
             sb.append(" and sampatientname = " + map.getPatient_name());
         }
-        if(!StringUtils.isEmpty(map.getReq_af_time())){
-            sb.append(" and  samregisttime < to_date('" + map.getReq_af_time()+"','YYYY-MM-DD')+1");
+        if(map.getReq_af_time() != null){
+            sb.append(" and  samregisttime < :req_af_time");
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             sb.append(" and saminspectionid = " + map.getReq_code());
         }
-        return countTotal(sb.toString()).intValue();
+        return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time()).intValue();
     }
 
     /**

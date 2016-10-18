@@ -7,8 +7,8 @@ import com.pims.model.PimsPathologyParaffin;
 import com.pims.model.PimsPathologyPieces;
 import com.pims.model.PimsPathologySample;
 import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
-import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
 import com.smart.model.user.User;
@@ -33,12 +33,10 @@ import java.util.*;
  * Created by king on 2016/10/10.
  */
 @Controller
-@RequestMapping("/pathologysample/paraffin")
-public class PimsPathologyParaffinController extends PIMSBaseController{
+@RequestMapping("/pathologysample/slide")
+public class PimsPathologySlideController extends PIMSBaseController{
     @Autowired
-    private PimsPathologyParaffinManager pimsPathologyParaffinManager;
-    @Autowired
-    private PimsPathologySampleManager pimsPathologySampleManager;
+    private PimsPathologySlideManager pimsPathologySlideManager;
     /**
      * 渲染视图
      * @param request
@@ -59,8 +57,7 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
         view.addObject("sevenday", sevenDay);//7天前
         view.addObject("receivetime", today);//当前时间
         view.addObject("local_name",user.getName());//当前登录用户名
-        view.addObject("local_name_id",user.getId());//当前登录用户id
-//        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
+        view.addObject("local_hosptail",user.getHospitalId());//账号所属医院
         return view;
     }
 
@@ -73,13 +70,13 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
     @RequestMapping(value = "/get*", method = RequestMethod.GET)
     public void getsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String code = request.getParameter("id");
-        PimsPathologySample pathology = pimsPathologyParaffinManager.getBySampleNo(Long.parseLong(code));
+        PimsPathologySample pathology = pimsPathologySlideManager.getBySampleNo(Long.parseLong(code));
         JSONObject pathMap = getJSONObject(pathology);
         PrintwriterUtil.print(response, pathMap.toString());
     }
 
     /**
-     * 获取材块列表
+     * 获取蜡块列表
      * @param request
      * @param response
      * @return
@@ -90,8 +87,8 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
     public DataResponse getRequisitionInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dataResponse = new DataResponse();
         PimsBaseModel ppr = new PimsBaseModel(request);
-        List list = pimsPathologyParaffinManager.getSampleList(ppr);
-        int num = pimsPathologyParaffinManager.getReqListNum(ppr);
+        List<PimsPathologyParaffin> list = pimsPathologySlideManager.getSampleList(ppr);
+        int num = pimsPathologySlideManager.getReqListNum(ppr);
         if(list == null || list.size() == 0) {
             return null;
         }
@@ -104,7 +101,7 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
     }
 
     /**
-     * 获取包埋列表
+     * 获取玻片列表
      * @param request
      * @param response
      * @return
@@ -118,7 +115,7 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
         if(StringUtils.isEmpty(code)){
             return null;
         }
-        List list = pimsPathologyParaffinManager.getSampleListNoPage(code);
+        List list = pimsPathologySlideManager.getSampleListNoPage(code);
         if(list == null || list.size() == 0) {
             return null;
         }
@@ -127,27 +124,6 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
         response.setContentType("text/html; charset=UTF-8");
         return dataResponse;
     }
-    /**
-     * 查看单据是否可以取消包埋
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/canchange*", method = RequestMethod.GET)
-    public void canChange(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String code = request.getParameter("id");
-        String sts = request.getParameter("sts");
-        JSONObject o = new JSONObject();
-        if(pimsPathologyParaffinManager.canChange(Long.parseLong(code),sts)){
-            o.put("success", true);
-        }else{
-            o.put("success", false);
-            o.put("message","无法进行该操作！");
-        }
-        PrintwriterUtil.print(response, o.toString());
-    }
-
     /**
      * 保存单据
      * @param request
@@ -158,7 +134,6 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
     @Transactional
     @RequestMapping(value = "/editSample*", method = RequestMethod.POST)
     public void editSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PimsPathologySample ppr = (PimsPathologySample)setBeanProperty(request,PimsPathologySample.class);
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String slides = request.getParameter("slides");
         String samples = request.getParameter("samples");
@@ -167,10 +142,9 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
         JSONArray samplesList = JSON.parseArray(samples);
         JSONArray slidesList = JSON.parseArray(slides);
         JSONObject o = new JSONObject();
-        pimsPathologyParaffinManager.updateSampleSts(slidesList,slidesList,samplesList,Integer.parseInt(savenum),Integer.parseInt(states));
+        pimsPathologySlideManager.updateSampleSts(slidesList,slidesList,samplesList,Integer.parseInt(savenum),Integer.parseInt(states));
         o.put("message", "操作成功！");
         o.put("success", true);
         PrintwriterUtil.print(response, o.toString());
-
     }
 }

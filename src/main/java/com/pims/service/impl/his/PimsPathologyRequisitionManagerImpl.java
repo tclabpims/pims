@@ -1,5 +1,6 @@
 package com.pims.service.impl.his;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.his.PimsPathologyRequisitionDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
@@ -58,15 +59,6 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
     }
 
     /**
-     * 获取最大ID
-     * @return
-     */
-    @Override
-    public Long getMaxId() {
-        return pimsPathologyRequisitionDao.getMaxId();
-    }
-
-    /**
      * 获取总数量
      * @param pims
      * @return
@@ -105,5 +97,16 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
     @Override
     public boolean canChange(Long id) {
         return pimsPathologyRequisitionDao.canChange(id);
+    }
+
+    /**
+     * 保存申请单据
+     * @param materials
+     * @param ppr
+     * @return
+     */
+    @Override
+    public PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr) {
+        return pimsPathologyRequisitionDao.insertOrUpdate(materials,ppr);
     }
 }

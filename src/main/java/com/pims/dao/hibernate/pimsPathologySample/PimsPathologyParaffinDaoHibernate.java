@@ -1,18 +1,22 @@
 package com.pims.dao.hibernate.pimsPathologySample;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.pimspathologysample.PimsPathologyParaffinDao;
 import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
-import com.pims.model.PimsBaseModel;
-import com.pims.model.PimsPathologyParaffin;
-import com.pims.model.PimsPathologyPieces;
-import com.pims.model.PimsPathologySample;
+import com.pims.model.*;
 import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by king on 2016/10/10.
@@ -30,10 +34,6 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         StringBuffer sb = new StringBuffer();
         sb.append(" from PimsPathologyPieces , PimsPathologyParaffin  where pieparaffinid = paraffinid and pieceid in ( "+ code + ")");
         return getSession().createQuery(sb.toString()).list();
-//        sb.append(" select parsampleid,parpieceids,paraffinid,parpathologycode,parname,parparaffinno,piecode," +
-//                "parpiececount,parnullslidenum,parpieceparts,piespecial,piesamplingtime,piedoctorname,pieembedtime," +
-//                "pieembeddoctorname,parfirstn from pims_pathology_pieces a, pims_pathology_paraffin b where a.pieparaffinid = b.paraffinid and a.pieceid in ( "+ code + ")");
-//        return getSession().createSQLQuery(sb.toString()).list();
     }
     /**
      * 查询材块列表
@@ -41,24 +41,23 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
      * @return
      */
     @Override
-    public List<PimsPathologyPieces> getSampleList(PimsBaseModel map) {
+    public List getSampleList(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-//        sb.append(" select a.piesamplingtime from pims_pathology_pieces a, pims_pathology_sample b where a.piesampleid = b.sampleid and a.piestate > 0 ");
-        sb.append(" from PimsPathologyPieces a where  a.piestate > 0 ");
+        sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid ");
         if(!StringUtils.isEmpty(map.getLogyid())){
-            sb.append(" and b.sampathologyid = " + map.getLogyid());
+            sb.append(" and sampathologyid = " + map.getLogyid());
         }
-        if(!StringUtils.isEmpty(map.getReq_bf_time())){
-            sb.append(" and a.piesamplingtime >= to_date('" + map.getReq_bf_time()+"','YYYY-MM-DD')");
+        if(map.getReq_bf_time() != null){
+            sb.append(" and piesamplingtime >= :req_bf_time");
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
-                sb.append(" and a.piestate = " + map.getReq_sts());
+                sb.append(" and pieisembed = " + map.getReq_sts());
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
             //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
-            sb.append(" and a.piepathologycode = " + map.getSend_dept());
+            sb.append(" and piepathologycode = " + map.getSend_dept());
         }
         if(!StringUtils.isEmpty(map.getSend_hosptail())){
             //sb.append(" and samsendhospital = " + map.getSend_hosptail());
@@ -66,20 +65,16 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
 //        if(!StringUtils.isEmpty(map.getPatient_name())){
 //            sb.append(" and b.sampatientname = " + map.getPatient_name());
 //        }
-        if(!StringUtils.isEmpty(map.getReq_af_time())){
-            sb.append(" and  a.piesamplingtime < to_date('" + map.getReq_af_time()+"','YYYY-MM-DD')+1");
+        if(map.getReq_af_time() != null){
+            sb.append(" and  piesamplingtime < :req_af_time");
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             //sb.append(" and saminspectionid = " + map.getReq_code());
         }
-        String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"a.piesampleid":map.getSidx();
+        String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"piesampleid":map.getSidx();
         sb.append(" order by " + orderby + " " +map.getSord());
         System.out.println(sb.toString());
-//        Query query = getSession().createSQLQuery(sb.toString());
-//        query.setFirstResult(map.getStart());
-//        query.setMaxResults(map.getEnd());
-//        return query.list();
-        return pagingList(sb.toString(),map.getStart(),map.getEnd());
+        return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
     }
 
     /**
@@ -90,35 +85,35 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
     @Override
     public int getReqListNum(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select count(1) from pims_pathology_pieces a, pims_pathology_sample b where a.piesampleid = b.sampleid and a.piestate > 0 ");
+        sb.append(" select count(1) from pims_pathology_pieces,pims_pathology_sample where piesampleid = sampleid ");
         if(!StringUtils.isEmpty(map.getLogyid())){
-            sb.append(" and b.sampathologyid = " + map.getLogyid());
+            sb.append(" and sampathologyid = " + map.getLogyid());
         }
-        if(!StringUtils.isEmpty(map.getReq_bf_time())){
-            sb.append(" and a.piesamplingtime >= to_date('" + map.getReq_bf_time()+"','YYYY-MM-DD')");
+        if(map.getReq_bf_time() != null){
+            sb.append(" and piesamplingtime >= :req_bf_time");
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
-            sb.append(" and a.piestate = " + map.getReq_sts());
+            sb.append(" and pieisembed = " + map.getReq_sts());
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
             //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
-            sb.append(" and a.piepathologycode = " + map.getSend_dept());
+            sb.append(" and piepathologycode = " + map.getSend_dept());
         }
         if(!StringUtils.isEmpty(map.getSend_hosptail())){
             //sb.append(" and samsendhospital = " + map.getSend_hosptail());
         }
-        if(!StringUtils.isEmpty(map.getPatient_name())){
-            sb.append(" and b.sampatientname = " + map.getPatient_name());
-        }
-        if(!StringUtils.isEmpty(map.getReq_af_time())){
-            sb.append(" and  a.piesamplingtime < to_date('" + map.getReq_af_time()+"','YYYY-MM-DD')+1");
+//        if(!StringUtils.isEmpty(map.getPatient_name())){
+//            sb.append(" and b.sampatientname = " + map.getPatient_name());
+//        }
+        if(map.getReq_af_time() != null){
+            sb.append(" and  piesamplingtime < :req_af_time");
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             //sb.append(" and saminspectionid = " + map.getReq_code());
         }
-        return countTotal(sb.toString()).intValue();
+        return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time()).intValue();
     }
 
     /**
@@ -139,66 +134,107 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
             }
         }
     }
-
     /**
-     * 更新标本状态
-     * @param sampleid,sts
+     * 包埋或取消包埋，更新材块信息，并更新标本信息
+     * @param slideList 蜡块列表,paraList 材块列表,sts 状态,state 逻辑更新标志,sampleList 标本列表
      * @return
      */
     @Override
-    public boolean updateSample(long sampleid,int sts) {
-        PimsPathologySample sample = (PimsPathologySample) getSession().createQuery("from PimsPathologySample where sampleid = "+ sampleid).list().get(0);//查询标本信息
-        if(sts == 3){//切片
-            if(sts - sample.getSamsamplestatus() == 1){//样本状态为包埋
-                int minnum = countTotal("select min(parfirstn) from pims_pathology_paraffin a where a.parsampleid =" + sampleid);//包埋全部已切片
-                if(minnum == sts){
-                    getSession().createSQLQuery("update pims_pathology_sample set samsamplestatus = "+sts+" where sampleid =  "+ sampleid).executeUpdate();
+    public boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state) {
+        StringBuffer sb = new StringBuffer();
+        if(sts == 2){//包埋
+            for(int i=0;i<slideList.size();i++){//包埋
+                Map map = (Map) slideList.get(i);
+                PimsPathologyParaffin para = (PimsPathologyParaffin) setBeanProperty(map,PimsPathologyParaffin.class);
+                save(para);
+            }
+            for(int i=0;i<paraList.size();i++){//更新材块为已包埋
+                Map map = (Map) paraList.get(i);
+                PimsPathologyPieces piece = (PimsPathologyPieces) setBeanProperty(map,PimsPathologyPieces.class);
+                sb = new StringBuffer();
+                sb.append("from PimsPathologyParaffin where parpieceids = "+piece.getPieceid());
+                PimsPathologyParaffin para = (PimsPathologyParaffin) getSession().createQuery(sb.toString()).uniqueResult();
+                sb.append("update pims_pathology_pieces set pieisembed =  1 ,pieembedtime = :pieembedtime ,pieembeddoctorid='"+piece.getPieembeddoctorid()+
+                        "',pieembeddoctorname = '"+ piece.getPieembeddoctorname()+ "',pieparaffinid='"+ para.getParaffinid()+
+                        "' where pieisembed = 1 and  pieceid = "+piece.getPieceid());
+                System.out.println(sb.toString());
+                Query query = getSession().createSQLQuery(sb.toString());
+                query.setTimestamp("pieembedtime",piece.getPieembedtime());
+                query.executeUpdate();
+            }
+            if(state == 1){//按照全部完成才更新的原则
+                for(int i=0;i<sampleList.size();i++){
+                    Map map = (Map) sampleList.get(i);
+                    PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                    if(sample.getSamsamplestatus() == 1){//标本状态(0已登记,1已取材,2包埋,3已切片,4已初诊,5已审核,6已发送,7会诊中,8报告已打印)
+                        sb = new StringBuffer();
+                        sb.append("select count(1) from pims_pathology_pieces where pieisembed = 0 and piesampleid = " + sample.getSampleid());
+                        if(countTotal(sb.toString()).intValue() == 0){//全部已包埋
+                            sb = new StringBuffer();
+                            sb.append("update pims_pathology_sample set samsamplestatus = 2 where sampleid = "+ sample.getSampleid());
+                            getSession().createSQLQuery(sb.toString()).executeUpdate();
+                        }
+                    }
+                }
+            }else{//部分更新就更新的原则
+                for(int i=0;i<sampleList.size();i++){
+                    Map map = (Map) sampleList.get(i);
+                    PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                    if(sample.getSamsamplestatus() == 1){//标本状态(0已登记,1已取材,2包埋,3已切片,4已初诊,5已审核,6已发送,7会诊中,8报告已打印)
+                        sb = new StringBuffer();
+                        sb.append("update pims_pathology_sample set samsamplestatus = 2 where sampleid = "+ sample.getSampleid());
+                        getSession().createSQLQuery(sb.toString()).executeUpdate();
+                    }
                 }
             }
-        }else if(sts == 2){//取消切片 或进行包埋
-            if(sample.getSamsamplestatus() - sts == 1){//样本状态为已切片
-                getSession().createSQLQuery("update pims_pathology_sample set samsamplestatus = "+sts+" where sampleid =  "+ sampleid).executeUpdate();
-            }else if(sts - sample.getSamsamplestatus() == 1){//样本状态为已取材
-                int minnum = countTotal("select min(piestate) from pims_pathology_pieces a where a.piesampleid =" + sampleid);//材块是否已全包埋
-                if(minnum == sts){
-                    getSession().createSQLQuery("update pims_pathology_sample set samsamplestatus = "+sts+" where sampleid =  "+ sampleid).executeUpdate();
-                }
-            }
+            return true;
         }else if(sts == 1){//取消包埋
-            if(sample.getSamsamplestatus() - sts == 1){//样本状态为已包埋
-                getSession().createSQLQuery("update pims_pathology_sample set samsamplestatus = "+sts+" where sampleid =  "+ sampleid).executeUpdate();
+            for(int i=0;i<slideList.size();i++){
+                Map map = (Map) slideList.get(i);
+                PimsPathologyParaffin  para = (PimsPathologyParaffin) setBeanProperty(map,PimsPathologyParaffin.class);
+                if(para.getParissectioned() == 1){
+                    throw  new RuntimeException("该蜡块已切片无法取消包埋！");
+                }else{
+                    remove(para);
+                }
             }
-        }
-        return true;
-    }
-    /**
-     * 更新材块信息
-     * @param piece,sts
-     * @return
-     */
-    @Override
-    public boolean updateSampleSts(PimsPathologyPieces piece,int sts) {
-        if(piece== null ){
-            return false;
-        }else{
-            if(sts == 2){//包埋
-                StringBuffer sb = new StringBuffer();
-                sb.append("update pims_pathology_pieces set piestate = "+ sts +",pieembedtime = TO_DATE('"+ Constants.SDF.format(piece.getPieembedtime())+"','YYYY-MM-DD HH24:MI:SS')"
-                        +",pieembeddoctorid = "+ piece.getPieembeddoctorid()+",pieembeddoctorname = '"+piece.getPieembeddoctorname()+
-                        "',pieparaffinid = "+piece.getPieparaffinid()+"  where piestate = 1 and  pieceid = "+piece.getPieceid());
+            for(int i=0;i<paraList.size();i++){//更新材块为未包埋
+                Map map = (Map) paraList.get(i);
+                PimsPathologyPieces piece = (PimsPathologyPieces) setBeanProperty(map,PimsPathologyPieces.class);
+                sb = new StringBuffer();
+                sb.append("update pims_pathology_pieces set pieisembed =  0 ,pieembedtime = null"+
+                        ",pieembeddoctorid = null,pieembeddoctorname=null,pieparaffinid=null where pieisembed = 1 and  pieceid = "+piece.getPieceid());
                 System.out.println(sb.toString());
                 getSession().createSQLQuery(sb.toString()).executeUpdate();
-                return true;
-            }else if(sts == 1){//取消包埋
-                StringBuffer sb = new StringBuffer();
-                sb.append("update pims_pathology_pieces set piestate = "+ sts +",pieembedtime = null,pieembeddoctorid = null ,pieembeddoctorname = null,"+
-                        "pieparaffinid = null where piestate = 2 and  pieceid = "+piece.getPieceid());
-                System.out.println(sb.toString());
-                getSession().createSQLQuery(sb.toString()).executeUpdate();
-                return true;
             }
-            return false;
+            if(state == 1){//按照全部完成才更新的原则
+                for(int i=0;i<sampleList.size();i++){
+                    Map map = (Map) sampleList.get(i);
+                    PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                    if(sample.getSamsamplestatus() == 2){//标本状态(0已登记,1已取材,2包埋,3已切片,4已初诊,5已审核,6已发送,7会诊中,8报告已打印)
+                        sb = new StringBuffer();
+                        sb.append("update pims_pathology_sample set samsamplestatus = 1 where sampleid = "+ sample.getSampleid());
+                        getSession().createSQLQuery(sb.toString()).executeUpdate();
+                    }
+                }
+            }else{//部分更新就更新的原则
+                for(int i=0;i<sampleList.size();i++){
+                    Map map = (Map) sampleList.get(i);
+                    PimsPathologySample sample = (PimsPathologySample)setBeanProperty(map,PimsPathologySample.class);
+                    if(sample.getSamsamplestatus() == 2){//标本状态(0已登记,1已取材,2包埋,3已切片,4已初诊,5已审核,6已发送,7会诊中,8报告已打印)
+                        sb = new StringBuffer();
+                        sb.append("select count(1) from pims_pathology_paraffin where parsampleid = " + sample.getSampleid());
+                        if(countTotal(sb.toString()).intValue() == 0){//全部未包埋
+                            sb = new StringBuffer();
+                            sb.append("update pims_pathology_sample set samsamplestatus = 1 where sampleid = "+ sample.getSampleid());
+                            getSession().createSQLQuery(sb.toString()).executeUpdate();
+                        }
+                    }
+                }
+            }
+            return true;
         }
+        return false;
     }
     /**
      * 查询材块单据是否可以包埋或取消包埋
@@ -210,12 +246,12 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         if(id == null || StringUtils.isEmpty(sts)){
             return false;
         }else if(sts.equals("2")){
-            String sql =  "select count(1) from pims_pathology_pieces  where pieceid = "+ id +" and piestate = 1 and  pieparaffinid is null";
+            String sql =  "select count(1) from pims_pathology_pieces  where pieceid = "+ id +" and pieisembed = 0 and  pieparaffinid is null";
             if(countTotal(sql).intValue() == 1){
                 return true;
             }
         }else if(sts.equals("1")){
-            String sql =  "select count(1) from pims_pathology_pieces  where pieceid = "+ id +" and piestate = 2 and  pieparaffinid is not null";;
+            String sql =  "select count(1) from pims_pathology_pieces  where pieceid = "+ id +" and pieisembed = 1 and  pieparaffinid is not null";;
             if(countTotal(sql).intValue() == 1){
                 return true;
             }

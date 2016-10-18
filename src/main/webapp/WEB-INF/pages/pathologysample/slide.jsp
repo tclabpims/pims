@@ -14,7 +14,7 @@
     <script type="text/javascript" src="<c:url value="/scripts/ace-elements.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
-    <script type="text/javascript" src="../scripts/pathologysample/paraffin.js"></script>
+    <script type="text/javascript" src="../scripts/pathologysample/slide.js"></script>
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 </head>
@@ -35,20 +35,20 @@
 <body>
 <div class="row widget-main" id="div_1">
 		<div>
-			<button type="button" class="btn btn-sm btn-danger" title="包埋" id="saveButton" onclick="saveInfo(2)">
+			<button type="button" class="btn btn-sm btn-danger" title="切片" id="saveButton" onclick="saveInfo(3)">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
-				包埋
+				切片
 			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="取消包埋" id="resetbutton" onclick="saveInfo(1)">
+			<button type="button" class="btn btn-sm btn-danger" title="取消切片" id="resetbutton" onclick="saveInfo(2)">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
-				取消包埋
+				取消切片
 			</button>
 		</div>
 </div>
 <div class="row">
 	<div class="col-sm-4 leftContent" id="div_2">
 		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">取材年月</span>
+			<span class="input-group-addon">包埋年月</span>
 			<input type="hidden" id="local_name" value="${local_name}"/>
 			<input type="text" class="form_datetime form-control" placeholder="" value="${sevenday}" id="req_bf_time"/>
 			<span class="input-group-addon">-</span>
@@ -61,15 +61,24 @@
 			<input type="text" class="form-control" value="" id="patient_name"/>
 		</div>
 		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">包埋状态</span>
+			<span class="input-group-addon">切片状态</span>
 			<select class="form-control col-sm-8" id="req_sts" onchange="searchSts()">
-				<option value="0">待包埋</option>
-				<option value="1">已包埋</option>
+				<option value="0">待切片</option>
+				<option value="1">已切片</option>
+			</select>
+		</div>
+		<div class="input-group" style="float: left;">
+			<span class="input-group-addon">打印状态</span>
+			<select class="form-control col-sm-8" id="send_hosptail">
+				<option value="1">待打印</option>
+				<option value="2">已打印</option>
 			</select>
 		</div>
 		<div class="input-group" style="float: left;">
 			<span class="input-group-addon ">内部医嘱</span>
 			<input type="checkbox" class="form-control" id="send_doctor" value="1"/>
+			<span class="input-group-addon ">预留白片</span>
+			<input type="checkbox" class="form-control" id="req_code" value="1"/>
 			<span class="input-group-btn">
 				<button type="button" class="btn btn-sm btn-success" title="查询信息" onclick="searchList()">
 					<i class="ace-icon fa fa-print bigger-110"></i>
@@ -154,7 +163,7 @@
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;蜡块列表</label>
+			<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;玻片列表</label>
 		</div>
 		<div class="form-group " style="margin-right:0px;margin-left:0px;">
 			<table id="new1" class="table table-striped table-bordered table-hover">

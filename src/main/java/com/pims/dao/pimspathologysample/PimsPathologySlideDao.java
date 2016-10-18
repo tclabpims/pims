@@ -1,35 +1,31 @@
 package com.pims.dao.pimspathologysample;
 
 import com.alibaba.fastjson.JSONArray;
-import com.pims.model.PimsBaseModel;
-import com.pims.model.PimsPathologyParaffin;
-import com.pims.model.PimsPathologyPieces;
-import com.pims.model.PimsPathologySample;
+import com.pims.model.*;
 import com.smart.dao.GenericDao;
-
 import java.util.List;
 
 /**
  * Created by king on 2016/10/10.
  */
-public interface PimsPathologyParaffinDao extends GenericDao<PimsPathologyParaffin,Long> {
+public interface PimsPathologySlideDao extends GenericDao<PimsPathologySlide,Long> {
     /**
      *
-     * 查询包埋信息不分页
+     * 查询切片信息不分页
      * @param code
      * @return
      */
     List getSampleListNoPage(String code);
 
     /**
-     * 查询材块列表
+     * 查询蜡块列表
      * @param map
      * @return
      */
-    List getSampleList(PimsBaseModel map);
+    List<PimsPathologyParaffin> getSampleList(PimsBaseModel map);
 
     /**
-     * 查询材块数量
+     * 查询蜡块数量
      * @param map
      * @return
      */
@@ -43,19 +39,10 @@ public interface PimsPathologyParaffinDao extends GenericDao<PimsPathologyParaff
     PimsPathologySample getBySampleNo(Long id);
 
     /**
-     *
-     * @param slideList
-     * @param paraList
-     * @param sampleList
-     * @param sts
-     * @param state
+     * 切片或取消片，更新蜡块信息，并更新标本信息
+     * @param slideList 切片列表,paraList 蜡块列表,sts 状态,state 逻辑更新标志,sampleList 标本列表
      * @return
      */
     boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state);
-    /**
-     * 查询单据是否可被修改
-     * @param id,sts(1修改2删除)
-     * @return
-     */
-    boolean canChange(Long id, String sts);
+
 }

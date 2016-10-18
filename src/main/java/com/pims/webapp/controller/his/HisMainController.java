@@ -30,6 +30,10 @@ public class HisMainController extends PIMSBaseController {
     private PimsPathologyRequisitionManager pimsPathologyRequisitionManager;
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, - 7);
+        Date monday = c.getTime();
+        String sevenDay = Constants.DF2.format(monday);
         String today = Constants.DF2.format(new Date());
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
@@ -45,11 +49,15 @@ public class HisMainController extends PIMSBaseController {
         }
         ModelAndView view = new ModelAndView();
         view.addObject("requisitionno",requisitionno);//申请单号
+        view.addObject("sevenday", sevenDay);//7天前
         view.addObject("receivetime", today);//当前时间
         view.addObject("reqcustomerid",user.getHospitalId());//账号所属医院
         view.addObject("reqpathologyid",logylibid);//当前用户选择的病例库
         view.addObject("reqsource",0);//申请单来源
         view.addObject("testList",getResultMap(list));//申请项目列表
+
+        view.addObject("local_user",user.getName());//用户姓名
+        view.addObject("local_userid",user.getId());//用户ID
         return view;
     }
 }

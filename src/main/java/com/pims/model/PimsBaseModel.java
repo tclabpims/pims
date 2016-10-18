@@ -1,7 +1,11 @@
 package com.pims.model;
 
+import com.smart.Constants;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.sql.Date;
 
 /**
  * Created by king on 2016/10/6.
@@ -13,8 +17,8 @@ public class PimsBaseModel {
     private String req_code;
     private String patient_name;
     private String send_hosptail;
-    private String req_bf_time;
-    private String req_af_time;
+    private Date req_bf_time;
+    private Date req_af_time;
     private String send_dept;
     private String send_doctor;
     private String req_sts;
@@ -27,7 +31,8 @@ public class PimsBaseModel {
     public PimsBaseModel(){
 
     }
-    public  PimsBaseModel(HttpServletRequest request) throws UnsupportedEncodingException {
+    public  PimsBaseModel(HttpServletRequest request) throws UnsupportedEncodingException, ParseException {
+        Calendar cal = Calendar.getInstance();
         request.setCharacterEncoding("UTF-8");
         this.request = request;
         String pages = request.getParameter("page");
@@ -35,8 +40,13 @@ public class PimsBaseModel {
         this.req_code = request.getParameter("req_code");
         this.patient_name = request.getParameter("patient_name");
         this.send_hosptail = request.getParameter("send_hosptail");
-        this.req_bf_time = request.getParameter("req_bf_time");
-        this.req_af_time = request.getParameter("req_af_time");
+        this.req_bf_time = (request.getParameter("req_bf_time")== null|| request.getParameter("req_bf_time").equals(""))?null:new Date(Constants.DF2.parse(request.getParameter("req_bf_time")).getTime());
+        this.req_af_time = (request.getParameter("req_bf_time")== null|| request.getParameter("req_bf_time").equals(""))?null:new Date(Constants.DF2.parse(request.getParameter("req_af_time")).getTime());
+        if(this.req_af_time != null){
+            cal.setTime(this.req_af_time);
+            cal.add(Calendar.DAY_OF_YEAR, +1);
+            this.req_af_time = new Date(cal.getTime().getTime());
+        }
         this.send_dept = request.getParameter("send_dept");
         this.send_doctor = request.getParameter("send_doctor");
         this.req_sts = request.getParameter("req_sts");
@@ -81,19 +91,19 @@ public class PimsBaseModel {
         this.send_hosptail = send_hosptail;
     }
 
-    public String getReq_bf_time() {
+    public Date getReq_bf_time() {
         return req_bf_time;
     }
 
-    public void setReq_bf_time(String req_bf_time) {
+    public void setReq_bf_time(Date req_bf_time) {
         this.req_bf_time = req_bf_time;
     }
 
-    public String getReq_af_time() {
+    public Date getReq_af_time() {
         return req_af_time;
     }
 
-    public void setReq_af_time(String req_af_time) {
+    public void setReq_af_time(Date req_af_time) {
         this.req_af_time = req_af_time;
     }
 

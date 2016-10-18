@@ -62,7 +62,7 @@
             <Item name="SpecimenReg" title="SpecimenReg.title" page="/pathologysample/sample" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="SamplingManage" title="menu.samplingManage" page="/pathologysample/pieces" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="EmbeddingManage" title="menu.embeddingManage" page="/pathologysample/paraffin" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
-            <Item name="SectionManage" title="menu.sectionManage" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="SectionManage" title="menu.sectionManage" page="/pathologysample/slide" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
         <Menu name="PathologicalDiagnosis" title="PathologicalDiagnosis.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">

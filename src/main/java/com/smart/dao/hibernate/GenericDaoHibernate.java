@@ -1,5 +1,7 @@
 package com.smart.dao.hibernate;
 
+import com.smart.Constants;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.smart.dao.GenericDao;
@@ -9,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
+import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.lang.InstantiationException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 import javax.annotation.Resource;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -233,6 +235,29 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
     }
 
     /**
+     * 按日期查询格式化wang 2016/10/17
+     * @param s
+     * @param start
+     * @param end
+     * @param req_bf_time
+     * @param req_af_time
+     * @return
+     */
+    public List pagingList(String s, int start, int end, Date req_bf_time,Date req_af_time) {
+        Session session = getSession();
+        Query query = session.createQuery(s);
+        if(req_bf_time != null){
+           query.setDate("req_bf_time",req_bf_time);
+        }
+        if(req_af_time != null){
+            query.setDate("req_af_time",req_af_time);
+        }
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        return query.list();
+    }
+
+    /**
      *
      * @param s hql
      * @return
@@ -244,11 +269,94 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return ((BigDecimal)total).intValue();
     }
 
+    public Integer countTotal(String s,Date req_bf_time,Date req_af_time) {
+        Query query = getSession().createSQLQuery(s);
+        if(req_bf_time != null){
+            query.setDate("req_bf_time",req_bf_time);
+        }
+        if(req_af_time != null){
+            query.setDate("req_af_time",req_af_time);
+        }
+        Object total = query.uniqueResult();
+        if(total == null) return 0;
+        return ((BigDecimal)total).intValue();
+    }
+
     @Override
     public List<Object[]> sqlPagingQuery(String s, int start, int end) {
         SQLQuery query = getSession().createSQLQuery(s);
         query.setFirstResult(start);
         query.setMaxResults(end);
         return query.list();
+    }
+
+
+    public Object setBeanProperty(Map map, Class clazz) {
+        Object ins = null;
+        try {
+            ins = clazz.newInstance();
+            try {
+                if (map.size() > 0) {
+                    Set<String> paramsNames = map.keySet();
+                    for (String name : paramsNames) {
+                        PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(ins, name);
+                        if(pd == null){
+                            continue;
+                        }
+                        String propertyTypeName = pd.getPropertyType().getName();
+                        String value = (String) map.get(name);
+                        System.out.println("name== "+ name + "propertyTypeName====" + propertyTypeName);
+                        if(value != null && !value.trim().equals("")){
+                            if (propertyTypeName.equals(int.class.getName())
+                                    || propertyTypeName.equals(Integer.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Integer.valueOf(value));
+                            } else if (propertyTypeName.equals(long.class.getName())
+                                    || propertyTypeName.equals(Long.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Long.valueOf(value));
+                            } else if (propertyTypeName.equals(double.class.getName())
+                                    || propertyTypeName.equals(Double.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Double.valueOf(value));
+                            } else if (propertyTypeName.equals(float.class.getName())
+                                    || propertyTypeName.equals(Float.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Float.valueOf(value));
+                            } else if (propertyTypeName.equals(byte.class.getName())
+                                    || propertyTypeName.equals(Byte.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Byte.valueOf(value));
+                            } else if (propertyTypeName.equals(short.class.getName())
+                                    || propertyTypeName.equals(Short.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Short.valueOf(value));
+                            } else if (propertyTypeName.equals(char[].class.getName())
+                                    || propertyTypeName.equals(Character[].class.getName())) {
+                                pd.getWriteMethod().invoke(ins, (Object) value.toCharArray());
+                            } else if (propertyTypeName.equals(boolean.class.getName())
+                                    || propertyTypeName.equals(Boolean.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, Boolean.valueOf(value));
+                            } else if (propertyTypeName.equals(String.class.getName())) {
+                                pd.getWriteMethod().invoke(ins, value);
+                            } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
+
+                                try {
+                                    if(value.length() == 19){
+                                        pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
+                                    }else if(value.length() == 10){
+                                        pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));
+                                    }else if(value.length() == 8){
+                                        pd.getWriteMethod().invoke(ins, Constants.DF3.parse(value));
+                                    }
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                    }
+                }
+            } catch (InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return ins;
     }
 }
