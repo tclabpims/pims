@@ -84,7 +84,7 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
     @Override
     public List getSampleList(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid and ");
+        sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid");
         getSearchSql(sb,map);
         String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"piesampleid":map.getSidx();
         sb.append(" order by " + orderby + " " +map.getSord());
