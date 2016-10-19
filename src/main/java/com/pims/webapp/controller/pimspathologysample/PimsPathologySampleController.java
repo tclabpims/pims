@@ -58,6 +58,8 @@ public class PimsPathologySampleController extends PIMSBaseController{
         view.addObject("sevenday", sevenDay);//7天前
         view.addObject("receivetime", today);//当前时间
         view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
+        view.addObject("local_userid",user.getId());//用户id
+        view.addObject("local_username",user.getName());//用户姓名
         return view;
     }
 
@@ -121,9 +123,6 @@ public class PimsPathologySampleController extends PIMSBaseController{
         ppr.setSord(request.getParameter("sord"));
         ppr.setReq_sts("0");
         String code = request.getParameter("reqId");
-//        if(StringUtils.isEmpty(code)){
-//            return null;
-//        }
         List<PimsPathologyRequisition> list = pimsPathologyRequisitionManager.getRequisitionInfo(ppr);
         if(list == null || list.size() == 0) {
             return null;
@@ -136,7 +135,6 @@ public class PimsPathologySampleController extends PIMSBaseController{
         response.setContentType("text/html; charset=UTF-8");
         return dataResponse;
     }
-
     /**
      * 查看单据是否可修改
      * @param request
@@ -171,27 +169,16 @@ public class PimsPathologySampleController extends PIMSBaseController{
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         JSONObject o = new JSONObject();
         if(StringUtils.isEmpty(String.valueOf(ppr.getSampleid())) || String.valueOf(ppr.getSampleid()).equals("0")){
-            if(StringUtils.isEmpty(String.valueOf(ppr.getSamsource()))){
-                ppr.setSamsource(0);
-            }
-            ppr.setSamregisttime(new Date());
-            ppr.setSamregisterid(String.valueOf(user.getId()));
             ppr = pimsPathologySampleManager.save(ppr);
             //更新电子申请单已被使用
             pimsPathologyRequisitionManager.updateReqState(ppr,1);
             o.put("message", "标本添加成功！");
             o.put("success", true);
         } else{
-            if(StringUtils.isEmpty(String.valueOf(ppr.getSamsource()))){
-                ppr.setSamsource(0);
-            }
-            ppr.setSamregisttime(new Date());
             pimsPathologySampleManager.save(ppr);
             o.put("message", "标本编辑成功！");
             o.put("success", true);
         }
-//        response.setContentType("text/html; charset=UTF-8");
-//        response.getWriter().write(o.toString());
         PrintwriterUtil.print(response, o.toString());
     }
 
@@ -211,12 +198,10 @@ public class PimsPathologySampleController extends PIMSBaseController{
         }else{
             pimsPathologySampleManager.delete((long) ppr.getSampleid());
             //更新电子申请单未被使用
-            pimsPathologyRequisitionManager.updateReqState(ppr,0);
+            //pimsPathologyRequisitionManager.updateReqState(ppr,0);
             o.put("message", "标本删除成功！");
             o.put("success", true);
         }
-//        response.setContentType("text/html; charset=UTF-8");
-//        response.getWriter().write(o.toString());
         PrintwriterUtil.print(response, o.toString());
     }
 

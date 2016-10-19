@@ -1,5 +1,6 @@
 package com.pims.dao.pimspathologysample;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyPieces;
 import com.pims.model.PimsPathologySample;
@@ -63,4 +64,12 @@ public interface PimsPathologyPiecesDao extends GenericDao<PimsPathologyPieces,L
      * @return
      */
     boolean canChange(Long id, String sts);
+
+
+    /**
+     * 更新标本信息及材块信息
+     * @param piecesList 材块列表,sample 标本信息,sts 状态,state 逻辑更新标志
+     * @return
+     */
+    public boolean updateSampleSts(JSONArray piecesList, PimsPathologySample sample, int sts, int state);
 }

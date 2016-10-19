@@ -1,5 +1,6 @@
 package com.pims.service.impl.pimspathologysample;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyPieces;
@@ -100,5 +101,15 @@ public class PimsPathologyPiecesManagerImpl extends GenericManagerImpl<PimsPatho
     @Override
     public boolean canChange(Long id,String sts) {
         return pimsPathologyPiecesDao.canChange(id,sts);
+    }
+
+    /**
+     * 更新标本信息及材块信息
+     * @param piecesList 材块列表,sample 标本信息,sts 状态,state 逻辑更新标志
+     * @return
+     */
+    @Override
+    public boolean updateSampleSts(JSONArray piecesList, PimsPathologySample sample, int sts, int state){
+        return pimsPathologyPiecesDao.updateSampleSts(piecesList,sample,sts,state);
     }
 }

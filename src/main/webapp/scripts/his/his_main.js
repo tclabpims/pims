@@ -190,7 +190,7 @@ function createNew1(reqid){
 				editoptions:{value:"1:输卵管;2:肝脏;3:肺"}},//切取部位
             { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select",
 				editoptions:{value:"1:输卵管切除组织;2:肝脏切除组织;3:肺切除组织"}},//送检材料
-			{name:'reqcustomercode',hidden:true},//客户id
+			{name:'reqmcustomercode',hidden:true},//客户id
 			{name:'reqmmaterialname',hidden:true},//材料名称
 			{name:'reqmspecialrequirements',hidden:true},//取材特殊要求
 			{name:'reqmremark',hidden:true},//备注信息
@@ -235,7 +235,7 @@ function addSample() {
 			}
 		});
 	$("#reqdate").val(CurentTime(new Date()));
-	$("#reqdatechar").val(CurentTime(new Date()));
+	$("#reqdatechar").val(CurentTime1(new Date()));
 	$("#reqplanexectime").val(CurentTime(new Date()));
 	$("#reqcreatetime").val(CurentTime(new Date()));
 	$("#reqcreateuser").val($("#local_userid").val());
@@ -396,7 +396,7 @@ $(function() {
 			{name:'requisitionid',hidden:true},
 			{ name: 'requisitionno', index: 'requisitionno'},
 			{ name: 'reqpathologyid', index: 'reqpathologyid'},
-			{ name: 'reqdate', index: 'reqdate',formatter:function(cellvalue, options, row){return new Date(cellvalue).toLocaleString()},formatoptions:{newformat: 'y-m-d'}},
+			{ name: 'reqdate', index: 'reqdate',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
 			{ name: 'reqpatientname', index: 'reqpatientname'},
 			{ name: 'reqsendhospital', index: 'reqsendhospital'},
 			{ name: 'reqdeptname', index: 'reqdeptname'},
@@ -454,7 +454,7 @@ function addRow(){
 		materialid:"",//ID
 		reqmsamplingparts:1,//切取部位
 		reqmmaterialtype:1,//送检材料
-		reqcustomercode:$("#reqcustomercode").val(),//客户id
+		reqmcustomercode:$("#all_hosptial").val(),//客户id
 		reqmmaterialname:"",//材料名称
 		reqmspecialrequirements:"",//取材特殊要求
 		reqmremark:"",//备注信息
@@ -531,5 +531,23 @@ function CurentTime(now) {
 	clock += mm + ":";
 	if(ss < 10) clock +='0';
 	clock += ss;
+	return(clock);
+}
+
+function CurentTime1(now) {
+	//var now = new Date();
+	var year = now.getFullYear();       //年
+	var month = now.getMonth() + 1;     //月
+	var day = now.getDate();            //日
+	var hh = now.getHours();            //时
+	var mm = now.getMinutes();          //分
+	var ss = now.getMilliseconds();    //秒
+	var clock = year;
+	if(month < 10)
+		clock += "0";
+	clock += month;
+	if(day < 10)
+		clock += "0";
+	clock += day;
 	return(clock);
 }

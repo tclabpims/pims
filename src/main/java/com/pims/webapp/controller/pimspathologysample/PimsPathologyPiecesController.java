@@ -156,48 +156,12 @@ public class PimsPathologyPiecesController extends PIMSBaseController{
     public void editSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsPathologySample ppr = (PimsPathologySample)setBeanProperty(request,PimsPathologySample.class);
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String materiallist = request.getParameter("samthirdv");
+        String materiallist = request.getParameter("pieceses");
+        String states = request.getParameter("states");
         String savenum = request.getParameter("savenum");
         JSONArray materials = JSON.parseArray(materiallist);
         JSONObject o = new JSONObject();
-        //查询该标本的材块信息
-        List<PimsPathologyPieces> list = pimsPathologyPiecesManager.getSampleListNoPage(String.valueOf(ppr.getSampleid()));
-        List list1 = new ArrayList();
-        List list2 = new ArrayList();
-        if(savenum.equals("1")) {//取材
-            //更新标本状态为已取材
-            pimsPathologyPiecesManager.updateSample(ppr);
-            for (int i = 0; i < materials.size(); i++) {
-                Map map = (Map) materials.get(i);
-                PimsPathologyPieces mater = (PimsPathologyPieces) setBeanProperty(map, PimsPathologyPieces.class);
-                if (mater.getPiestate().longValue() == 0) {
-                    mater.setPiestate(Long.valueOf(1));
-                }
-                mater = pimsPathologyPiecesManager.save(mater);
-                list1.add(mater.getPieceid());
-            }
-        }else{//保存
-            for (int i = 0; i < materials.size(); i++) {
-                Map map = (Map) materials.get(i);
-                PimsPathologyPieces mater = (PimsPathologyPieces) setBeanProperty(map, PimsPathologyPieces.class);
-                if (!list2.contains(mater.getPiestate().toString())) {
-                    list2.add(mater.getPiestate().toString());
-                }
-                mater = pimsPathologyPiecesManager.save(mater);
-                list1.add(mater.getPieceid());
-            }
-            if(list2.contains("0")){
-                pimsPathologyPiecesManager.updateSampleSts(ppr,0);
-            }else{
-                pimsPathologyPiecesManager.updateSampleSts(ppr,1);
-            }
-        }
-        //删除不存在的材块
-        for(PimsPathologyPieces pps : list){
-            if(!list1.contains(pps.getPieceid())){
-                pimsPathologyPiecesManager.delete(pps.getPieceid());
-            }
-        }
+        pimsPathologyPiecesManager.updateSampleSts(materials,ppr,Integer.parseInt(savenum),Integer.parseInt(states));
         o.put("message", "取材成功！");
         o.put("success", true);
         PrintwriterUtil.print(response, o.toString());

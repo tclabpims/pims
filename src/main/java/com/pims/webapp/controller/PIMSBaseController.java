@@ -100,7 +100,6 @@ public class PIMSBaseController {
                         }
                         String propertyTypeName = pd.getPropertyType().getName();
                         String value = parameterEntry.get(name)[0];
-                        System.out.println("name== "+ name + "propertyTypeName====" + propertyTypeName);
                         if(value != null && !value.trim().equals("")){
                             if (propertyTypeName.equals(int.class.getName())
                                     || propertyTypeName.equals(Integer.class.getName())) {

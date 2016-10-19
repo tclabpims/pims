@@ -72,29 +72,59 @@
 <div class="row">
 <div id="formDialog" class="col-sm-7 leftContent" style="border-style: solid;border-color: #0A246A;border-width: 1px">
 	<form class="form-horizontal"  action="#" method="post" id="sampleForm" >
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-left" for="saminspectionid">条形码:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-left" for="saminspectionid">条形码:</label>
 			<div class="col-sm-3">
 				<input type="hidden" id="sampleid"><!--标本id-->
 				<input type="hidden" id="samcustomerid"/><!--客户id-->
                 <input type="hidden" id="samcustomercode" /><!--客户id-->
 				<input type="hidden" id="samsource"/><!--是否外送-->
+				<input type="hidden" id="samotherid"/><!--第三方条码号-->
                 <input type="hidden" id="samisdeleted"/><!--删除标记-->
                 <input type="hidden" id="sampatientid" /><!--患者唯一号(病案号)-->
                 <input type="hidden" id="saminpatientid" /><!--就诊id(患者每一次来院的id)-->
+				<input type="hidden" id="saminpatientno" /><!--住院序号(住院次数)-->
                 <input type="hidden" id="sampatienttype"/><!--患者类型-->
                 <input type="hidden" id="samsampleclass"/><!--标本种类-->
                 <input type="hidden" id="sampopuser"/><!--标本检查项目id-->
+				<input type="hidden" id="samisemergency"/><!--是否加急-->
+				<input type="hidden" id="samisdecacified"/><!--是否脱钙-->
+				<input type="hidden" id="samissamplingall"/><!--是否全取-->
                 <input type="hidden" id="samsamplestatus"/><!--标本状态-->
+				<input type="hidden" id="samreqtime"/><!--申请时间-->
+				<input type="hidden" id="samreqdocid"/><!--申请医生id-->
+				<input type="hidden" id="samreqdocname"/><!--申请医生姓名-->
+				<input type="hidden" id="samsendphone"/><!--送检联系电话-->
+				<input type="hidden" id="samdigcode"/><!--诊疗小组代码-->
+				<input type="hidden" id="samdeptname"/><!--科室名称-->
+				<input type="hidden" id="samwardcode"/><!--病区代码-->
+				<input type="hidden" id="samwardname"/><!--病区名称-->
+				<input type="hidden" id="sampatientidcardno"/><!--身份证号-->
+
+				<input type="hidden" id="sampatientcompany"/><!--工作单位-->
+				<input type="hidden" id="samismenopause"/><!--是否绝经-->
+				<input type="hidden" id="reqlastmenstruation"/><!--末次月经时间-->
+				<input type="hidden" id="samischarged"/><!--收费状态-->
+				<input type="hidden" id="samreceiverid"/><!--接收人员id-->
+				<input type="hidden" id="samreceivername"/><!--接收人员姓名-->
+				<input type="hidden" id="saminitiallytime"/><!--初诊时间-->
+				<input type="hidden" id="saminitiallyuserid"/><!--初诊人员id-->
+				<input type="hidden" id="saminitiallyusername"/><!--初诊人员姓名-->
+
+
+
+
+
                 <input type="hidden" id="samregisttime"/><!--登记时间-->
-                <input type="hidden" id="samregisterid"/><!--等级人员-->
+                <input type="hidden" id="samregisterid"/><!--登记人员-->
+				<input type="hidden" id="samregistername"/><!--登记人员姓名-->
 				<input type="text" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="samrequistionid">临床申请:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samrequistionid">临床申请:</label>
 			<div class="col-sm-3 ">
 				<input type="text" id="samrequistionid" name="samrequistionid"  placeholder="临床申请" datatype="s1-16"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" >病种类别:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病种类别:</label>
 			<div class="col-sm-3">
 				<select class="col-sm-11" id="sampathologyid">
 					<option value="1" <c:if test="${logylibid == 1 }"> selected</c:if>>常规病理</option>
@@ -103,36 +133,36 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" >病理编号:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病理编号:</label>
 			<div class="col-sm-3 ">
 				<input type="text" id="sampathologycode" name="sampathologycode"  placeholder="病理编号" datatype="s1-16"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" >病人姓名:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病人姓名:</label>
 			<div class="col-sm-3 ">
 				<input type="text" id="sampatientname" name="sampatientname"  placeholder="病人姓名" datatype="s1-16"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" >联系电话:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系电话:</label>
 			<div class="col-sm-3 ">
 				<input type="text" id="sampatientphoneno" name="sampatientphoneno"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" >住院号:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >住院号:</label>
 			<div class="col-sm-3 ">
 				<input type="text" id="sampatientnumber" name="sampatientnumber"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" >床号:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >床号:</label>
 			<div class="col-sm-3 ">
 				<input type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" >联系地址:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系地址:</label>
 			<div class="col-sm-3">
 				<input type="text" id="sampatientaddress" name="sampatientaddress"  placeholder="床号"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="sampatientsex">性&nbsp;别:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientsex">性&nbsp;别:</label>
 			<div class="col-sm-3">
 				<select class="col-sm-11" id="sampatientsex">
 					<option value="1">男</option>
@@ -140,7 +170,7 @@
 					<option value="3">未知</option>
 				</select>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="sampatientage">年&nbsp;龄:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientage">年&nbsp;龄:</label>
 			<div class="col-sm-3">
 				<span class="input-icon input-icon-right" style="width:90%">
 					<input type="text" id="sampatientage" style="float:left;width:60%"/>
@@ -153,14 +183,14 @@
 					</select>
 				</span>
 			</div>
-			<label class="col-sm-1 control-label no-padding-left" >知情书:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-left" >知情书:</label>
 			<div class="col-sm-3">
 				&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  value="1" name="samfirstv"/>&nbsp;&nbsp;已签&nbsp;&nbsp;
 				<input type="radio" value="2" name="samfirstv"/>&nbsp;&nbsp;未签
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" >送检医生:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医生:</label>
 			<div class="col-sm-3 ">
 				<select class="col-sm-11" id="samsenddoctorid">
 					<option value="1">张三</option>
@@ -169,7 +199,7 @@
 					<option value="4">赵六</option>
 				</select>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="samdeptcode">送检科室:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samdeptcode">送检科室:</label>
 			<div class="col-sm-3">
 				<select class="col-sm-11" id="samdeptcode">
 					<option value="1">1科室</option>
@@ -177,7 +207,7 @@
 					<option value="3">3科室</option>
 				</select>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" >送检医院:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医院:</label>
 			<div class="col-sm-3 ">
 				<select class="col-sm-11" id="samsendhospital">
 					<option value="1">杭州国际医院</option>
@@ -186,41 +216,41 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" >送检时间:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检时间:</label>
 			<div class="col-sm-3">
 				<input type="text" class="form_datetime1" value="${samsendtime}" id="samsendtime"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="samreceivertime">接收日期:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samreceivertime">接收日期:</label>
 			<div class="col-sm-3">
 				<input type="text" class="form_datetime1" value="${samreceivertime}" id="samreceivertime"/>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="samfirstn">组织袋数:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samfirstn">组织袋数:</label>
 			<div class="col-sm-3">
 				<input type="text" id="samfirstn" />
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right">标本状态:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">标本状态:</label>
 			<div class="col-sm-3">
 				&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv"/>&nbsp;&nbsp;合格&nbsp;&nbsp;
 				<input type="radio" value="2" name="samsecondv"/>&nbsp;&nbsp;不合格
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="samremark">原因:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samremark">原因:</label>
 			<div class="col-sm-7">
 				<input type="text" id="samremark" class="col-sm-12"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
-			<label class="col-sm-1 control-label no-padding-right" for="samsamplename">送检材料:</label>
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samsamplename">送检材料:</label>
 			<div class="col-sm-3">
 				<textarea id="samsamplename"></textarea>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="sampatientdignoses">临床诊断:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientdignoses">临床诊断:</label>
 			<div class="col-sm-3">
 				<textarea id="sampatientdignoses"></textarea>
 			</div>
-			<label class="col-sm-1 control-label no-padding-right" for="samthirdv">手术所见:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samthirdv">手术所见:</label>
 			<div class="col-sm-3">
 				<textarea id="samthirdv"></textarea>
 			</div>
@@ -250,6 +280,10 @@
 			<option value="5" <c:if test="${logyid == 5}">selected</c:if>>肺穿刺</option>
 		</select>
 		<span class="input-group-addon">条形码</span>
+		<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
+		<input type="hidden" id="local_logyid" value="${logyid}"/>
+		<input type="hidden" id="local_userid" value="${local_userid}"/>
+		<input type="hidden" id="local_username" value="${local_username}"/>
 		<input type="text" class="form-control" value="" id="req_code"/>
 	</div>
 	<div class="input-group" style="float: left;">

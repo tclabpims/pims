@@ -35,6 +35,10 @@ function downSample() {
  */
 function saveInfo(num) {
 	var rowdatas = $('#new1').jqGrid('getRowData');
+	if(rowdatas == null || rowdatas == ""){
+		alert("请录入材块信息！！");
+		return false;
+	}
 	var post = true;
 	var samissamplingall = 0;
 	var samisdecacified = 0;
@@ -46,13 +50,14 @@ function saveInfo(num) {
 	}
 	if(post) {
 		$.post("../pathologysample/pieces/editSample", {
+			states:1,
 			savenum:num,
 			sampleid:$("#sampleid").val(),
 			samsamplestatus:$("#samsamplestatus").val(),
 			sampathologycode:$("#sampathologycode").val(),
 			samissamplingall:samissamplingall,
 			samisdecacified:samisdecacified,
-			samthirdv:JSON.stringify(rowdatas)
+			pieceses:JSON.stringify(rowdatas)
 			},
 			function(data) {
 				if(data.success) {
@@ -391,7 +396,7 @@ function CurentTime(now) {
 function canChange(id,numsts){
 	var rowData = $("#new1").jqGrid('getRowData',id);
 	if(rowData.pieceid == null || rowData.pieceid == ""){
-
+		return false;
 	}else {
 		$.get("../pathologysample/pieces/canchange", {
 				id: rowData.pieceid,
@@ -399,8 +404,6 @@ function canChange(id,numsts){
 			},
 			function (data) {
 				if (data.success) {
-					// layer.msg(data.message, {icon: 1, time: 1000});
-					// location.reload();
 				} else {
 					layer.msg(data.message, {icon: 2, time: 1000});
 					return;

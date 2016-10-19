@@ -164,10 +164,13 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		JSONArray materials = JSON.parseArray(materiallist);
 		JSONObject o = new JSONObject();
 		ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr);
+		//pimsPathologyRequisitionManager.save(ppr);
 		o.put("requisitionid", ppr.getRequisitionid());
 		o.put("requisitionno", ppr.getRequisitionno());
 		o.put("reqitemnames", ppr.getReqitemnames());
 		o.put("reqpathologyid", ppr.getReqpathologyid());
+		o.put("message", "单据保存成功！");
+		o.put("success", true);
 		PrintwriterUtil.print(response, o.toString());
 		return null;
 	}

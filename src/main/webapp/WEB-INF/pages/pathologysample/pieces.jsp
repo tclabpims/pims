@@ -105,7 +105,7 @@
 	</div>
 	<div class="col-sm-6 rightContent" id="formDialog" style="border-style: solid;border-color: #0A246A;border-width: 1px">
 	<form class="form-horizontal"  action="#" method="post" id="sampleForm" >
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" >取材医生:</label>
 			<div class="col-sm-4">
 				<select class="col-sm-10" id="doctor_id">
@@ -123,7 +123,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-left" for="sampathologycode">病理编号:</label>
 			<div class="col-sm-4">
 				<input type="hidden" id="sampleid"><!--标本id-->
@@ -141,7 +141,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" for="sampatientname">病人姓名:</label>
 			<div class="col-sm-4 ">
 				<input type="text" id="sampatientname" name="sampatientname" readonly/>
@@ -155,7 +155,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" >住院号:</label>
 			<div class="col-sm-4 ">
 				<input type="text" id="sampatientnumber" readonly/>
@@ -165,7 +165,7 @@
 				<input type="text" id="samsamplename" readonly/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" >床号:</label>
 			<div class="col-sm-4 ">
 				<input type="text" id="sampatientbed" readonly/>
@@ -176,7 +176,7 @@
 				<input type="checkbox" id="samisdecacified" value="1"/>脱钙
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" for="sampatientsex">性&nbsp;别:</label>
 			<div class="col-sm-4">
 				<select class="col-sm-10" id="sampatientsex" disabled>
@@ -186,19 +186,19 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" for="sampatientdignoses">临床诊断:</label>
 			<div class="col-sm-10">
 				<input type="text" id="sampatientdignoses" readonly class="col-sm-12"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" for="samthirdv">手术所见:</label>
 			<div class="col-sm-10">
 				<input type="text" id="samthirdv" readonly class="col-sm-12"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;材块信息</label>
 			<button type="button" class="btn btn-sm btn-primary " title="追加行" id="addrow1" onclick="addRow()">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
@@ -213,7 +213,7 @@
 				保存
 			</button>
 		</div>
-		<div class="form-group " style="margin-right:0px;margin-left:0px;">
+		<div class="form-group " style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<table id="new1" class="table table-striped table-bordered table-hover">
 			</table>
 		</div>

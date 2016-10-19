@@ -6,13 +6,13 @@ import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsRequisitionMaterial;
+import com.pims.service.his.PimsPathologyRequisitionManager;
+import com.pims.service.his.PimsRequisitionMaterialManager;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
-import org.hibernate.type.StandardBasicTypes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -140,7 +140,7 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
             return false;
         }else{
             getSession().createSQLQuery("update pims_pathology_requisition set reqstate ="+ state +",reqsampleid ="
-                    + ppr.getSampleid()+"  where requisitionid = " + ppr.getSamrequistionid()).executeUpdate();
+                    + ppr.getSampleid()+"  where requisitionno = '" + ppr.getSamrequistionid()+"'").executeUpdate();
             return  true;
         }
     }
@@ -163,6 +163,10 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         }
     }
 
+    @Autowired
+    private PimsRequisitionMaterialManager pimsRequisitionMaterialManager;
+    @Autowired
+    private PimsPathologyRequisitionManager pimsPathologyRequisitionManager;
     /**
      * 保存申请单据
      * @param materials
@@ -177,28 +181,29 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
                 ppr.setRequisitionno(String.valueOf(Long.parseLong(maxCode)+1));
             }
         }
-        ppr = save(ppr);
+        ppr = pimsPathologyRequisitionManager.save(ppr);
         //删除组织信息
         getSession().createSQLQuery("delete from pims_requisition_material where requisitionid = "+ ppr.getRequisitionid()).executeUpdate();//删除申请材料表
         getSession().createSQLQuery("delete from pims_requisition_testitem where requisitionid = "+ ppr.getRequisitionid()).executeUpdate();//删除检查项目表
         for(int i= 0;i<materials.size();i++){
             Map map = (Map) materials.get(i);
             PimsRequisitionMaterial mater = (PimsRequisitionMaterial) setBeanProperty(map,PimsRequisitionMaterial.class);
-            String sql = "insert into pims_requisition_material (requisitionid,materialid,reqmcustomerid,reqmmaterialname,reqmmaterialtype,reqmsamplingparts," +
-                    "reqmspecialrequirements,reqmremark,reqmcreateuser,reqmcreatetime) values (:requisitionid,:materialid,:reqmcustomerid,:reqmmaterialname," +
-                    ":reqmmaterialtype,:reqmsamplingparts,:reqmspecialrequirements,:reqmremark,:reqmcreateuser,:reqmcreatetime)";
-            Query query = getSession().createSQLQuery(sql);
-            query.setLong("requisitionid",mater.getRequisitionid());
-            query.setLong("materialid",mater.getMaterialid());
-            query.setString("reqmcustomerid",mater.getReqmcustomercode());
-            query.setString("reqmmaterialname",mater.getReqmmaterialname());
-            query.setString("reqmmaterialtype",mater.getReqmmaterialtype());
-            query.setString("reqmsamplingparts",mater.getReqmsamplingparts());
-            query.setString("reqmspecialrequirements",mater.getReqmspecialrequirements());
-            query.setString("reqmremark",mater.getReqmremark());
-            query.setString("reqmcreateuser",mater.getReqmcreateuser());
-            query.setTimestamp("reqmcreatetime",mater.getReqmcreatetime());
-            query.executeUpdate();
+//            String sql = "insert into pims_requisition_material (requisitionid,materialid,reqmcustomercode,reqmmaterialname,reqmmaterialtype,reqmsamplingparts," +
+//                    "reqmspecialrequirements,reqmremark,reqmcreateuser,reqmcreatetime) values (:requisitionid,:materialid,:reqmcustomercode,:reqmmaterialname," +
+//                    ":reqmmaterialtype,:reqmsamplingparts,:reqmspecialrequirements,:reqmremark,:reqmcreateuser,:reqmcreatetime)";
+//            Query query = getSession().createSQLQuery(sql);
+//            query.setLong("requisitionid",mater.getRequisitionid());
+//            query.setLong("materialid",mater.getMaterialid());
+//            query.setString("reqmcustomercode",mater.getReqmcustomercode());
+//            query.setString("reqmmaterialname",mater.getReqmmaterialname());
+//            query.setString("reqmmaterialtype",mater.getReqmmaterialtype());
+//            query.setString("reqmsamplingparts",mater.getReqmsamplingparts());
+//            query.setString("reqmspecialrequirements",mater.getReqmspecialrequirements());
+//            query.setString("reqmremark",mater.getReqmremark());
+//            query.setString("reqmcreateuser",mater.getReqmcreateuser());
+//            query.setTimestamp("reqmcreatetime",mater.getReqmcreatetime());
+//            query.executeUpdate();
+            pimsRequisitionMaterialManager.save(mater);
         }
         return ppr;
     }

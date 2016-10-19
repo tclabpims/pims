@@ -254,6 +254,7 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         }
         query.setFirstResult(start);
         query.setMaxResults(end);
+        System.out.println(query.toString());
         return query.list();
     }
 
@@ -305,7 +306,6 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
                         }
                         String propertyTypeName = pd.getPropertyType().getName();
                         String value = (String) map.get(name);
-                        System.out.println("name== "+ name + "propertyTypeName====" + propertyTypeName);
                         if(value != null && !value.trim().equals("")){
                             if (propertyTypeName.equals(int.class.getName())
                                     || propertyTypeName.equals(Integer.class.getName())) {
