@@ -63,8 +63,8 @@
 		<div class="input-group" style="float: left;">
 			<span class="input-group-addon">包埋状态</span>
 			<select class="form-control col-sm-8" id="req_sts" onchange="searchSts()">
-				<option value="0">待包埋</option>
-				<option value="1">已包埋</option>
+				<option value="1">待包埋</option>
+				<option value="2">已包埋</option>
 			</select>
 		</div>
 		<div class="input-group" style="float: left;">

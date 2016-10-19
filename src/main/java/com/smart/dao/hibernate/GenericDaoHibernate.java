@@ -336,7 +336,8 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
 
                                 try {
-                                    if(value.length() == 19){
+                                    if(value.length() >= 19){
+                                        value = value.substring(0,19);
                                         pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
                                     }else if(value.length() == 10){
                                         pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));

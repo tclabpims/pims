@@ -254,7 +254,7 @@ function fillInfo(id){
 	}
 	clearData();
 	var rowData = $("#new").jqGrid('getRowData',maxSelectId);
-	getSampleData(rowData.piesampleid);
+	getSampleData(rowData.sampleid);
 	var dataIds = "";
 	$(selectedIds).each(function () {
 			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
