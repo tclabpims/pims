@@ -180,6 +180,7 @@ function addSample() {
 	$("#saveButton").removeAttr("disabled");//将按钮可用
 	$("#editButton").attr({"disabled":"disabled"});
 	$("#deleteButton").attr({"disabled":"disabled"});
+	$("#sampleid").val("");//标本id
 	$("#saminspectionid").val("");//标本条码号
 	$("#sampathologycode").val("");//病理编号
 	$("#samcustomerid").val($("#lcal_hosptail").val());//客户id reqcustomercode
