@@ -156,7 +156,7 @@ function createNew1(reqid){
 		url:"../pathologysample/slide/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
-		height: 170,
+		height: 280,
 		width:880,
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','蜡块ID','材块编号','玻片类型','玻片序号','取材医生','取材时间','包埋医生', '包埋时间','切片医生', '切片时间','切片状态','印刷状态','分类', '特检项目',

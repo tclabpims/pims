@@ -1,7 +1,7 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
@@ -22,16 +22,16 @@ public class PimsPathologyParaffin {
     private String parpieceparts;
     private Long parissectioned;
     private String parsectioneddoctor;
-    private Time parsectionedtime;
+    private Date parsectionedtime;
     private Long parisprintlabel;
     private String parprintuser;
-    private Time parprinttime;
+    private Date parprinttime;
     private String parremaining;
     private String parfirstv;
     private String parsecondv;
     private Long parfirstn;
-    private Time parfirstd;
-    private Time parcreatetime;
+    private Date parfirstd;
+    private Date parcreatetime;
     private String parcreateuse;
 
     @Id
@@ -168,11 +168,11 @@ public class PimsPathologyParaffin {
 
     @Basic
     @Column(name = "PARSECTIONEDTIME")
-    public Time getParsectionedtime() {
+    public Date getParsectionedtime() {
         return parsectionedtime;
     }
 
-    public void setParsectionedtime(Time parsectionedtime) {
+    public void setParsectionedtime(Date parsectionedtime) {
         this.parsectionedtime = parsectionedtime;
     }
 
@@ -198,11 +198,11 @@ public class PimsPathologyParaffin {
 
     @Basic
     @Column(name = "PARPRINTTIME")
-    public Time getParprinttime() {
+    public Date getParprinttime() {
         return parprinttime;
     }
 
-    public void setParprinttime(Time parprinttime) {
+    public void setParprinttime(Date parprinttime) {
         this.parprinttime = parprinttime;
     }
 
@@ -248,21 +248,21 @@ public class PimsPathologyParaffin {
 
     @Basic
     @Column(name = "PARFIRSTD")
-    public Time getParfirstd() {
+    public Date getParfirstd() {
         return parfirstd;
     }
 
-    public void setParfirstd(Time parfirstd) {
+    public void setParfirstd(Date parfirstd) {
         this.parfirstd = parfirstd;
     }
 
     @Basic
     @Column(name = "PARCREATETIME")
-    public Time getParcreatetime() {
+    public Date getParcreatetime() {
         return parcreatetime;
     }
 
-    public void setParcreatetime(Time parcreatetime) {
+    public void setParcreatetime(Date parcreatetime) {
         this.parcreatetime = parcreatetime;
     }
 

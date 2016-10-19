@@ -1,10 +1,18 @@
 package com.pims.webapp.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.smart.Constants;
+import com.smart.model.user.User;
+import com.smart.model.user.UserBussinessRelate;
 import com.smart.webapp.util.DataResponse;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.beans.PropertyDescriptor;
 
@@ -23,6 +31,38 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 public class PIMSBaseController {
 
     protected final String contentType = "application/json; charset=UTF-8";
+
+    public ModelAndView getmodelView(HttpServletRequest request) throws Exception {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, - 7);
+        Date monday = c.getTime();
+        String sevenDay = Constants.DF2.format(monday);
+        String today = Constants.DF2.format(new Date());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+        UserBussinessRelate ubr = user.getUserBussinessRelate();
+        ApplicationContext ctx= WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+        PimsSysPathologyManager pimsSysPathologyManager = (PimsSysPathologyManager) ctx.getBean("pimsSysPathologyManager");
+        JSONArray items = pimsSysPathologyManager.getPathologyType();
+        StringBuilder builder = new StringBuilder();
+        for(Object obj : items) {
+            JSONObject o = (JSONObject)obj;
+            builder.append("<option value=\"").append(o.get("pathologyLibId")).append("\" ");
+            if(ubr.getPathologyLibId().equals(String.valueOf(o.get("pathologyLibId")))) {
+                builder.append(" selected ");
+            }
+            builder.append(">") .append(o.get("pathologyLib")).append("</option>\n");
+        }
+        ModelAndView view = new ModelAndView();
+        view.addObject("logyid",logylibid);//当前用户选择的病例库
+        view.addObject("sevenday", sevenDay);//7天前
+        view.addObject("receivetime", today);//当前时间
+        view.addObject("local_name",user.getName());//当前登录用户名
+        view.addObject("local_name_id",user.getId());//当前登录用户id
+        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
+        view.addObject("logyids",builder.toString());
+        return view;
+    }
 
     protected List<Map<String, Object>> getResultMap(List<?> result) throws Exception {
         List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();

@@ -183,10 +183,12 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
                 Map map = (Map) paraList.get(i);
                 PimsPathologyParaffin para = (PimsPathologyParaffin) setBeanProperty(map,PimsPathologyParaffin.class);
                 sb = new StringBuffer();
-                sb.append("update pims_pathology_paraffin set parissectioned =  1 ,parsectionedtime = "+ para.getParsectionedtime()+
+                sb.append("update pims_pathology_paraffin set parissectioned =  1 ,parsectionedtime = :parsectionedtime"+
                         ",parsectioneddoctor = '"+ para.getParsectioneddoctor()+"' where parissectioned = 0 and  paraffinid = "+para.getParaffinid());
                 System.out.println(sb.toString());
-                getSession().createSQLQuery(sb.toString()).executeUpdate();
+                Query query = getSession().createSQLQuery(sb.toString());
+                query.setTimestamp("parsectionedtime",para.getParsectionedtime());
+                query.executeUpdate();
             }
             if(state == 1){//按照全部完成才更新的原则
                 for(int i=0;i<sampleList.size();i++){
