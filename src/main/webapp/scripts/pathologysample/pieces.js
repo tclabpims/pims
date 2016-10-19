@@ -294,7 +294,6 @@ function getSampleData(id) {
 	});
 }
 function addRow(){
-	//var selectedId = $("#new1").jqGrid("getGridParam", "selrow");
 	var ids = $("#new1").jqGrid('getDataIDs');
 	var maxId = 1;
 	if(ids == null || ids == ""){
@@ -328,34 +327,34 @@ function addRow(){
 		pieembeddoctorname:"",//包埋人员姓名
 		pieparaffinid:""//所属蜡块id
 	};
-	// var rowid = 1;
-	// if(Math.max.apply(Math,ids) > ids.length ){
-	// 	rowid = Math.max.apply(Math,ids) + 1;
-	// }else{
-	// 	rowid = ids.length + 1;
-	// }
 	$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
-	// if (selectedId) {
-	// 	$("#new1").jqGrid("addRowData", rowid, dataRow, "after", selectedId);
-	// } else {
-	// 	$("#new1").jqGrid("addRowData", rowid, dataRow, "last");
-	// }
-	//$('#plsfList').jqGrid('editRow', rowid, false);
 }
 function delRow(){
-	//var selectedId = $("#new1").jqGrid("getGridParam","selrow");
 	var selectedIds = $("#new1").jqGrid("getGridParam","selarrrow");
 	var ids = $("#new1").jqGrid('getDataIDs');
 	var maxId = Math.max.apply(Math,ids);
 	if(selectedIds == null || selectedIds == ""){
-		// alert("请选择要删除的行!");
-		// return;
 		if(!maxId){
 			alert("无数据可删除!");
 			return;
 		}else{
-			canChange(maxId,2);
-			$("#new1").jqGrid("delRowData", maxId);
+			var rowData = $("#new1").jqGrid('getRowData',maxId);
+			if(rowData.pieceid == null || rowData.pieceid == ""){
+				return false;
+			}else {
+				$.get("../pathologysample/pieces/canchange", {
+						id: rowData.pieceid,
+						sts: 2
+					},
+					function (data) {
+						if (data.success) {
+							$("#new1").jqGrid("delRowData", maxId);
+						} else {
+							layer.msg(data.message, {icon: 2, time: 1000});
+							return;
+						}
+					});
+			}
 		}
 	}else{
 		var maxSelectId = Math.max.apply(Math,selectedIds);
@@ -363,27 +362,27 @@ function delRow(){
 			alert("请从最后一条数据开始删除");
 			return;
 		}else{
-			// var rowData = $("#new").jqGrid('getRowData',selectedId);
-			// if(post) {
-			// 	$.post("../pathologysample/pieces/deleteSample", {
-			// 			pieceid:rowData.pieceid
-			// 		},
-			// 		function(data) {
-			// 			if(data.success) {
-			// 				layer.msg(data.message, {icon: 1, time: 1000});
-			// 				location.reload();
-			// 			} else {
-			// 				layer.msg(data.message, {icon:2, time: 1000});
-			// 			}
-			// 		});
-			// }
 			$(selectedIds).each(function () {
-					canChange(this.toString(),2);
-					$("#new1").jqGrid("delRowData", this.toString());
-					//alert(this.toString());
+				var delrow = this.toString();
+				var rowData = $("#new1").jqGrid('getRowData',delrow);
+				if(rowData.pieceid == null || rowData.pieceid == ""){
+					return false;
+				}else {
+					$.get("../pathologysample/pieces/canchange", {
+							id: rowData.pieceid,
+							sts: 2
+						},
+						function (data) {
+							if (data.success) {
+								$("#new1").jqGrid("delRowData", delrow);
+							} else {
+								layer.msg(data.message, {icon: 2, time: 1000});
+								return;
+							}
+						});
+				}
 				}
 			);
-			//$("#new1").jqGrid("delRowData", selectedId);
 		}
 
 	}
@@ -423,6 +422,7 @@ function canChange(id,numsts){
 			},
 			function (data) {
 				if (data.success) {
+
 				} else {
 					layer.msg(data.message, {icon: 2, time: 1000});
 					return;

@@ -142,7 +142,8 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
                 PimsPathologyPieces piece = (PimsPathologyPieces) setBeanProperty(map,PimsPathologyPieces.class);
                 sb = new StringBuffer();
                 sb.append("from PimsPathologyParaffin where parpieceids = "+piece.getPieceid());
-                PimsPathologyParaffin para = (PimsPathologyParaffin) getSession().createQuery(sb.toString()).uniqueResult();
+                PimsPathologyParaffin para = (PimsPathologyParaffin) (getSession().createQuery(sb.toString()).list().get(0));
+                sb = new StringBuffer();
                 sb.append("update pims_pathology_pieces set piestate = 2, pieisembed =  1 ,pieembedtime = :pieembedtime ,pieembeddoctorid='"+piece.getPieembeddoctorid()+
                         "',pieembeddoctorname = '"+ piece.getPieembeddoctorname()+ "',pieparaffinid='"+ para.getParaffinid()+
                         "' where pieisembed = 0 and  pieceid = "+piece.getPieceid());

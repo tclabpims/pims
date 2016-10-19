@@ -155,7 +155,7 @@ function createNew1(reqid){
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','病理编号','蜡块名称','蜡块序号','蜡块标签','蜡块条码号','材块编号','材块数','白片数', '取材部位',
 			'是否已切片','切片医生','切片时间','是否已打印标签','标签打印人员','标签打印时间','剩余处理','特殊要求', '取材时间','取材医生',
-			'包埋时间','包埋医生ID','包埋医生', '包埋状态'],
+			'包埋时间','包埋医生ID','包埋医生', '包埋状态','材块ID'],
 		colModel: [
 			{name:'parsampleid',hidden:true},//样本ID
 			{name:'parpieceids',hidden:true},//材块ID
@@ -182,7 +182,8 @@ function createNew1(reqid){
 			{ name: 'pieembedtime', index: 'pieembedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//包埋时间
 			{name:'pieembeddoctorid',hidden:true},//包埋医生ID
 			{ name: 'pieembeddoctorname', index: 'pieembeddoctorname'},//包埋医生
-			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"}}//包埋状态
+			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"}},//包埋状态
+			{name:'pieceid',hidden:true}//材块ID
 			],
 		loadComplete : function() {
 			var table = this;
@@ -315,7 +316,7 @@ function addRow(data){
 		parpieceids:data.pieceid,//材块ID
 		paraffinid:"",//蜡块ID
 		parpathologycode:data.piepathologycode,//病理编号
-		parname:"",//蜡块名称
+		parname:data.piecode,//蜡块名称
 		parparaffinno:data.piesamplingno,//蜡块序号
 		parparaffincode:data.piecode,//蜡块标签
 		parbarcode:"",//蜡块条码号
@@ -336,7 +337,8 @@ function addRow(data){
 		pieembedtime:new Date(),//包埋时间
 		pieembeddoctorid:$("#local_name_id").val(),//包埋医生ID
 		pieembeddoctorname:$("#local_name").val(),//包埋医生
-		pieisembed:data.pieisembed//包埋状态
+		pieisembed:data.pieisembed,//包埋状态
+		pieceid:data.pieceid//材块ID
 	};
 	// var rowid = 1;
 	// if(Math.max.apply(Math,ids) > ids.length ){
