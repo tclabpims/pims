@@ -31,7 +31,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
     @Override
     public List<PimsPathologyPieces> getSampleListNoPage(String code) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologyPieces where piesampleid = "+ code);
+        sb.append(" from PimsPathologyPieces where piesampleid = "+ code + "order by piesamplingno");
         return getSession().createQuery(sb.toString()).list();
     }
 
@@ -191,7 +191,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
             }
         }else if(sts.equals("2")){
             String sql =  "select count(1) from pims_pathology_pieces a,pims_pathology_sample b where b.sampleid = a.piesampleid and " +
-                    " b.pieisembed = 0 and a.pieceid = "+ id;
+                    " a.pieisembed = 0 and a.pieceid = "+ id;
             if(countTotal(sql).intValue() == 1){
                 return true;
             }
@@ -208,7 +208,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
     public boolean updateSampleSts(JSONArray piecesList, PimsPathologySample sample, int sts, int state) {
         StringBuffer sb = new StringBuffer();
         //查询该标本的材块信息
-        List<PimsPathologyPieces> list = getSampleListNoPage(String.valueOf(sample.getSampleid()));
+        List<PimsPathologyPieces> list = pimsPathologyPiecesManager.getSampleListNoPage(String.valueOf(sample.getSampleid()));
         List list1 = new ArrayList();
         List list2 = new ArrayList();
         if(sts == 1){//取材
@@ -223,7 +223,6 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 piece = pimsPathologyPiecesManager.save(piece);
                 list1.add(piece.getPieceid());
             }
-            return true;
         }else if(sts == 0){//保存
             for(int i=0;i<piecesList.size();i++){
                 Map map = (Map) piecesList.get(i);
@@ -236,18 +235,17 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
             }
             if(state==1){//完全更新才更新的原则
                 if(list2.contains("0")){
-                    pimsPathologyPiecesManager.updateSampleSts(sample,0);
+                    updateSampleSts(sample,0);
                 }else{
-                    pimsPathologyPiecesManager.updateSampleSts(sample,1);
+                    updateSampleSts(sample,1);
                 }
             }else{//部分更新就更新的原则
                 if(list2.contains("1")){
-                    pimsPathologyPiecesManager.updateSampleSts(sample,1);
+                    updateSampleSts(sample,1);
                 }else{
-                    pimsPathologyPiecesManager.updateSampleSts(sample,0);
+                    updateSampleSts(sample,0);
                 }
             }
-            return true;
         }
         //删除不存在的材块
         for(PimsPathologyPieces pps : list){
@@ -260,6 +258,6 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 }
             }
         }
-        return false;
+        return true;
     }
 }

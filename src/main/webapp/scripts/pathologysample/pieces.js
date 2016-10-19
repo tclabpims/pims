@@ -151,25 +151,33 @@ function createNew1(reqid){
 		height: 170,
 		width:660,
 		postData:{"reqId":reqid},
-		colNames: ['材块条码编号','客户ID','材块ID','取材单位','病理号', '取材序号','材块数','白片数', '取材部位','取材医生ID','取材医生','录入员ID','录入员', '取材时间','特殊要求', '取材状态'],
+		colNames: ['材块条码编号','客户ID','材块ID','取材单位','病理号', '取材序号','材块数','白片数', '取材部位','取材医生ID','取材医生','录入员ID',
+			'录入员', '取材时间','特殊要求', '取材状态','标记物','是否脱水','脱水时间','是否包埋','包埋时间','包埋人员id','包埋人员姓名','所属蜡块id'],
 		colModel: [
-			{name:'piecode',hidden:true},
-			{name:'piesampleid',hidden:true},
-			{name:'pieceid',hidden:true},
-			{name:'pieunit',hidden:true},
-			{ name: 'piepathologycode', index: 'piepathologycode'},
-			{ name: 'piesamplingno', index: 'piesamplingno'},
-			{ name: 'piecounts', index: 'piecounts',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:1,maxValue:100}},
-			{ name: 'pienullslidenum', index: 'pienullslidenum',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:0,maxValue:100}},
-			{ name: 'pieparts', index: 'pieparts',editable:true,edittype: "select",formatter: "select", editoptions:{value:"1:肌腱;2:肺;3:肝脏"}},
-			{ name: 'piedoctorid', hidden:true},
-			{ name: 'piedoctorname', index: 'piedoctorname'},
-			{ name: 'pierecorderid', hidden:true},
-			{ name: 'pierecordername', index: 'pierecordername'},
-			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},
-				formatoptions:{srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'}},
-			{ name: 'piespecial', index: 'piespecial',editable:true},
-			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}}
+			{name:'piecode',hidden:true},//材块条码编号
+			{name:'piesampleid',hidden:true},//客户ID
+			{name:'pieceid',hidden:true},//材块ID
+			{name:'pieunit',hidden:true},//取材单位
+			{ name: 'piepathologycode', index: 'piepathologycode'},//病理号
+			{ name: 'piesamplingno', index: 'piesamplingno'},//取材序号
+			{ name: 'piecounts', index: 'piecounts',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:1,maxValue:100}},//材块数
+			{ name: 'pienullslidenum', index: 'pienullslidenum',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:0,maxValue:100}},//白片数
+			{ name: 'pieparts', index: 'pieparts',editable:true,edittype: "select",formatter: "select", editoptions:{value:"1:肌腱;2:肺;3:肝脏"}},//取材部位
+			{ name: 'piedoctorid', hidden:true},//取材医生ID
+			{ name: 'piedoctorname', index: 'piedoctorname'},//取材医生
+			{ name: 'pierecorderid', hidden:true},//录入员ID
+			{ name: 'pierecordername', index: 'pierecordername'},//录入员
+			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
+			{ name: 'piespecial', index: 'piespecial',editable:true},//特殊要求
+			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}},//取材状态
+			{name:'piesign',hidden:true},//标记物
+			{name:'pieisdeprivation',hidden:true},//是否脱水
+			{name:'piedeprivationtime',hidden:true},//脱水时间
+			{name:'pieisembed',hidden:true},//是否包埋
+			{name:'pieembedtime',hidden:true},//包埋时间
+			{name:'pieembeddoctorid',hidden:true},//包埋人员id
+			{name:'pieembeddoctorname',hidden:true},//包埋人员姓名
+			{name:'pieparaffinid',hidden:true}//所属蜡块id
 			],
 		loadComplete : function() {
 			var table = this;
@@ -232,11 +240,11 @@ function fillInfo(){
 		return false;
 	}
 	getSampleData(rowData.sampleid);
-	if($("#samissamplingall").is(':checked')){
-		$("#addrow1").attr({"disabled":true});
-	}else{
-		$("#addrow1").removeAttr("disabled");
-	}
+	// if($("#samissamplingall").is(':checked')){
+	// 	$("#addrow1").attr({"disabled":true});
+	// }else{
+	// 	$("#addrow1").removeAttr("disabled");
+	// }
 	if($("#samsamplestatus").val() > 1){
 		$("#addrow1").attr({"disabled":true});
 	}else{
@@ -276,6 +284,9 @@ function getSampleData(id) {
 			}
 			if(samissamplingall == 1){
 				$("#samissamplingall").attr("checked",true);
+				$("#addrow1").attr({"disabled":true});
+			}else{
+				$("#addrow1").removeAttr("disabled");
 			}
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
@@ -307,7 +318,15 @@ function addRow(){
 		pierecordername: $("#input_user").find("option:selected").text(),
 		piesamplingtime:new Date(),
 		piespecial: "",
-		piestate:0
+		piestate:0,
+		piesign:"",//标记物
+		pieisdeprivation:"",//是否脱水
+		piedeprivationtime:"",//脱水时间
+		pieisembed:"0",//是否包埋
+		pieembedtime:"",//包埋时间
+		pieembeddoctorid:"",//包埋人员id
+		pieembeddoctorname:"",//包埋人员姓名
+		pieparaffinid:""//所属蜡块id
 	};
 	// var rowid = 1;
 	// if(Math.max.apply(Math,ids) > ids.length ){

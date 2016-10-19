@@ -35,57 +35,14 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         sb.append(" from PimsPathologyPieces , PimsPathologyParaffin  where pieparaffinid = paraffinid and pieceid in ( "+ code + ")");
         return getSession().createQuery(sb.toString()).list();
     }
-    /**
-     * 查询材块列表
-     * @param map
-     * @return
-     */
-    @Override
-    public List getSampleList(PimsBaseModel map) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid ");
-        if(!StringUtils.isEmpty(map.getLogyid())){
-            sb.append(" and sampathologyid = " + map.getLogyid());
-        }
-        if(map.getReq_bf_time() != null){
-            sb.append(" and piesamplingtime >= :req_bf_time");
-        }
-        if(!StringUtils.isEmpty(map.getReq_sts())){
-                sb.append(" and pieisembed = " + map.getReq_sts());
-        }
-        if(!StringUtils.isEmpty(map.getSend_doctor())){
-            //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
-        }
-        if(!StringUtils.isEmpty(map.getSend_dept())){
-            sb.append(" and piepathologycode = " + map.getSend_dept());
-        }
-        if(!StringUtils.isEmpty(map.getSend_hosptail())){
-            //sb.append(" and samsendhospital = " + map.getSend_hosptail());
-        }
-//        if(!StringUtils.isEmpty(map.getPatient_name())){
-//            sb.append(" and b.sampatientname = " + map.getPatient_name());
-//        }
-        if(map.getReq_af_time() != null){
-            sb.append(" and  piesamplingtime < :req_af_time");
-        }
-        if(!StringUtils.isEmpty(map.getReq_code())){
-            //sb.append(" and saminspectionid = " + map.getReq_code());
-        }
-        String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"piesampleid":map.getSidx();
-        sb.append(" order by " + orderby + " " +map.getSord());
-        System.out.println(sb.toString());
-        return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
-    }
 
     /**
-     * 查询材块数量
+     * 组装sql
+     * @param sb
      * @param map
      * @return
      */
-    @Override
-    public int getReqListNum(PimsBaseModel map) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(" select count(1) from pims_pathology_pieces,pims_pathology_sample where piesampleid = sampleid ");
+    public StringBuffer getSearchSql(StringBuffer sb,PimsBaseModel map){
         if(!StringUtils.isEmpty(map.getLogyid())){
             sb.append(" and sampathologyid = " + map.getLogyid());
         }
@@ -113,6 +70,34 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         if(!StringUtils.isEmpty(map.getReq_code())){
             //sb.append(" and saminspectionid = " + map.getReq_code());
         }
+        return sb;
+    }
+    /**
+     * 查询材块列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List getSampleList(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid ");
+        getSearchSql(sb,map);
+        String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"piesampleid":map.getSidx();
+        sb.append(" order by " + orderby + " " +map.getSord());
+        System.out.println(sb.toString());
+        return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 查询材块数量
+     * @param map
+     * @return
+     */
+    @Override
+    public int getReqListNum(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select count(1) from pims_pathology_pieces,pims_pathology_sample where piesampleid = sampleid ");
+        getSearchSql(sb,map);
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time()).intValue();
     }
 
