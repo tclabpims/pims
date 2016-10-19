@@ -70,8 +70,9 @@
 		<div class="input-group" style="float: left;">
 			<span class="input-group-addon">打印状态</span>
 			<select class="form-control col-sm-8" id="send_hosptail">
-				<option value="1">待打印</option>
-				<option value="2">已打印</option>
+				<option value="" >全  部</option>
+				<option value="0">待打印</option>
+				<option value="1">已打印</option>
 			</select>
 		</div>
 		<div class="input-group" style="float: left;">
@@ -94,7 +95,7 @@
 	</div>
 	<div class="col-sm-8 rightContent" id="formDialog" style="border-style: solid;border-color: #0A246A;border-width: 1px">
 	<form class="form-horizontal"  action="#" method="post" id="sampleForm" >
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-left" for="sampathologycode">病理编号:</label>
 			<div class="col-sm-4">
 				<input type="hidden" id="sampleid"><!--标本id-->
@@ -112,7 +113,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" for="sampatientname">病人姓名:</label>
 			<div class="col-sm-4 ">
 				<input type="text" id="sampatientname" name="sampatientname" readonly/>
@@ -126,7 +127,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" >住院号:</label>
 			<div class="col-sm-4 ">
 				<input type="text" id="sampatientnumber" readonly/>
@@ -136,7 +137,7 @@
 				<input type="text" id="samsamplename" readonly/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" >床号:</label>
 			<div class="col-sm-4 ">
 				<input type="text" id="sampatientbed" readonly/>
@@ -150,22 +151,22 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" for="sampatientdignoses">临床诊断:</label>
 			<div class="col-sm-10">
 				<input type="text" id="sampatientdignoses" readonly class="col-sm-12"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-right" for="samthirdv">手术所见:</label>
 			<div class="col-sm-10">
 				<input type="text" id="samthirdv" readonly class="col-sm-12"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;">
+		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;玻片列表</label>
 		</div>
-		<div class="form-group " style="margin-right:0px;margin-left:0px;">
+		<div class="form-group " style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<table id="new1" class="table table-striped table-bordered table-hover">
 			</table>
 		</div>

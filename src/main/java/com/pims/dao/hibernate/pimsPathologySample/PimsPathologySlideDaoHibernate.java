@@ -3,11 +3,13 @@ package com.pims.dao.hibernate.pimsPathologySample;
 import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.pimspathologysample.PimsPathologySlideDao;
 import com.pims.model.*;
+import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.beans.PropertyDescriptor;
@@ -23,6 +25,8 @@ import java.util.Set;
 @Repository("pimsPathologySlideDao")
 public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPathologySlide,Long> implements PimsPathologySlideDao {
     public PimsPathologySlideDaoHibernate(){super(PimsPathologySlide.class);}
+    @Autowired
+    private PimsPathologySlideManager pimsPathologySlideManager;
     /**
      * 查询切片信息
      * @param code
@@ -31,35 +35,30 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
     @Override
     public List getSampleListNoPage(String code) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologySlide , PimsPathologyParaffin,PimsPathologyPieces  where sliparaffinid = paraffinid and" +
+        sb.append(" from PimsPathologySlide,PimsPathologyParaffin,PimsPathologyPieces  where sliparaffinid = paraffinid and  " +
                 "paraffinid = pieparaffinid  and paraffinid in ( "+ code + ")");
         return getSession().createQuery(sb.toString()).list();
     }
-    /**
-     * 查询蜡块列表
-     * @param map
-     * @return
-     */
-    @Override
-    public List<PimsPathologyParaffin> getSampleList(PimsBaseModel map) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologyParaffin,PimsPathologySample,PimsPathologyPieces ");
+
+    public StringBuffer getSearchSql(StringBuffer sb,PimsBaseModel map){
+        sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
         if(!StringUtils.isEmpty(map.getReq_sts())){
-            if(map.getReq_sts().equals("1")){
-                if(!StringUtils.isEmpty(map.getSend_hosptail())){
-                    sb.append(",PimsPathologySlide where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid and sliparaffinid = paraffinid");
-                    sb.append(" and sliifprint = " + map.getSend_hosptail());
-                    sb.append(" and parissectioned = " + map.getReq_sts());
-                }else{
-                    sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
-                    sb.append(" and parissectioned= " + map.getReq_sts());
-                }
-            }else{
-                sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
-                sb.append(" and parissectioned= " + map.getReq_sts());
-            }
-        }else{
-            sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+            sb.append(" and parissectioned= " + map.getReq_sts());
+//            if(map.getReq_sts().equals("1")){//已切片
+//                if(!StringUtils.isEmpty(map.getSend_hosptail())){//打印状态
+//                    sb.append(",PimsPathologySlide where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid and sliparaffinid = paraffinid");
+//                    sb.append(" and sliifprint = " + map.getSend_hosptail());
+//                    sb.append(" and parissectioned = " + map.getReq_sts());
+//                }else{
+//                    sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//                    sb.append(" and parissectioned= " + map.getReq_sts());
+//                }
+//            }else{
+//                sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//                sb.append(" and parissectioned= " + map.getReq_sts());
+//            }
+//        }else{
+//            sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
         }
         if(!StringUtils.isEmpty(map.getLogyid())){
             sb.append(" and sampathologyid = " + map.getLogyid());
@@ -82,6 +81,35 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         if(!StringUtils.isEmpty(map.getReq_code())){
             sb.append(" and parnullslidenum  > 0");
         }
+        return sb;
+    }
+    /**
+     * 查询蜡块列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List<PimsPathologyParaffin> getSampleList(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyParaffin,PimsPathologySample,PimsPathologyPieces ");
+//        if(!StringUtils.isEmpty(map.getReq_sts())){
+//            if(map.getReq_sts().equals("1")){//已切片
+//                if(!StringUtils.isEmpty(map.getSend_hosptail())){//打印状态
+//                    sb.append(",PimsPathologySlide where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid and sliparaffinid = paraffinid");
+//                    sb.append(" and sliifprint = " + map.getSend_hosptail());
+//                    sb.append(" and parissectioned = " + map.getReq_sts());
+//                }else{
+//                    sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//                    sb.append(" and parissectioned= " + map.getReq_sts());
+//                }
+//            }else{
+//                sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//                sb.append(" and parissectioned= " + map.getReq_sts());
+//            }
+//        }else{
+//            sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//        }
+        getSearchSql(sb,map);
         String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"sampathologycode":map.getSidx();
         sb.append(" order by " + orderby + " " +map.getSord());
         System.out.println(sb.toString());
@@ -97,44 +125,24 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
     public int getReqListNum(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
         sb.append(" select count(1) from Pims_Pathology_Paraffin,Pims_Pathology_Sample,Pims_Pathology_Pieces ");
-        if(!StringUtils.isEmpty(map.getReq_sts())){
-            if(map.getReq_sts().equals("1")){
-                if(!StringUtils.isEmpty(map.getSend_hosptail())){
-                    sb.append(",PimsPathologySlide where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid and sliparaffinid = paraffinid");
-                    sb.append(" and sliifprint = " + map.getSend_hosptail());
-                    sb.append(" and parissectioned = " + map.getReq_sts());
-                }else{
-                    sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
-                    sb.append(" and parissectioned= " + map.getReq_sts());
-                }
-            }else{
-                sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
-                sb.append(" and parissectioned= " + map.getReq_sts());
-            }
-        }else{
-            sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
-        }
-        if(!StringUtils.isEmpty(map.getLogyid())){
-            sb.append(" and sampathologyid = " + map.getLogyid());
-        }
-        if(map.getReq_bf_time() != null){
-            sb.append(" and pieembedtime >= :req_bf_time");
-        }
-        if(!StringUtils.isEmpty(map.getSend_doctor())){
-            //sb.append(" and parfirstn = " +  map.getSend_doctor());
-        }
-        if(!StringUtils.isEmpty(map.getSend_dept())){
-            sb.append(" and parpathologycode = " + map.getSend_dept());
-        }
-        if(!StringUtils.isEmpty(map.getPatient_name())){
-            sb.append(" and sampatientname = " + map.getPatient_name());
-        }
-        if(map.getReq_af_time() != null){
-            sb.append(" and  pieembedtime < :req_af_time");
-        }
-        if(!StringUtils.isEmpty(map.getReq_code())){
-            sb.append(" and parnullslidenum  > 0");
-        }
+//        if(!StringUtils.isEmpty(map.getReq_sts())){
+//            if(map.getReq_sts().equals("1")){
+//                if(!StringUtils.isEmpty(map.getSend_hosptail())){
+//                    sb.append(",Pims_Pathology_Slide where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid and sliparaffinid = paraffinid");
+//                    sb.append(" and sliifprint = " + map.getSend_hosptail());
+//                    sb.append(" and parissectioned = " + map.getReq_sts());
+//                }else{
+//                    sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//                    sb.append(" and parissectioned= " + map.getReq_sts());
+//                }
+//            }else{
+//                sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//                sb.append(" and parissectioned= " + map.getReq_sts());
+//            }
+//        }else{
+//            sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+//        }
+        getSearchSql(sb,map);
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time()).intValue();
     }
 
@@ -169,7 +177,7 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
             for(int i=0;i<slideList.size();i++){//切片
                 Map map = (Map) slideList.get(i);
                 PimsPathologySlide slide = (PimsPathologySlide) setBeanProperty(map,PimsPathologySlide.class);
-                save(slide);
+                pimsPathologySlideManager.save(slide);
             }
             for(int i=0;i<paraList.size();i++){//更新蜡块为已切片
                 Map map = (Map) paraList.get(i);
@@ -213,7 +221,7 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
                 if(slide.getSliuseflag() == 1){
                     throw  new RuntimeException("该玻片已被使用无法取消切片！");
                 }else{
-                    remove(slide);
+                    pimsPathologySlideManager.remove(slide);
                 }
             }
             for(int i=0;i<paraList.size();i++){//更新蜡块是否切片状态

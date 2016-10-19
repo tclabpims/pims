@@ -172,9 +172,9 @@ function createNew1(reqid){
 			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}},//取材状态
 			{name:'piesign',hidden:true},//标记物
 			{name:'pieisdeprivation',hidden:true},//是否脱水
-			{name:'piedeprivationtime',hidden:true},//脱水时间
+			{name:'piedeprivationtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//脱水时间
 			{name:'pieisembed',hidden:true},//是否包埋
-			{name:'pieembedtime',hidden:true},//包埋时间
+			{name:'pieembedtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//包埋时间
 			{name:'pieembeddoctorid',hidden:true},//包埋人员id
 			{name:'pieembeddoctorname',hidden:true},//包埋人员姓名
 			{name:'pieparaffinid',hidden:true}//所属蜡块id
