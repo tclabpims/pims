@@ -11,7 +11,7 @@ import java.util.Date;
 @Table(name = "PIMS_SYS_COLOR")
 public class PimsSysColor {
     private long colorid;
-    private String colcustomercode;
+    private long colcustomercode;
     private String colcustomername;
     private String coltype;
     private String colowner;
@@ -56,12 +56,12 @@ public class PimsSysColor {
     }
 
     @Basic
-    @Column(name = "COLCUSTOMERCODE")
-    public String getColcustomercode() {
+    @Column(name = "COLCUSTOMERID")
+    public long getColcustomercode() {
         return colcustomercode;
     }
 
-    public void setColcustomercode(String colcustomercode) {
+    public void setColcustomercode(long colcustomercode) {
         this.colcustomercode = colcustomercode;
     }
 
@@ -183,8 +183,6 @@ public class PimsSysColor {
         PimsSysColor that = (PimsSysColor) o;
 
         if (colorid != that.colorid) return false;
-        if (colcustomercode != null ? !colcustomercode.equals(that.colcustomercode) : that.colcustomercode != null)
-            return false;
         if (coltype != null ? !coltype.equals(that.coltype) : that.coltype != null) return false;
         if (colowner != null ? !colowner.equals(that.colowner) : that.colowner != null) return false;
         if (colobject != null ? !colobject.equals(that.colobject) : that.colobject != null) return false;
@@ -206,7 +204,6 @@ public class PimsSysColor {
     @Override
     public int hashCode() {
         int result = (int) (colorid ^ (colorid >>> 32));
-        result = 31 * result + (colcustomercode != null ? colcustomercode.hashCode() : 0);
         result = 31 * result + (coltype != null ? coltype.hashCode() : 0);
         result = 31 * result + (colowner != null ? colowner.hashCode() : 0);
         result = 31 * result + (colobject != null ? colobject.hashCode() : 0);

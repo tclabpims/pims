@@ -29,10 +29,10 @@ public class PimsSysColorManagerImpl extends GenericManagerImpl<PimsSysColor, Lo
 
     @Override
     public List<PimsSysColor> getSysColorList(GridQuery gridQuery) {
-        StringBuilder qstr = new StringBuilder().append("select a.colorid,A.Colcustomercode,a.coltype,A.Colowner,A.Colobject,")
+        StringBuilder qstr = new StringBuilder().append("select a.colorid,A.COLCUSTOMERID,a.coltype,A.Colowner,A.Colobject,")
                 .append("A.Colobjectstate,a.colvalue,B.Name,(select (case when (select c.name from lab_user c where to_number(A.Colowner)=c.id) is not null then (select c.name from lab_user c where to_number(A.Colowner)=c.id) else 'System' end) from dual) as uname,a.colmodule ")
                 .append("from Pims_Sys_Color a,Lab_hospital b ")
-                .append("where a.colcustomercode=B.Id");
+                .append("where a.COLCUSTOMERID=B.Id");
         String query = gridQuery.getQuery();
         String sidx = gridQuery.getSidx();
         if (query != null && !"".equals(query.trim())) {
@@ -47,7 +47,7 @@ public class PimsSysColorManagerImpl extends GenericManagerImpl<PimsSysColor, Lo
             for(Object[] obj : data) {
                 PimsSysColor psc = new PimsSysColor();
                 psc.setColorid(((BigDecimal)obj[0]).longValue());
-                psc.setColcustomercode(obj[1]==null?"":String.valueOf(obj[1]));
+                psc.setColcustomercode(((BigDecimal)obj[1]).longValue());
                 psc.setColtype(String.valueOf(obj[2]));
                 psc.setColowner(obj[3]==null?"":String.valueOf(obj[3]));
                 psc.setColobject(String.valueOf(obj[4]));
@@ -66,7 +66,7 @@ public class PimsSysColorManagerImpl extends GenericManagerImpl<PimsSysColor, Lo
     public Integer countSysColor(String query) {
         StringBuilder qstr = new StringBuilder().append("select count(1) cnt ")
                 .append("from Pims_Sys_Color a,Lab_hospital b ")
-                .append("where a.colcustomercode=B.Id");
+                .append("where a.COLCUSTOMERID=B.Id");
 
         if (query != null && !"".equals(query.trim())) {
             qstr.append(" and B.Name like '%").append(query).append("%'");
