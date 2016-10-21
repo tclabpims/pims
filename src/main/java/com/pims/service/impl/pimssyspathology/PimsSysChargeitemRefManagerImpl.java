@@ -30,10 +30,10 @@ public class PimsSysChargeitemRefManagerImpl extends GenericManagerImpl<PimsSysC
     @Override
     public List<PimsSysChargeitemRef> getChargeitemRefList(GridQuery gridQuery) {
         StringBuilder builder = new StringBuilder();
-        builder.append("select A.Referenceid,A.Chargeitemid,A.Customercode,A.Refhischargeid,A.Refhischargename,")
-                .append("A.Refhisprice,A.Refsendhis,A.Refremark,b.name,C.Chinesename ")
+        builder.append("select A.Referenceid,A.Chargeitemid,A.CUSTOMERID,A.Refhischargeid,A.Refhischargename,")
+                .append("A.Refhisprice,A.Refsendhis,A.Refremark,b.name,C.chiChinesename ")
                 .append("from PIMS_SYS_CHARGEITEM_REF a, lab_hospital b, Pims_Sys_Charge_Items c ")
-                .append("where a.chargeitemid=C.Chargeitemid and A.Customercode=B.Id");
+                .append("where a.chargeitemid=C.Chargeitemid and A.CUSTOMERID=B.Id");
         String query = gridQuery.getQuery();
         String sidx = gridQuery.getSidx();
         if (query != null && !"".equals(query.trim())) {
@@ -48,11 +48,11 @@ public class PimsSysChargeitemRefManagerImpl extends GenericManagerImpl<PimsSysC
                 PimsSysChargeitemRef ref = new PimsSysChargeitemRef();
                 ref.setReferenceid(((BigDecimal) obj[0]).longValue());
                 ref.setChargeitemid(((BigDecimal) obj[1]).longValue());
-                ref.setCustomercode(String.valueOf(obj[2]));
+                ref.setCustomercode(((BigDecimal) obj[2]).longValue());
                 ref.setRefhischargeid(String.valueOf(obj[3]));
                 ref.setRefhischargename(String.valueOf(obj[4]));
                 ref.setRefhisprice(((BigDecimal) obj[5]).doubleValue());
-                ref.setRefsendhis(((BigDecimal) obj[6]).longValue());
+                ref.setRefsendhis(Long.valueOf((String)obj[6]));
                 ref.setRefremark(obj[7] == null ? "" : String.valueOf(obj[7]));
                 ref.setCustomerName(String.valueOf(obj[8]));
                 ref.setChargeItemName(String.valueOf(obj[9]));
@@ -67,7 +67,7 @@ public class PimsSysChargeitemRefManagerImpl extends GenericManagerImpl<PimsSysC
         StringBuilder builder = new StringBuilder();
         builder.append("select count(1) cnt ")
                 .append("from PIMS_SYS_CHARGEITEM_REF a, lab_hospital b, Pims_Sys_Charge_Items c ")
-                .append("where a.chargeitemid=C.Chargeitemid and A.Customercode=B.Id");
+                .append("where a.chargeitemid=C.Chargeitemid and A.CUSTOMERID=B.Id");
         if (query != null && !"".equals(query.trim())) {
             builder.append(" and A.Refhischargename||C.Chinesename like '%").append(query).append("%'");
         }

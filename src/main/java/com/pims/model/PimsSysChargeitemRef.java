@@ -12,7 +12,7 @@ import java.util.Date;
 public class PimsSysChargeitemRef {
     private long referenceid;
     private long chargeitemid;
-    private String customercode;
+    private long customercode;
     private String refhischargeid;
     private String refhischargename;
     private double refhisprice;
@@ -66,12 +66,12 @@ public class PimsSysChargeitemRef {
     }
 
     @Basic
-    @Column(name = "CUSTOMERCODE")
-    public String getCustomercode() {
+    @Column(name = "CUSTOMERID")
+    public long getCustomercode() {
         return customercode;
     }
 
-    public void setCustomercode(String customercode) {
+    public void setCustomercode(long customercode) {
         this.customercode = customercode;
     }
 
@@ -155,7 +155,6 @@ public class PimsSysChargeitemRef {
         if (referenceid != that.referenceid) return false;
         if (chargeitemid != that.chargeitemid) return false;
         if (Double.compare(that.refhisprice, refhisprice) != 0) return false;
-        if (customercode != null ? !customercode.equals(that.customercode) : that.customercode != null) return false;
         if (refhischargeid != null ? !refhischargeid.equals(that.refhischargeid) : that.refhischargeid != null)
             return false;
         if (refhischargename != null ? !refhischargename.equals(that.refhischargename) : that.refhischargename != null)
@@ -176,7 +175,6 @@ public class PimsSysChargeitemRef {
         long temp;
         result = (int) (referenceid ^ (referenceid >>> 32));
         result = 31 * result + (int) (chargeitemid ^ (chargeitemid >>> 32));
-        result = 31 * result + (customercode != null ? customercode.hashCode() : 0);
         result = 31 * result + (refhischargeid != null ? refhischargeid.hashCode() : 0);
         result = 31 * result + (refhischargename != null ? refhischargename.hashCode() : 0);
         temp = Double.doubleToLongBits(refhisprice);

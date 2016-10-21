@@ -34,7 +34,7 @@ public class PimsSysChargeItems {
     }
 
     @Basic
-    @Column(name = "CHINESENAME")
+    @Column(name = "CHICHINESENAME")
     public String getChinesename() {
         return chinesename;
     }
