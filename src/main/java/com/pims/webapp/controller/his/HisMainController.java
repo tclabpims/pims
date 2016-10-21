@@ -22,7 +22,8 @@ import java.util.List;
  * Created by king on 2016/9/28.
  */
 @Controller
-@RequestMapping("/his/his_main*")
+//@RequestMapping("/his/his_main*")
+@RequestMapping("/his/his*")
 public class HisMainController extends PIMSBaseController {
     @Autowired
     private PimsSysReqTestitemManager pimsSysReqTestitemManager;

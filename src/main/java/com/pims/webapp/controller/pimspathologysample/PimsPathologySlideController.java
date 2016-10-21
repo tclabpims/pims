@@ -45,20 +45,21 @@ public class PimsPathologySlideController extends PIMSBaseController{
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, - 7);
-        Date monday = c.getTime();
-        String sevenDay = Constants.DF2.format(monday);
-        String today = Constants.DF2.format(new Date());
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
-        ModelAndView view = new ModelAndView();
-//        view.addObject("logyid",logylibid);//当前用户选择的病例库
-        view.addObject("sevenday", sevenDay);//7天前
-        view.addObject("receivetime", today);//当前时间
-        view.addObject("local_name",user.getName());//当前登录用户名
-        view.addObject("local_hosptail",user.getHospitalId());//账号所属医院
-        return view;
+//        Calendar c = Calendar.getInstance();
+//        c.add(Calendar.DATE, - 7);
+//        Date monday = c.getTime();
+//        String sevenDay = Constants.DF2.format(monday);
+//        String today = Constants.DF2.format(new Date());
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+////        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+//        ModelAndView view = new ModelAndView();
+////        view.addObject("logyid",logylibid);//当前用户选择的病例库
+//        view.addObject("sevenday", sevenDay);//7天前
+//        view.addObject("receivetime", today);//当前时间
+//        view.addObject("local_name",user.getName());//当前登录用户名
+//        view.addObject("local_hosptail",user.getHospitalId());//账号所属医院
+//        return view;
+        return getmodelView(request);
     }
 
     /**
