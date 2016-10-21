@@ -81,6 +81,8 @@ function getSampleData(id) {
 			$("#saminitiallyuserid").val("");//初诊人员id
 			$("#saminitiallyusername").val("");//初诊人员姓名
 			$("#samisdeleted").val("0");//删除标志（0正常，1已删除）
+			$("#samcreatetime").val(CurentTime(new Date()));//创建时间
+			$("#samcreateuser").val($("#local_userid").val());//创建人
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -157,7 +159,9 @@ function saveInfo() {
 			saminitiallyusername:$("#saminitiallyusername").val(),//初诊人员姓名
 			samisdeleted:$("#samisdeleted").val(),//删除标志（0正常，1已删除）
 			samthirdv:$("#samthirdv").val(),//手术所见
-			samfirstn:$("#samfirstn").val()//组织袋数
+			samfirstn:$("#samfirstn").val(),//组织袋数
+			samcreatetime:$("#samcreatetime").val(),//创建时间
+			samcreateuser:$("#samcreateuser").val()//创建人
 		},
 		function(data) {
 			if(data.success) {
@@ -237,6 +241,8 @@ function addSample() {
 	$("#saminitiallyuserid").val("");//初诊人员id
 	$("#saminitiallyusername").val("");//初诊人员姓名
 	$("#samisdeleted").val("0");//删除标志（0正常，1已删除）
+	$("#samcreatetime").val(CurentTime(new Date()));//创建时间
+	$("#samcreateuser").val($("#local_userid").val());//创建人
 }
 /**
  *修改标本
@@ -319,6 +325,7 @@ $(function() {
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
 	});
+    $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
 	// $("#reqitemnames").autocomplete({
      //    source: function( request, response ) {
      //        $.ajax({
@@ -385,6 +392,31 @@ $(function() {
 				updatePagerIcons(table);
 			}, 0);
 			$("#new").setSelection(1);
+		},
+		gridComplete:function(){
+			var rowIds = $("#new").jqGrid('getDataIDs');
+			for(var k = 0; k<rowIds.length; k++) {
+				var rowData = $("#new").jqGrid('getRowData', rowIds[k]);
+				//$("#"+rowIds[k]).find("tr").css("background-color", "red");
+				if (rowData.samsamplestatus == '1' && $("#"+rowIds[k]).parent().parent().attr("id") == "new") {
+					//获取每行下的TD更改CSS
+					//第一种写法
+                    // alert($("#"+rowIds[k]).parent().parent().attr("id"));
+					$("#"+rowIds[k]).css("background-color", "red");
+                    // $("#"+rowIds[k]).children("td").eq(2).css("background-color", "red");
+					//$("#"+rowIds[k]).find("tr").css("background-color", "red");
+				}
+			}
+            // $(rowIds).each(function () {
+            //         var rowData1 = $("#new").jqGrid('getRowData',this.toString());
+            //     $("#new tr td:nth-child(2)").css("background-color", "red");
+            //         if(rowData1.samsamplestatus == '1'){
+            //             alert($("#"+this.toString()).parent().attr("id"));
+            //             //this.find("td").css("background-color", "red");
+            //
+            //         }
+            //     }
+            // );
 		},
 		ondblClickRow: function (id) {
 			fillInfo1();
@@ -552,7 +584,10 @@ function getSampleData1(id) {
 			$("#samisdeleted").val(data.samisdeleted);//删除标志（0正常，1已删除）
 			$("#samthirdv").val(data.samthirdv);//手术所见
 			$("#samfirstn").val(data.samfirstn);//组织袋数
-
+			$("#samthirdv").val(data.samthirdv);//手术所见
+			$("#samfirstn").val(data.samfirstn);//组织袋数
+            $("#samcreatetime").val(data.samcreatetime);//创建时间
+            $("#samcreateuser").val(data.samcreateuser);//创建人员
 			var samfirstv = data.samfirstv;
 			var samsecondv = data.samsecondv;
 			if(samfirstv == 1){

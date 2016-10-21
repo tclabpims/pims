@@ -1,7 +1,6 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -24,7 +23,15 @@ public class PimsRequisitionMaterial {
     private Date reqmfirstd;
     private String reqmcreateuser;
     private Date reqmcreatetime;
+    private long reqmcustomerid;
+    private long reqmid;
+    @Id
+    @Column(name = "REQMID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_MATERIALID")
+    @SequenceGenerator(name = "SEQ_MATERIALID", sequenceName = "SEQ_MATERIALID", allocationSize=1)
+    public long getReqmid() { return reqmid;}
 
+    public void setReqmid(long reqmid) {this.reqmid = reqmid;}
     @Basic
     @Column(name = "REQUISITIONID")
     public long getRequisitionid() {
@@ -35,10 +42,9 @@ public class PimsRequisitionMaterial {
         this.requisitionid = requisitionid;
     }
 
-    @Id
+    @Basic
     @Column(name = "MATERIALID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_MATERIALID")
-    @SequenceGenerator(name = "SEQ_MATERIALID", sequenceName = "SEQ_MATERIALID", allocationSize=1)
+
     public long getMaterialid() {
         return materialid;
     }
@@ -166,7 +172,15 @@ public class PimsRequisitionMaterial {
     public void setReqmcreatetime(Date reqmcreatetime) {
         this.reqmcreatetime = reqmcreatetime;
     }
+    @Basic
+    @Column(name = "REQMCUSTOMERID")
+    public long getReqmcustomerid() {
+        return reqmcustomerid;
+    }
 
+    public void setReqmcustomerid(long reqmcustomerid) {
+        this.reqmcustomerid = reqmcustomerid;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

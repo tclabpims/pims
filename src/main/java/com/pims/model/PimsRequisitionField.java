@@ -1,18 +1,16 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_REQUISITION_FIELD", schema = "KFTEST", catalog = "")
-@IdClass(PimsRequisitionFieldPK.class)
+@Table(name = "PIMS_REQUISITION_FIELD")
 public class PimsRequisitionField {
     private long requisitionid;
     private long fieldid;
-    private String reqfcustomercode;
     private String reqfelementid;
     private String reqfelementname;
     private String reqfelementtype;
@@ -26,9 +24,19 @@ public class PimsRequisitionField {
     private String reqfsecondv;
     private Long reqffirstn;
     private String reqfcreateuser;
-    private Time reqfcreatetime;
-
+    private Date reqfcreatetime;
+    private long reqfcustomerid;
+    private long reqfid;
     @Id
+    @Column(name = "REQFID")
+    public long getReqfid() {
+        return reqfid;
+    }
+
+    public void setReqfid(long reqfid) {
+        this.reqfid = reqfid;
+    }
+    @Basic
     @Column(name = "REQUISITIONID")
     public long getRequisitionid() {
         return requisitionid;
@@ -38,7 +46,7 @@ public class PimsRequisitionField {
         this.requisitionid = requisitionid;
     }
 
-    @Id
+    @Basic
     @Column(name = "FIELDID")
     public long getFieldid() {
         return fieldid;
@@ -46,16 +54,6 @@ public class PimsRequisitionField {
 
     public void setFieldid(long fieldid) {
         this.fieldid = fieldid;
-    }
-
-    @Basic
-    @Column(name = "REQFCUSTOMERCODE")
-    public String getReqfcustomercode() {
-        return reqfcustomercode;
-    }
-
-    public void setReqfcustomercode(String reqfcustomercode) {
-        this.reqfcustomercode = reqfcustomercode;
     }
 
     @Basic
@@ -190,14 +188,23 @@ public class PimsRequisitionField {
 
     @Basic
     @Column(name = "REQFCREATETIME")
-    public Time getReqfcreatetime() {
+    public Date getReqfcreatetime() {
         return reqfcreatetime;
     }
 
-    public void setReqfcreatetime(Time reqfcreatetime) {
+    public void setReqfcreatetime(Date reqfcreatetime) {
         this.reqfcreatetime = reqfcreatetime;
     }
 
+    @Basic
+    @Column(name = "REQFCUSTOMERID")
+    public long getReqfcustomerid() {
+        return reqfcustomerid;
+    }
+
+        public void setReqfcustomerid(long reqfcustomerid) {
+        this.reqfcustomerid = reqfcustomerid;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -207,8 +214,6 @@ public class PimsRequisitionField {
 
         if (requisitionid != that.requisitionid) return false;
         if (fieldid != that.fieldid) return false;
-        if (reqfcustomercode != null ? !reqfcustomercode.equals(that.reqfcustomercode) : that.reqfcustomercode != null)
-            return false;
         if (reqfelementid != null ? !reqfelementid.equals(that.reqfelementid) : that.reqfelementid != null)
             return false;
         if (reqfelementname != null ? !reqfelementname.equals(that.reqfelementname) : that.reqfelementname != null)
@@ -235,11 +240,10 @@ public class PimsRequisitionField {
         return true;
     }
 
-    @Override
+@Override
     public int hashCode() {
         int result = (int) (requisitionid ^ (requisitionid >>> 32));
         result = 31 * result + (int) (fieldid ^ (fieldid >>> 32));
-        result = 31 * result + (reqfcustomercode != null ? reqfcustomercode.hashCode() : 0);
         result = 31 * result + (reqfelementid != null ? reqfelementid.hashCode() : 0);
         result = 31 * result + (reqfelementname != null ? reqfelementname.hashCode() : 0);
         result = 31 * result + (reqfelementtype != null ? reqfelementtype.hashCode() : 0);

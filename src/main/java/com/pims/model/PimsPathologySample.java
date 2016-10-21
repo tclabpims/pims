@@ -1,13 +1,14 @@
 package com.pims.model;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_SAMPLE")
+@Table(name = "PIMS_PATHOLOGY_SAMPLE", schema = "PATHOLOGY", catalog = "")
 public class PimsPathologySample {
     private long sampleid;
     private String saminspectionid;
@@ -35,9 +36,19 @@ public class PimsPathologySample {
     private Long samissamplingall;
     private long samsamplestatus;
     private Date samreqtime;
+
+    public void setSamreqtime(Time samreqtime) {
+        this.samreqtime = samreqtime;
+    }
+
     private String samreqdocid;
     private String samreqdocname;
     private Date samsendtime;
+
+    public void setSamsendtime(Time samsendtime) {
+        this.samsendtime = samsendtime;
+    }
+
     private String samsenddoctorid;
     private String samsenddoctorname;
     private String samsendhospital;
@@ -54,20 +65,50 @@ public class PimsPathologySample {
     private String sampatientcompany;
     private Long samismenopause;
     private Date reqlastmenstruation;
+
+    public void setReqlastmenstruation(Time reqlastmenstruation) {
+        this.reqlastmenstruation = reqlastmenstruation;
+    }
+
     private Long samischarged;
     private Date samreceivertime;
+
+    public void setSamreceivertime(Time samreceivertime) {
+        this.samreceivertime = samreceivertime;
+    }
+
     private String samreceiverid;
     private String samreceivername;
     private Date samregisttime;
+
+    public void setSamregisttime(Time samregisttime) {
+        this.samregisttime = samregisttime;
+    }
+
     private String samregisterid;
     private String samregistername;
     private Date saminitiallytime;
+
+    public void setSaminitiallytime(Time saminitiallytime) {
+        this.saminitiallytime = saminitiallytime;
+    }
+
     private String saminitiallyuserid;
     private String saminitiallyusername;
     private Date samauditedtime;
+
+    public void setSamauditedtime(Time samauditedtime) {
+        this.samauditedtime = samauditedtime;
+    }
+
     private String samauditerid;
     private String samauditer;
     private Date samreportedtime;
+
+    public void setSamreportedtime(Time samreportedtime) {
+        this.samreportedtime = samreportedtime;
+    }
+
     private String samreportorid;
     private String samreportor;
     private Long samisdeleted;
@@ -80,10 +121,36 @@ public class PimsPathologySample {
     private String samsecondv;
     private String samthirdv;
     private Date samfirstd;
+
+    public void setSamfirstd(Time samfirstd) {
+        this.samfirstd = samfirstd;
+    }
+
     private Date samsecondd;
+
+    public void setSamsecondd(Time samsecondd) {
+        this.samsecondd = samsecondd;
+    }
+
     private Long samfirstn;
     private Date samcreatetime;
+
+    public void setSamcreatetime(Time samcreatetime) {
+        this.samcreatetime = samcreatetime;
+    }
+
     private String samcreateuser;
+    private long samcustomerid;
+
+    @Basic
+    @Column(name = "SAMCUSTOMERID")
+    public long getSamcustomerid() {
+        return samcustomerid;
+    }
+
+    public void setSamcustomerid(long samcustomerid) {
+        this.samcustomerid = samcustomerid;
+    }
 
     @Id
     @Column(name = "SAMPLEID")

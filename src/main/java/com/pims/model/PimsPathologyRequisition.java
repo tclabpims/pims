@@ -2,16 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
-
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
 @Table(name = "PIMS_PATHOLOGY_REQUISITION")
 public class PimsPathologyRequisition {
-    private int requisitionid;
-    private String reqcustomercode;
+    private long requisitionid;
     private int reqpathologyid;
     private String requisitionno;
     private String reqsource;
@@ -66,28 +63,19 @@ public class PimsPathologyRequisition {
     private int reqfirstn;
     private String reqcreateuser;
     private Date reqcreatetime;
-
+    private long reqcustomerid;
+    private Long reqisemergency;
 
     @Id
     @Column(name = "REQUISITIONID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_REQUISITIONID")
     @SequenceGenerator(name = "SEQ_REQUISITIONID", sequenceName = "SEQ_REQUISITIONID", allocationSize=1)
-    public int getRequisitionid() {
+    public long getRequisitionid() {
         return requisitionid;
     }
 
-    public void setRequisitionid(int requisitionid) {
+    public void setRequisitionid(long requisitionid) {
         this.requisitionid = requisitionid;
-    }
-
-    @Basic
-    @Column(name = "REQCUSTOMERCODE")
-    public String getReqcustomercode() {
-        return reqcustomercode;
-    }
-
-    public void setReqcustomercode(String reqcustomercode) {
-        this.reqcustomercode = reqcustomercode;
     }
 
     @Basic
@@ -630,6 +618,26 @@ public class PimsPathologyRequisition {
         this.reqcreatetime = reqcreatetime;
     }
 
+    @Basic
+    @Column(name = "REQCUSTOMERID")
+    public long getReqcustomerid() {
+        return reqcustomerid;
+    }
+
+    public void setReqcustomerid(long reqcustomerid) {
+        this.reqcustomerid = reqcustomerid;
+    }
+
+    @Basic
+    @Column(name = "REQISEMERGENCY")
+    public Long getReqisemergency() {
+        return reqisemergency;
+    }
+
+    public void setReqisemergency(Long reqisemergency) {
+        this.reqisemergency = reqisemergency;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -643,8 +651,6 @@ public class PimsPathologyRequisition {
         if (reqstate != that.reqstate) return false;
         if (reqpatienttype != that.reqpatienttype) return false;
         if (reqpatientsex != that.reqpatientsex) return false;
-        if (reqcustomercode != null ? !reqcustomercode.equals(that.reqcustomercode) : that.reqcustomercode != null)
-            return false;
         if (requisitionno != null ? !requisitionno.equals(that.requisitionno) : that.requisitionno != null)
             return false;
         if (reqsource != null ? !reqsource.equals(that.reqsource) : that.reqsource != null) return false;
@@ -724,7 +730,6 @@ public class PimsPathologyRequisition {
     @Override
     public int hashCode() {
         int result = (int) (requisitionid ^ (requisitionid >>> 32));
-        result = 31 * result + (reqcustomercode != null ? reqcustomercode.hashCode() : 0);
         result = 31 * result + (int) (reqpathologyid ^ (reqpathologyid >>> 32));
         result = 31 * result + (requisitionno != null ? requisitionno.hashCode() : 0);
         result = 31 * result + (reqsource != null ? reqsource.hashCode() : 0);

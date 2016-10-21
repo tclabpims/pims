@@ -52,12 +52,13 @@ public class PimsPathologyPiecesController extends PIMSBaseController{
 //        String today = Constants.DF2.format(new Date());
 //        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
-        ModelAndView view = new ModelAndView();
+//        ModelAndView view = new ModelAndView();
 //        view.addObject("logyid",logylibid);//当前用户选择的病例库
 //        view.addObject("sevenday", sevenDay);//7天前
 //        view.addObject("receivetime", today);//当前时间
 //        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
-        return view;
+//        return view;
+        return getmodelView(request);
     }
 
     /**

@@ -37,7 +37,6 @@ public class PimsPathologyPieces {
     private String piesecondv;
     private Long piefirstn;
     private Date piefirstd;
-
     @Id
     @Column(name = "PIECEID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_PIECEID")

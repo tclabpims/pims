@@ -49,7 +49,7 @@
 	<div class="col-sm-4 leftContent" id="div_2">
 		<div class="input-group" style="float: left;">
 			<span class="input-group-addon">包埋年月</span>
-			<input type="hidden" id="local_name" value="${local_name}"/>
+			<input type="hidden" id="local_name" value="${local_username}"/>
 			<input type="text" class="form_datetime form-control" placeholder="" value="${sevenday}" id="req_bf_time"/>
 			<span class="input-group-addon">-</span>
 			<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}"  id="req_af_time"/>

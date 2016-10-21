@@ -1,30 +1,48 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_REQUISITION_TESTITEM", schema = "KFTEST", catalog = "")
-@IdClass(PimsRequisitionTestitemPK.class)
+@Table(name = "PIMS_REQUISITION_TESTITEM")
 public class PimsRequisitionTestitem {
     private long requisitionid;
     private long testitemid;
-    private String reqicustomercode;
     private String reqiitemname;
     private Long reqisampleid;
     private Long reqiischarge;
-    private Time reqiprinttime;
+    private Date reqiprinttime;
     private String reqiremark;
     private String reqifirstv;
     private String reqisecondv;
     private Long reqifirstn;
     private String reqicreateuser;
-    private Time reqicreatetime;
-
+    private Date reqicreatetime;
+    private long reqicustomerid;
+    private long reqiid;
     @Id
+    @Column(name = "REQIID")
+    public long getReqiid() {
+        return reqiid;
+    }
+
+    public void setReqiid(long reqiid) {
+        this.reqiid = reqiid;
+    }
+    @Basic
+    @Column(name = "REQICUSTOMERID")
+    public long getReqicustomerid() {
+        return reqicustomerid;
+    }
+
+    public void setReqicustomerid(long reqicustomerid) {
+        this.reqicustomerid = reqicustomerid;
+    }
+
+    @Basic
     @Column(name = "REQUISITIONID")
     public long getRequisitionid() {
         return requisitionid;
@@ -34,7 +52,7 @@ public class PimsRequisitionTestitem {
         this.requisitionid = requisitionid;
     }
 
-    @Id
+    @Basic
     @Column(name = "TESTITEMID")
     public long getTestitemid() {
         return testitemid;
@@ -42,16 +60,6 @@ public class PimsRequisitionTestitem {
 
     public void setTestitemid(long testitemid) {
         this.testitemid = testitemid;
-    }
-
-    @Basic
-    @Column(name = "REQICUSTOMERCODE")
-    public String getReqicustomercode() {
-        return reqicustomercode;
-    }
-
-    public void setReqicustomercode(String reqicustomercode) {
-        this.reqicustomercode = reqicustomercode;
     }
 
     @Basic
@@ -86,11 +94,11 @@ public class PimsRequisitionTestitem {
 
     @Basic
     @Column(name = "REQIPRINTTIME")
-    public Time getReqiprinttime() {
+    public Date getReqiprinttime() {
         return reqiprinttime;
     }
 
-    public void setReqiprinttime(Time reqiprinttime) {
+    public void setReqiprinttime(Date reqiprinttime) {
         this.reqiprinttime = reqiprinttime;
     }
 
@@ -146,11 +154,11 @@ public class PimsRequisitionTestitem {
 
     @Basic
     @Column(name = "REQICREATETIME")
-    public Time getReqicreatetime() {
+    public Date getReqicreatetime() {
         return reqicreatetime;
     }
 
-    public void setReqicreatetime(Time reqicreatetime) {
+    public void setReqicreatetime(Date reqicreatetime) {
         this.reqicreatetime = reqicreatetime;
     }
 
@@ -163,8 +171,6 @@ public class PimsRequisitionTestitem {
 
         if (requisitionid != that.requisitionid) return false;
         if (testitemid != that.testitemid) return false;
-        if (reqicustomercode != null ? !reqicustomercode.equals(that.reqicustomercode) : that.reqicustomercode != null)
-            return false;
         if (reqiitemname != null ? !reqiitemname.equals(that.reqiitemname) : that.reqiitemname != null) return false;
         if (reqisampleid != null ? !reqisampleid.equals(that.reqisampleid) : that.reqisampleid != null) return false;
         if (reqiischarge != null ? !reqiischarge.equals(that.reqiischarge) : that.reqiischarge != null) return false;
@@ -186,7 +192,6 @@ public class PimsRequisitionTestitem {
     public int hashCode() {
         int result = (int) (requisitionid ^ (requisitionid >>> 32));
         result = 31 * result + (int) (testitemid ^ (testitemid >>> 32));
-        result = 31 * result + (reqicustomercode != null ? reqicustomercode.hashCode() : 0);
         result = 31 * result + (reqiitemname != null ? reqiitemname.hashCode() : 0);
         result = 31 * result + (reqisampleid != null ? reqisampleid.hashCode() : 0);
         result = 31 * result + (reqiischarge != null ? reqiischarge.hashCode() : 0);

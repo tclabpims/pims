@@ -114,7 +114,8 @@
 
 
 
-
+				<input type="hidden" id="samcreatetime"/><!--创建时间-->
+				<input type="hidden" id="samcreateuser"/><!--创建人员-->
                 <input type="hidden" id="samregisttime"/><!--登记时间-->
                 <input type="hidden" id="samregisterid"/><!--登记人员-->
 				<input type="hidden" id="samregistername"/><!--登记人员姓名-->
@@ -126,10 +127,13 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病种类别:</label>
 			<div class="col-sm-3">
-				<select class="col-sm-11" id="sampathologyid">
-					<option value="1" <c:if test="${logylibid == 1 }"> selected</c:if>>常规病理</option>
-					<option value="2" <c:if test="${logylibid == 2 }"> selected</c:if>>常规病理1</option>
-					<option value="3" <c:if test="${logylibid == 3 }"> selected</c:if>>液基细胞学</option>
+				<select class="col-sm-11" id="sampathologyid" >
+					<%String reslut = (String) request.getAttribute("logyids");
+						out.println(reslut);
+					%>
+						<%--<option value="1" <c:if test="${logylibid == 1 }"> selected</c:if>>常规病理</option>--%>
+					<%--<option value="2" <c:if test="${logylibid == 2 }"> selected</c:if>>常规病理1</option>--%>
+					<%--<option value="3" <c:if test="${logylibid == 3 }"> selected</c:if>>液基细胞学</option>--%>
 				</select>
 			</div>
 		</div>
@@ -273,11 +277,14 @@
 	<div class="input-group" style="float: left;">
 		<span class="input-group-addon ">病种类别</span>
 		<select class="form-control"  id="logyid">
-			<option value="1" <c:if test="${logyid == 1}">selected</c:if>>常规病理</option>
-			<option value="2" <c:if test="${logyid == 2}">selected</c:if>>常规细胞学</option>
-			<option value="3" <c:if test="${logyid == 3}">selected</c:if>>液基细胞学</option>
-			<option value="4" <c:if test="${logyid == 4}">selected</c:if>>骨髓活检</option>
-			<option value="5" <c:if test="${logyid == 5}">selected</c:if>>肺穿刺</option>
+			<%
+				out.println((String) request.getAttribute("logyids"));
+			%>
+			<%--<option value="1" <c:if test="${logyid == 1}">selected</c:if>>常规病理</option>--%>
+			<%--<option value="2" <c:if test="${logyid == 2}">selected</c:if>>常规细胞学</option>--%>
+			<%--<option value="3" <c:if test="${logyid == 3}">selected</c:if>>液基细胞学</option>--%>
+			<%--<option value="4" <c:if test="${logyid == 4}">selected</c:if>>骨髓活检</option>--%>
+			<%--<option value="5" <c:if test="${logyid == 5}">selected</c:if>>肺穿刺</option>--%>
 		</select>
 		<span class="input-group-addon">条形码</span>
 		<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
