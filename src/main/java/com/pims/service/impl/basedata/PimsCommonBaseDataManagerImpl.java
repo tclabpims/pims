@@ -24,6 +24,12 @@ public class PimsCommonBaseDataManagerImpl extends GenericManagerImpl<PimsCommon
         implements PimsCommonBaseDataManager {
     private PimsCommonBaseDataDao pimsCommonBaseDataDao;
 
+    @Autowired
+    public void setPimsCommonBaseDataDao(PimsCommonBaseDataDao pimsCommonBaseDataDao) {
+        this.dao = pimsCommonBaseDataDao;
+        this.pimsCommonBaseDataDao = pimsCommonBaseDataDao;
+    }
+
     @Override
     public List<PimsCommonBaseData> getDataList(Map map) {
         return pimsCommonBaseDataDao.getDataList(map);

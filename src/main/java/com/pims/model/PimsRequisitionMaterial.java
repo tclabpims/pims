@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_REQUISITION_MATERIAL")
 public class PimsRequisitionMaterial {
     private long requisitionid;
     private long materialid;
-    private String reqmcustomercode;
+    private long reqmcustomerid;
     private String reqmmaterialname;
     private String reqmmaterialtype;
     private String reqmsamplingparts;
@@ -23,15 +23,8 @@ public class PimsRequisitionMaterial {
     private Date reqmfirstd;
     private String reqmcreateuser;
     private Date reqmcreatetime;
-    private long reqmcustomerid;
     private long reqmid;
-    @Id
-    @Column(name = "REQMID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_MATERIALID")
-    @SequenceGenerator(name = "SEQ_MATERIALID", sequenceName = "SEQ_MATERIALID", allocationSize=1)
-    public long getReqmid() { return reqmid;}
 
-    public void setReqmid(long reqmid) {this.reqmid = reqmid;}
     @Basic
     @Column(name = "REQUISITIONID")
     public long getRequisitionid() {
@@ -44,7 +37,6 @@ public class PimsRequisitionMaterial {
 
     @Basic
     @Column(name = "MATERIALID")
-
     public long getMaterialid() {
         return materialid;
     }
@@ -54,13 +46,13 @@ public class PimsRequisitionMaterial {
     }
 
     @Basic
-    @Column(name = "REQMCUSTOMERCODE")
-    public String getReqmcustomercode() {
-        return reqmcustomercode;
+    @Column(name = "REQMCUSTOMERID")
+    public long getReqmcustomerid() {
+        return reqmcustomerid;
     }
 
-    public void setReqmcustomercode(String reqmcustomercode) {
-        this.reqmcustomercode = reqmcustomercode;
+    public void setReqmcustomerid(long reqmcustomerid) {
+        this.reqmcustomerid = reqmcustomerid;
     }
 
     @Basic
@@ -172,15 +164,19 @@ public class PimsRequisitionMaterial {
     public void setReqmcreatetime(Date reqmcreatetime) {
         this.reqmcreatetime = reqmcreatetime;
     }
-    @Basic
-    @Column(name = "REQMCUSTOMERID")
-    public long getReqmcustomerid() {
-        return reqmcustomerid;
+
+    @Id
+    @Column(name = "REQMID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_MATERIALID")
+    @SequenceGenerator(name = "SEQ_MATERIALID", sequenceName = "SEQ_MATERIALID", allocationSize=1)
+    public long getReqmid() {
+        return reqmid;
     }
 
-    public void setReqmcustomerid(long reqmcustomerid) {
-        this.reqmcustomerid = reqmcustomerid;
+    public void setReqmid(long reqmid) {
+        this.reqmid = reqmid;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -190,8 +186,8 @@ public class PimsRequisitionMaterial {
 
         if (requisitionid != that.requisitionid) return false;
         if (materialid != that.materialid) return false;
-        if (reqmcustomercode != null ? !reqmcustomercode.equals(that.reqmcustomercode) : that.reqmcustomercode != null)
-            return false;
+        if (reqmcustomerid != that.reqmcustomerid) return false;
+        if (reqmid != that.reqmid) return false;
         if (reqmmaterialname != null ? !reqmmaterialname.equals(that.reqmmaterialname) : that.reqmmaterialname != null)
             return false;
         if (reqmmaterialtype != null ? !reqmmaterialtype.equals(that.reqmmaterialtype) : that.reqmmaterialtype != null)
@@ -217,7 +213,7 @@ public class PimsRequisitionMaterial {
     public int hashCode() {
         int result = (int) (requisitionid ^ (requisitionid >>> 32));
         result = 31 * result + (int) (materialid ^ (materialid >>> 32));
-        result = 31 * result + (reqmcustomercode != null ? reqmcustomercode.hashCode() : 0);
+        result = 31 * result + (int) (reqmcustomerid ^ (reqmcustomerid >>> 32));
         result = 31 * result + (reqmmaterialname != null ? reqmmaterialname.hashCode() : 0);
         result = 31 * result + (reqmmaterialtype != null ? reqmmaterialtype.hashCode() : 0);
         result = 31 * result + (reqmsamplingparts != null ? reqmsamplingparts.hashCode() : 0);
@@ -229,6 +225,7 @@ public class PimsRequisitionMaterial {
         result = 31 * result + (reqmfirstd != null ? reqmfirstd.hashCode() : 0);
         result = 31 * result + (reqmcreateuser != null ? reqmcreateuser.hashCode() : 0);
         result = 31 * result + (reqmcreatetime != null ? reqmcreatetime.hashCode() : 0);
+        result = 31 * result + (int) (reqmid ^ (reqmid >>> 32));
         return result;
     }
 }

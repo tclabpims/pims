@@ -1,54 +1,43 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_SAMPLE", schema = "PATHOLOGY", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_SAMPLE")
 public class PimsPathologySample {
     private long sampleid;
     private String saminspectionid;
     private String sampathologycode;
-    private String samcustomercode;
+    private long samcustomerid;
     private long sampathologyid;
-    private long samsource;
+    private int samsource;
     private String samotherid;
-    private Long samrequistionid;
+    private String samrequistionid;
     private String sampatientid;
     private String saminpatientid;
     private String saminpatientno;
     private String sampatientnumber;
     private long sampatienttype;
     private String sampatientname;
-    private Long sampatientsex;
+    private int sampatientsex;
     private String sampatientage;
     private Long sampatientagetype;
     private String sampatientbed;
     private String samsampleclass;
     private String samsamplename;
     private String sampopuser;
-    private Long samisemergency;
-    private Long samisdecacified;
-    private Long samissamplingall;
+    private int samisemergency;
+    private int samisdecacified;
+    private int samissamplingall;
     private long samsamplestatus;
     private Date samreqtime;
-
-    public void setSamreqtime(Time samreqtime) {
-        this.samreqtime = samreqtime;
-    }
-
     private String samreqdocid;
     private String samreqdocname;
     private Date samsendtime;
-
-    public void setSamsendtime(Time samsendtime) {
-        this.samsendtime = samsendtime;
-    }
-
     private String samsenddoctorid;
     private String samsenddoctorname;
     private String samsendhospital;
@@ -63,94 +52,38 @@ public class PimsPathologySample {
     private String sampatientaddress;
     private String sampatientphoneno;
     private String sampatientcompany;
-    private Long samismenopause;
+    private int samismenopause;
     private Date reqlastmenstruation;
-
-    public void setReqlastmenstruation(Time reqlastmenstruation) {
-        this.reqlastmenstruation = reqlastmenstruation;
-    }
-
-    private Long samischarged;
+    private int samischarged;
     private Date samreceivertime;
-
-    public void setSamreceivertime(Time samreceivertime) {
-        this.samreceivertime = samreceivertime;
-    }
-
     private String samreceiverid;
     private String samreceivername;
     private Date samregisttime;
-
-    public void setSamregisttime(Time samregisttime) {
-        this.samregisttime = samregisttime;
-    }
-
     private String samregisterid;
     private String samregistername;
     private Date saminitiallytime;
-
-    public void setSaminitiallytime(Time saminitiallytime) {
-        this.saminitiallytime = saminitiallytime;
-    }
-
     private String saminitiallyuserid;
     private String saminitiallyusername;
     private Date samauditedtime;
-
-    public void setSamauditedtime(Time samauditedtime) {
-        this.samauditedtime = samauditedtime;
-    }
-
     private String samauditerid;
     private String samauditer;
     private Date samreportedtime;
-
-    public void setSamreportedtime(Time samreportedtime) {
-        this.samreportedtime = samreportedtime;
-    }
-
     private String samreportorid;
     private String samreportor;
-    private Long samisdeleted;
+    private int samisdeleted;
     private String samremark;
     private String samtaskid;
     private String samfollowupid;
-    private Long sampdfupload;
-    private Long samissentresult;
+    private int sampdfupload;
+    private int samissentresult;
     private String samfirstv;
     private String samsecondv;
     private String samthirdv;
     private Date samfirstd;
-
-    public void setSamfirstd(Time samfirstd) {
-        this.samfirstd = samfirstd;
-    }
-
     private Date samsecondd;
-
-    public void setSamsecondd(Time samsecondd) {
-        this.samsecondd = samsecondd;
-    }
-
-    private Long samfirstn;
+    private int samfirstn;
     private Date samcreatetime;
-
-    public void setSamcreatetime(Time samcreatetime) {
-        this.samcreatetime = samcreatetime;
-    }
-
     private String samcreateuser;
-    private long samcustomerid;
-
-    @Basic
-    @Column(name = "SAMCUSTOMERID")
-    public long getSamcustomerid() {
-        return samcustomerid;
-    }
-
-    public void setSamcustomerid(long samcustomerid) {
-        this.samcustomerid = samcustomerid;
-    }
 
     private Date samplesectionfrom;
 
@@ -207,13 +140,13 @@ public class PimsPathologySample {
     }
 
     @Basic
-    @Column(name = "SAMCUSTOMERCODE")
-    public String getSamcustomercode() {
-        return samcustomercode;
+    @Column(name = "SAMCUSTOMERID")
+    public long getSamcustomerid() {
+        return samcustomerid;
     }
 
-    public void setSamcustomercode(String samcustomercode) {
-        this.samcustomercode = samcustomercode;
+    public void setSamcustomerid(long samcustomerid) {
+        this.samcustomerid = samcustomerid;
     }
 
     @Basic
@@ -228,11 +161,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMSOURCE")
-    public long getSamsource() {
+    public int isSamsource() {
         return samsource;
     }
 
-    public void setSamsource(long samsource) {
+    public void setSamsource(int samsource) {
         this.samsource = samsource;
     }
 
@@ -248,11 +181,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMREQUISTIONID")
-    public Long getSamrequistionid() {
+    public String getSamrequistionid() {
         return samrequistionid;
     }
 
-    public void setSamrequistionid(Long samrequistionid) {
+    public void setSamrequistionid(String samrequistionid) {
         this.samrequistionid = samrequistionid;
     }
 
@@ -318,11 +251,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMPATIENTSEX")
-    public Long getSampatientsex() {
+    public int getSampatientsex() {
         return sampatientsex;
     }
 
-    public void setSampatientsex(Long sampatientsex) {
+    public void setSampatientsex(int sampatientsex) {
         this.sampatientsex = sampatientsex;
     }
 
@@ -388,31 +321,31 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMISEMERGENCY")
-    public Long getSamisemergency() {
+    public int getSamisemergency() {
         return samisemergency;
     }
 
-    public void setSamisemergency(Long samisemergency) {
+    public void setSamisemergency(int samisemergency) {
         this.samisemergency = samisemergency;
     }
 
     @Basic
     @Column(name = "SAMISDECACIFIED")
-    public Long getSamisdecacified() {
+    public int getSamisdecacified() {
         return samisdecacified;
     }
 
-    public void setSamisdecacified(Long samisdecacified) {
+    public void setSamisdecacified(int samisdecacified) {
         this.samisdecacified = samisdecacified;
     }
 
     @Basic
     @Column(name = "SAMISSAMPLINGALL")
-    public Long getSamissamplingall() {
+    public int getSamissamplingall() {
         return samissamplingall;
     }
 
-    public void setSamissamplingall(Long samissamplingall) {
+    public void setSamissamplingall(int samissamplingall) {
         this.samissamplingall = samissamplingall;
     }
 
@@ -608,11 +541,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMISMENOPAUSE")
-    public Long getSamismenopause() {
+    public int getSamismenopause() {
         return samismenopause;
     }
 
-    public void setSamismenopause(Long samismenopause) {
+    public void setSamismenopause(int samismenopause) {
         this.samismenopause = samismenopause;
     }
 
@@ -628,11 +561,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMISCHARGED")
-    public Long getSamischarged() {
+    public int getSamischarged() {
         return samischarged;
     }
 
-    public void setSamischarged(Long samischarged) {
+    public void setSamischarged(int samischarged) {
         this.samischarged = samischarged;
     }
 
@@ -788,11 +721,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMISDELETED")
-    public Long getSamisdeleted() {
+    public int getSamisdeleted() {
         return samisdeleted;
     }
 
-    public void setSamisdeleted(Long samisdeleted) {
+    public void setSamisdeleted(int samisdeleted) {
         this.samisdeleted = samisdeleted;
     }
 
@@ -828,21 +761,21 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMPDFUPLOAD")
-    public Long getSampdfupload() {
+    public int getSampdfupload() {
         return sampdfupload;
     }
 
-    public void setSampdfupload(Long sampdfupload) {
+    public void setSampdfupload(int sampdfupload) {
         this.sampdfupload = sampdfupload;
     }
 
     @Basic
     @Column(name = "SAMISSENTRESULT")
-    public Long getSamissentresult() {
+    public int getSamissentresult() {
         return samissentresult;
     }
 
-    public void setSamissentresult(Long samissentresult) {
+    public void setSamissentresult(int samissentresult) {
         this.samissentresult = samissentresult;
     }
 
@@ -898,11 +831,11 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMFIRSTN")
-    public Long getSamfirstn() {
+    public int getSamfirstn() {
         return samfirstn;
     }
 
-    public void setSamfirstn(Long samfirstn) {
+    public void setSamfirstn(int samfirstn) {
         this.samfirstn = samfirstn;
     }
 
@@ -934,6 +867,7 @@ public class PimsPathologySample {
         PimsPathologySample that = (PimsPathologySample) o;
 
         if (sampleid != that.sampleid) return false;
+        if (samcustomerid != that.samcustomerid) return false;
         if (sampathologyid != that.sampathologyid) return false;
         if (samsource != that.samsource) return false;
         if (sampatienttype != that.sampatienttype) return false;
@@ -941,8 +875,6 @@ public class PimsPathologySample {
         if (saminspectionid != null ? !saminspectionid.equals(that.saminspectionid) : that.saminspectionid != null)
             return false;
         if (sampathologycode != null ? !sampathologycode.equals(that.sampathologycode) : that.sampathologycode != null)
-            return false;
-        if (samcustomercode != null ? !samcustomercode.equals(that.samcustomercode) : that.samcustomercode != null)
             return false;
         if (samotherid != null ? !samotherid.equals(that.samotherid) : that.samotherid != null) return false;
         if (samrequistionid != null ? !samrequistionid.equals(that.samrequistionid) : that.samrequistionid != null)
@@ -956,7 +888,7 @@ public class PimsPathologySample {
             return false;
         if (sampatientname != null ? !sampatientname.equals(that.sampatientname) : that.sampatientname != null)
             return false;
-        if (sampatientsex != null ? !sampatientsex.equals(that.sampatientsex) : that.sampatientsex != null)
+        if (sampatientsex != that.sampatientsex )
             return false;
         if (sampatientage != null ? !sampatientage.equals(that.sampatientage) : that.sampatientage != null)
             return false;
@@ -969,11 +901,11 @@ public class PimsPathologySample {
         if (samsamplename != null ? !samsamplename.equals(that.samsamplename) : that.samsamplename != null)
             return false;
         if (sampopuser != null ? !sampopuser.equals(that.sampopuser) : that.sampopuser != null) return false;
-        if (samisemergency != null ? !samisemergency.equals(that.samisemergency) : that.samisemergency != null)
+        if (samisemergency != that.samisemergency )
             return false;
-        if (samisdecacified != null ? !samisdecacified.equals(that.samisdecacified) : that.samisdecacified != null)
+        if (samisdecacified != that.samisdecacified )
             return false;
-        if (samissamplingall != null ? !samissamplingall.equals(that.samissamplingall) : that.samissamplingall != null)
+        if (samissamplingall != that.samissamplingall )
             return false;
         if (samreqtime != null ? !samreqtime.equals(that.samreqtime) : that.samreqtime != null) return false;
         if (samreqdocid != null ? !samreqdocid.equals(that.samreqdocid) : that.samreqdocid != null) return false;
@@ -1002,11 +934,11 @@ public class PimsPathologySample {
             return false;
         if (sampatientcompany != null ? !sampatientcompany.equals(that.sampatientcompany) : that.sampatientcompany != null)
             return false;
-        if (samismenopause != null ? !samismenopause.equals(that.samismenopause) : that.samismenopause != null)
+        if (samismenopause != that.samismenopause )
             return false;
         if (reqlastmenstruation != null ? !reqlastmenstruation.equals(that.reqlastmenstruation) : that.reqlastmenstruation != null)
             return false;
-        if (samischarged != null ? !samischarged.equals(that.samischarged) : that.samischarged != null) return false;
+        if (samischarged != that.samischarged ) return false;
         if (samreceivertime != null ? !samreceivertime.equals(that.samreceivertime) : that.samreceivertime != null)
             return false;
         if (samreceiverid != null ? !samreceiverid.equals(that.samreceiverid) : that.samreceiverid != null)
@@ -1034,20 +966,20 @@ public class PimsPathologySample {
         if (samreportorid != null ? !samreportorid.equals(that.samreportorid) : that.samreportorid != null)
             return false;
         if (samreportor != null ? !samreportor.equals(that.samreportor) : that.samreportor != null) return false;
-        if (samisdeleted != null ? !samisdeleted.equals(that.samisdeleted) : that.samisdeleted != null) return false;
+        if (samisdeleted != that.samisdeleted ) return false;
         if (samremark != null ? !samremark.equals(that.samremark) : that.samremark != null) return false;
         if (samtaskid != null ? !samtaskid.equals(that.samtaskid) : that.samtaskid != null) return false;
         if (samfollowupid != null ? !samfollowupid.equals(that.samfollowupid) : that.samfollowupid != null)
             return false;
-        if (sampdfupload != null ? !sampdfupload.equals(that.sampdfupload) : that.sampdfupload != null) return false;
-        if (samissentresult != null ? !samissentresult.equals(that.samissentresult) : that.samissentresult != null)
+        if (sampdfupload != that.sampdfupload ) return false;
+        if (samissentresult != that.samissentresult )
             return false;
         if (samfirstv != null ? !samfirstv.equals(that.samfirstv) : that.samfirstv != null) return false;
         if (samsecondv != null ? !samsecondv.equals(that.samsecondv) : that.samsecondv != null) return false;
         if (samthirdv != null ? !samthirdv.equals(that.samthirdv) : that.samthirdv != null) return false;
         if (samfirstd != null ? !samfirstd.equals(that.samfirstd) : that.samfirstd != null) return false;
         if (samsecondd != null ? !samsecondd.equals(that.samsecondd) : that.samsecondd != null) return false;
-        if (samfirstn != null ? !samfirstn.equals(that.samfirstn) : that.samfirstn != null) return false;
+        if (samfirstn != that.samfirstn ) return false;
         if (samcreatetime != null ? !samcreatetime.equals(that.samcreatetime) : that.samcreatetime != null)
             return false;
         if (samcreateuser != null ? !samcreateuser.equals(that.samcreateuser) : that.samcreateuser != null)
@@ -1061,9 +993,9 @@ public class PimsPathologySample {
         int result = (int) (sampleid ^ (sampleid >>> 32));
         result = 31 * result + (saminspectionid != null ? saminspectionid.hashCode() : 0);
         result = 31 * result + (sampathologycode != null ? sampathologycode.hashCode() : 0);
-        result = 31 * result + (samcustomercode != null ? samcustomercode.hashCode() : 0);
+        result = 31 * result + (int) (samcustomerid ^ (samcustomerid >>> 32));
         result = 31 * result + (int) (sampathologyid ^ (sampathologyid >>> 32));
-        result = 31 * result + (int) (samsource ^ (samsource >>> 32));
+        result = 31 * result + (samsource ^ (samsource >>> 32));
         result = 31 * result + (samotherid != null ? samotherid.hashCode() : 0);
         result = 31 * result + (samrequistionid != null ? samrequistionid.hashCode() : 0);
         result = 31 * result + (sampatientid != null ? sampatientid.hashCode() : 0);
@@ -1072,16 +1004,16 @@ public class PimsPathologySample {
         result = 31 * result + (sampatientnumber != null ? sampatientnumber.hashCode() : 0);
         result = 31 * result + (int) (sampatienttype ^ (sampatienttype >>> 32));
         result = 31 * result + (sampatientname != null ? sampatientname.hashCode() : 0);
-        result = 31 * result + (sampatientsex != null ? sampatientsex.hashCode() : 0);
+        result = 31 * result + (sampatientsex ^ (sampatientsex >>> 32));
         result = 31 * result + (sampatientage != null ? sampatientage.hashCode() : 0);
         result = 31 * result + (sampatientagetype != null ? sampatientagetype.hashCode() : 0);
         result = 31 * result + (sampatientbed != null ? sampatientbed.hashCode() : 0);
         result = 31 * result + (samsampleclass != null ? samsampleclass.hashCode() : 0);
         result = 31 * result + (samsamplename != null ? samsamplename.hashCode() : 0);
         result = 31 * result + (sampopuser != null ? sampopuser.hashCode() : 0);
-        result = 31 * result + (samisemergency != null ? samisemergency.hashCode() : 0);
-        result = 31 * result + (samisdecacified != null ? samisdecacified.hashCode() : 0);
-        result = 31 * result + (samissamplingall != null ? samissamplingall.hashCode() : 0);
+        result = 31 * result + (samisemergency ^ (samisemergency >>> 32));
+        result = 31 * result + (samisdecacified ^ (samisdecacified >>> 32));
+        result = 31 * result + (samissamplingall ^ (samissamplingall >>> 32));
         result = 31 * result + (int) (samsamplestatus ^ (samsamplestatus >>> 32));
         result = 31 * result + (samreqtime != null ? samreqtime.hashCode() : 0);
         result = 31 * result + (samreqdocid != null ? samreqdocid.hashCode() : 0);
@@ -1101,9 +1033,9 @@ public class PimsPathologySample {
         result = 31 * result + (sampatientaddress != null ? sampatientaddress.hashCode() : 0);
         result = 31 * result + (sampatientphoneno != null ? sampatientphoneno.hashCode() : 0);
         result = 31 * result + (sampatientcompany != null ? sampatientcompany.hashCode() : 0);
-        result = 31 * result + (samismenopause != null ? samismenopause.hashCode() : 0);
+        result = 31 * result + (samismenopause ^ (samismenopause >>> 32));
         result = 31 * result + (reqlastmenstruation != null ? reqlastmenstruation.hashCode() : 0);
-        result = 31 * result + (samischarged != null ? samischarged.hashCode() : 0);
+        result = 31 * result + (samischarged ^ (samischarged >>> 32));
         result = 31 * result + (samreceivertime != null ? samreceivertime.hashCode() : 0);
         result = 31 * result + (samreceiverid != null ? samreceiverid.hashCode() : 0);
         result = 31 * result + (samreceivername != null ? samreceivername.hashCode() : 0);
@@ -1119,18 +1051,18 @@ public class PimsPathologySample {
         result = 31 * result + (samreportedtime != null ? samreportedtime.hashCode() : 0);
         result = 31 * result + (samreportorid != null ? samreportorid.hashCode() : 0);
         result = 31 * result + (samreportor != null ? samreportor.hashCode() : 0);
-        result = 31 * result + (samisdeleted != null ? samisdeleted.hashCode() : 0);
+        result = 31 * result + (samisdeleted ^ (samisdeleted >>> 32));
         result = 31 * result + (samremark != null ? samremark.hashCode() : 0);
         result = 31 * result + (samtaskid != null ? samtaskid.hashCode() : 0);
         result = 31 * result + (samfollowupid != null ? samfollowupid.hashCode() : 0);
-        result = 31 * result + (sampdfupload != null ? sampdfupload.hashCode() : 0);
-        result = 31 * result + (samissentresult != null ? samissentresult.hashCode() : 0);
+        result = 31 * result + (sampdfupload ^ (sampdfupload >>> 32));
+        result = 31 * result + (samissentresult ^ (samissentresult >>> 32));
         result = 31 * result + (samfirstv != null ? samfirstv.hashCode() : 0);
         result = 31 * result + (samsecondv != null ? samsecondv.hashCode() : 0);
         result = 31 * result + (samthirdv != null ? samthirdv.hashCode() : 0);
         result = 31 * result + (samfirstd != null ? samfirstd.hashCode() : 0);
         result = 31 * result + (samsecondd != null ? samsecondd.hashCode() : 0);
-        result = 31 * result + (samfirstn != null ? samfirstn.hashCode() : 0);
+        result = 31 * result + (samfirstn ^ (samfirstn >>> 32));
         result = 31 * result + (samcreatetime != null ? samcreatetime.hashCode() : 0);
         result = 31 * result + (samcreateuser != null ? samcreateuser.hashCode() : 0);
         return result;

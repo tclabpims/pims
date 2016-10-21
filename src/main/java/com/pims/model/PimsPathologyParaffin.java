@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_PATHOLOGY_PARAFFIN")
@@ -16,14 +16,14 @@ public class PimsPathologyParaffin {
     private long parparaffinno;
     private String parparaffincode;
     private String parbarcode;
-    private long parpiececount;
+    private byte parpiececount;
     private String parpieceids;
     private Long parnullslidenum;
     private String parpieceparts;
-    private Long parissectioned;
+    private int parissectioned;
     private String parsectioneddoctor;
     private Date parsectionedtime;
-    private Long parisprintlabel;
+    private int parisprintlabel;
     private String parprintuser;
     private Date parprinttime;
     private String parremaining;
@@ -108,11 +108,11 @@ public class PimsPathologyParaffin {
 
     @Basic
     @Column(name = "PARPIECECOUNT")
-    public long getParpiececount() {
+    public byte getParpiececount() {
         return parpiececount;
     }
 
-    public void setParpiececount(long parpiececount) {
+    public void setParpiececount(byte parpiececount) {
         this.parpiececount = parpiececount;
     }
 
@@ -148,11 +148,11 @@ public class PimsPathologyParaffin {
 
     @Basic
     @Column(name = "PARISSECTIONED")
-    public Long getParissectioned() {
+    public int getParissectioned() {
         return parissectioned;
     }
 
-    public void setParissectioned(Long parissectioned) {
+    public void setParissectioned(int parissectioned) {
         this.parissectioned = parissectioned;
     }
 
@@ -178,11 +178,11 @@ public class PimsPathologyParaffin {
 
     @Basic
     @Column(name = "PARISPRINTLABEL")
-    public Long getParisprintlabel() {
+    public int getParisprintlabel() {
         return parisprintlabel;
     }
 
-    public void setParisprintlabel(Long parisprintlabel) {
+    public void setParisprintlabel(int parisprintlabel) {
         this.parisprintlabel = parisprintlabel;
     }
 
@@ -298,13 +298,13 @@ public class PimsPathologyParaffin {
             return false;
         if (parpieceparts != null ? !parpieceparts.equals(that.parpieceparts) : that.parpieceparts != null)
             return false;
-        if (parissectioned != null ? !parissectioned.equals(that.parissectioned) : that.parissectioned != null)
+        if (parissectioned != that.parissectioned )
             return false;
         if (parsectioneddoctor != null ? !parsectioneddoctor.equals(that.parsectioneddoctor) : that.parsectioneddoctor != null)
             return false;
         if (parsectionedtime != null ? !parsectionedtime.equals(that.parsectionedtime) : that.parsectionedtime != null)
             return false;
-        if (parisprintlabel != null ? !parisprintlabel.equals(that.parisprintlabel) : that.parisprintlabel != null)
+        if (parisprintlabel != that.parisprintlabel )
             return false;
         if (parprintuser != null ? !parprintuser.equals(that.parprintuser) : that.parprintuser != null) return false;
         if (parprinttime != null ? !parprinttime.equals(that.parprinttime) : that.parprinttime != null) return false;
@@ -329,14 +329,14 @@ public class PimsPathologyParaffin {
         result = 31 * result + (int) (parparaffinno ^ (parparaffinno >>> 32));
         result = 31 * result + (parparaffincode != null ? parparaffincode.hashCode() : 0);
         result = 31 * result + (parbarcode != null ? parbarcode.hashCode() : 0);
-        result = 31 * result + (int) (parpiececount ^ (parpiececount >>> 32));
+        result = 31 * result + (int) parpiececount;
         result = 31 * result + (parpieceids != null ? parpieceids.hashCode() : 0);
         result = 31 * result + (parnullslidenum != null ? parnullslidenum.hashCode() : 0);
         result = 31 * result + (parpieceparts != null ? parpieceparts.hashCode() : 0);
-        result = 31 * result + (parissectioned != null ? parissectioned.hashCode() : 0);
+        result = 31 * result + (parissectioned ^ (parissectioned >>> 32));
         result = 31 * result + (parsectioneddoctor != null ? parsectioneddoctor.hashCode() : 0);
         result = 31 * result + (parsectionedtime != null ? parsectionedtime.hashCode() : 0);
-        result = 31 * result + (parisprintlabel != null ? parisprintlabel.hashCode() : 0);
+        result = 31 * result + (parisprintlabel ^ (parisprintlabel >>> 32));
         result = 31 * result + (parprintuser != null ? parprintuser.hashCode() : 0);
         result = 31 * result + (parprinttime != null ? parprinttime.hashCode() : 0);
         result = 31 * result + (parremaining != null ? parremaining.hashCode() : 0);

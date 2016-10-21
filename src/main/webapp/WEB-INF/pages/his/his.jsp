@@ -81,9 +81,7 @@
 				<input type="hidden" id="reqchargestatus"/><!--收费状态(1已收费,0未收费) -->
 				<input type="hidden" id="reqisemergency"/><!-- 是否加急（0平 1加急）-->
 				<input type="hidden" id="reqstate"/><!--申请状态(0已保存,1已接收,9已删除) -->
-				<input type="hidden" id="reqdeptname"/><!--申请科室名称-->
-				<input type="hidden" id="reqwardname"/><!-- 申请病区名称-->
-				<input type="hidden" id="reqdoctorname"/><!--申请医生姓名 -->
+				<%--<input type="hidden" id="reqwardname"/><!-- 申请病区名称-->--%>
 				<input type="hidden" id="reqpatientid"/><!--患者id唯一号(病案号) -->
 				<input type="hidden" id="reqinpatientid"/><!--就诊id(患者每一次来院的就诊id) -->
 				<input type="hidden" id="reqinpatientno"/><!-- 住院序号(住院次数)-->
@@ -115,16 +113,21 @@
 					<option value="3">手术室</option>
 				</select>
 			</div>
-			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqwardcode">申请病区:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">申请病区:</label>
 			<div class="col-sm-3 ">
-				<select class="col-sm-9" id="reqwardcode">
-					<%out.println(request.getAttribute("logyids"));%>
-				</select>
+				<input type="hidden" id="reqwardcode"/>
+				<input type="text" class="col-sm-9" id="reqwardname" name="reqwardname"/><!-- 申请病区名称-->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatienttype">患者类型:</label>
 			<div class="col-sm-3 ">
 				<select class="col-sm-9" id="reqpatienttype"><!--患者类型(病人类型： 1住院,2门诊,3体检,4婚检,5科研,6特勤,7其他)-->
-					<%out.println(request.getAttribute("logyids"));%>
+					<option value="1">住院</option>
+					<option value="2">门诊</option>
+					<option value="3">体检</option>
+					<option value="4">婚检</option>
+					<option value="5">科研</option>
+					<option value="6">特勤</option>
+					<option value="7">其他</option>
 				</select>
 			</div>
 		</div>
@@ -133,25 +136,21 @@
 			<div class="col-sm-3 ">
 				<input type="text" class="col-sm-9"  id="reqinspectionid" name="reqinspectionid" readonly/>
 			</div>
-			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsendhospital">送检医院:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">送检医院:</label>
 			<div class="col-sm-3 ">
-				<select class="col-sm-9" id="reqsendhospital">
-					<%out.println(request.getAttribute("logyids"));%>
-				</select>
+				<input type="text" class="col-sm-9" id="reqsendhospital"/>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqdeptcode">送检科室:</label>
 			<div class="col-sm-3 ">
-				<select class="col-sm-9" id="reqdeptcode">
-					<%out.println(request.getAttribute("logyids"));%>
-				</select>
+				<input type="hidden" id="reqdeptcode"/><!--申请科室名称-->
+				<input  type="text" class="col-sm-9" id="reqdeptname"/><!--申请科室名称-->
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqdoctorid">送检医生:</label>
 			<div class="col-sm-3 ">
-				<select class="col-sm-9" id="reqdoctorid">
-					<%out.println(request.getAttribute("logyids"));%>
-				</select>
+				<input type="hidden" id="reqdoctorid"/><!--申请医生姓名 -->
+				<input   type="text" class="col-sm-9" id="reqdoctorname"/><!--申请医生姓名 -->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsendphone">送检电话:</label>
 			<div class="col-sm-3 ">
@@ -169,9 +168,7 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsecondv">手术医生:</label>
 			<div class="col-sm-3">
-				<select class="col-sm-9" id="reqsecondv">
-					<%out.println(request.getAttribute("logyids"));%>
-				</select>
+				<input   type="text" class="col-sm-9" id="reqsecondv"/><!--手术医生 -->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqthirdv">手术电话:</label>
 			<div class="col-sm-3">
@@ -181,7 +178,7 @@
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqfirstd">手术时间:</label>
 			<div class="col-sm-3 ">
-				<input type="text" class="col-sm-9"  id="reqfirstd" name="reqfirstd"/>
+				<input type="text" class="col-sm-9 form_datetime1"  id="reqfirstd" name="reqfirstd"/>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqremark">手术所见:</label>
 			<div class="col-sm-3 ">
@@ -191,7 +188,10 @@
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" fpr="reqfirstv">知情书:</label>
 			<div class="col-sm-3">
-				<input type="text" class="col-sm-9"  id="reqfirstv"/>
+				<select class="col-sm-9" id="reqfirstv">
+					<option value="1">已签</option>
+					<option value="2">未签</option>
+				</select>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatientname">病人姓名:</label>
 			<div class="col-sm-3">
@@ -328,10 +328,10 @@
 		<span class="input-group-addon ">申请单号</span>
 		<input type="text" class="form-control" placeholder="申请单号" id="req_code" value="" onkeypress="receive(this,event)"/>
 		<span class="input-group-addon">病人姓名</span>
-		<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
-		<input type="hidden" id="local_logyid" value="${logyid}"/>
+		<input type="hidden" id="lcal_hosptail" value="${reqcustomerid}"/>
+		<input type="hidden" id="local_logyid" value="${reqpathologyid}"/>
 		<input type="hidden" id="local_userid" value="${local_userid}"/>
-		<input type="hidden" id="local_username" value="${local_username}"/>
+		<input type="hidden" id="local_username" value="${local_user}"/>
 		<input type="text" class="form-control" value="" id="patient_name"/>
 	</div>
 	<div class="input-group" style="float: left;">

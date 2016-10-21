@@ -2,17 +2,19 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.util.Date;
+
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_PATHOLOGY_REQUISITION")
 public class PimsPathologyRequisition {
     private long requisitionid;
-    private int reqpathologyid;
+    private long reqcustomerid;
+    private long reqpathologyid;
     private String requisitionno;
-    private String reqsource;
-    private int reqtype;
+    private boolean reqsource;
+    private long reqtype;
     private Date reqdate;
     private String reqinspectionid;
     private String reqdatechar;
@@ -27,18 +29,19 @@ public class PimsPathologyRequisition {
     private String reqchargestatus;
     private String reqsendhospital;
     private String reqsendphone;
-    private int reqstate;
+    private long reqstate;
     private String reqitemids;
     private String reqitemnames;
     private String reqpatientid;
+    private int reqisemergency;
     private String reqinpatientid;
-    private int reqinpatientno;
-    private int reqpatienttype;
+    private Long reqinpatientno;
+    private long reqpatienttype;
     private String reqpatientnumber;
     private String reqpatientname;
-    private int reqpatientsex;
+    private boolean reqpatientsex;
     private String reqpatientage;
-    private int reqpatagetype;
+    private Long reqpatagetype;
     private Date reqpatbirthday;
     private String reqpatidcard;
     private String reqpattelephone;
@@ -60,11 +63,9 @@ public class PimsPathologyRequisition {
     private String reqthirdv;
     private Date reqfirstd;
     private Date reqsecondd;
-    private int reqfirstn;
+    private Long reqfirstn;
     private String reqcreateuser;
     private Date reqcreatetime;
-    private long reqcustomerid;
-    private Long reqisemergency;
 
     @Id
     @Column(name = "REQUISITIONID")
@@ -79,12 +80,22 @@ public class PimsPathologyRequisition {
     }
 
     @Basic
+    @Column(name = "REQCUSTOMERID")
+    public long getReqcustomerid() {
+        return reqcustomerid;
+    }
+
+    public void setReqcustomerid(long reqcustomerid) {
+        this.reqcustomerid = reqcustomerid;
+    }
+
+    @Basic
     @Column(name = "REQPATHOLOGYID")
-    public int getReqpathologyid() {
+    public long getReqpathologyid() {
         return reqpathologyid;
     }
 
-    public void setReqpathologyid(int reqpathologyid) {
+    public void setReqpathologyid(long reqpathologyid) {
         this.reqpathologyid = reqpathologyid;
     }
 
@@ -100,21 +111,21 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQSOURCE")
-    public String getReqsource() {
+    public boolean isReqsource() {
         return reqsource;
     }
 
-    public void setReqsource(String reqsource) {
+    public void setReqsource(boolean reqsource) {
         this.reqsource = reqsource;
     }
 
     @Basic
     @Column(name = "REQTYPE")
-    public int getReqtype() {
+    public long getReqtype() {
         return reqtype;
     }
 
-    public void setReqtype(int reqtype) {
+    public void setReqtype(long reqtype) {
         this.reqtype = reqtype;
     }
 
@@ -260,11 +271,11 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQSTATE")
-    public int getReqstate() {
+    public long getReqstate() {
         return reqstate;
     }
 
-    public void setReqstate(int reqstate) {
+    public void setReqstate(long reqstate) {
         this.reqstate = reqstate;
     }
 
@@ -299,6 +310,16 @@ public class PimsPathologyRequisition {
     }
 
     @Basic
+    @Column(name = "REQISEMERGENCY")
+    public int getReqisemergency() {
+        return reqisemergency;
+    }
+
+    public void setReqisemergency(int reqisemergency) {
+        this.reqisemergency = reqisemergency;
+    }
+
+    @Basic
     @Column(name = "REQINPATIENTID")
     public String getReqinpatientid() {
         return reqinpatientid;
@@ -310,21 +331,21 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQINPATIENTNO")
-    public int getReqinpatientno() {
+    public Long getReqinpatientno() {
         return reqinpatientno;
     }
 
-    public void setReqinpatientno(int reqinpatientno) {
+    public void setReqinpatientno(Long reqinpatientno) {
         this.reqinpatientno = reqinpatientno;
     }
 
     @Basic
     @Column(name = "REQPATIENTTYPE")
-    public int getReqpatienttype() {
+    public long getReqpatienttype() {
         return reqpatienttype;
     }
 
-    public void setReqpatienttype(int reqpatienttype) {
+    public void setReqpatienttype(long reqpatienttype) {
         this.reqpatienttype = reqpatienttype;
     }
 
@@ -350,11 +371,11 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQPATIENTSEX")
-    public int getReqpatientsex() {
+    public boolean isReqpatientsex() {
         return reqpatientsex;
     }
 
-    public void setReqpatientsex(int reqpatientsex) {
+    public void setReqpatientsex(boolean reqpatientsex) {
         this.reqpatientsex = reqpatientsex;
     }
 
@@ -370,11 +391,11 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQPATAGETYPE")
-    public int getReqpatagetype() {
+    public Long getReqpatagetype() {
         return reqpatagetype;
     }
 
-    public void setReqpatagetype(int reqpatagetype) {
+    public void setReqpatagetype(Long reqpatagetype) {
         this.reqpatagetype = reqpatagetype;
     }
 
@@ -590,11 +611,11 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQFIRSTN")
-    public int getReqfirstn() {
+    public Long getReqfirstn() {
         return reqfirstn;
     }
 
-    public void setReqfirstn(int reqfirstn) {
+    public void setReqfirstn(Long reqfirstn) {
         this.reqfirstn = reqfirstn;
     }
 
@@ -618,26 +639,6 @@ public class PimsPathologyRequisition {
         this.reqcreatetime = reqcreatetime;
     }
 
-    @Basic
-    @Column(name = "REQCUSTOMERID")
-    public long getReqcustomerid() {
-        return reqcustomerid;
-    }
-
-    public void setReqcustomerid(long reqcustomerid) {
-        this.reqcustomerid = reqcustomerid;
-    }
-
-    @Basic
-    @Column(name = "REQISEMERGENCY")
-    public Long getReqisemergency() {
-        return reqisemergency;
-    }
-
-    public void setReqisemergency(Long reqisemergency) {
-        this.reqisemergency = reqisemergency;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -646,14 +647,15 @@ public class PimsPathologyRequisition {
         PimsPathologyRequisition that = (PimsPathologyRequisition) o;
 
         if (requisitionid != that.requisitionid) return false;
+        if (reqcustomerid != that.reqcustomerid) return false;
         if (reqpathologyid != that.reqpathologyid) return false;
+        if (reqsource != that.reqsource) return false;
         if (reqtype != that.reqtype) return false;
         if (reqstate != that.reqstate) return false;
         if (reqpatienttype != that.reqpatienttype) return false;
         if (reqpatientsex != that.reqpatientsex) return false;
         if (requisitionno != null ? !requisitionno.equals(that.requisitionno) : that.requisitionno != null)
             return false;
-        if (reqsource != null ? !reqsource.equals(that.reqsource) : that.reqsource != null) return false;
         if (reqdate != null ? !reqdate.equals(that.reqdate) : that.reqdate != null) return false;
         if (reqinspectionid != null ? !reqinspectionid.equals(that.reqinspectionid) : that.reqinspectionid != null)
             return false;
@@ -676,9 +678,11 @@ public class PimsPathologyRequisition {
         if (reqitemids != null ? !reqitemids.equals(that.reqitemids) : that.reqitemids != null) return false;
         if (reqitemnames != null ? !reqitemnames.equals(that.reqitemnames) : that.reqitemnames != null) return false;
         if (reqpatientid != null ? !reqpatientid.equals(that.reqpatientid) : that.reqpatientid != null) return false;
+        if (reqisemergency != that.reqisemergency )
+            return false;
         if (reqinpatientid != null ? !reqinpatientid.equals(that.reqinpatientid) : that.reqinpatientid != null)
             return false;
-        if (reqinpatientno != that.reqinpatientno)
+        if (reqinpatientno != null ? !reqinpatientno.equals(that.reqinpatientno) : that.reqinpatientno != null)
             return false;
         if (reqpatientnumber != null ? !reqpatientnumber.equals(that.reqpatientnumber) : that.reqpatientnumber != null)
             return false;
@@ -686,7 +690,7 @@ public class PimsPathologyRequisition {
             return false;
         if (reqpatientage != null ? !reqpatientage.equals(that.reqpatientage) : that.reqpatientage != null)
             return false;
-        if (reqpatagetype != that.reqpatagetype)
+        if (reqpatagetype != null ? !reqpatagetype.equals(that.reqpatagetype) : that.reqpatagetype != null)
             return false;
         if (reqpatbirthday != null ? !reqpatbirthday.equals(that.reqpatbirthday) : that.reqpatbirthday != null)
             return false;
@@ -697,16 +701,16 @@ public class PimsPathologyRequisition {
             return false;
         if (reqpatdiagnosis != null ? !reqpatdiagnosis.equals(that.reqpatdiagnosis) : that.reqpatdiagnosis != null)
             return false;
-        if (reqismenopause != that.reqismenopause)
+        if (reqismenopause != that.reqismenopause )
             return false;
         if (reqlastmenstruation != null ? !reqlastmenstruation.equals(that.reqlastmenstruation) : that.reqlastmenstruation != null)
             return false;
         if (reqpatcompany != null ? !reqpatcompany.equals(that.reqpatcompany) : that.reqpatcompany != null)
             return false;
-        if (reqsendhisorder != that.reqsendhisorder)
+        if (reqsendhisorder != that.reqsendhisorder )
             return false;
-        if (reqsampleid != that.reqsampleid) return false;
-        if (reqisdeleted != that.reqisdeleted) return false;
+        if (reqsampleid != that.reqsampleid ) return false;
+        if (reqisdeleted != that.reqisdeleted ) return false;
         if (reqprintuser != null ? !reqprintuser.equals(that.reqprintuser) : that.reqprintuser != null) return false;
         if (reqprintusername != null ? !reqprintusername.equals(that.reqprintusername) : that.reqprintusername != null)
             return false;
@@ -718,7 +722,7 @@ public class PimsPathologyRequisition {
         if (reqthirdv != null ? !reqthirdv.equals(that.reqthirdv) : that.reqthirdv != null) return false;
         if (reqfirstd != null ? !reqfirstd.equals(that.reqfirstd) : that.reqfirstd != null) return false;
         if (reqsecondd != null ? !reqsecondd.equals(that.reqsecondd) : that.reqsecondd != null) return false;
-        if (reqfirstn != that.reqfirstn) return false;
+        if (reqfirstn != null ? !reqfirstn.equals(that.reqfirstn) : that.reqfirstn != null) return false;
         if (reqcreateuser != null ? !reqcreateuser.equals(that.reqcreateuser) : that.reqcreateuser != null)
             return false;
         if (reqcreatetime != null ? !reqcreatetime.equals(that.reqcreatetime) : that.reqcreatetime != null)
@@ -730,9 +734,10 @@ public class PimsPathologyRequisition {
     @Override
     public int hashCode() {
         int result = (int) (requisitionid ^ (requisitionid >>> 32));
+        result = 31 * result + (int) (reqcustomerid ^ (reqcustomerid >>> 32));
         result = 31 * result + (int) (reqpathologyid ^ (reqpathologyid >>> 32));
         result = 31 * result + (requisitionno != null ? requisitionno.hashCode() : 0);
-        result = 31 * result + (reqsource != null ? reqsource.hashCode() : 0);
+        result = 31 * result + (reqsource ? 1 : 0);
         result = 31 * result + (int) (reqtype ^ (reqtype >>> 32));
         result = 31 * result + (reqdate != null ? reqdate.hashCode() : 0);
         result = 31 * result + (reqinspectionid != null ? reqinspectionid.hashCode() : 0);
@@ -752,25 +757,26 @@ public class PimsPathologyRequisition {
         result = 31 * result + (reqitemids != null ? reqitemids.hashCode() : 0);
         result = 31 * result + (reqitemnames != null ? reqitemnames.hashCode() : 0);
         result = 31 * result + (reqpatientid != null ? reqpatientid.hashCode() : 0);
+        result = 31 * result + (reqisemergency ^ (reqisemergency >>> 32));
         result = 31 * result + (reqinpatientid != null ? reqinpatientid.hashCode() : 0);
-        result = 31 * result + (int) (reqinpatientno ^ (reqinpatientno >>> 32));
+        result = 31 * result + (reqinpatientno != null ? reqinpatientno.hashCode() : 0);
         result = 31 * result + (int) (reqpatienttype ^ (reqpatienttype >>> 32));
         result = 31 * result + (reqpatientnumber != null ? reqpatientnumber.hashCode() : 0);
         result = 31 * result + (reqpatientname != null ? reqpatientname.hashCode() : 0);
-        result = 31 * result + (int) (reqpatientsex ^ (reqpatientsex >>> 32));
+        result = 31 * result + (reqpatientsex ? 1 : 0);
         result = 31 * result + (reqpatientage != null ? reqpatientage.hashCode() : 0);
-        result = 31 * result + (int) (reqpatagetype ^ (reqpatagetype >>> 32));
+        result = 31 * result + (reqpatagetype != null ? reqpatagetype.hashCode() : 0);
         result = 31 * result + (reqpatbirthday != null ? reqpatbirthday.hashCode() : 0);
         result = 31 * result + (reqpatidcard != null ? reqpatidcard.hashCode() : 0);
         result = 31 * result + (reqpattelephone != null ? reqpattelephone.hashCode() : 0);
         result = 31 * result + (reqpataddress != null ? reqpataddress.hashCode() : 0);
         result = 31 * result + (reqpatdiagnosis != null ? reqpatdiagnosis.hashCode() : 0);
-        result = 31 * result + (int) (reqismenopause ^ (reqismenopause >>> 32));
+        result = 31 * result + (reqismenopause ^ (reqismenopause >>> 32));
         result = 31 * result + (reqlastmenstruation != null ? reqlastmenstruation.hashCode() : 0);
         result = 31 * result + (reqpatcompany != null ? reqpatcompany.hashCode() : 0);
-        result = 31 * result + (int) (reqsendhisorder ^ (reqsendhisorder >>> 32));
-        result = 31 * result + (int) (reqsampleid ^ (reqsampleid >>> 32));
-        result = 31 * result + (int) (reqisdeleted ^ (reqisdeleted >>> 32));
+        result = 31 * result + (reqsendhisorder ^ (reqsendhisorder >>> 32));
+        result = 31 * result + (reqsampleid ^ (reqsampleid >>> 32));
+        result = 31 * result + (reqisdeleted ^ (reqisdeleted >>> 32));
         result = 31 * result + (reqprintuser != null ? reqprintuser.hashCode() : 0);
         result = 31 * result + (reqprintusername != null ? reqprintusername.hashCode() : 0);
         result = 31 * result + (reqprinttime != null ? reqprinttime.hashCode() : 0);
@@ -781,7 +787,7 @@ public class PimsPathologyRequisition {
         result = 31 * result + (reqthirdv != null ? reqthirdv.hashCode() : 0);
         result = 31 * result + (reqfirstd != null ? reqfirstd.hashCode() : 0);
         result = 31 * result + (reqsecondd != null ? reqsecondd.hashCode() : 0);
-        result = 31 * result + (int) (reqfirstn ^ (reqfirstn >>> 32));
+        result = 31 * result + (reqfirstn != null ? reqfirstn.hashCode() : 0);
         result = 31 * result + (reqcreateuser != null ? reqcreateuser.hashCode() : 0);
         result = 31 * result + (reqcreatetime != null ? reqcreatetime.hashCode() : 0);
         return result;

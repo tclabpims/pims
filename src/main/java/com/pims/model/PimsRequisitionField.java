@@ -4,13 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_REQUISITION_FIELD")
 public class PimsRequisitionField {
     private long requisitionid;
     private long fieldid;
+    private long reqfcustomerid;
     private String reqfelementid;
     private String reqfelementname;
     private String reqfelementtype;
@@ -25,17 +26,8 @@ public class PimsRequisitionField {
     private Long reqffirstn;
     private String reqfcreateuser;
     private Date reqfcreatetime;
-    private long reqfcustomerid;
     private long reqfid;
-    @Id
-    @Column(name = "REQFID")
-    public long getReqfid() {
-        return reqfid;
-    }
 
-    public void setReqfid(long reqfid) {
-        this.reqfid = reqfid;
-    }
     @Basic
     @Column(name = "REQUISITIONID")
     public long getRequisitionid() {
@@ -54,6 +46,16 @@ public class PimsRequisitionField {
 
     public void setFieldid(long fieldid) {
         this.fieldid = fieldid;
+    }
+
+    @Basic
+    @Column(name = "REQFCUSTOMERID")
+    public long getReqfcustomerid() {
+        return reqfcustomerid;
+    }
+
+    public void setReqfcustomerid(long reqfcustomerid) {
+        this.reqfcustomerid = reqfcustomerid;
     }
 
     @Basic
@@ -196,15 +198,16 @@ public class PimsRequisitionField {
         this.reqfcreatetime = reqfcreatetime;
     }
 
-    @Basic
-    @Column(name = "REQFCUSTOMERID")
-    public long getReqfcustomerid() {
-        return reqfcustomerid;
+    @Id
+    @Column(name = "REQFID")
+    public long getReqfid() {
+        return reqfid;
     }
 
-        public void setReqfcustomerid(long reqfcustomerid) {
-        this.reqfcustomerid = reqfcustomerid;
+    public void setReqfid(long reqfid) {
+        this.reqfid = reqfid;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -214,6 +217,8 @@ public class PimsRequisitionField {
 
         if (requisitionid != that.requisitionid) return false;
         if (fieldid != that.fieldid) return false;
+        if (reqfcustomerid != that.reqfcustomerid) return false;
+        if (reqfid != that.reqfid) return false;
         if (reqfelementid != null ? !reqfelementid.equals(that.reqfelementid) : that.reqfelementid != null)
             return false;
         if (reqfelementname != null ? !reqfelementname.equals(that.reqfelementname) : that.reqfelementname != null)
@@ -240,10 +245,11 @@ public class PimsRequisitionField {
         return true;
     }
 
-@Override
+    @Override
     public int hashCode() {
         int result = (int) (requisitionid ^ (requisitionid >>> 32));
         result = 31 * result + (int) (fieldid ^ (fieldid >>> 32));
+        result = 31 * result + (int) (reqfcustomerid ^ (reqfcustomerid >>> 32));
         result = 31 * result + (reqfelementid != null ? reqfelementid.hashCode() : 0);
         result = 31 * result + (reqfelementname != null ? reqfelementname.hashCode() : 0);
         result = 31 * result + (reqfelementtype != null ? reqfelementtype.hashCode() : 0);
@@ -258,6 +264,7 @@ public class PimsRequisitionField {
         result = 31 * result + (reqffirstn != null ? reqffirstn.hashCode() : 0);
         result = 31 * result + (reqfcreateuser != null ? reqfcreateuser.hashCode() : 0);
         result = 31 * result + (reqfcreatetime != null ? reqfcreatetime.hashCode() : 0);
+        result = 31 * result + (int) (reqfid ^ (reqfid >>> 32));
         return result;
     }
 }

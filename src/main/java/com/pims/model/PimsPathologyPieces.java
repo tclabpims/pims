@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_PATHOLOGY_PIECES")
@@ -37,6 +37,7 @@ public class PimsPathologyPieces {
     private String piesecondv;
     private Long piefirstn;
     private Date piefirstd;
+
     @Id
     @Column(name = "PIECEID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_PIECEID")

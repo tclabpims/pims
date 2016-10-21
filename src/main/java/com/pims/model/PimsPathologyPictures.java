@@ -1,16 +1,16 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_PATHOLOGY_PICTURES")
 public class PimsPathologyPictures {
-    private Long piccustomerid;
     private long pictureid;
+    private Long piccustomerid;
     private long picsampleid;
     private String picpathologycode;
     private long picpictureclass;
@@ -23,7 +23,7 @@ public class PimsPathologyPictures {
     private String picpictureuser;
     private String picpictureip;
     private String picsavepath;
-    private Long picisupload;
+    private int picisupload;
     private Date picuploadtime;
     private String picuploaduser;
     private String picfirstv;
@@ -42,6 +42,16 @@ public class PimsPathologyPictures {
 
     public void setPictureid(long pictureid) {
         this.pictureid = pictureid;
+    }
+
+    @Basic
+    @Column(name = "PICCUSTOMERID")
+    public Long getPiccustomerid() {
+        return piccustomerid;
+    }
+
+    public void setPiccustomerid(Long piccustomerid) {
+        this.piccustomerid = piccustomerid;
     }
 
     @Basic
@@ -166,11 +176,11 @@ public class PimsPathologyPictures {
 
     @Basic
     @Column(name = "PICISUPLOAD")
-    public Long getPicisupload() {
+    public int getPicisupload() {
         return picisupload;
     }
 
-    public void setPicisupload(Long picisupload) {
+    public void setPicisupload(int picisupload) {
         this.picisupload = picisupload;
     }
 
@@ -240,7 +250,6 @@ public class PimsPathologyPictures {
         return piccreateuser;
     }
 
-
     public void setPiccreateuser(String piccreateuser) {
         this.piccreateuser = piccreateuser;
     }
@@ -257,7 +266,8 @@ public class PimsPathologyPictures {
         if (picpictureclass != that.picpictureclass) return false;
         if (picpictureno != that.picpictureno) return false;
         if (picpicturetype != that.picpicturetype) return false;
-        if (piccustomerid != that.piccustomerid) return false;
+        if (piccustomerid != null ? !piccustomerid.equals(that.piccustomerid) : that.piccustomerid != null)
+            return false;
         if (picpathologycode != null ? !picpathologycode.equals(that.picpathologycode) : that.picpathologycode != null)
             return false;
         if (picdescription != null ? !picdescription.equals(that.picdescription) : that.picdescription != null)
@@ -272,7 +282,7 @@ public class PimsPathologyPictures {
             return false;
         if (picpictureip != null ? !picpictureip.equals(that.picpictureip) : that.picpictureip != null) return false;
         if (picsavepath != null ? !picsavepath.equals(that.picsavepath) : that.picsavepath != null) return false;
-        if (picisupload != null ? !picisupload.equals(that.picisupload) : that.picisupload != null) return false;
+        if (picisupload != that.picisupload ) return false;
         if (picuploadtime != null ? !picuploadtime.equals(that.picuploadtime) : that.picuploadtime != null)
             return false;
         if (picuploaduser != null ? !picuploaduser.equals(that.picuploaduser) : that.picuploaduser != null)
@@ -291,8 +301,8 @@ public class PimsPathologyPictures {
     @Override
     public int hashCode() {
         int result = (int) (pictureid ^ (pictureid >>> 32));
+        result = 31 * result + (piccustomerid != null ? piccustomerid.hashCode() : 0);
         result = 31 * result + (int) (picsampleid ^ (picsampleid >>> 32));
-        result = 31 * result + (int) (piccustomerid ^ (piccustomerid >>> 32));
         result = 31 * result + (picpathologycode != null ? picpathologycode.hashCode() : 0);
         result = 31 * result + (int) (picpictureclass ^ (picpictureclass >>> 32));
         result = 31 * result + (int) (picpictureno ^ (picpictureno >>> 32));
@@ -304,7 +314,7 @@ public class PimsPathologyPictures {
         result = 31 * result + (picpictureuser != null ? picpictureuser.hashCode() : 0);
         result = 31 * result + (picpictureip != null ? picpictureip.hashCode() : 0);
         result = 31 * result + (picsavepath != null ? picsavepath.hashCode() : 0);
-        result = 31 * result + (picisupload != null ? picisupload.hashCode() : 0);
+        result = 31 * result + (picisupload ^ (picisupload >>> 32));
         result = 31 * result + (picuploadtime != null ? picuploadtime.hashCode() : 0);
         result = 31 * result + (picuploaduser != null ? picuploaduser.hashCode() : 0);
         result = 31 * result + (picfirstv != null ? picfirstv.hashCode() : 0);
@@ -313,15 +323,5 @@ public class PimsPathologyPictures {
         result = 31 * result + (piccreatetime != null ? piccreatetime.hashCode() : 0);
         result = 31 * result + (piccreateuser != null ? piccreateuser.hashCode() : 0);
         return result;
-    }
-
-    @Basic
-    @Column(name = "PICCUSTOMERID")
-    public Long getPiccustomerid() {
-        return piccustomerid;
-    }
-
-    public void setPiccustomerid(Long piccustomerid) {
-        this.piccustomerid = piccustomerid;
     }
 }

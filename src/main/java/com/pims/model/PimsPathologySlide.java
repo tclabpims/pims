@@ -4,17 +4,17 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_PATHOLOGY_SLIDE")
 public class PimsPathologySlide {
     private long slideid;
     private long slisampleid;
-    private String slicustomercode;
+    private long slicustomerid;
     private String slislidebarcode;
     private String slipathologycode;
-    private Long slislidetype;
+    private int slislidetype;
     private Long slislidesource;
     private Long sliuseflag;
     private String slislideno;
@@ -27,7 +27,7 @@ public class PimsPathologySlide {
     private Long slitestitemid;
     private String slitestitemname;
     private String slilabelcontent;
-    private Long sliifprint;
+    private int sliifprint;
     private Date sliprinttime;
     private String sliprintuser;
     private String sliprinttimes;
@@ -64,13 +64,13 @@ public class PimsPathologySlide {
     }
 
     @Basic
-    @Column(name = "SLICUSTOMERCODE")
-    public String getSlicustomercode() {
-        return slicustomercode;
+    @Column(name = "SLICUSTOMERID")
+    public long getSlicustomerid() {
+        return slicustomerid;
     }
 
-    public void setSlicustomercode(String slicustomercode) {
-        this.slicustomercode = slicustomercode;
+    public void setSlicustomerid(long slicustomerid) {
+        this.slicustomerid = slicustomerid;
     }
 
     @Basic
@@ -95,11 +95,11 @@ public class PimsPathologySlide {
 
     @Basic
     @Column(name = "SLISLIDETYPE")
-    public Long getSlislidetype() {
+    public int getSlislidetype() {
         return slislidetype;
     }
 
-    public void setSlislidetype(Long slislidetype) {
+    public void setSlislidetype(int slislidetype) {
         this.slislidetype = slislidetype;
     }
 
@@ -225,11 +225,11 @@ public class PimsPathologySlide {
 
     @Basic
     @Column(name = "SLIIFPRINT")
-    public Long getSliifprint() {
+    public int getSliifprint() {
         return sliifprint;
     }
 
-    public void setSliifprint(Long sliifprint) {
+    public void setSliifprint(int sliifprint) {
         this.sliifprint = sliifprint;
     }
 
@@ -362,13 +362,12 @@ public class PimsPathologySlide {
 
         if (slideid != that.slideid) return false;
         if (slisampleid != that.slisampleid) return false;
-        if (slicustomercode != null ? !slicustomercode.equals(that.slicustomercode) : that.slicustomercode != null)
-            return false;
+        if (slicustomerid != that.slicustomerid) return false;
         if (slislidebarcode != null ? !slislidebarcode.equals(that.slislidebarcode) : that.slislidebarcode != null)
             return false;
         if (slipathologycode != null ? !slipathologycode.equals(that.slipathologycode) : that.slipathologycode != null)
             return false;
-        if (slislidetype != null ? !slislidetype.equals(that.slislidetype) : that.slislidetype != null) return false;
+        if (slislidetype != that.slislidetype ) return false;
         if (slislidesource != null ? !slislidesource.equals(that.slislidesource) : that.slislidesource != null)
             return false;
         if (sliuseflag != null ? !sliuseflag.equals(that.sliuseflag) : that.sliuseflag != null) return false;
@@ -390,7 +389,7 @@ public class PimsPathologySlide {
             return false;
         if (slilabelcontent != null ? !slilabelcontent.equals(that.slilabelcontent) : that.slilabelcontent != null)
             return false;
-        if (sliifprint != null ? !sliifprint.equals(that.sliifprint) : that.sliifprint != null) return false;
+        if (sliifprint != that.sliifprint ) return false;
         if (sliprinttime != null ? !sliprinttime.equals(that.sliprinttime) : that.sliprinttime != null) return false;
         if (sliprintuser != null ? !sliprintuser.equals(that.sliprintuser) : that.sliprintuser != null) return false;
         if (sliprinttimes != null ? !sliprinttimes.equals(that.sliprinttimes) : that.sliprinttimes != null)
@@ -416,10 +415,10 @@ public class PimsPathologySlide {
     public int hashCode() {
         int result = (int) (slideid ^ (slideid >>> 32));
         result = 31 * result + (int) (slisampleid ^ (slisampleid >>> 32));
-        result = 31 * result + (slicustomercode != null ? slicustomercode.hashCode() : 0);
+        result = 31 * result + (int) (slicustomerid ^ (slicustomerid >>> 32));
         result = 31 * result + (slislidebarcode != null ? slislidebarcode.hashCode() : 0);
         result = 31 * result + (slipathologycode != null ? slipathologycode.hashCode() : 0);
-        result = 31 * result + (slislidetype != null ? slislidetype.hashCode() : 0);
+        result = 31 * result + (slislidetype ^ (slislidetype >>> 32));
         result = 31 * result + (slislidesource != null ? slislidesource.hashCode() : 0);
         result = 31 * result + (sliuseflag != null ? sliuseflag.hashCode() : 0);
         result = 31 * result + (slislideno != null ? slislideno.hashCode() : 0);
@@ -432,7 +431,7 @@ public class PimsPathologySlide {
         result = 31 * result + (slitestitemid != null ? slitestitemid.hashCode() : 0);
         result = 31 * result + (slitestitemname != null ? slitestitemname.hashCode() : 0);
         result = 31 * result + (slilabelcontent != null ? slilabelcontent.hashCode() : 0);
-        result = 31 * result + (sliifprint != null ? sliifprint.hashCode() : 0);
+        result = 31 * result + (sliifprint ^ (sliifprint >>> 32));
         result = 31 * result + (sliprinttime != null ? sliprinttime.hashCode() : 0);
         result = 31 * result + (sliprintuser != null ? sliprintuser.hashCode() : 0);
         result = 31 * result + (sliprinttimes != null ? sliprinttimes.hashCode() : 0);

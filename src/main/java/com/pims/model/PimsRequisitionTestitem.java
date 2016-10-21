@@ -4,16 +4,17 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/21.
  */
 @Entity
 @Table(name = "PIMS_REQUISITION_TESTITEM")
 public class PimsRequisitionTestitem {
     private long requisitionid;
     private long testitemid;
+    private long reqicustomerid;
     private String reqiitemname;
     private Long reqisampleid;
-    private Long reqiischarge;
+    private int reqiischarge;
     private Date reqiprinttime;
     private String reqiremark;
     private String reqifirstv;
@@ -21,26 +22,7 @@ public class PimsRequisitionTestitem {
     private Long reqifirstn;
     private String reqicreateuser;
     private Date reqicreatetime;
-    private long reqicustomerid;
     private long reqiid;
-    @Id
-    @Column(name = "REQIID")
-    public long getReqiid() {
-        return reqiid;
-    }
-
-    public void setReqiid(long reqiid) {
-        this.reqiid = reqiid;
-    }
-    @Basic
-    @Column(name = "REQICUSTOMERID")
-    public long getReqicustomerid() {
-        return reqicustomerid;
-    }
-
-    public void setReqicustomerid(long reqicustomerid) {
-        this.reqicustomerid = reqicustomerid;
-    }
 
     @Basic
     @Column(name = "REQUISITIONID")
@@ -60,6 +42,16 @@ public class PimsRequisitionTestitem {
 
     public void setTestitemid(long testitemid) {
         this.testitemid = testitemid;
+    }
+
+    @Basic
+    @Column(name = "REQICUSTOMERID")
+    public long getReqicustomerid() {
+        return reqicustomerid;
+    }
+
+    public void setReqicustomerid(long reqicustomerid) {
+        this.reqicustomerid = reqicustomerid;
     }
 
     @Basic
@@ -84,11 +76,11 @@ public class PimsRequisitionTestitem {
 
     @Basic
     @Column(name = "REQIISCHARGE")
-    public Long getReqiischarge() {
+    public int getReqiischarge() {
         return reqiischarge;
     }
 
-    public void setReqiischarge(Long reqiischarge) {
+    public void setReqiischarge(int reqiischarge) {
         this.reqiischarge = reqiischarge;
     }
 
@@ -162,6 +154,16 @@ public class PimsRequisitionTestitem {
         this.reqicreatetime = reqicreatetime;
     }
 
+    @Id
+    @Column(name = "REQIID")
+    public long getReqiid() {
+        return reqiid;
+    }
+
+    public void setReqiid(long reqiid) {
+        this.reqiid = reqiid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -171,9 +173,11 @@ public class PimsRequisitionTestitem {
 
         if (requisitionid != that.requisitionid) return false;
         if (testitemid != that.testitemid) return false;
+        if (reqicustomerid != that.reqicustomerid) return false;
+        if (reqiid != that.reqiid) return false;
         if (reqiitemname != null ? !reqiitemname.equals(that.reqiitemname) : that.reqiitemname != null) return false;
         if (reqisampleid != null ? !reqisampleid.equals(that.reqisampleid) : that.reqisampleid != null) return false;
-        if (reqiischarge != null ? !reqiischarge.equals(that.reqiischarge) : that.reqiischarge != null) return false;
+        if (reqiischarge != that.reqiischarge ) return false;
         if (reqiprinttime != null ? !reqiprinttime.equals(that.reqiprinttime) : that.reqiprinttime != null)
             return false;
         if (reqiremark != null ? !reqiremark.equals(that.reqiremark) : that.reqiremark != null) return false;
@@ -192,9 +196,10 @@ public class PimsRequisitionTestitem {
     public int hashCode() {
         int result = (int) (requisitionid ^ (requisitionid >>> 32));
         result = 31 * result + (int) (testitemid ^ (testitemid >>> 32));
+        result = 31 * result + (int) (reqicustomerid ^ (reqicustomerid >>> 32));
         result = 31 * result + (reqiitemname != null ? reqiitemname.hashCode() : 0);
         result = 31 * result + (reqisampleid != null ? reqisampleid.hashCode() : 0);
-        result = 31 * result + (reqiischarge != null ? reqiischarge.hashCode() : 0);
+        result = 31 * result + (reqiischarge ^ (reqiischarge >>> 32));
         result = 31 * result + (reqiprinttime != null ? reqiprinttime.hashCode() : 0);
         result = 31 * result + (reqiremark != null ? reqiremark.hashCode() : 0);
         result = 31 * result + (reqifirstv != null ? reqifirstv.hashCode() : 0);
@@ -202,6 +207,7 @@ public class PimsRequisitionTestitem {
         result = 31 * result + (reqifirstn != null ? reqifirstn.hashCode() : 0);
         result = 31 * result + (reqicreateuser != null ? reqicreateuser.hashCode() : 0);
         result = 31 * result + (reqicreatetime != null ? reqicreatetime.hashCode() : 0);
+        result = 31 * result + (int) (reqiid ^ (reqiid >>> 32));
         return result;
     }
 }

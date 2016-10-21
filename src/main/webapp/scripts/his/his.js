@@ -323,6 +323,7 @@ $(function() {
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
 	});
+	//检查项目
 	$("#reqitemnames").autocomplete({
         source: function( request, response ) {
             $.ajax({
@@ -354,6 +355,185 @@ $(function() {
 			 .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
 			 .appendTo( ul );
 	 };
+	//申请病区
+	$("#reqwardname").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../basadata/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,//名称
+					bddatatype:1,//病区
+					bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			$( "#reqwardcode" ).val(ui.item.id);
+			$( "#reqwardname" ).val(ui.item.name);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
+	//送检医院
+	$("#reqsendhospital").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../basadata/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,//名称
+					bddatatype:4,//送检医院
+					bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			//$( "#reqwardcode" ).val(ui.item.id);
+			$( "#reqsendhospital" ).val(ui.item.name);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
+	//送检科室
+	$("#reqdeptname").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../basadata/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,//名称
+					bddatatype:2,//送检医院
+					bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			$( "#reqdeptcode" ).val(ui.item.id);
+			$( "#reqdeptname" ).val(ui.item.name);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
+	//送检医生
+	$("#reqdoctorname").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../basadata/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,//名称
+					bddatatype:3,//送检医生
+					bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			$( "#reqdoctorid" ).val(ui.item.id);
+			$( "#reqdoctorname" ).val(ui.item.name);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
+	//手术医生
+	$("#reqsecondv").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../basadata/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,//名称
+					bddatatype:3,//送检医生
+					bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id
+						}
+					}));
+				}
+			});
+		},
+		items:10,
+		minLength: 0,
+		scrollHeight: 100,   //提示的高度，溢出显示滚动条
+		scroll: true,
+		select: function( event, ui ) {
+			//$( "#reqdoctorid" ).val(ui.item.id);
+			$( "#reqsecondv" ).val(ui.item.name);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
+
+
+
+
+
+
 	$('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
 	var clientHeight= $(window).innerHeight();
 	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
