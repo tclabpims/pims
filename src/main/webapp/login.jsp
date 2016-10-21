@@ -345,7 +345,7 @@
                         <i class="ace-icon fa fa-lock"></i>
                        </span>
                     </div>
-                    <div class="cell"><fmt:message key="label.pathologyLib"/>
+                    <%--<div class="cell"><fmt:message key="label.pathologyLib"/>
                         <span class="block input-icon input-icon-right">
                         <select name="pathologyLibId" id="pathologyLibId">
                             <%
@@ -367,7 +367,7 @@
                         <i class="ace-icon fa fa-lock"></i>
                            <input type="hidden" id="pathologyLib" name="pathologyLib">
                        </span>
-                    </div>
+                    </div>--%>
                     <div class="cell">
                         <label class="inline">
                             <c:if test="${appConfig['rememberMeEnabled']}">

@@ -85,6 +85,28 @@ public class PimsPathologySample {
     private Date samcreatetime;
     private String samcreateuser;
 
+    private Date samplesectionfrom;
+
+    private Date samplesectionto;
+
+    @Transient
+    public Date getSamplesectionfrom() {
+        return samplesectionfrom;
+    }
+
+    public void setSamplesectionfrom(Date samplesectionfrom) {
+        this.samplesectionfrom = samplesectionfrom;
+    }
+
+    @Transient
+    public Date getSamplesectionto() {
+        return samplesectionto;
+    }
+
+    public void setSamplesectionto(Date samplesectionto) {
+        this.samplesectionto = samplesectionto;
+    }
+
     @Id
     @Column(name = "SAMPLEID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_SAMPLEID")

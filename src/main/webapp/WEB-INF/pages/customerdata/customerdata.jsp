@@ -139,6 +139,14 @@
         <div style="padding-top: 5px;">
             <div style="">
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="bascustomername"> 客户名称 </label>
+                    <div class="col-xs-8" style="">
+                        <input type="text" id="bascustomername" name="bascustomername" onclick="showHospital()" placeholder="客户名称" class="col-xs-8"
+                               datatype="*2-255"/>
+                        <input type="hidden" id="bascustomercode" name="bascustomercode">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="baspathologyname"> 病种名称 </label>
                     <div class="col-xs-8" style="">
                         <input type="text" id="baspathologyname" name="baspathologyname" onclick="showPathology()" placeholder="病种名称" class="col-xs-8"
@@ -147,14 +155,7 @@
                         <input type="hidden" id="basedataid" name="basedataid">
                     </div>
                 </div>
-                <div class="form-group" style="margin-left:0px;margin-right:0px;">
-                    <label class="col-xs-3 control-label no-padding-right" for="bascustomername"> 客户名称 </label>
-                    <div class="col-xs-8" style="">
-                        <input type="text" id="bascustomername" name="bascustomername" onclick="showHospital()" placeholder="客户名称" class="col-xs-8"
-                               datatype="*2-255"/>
-                        <input type="hidden" id="bascustomercode" name="bascustomercode">
-                    </div>
-                </div>
+
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="bastype"> 数据类型 </label>
                     <div class="col-xs-8" style="">

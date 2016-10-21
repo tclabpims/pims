@@ -169,7 +169,7 @@ public class PIMSBaseController {
                                 pd.getWriteMethod().invoke(ins, value);
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
                                 try {
-                                    pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
+                                    pd.getWriteMethod().invoke(ins, Constants.DF2.parse(value));
                                 } catch (ParseException e) {
                                     try {
                                         pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));

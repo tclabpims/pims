@@ -354,7 +354,6 @@ $(function () {
 
         }
     });
-
 });
 function clearData() {
     $('#colcustomercode').val('');

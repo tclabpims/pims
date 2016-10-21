@@ -1,11 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: 909436637@qq.com
-  Date: 2016/10/6
-  Time: 10:01
---%>
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <html>
 <head>
@@ -26,8 +20,16 @@
     <script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/pspathology/syscolor.js"></script>
+
 </head>
-<style>
+
+<!-- Include CSS to eliminate any default margins/padding and set the height of the html element and
+     the body element to 100%, because Firefox, or any Gecko based browser, interprets percentage as
+     the percentage of the height of its parent container, which has to be set explicitly.  Fix for
+     Firefox 3.6 focus border issues.  Initially, don't display flashContent div so it won't show
+     if JavaScript disabled.
+-->
+<style type="text/css">
     .ui-jqgrid {
         border: 1px solid #ddd;
     }
@@ -53,6 +55,7 @@
         z-index: 99999999;
     }
 </style>
+<body>
 <div class="row" id="toolbar">
     <div id="mainTable" class="col-xs-12">
         <div style="padding-top: 5px;">
@@ -69,6 +72,7 @@
                     <i class="ace-icon fa fa-times bigger-110"></i>
                     删除颜色设置
                 </button>
+
                 <div class="input-group col-sm-3 " style="float: right;">
                     <input type="text" id="query" class="form-control search-query" placeholder="输入客户名"/>
                     <span class="input-group-btn">
@@ -178,4 +182,5 @@
 </div>
 </form>
 </div>
+</body>
 </html>

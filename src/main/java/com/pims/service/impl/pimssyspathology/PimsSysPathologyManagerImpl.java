@@ -33,8 +33,13 @@ public class PimsSysPathologyManagerImpl extends GenericManagerImpl<PimsSysPatho
         StringBuilder hql = new StringBuilder("from PimsSysPathology psp where 1=1");
         String query = gridQuery.getQuery();
         String sidx = gridQuery.getSidx();
+        Long hospitalId = gridQuery.getHospitalId();
         if(query != null && !"".equals(query.trim())) {
             hql.append(" and psp.patnamech||psp.patnameen  like '%" +query +"%'");
+        }
+
+        if(hospitalId != null) {
+            hql.append(" and psp.pathologyid in(select bd.pathologyId from PimsHospitalPathologyInfo bd where bd.hospitalId=").append(hospitalId).append(") ");
         }
 
         sidx = (sidx == null || sidx.trim().equals(""))?"psp.patsort ":sidx;
@@ -44,10 +49,13 @@ public class PimsSysPathologyManagerImpl extends GenericManagerImpl<PimsSysPatho
     }
 
     @Override
-    public Integer getPimsSysPathologyTotal(String queryString) {
-        StringBuilder hql = new StringBuilder("select count(1) cnt from pims_sys_pathology psp");
+    public Integer getPimsSysPathologyTotal(String queryString, Long hospitalId) {
+        StringBuilder hql = new StringBuilder("select count(1) cnt from pims_sys_pathology psp where 1=1 ");
         if(queryString != null && !"".equals(queryString.trim())) {
-            hql.append(" where psp.patnamech||psp.patnameen  like '%" +queryString +"%'");
+            hql.append(" and psp.patnamech||psp.patnameen  like '%" +queryString +"%'");
+        }
+        if(hospitalId != null) {
+            hql.append(" and psp.pathologyid in(select bd.pathologyid from PIMS_HOSPITAL_PATHOLOGY_INFO bd where bd.hospitalid=").append(hospitalId).append(") ");
         }
         return pimsSysPathologyDao.getPimsSysPathologyTotal(hql.toString());
     }

@@ -1,7 +1,5 @@
 package com.pims.webapp.controller.pimssyspathology;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsSysPathology;
 import com.pims.model.PimsSysReportFormate;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
@@ -13,7 +11,6 @@ import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.solr.servlet.cache.Method;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/9/28.
@@ -66,7 +62,7 @@ public class PimsSysPathologyController extends PIMSBaseController {
         DataResponse dr = new DataResponse();
         GridQuery gridQuery = new GridQuery(request);
         List<PimsSysPathology> result = pimsSysPathologyManager.getPimsSysPathologyList(gridQuery);
-        Integer total = pimsSysPathologyManager.getPimsSysPathologyTotal(gridQuery.getQuery());
+        Integer total = pimsSysPathologyManager.getPimsSysPathologyTotal(gridQuery.getQuery(), gridQuery.getHospitalId());
         dr.setRecords(total);
         dr.setPage(gridQuery.getPage());
         dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));

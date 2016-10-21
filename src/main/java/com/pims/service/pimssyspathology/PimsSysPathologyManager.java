@@ -15,7 +15,7 @@ public interface PimsSysPathologyManager extends GenericManager<PimsSysPathology
 
     List<PimsSysPathology> getPimsSysPathologyList(GridQuery gridQuery);
 
-    Integer getPimsSysPathologyTotal(String queryString);
+    Integer getPimsSysPathologyTotal(String queryString, Long hospitalId);
 
     JSONArray getPathologyType();
 

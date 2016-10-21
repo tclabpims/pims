@@ -131,5 +131,6 @@
         <mapping class="com.pims.model.PimsSysRolePower"/>
         <mapping class="com.pims.model.PimsSysUserInfo"/>
         <mapping class="com.pims.model.PimsSysUserRole"/>
+        <mapping class="com.pims.model.PimsHospitalPathologyInfo"/>
     </session-factory>
 </hibernate-configuration>

@@ -170,7 +170,6 @@ $(function(){
 
     $(window).on('resize.jqGrid', function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(),false);
-        $('#sectionCode').jqGrid('setGridWidth', $(".rightContent").width(),false);
     });
     var clientHeight= $(window).innerHeight();
     var height =clientHeight-$('#head').height()- $('#toolbar').height()-$('.footer-content').height()-150;

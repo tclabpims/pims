@@ -2,9 +2,9 @@ package com.pims.dao.pimspathologysample;
 
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
+import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.GenericDao;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by king on 2016/10/10.
@@ -44,4 +44,8 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
      * @return
      */
     boolean canChange(Long id,String sts);
+
+    List<PimsPathologySample> querySample(PimsPathologySample sample, GridQuery gridQuery, String sql);
+
+    Integer totalNum(PimsPathologySample sample, String s);
 }

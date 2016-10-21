@@ -47,10 +47,10 @@ public class UserAuthSuccessHandler implements AuthenticationSuccessHandler {
         Map<String, String[]> paramMap = httpServletRequest.getParameterMap();
         User user = (User) authentication.getPrincipal();
         if(authentication.isAuthenticated() && user != null) {
-            String[] pathologyLibName = paramMap.get(PATHOLOGY_LIB);
+            /*String[] pathologyLibName = paramMap.get(PATHOLOGY_LIB);
             String[] pathologyLibNameId = paramMap.get(USER_PATHOLOGY_LIB_ID);
             UserBussinessRelate ubr = new UserBussinessRelate(pathologyLibName[0], pathologyLibNameId[0]);
-            user.setUserBussinessRelate(ubr);
+            user.setUserBussinessRelate(ubr);*/
             httpServletResponse.sendRedirect(new StringBuilder(httpServletRequest.getContextPath()).append(LOGIN_SUCCESS_REDIRECT).toString());
         }
     }

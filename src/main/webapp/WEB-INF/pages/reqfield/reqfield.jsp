@@ -72,7 +72,11 @@
         },
         callback: {
             onClick: function (event, treeId, treeNode, clickFlag) {
-                if(treeNode.id == 0){clearData();$('#saveButton').attr("disabled", true);return false;}
+                if(treeNode.id == 0){
+                    clearData();
+                    $('#saveButton').removeAttr("disabled");
+                    return false;
+                }
                 $.post('../reqfield/fieldconfig', {
                     fieldid: treeNode.id
                 }, function (data) {
@@ -157,7 +161,7 @@
                     <div class="form-group" style="margin-left:0px;margin-right:0px;">
                         <label class="col-xs-3 control-label no-padding-right" for="fieelementtype"> 对象类型 </label>
                         <div class="col-xs-8">
-                            <select id="fieelementtype" name="fieelementtype">
+                            <select id="fieelementtype" name="fieelementtype" onchange="showOptional()">
                                 <option value="input">单行输入框-input</option>
                                 <option value="textarea">多行输入框-textarea</option>
                                 <option value="select">下拉列表-select</option>
@@ -165,11 +169,12 @@
                                 <option value="checkbox">复选框-checkbox</option>
                                 <option value="label">标签-label</option>
                                 <option value="form">表单-form</option>
+                                <option value="legend">文字说明-legend</option>
                                 <option value="div">布局-div</option>
                                 <option value="span">布局-span</option>
-                                <option value="table">表格-table</option>
-                                <option value="tr">表格行-tr</option>
-                                <option value="td">表格列-td</option>
+                                <option value="dataGrid">数据列表</option>
+                                <option value="datePicker">日期选择器</option>
+                                <option value="doctorSign">医生签名</option>
                             </select>
                         </div>
                     </div>
@@ -201,6 +206,13 @@
                         <label class="col-xs-3 control-label no-padding-right" for="fiedefaultvalue">默认值 </label>
                         <div class="col-xs-8">
                             <input type="text" id="fiedefaultvalue" name="fiedefaultvalue" placeholder="默认值"
+                                   class="col-xs-8" datatype="*2-255"/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                        <label class="col-xs-3 control-label no-padding-right" for="cssStyle">CSS样式 </label>
+                        <div class="col-xs-8">
+                            <input type="text" id="cssStyle" name="cssStyle" placeholder="CSS样式"
                                    class="col-xs-8" datatype="*2-255"/>
                         </div>
                     </div>

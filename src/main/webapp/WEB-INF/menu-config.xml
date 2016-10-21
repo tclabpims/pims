@@ -65,7 +65,7 @@
             <Item name="SectionManage" title="menu.sectionManage" page="/pathologysample/slide" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
-        <Menu name="PathologicalDiagnosis" title="PathologicalDiagnosis.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        <Menu name="PathologicalDiagnosis" title="PathologicalDiagnosis.title" page="/diagnosis/diagnosis" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         </Menu>
 
         <Menu name="MedicalOrderTreatment" title="MedicalOrderTreatment.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
@@ -100,6 +100,7 @@
             <Item name="ReportItem" title="menu.ReportItem" page="/reportitem/reportitem" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="MaintenanceFees" title="menu.MaintenanceFees" page="/chargeitem/chargeitem" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="ChargeItemRef" title="menu.ChargeItemRef" page="/chargeitemref/chargeitemref" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="HospitalPathologyInfo" title="menu.HospitalPathologyInfo" page="/hpinfo/view" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="AdviceCategoriesMaintenance" title="menu.AdviceCategoriesMaintenance" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
