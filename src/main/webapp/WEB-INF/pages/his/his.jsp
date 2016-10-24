@@ -24,6 +24,8 @@
 	}
 	.ui-autocomplete {
 		z-index: 99999999;
+		max-height: 200px;
+		overflow-y: scroll;
 	}
     label {
         font-size: 13px;
@@ -168,7 +170,7 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsecondv">手术医生:</label>
 			<div class="col-sm-3">
-				<input   type="text" class="col-sm-9" id="reqsecondv"/><!--手术医生 -->
+				<input   type="text" class="col-sm-9" style="max-height:200px;overflow-y:scroll;" id="reqsecondv"/><!--手术医生 -->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqthirdv">手术电话:</label>
 			<div class="col-sm-3">

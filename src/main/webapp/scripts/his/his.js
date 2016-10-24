@@ -513,10 +513,7 @@ $(function() {
 				}
 			});
 		},
-		items:10,
 		minLength: 0,
-		scrollHeight: 100,   //提示的高度，溢出显示滚动条
-		scroll: true,
 		select: function( event, ui ) {
 			//$( "#reqdoctorid" ).val(ui.item.id);
 			$( "#reqsecondv" ).val(ui.item.name);

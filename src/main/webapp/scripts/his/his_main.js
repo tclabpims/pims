@@ -182,8 +182,9 @@ function createNew1(reqid){
         height: 170,
         width: 540,
         postData:{"reqId":reqid},
-        colNames: ['申请单ID','ID','切取部位', '送检材料','客户id','材料名称','取材特殊要求','备注信息','录入人员','录入时间'],
+        colNames: ['ID','申请单ID','材料ID','切取部位', '送检材料','客户id','材料名称','取材特殊要求','备注信息','录入人员','录入时间'],
         colModel: [
+			{name:'reqmid',hidden:true},//ID
             {name:'requisitionid',hidden:true},//申请单ID
             {name:'materialid',hidden:true},//ID
             { name: 'reqmsamplingparts', index: 'reqmsamplingparts',editable:true,edittype: "select",formatter: "select",

@@ -161,7 +161,7 @@ public class PimsPathologySample {
 
     @Basic
     @Column(name = "SAMSOURCE")
-    public int isSamsource() {
+    public int getSamsource() {
         return samsource;
     }
 
