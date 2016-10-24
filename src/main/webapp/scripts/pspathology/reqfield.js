@@ -18,6 +18,15 @@ function AddSection() {
     $('#fieldid').val('');
 }
 
+function zTreeOnDrop(event, treeId, treeNodes, targetNode, moveType) {
+    $.post('../reqfield/updateparent', {
+        fieldid: treeNodes[0].id, fiepelementid: targetNode.id
+    }, function (data) {
+        layer.msg('移动成功', {icon: 2, time: 1000});
+
+    });
+}
+
 function saveFieldData() {
     var treeObj = $.fn.zTree.getZTreeObj("tree");
     var nodes = treeObj.getSelectedNodes();
@@ -25,13 +34,13 @@ function saveFieldData() {
         layer.msg('请先选择节点', {icon: 2, time: 1000});
         return false;
     }
-    $('#fiepelementid').val(nodes[0].id);
-    if ($('#fieelementid').val() == '' || $('#fieelementname').val() == '' || $('#fieshowlevel').val() == ''
-        || $('#fiepelementid').val() == '' || $('#fieshoworder').val() == '') {
+
+    if ($('#fieelementid').val() == '' || $('#fieelementname').val() == '' || $('#fieshowlevel').val() == '' || $('#fieshoworder').val() == '') {
         layer.msg('信息填写不完整', {icon: 2, time: 1000});
         return false;
     }
     if ($('#fieldid').val() == '') {
+        $('#fiepelementid').val(nodes[0].id);
         $.post('../reqfield/edit', {
             fieelementtype: $('#fieelementtype').val(), fieelementid: $('#fieelementid').val(),
             fieelementname: $('#fieelementname').val(), fieshowlevel: $('#fieshowlevel').val(),

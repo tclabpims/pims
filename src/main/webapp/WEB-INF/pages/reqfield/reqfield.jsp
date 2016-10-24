@@ -70,6 +70,16 @@
             enable: true,
             chkStyle: "checkbox"
         },
+        edit: {
+            enable: true,
+            showRenameBtn:false,
+            showRemoveBtn:false,
+            drag: {
+                isCopy: false,
+
+                isMove: true
+            }
+        },
         callback: {
             onClick: function (event, treeId, treeNode, clickFlag) {
                 if(treeNode.id == 0){
@@ -94,7 +104,8 @@
                     $('#fieldid').val(treeNode.id);
                     $('#saveButton').attr("disabled", false);
                 });
-            }
+            },
+            onDrop: zTreeOnDrop
         },
         view: {}
     };

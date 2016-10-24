@@ -91,6 +91,14 @@ public class PimsSysReqFieldController extends PIMSBaseController {
         psrm.deleteFields(mid);
     }
 
+    @RequestMapping(method = {RequestMethod.POST}, value = "/updateparent")
+    public void updateParent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PimsSysReqField pimsSysReqField = (PimsSysReqField) setBeanProperty(request, PimsSysReqField.class);
+        PimsSysReqField field = psrm.get(pimsSysReqField.getFieldid());
+        field.setFiepelementid(pimsSysReqField.getFiepelementid());
+        psrm.save(field);
+    }
+
     @RequestMapping(method = {RequestMethod.GET}, value = "/query")
     @ResponseBody
     public DataResponse query(HttpServletRequest request, HttpServletResponse response) throws Exception {
