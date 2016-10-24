@@ -1,6 +1,7 @@
 package com.pims.dao.pimssyspathology;
 
 import com.pims.model.PimsHospitalPathologyInfo;
+import com.pims.model.PimsSysPathology;
 import com.smart.dao.GenericDao;
 
 import java.util.List;
@@ -10,5 +11,5 @@ import java.util.List;
  * Description:
  */
 public interface PimsHospitalPathologyInfoDao extends GenericDao<PimsHospitalPathologyInfo, Long> {
-    List<PimsHospitalPathologyInfo> getPathologyByUserId(String s, long userId);
+    List<PimsSysPathology> getPathologyByUserId(String s, long userId);
 }

@@ -76,4 +76,20 @@ public class PimsPathologyTemplateManagerImpl extends GenericManagerImpl<PimsPat
         }
         return pimsPathologyTemplateDao.countTotal(qstr.toString());
     }
+
+    @Override
+    public Integer countTemplate(Long userId, Long hospitalId, Long tempType, Long pathologyLibId) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select count(*) from PimsPathologyTemplate as t where t.temcustomerid=:hospitalId and t.tempathologyid=:pathologyLibId and t.temclass=:tempType");
+        builder.append(" and (t.temownerid=:userId or t.temtype=0) ");
+        return pimsPathologyTemplateDao.countTemplate(userId, hospitalId, tempType, pathologyLibId, builder.toString());
+    }
+
+    @Override
+    public List<PimsPathologyTemplate> getTemplateList(GridQuery gridQuery, Long tempType, Long pathologyLibId) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("from PimsPathologyTemplate as t where t.temcustomerid=:hospitalId and t.tempathologyid=:pathologyLibId and t.temclass=:tempType");
+        builder.append(" and (t.temownerid=:userId or t.temtype=0) ");
+        return pimsPathologyTemplateDao.getTemplateList(gridQuery, tempType, pathologyLibId, builder.toString());
+    }
 }

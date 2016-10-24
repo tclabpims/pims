@@ -89,6 +89,8 @@
                     $('#fieshoworder').val(data.fieshoworder);
                     $('#fieuseflag').val(data.fieuseflag);
                     $('#fieremark').val(data.fieremark);
+                    $('#invokefunc').val(data.invokefunc);
+                    $('#invokefuncbody').val(data.invokefuncbody);
                     $('#fieldid').val(treeNode.id);
                     $('#saveButton').attr("disabled", false);
                 });
@@ -163,6 +165,7 @@
                         <div class="col-xs-8">
                             <select id="fieelementtype" name="fieelementtype" onchange="showOptional()">
                                 <option value="input">单行输入框-input</option>
+                                <option value="button">按钮-button</option>
                                 <option value="textarea">多行输入框-textarea</option>
                                 <option value="select">下拉列表-select</option>
                                 <option value="radio">单选框-radio</option>
@@ -179,7 +182,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="margin-left:0px;margin-right:0px;">
-                        <label class="col-xs-3 control-label no-padding-right" for="fieelementid"> 对象ID </label>
+                        <label class="col-xs-3 control-label no-padding-right" for="fieelementid"> 对象ID[请保持唯一] </label>
                         <div class="col-xs-8" style="">
                             <input type="text" id="fieelementid" name="fieelementid" placeholder="对象ID" class="col-xs-8"
                                    datatype="*1-255"/>
@@ -192,6 +195,22 @@
                                    class="col-xs-8" datatype="*1-255">
                         </div>
                     </div>
+
+                    <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                        <label class="col-xs-3 control-label no-padding-right" for="invokefunc"> 触发函数 </label>
+                        <div class="col-xs-8" style="">
+                            <input type="text" id="invokefunc" name="invokefunc" placeholder="填写函数名和参数如:show(1,'a')"
+                                   class="col-xs-8" datatype="*1-255">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                        <label class="col-xs-3 control-label no-padding-right" for="invokefuncbody"> 函数[{...}] </label>
+                        <div class="col-xs-8" style="">
+                            <textarea id="invokefuncbody"cols="50" rows="5" placeholder="写入js代码"></textarea>
+                        </div>
+                    </div>
+
                     <div class="form-group" style="margin-left:0px;margin-right:0px;">
                         <label class="col-xs-3 control-label no-padding-right" for="fieshowlevel"> 显示级别 </label>
                         <div class="col-xs-8">
@@ -209,13 +228,7 @@
                                    class="col-xs-8" datatype="*2-255"/>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-left:0px;margin-right:0px;">
-                        <label class="col-xs-3 control-label no-padding-right" for="cssStyle">CSS样式 </label>
-                        <div class="col-xs-8">
-                            <input type="text" id="cssStyle" name="cssStyle" placeholder="CSS样式"
-                                   class="col-xs-8" datatype="*2-255"/>
-                        </div>
-                    </div>
+
                     <div class="form-group" style="margin-left:0px;margin-right:0px;">
                         <label class="col-xs-3 control-label no-padding-right" for="fieshoworder">显示顺序 </label>
                         <div class="col-xs-8">

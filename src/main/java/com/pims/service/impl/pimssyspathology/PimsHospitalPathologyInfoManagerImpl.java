@@ -2,6 +2,7 @@ package com.pims.service.impl.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsHospitalPathologyInfoDao;
 import com.pims.model.PimsHospitalPathologyInfo;
+import com.pims.model.PimsSysPathology;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.service.impl.GenericManagerImpl;
@@ -73,7 +74,7 @@ public class PimsHospitalPathologyInfoManagerImpl extends GenericManagerImpl<Pim
     }
 
     @Override
-    public List<PimsHospitalPathologyInfo> getPathologyByUserId(long userId) {
+    public List<PimsSysPathology> getPathologyByUserId(long userId) {
         StringBuilder hql = new StringBuilder("from PimsSysPathology as pathology where pathology.patuseflag=0 and pathology.pathologyid ")
                 .append("in(select hpi.pathologyId from PimsHospitalPathologyInfo as hpi, User as us where hpi.useFlag=1 and us.hospitalId=hpi.hospitalId and us.id=:id)");
         return hospitalPathologyInfoDao.getPathologyByUserId(hql.toString(), userId);

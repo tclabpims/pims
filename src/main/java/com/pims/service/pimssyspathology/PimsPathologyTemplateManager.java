@@ -15,4 +15,8 @@ public interface PimsPathologyTemplateManager extends GenericManager<PimsPatholo
     List<PimsPathologyTemplate> getTemplateList(GridQuery gridQuery);
 
     Integer countTemplate(String query);
+
+    Integer countTemplate(Long userId, Long hospitalId, Long tempType, Long pathologyLibId);
+
+    List<PimsPathologyTemplate> getTemplateList(GridQuery gridQuery, Long tempType, Long pathologyLibId);
 }

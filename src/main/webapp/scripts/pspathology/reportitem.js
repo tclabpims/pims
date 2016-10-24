@@ -45,7 +45,7 @@ function AddSection() {
             }
             $.post('../reportitem/edit', {
                 rptname: $('#rptname').val(), rptenglishname: $('#rptenglishname').val(),
-                rptelementid: $('#rptelementid').val(),
+                rptelementid: $('#rptelementid').val(),rpttemplatetype: $('#rpttemplatetype').val(),
                 rptelementname: $('#rptelementname').val(), rptpinyincode: $('#rptpinyincode').val(),
                 rptfivestroke: $('#rptfivestroke').val(), rptitemtype: $('#rptitemtype').val(),
                 rptuseflag: $('#rptuseflag').val(), rptdefaultvalue: $('#rptdefaultvalue').val(),
@@ -124,6 +124,7 @@ function editSection() {
             $("#rptavgvalue1").val(msg.rptavgvalue1);
             $("#rptrefvalue2").val(msg.rptrefvalue2);
             $("#rptavgvalue2").val(msg.rptavgvalue2);
+             $('#rpttemplatetype').val(msg.rpttemplatetype);
             var sortNo = msg.rptitemsort;
             $("#FN").val(sortNo.charAt(1));
             $("#SN").val(sortNo.charAt(2));
@@ -153,6 +154,7 @@ function editSection() {
                         rptavgvalue1: $('#rptavgvalue1').val(),
                         rptrefvalue2: $('#rptrefvalue2').val(),
                         rptavgvalue2: $('#rptavgvalue2').val(),
+                        rpttemplatetype: $('#rpttemplatetype').val(),
                         rptitemsort: "A" + $("#FN").val() + $("#SN").val() + $("#TN").val()
                     }, function (data) {
                         layer.close(index);
@@ -204,12 +206,13 @@ $(function () {
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
-        colNames: ['排序号', 'reportitemid', '项目名称(中文)', '项目名称(英文)', 'rptelementid', 'Web元素标题', '使用状态', '类型', '参考值1', '平均值1', '参考值2', '平均值2'],
+        colNames: ['排序号', 'reportitemid', '项目名称(中文)', '项目名称(英文)','引用模板类型', 'rptelementid', 'Web元素标题', '使用状态', '类型', '参考值1', '平均值1', '参考值2', '平均值2'],
         colModel: [
             {name: 'rptitemsort', index: 'rptitemsort', width: 30},
             {name: 'reportitemid', index: 'reportitemid', width: 30, hidden: true},
             {name: 'rptname', index: 'rptname', width: 40},
             {name: 'rptenglishname', index: 'rptenglishname', width: 40},
+            {name: 'rpttemplatetype', index: 'rpttemplatetype', width: 40,formatter: "select", editoptions: {value: "-1:没有引用模板;0:大体所见模板;1:病理所见模板;2:病理诊断模板"}},
             {name: 'rptelementid', index: 'rptelementid', width: 30, hidden: true},
             {name: 'rptelementname', index: 'rptelementname', width: 30},
             {
@@ -270,6 +273,7 @@ function clearData() {
     $('#rptdefaultvalue').val('');
     $('#rptpinyincode').val('');
     $('#rptfivestroke').val('');
+    $('#rpttemplatetype').val('');
     $("#FN").val('0');
     $("#SN").val('0');
     $("#TN").val('0');

@@ -1,6 +1,7 @@
 package com.pims.webapp.controller.pimssyspathology;
 
 import com.pims.model.PimsHospitalPathologyInfo;
+import com.pims.model.PimsSysPathology;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
@@ -87,7 +88,7 @@ public class PimsHospitalPathologyInfoController extends PIMSBaseController {
     public DataResponse userRelatePathology(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dr = new DataResponse();
         User user = WebControllerUtil.getAuthUser();
-        List<PimsHospitalPathologyInfo> result = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        List<PimsSysPathology> result = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
         dr.setRows(getResultMap(result));
         Map<String, Object> map = new HashMap<>();
         UserBussinessRelate ubr = user.getUserBussinessRelate();

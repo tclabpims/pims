@@ -3,6 +3,7 @@ package com.pims.webapp.controller.his;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsRequisitionMaterial;
@@ -16,7 +17,6 @@ import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -51,7 +51,7 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
 		String today = Constants.DF3.format(new Date());
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+		Long logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
 		List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(null);//查询申请项目列表
 		ModelAndView view = new ModelAndView();
 		view.addObject("receivetime", today);//当前时间

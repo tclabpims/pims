@@ -195,6 +195,17 @@
                     </div>
                 </div>
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="rpttemplatetype"> 引用模板类型 </label>
+                    <div class="col-xs-8" style="">
+                        <select id="rpttemplatetype">
+                            <option value="-1">--请选择--</option>
+                            <option value="0">大体所见模板</option>
+                            <option value="1">病理所见模板</option>
+                            <option value="2">病理诊断模板</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="rptelementname"> Web元素标题 </label>
                     <div class="col-xs-8">
                         <input type="text" id="rptelementname" onclick="showFieldConfig()" name="rptelementname"

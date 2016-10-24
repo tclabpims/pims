@@ -12,12 +12,12 @@ public class UserBussinessRelate implements Serializable {
     //当前用户选择的病种库名字
     private String pathologyLib;
     //当前用户选择的病种库ID
-    private String pathologyLibId;
+    private Long pathologyLibId;
 
     public UserBussinessRelate() {
     }
 
-    public UserBussinessRelate(String pathologyLib, String pathologyLibId) {
+    public UserBussinessRelate(String pathologyLib, Long pathologyLibId) {
         this.pathologyLib = pathologyLib;
         this.pathologyLibId = pathologyLibId;
     }
@@ -30,11 +30,11 @@ public class UserBussinessRelate implements Serializable {
         this.pathologyLib = pathologyLib;
     }
 
-    public String getPathologyLibId() {
-        return pathologyLibId;
+    public Long getPathologyLibId() {
+        return Long.valueOf(pathologyLibId);
     }
 
-    public void setPathologyLibId(String pathologyLibId) {
+    public void setPathologyLibId(Long pathologyLibId) {
         this.pathologyLibId = pathologyLibId;
     }
 }

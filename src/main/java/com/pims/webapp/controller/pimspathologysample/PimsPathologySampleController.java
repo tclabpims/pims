@@ -1,17 +1,16 @@
 package com.pims.webapp.controller.pimspathologysample;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.pims.model.*;
+import com.alibaba.fastjson.JSONObject;
+import com.pims.model.PimsBaseModel;
+import com.pims.model.PimsPathologyRequisition;
+import com.pims.model.PimsPathologySample;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.webapp.controller.PIMSBaseController;
-import com.smart.Constants;
 import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,10 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by king on 2016/10/10.

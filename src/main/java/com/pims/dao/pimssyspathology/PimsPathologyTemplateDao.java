@@ -1,6 +1,7 @@
 package com.pims.dao.pimssyspathology;
 
 import com.pims.model.PimsPathologyTemplate;
+import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.GenericDao;
 
 import java.util.List;
@@ -11,4 +12,8 @@ import java.util.List;
  */
 public interface PimsPathologyTemplateDao extends GenericDao<PimsPathologyTemplate, Long> {
     List sqlPagingQuery(String qstr, int start, int end);
+
+    List<PimsPathologyTemplate> getTemplateList(GridQuery gridQuery, Long tempType, Long pathologyLibId, String hql);
+
+    Integer countTemplate(Long userId, Long hospitalId, Long tempType, Long pathologyLibId, String s);
 }

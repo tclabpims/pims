@@ -2,8 +2,8 @@ package com.pims.dao.hibernate.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsHospitalPathologyInfoDao;
 import com.pims.model.PimsHospitalPathologyInfo;
+import com.pims.model.PimsSysPathology;
 import com.smart.dao.hibernate.GenericDaoHibernate;
-import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class PimsHospitalPathologyInfoDaoHibernate extends GenericDaoHibernate<P
     }
 
     @Override
-    public List<PimsHospitalPathologyInfo> getPathologyByUserId(String s, long userId) {
+    public List<PimsSysPathology> getPathologyByUserId(String s, long userId) {
 
         return getSession().createQuery(s).setLong("id", userId).list();
     }

@@ -1,6 +1,53 @@
 /**
  * Created by lenovo on 2016/10/6.
  */
+var targetTextareaId;
+function showTemplate(v, target) {
+    targetTextareaId = target;
+    var a = $(function () {
+        jQuery("#templateList").jqGrid('setGridParam', {
+            url: "../diagnosis/getpathologytemp",
+            mtype: "GET",
+            datatype: "json",
+            postData: {
+                "type": v
+            },
+            page: 1
+        }).trigger('reloadGrid');//重新载入
+    })
+}
+
+function saveAsTemplate(v, obj) {
+    $('#temkey').val('');
+    $('#tempinyin').val('');
+    $('#temfivestroke').val('');
+    $('#temspellcode').val('');
+    $('#temsort').val('');
+    $("#FN").val('0');$("#SN").val('0');$("#TN").val('0');
+    $("#temcontent").val(document.getElementById(obj).value);
+    layer.open({
+        type: 1,
+        area: ['800px','500px'],
+        fix: false, //不固定
+        maxmin: true,
+        shade:0.5,
+        title: "模板",
+        content: $('#templateForm'),
+        btn:["确定","取消"],
+        yes: function(index, layero){
+            $.post('../diagnosis/edit', {temcontent:$('#temcontent').val(),
+                temtype : $('#owner').attr("checked")==true?1:0, temclass : v,
+                temkey : $('#temkey').val(),
+                temfivestroke : $('#temfivestroke').val(), temspellcode : $('#temspellcode').val(),
+                tempinyin : $('#tempinyin').val(), temsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+            },function(data){
+                layer.close(index);
+            });
+        }
+    })
+
+}
+
 function takingPicture() {
     layer.open({
         type: 2,
@@ -305,6 +352,57 @@ $(function () {
         rownumbers: true // 显示行号
     });
 
+    $("#templateList").jqGrid({
+        caption: "病理模板",
+        width:790,
+        colNames: ['关键字','内容'],
+        colModel: [
+            { name: 'temkey', index: 'temkey', width: 50 },
+            { name: 'temcontent', index: 'temcontent', width: 300}
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        layer.open({
+                type: 1,
+                area: ['800px','500px'],
+                fix: false, //不固定
+                maxmin: true,
+                shade:0.5,
+                title: "模板",
+                content: $('#templateGrid'),
+                btn:["确定","取消"],
+                yes: function(index, layero){
+                    var id = $('#templateList').jqGrid('getGridParam','selrow');
+                    if(id==null || id.length==0){
+                        layer.msg('请先选择病种模板', {icon: 2,time: 1000});
+                        return false;
+                    }
+                    var rowData = $("#templateList").jqGrid('getRowData', id);
+                    document.getElementById(targetTextareaId).value = rowData.temcontent;
+                    layer.close(index);
+                }
+            })
+        },
+        ondblClickRow: function (id) {
+
+        },
+        viewrecords: true,
+        shrinkToFit: true,
+        altRows:true,
+        height: height,
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // the width of the row numbers columns
+        pager: "#templatePager",
+        onSelectRow: function(id){
+
+        }
+    });
+
     $("#tabs").tabs(
         {
             activate: function (event, ui) {
@@ -343,7 +441,7 @@ $(function () {
         monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
         dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
         onClose: function (selectedDate) {
-            $("#datepickere").datepicker("option", "minDate", selectedDate);
+            $("#samplesectionfrom").datepicker("option", "minDate", selectedDate);
         }
     });
 
@@ -356,4 +454,5 @@ $(function () {
             $("#datepickerf").datepicker("option", "maxDate", selectedDate);
         }
     });
+    $("#reportDatetime").datetimepicker();
 })

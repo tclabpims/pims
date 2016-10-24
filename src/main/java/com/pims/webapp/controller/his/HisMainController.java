@@ -37,7 +37,7 @@ public class HisMainController extends PIMSBaseController {
         String sevenDay = Constants.DF2.format(monday);
         String today = Constants.DF2.format(new Date());
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+        Long logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
         List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(null);//查询申请项目列表
         int nowyear = Calendar.getInstance().get(Calendar.YEAR);//获取当前年份
         String requisitionno = "";

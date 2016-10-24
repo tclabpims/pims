@@ -27,6 +27,8 @@ public class GridQuery {
 
     private Long hospitalId;
 
+    private Long userId;
+
     public GridQuery(HttpServletRequest request) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
         this.request = request;
@@ -43,6 +45,14 @@ public class GridQuery {
     }
 
     public GridQuery() {
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public int getPage() {

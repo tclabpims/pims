@@ -46,6 +46,7 @@ public class PimsSysPathologyController extends PIMSBaseController {
      */
     @RequestMapping(method = {RequestMethod.GET})
     public ModelAndView handleRequest(HttpServletRequest request) throws java.lang.Exception {
+
         return new ModelAndView();
     }
 
@@ -74,7 +75,7 @@ public class PimsSysPathologyController extends PIMSBaseController {
     @RequestMapping(method = {RequestMethod.GET}, value = "/cpt")
     @ResponseBody
     public void changePathologyType(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        WebControllerUtil.getAuthUser().getUserBussinessRelate().setPathologyLibId(request.getParameter("pid"));
+        WebControllerUtil.getAuthUser().getUserBussinessRelate().setPathologyLibId(Long.valueOf(request.getParameter("pid")));
     }
 
     @RequestMapping(method = {RequestMethod.GET}, value = "/querytype")

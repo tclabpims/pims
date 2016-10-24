@@ -27,6 +27,17 @@ public class PimsSysReportItems {
     private String rptavgvalue2;
     private String rptcreateuser;
     private Date rptcreatetime;
+    private Long rpttemplatetype;
+
+    @Basic
+    @Column(name = "RPTTEMPLATETYPE")
+    public Long getRpttemplatetype() {
+        return rpttemplatetype;
+    }
+
+    public void setRpttemplatetype(Long rpttemplatetype) {
+        this.rpttemplatetype = rpttemplatetype;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REQMATERIAL")

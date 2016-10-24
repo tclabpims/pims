@@ -1,14 +1,14 @@
 package com.pims.webapp.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.smart.Constants;
 import com.smart.model.user.User;
 import com.smart.model.user.UserBussinessRelate;
-import com.smart.webapp.util.DataResponse;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -19,7 +19,6 @@ import java.beans.PropertyDescriptor;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
@@ -39,7 +38,7 @@ public class PIMSBaseController {
         String sevenDay = Constants.DF2.format(monday);
         String today = Constants.DF2.format(new Date());
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+        Long logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
 //        User user = WebControllerUtil.getAuthUser();
         UserBussinessRelate ubr = user.getUserBussinessRelate();
         ApplicationContext ctx= WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
@@ -65,6 +64,30 @@ public class PIMSBaseController {
         return view;
     }
 
+    public String getPathologySelectOption(HttpServletRequest request) {
+        User user = WebControllerUtil.getAuthUser();
+        UserBussinessRelate ubr = user.getUserBussinessRelate();
+        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+        PimsSysPathologyManager pimsSysPathologyManager = (PimsSysPathologyManager) ctx.getBean("pimsSysPathologyManager");
+        JSONArray items = pimsSysPathologyManager.getPathologyType();
+        StringBuilder result = new StringBuilder();
+        for (Object obj : items) {
+            JSONObject o = (JSONObject) obj;
+            StringBuilder builder = new StringBuilder();
+            builder.append("<option value=\"")
+                    .append(o.get("pathologyLibId"))
+                    .append("\" ");
+            if (ubr.getPathologyLibId().equals(String.valueOf(o.get("pathologyLibId")))) {
+                builder.append(" selected ");
+            }
+            builder.append(">")
+                    .append(o.get("pathologyLib"))
+                    .append("</option>\n");
+            result.append(builder);
+        }
+        return StringEscapeUtils.escapeHtml4(result.toString());
+    }
+
     protected List<Map<String, Object>> getResultMap(List<?> result) throws Exception {
         List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
         if(result == null || result.size() == 0) return mapList;
@@ -72,6 +95,7 @@ public class PIMSBaseController {
             Map<String, Object> map = new HashMap<String, Object>();
             PropertyDescriptor[] pd = PropertyUtils.getPropertyDescriptors(bean);
             for(PropertyDescriptor pdp : pd) {
+                System.out.println(pdp.getName());
                 if("class".equals(pdp.getName()))continue;
                 map.put(pdp.getName(), pdp.getReadMethod().invoke(bean, new Object[0]));
             }

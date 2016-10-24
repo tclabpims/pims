@@ -28,6 +28,30 @@ public class PimsSysReqField extends BaseObject {
     private String fiecreateuser;
     private Date fiecreatetime;
 
+    private String invokefunc;
+
+    private String invokefuncbody;
+
+    @Basic
+    @Column(name="INVOKEFUNC")
+    public String getInvokefunc() {
+        return invokefunc;
+    }
+
+    public void setInvokefunc(String invokefunc) {
+        this.invokefunc = invokefunc;
+    }
+
+    @Basic
+    @Column(name="INVOKEFUNCBODY")
+    public String getInvokefuncbody() {
+        return invokefuncbody;
+    }
+
+    public void setInvokefuncbody(String invokefuncbody) {
+        this.invokefuncbody = invokefuncbody;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REQFIELD")
     @SequenceGenerator(name = "SEQ_REQFIELD", sequenceName = "seq_field", allocationSize = 1)
