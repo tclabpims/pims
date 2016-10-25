@@ -14,4 +14,6 @@ public interface PimsSysReqMaterialManager extends GenericManager<PimsSysReqMate
     List<PimsSysReqMaterial> getMaterialList(GridQuery gridQuery);
 
     Integer countMaterial(String query);
+
+    List<PimsSysReqMaterial> getAllInfo();
 }

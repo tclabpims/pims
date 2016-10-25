@@ -5,6 +5,7 @@ import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/8
@@ -15,7 +16,7 @@ public interface PimsSysReqTestitemManager extends GenericManager<PimsSysReqTest
      * @param
      * @return
      */
-    List<PimsSysReqTestitem> getTestitemInfo(String name);
+    List<PimsSysReqTestitem> getTestitemInfo(Map map);
 
     List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery);
 

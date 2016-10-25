@@ -20,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/estitem")
@@ -78,17 +80,19 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 	@RequestMapping(value = "/ajax/item*", method = RequestMethod.GET)
 	@ResponseBody
 	public String getTestitemInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String name = request.getParameter("name");
-//		if (StringUtils.isEmpty(name)) {
-//			return null;
-//		}
-		List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(name);
+		Map map = new HashMap();
+		String name = request.getParameter("name")==null?"":request.getParameter("name");
+		String tesitemtype = request.getParameter("tesitemtype")==null?"":request.getParameter("tesitemtype");
+		map.put("name",name);
+		map.put("tesitemtype",tesitemtype);
+		List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(map);
 		JSONArray array = new JSONArray();
 		if (list != null) {
 			for (PimsSysReqTestitem s : list) {
 				JSONObject o = new JSONObject();
 				o.put("id", s.getTestitemid());
 				o.put("name", s.getTeschinesename());
+				o.put("tespathologyid",s.getTespathologyid());
 				array.put(o);
 			}
 		}

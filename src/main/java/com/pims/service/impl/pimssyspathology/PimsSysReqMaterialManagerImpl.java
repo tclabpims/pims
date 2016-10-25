@@ -67,4 +67,9 @@ public class PimsSysReqMaterialManagerImpl extends GenericManagerImpl<PimsSysReq
         }
         return pimsSysReqMaterialDao.countTotal(builder.toString());
     }
+
+    @Override
+    public List<PimsSysReqMaterial> getAllInfo() {
+        return pimsSysReqMaterialDao.getAllInfo();
+    }
 }

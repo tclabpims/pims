@@ -11,6 +11,8 @@ import com.smart.model.user.UserBussinessRelate;
 import com.smart.util.DateUtil;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -102,6 +104,26 @@ public class PimsHospitalPathologyInfoController extends PIMSBaseController {
         dr.setUserdata(map);
         response.setContentType(contentType);
         return dr;
+    }
+
+    @RequestMapping(method = {RequestMethod.POST}, value = "/userid")
+    @ResponseBody
+    public String getPathologyByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        User user = WebControllerUtil.getAuthUser();
+        List<PimsSysPathology> result = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        JSONArray array = new JSONArray();
+        if (result != null) {
+            for (PimsSysPathology s : result) {
+                JSONObject o = new JSONObject();
+                o.put("id", s.getPathologyid());
+                o.put("name", s.getPatnamech());
+                array.put(o);
+            }
+        }
+//        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(array.toString());
+        return null;
     }
 
     @RequestMapping(method = {RequestMethod.POST}, value = "/remove")

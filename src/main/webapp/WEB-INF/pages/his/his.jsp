@@ -101,7 +101,7 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病种类别:</label>
 			<div class="col-sm-3">
-				<select class="col-sm-9" id="reqpathologyid" >
+				<select class="col-sm-9" id="reqpathologyid" disabled>
 					<%out.println(request.getAttribute("logyids"));%>
 				</select>
 			</div>
@@ -199,7 +199,7 @@
 			<div class="col-sm-3">
 				<input type="text" class="col-sm-9"  id="reqpatientname"/>
 			</div>
-			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatientsex">性别:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">性别:</label>
 			<div class="col-sm-3">
 				<select class="col-sm-9" id="reqpatientsex">
 					<option value="0">男</option>
@@ -226,9 +226,9 @@
 			<div class="col-sm-3">
 				<input type="text"  class="col-sm-9" id="reqpatientnumber"/>
 			</div>
-			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samfirstn">床号:</label>
+			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqfirstn">床号:</label>
 			<div class="col-sm-3">
-				<input type="text" class="col-sm-9"  id="samfirstn" />
+				<input type="text" class="col-sm-9"  id="reqfirstn" />
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">

@@ -187,10 +187,8 @@ function createNew1(reqid){
 			{name:'reqmid',hidden:true},//ID
             {name:'requisitionid',hidden:true},//申请单ID
             {name:'materialid',hidden:true},//ID
-            { name: 'reqmsamplingparts', index: 'reqmsamplingparts',editable:true,edittype: "select",formatter: "select",
-				editoptions:{value:"1:输卵管;2:肝脏;3:肺"}},//切取部位
-            { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select",
-				editoptions:{value:"1:输卵管切除组织;2:肝脏切除组织;3:肺切除组织"}},//送检材料
+            { name: 'reqmsamplingparts', index: 'reqmsamplingparts',editable:true},//切取部位
+            { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select",editoptions:{value:gettypes()}},//送检材料
 			{name:'reqmcustomercode',hidden:true},//客户id
 			{name:'reqmmaterialname',hidden:true},//材料名称
 			{name:'reqmspecialrequirements',hidden:true},//取材特殊要求
@@ -222,6 +220,31 @@ function createNew1(reqid){
             }
         }
     });
+}
+
+function gettypes(){
+	//动态生成select内容
+	var str="";
+	$.ajax({
+		type:"post",
+		async:false,
+		url:"../reqmaterial/info",
+		dataType: "json",
+		success:function(data){
+			if (data != null) {
+				//alert(data.length);
+				///var jsonobj=eval(data);var length=data.length;
+				for(var i=0;i<data.length;i++){
+					if(i!=data.length-1){
+						str+=data[i].id+":"+data[i].name+";";
+					}else{
+						str+=data[i].id+":"+data[i].name;
+					}
+				}
+			}
+		}
+	});
+	return str;
 }
 /**
  * 新增单据

@@ -3,12 +3,15 @@ package com.pims.webapp.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.pims.model.PimsSysPathology;
+import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.smart.Constants;
 import com.smart.model.user.User;
 import com.smart.model.user.UserBussinessRelate;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -28,6 +31,8 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
  * Description: This class is used to do something about controller,e.g assemble parameters .
  */
 public class PIMSBaseController {
+    @Autowired
+    private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
 
     protected final String contentType = "application/json; charset=UTF-8";
 
@@ -39,19 +44,14 @@ public class PIMSBaseController {
         String today = Constants.DF2.format(new Date());
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
-//        User user = WebControllerUtil.getAuthUser();
-        UserBussinessRelate ubr = user.getUserBussinessRelate();
-        ApplicationContext ctx= WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-        PimsSysPathologyManager pimsSysPathologyManager = (PimsSysPathologyManager) ctx.getBean("pimsSysPathologyManager");
-        com.alibaba.fastjson.JSONArray items = pimsSysPathologyManager.getPathologyType();
+        List<PimsSysPathology> items = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
         StringBuilder builder = new StringBuilder();
-        for(Object obj : items) {
-            com.alibaba.fastjson.JSONObject o = (com.alibaba.fastjson.JSONObject) obj;
-            builder.append("<option value='").append(o.get("pathologyLibId")).append("' ");
-            if(ubr.getPathologyLibId().equals(String.valueOf(o.get("pathologyLibId")))) {
+        for(PimsSysPathology obj : items) {
+            builder.append("<option value='").append(obj.getPathologyid()).append("' ");
+            if(user.getUserBussinessRelate().getPathologyLibId().equals(String.valueOf(obj.getPathologyid()))) {
                 builder.append(" selected = 'selected' ");
             }
-            builder.append(">").append(o.get("pathologyLib")).append("</option>");
+            builder.append(">").append(obj.getPatnamech()).append("</option>");
         }
         ModelAndView view = new ModelAndView();
         view.addObject("logyid",logylibid);//当前用户选择的病例库
@@ -194,18 +194,15 @@ public class PIMSBaseController {
                                 pd.getWriteMethod().invoke(ins, value);
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
                                 try {
-                                    pd.getWriteMethod().invoke(ins, Constants.DF2.parse(value));
-                                } catch (ParseException e) {
-                                    try {
+                                    if(value.length() >= 19){
+                                        value = value.substring(0,19);
+                                        pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
+                                    }else if(value.length() == 10){
                                         pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));
-                                    } catch (ParseException e1) {
-                                        try {
-                                            pd.getWriteMethod().invoke(ins, Constants.DF3.parse(value));
-                                        } catch (ParseException e2) {
-                                            e2.printStackTrace();
-                                        }
-                                        e1.printStackTrace();
+                                    }else if(value.length() == 8){
+                                        pd.getWriteMethod().invoke(ins, Constants.DF3.parse(value));
                                     }
+                                } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                             }

@@ -38,8 +38,8 @@ public class PimsCommonBaseDataDaoHibernate extends GenericDaoHibernate<PimsComm
         }
         if(!StringUtils.isEmpty(String.valueOf(map.get("name")))){//名称
             String name = String.valueOf(map.get("name")).toUpperCase();
-            sb.append(" and ( bddatanamech like '%"+name+"%' or bddatanameen like '%"+
-                   name+ "%' or bdpinyincode like '%"+name+"%' or bdfivestroke like '%"+
+            sb.append(" and ( upper(bddatanamech) like '%"+name+"%' or upper(bddatanameen) like '%"+
+                   name+ "%' or upper(bdpinyincode) like '%"+name+"%' or upper(bdfivestroke) like '%"+
                     name+"%' )");
         }
         sb.append(" order by bddatasort");

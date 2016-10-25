@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/8
@@ -20,22 +21,27 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
      * @return
      */
     @Override
-    public List<PimsSysReqTestitem> getTestitemInfo( String name) {
-        if(StringUtils.isEmpty(name)){
-            return getSession().createQuery(" from PimsSysReqTestitem where tesuseflag = 1").list();
-        }else{
-            StringBuffer sb = new StringBuffer();
-            name = name.toUpperCase();
-            sb.append(" from PimsSysReqTestitem where tesuseflag = 1 and ( teschinesename like '%");
+    public List<PimsSysReqTestitem> getTestitemInfo( Map map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsSysReqTestitem where tesuseflag = 1 ");
+        if(map == null){
+            return  null;
+        }
+        if(!StringUtils.isEmpty(String.valueOf(map.get("tesitemtype")))){
+            sb.append(" and tesitemtype = " + map.get("tesitemtype"));
+        }
+        if(!StringUtils.isEmpty(String.valueOf(map.get("name")))){
+            String name = map.get("name").toString().toUpperCase();
+            sb.append(" and ( upper(teschinesename) like '%");
             sb.append(name);
-            sb.append("%' or tesenglishname like '%");
+            sb.append("%' or upper(tesenglishname) like '%");
             sb.append(name);
-            sb.append("%' or tespinyincode like '%");
+            sb.append("%' or upper(tespinyincode) like '%");
             sb.append(name);
-            sb.append("%' or tesfivestroke like '%");
+            sb.append("%' or upper(tesfivestroke) like '%");
             sb.append(name);
             sb.append("%')");
-            return getSession().createQuery(sb.toString()).list();
         }
+        return getSession().createQuery(sb.toString()).list();
     }
 }

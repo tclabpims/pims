@@ -126,7 +126,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             Query query = getSession().createSQLQuery(" update PIMS_PATHOLOGY_SAMPLE set samisdeleted = 1 where sampleid = " + id);
             query.executeUpdate();
             //更改申请单为可用状态
-            getSession().createSQLQuery("update pims_pathology_requisition set reqstate = 0,reqsampleid= null where reqsampleid = '" + id + "'");
+            getSession().createSQLQuery("update pims_pathology_requisition set reqstate = 0,reqsampleid= 0 where reqsampleid = '" + id + "'").executeUpdate();
             return true;
         }
     }

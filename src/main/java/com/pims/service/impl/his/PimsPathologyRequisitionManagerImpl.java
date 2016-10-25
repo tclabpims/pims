@@ -109,4 +109,9 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
     public PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr) {
         return pimsPathologyRequisitionDao.insertOrUpdate(materials,ppr);
     }
+
+    @Override
+    public String getSjcl(Long id) {
+        return pimsPathologyRequisitionDao.getSjcl(id);
+    }
 }

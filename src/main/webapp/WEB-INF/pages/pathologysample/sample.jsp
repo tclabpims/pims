@@ -96,7 +96,6 @@
 				<input type="hidden" id="samreqdocname"/><!--申请医生姓名-->
 				<input type="hidden" id="samsendphone"/><!--送检联系电话-->
 				<input type="hidden" id="samdigcode"/><!--诊疗小组代码-->
-				<input type="hidden" id="samdeptname"/><!--科室名称-->
 				<input type="hidden" id="samwardcode"/><!--病区代码-->
 				<input type="hidden" id="samwardname"/><!--病区名称-->
 				<input type="hidden" id="sampatientidcardno"/><!--身份证号-->
@@ -123,7 +122,7 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samrequistionid">临床申请:</label>
 			<div class="col-sm-3 ">
-				<input type="text" id="samrequistionid" name="samrequistionid"  placeholder="临床申请" datatype="s1-16"/>
+				<input type="text" id="samrequistionid" name="samrequistionid"/>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病种类别:</label>
 			<div class="col-sm-3">
@@ -140,11 +139,11 @@
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病理编号:</label>
 			<div class="col-sm-3 ">
-				<input type="text" id="sampathologycode" name="sampathologycode"  placeholder="病理编号" datatype="s1-16"/>
+				<input type="text" id="sampathologycode" name="sampathologycode" />
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病人姓名:</label>
 			<div class="col-sm-3 ">
-				<input type="text" id="sampatientname" name="sampatientname"  placeholder="病人姓名" datatype="s1-16"/>
+				<input type="text" id="sampatientname" name="sampatientname" />
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系电话:</label>
 			<div class="col-sm-3 ">
@@ -162,7 +161,7 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系地址:</label>
 			<div class="col-sm-3">
-				<input type="text" id="sampatientaddress" name="sampatientaddress"  placeholder="床号"/>
+				<input type="text" id="sampatientaddress" name="sampatientaddress"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
@@ -196,28 +195,17 @@
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医生:</label>
 			<div class="col-sm-3 ">
-				<select class="col-sm-11" id="samsenddoctorid">
-					<option value="1">张三</option>
-					<option value="2">李四</option>
-					<option value="3">王五</option>
-					<option value="4">赵六</option>
-				</select>
+				<input type="hidden" id="samsenddoctorid"/>
+				<input  type="text" id="samsenddoctorname"/>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samdeptcode">送检科室:</label>
 			<div class="col-sm-3">
-				<select class="col-sm-11" id="samdeptcode">
-					<option value="1">1科室</option>
-					<option value="2">2科室</option>
-					<option value="3">3科室</option>
-				</select>
+				<input type="hidden" id="samdeptcode"/><!--申请科室名称-->
+				<input  type="text" id="samdeptname"/><!--申请科室名称-->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医院:</label>
 			<div class="col-sm-3 ">
-				<select class="col-sm-11" id="samsendhospital">
-					<option value="1">杭州国际医院</option>
-					<option value="2">袍江医院</option>
-					<option value="3">温州人民医院</option>
-				</select>
+				<input  type="text" id="samsendhospital"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
@@ -303,11 +291,7 @@
 		<span class="input-group-addon">病理号</span>
 		<input type="text" class="form-control" value="" id="send_dept"/>
 		<span class="input-group-addon ">送检医院</span>
-		<select class="form-control"  id="send_hosptail">
-			<option value="1" <c:if test="${send_hosptail == 1}">selected</c:if>>杭州国际医院</option>
-			<option value="2" <c:if test="${send_hosptail == 2}">selected</c:if>>袍江医院</option>
-			<option value="3" <c:if test="${send_hosptail == 3}">selected</c:if>>温州人民医院</option>
-		</select>
+			<input type="text"class="form-control"  id="send_hosptail"/>
 	</div>
 	<div class="input-group" style="float: left;">
 		<span class="input-group-addon ">送检医生</span>

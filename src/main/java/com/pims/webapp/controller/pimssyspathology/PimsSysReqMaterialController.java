@@ -7,6 +7,8 @@ import com.pims.webapp.controller.PIMSBaseController;
 import com.pims.webapp.controller.WebControllerUtil;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,6 +78,25 @@ public class PimsSysReqMaterialController extends PIMSBaseController {
     public void getReqMaterialById(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsSysReqMaterial material = pimsSysReqMaterialManager.get(Long.valueOf(request.getParameter("materialid")));
         PrintwriterUtil.print(response, getJSONObject(material).toString());
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public String getTestitemInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<PimsSysReqMaterial> list = pimsSysReqMaterialManager.getAllInfo();
+        JSONArray array = new JSONArray();
+        if (list != null) {
+            for (PimsSysReqMaterial s : list) {
+                JSONObject o = new JSONObject();
+                o.put("id", s.getMaterialid());
+                o.put("name", s.getMatname());
+                array.put(o);
+            }
+        }
+        response.setCharacterEncoding("UTF-8");
+        //response.setContentType("text/html; charset=UTF-8");
+        response.getWriter().write(array.toString());
+        return null;
     }
 
 }
