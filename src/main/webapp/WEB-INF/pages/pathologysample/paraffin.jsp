@@ -49,7 +49,10 @@
 	<div class="col-sm-4 leftContent" id="div_2">
 		<div class="input-group" style="float: left;">
 			<span class="input-group-addon">取材年月</span>
-			<input type="hidden" id="local_name" value="${local_name}"/>
+			<input type="hidden" id="local_username" value="${local_username}"/>
+			<input type="hidden" id="local_userid" value="${local_userid}"/>
+			<input type="hidden" id="logyid" value="${logyid}"/>
+			<input type="hidden" id="send_hosptail" value="${send_hosptail}"/>
 			<input type="text" class="form_datetime form-control" placeholder="" value="${sevenday}" id="req_bf_time"/>
 			<span class="input-group-addon">-</span>
 			<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}"  id="req_af_time"/>
@@ -95,12 +98,7 @@
 			</div>
 			<label class="col-sm-2 control-label no-padding-right" >送检医生:</label>
 			<div class="col-sm-4 ">
-				<select class="col-sm-10" id="samsenddoctorid" disabled="true">
-					<option value="1">张三</option>
-					<option value="2">李四</option>
-					<option value="3">王五</option>
-					<option value="4">赵六</option>
-				</select>
+				<input  type="text" id="samsenddoctorname" readonly/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
@@ -108,13 +106,9 @@
 			<div class="col-sm-4 ">
 				<input type="text" id="sampatientname" name="sampatientname" readonly/>
 			</div>
-			<label class="col-sm-2 control-label no-padding-right" for="samdeptcode">送检科室:</label>
+			<label class="col-sm-2 control-label no-padding-right">送检科室:</label>
 			<div class="col-sm-4">
-				<select class="col-sm-10" id="samdeptcode" disabled="true">
-					<option value="1">1科室</option>
-					<option value="2">2科室</option>
-					<option value="3">3科室</option>
-				</select>
+				<input  type="text" id="samdeptname" readonly/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
@@ -134,7 +128,7 @@
 			</div>
 			<label class="col-sm-2 control-label no-padding-right" for="sampatientsex">性&nbsp;别:</label>
 			<div class="col-sm-4">
-				<select class="col-sm-10" id="sampatientsex" disabled>
+				<select class="col-sm-7" id="sampatientsex" disabled>
 					<option value="1">男</option>
 					<option value="2">女</option>
 					<option value="3">未知</option>

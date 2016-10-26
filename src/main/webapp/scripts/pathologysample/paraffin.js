@@ -168,7 +168,7 @@ function createNew1(reqid){
 			{ name: 'piecode', index: 'piecode'},//材块编号
 			{ name: 'parpiececount', index: 'parpiececount'},//材块数
 			{ name: 'parnullslidenum', index: 'parnullslidenum'},//白片数
-			{ name: 'parpieceparts', index: 'parpieceparts',edittype: "select",formatter: "select", editoptions:{value:"1:肌腱;2:肺;3:肝脏"}},//取材部位
+			{ name: 'parpieceparts', index: 'parpieceparts'},//取材部位
 			{name:'parissectioned',hidden:true},//是否已切片
 			{name:'parsectioneddoctor',hidden:true},//切片医生
 			{name:'parsectionedtime',hidden:true},//切片时间
@@ -288,9 +288,9 @@ function getSampleData(id) {
 			$("#sampathologycode").val(data.sampathologycode);
 			$("#sampleid").val(data.sampleid);
 			$("#samsamplestatus").val(data.samsamplestatus);
-			$("#samsenddoctorid").val(data.samsenddoctorid);
+			$("#samsenddoctorname").val(data.samsenddoctorname);
 			$("#sampatientname").val(data.sampatientname);
-			$("#samdeptcode").val(data.samdeptcode);
+			$("#samdeptname").val(data.samdeptname);
 			$("#sampatientnumber").val(data.sampatientnumber);
 			$("#samsamplename").val(data.samsamplename);
 			$("#sampatientbed").val(data.sampatientbed);
@@ -335,8 +335,8 @@ function addRow(data){
 		piesamplingtime:data.piesamplingtime,//取材时间
 		piedoctorname:data.piedoctorname,//取材医生
 		pieembedtime:new Date(),//包埋时间
-		pieembeddoctorid:$("#local_name_id").val(),//包埋医生ID
-		pieembeddoctorname:$("#local_name").val(),//包埋医生
+		pieembeddoctorid:$("#local_userid").val(),//包埋医生ID
+		pieembeddoctorname:$("#local_username").val(),//包埋医生
 		pieisembed:data.pieisembed,//包埋状态
 		pieceid:data.pieceid//材块ID
 	};

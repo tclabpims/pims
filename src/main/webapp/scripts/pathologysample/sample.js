@@ -105,7 +105,8 @@ function saveInfo() {
 	if(post) {
 		$.post("../pathologysample/sample/editSample", {
 			samfirstv:$("input[name='samfirstv']:checked").val(),
-			//samsenddoctorname:$("#samsenddoctorid").find("option:selected").text(),
+			samsenddoctorname:$("#samsenddoctorid").find("option:selected").text(),
+            samsenddoctorname:$("#samsenddoctorname").val(),
 			samsecondv:$("input[name='samsecondv']:checked").val(),
 			sampleid:$("#sampleid").val(),//标本id
 			saminspectionid:$("#saminspectionid").val(),//标本条码号
@@ -450,6 +451,7 @@ $(function() {
 	var send_doctor = $('#send_doctor').val();
 	var req_sts = $('#req_sts').val();
 	$("#new").jqGrid({
+		caption:"标本列表",
 		url: "../pathologysample/sample/ajax/sample",
 		mtype: "GET",
 		datatype: "json",

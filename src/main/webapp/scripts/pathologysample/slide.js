@@ -177,7 +177,7 @@ function createNew1(reqid){
 			{ name: 'parsectionedtime', index: 'parsectionedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},//切片时间
 			{ name: 'parissectioned', index: 'parissectioned',formatter: "select", editoptions:{value:"0:未切片;1:已切片"},width:100},//切片状态
 			{ name: 'sliifprint', index: 'sliifprint',formatter: "select", editoptions:{value:"0:未打印;1:已打印"},width:100},//印刷状态
-			{ name: 'sampathologyid', index: 'sampathologyid',width:100},//分类
+			{ name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes()},width:100},//分类
 			{ name: 'slitestitemname', index: 'slitestitemname',width:100},//特检项目
 			{name:'slideid',hidden:true},//玻片id
 			{name:'slicustomerid',hidden:true},//客户代码
@@ -199,6 +199,8 @@ function createNew1(reqid){
 		beforeEditCell:function(rowid,cellname,v,iRow,iCol){
 			canChange(rowid,1);
 		},
+		shrinkToFit:false,
+		autoScroll: true,
 		viewrecords: true,
 		rownumbers : true,
 		ondblClickRow: function (id) {
@@ -224,6 +226,29 @@ function createNew1(reqid){
 			}
 		}
 	});
+}
+
+function gettypes(){
+	//动态生成select内容
+	var str="";
+	$.ajax({
+		type:"post",
+		async:false,
+		url:"../hpinfo/userid",
+		dataType: "json",
+		success:function(data){
+			if (data != null) {
+				for(var i=0;i<data.length;i++){
+					if(i!=data.length-1){
+						str+=data[i].id+":"+data[i].name+";";
+					}else{
+						str+=data[i].id+":"+data[i].name;
+					}
+				}
+			}
+		}
+	});
+	return str;
 }
 /**
  * 查询数据
@@ -295,9 +320,9 @@ function getSampleData(id) {
 			$("#sampathologycode").val(data.sampathologycode);
 			$("#sampleid").val(data.sampleid);
 			$("#samsamplestatus").val(data.samsamplestatus);
-			$("#samsenddoctorid").val(data.samsenddoctorid);
+			$("#samsenddoctorname").val(data.samsenddoctorname);
 			$("#sampatientname").val(data.sampatientname);
-			$("#samdeptcode").val(data.samdeptcode);
+			$("#samdeptname").val(data.samdeptname);
 			$("#sampatientnumber").val(data.sampatientnumber);
 			$("#samsamplename").val(data.samsamplename);
 			$("#sampatientbed").val(data.sampatientbed);

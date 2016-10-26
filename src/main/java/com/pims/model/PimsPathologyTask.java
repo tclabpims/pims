@@ -1,22 +1,22 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/26.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_TASK", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_TASK")
 public class PimsPathologyTask {
     private long taskid;
-    private String tascustomercode;
+    private long tascustomerid;
     private long tassampleid;
     private String taspathologycode;
     private String tastaskname;
     private String tastaskdescribe;
     private long tastasktype;
-    private long tastaskstate;
+    private int tastaskstate;
     private String taspromoterid;
     private String taspromotername;
     private String tasreciverid;
@@ -25,14 +25,16 @@ public class PimsPathologyTask {
     private String tassecondv;
     private String tasthirdv;
     private Long tasfirstn;
-    private Time tasfirstd;
+    private Date tasfirstd;
     private Long tassecondn;
-    private Time tassecondd;
-    private Time tascreatetime;
+    private Date tassecondd;
+    private Date tascreatetime;
     private String tascreateuser;
 
     @Id
     @Column(name = "TASKID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_TASKID")
+    @SequenceGenerator(name = "SEQ_TASKID", sequenceName = "SEQ_TASKID", allocationSize=1)
     public long getTaskid() {
         return taskid;
     }
@@ -42,13 +44,13 @@ public class PimsPathologyTask {
     }
 
     @Basic
-    @Column(name = "TASCUSTOMERCODE")
-    public String getTascustomercode() {
-        return tascustomercode;
+    @Column(name = "TASCUSTOMERID")
+    public long getTascustomerid() {
+        return tascustomerid;
     }
 
-    public void setTascustomercode(String tascustomercode) {
-        this.tascustomercode = tascustomercode;
+    public void setTascustomerid(long tascustomerid) {
+        this.tascustomerid = tascustomerid;
     }
 
     @Basic
@@ -103,11 +105,11 @@ public class PimsPathologyTask {
 
     @Basic
     @Column(name = "TASTASKSTATE")
-    public long getTastaskstate() {
+    public int getTastaskstate() {
         return tastaskstate;
     }
 
-    public void setTastaskstate(long tastaskstate) {
+    public void setTastaskstate(int tastaskstate) {
         this.tastaskstate = tastaskstate;
     }
 
@@ -193,11 +195,11 @@ public class PimsPathologyTask {
 
     @Basic
     @Column(name = "TASFIRSTD")
-    public Time getTasfirstd() {
+    public Date getTasfirstd() {
         return tasfirstd;
     }
 
-    public void setTasfirstd(Time tasfirstd) {
+    public void setTasfirstd(Date tasfirstd) {
         this.tasfirstd = tasfirstd;
     }
 
@@ -213,21 +215,21 @@ public class PimsPathologyTask {
 
     @Basic
     @Column(name = "TASSECONDD")
-    public Time getTassecondd() {
+    public Date getTassecondd() {
         return tassecondd;
     }
 
-    public void setTassecondd(Time tassecondd) {
+    public void setTassecondd(Date tassecondd) {
         this.tassecondd = tassecondd;
     }
 
     @Basic
     @Column(name = "TASCREATETIME")
-    public Time getTascreatetime() {
+    public Date getTascreatetime() {
         return tascreatetime;
     }
 
-    public void setTascreatetime(Time tascreatetime) {
+    public void setTascreatetime(Date tascreatetime) {
         this.tascreatetime = tascreatetime;
     }
 
@@ -249,11 +251,10 @@ public class PimsPathologyTask {
         PimsPathologyTask that = (PimsPathologyTask) o;
 
         if (taskid != that.taskid) return false;
+        if (tascustomerid != that.tascustomerid) return false;
         if (tassampleid != that.tassampleid) return false;
         if (tastasktype != that.tastasktype) return false;
         if (tastaskstate != that.tastaskstate) return false;
-        if (tascustomercode != null ? !tascustomercode.equals(that.tascustomercode) : that.tascustomercode != null)
-            return false;
         if (taspathologycode != null ? !taspathologycode.equals(that.taspathologycode) : that.taspathologycode != null)
             return false;
         if (tastaskname != null ? !tastaskname.equals(that.tastaskname) : that.tastaskname != null) return false;
@@ -284,13 +285,13 @@ public class PimsPathologyTask {
     @Override
     public int hashCode() {
         int result = (int) (taskid ^ (taskid >>> 32));
-        result = 31 * result + (tascustomercode != null ? tascustomercode.hashCode() : 0);
+        result = 31 * result + (int) (tascustomerid ^ (tascustomerid >>> 32));
         result = 31 * result + (int) (tassampleid ^ (tassampleid >>> 32));
         result = 31 * result + (taspathologycode != null ? taspathologycode.hashCode() : 0);
         result = 31 * result + (tastaskname != null ? tastaskname.hashCode() : 0);
         result = 31 * result + (tastaskdescribe != null ? tastaskdescribe.hashCode() : 0);
         result = 31 * result + (int) (tastasktype ^ (tastasktype >>> 32));
-        result = 31 * result + (int) (tastaskstate ^ (tastaskstate >>> 32));
+        result = 31 * result + (tastaskstate ^ (tastaskstate >>> 32));
         result = 31 * result + (taspromoterid != null ? taspromoterid.hashCode() : 0);
         result = 31 * result + (taspromotername != null ? taspromotername.hashCode() : 0);
         result = 31 * result + (tasreciverid != null ? tasreciverid.hashCode() : 0);

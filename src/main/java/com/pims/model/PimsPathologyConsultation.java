@@ -1,36 +1,38 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/25.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_CONSULTATION", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_CONSULTATION")
 public class PimsPathologyConsultation {
     private long consultationid;
     private long consampleid;
     private String conpathologycode;
-    private String concustomercode;
+    private long concustomerid;
     private String consponsoreduserid;
     private String consponsoredusername;
-    private Time consponsoredtime;
+    private Date consponsoredtime;
     private long conconsultationstate;
     private String confinisheduserid;
     private String confinishedusername;
-    private Time confinishedtime;
+    private Date confinishedtime;
     private String confinishedremark;
     private String confirstv;
     private String consecondv;
     private String conthirdv;
     private Long confirstn;
     private Long consecondn;
-    private Time confirstd;
-    private Time consecondd;
+    private Date confirstd;
+    private Date consecondd;
 
     @Id
     @Column(name = "CONSULTATIONID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_CONSULTATIONID")
+    @SequenceGenerator(name = "SEQ_CONSULTATIONID", sequenceName = "SEQ_CONSULTATIONID", allocationSize=1)
     public long getConsultationid() {
         return consultationid;
     }
@@ -60,13 +62,13 @@ public class PimsPathologyConsultation {
     }
 
     @Basic
-    @Column(name = "CONCUSTOMERCODE")
-    public String getConcustomercode() {
-        return concustomercode;
+    @Column(name = "CONCUSTOMERID")
+    public long getConcustomerid() {
+        return concustomerid;
     }
 
-    public void setConcustomercode(String concustomercode) {
-        this.concustomercode = concustomercode;
+    public void setConcustomerid(long concustomerid) {
+        this.concustomerid = concustomerid;
     }
 
     @Basic
@@ -91,11 +93,11 @@ public class PimsPathologyConsultation {
 
     @Basic
     @Column(name = "CONSPONSOREDTIME")
-    public Time getConsponsoredtime() {
+    public Date getConsponsoredtime() {
         return consponsoredtime;
     }
 
-    public void setConsponsoredtime(Time consponsoredtime) {
+    public void setConsponsoredtime(Date consponsoredtime) {
         this.consponsoredtime = consponsoredtime;
     }
 
@@ -131,11 +133,11 @@ public class PimsPathologyConsultation {
 
     @Basic
     @Column(name = "CONFINISHEDTIME")
-    public Time getConfinishedtime() {
+    public Date getConfinishedtime() {
         return confinishedtime;
     }
 
-    public void setConfinishedtime(Time confinishedtime) {
+    public void setConfinishedtime(Date confinishedtime) {
         this.confinishedtime = confinishedtime;
     }
 
@@ -201,21 +203,21 @@ public class PimsPathologyConsultation {
 
     @Basic
     @Column(name = "CONFIRSTD")
-    public Time getConfirstd() {
+    public Date getConfirstd() {
         return confirstd;
     }
 
-    public void setConfirstd(Time confirstd) {
+    public void setConfirstd(Date confirstd) {
         this.confirstd = confirstd;
     }
 
     @Basic
     @Column(name = "CONSECONDD")
-    public Time getConsecondd() {
+    public Date getConsecondd() {
         return consecondd;
     }
 
-    public void setConsecondd(Time consecondd) {
+    public void setConsecondd(Date consecondd) {
         this.consecondd = consecondd;
     }
 
@@ -228,10 +230,9 @@ public class PimsPathologyConsultation {
 
         if (consultationid != that.consultationid) return false;
         if (consampleid != that.consampleid) return false;
+        if (concustomerid != that.concustomerid) return false;
         if (conconsultationstate != that.conconsultationstate) return false;
         if (conpathologycode != null ? !conpathologycode.equals(that.conpathologycode) : that.conpathologycode != null)
-            return false;
-        if (concustomercode != null ? !concustomercode.equals(that.concustomercode) : that.concustomercode != null)
             return false;
         if (consponsoreduserid != null ? !consponsoreduserid.equals(that.consponsoreduserid) : that.consponsoreduserid != null)
             return false;
@@ -263,7 +264,7 @@ public class PimsPathologyConsultation {
         int result = (int) (consultationid ^ (consultationid >>> 32));
         result = 31 * result + (int) (consampleid ^ (consampleid >>> 32));
         result = 31 * result + (conpathologycode != null ? conpathologycode.hashCode() : 0);
-        result = 31 * result + (concustomercode != null ? concustomercode.hashCode() : 0);
+        result = 31 * result + (int) (concustomerid ^ (concustomerid >>> 32));
         result = 31 * result + (consponsoreduserid != null ? consponsoreduserid.hashCode() : 0);
         result = 31 * result + (consponsoredusername != null ? consponsoredusername.hashCode() : 0);
         result = 31 * result + (consponsoredtime != null ? consponsoredtime.hashCode() : 0);

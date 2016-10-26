@@ -162,7 +162,7 @@ function createNew1(reqid){
 			{ name: 'piesamplingno', index: 'piesamplingno'},//取材序号
 			{ name: 'piecounts', index: 'piecounts',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:1,maxValue:100}},//材块数
 			{ name: 'pienullslidenum', index: 'pienullslidenum',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:0,maxValue:100}},//白片数
-			{ name: 'pieparts', index: 'pieparts',editable:true,edittype: "select",formatter: "select", editoptions:{value:"1:肌腱;2:肺;3:肝脏"}},//取材部位
+			{ name: 'pieparts', index: 'pieparts',editable:true},//取材部位
 			{ name: 'piedoctorid', hidden:true},//取材医生ID
 			{ name: 'piedoctorname', index: 'piedoctorname'},//取材医生
 			{ name: 'pierecorderid', hidden:true},//录入员ID
@@ -266,9 +266,9 @@ function getSampleData(id) {
 			$("#sampathologycode").val(data.sampathologycode);
 			$("#sampleid").val(data.sampleid);
 			$("#samsamplestatus").val(data.samsamplestatus);
-			$("#samsenddoctorid").val(data.samsenddoctorid);
+			$("#samsenddoctorname").val(data.samsenddoctorname);
 			$("#sampatientname").val(data.sampatientname);
-			$("#samdeptcode").val(data.samdeptcode);
+			$("#samdeptname").val(data.samdeptname);
 			$("#sampatientnumber").val(data.sampatientnumber);
 			$("#samsamplename").val(data.samsamplename);
 			$("#sampatientbed").val(data.sampatientbed);
@@ -310,7 +310,7 @@ function addRow(){
 		piesamplingno: maxId,
 		piecounts: 1,
 		pienullslidenum:0,
-		pieparts:1,
+		pieparts:"",
 		piedoctorid:$("#doctor_id").val() ,
 		pierecorderid: $("#input_user").val(),
 		piedoctorname:$("#doctor_id").find("option:selected").text(),

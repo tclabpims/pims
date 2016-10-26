@@ -87,6 +87,7 @@
             <Item name="PathologyLearningManagement" title="menu.PathologyLearningManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="SpecialGlassPrint" title="menu.SpecialGlassPrint" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="AdviceGlassPrint" title="menu.AdviceGlassPrint" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="WorkingCopy" title="menu.WorkingCopy" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
         <Menu name="BasicData" title="BasicData.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">

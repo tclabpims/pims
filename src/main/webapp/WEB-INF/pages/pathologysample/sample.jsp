@@ -17,6 +17,7 @@
     <script type="text/javascript" src="../scripts/pathologysample/sample.js"></script>
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="../scripts/consultation/cons1.js"></script>
 </head>
 <style>
 	select {
@@ -67,6 +68,16 @@
 			<i class="ace-icon fa fa-print bigger-110"></i>
 			计费调整
 		</button>
+		<button type="button" class="btn btn-sm btn-info" title="会诊管理" onclick="consMarage()">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			会诊管理
+		</button>
+	</div>
+</div>
+<div  class="row" id="userGrid" style="display: none;">
+	<div class="col-xs-12 leftContent">
+		<table id="sectionList3"></table>
+		<div id="pager3"></div>
 	</div>
 </div>
 <div class="row">
