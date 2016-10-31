@@ -5,6 +5,7 @@ import com.smart.model.user.User;
 import com.smart.service.GenericManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/10/6.
@@ -16,4 +17,6 @@ public interface PimsUserManager extends GenericManager<User,Long> {
     List getUserList(GridQuery gridQuery);
 
     Integer countUser(String query);
+
+    List<User> getDataList(Map map);
 }

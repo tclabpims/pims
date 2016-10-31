@@ -135,5 +135,6 @@
         <mapping class="com.pims.model.PimsSysUserRole"/>
         <mapping class="com.pims.model.PimsCommonBaseData"/>
         <mapping class="com.pims.model.PimsHospitalPathologyInfo"/>
+        <mapping class="com.pims.model.PimsPathologyReceivemessage"/>
     </session-factory>
 </hibernate-configuration>

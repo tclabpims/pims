@@ -5,6 +5,9 @@ import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by 909436637@qq.com on 2016/10/7.
  * Description:
@@ -17,5 +20,12 @@ public class PimsUserDaoHibernate extends GenericDaoHibernate<User, Long> implem
      */
     public PimsUserDaoHibernate() {
         super(User.class);
+    }
+
+    @Override
+    public List<User> getDataList(Map map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from User where hospitalId = '"+map.get("hosptial")+"' and name like '%"+map.get("name")+"%'");
+        return getSession().createQuery(sb.toString()).list();
     }
 }

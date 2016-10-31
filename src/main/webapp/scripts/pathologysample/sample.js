@@ -451,7 +451,7 @@ $(function() {
 	var send_doctor = $('#send_doctor').val();
 	var req_sts = $('#req_sts').val();
 	$("#new").jqGrid({
-		caption:"标本列表",
+		//caption:"标本列表",
 		url: "../pathologysample/sample/ajax/sample",
 		mtype: "GET",
 		datatype: "json",

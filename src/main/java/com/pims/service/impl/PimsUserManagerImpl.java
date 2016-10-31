@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/10/6.
@@ -37,5 +38,10 @@ public class PimsUserManagerImpl extends GenericManagerImpl<User,Long> implement
     @Override
     public Integer countUser(String query) {
         return pimsUserDao.countTotal("select count(1) cnt from lab_user psp");
+    }
+
+    @Override
+    public List<User> getDataList(Map map) {
+        return pimsUserDao.getDataList(map);
     }
 }

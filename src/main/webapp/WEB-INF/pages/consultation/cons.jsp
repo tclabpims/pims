@@ -45,10 +45,17 @@
 	<input type="hidden" id="conssts" value="${conconsultationstate}"/>
 	<input type="hidden" id="local_userid" value="${local_userid}"/>
 	<div class="col-sm-3 leftContent" id="div_2">
-		<div class="widget-main no-padding">
-			<table id="new" class="table table-striped table-bordered table-hover">
-			</table>
-			<div id="pager"></div>
+		<%--<div class="widget-main no-padding">--%>
+			<%--<table id="new" class="table table-striped table-bordered table-hover">--%>
+			<%--</table>--%>
+			<%--<div id="pager"></div>--%>
+		<%--</div>--%>
+		<div>
+			<div class="h4">会诊意见</div>
+			<div id="hzyj">
+
+			</div>
+
 		</div>
 	</div>
 	<div class="col-sm-6 centerContent" id="formDialog" style="border-style: solid;border-color: #0A246A;border-width: 1px">
@@ -187,13 +194,7 @@
 				<i class="ace-icon fa fa-fire bigger-110"></i>保存并刷新
 			</button>
 		</div>
-		<div>
-			<div class="h4">会诊意见</div>
-			<div id="hzyj">
 
-			</div>
-
-		</div>
 
 	</form>
 </div>

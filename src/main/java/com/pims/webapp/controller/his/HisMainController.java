@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Controller
 //@RequestMapping("/his/his_main*")
-@RequestMapping("/his/his*")
+@RequestMapping("/his/his_main*")
 public class HisMainController extends PIMSBaseController {
     @Autowired
     private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;

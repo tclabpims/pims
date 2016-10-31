@@ -33,70 +33,91 @@
     }
 </style>
 <body>
-<div class="row widget-main" id="div_1">
+<div class="row" id="div_1">
 		<div>
-			<button type="button" class="btn btn-sm btn-danger" title="上一个" onclick="upSample()">
+			<button type="button" class="btn-sm btn-danger" title="上一个" onclick="upSample()">
 				<i class="ace-icon fa fa-times bigger-110"></i>
 				上一个
 			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="下一个" onclick="downSample()">
+			<button type="button" class="btn-sm btn-danger" title="下一个" onclick="downSample()">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
 				下一个
 			</button>
-			<button type="button" class="btn btn-sm btn-info" title="打印" onclick="print()">
+			<button type="button" class="btn-sm btn-info" title="打印" onclick="print()">
 				<i class="ace-icon fa fa-print bigger-110"></i>
 				打印
 			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="取材" id="saveButton" onclick="saveInfo(1)">
+			<button type="button" class="btn-sm btn-danger" title="取材" id="saveButton" onclick="saveInfo(1)">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
 				取材
 			</button>
-			<button type="button" class="btn btn-sm btn-info" title="计费调整" onclick="hisChange()">
+			<button type="button" class="btn-sm btn-info" title="计费调整" onclick="hisChange()">
 				<i class="ace-icon fa fa-print bigger-110"></i>
 				计费调整
 			</button>
-			<button type="button" class="btn btn-sm  btn-success" title="图像采集" onclick="imgCollect()">
+			<button type="button" class="btn-sm  btn-success" title="图像采集" onclick="imgCollect()">
 				<i class="ace-icon fa fa-pencil-square bigger-110"></i>
 				图像采集
 			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="列表打印" onclick="listPrint()">
+			<button type="button" class="btn-sm btn-danger" title="列表打印" onclick="listPrint()">
 				<i class="ace-icon fa fa-times bigger-110"></i>
 				列表打印
 			</button>
 		</div>
 </div>
 <div class="row">
-	<div class="col-sm-4 leftContent" id="div_2">
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">登记年月</span>
-			<input type="text" class="form_datetime form-control" placeholder="" value="${sevenday}" id="req_bf_time"/>
-			<span class="input-group-addon">-</span>
-			<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}"  id="req_af_time"/>
-		</div>
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">病理号</span>
-			<input type="text" class="form-control" value="" id="send_dept"/>
-			<span class="input-group-addon">病人姓名</span>
-			<input type="text" class="form-control" value="" id="patient_name"/>
-		</div>
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">取材状态</span>
-			<select class="form-control col-sm-8" id="req_sts">
-				<option value="">全  部</option>
-				<option value="1">未取</option>
-				<option value="2">已取</option>
+	<div>
+		<h5 style="float: left;width: 33%"><strong>&nbsp;工作列表</strong></h5>
+		<h5 style="float: left;width: 50%"><strong>&nbsp;取材管理</strong>
+			<span>&nbsp;&nbsp;取材医生:</span>
+			<select id="doctor_id" style="width: 20%">
+				<option value="1">张三</option>
+				<option value="2">李四</option>
+				<option value="3">王五</option>
 			</select>
-		</div>
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon ">补取医嘱</span>
-			<input type="checkbox" class="form-control" id="send_doctor" value="1"/>
-			<span class="input-group-btn">
-				<button type="button" class="btn btn-sm btn-success" title="查询信息" onclick="searchList()">
+			<span>&nbsp;&nbsp;录入人员:</span>
+			<select id="input_user"style="width: 20%">
+				<option value="1">张三</option>
+				<option value="2">李四</option>
+				<option value="3">王五</option>
+			</select>
+		</h5>
+		<h5 style="float: left;width: 17%"><strong>&nbsp;图像采集</strong></h5>
+	</div>
+	<div class="widget-box widget-color-green"></div>
+	<div class="col-sm-4 leftContent" id="div_2">
+		<div style="background-color: #E8E8E8">
+		<table>
+			<span>&nbsp;登记年月:&nbsp;</span>
+			<input type="text" class="form_datetime" value="${sevenday}" id="req_bf_time"/>
+			<span>-</span>
+			<input type="text" class="form_datetime" value="${receivetime}"  id="req_af_time"/>
+		</table>
+		<table>
+			<span >&nbsp;&nbsp;病 理 号:&nbsp;</span>
+			<input type="text" id="send_dept"/>
+		</table>
+		<table>
+			<span>&nbsp;病人姓名:&nbsp;</span>
+			<input type="text" id="patient_name"/>
+		</table>
+		<table>
+			<span>&nbsp;取材状态:</span>
+			<input type="hidden" id="req_sts"/>&nbsp;
+			<input type="radio" name="req_name" value="1"/>&nbsp;未取&nbsp;
+			<input type="radio" name="req_name" value="2"/>&nbsp;已取&nbsp;
+		</table>
+		<table>
+			<span>&nbsp;补取医嘱:</span>&nbsp;&nbsp;
+			<input type="checkbox" id="send_doctor" value="1"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>
+				<button type="button" class="btn-sm btn-success" title="查询信息" onclick="searchList()">
 					<i class="ace-icon fa fa-print bigger-110"></i>
 					查询
 				</button>
 			</span>
-		</div>
+		</table>
+			</div>
 		<div class="widget-main no-padding">
 			<table id="new" class="table table-striped table-bordered table-hover">
 			</table>
@@ -105,24 +126,6 @@
 	</div>
 	<div class="col-sm-6 rightContent" id="formDialog" style="border-style: solid;border-color: #0A246A;border-width: 1px">
 	<form class="form-horizontal"  action="#" method="post" id="sampleForm" >
-		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-			<label class="col-sm-2 control-label no-padding-right" >取材医生:</label>
-			<div class="col-sm-4">
-				<select class="col-sm-10" id="doctor_id">
-					<option value="1" <c:if test="${logylibid == 1 }"> selected</c:if>>张三</option>
-					<option value="2" <c:if test="${logylibid == 2 }"> selected</c:if>>李四</option>
-					<option value="3" <c:if test="${logylibid == 3 }"> selected</c:if>>王五</option>
-				</select>
-			</div>
-			<label class="col-sm-2 control-label no-padding-right" >录入人员:</label>
-			<div class="col-sm-4">
-				<select class="col-sm-10" id="input_user">
-					<option value="1" <c:if test="${logylibid == 1 }"> selected</c:if>>张三</option>
-					<option value="2" <c:if test="${logylibid == 2 }"> selected</c:if>>李四</option>
-					<option value="3" <c:if test="${logylibid == 3 }"> selected</c:if>>王五</option>
-				</select>
-			</div>
-		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-left" for="sampathologycode">病理编号:</label>
 			<div class="col-sm-4">

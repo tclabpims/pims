@@ -107,7 +107,7 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['ID','病理状态', '病理号', '送检医生','送检医院','病人名','补取医嘱'],
+		colNames: ['ID','取材状态', '病理号', '送检医生','送检医院','病人名','补取医嘱'],
 		colModel: [
 			{name:'sampleid',hidden:true},
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中:8:报告已打印"}},

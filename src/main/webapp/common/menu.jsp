@@ -1,5 +1,6 @@
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
+<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/base/base.css'/>" />
 <script type="text/javascript" src="../scripts/layer/layer.js"></script>
 <script type="text/javascript">
     function labChange() {
@@ -64,6 +65,8 @@
         if (menuName != "") {
             $("#navigationBar").html("当前模块:" + decodeURI(menuName));
         }
+
+
     });
 
     function getQueryStringByName(name) {
@@ -92,6 +95,8 @@
         }
     }
 </script>
+<script type="text/javascript" src="../scripts/message/quick_links.js"></script>
+<script type="text/javascript" src="../scripts/message/common.js"></script>
 
 <style>
     .navbar {
