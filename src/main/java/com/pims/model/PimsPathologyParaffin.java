@@ -16,7 +16,7 @@ public class PimsPathologyParaffin {
     private long parparaffinno;
     private String parparaffincode;
     private String parbarcode;
-    private byte parpiececount;
+    private int parpiececount;
     private String parpieceids;
     private Long parnullslidenum;
     private String parpieceparts;
@@ -108,11 +108,11 @@ public class PimsPathologyParaffin {
 
     @Basic
     @Column(name = "PARPIECECOUNT")
-    public byte getParpiececount() {
+    public int getParpiececount() {
         return parpiececount;
     }
 
-    public void setParpiececount(byte parpiececount) {
+    public void setParpiececount(int parpiececount) {
         this.parpiececount = parpiececount;
     }
 
@@ -329,7 +329,7 @@ public class PimsPathologyParaffin {
         result = 31 * result + (int) (parparaffinno ^ (parparaffinno >>> 32));
         result = 31 * result + (parparaffincode != null ? parparaffincode.hashCode() : 0);
         result = 31 * result + (parbarcode != null ? parbarcode.hashCode() : 0);
-        result = 31 * result + (int) parpiececount;
+        result = 31 * result + parpiececount;
         result = 31 * result + (parpieceids != null ? parpieceids.hashCode() : 0);
         result = 31 * result + (parnullslidenum != null ? parnullslidenum.hashCode() : 0);
         result = 31 * result + (parpieceparts != null ? parpieceparts.hashCode() : 0);

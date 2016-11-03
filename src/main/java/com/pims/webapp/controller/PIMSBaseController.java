@@ -3,6 +3,7 @@ package com.pims.webapp.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.pims.model.PimsHospitalPathologyInfo;
 import com.pims.model.PimsSysPathology;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
@@ -22,6 +23,7 @@ import java.beans.PropertyDescriptor;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
@@ -233,7 +235,6 @@ public class PIMSBaseController {
                         }
                         String propertyTypeName = pd.getPropertyType().getName();
                         String value = (String) map.get(name);
-                        System.out.println("name== "+ name + "propertyTypeName====" + propertyTypeName);
                         if(value != null && !value.trim().equals("")){
                             if (propertyTypeName.equals(int.class.getName())
                                     || propertyTypeName.equals(Integer.class.getName())) {
@@ -263,7 +264,8 @@ public class PIMSBaseController {
                                 pd.getWriteMethod().invoke(ins, value);
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
                                 try {
-                                    if(value.length() == 19){
+                                    if(value.length() >= 19){
+                                        value = value.substring(0,19);
                                         pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
                                     }else if(value.length() == 10){
                                         pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));
@@ -287,4 +289,30 @@ public class PIMSBaseController {
         return ins;
     }
 
+    public PimsHospitalPathologyInfo searchCodeValue(PimsHospitalPathologyInfo phi){
+        String rexpre =  phi.getRegularExpression();//病理编号的生成规则正则
+        long nextnumber = phi.getNextNumber();//当前值
+        String numberprefix = phi.getNumberPrefix()==null?"":phi.getNumberPrefix();//前缀
+        phi.setNumberPrefix(numberprefix);
+        if(rexpre == null || rexpre.equals("")){
+            nextnumber += 1;
+        }else{
+            String[] rexpres = rexpre.split("\\|D");
+            if(rexpres.length == 1 || rexpres[0].equals("")){
+                nextnumber += 1;
+            }else{
+                SimpleDateFormat sdf = new SimpleDateFormat(rexpres[0]);
+                String newlong = sdf.format(new Date());
+                String oldlong = Long.toString(nextnumber).substring(0,rexpres[0].length());
+                if(newlong.equals(oldlong)){
+                    nextnumber += 1;
+                }else{
+                    int num = Integer.parseInt(rexpres[1]);
+                    nextnumber = (long) (Long.parseLong(newlong)*(Math.pow(10,num)) + 1);
+                }
+            }
+        }
+        phi.setNextNumber(nextnumber);
+        return phi;
+    }
 }

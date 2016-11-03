@@ -107,4 +107,15 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
     		return users;
     	return null;
     }
+
+    /**
+     * 根据医院ID 获取用户列表
+     * @param id
+     * @return
+     */
+    @Override
+    public List<User> getHosUserList(long id) {
+        String sql = " from User where hospitalId="+id;
+        return getSession().createQuery(sql).list();
+    }
 }

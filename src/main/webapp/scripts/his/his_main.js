@@ -76,8 +76,8 @@ function getSampleData(id) {
 			$("#reqfirstv").val(data.reqfirstv);//预留字段1(第一个varchar预留字段)
 			$("#reqsecondv").val(data.reqsecondv);//预留字段2(第二个varchar预留字段)
 			$("#reqthirdv").val(data.reqthirdv);//预留字段3(第二个varchar预留字段)
-			$("#reqfirstd").val(data.reqfirstd);//预留字段4(第一个datetime预留字段)
-			$("#reqsecondd").val(data.reqsecondd);//预留字段6(第二个datetime预留字段)
+			$("#reqfirstd").val(CurentTime(new Date(data.reqfirstd)));//预留字段4(第一个datetime预留字段)
+			$("#reqsecondd").val(CurentTime(new Date(data.reqsecondd)));//预留字段6(第二个datetime预留字段)
 			$("#reqfirstn").val(data.reqfirstn);//预留字段6(第一个numberic预留字段)
 			$("#reqcreateuser").val(data.reqcreateuser);//创建人员
 			$("#reqcreatetime").val(CurentTime(new Date(data.reqcreatetime)));//创建时间
@@ -181,13 +181,17 @@ function createNew1(reqid){
             {name:'requisitionid',hidden:true},//申请单ID
             {name:'materialid',hidden:true},//ID
             { name: 'reqmsamplingparts', index: 'reqmsamplingparts',editable:true},//切取部位
-            { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select",editoptions:{value:gettypes()}},//送检材料
+            { name: 'reqmmaterialtype', index: 'reqmmaterialtype',editable:true,edittype: "select",formatter: "select",editoptions:{value:gettypes(), dataEvents: [
+				{type: 'change',fn: function(e) {
+					jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {reqmmaterialname:$(this).find("option:selected").text()});
+					jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {materialid:$(this).val()});
+				}}]}},//送检材料
 			{name:'reqmcustomercode',hidden:true},//客户id
 			{name:'reqmmaterialname',hidden:true},//材料名称
 			{name:'reqmspecialrequirements',hidden:true},//取材特殊要求
 			{name:'reqmremark',hidden:true},//备注信息
 			{name:'reqmcreateuser',hidden:true},//录入人员
-			{name:'reqmcreatetime',hidden:true},//录入时间
+			{name:'reqmcreatetime',hidden:true}//录入时间
         ],
         loadComplete : function() {
             var table = this;
@@ -244,6 +248,7 @@ function gettypes(){
  */
 function addSample() {
 	clearData();
+	$("#savebutton").removeAttr("disabled");
 	$.get("../pimspathology/getcode", {},
 		function(data) {
 			if(data.success) {
@@ -327,6 +332,7 @@ function addSample() {
  * @returns {boolean}
  */
 function viewSample() {
+	$("#savebutton").attr("disabled","disabled");
 	clearData();
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
 	var rowData = $("#new").jqGrid('getRowData',id);
@@ -676,7 +682,7 @@ function gettypes1(){
 	//动态生成select内容
 	var str="";
 	$.ajax({
-		type:"post",
+		type:"get",
 		async:false,
 		url:"../hpinfo/userid",
 		dataType: "json",

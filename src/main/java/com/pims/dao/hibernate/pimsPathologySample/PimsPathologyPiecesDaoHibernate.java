@@ -154,7 +154,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         }else{
             StringBuffer sb = new StringBuffer();
             sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
-                    ", samsamplestatus = "+ sts +"  where sampleid = "+map.getSampleid());
+                    ", samsamplestatus = "+ sts +",samjjsj='"+map.getSamjjsj()+"'  where sampleid = "+map.getSampleid());
             getSession().createSQLQuery(sb.toString()).executeUpdate();
             return true;
         }
@@ -219,8 +219,8 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 PimsPathologyPieces piece = (PimsPathologyPieces) setBeanProperty(map,PimsPathologyPieces.class);
                 if(piece.getPiestate().longValue() == 0){//未取材
                     piece.setPiestate((long) 1);
+                    piece = pimsPathologyPiecesManager.save(piece);
                 }
-                piece = pimsPathologyPiecesManager.save(piece);
                 list1.add(piece.getPieceid());
             }
         }else if(sts == 0){//保存
@@ -230,7 +230,9 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 if (!list2.contains(piece.getPiestate().toString())) {
                     list2.add(piece.getPiestate().toString());
                 }
-                piece = pimsPathologyPiecesManager.save(piece);
+                if(piece.getPiestate().longValue() == 0) {//未取材
+                    piece = pimsPathologyPiecesManager.save(piece);
+                }
                 list1.add(piece.getPieceid());
             }
             if(state==1){//完全更新才更新的原则

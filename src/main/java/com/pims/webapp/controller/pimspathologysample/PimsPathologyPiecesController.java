@@ -13,6 +13,7 @@ import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
 import com.smart.model.user.User;
+import com.smart.service.UserManager;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +38,8 @@ import java.util.*;
 public class PimsPathologyPiecesController extends PIMSBaseController{
     @Autowired
     private PimsPathologyPiecesManager pimsPathologyPiecesManager;
+    @Autowired
+    private UserManager userManager;
     /**
      * 渲染视图
      * @param request
@@ -58,7 +61,16 @@ public class PimsPathologyPiecesController extends PIMSBaseController{
 //        view.addObject("receivetime", today);//当前时间
 //        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
 //        return view;
-        return getmodelView(request);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<User> items = userManager.getHosUserList(user.getHospitalId());
+        StringBuilder builder = new StringBuilder();
+        for(User obj : items) {
+            builder.append("<option value='").append(obj.getId()).append("' ");
+            builder.append(">").append(obj.getName()).append("</option>");
+        }
+        ModelAndView view = getmodelView(request);
+        view.addObject("piecesname",builder.toString());
+        return view;
     }
 
     /**

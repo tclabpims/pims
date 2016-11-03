@@ -33,52 +33,59 @@
     }
 </style>
 <body>
-<div class="row widget-main" id="div_1">
+<div class="row" id="div_1">
 		<div>
-			<button type="button" class="btn btn-sm btn-danger" title="包埋" id="saveButton" onclick="saveInfo(2)">
+			<button type="button" class="btn-sm btn-danger" title="包埋" id="saveButton" onclick="saveInfo(2)">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
 				包埋
 			</button>
-			<button type="button" class="btn btn-sm btn-danger" title="取消包埋" id="resetbutton" onclick="saveInfo(1)">
+			<button type="button" class="btn-sm btn-danger" title="取消包埋" id="resetbutton" onclick="saveInfo(1)">
 				<i class="ace-icon fa fa-fire bigger-110"></i>
 				取消包埋
 			</button>
 		</div>
 </div>
 <div class="row">
+	<div>
+		<h5 style="float: left;width: 34%"><strong>&nbsp;工作列表</strong></h5>
+		<h5 style="float: left;width: 66%"><strong>&nbsp;包埋管理</strong></h5>
+	</div>
+	<div class="widget-box widget-color-green"></div>
 	<div class="col-sm-4 leftContent" id="div_2">
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">取材年月</span>
-			<input type="hidden" id="local_username" value="${local_username}"/>
-			<input type="hidden" id="local_userid" value="${local_userid}"/>
-			<input type="hidden" id="logyid" value="${logyid}"/>
-			<input type="hidden" id="send_hosptail" value="${send_hosptail}"/>
-			<input type="text" class="form_datetime form-control" placeholder="" value="${sevenday}" id="req_bf_time"/>
-			<span class="input-group-addon">-</span>
-			<input type="text" class="form_datetime form-control" placeholder="" value="${receivetime}"  id="req_af_time"/>
-		</div>
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">病理号</span>
-			<input type="text" class="form-control" value="" id="send_dept"/>
-			<span class="input-group-addon">病人姓名</span>
-			<input type="text" class="form-control" value="" id="patient_name"/>
-		</div>
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon">包埋状态</span>
-			<select class="form-control col-sm-8" id="req_sts" onchange="searchSts()">
-				<option value="1">待包埋</option>
-				<option value="2">已包埋</option>
-			</select>
-		</div>
-		<div class="input-group" style="float: left;">
-			<span class="input-group-addon ">内部医嘱</span>
-			<input type="checkbox" class="form-control" id="send_doctor" value="1"/>
-			<span class="input-group-btn">
-				<button type="button" class="btn btn-sm btn-success" title="查询信息" onclick="searchList()">
-					<i class="ace-icon fa fa-print bigger-110"></i>
-					查询
-				</button>
-			</span>
+		<div style="background-color: #E8E8E8">
+			<table>
+				<span>&nbsp;&nbsp;取材年月:&nbsp;</span>
+				<input type="hidden" id="local_username" value="${local_username}"/>
+				<input type="hidden" id="local_userid" value="${local_userid}"/>
+				<input type="hidden" id="logyid" value="${logyid}"/>
+				<input type="hidden" id="send_hosptail" value="${send_hosptail}"/>
+				<input type="text" class="form_datetime" value="${sevenday}" id="req_bf_time"/>
+				<span>-</span>
+				<input type="text" class="form_datetime" value="${receivetime}"  id="req_af_time"/>
+			</table>
+			<table>
+				<span>&nbsp;&nbsp;病理号码:&nbsp;</span>
+				<input type="text" id="send_dept"/>
+			</table>
+			<table>
+				<span>&nbsp;&nbsp;病人姓名:&nbsp;</span>
+				<input type="text" id="patient_name"/>
+			</table>
+			<table>
+				<span>&nbsp;&nbsp;包埋状态:&nbsp;</span>
+				<input type="radio" name="req_sts" value="1" checked onclick="searchSts('1')"/>&nbsp;待包埋&nbsp;
+				<input type="radio" name="req_sts" value="2" onclick="searchSts('2')"/>&nbsp;已包埋&nbsp;
+			</table>
+			<table>
+				<span>&nbsp;&nbsp;内部医嘱:&nbsp;</span>
+				<input type="checkbox" id="send_doctor" value="1"/>&nbsp;有&nbsp;
+				<span>
+					<button type="button" class="btn-sm btn-success" title="查询信息" onclick="searchList()">
+						<i class="ace-icon fa fa-print bigger-110"></i>
+						查询
+					</button>
+				</span>
+			</table>
 		</div>
 		<div class="widget-main no-padding">
 			<table id="new" class="table table-striped table-bordered table-hover">
@@ -86,8 +93,9 @@
 			<div id="pager"></div>
 		</div>
 	</div>
-	<div class="col-sm-8 rightContent" id="formDialog" style="border-style: solid;border-color: #0A246A;border-width: 1px">
+	<div class="col-sm-8 rightContent" id="formDialog">
 	<form class="form-horizontal"  action="#" method="post" id="sampleForm" >
+        <div style="background-color: #E8E8E8">
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label class="col-sm-2 control-label no-padding-left" for="sampathologycode">病理编号:</label>
 			<div class="col-sm-4">
@@ -147,9 +155,8 @@
 				<input type="text" id="samthirdv" readonly class="col-sm-12"/>
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-			<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;蜡块列表</label>
-		</div>
+            </div>
+        <h5 style="float: left"><strong>&nbsp;蜡块列表</strong></h5>
 		<div class="form-group " style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<table id="new1" class="table table-striped table-bordered table-hover">
 			</table>

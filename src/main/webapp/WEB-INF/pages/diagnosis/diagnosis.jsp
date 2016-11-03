@@ -25,6 +25,7 @@
     <script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/pspathology/diagnosis.js"></script>
+    <script type="text/javascript" src="../scripts/consultation/cons1.js"></script>
 </head>
 <style>
     .ui-jqgrid {
@@ -137,6 +138,12 @@
     });
 </SCRIPT>
 <div class="row" id="toolbar">
+    <div  class="row" id="userGrid" style="display: none;">
+        <div class="col-xs-12">
+            <table id="sectionList3"></table>
+            <div id="pager3"></div>
+        </div>
+    </div>
     <div id="mainTable" class="col-xs-12">
         <div style="padding-top: 5px;">
             <div class="col-xs-12">
@@ -176,7 +183,7 @@
                 <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="deleteSection()">
                     抄送管理
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="发起会诊" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="发起会诊" onclick="consMarage()">
                     发起会诊
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="加入随访病例" onclick="deleteSection()">
@@ -278,7 +285,7 @@
                     <div id="tabs-1">
                         <div>
                             <div style="display: inline">病理号：<input type="text" style="width:120px"
-                                                                    id="sampathologycode"></div>
+                                                                    id="sampathologycode"></div><input type="hidden" id="sampleid"/>
                             <div style="display: inline">条形码：<input type="text" style="width:120px"
                                                                     id="saminspectionid"></div>
                             <div style="display: inline">会诊记录：无</div>

@@ -1,17 +1,17 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/11/2.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_FEE", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_FEE")
 public class PimsPathologyFee {
     private long feeid;
-    private String feecustomercode;
-    private String feesampleid;
+    private long feecustomerid;
+    private long feesampleid;
     private long feepathologyid;
     private String feepathologycode;
     private long feesource;
@@ -28,22 +28,24 @@ public class PimsPathologyFee {
     private Long feecost;
     private String feeuserid;
     private String feeusername;
-    private Time feetime;
+    private Date feetime;
     private String feesenduserid;
     private String feesendusername;
-    private Time feesendtime;
+    private Date feesendtime;
     private String feefailerror;
-    private Time feeinputtime;
+    private Date feeinputtime;
     private String feeinputuser;
     private String feefirstv;
     private String feesecondv;
     private String feethirdv;
     private Long feefirstn;
-    private Time feefirstd;
+    private Date feefirstd;
     private String feeremark;
 
     @Id
     @Column(name = "FEEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_FEEID")
+    @SequenceGenerator(name = "SEQ_FEEID", sequenceName = "SEQ_FEEID", allocationSize=1)
     public long getFeeid() {
         return feeid;
     }
@@ -53,22 +55,22 @@ public class PimsPathologyFee {
     }
 
     @Basic
-    @Column(name = "FEECUSTOMERCODE")
-    public String getFeecustomercode() {
-        return feecustomercode;
+    @Column(name = "FEECUSTOMERID")
+    public long getFeecustomerid() {
+        return feecustomerid;
     }
 
-    public void setFeecustomercode(String feecustomercode) {
-        this.feecustomercode = feecustomercode;
+    public void setFeecustomerid(long feecustomerid) {
+        this.feecustomerid = feecustomerid;
     }
 
     @Basic
     @Column(name = "FEESAMPLEID")
-    public String getFeesampleid() {
+    public long getFeesampleid() {
         return feesampleid;
     }
 
-    public void setFeesampleid(String feesampleid) {
+    public void setFeesampleid(long feesampleid) {
         this.feesampleid = feesampleid;
     }
 
@@ -234,11 +236,11 @@ public class PimsPathologyFee {
 
     @Basic
     @Column(name = "FEETIME")
-    public Time getFeetime() {
+    public Date getFeetime() {
         return feetime;
     }
 
-    public void setFeetime(Time feetime) {
+    public void setFeetime(Date feetime) {
         this.feetime = feetime;
     }
 
@@ -264,11 +266,11 @@ public class PimsPathologyFee {
 
     @Basic
     @Column(name = "FEESENDTIME")
-    public Time getFeesendtime() {
+    public Date getFeesendtime() {
         return feesendtime;
     }
 
-    public void setFeesendtime(Time feesendtime) {
+    public void setFeesendtime(Date feesendtime) {
         this.feesendtime = feesendtime;
     }
 
@@ -284,11 +286,11 @@ public class PimsPathologyFee {
 
     @Basic
     @Column(name = "FEEINPUTTIME")
-    public Time getFeeinputtime() {
+    public Date getFeeinputtime() {
         return feeinputtime;
     }
 
-    public void setFeeinputtime(Time feeinputtime) {
+    public void setFeeinputtime(Date feeinputtime) {
         this.feeinputtime = feeinputtime;
     }
 
@@ -344,11 +346,11 @@ public class PimsPathologyFee {
 
     @Basic
     @Column(name = "FEEFIRSTD")
-    public Time getFeefirstd() {
+    public Date getFeefirstd() {
         return feefirstd;
     }
 
-    public void setFeefirstd(Time feefirstd) {
+    public void setFeefirstd(Date feefirstd) {
         this.feefirstd = feefirstd;
     }
 
@@ -370,6 +372,8 @@ public class PimsPathologyFee {
         PimsPathologyFee that = (PimsPathologyFee) o;
 
         if (feeid != that.feeid) return false;
+        if (feecustomerid != that.feecustomerid) return false;
+        if (feesampleid != that.feesampleid) return false;
         if (feepathologyid != that.feepathologyid) return false;
         if (feesource != that.feesource) return false;
         if (feestate != that.feestate) return false;
@@ -377,9 +381,6 @@ public class PimsPathologyFee {
         if (feeprince != that.feeprince) return false;
         if (feehisprice != that.feehisprice) return false;
         if (feeamount != that.feeamount) return false;
-        if (feecustomercode != null ? !feecustomercode.equals(that.feecustomercode) : that.feecustomercode != null)
-            return false;
-        if (feesampleid != null ? !feesampleid.equals(that.feesampleid) : that.feesampleid != null) return false;
         if (feepathologycode != null ? !feepathologycode.equals(that.feepathologycode) : that.feepathologycode != null)
             return false;
         if (feecategory != null ? !feecategory.equals(that.feecategory) : that.feecategory != null) return false;
@@ -412,8 +413,8 @@ public class PimsPathologyFee {
     @Override
     public int hashCode() {
         int result = (int) (feeid ^ (feeid >>> 32));
-        result = 31 * result + (feecustomercode != null ? feecustomercode.hashCode() : 0);
-        result = 31 * result + (feesampleid != null ? feesampleid.hashCode() : 0);
+        result = 31 * result + (int) (feecustomerid ^ (feecustomerid >>> 32));
+        result = 31 * result + (int) (feesampleid ^ (feesampleid >>> 32));
         result = 31 * result + (int) (feepathologyid ^ (feepathologyid >>> 32));
         result = 31 * result + (feepathologycode != null ? feepathologycode.hashCode() : 0);
         result = 31 * result + (int) (feesource ^ (feesource >>> 32));

@@ -48,4 +48,10 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
     List<PimsPathologySample> querySample(PimsPathologySample sample, GridQuery gridQuery, String sql);
 
     Integer totalNum(PimsPathologySample sample, String s);
+
+    /**
+     * 获取最大条码号
+     * @return
+     */
+    String sampleCode();
 }

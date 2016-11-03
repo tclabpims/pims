@@ -139,4 +139,11 @@ public interface UserManager extends GenericManager<User, Long> {
      * @throws UserExistsException
      */
     User updatePassword(String username, String currentPassword, String recoveryToken, String newPassword, String applicationUrl) throws UserExistsException;
+
+    /**
+     * 根据医院ID获取用户列表
+     * @param id
+     * @return
+     */
+    List<User> getHosUserList(long id);
 }

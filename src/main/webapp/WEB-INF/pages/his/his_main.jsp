@@ -7,7 +7,6 @@
 	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>" />
 	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap.min.css'/>" />
 	<script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../scripts/i18n/grid.locale-cn.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.jqGrid.js"></script>
@@ -19,15 +18,20 @@
 	<%--<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>--%>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
+	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
+	<style>
+		select {
+			height:34px;
+		}
+		.ui-autocomplete {
+			z-index: 99999999 !important;
+			max-height: 200px;
+			overflow-y: auto;
+			/* 防止水平滚动条 */
+			overflow-x: hidden;
+		}
+	</style>
 </head>
-<style>
-	select {
-		height:34px;
-	}
-	.ui-autocomplete {
-		z-index: 99999999;
-	}
-</style>
 <body>
 	<h5><strong>&nbsp;基本信息</strong></h5>
 	<div class="row widget-main" style="height: 85px;background-color: #E8E8E8" id="div_0">
@@ -47,7 +51,7 @@
 			<input type="text" style="height: 28px" id="send_hosptail"/>
 			<input type="hidden" id="logylibid" value="${logylibid}"/><!--当前病理库-->
 			<input type="hidden" id="item_source" value="${reqsource}"/><!--申请单来源-->
-			<input type="hidden" id="all_hosptial" value="${reqcustomerid}"/><!--账号所属医院-->
+			<input type="hidden" id="lcal_hosptail" value="${reqcustomerid}"/><!--账号所属医院-->
 			<input type="hidden" id="local_user" value="${local_user}"/><!--用户姓名-->
 			<input type="hidden" id="local_userid" value="${local_userid}"/><!--用户ID-->
 		</table>
@@ -151,7 +155,7 @@
 				<input type="hidden" id="reqcreatetime"/><!-- 创建时间-->
 				<input type="text" class="col-sm-9"  id="requisitionno" name="requisitionno" value="${requisitionno}" readonly/>
 			</div>
-			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqitemnames">检查项目:</label>
+			<label style="font-size: 13px;"  class=" col-sm-1 control-label no-padding-right" for="reqitemnames">检查项目:</label>
 			<div class="col-sm-3 ">
 				<input type="hidden" id="reqitemids"/>
 				<input type="text" class="col-sm-9" id="reqitemnames" name="reqitemnames"  datatype="s1-16"/>
@@ -205,11 +209,11 @@
 				<input  type="text" class="col-sm-9" id="reqdeptname"/><!--申请科室名称-->
 			</div>
 		</div>
-		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
+		<div class="form-group" style="z-index: 99999999;margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqdoctorid">送检医生:</label>
 			<div class="col-sm-3 ">
 				<input type="hidden" id="reqdoctorid"/><!--申请医生姓名 -->
-				<input   type="text" class="col-sm-9" id="reqdoctorname"/><!--申请医生姓名 -->
+				<input   type="text"  class="col-sm-9" id="reqdoctorname"/><!--申请医生姓名 -->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsendphone">送检电话:</label>
 			<div class="col-sm-3 ">
@@ -312,6 +316,10 @@
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatcompany">检查要求:</label>
 			<div class="col-sm-11">
 				<textarea id="reqpatcompany" style="height: 50px;width: 80%" class="col-sm-9" ></textarea>
+				<button type="button" class="btn-sm btn-success" style="float: right" onclick="saveInfo()" id="savebutton">
+					<i class="ace-icon fa fa-print bigger-110"></i>
+					保存
+				</button>
 			</div>
 		</div>
 	</form>
@@ -382,3 +390,4 @@
 	</div>
 </div>
 </body>
+

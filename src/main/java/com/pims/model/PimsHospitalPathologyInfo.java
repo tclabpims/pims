@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "PIMS_HOSPITAL_PATHOLOGY_INFO")
-public class PimsHospitalPathologyInfo extends BaseObject {
+public class PimsHospitalPathologyInfo {
 
     private long id;
 
@@ -186,10 +186,7 @@ public class PimsHospitalPathologyInfo extends BaseObject {
      *
      * @return a String representation of this class.
      */
-    @Override
-    public String toString() {
-        return null;
-    }
+
 
 
     @Override

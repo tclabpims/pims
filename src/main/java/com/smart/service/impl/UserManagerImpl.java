@@ -270,4 +270,14 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         // or throw exception
         return null;
     }
+
+    /**
+     * 根据医院ID 获取医生列表
+     * @param id
+     * @return
+     */
+    @Override
+    public List<User> getHosUserList(long id) {
+        return userDao.getHosUserList(id);
+    }
 }

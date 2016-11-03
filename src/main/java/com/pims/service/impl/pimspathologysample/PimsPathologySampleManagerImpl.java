@@ -121,4 +121,13 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public boolean canChange(Long id, String sts) {
         return pimsPathologySampleDao.canChange(id, sts);
     }
+
+    /**
+     * 获取最大条码号
+     * @return
+     */
+    @Override
+    public String sampleCode() {
+        return pimsPathologySampleDao.sampleCode();
+    }
 }

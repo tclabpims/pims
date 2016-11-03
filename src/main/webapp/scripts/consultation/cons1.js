@@ -3,12 +3,17 @@
  */
 function consMarage() {
 	//判断该病理是否已经发起了会诊
+	var sampleid = $("#sampleid").val();
+	if(sampleid == null || sampleid == ""){
+		alert("请选择病理标本再发起会诊!");
+		return;
+	}
 	$.post("../consultation/cons/isexist", {
-			id:$("#sampleid").val()
+			id:sampleid
 		},
 		function(data) {
 			if(data.success) {//已发起过会诊
-				location.href='../consultation/cons.jsp?id='+ $("#sampleid").val();
+				location.href='../consultation/cons.jsp?id='+ sampleid;
 			} else {
 				//弹出用户选择窗口选择用户
 				layer.open({
@@ -38,14 +43,14 @@ function consMarage() {
 						}
 						$.post("../consultation/cons/addCons", {
 								userlist:JSON.stringify(arr),
-								sampleid:$("#sampleid").val(),
+								sampleid:sampleid,
 								samcustomerid:$("#samcustomerid").val(),
 								sampathologycode:$("#sampathologycode").val()
 							},
 							function(data) {
 								if(data.success) {
 									layer.close(index);
-									window.open('http://www.baidu.com');
+									location.href='../consultation/cons.jsp?id='+ sampleid;
 								} else {
 									layer.msg(data.message, {icon:2, time: 1000});
 								}

@@ -198,4 +198,16 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         setParameter(sample, query);
         return ((Long)query.uniqueResult()).intValue();
     }
+
+    /**
+     * 获取最大条码号
+     * @return
+     */
+    @Override
+    public String sampleCode() {
+        String sql = ("select max(saminspectionid) from pims_pathology_sample where samisdeleted=0");
+        Object o = getSession().createSQLQuery(sql).uniqueResult();
+        if(o==null) return null;
+        return o.toString();
+    }
 }

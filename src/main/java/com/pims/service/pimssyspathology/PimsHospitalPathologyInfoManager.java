@@ -1,6 +1,7 @@
 package com.pims.service.pimssyspathology;
 
 import com.pims.model.PimsHospitalPathologyInfo;
+import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysPathology;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
@@ -17,4 +18,6 @@ public interface PimsHospitalPathologyInfoManager extends GenericManager<PimsHos
     Integer countInfo(String query);
 
     List<PimsSysPathology> getPathologyByUserId(long userId);
+
+    PimsHospitalPathologyInfo gethinfo(PimsPathologySample sample);
 }

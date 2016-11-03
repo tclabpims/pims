@@ -11,6 +11,9 @@ function saveInfo(num) {
 				arr.push(rowData1);
 			}
 		);
+	}else{
+		alert("未选择任何数据!");
+		return;
 	}
 	var post = true;
 	if(post) {
@@ -40,8 +43,9 @@ function clearData() {
 /**
  * 查询包埋状态
  */
-function searchSts(){
-	var req_sts = $("#req_sts").val();
+function searchSts(states){
+	var req_sts = states;
+	//var req_sts = $("#req_sts").val();
 	if(req_sts == "1"){
 		$("#resetbutton").attr({"disabled":true});
 		$("#saveButton").removeAttr("disabled");//将按钮可用
@@ -79,7 +83,8 @@ $(function() {
 	if($("#send_doctor").is(':checked')){
 		send_doctor = "1";
 	}
-	var req_sts = $('#req_sts').val();//包埋状态
+	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+
 	$("#new").jqGrid({
 		url: "../pathologysample/paraffin/ajax/sample",
 		mtype: "GET",
@@ -105,29 +110,37 @@ $(function() {
 			{name:'piesamplingno',hidden:true},//序号
 			{name:'pieisembed',hidden:true},//包埋状态
 		],
+		beforeSelectRow: function (rowid, e) {
+			return $(e.target).is('input[type=checkbox]');
+		},
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
 				updatePagerIcons(table);
 			}, 0);
-			$("#new").setSelection(1);
+			var ids = $("#new").jqGrid('getDataIDs');
+			if(ids != null && ids != ""){
+				fillInfo(1);
+			}
+			//$("#new").setSelection(1);
 		},
 		ondblClickRow: function (id) {
+			fillInfo(id);
 		},
 		onSelectRow:function(id,status){
-			if(status){
-				fillInfo(id);
-			}else{
-				//delRow(id);
-				fillInfo(id);
-			}
-
+		},
+		onCellSelect:function(id){
+			fillInfo(id);
 		},
 		onSelectAll:function(aRowids,status){
 			if(status){
-				fillInfo(0);   //选中
+				//fillInfo1(0);   //选中
 			}else{
-				clearData();   //取消选中
+				// clearData();   //取消选中
+				// var ids = $("#new").jqGrid('getDataIDs');
+				// if(ids != null && ids != ""){
+				// 	fillInfo(1);
+				// }
 			}
 		},
 		multiselect: true,
@@ -236,7 +249,8 @@ function searchList() {
 	if($("#send_doctor").is(':checked')){
 		send_doctor = "1";
 	}
-	var req_sts = $('#req_sts').val();
+	//var req_sts = $('#req_sts').val();
+	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	jQuery("#new").jqGrid("clearGridData");
 	jQuery("#new").jqGrid('setGridParam',{
 		url: "../pathologysample/paraffin/ajax/sample",
@@ -247,32 +261,14 @@ function searchList() {
 	}).trigger('reloadGrid');//重新载入
 }
 function fillInfo(id){
-	var selectedIds = $("#new").jqGrid('getDataIDs');
-	var maxSelectId = Math.max.apply(Math,selectedIds);
-	if(id > 0){
-		selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
-		maxSelectId = Math.max.apply(Math,selectedIds);
-	}
 	clearData();
-	var rowData = $("#new").jqGrid('getRowData',maxSelectId);
+	var rowData = $("#new").jqGrid('getRowData',id);
 	getSampleData(rowData.sampleid);
-	var dataIds = "";
-	$(selectedIds).each(function () {
-			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
-			if(dataIds == ""){
-				dataIds = "'" + rowData1.pieceid + "'";
-			}else{
-				dataIds = dataIds +",'"+ rowData1.pieceid+"'";
-			}
-		}
-	);
-	var req_sts = $("#req_sts").val();
+	var dataIds = "'" + rowData.pieceid + "'";
+	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	if(req_sts == "1"){
-		$(selectedIds).each(function () {
-				var rowData2 = $("#new").jqGrid('getRowData',this.toString());
-				addRow(rowData2);
-			}
-		);
+		var rowData2 = $("#new").jqGrid('getRowData',id);
+		addRow(rowData2);
 	}else{
 		jQuery("#new1").jqGrid('setGridParam',{
 			url: "../pathologysample/paraffin/ajax/getItem",
@@ -282,6 +278,42 @@ function fillInfo(id){
 	}
 
 }
+// function fillInfo(id){
+// 	var selectedIds = $("#new").jqGrid('getDataIDs');
+// 	var maxSelectId = Math.max.apply(Math,selectedIds);
+// 	if(id > 0){
+// 		selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
+// 		maxSelectId = Math.max.apply(Math,selectedIds);
+// 	}
+// 	clearData();
+// 	var rowData = $("#new").jqGrid('getRowData',maxSelectId);
+// 	getSampleData(rowData.sampleid);
+// 	var dataIds = "";
+// 	$(selectedIds).each(function () {
+// 			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
+// 			if(dataIds == ""){
+// 				dataIds = "'" + rowData1.pieceid + "'";
+// 			}else{
+// 				dataIds = dataIds +",'"+ rowData1.pieceid+"'";
+// 			}
+// 		}
+// 	);
+// 	var req_sts = $("#req_sts").val();
+// 	if(req_sts == "1"){
+// 		$(selectedIds).each(function () {
+// 				var rowData2 = $("#new").jqGrid('getRowData',this.toString());
+// 				addRow(rowData2);
+// 			}
+// 		);
+// 	}else{
+// 		jQuery("#new1").jqGrid('setGridParam',{
+// 			url: "../pathologysample/paraffin/ajax/getItem",
+// 			//发送数据
+// 			postData : {"reqId":dataIds}
+// 		}).trigger('reloadGrid');//重新载入
+// 	}
+//
+// }
 function getSampleData(id) {
 	$.get("../pathologysample/paraffin/get",{id:id},function(data) {
 		if(data != "") {
