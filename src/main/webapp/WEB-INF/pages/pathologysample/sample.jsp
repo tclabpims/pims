@@ -2,7 +2,7 @@
 <%@ include file="/common/taglibs.jsp" %>
 
 <head>
-    <title><fmt:message key="ElectronicApplyManage.title"/></title>
+    <title><fmt:message key="SpecimenReg.title"/></title>
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
 	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>" />
 	<script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
@@ -568,7 +568,7 @@
 				<span>&nbsp;&nbsp;标本状态:&nbsp;&nbsp;</span>
 				<input type="radio"   value="1" name="req_sts" checked/>合格
 				<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn-sm btn-success input_style" title="查询信息" onclick="searchList()">
+					<button type="button" class="btn-sm btn-info" onclick="searchList()">
 						查询
 					</button>
 			</table>

@@ -126,7 +126,7 @@ function searchList() {
 	var req_af_time = $('#req_af_time').val();
 	var req_sts = $("#req_sts").val();
 	if(req_sts == null || req_sts == ""){
-		req_sts ="0";
+		req_sts ="";
 	}
 	jQuery("#new").jqGrid("clearGridData");
 	jQuery("#new").jqGrid('setGridParam',{

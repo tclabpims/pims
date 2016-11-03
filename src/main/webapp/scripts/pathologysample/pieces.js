@@ -335,6 +335,7 @@ function fillInfo(id){
 function getSampleData(id) {
 	$.get("../pathologysample/pieces/get",{id:id},function(data) {
 		if(data != "") {
+			$("#samjjsj").val(data.samjjsj);
 			$("#samcustomerid").val(data.samcustomerid);
 			$("#sampathologyid").val(data.sampathologyid);
 			$("#sampathologycode").val(data.sampathologycode);

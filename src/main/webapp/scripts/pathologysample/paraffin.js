@@ -66,9 +66,12 @@ $(function() {
 		autoclose:true //选择日期后自动关闭
 	});
 	$("#resetbutton").attr({"disabled":true});
-	createNew1("");
 	var clientHeight= $(window).innerHeight();
-	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
+	var height = $("#formDialog").height() - $('#search_div_1').height()+120;
+	var width = $('#search_div_1').width()-5;
+	var width1 = $("#sampleForm").width()-5;
+
+	createNew1("",width1);
 	//var logyid = $("#logyid").val();
 	var logyid ="";
 	var send_hosptail = "";
@@ -96,7 +99,7 @@ $(function() {
 			{name:'pieceid',hidden:true},//材块ID
 			{name:'sampleid',hidden:true},//标本id
 			{name:'samsamplestatus',hidden:true},//病理状态
-			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"1:未包埋;2:已包埋"}},//病理状态
+			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"1:未包埋;2:已包埋"},width:70},//病理状态
 			{ name: 'piepathologycode', index: 'piepathologycode'},//病理号
 			{ name: 'piecode', index: 'piecode'},//材块编号
 			{ name: 'piefirstv', index: 'piefirstv'},//补取医嘱
@@ -145,26 +148,29 @@ $(function() {
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:300,
-		autowidth: true,
+		height:height,
+		width: width,
+		shrinkToFit:false,
+		autoScroll: true,
 		rowNum: 10,
 		rowList:[10,20,30],
 		rownumbers: true, // 显示行号
-		rownumWidth: 10, // the width of the row numbers columns
+		rownumWidth: 30, // the width of the row numbers columns
 		pager: "#pager"
 	});
+	$("#pager_left").remove();
 });
 /**
  * 初始化包埋列表
  * @param reqid
  */
-function createNew1(reqid){
+function createNew1(reqid,width1){
 	$("#new1").jqGrid({
 		url:"../pathologysample/pieces/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
 		height: 170,
-		width:880,
+		width:width1,
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','病理编号','蜡块名称','蜡块序号','蜡块标签','蜡块条码号','材块编号','材块数','白片数', '取材部位',
 			'是否已切片','切片医生','切片时间','是否已打印标签','标签打印人员','标签打印时间','剩余处理','特殊要求', '取材时间','取材医生',

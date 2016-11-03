@@ -2,7 +2,7 @@
 <%@ include file="/common/taglibs.jsp" %>
 
 <head>
-    <title><fmt:message key="ElectronicApplyManage.title"/></title>
+    <title><fmt:message key="menu.sectionManage"/></title>
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
 	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>" />
 	<script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
@@ -35,16 +35,13 @@
 <body>
 <div class="row" id="div_1">
 		<div>
-			<button type="button" class="btn-sm btn-danger" title="切片" id="saveButton" onclick="saveInfo(3)">
-				<i class="ace-icon fa fa-fire bigger-110"></i>
+			<button type="button" class="btn-sm btn-info" id="saveButton" onclick="saveInfo(3)">
 				切片
 			</button>
-			<button type="button" class="btn-sm btn-danger" title="取消切片" id="resetbutton" onclick="saveInfo(2)">
-				<i class="ace-icon fa fa-fire bigger-110"></i>
+			<button type="button" class="btn-sm btn-info" id="resetbutton" onclick="saveInfo(2)">
 				取消切片
 			</button>
-			<button type="button" class="btn-sm btn-info" title="打印" onclick="printCode()">
-				<i class="ace-icon fa fa-print bigger-110"></i>
+			<button type="button" class="btn-sm btn-info" onclick="printCode()">
 				打印
 			</button>
 		</div>
@@ -56,7 +53,7 @@
 	</div>
 	<div class="widget-box widget-color-green"></div>
 	<div class="col-sm-4 leftContent" id="div_2">
-		<div style="background-color: #E8E8E8">
+		<div id="search_div_1" style="background-color: #E8E8E8">
 			<table>
 				<span>&nbsp;包埋年月:&nbsp;</span>
 				<input type="hidden" id="local_name" value="${local_username}"/>
@@ -91,8 +88,7 @@
 				<span>&nbsp;预留白片:&nbsp;</span>
 				<input type="checkbox"  id="req_code" value="1"/>
 				<span>
-					<button type="button" class="btn-sm btn-success" title="查询信息" onclick="searchList()">
-						<i class="ace-icon fa fa-print bigger-110"></i>
+					<button type="button" class="btn-sm btn-info" onclick="searchList()">
 						查询
 					</button>
 				</span>
@@ -148,9 +144,9 @@
 				<label class="col-sm-2 control-label no-padding-right" for="sampatientsex">性&nbsp;别:</label>
 				<div class="col-sm-4">
 					<select class="col-sm-7" id="sampatientsex" disabled>
-						<option value="1">男</option>
-						<option value="2">女</option>
-						<option value="3">未知</option>
+						<option value="0">男</option>
+						<option value="1">女</option>
+						<option value="2">未知</option>
 					</select>
 				</div>
 			</div>

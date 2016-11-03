@@ -66,28 +66,23 @@
 			<span >&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<span>送检医生:</span>
 			<input type="text" style="height: 28px" id="send_doctor"/>
-			<button type="button" class="btn-sm btn-success" style="float: right" onclick="searchList()">
-				<i class="ace-icon fa fa-print bigger-110"></i>
+			<button type="button" class="btn-sm btn-info" style="float: right" onclick="searchList()">
 				查询
 			</button>
 		</table>
 	</div>
 	<table>
 		<h5><strong>&nbsp;工作安排一览</strong></h5>
-		<button type="button" class="btn-sm btn-primary" onclick="addSample()">
-			<i class="ace-icon fa fa-fire bigger-110"></i>
+		<button type="button" class="btn-sm btn-info" onclick="addSample()">
 			新增
 		</button>
-		<button type="button" class="btn-sm  btn-success"  onclick="editSample()">
-			<i class="ace-icon fa fa-pencil-square bigger-110"></i>
+		<button type="button" class="btn-sm  btn-info"  onclick="viewSample()">
 			查看
 		</button>
-		<button type="button" class="btn-sm btn-danger" onclick="deleteSample()">
-			<i class="ace-icon fa fa-times bigger-110"></i>
+		<button type="button" class="btn-sm btn-info" onclick="deleteSample()">
 			删除
 		</button>
 		<button type="button" class="btn-sm btn-info" onclick="print()">
-			<i class="ace-icon fa fa-print bigger-110"></i>
 			打印
 		</button>
 	</table>
@@ -329,12 +324,10 @@
 			<div class="widget-main no-padding  col-sm-5" style="margin-top: 5px">
 				<div class="form-group" style="margin-right:0px;margin-left:0px;">
 					<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;组织信息</label>
-					<button type="button" class="btn-sm btn-primary " onclick="addRow()">
-						<i class="ace-icon fa fa-fire bigger-110"></i>
+					<button type="button" class="btn-sm btn-info " onclick="addRow()">
 						追加行
 					</button>
-					<button type="button" class="btn-sm btn-danger" onclick="delRow()">
-						<i class="ace-icon fa fa-times bigger-110"></i>
+					<button type="button" class="btn-sm btn-info" onclick="delRow()">
 						删除行
 					</button>
 				</div>

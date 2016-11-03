@@ -66,9 +66,13 @@ $(function() {
 		autoclose:true //选择日期后自动关闭
 	});
 	$("#resetbutton").attr({"disabled":true});
-	createNew1("");
+
 	var clientHeight= $(window).innerHeight();
-	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
+	var height = $("#formDialog").height() - $('#search_div_1').height()+405;
+	var width = $('#search_div_1').width()-5;
+	var width1 = $("#sampleForm").width()-5;
+
+	createNew1("",width1);
 	//var logyid = $("#logyid").val();
 	var logyid ="";
 	var patient_name = $('#patient_name').val();//病人姓名
@@ -159,8 +163,8 @@ $(function() {
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:300,
-		width:440,
+		height:height,
+		width: width,
 		//autowidth: true,
 		shrinkToFit:false,
 		autoScroll: true,
@@ -170,18 +174,19 @@ $(function() {
 		rownumWidth: 10, // the width of the row numbers columns
 		pager: "#pager"
 	});
+	$("#pager_left").remove();
 });
 /**
  * 初始化玻片列表
  * @param reqid
  */
-function createNew1(reqid){
+function createNew1(reqid,width1){
 	$("#new1").jqGrid({
 		url:"../pathologysample/slide/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
-		height: 280,
-		width:880,
+		height: 200,
+		width:width1,
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','蜡块ID','材块编号','玻片类型','玻片序号','取材医生','取材时间','包埋医生', '包埋时间','切片医生', '切片时间','切片状态','印刷状态','分类', '特检项目',
 		'玻片id','客户代码','客户代码','玻片条码号','病理编号','玻片来源','玻片使用状态','玻片号','蜡块序号','取材部位'],
