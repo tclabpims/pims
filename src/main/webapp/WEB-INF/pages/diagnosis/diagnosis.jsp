@@ -250,39 +250,39 @@
                     </ul>
                     <div id="tabs-1">
                         <div>
-                            <div style="display: inline">病理号：<input type="text" style="width:120px"
+                            <div style="display: inline">病理号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="sampathologycode"></div><input type="hidden" id="sampleid"/>
-                            <div style="display: inline">条形码：<input type="text" style="width:120px"
+                            <div style="display: inline">条形码：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="saminspectionid"></div>
                             <div style="display: inline">会诊记录：无</div>
                         </div>
                         <div>
-                            <div style="display: inline">病人姓名：<input type="text" style="width:120px"
+                            <div style="display: inline">病人姓名：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                      id="sampatientname">详细
                             </div>
                             <div style="display: inline">性别：男</div>
-                            <div style="display: inline">送检医生：<input type="text" style="width:120px"
+                            <div style="display: inline">送检医生：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                      id="samsenddoctorid"></div>
                         </div>
                         <div>
-                            <div style="display: inline">住院号：<input type="text" style="width:120px"
+                            <div style="display: inline">住院号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="sampatientnumber"></div>
-                            <div style="display: inline">常规收费：<input type="text" style="width:120px" id=""></div>
-                            <div style="display: inline">送检科室：<input type="text" style="width:120px" id="samdeptname">
+                            <div style="display: inline">常规收费：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px" id=""></div>
+                            <div style="display: inline">送检科室：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px" id="samdeptname">
                             </div>
                         </div>
                         <div>
-                            <div style="display: inline">床号：<input type="text" style="width:120px" id="sampatientbed">
+                            <div style="display: inline">床号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px" id="sampatientbed">
                             </div>
-                            <div style="display: inline">末次月经：<input type="text" style="width:120px"
+                            <div style="display: inline">末次月经：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                      id="reqlastmenstruation"></div>
-                            <div style="display: inline">送检医院：<input type="text" style="width:120px"
+                            <div style="display: inline">送检医院：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                      id="samsendhospital"></div>
                         </div>
                         <div>
                             <div style="display: inline">绝经：<input type="checkbox"></div>
-                            <div style="display: inline">送检材料：<textarea type="text" id="samsamplename"></textarea></div>
-                            <div style="display: inline">临床诊断：<textarea type="text" id="sampatientdignoses"></textarea>
+                            <div style="display: inline">送检材料：<textarea type="text" id="samsamplename" style="border-width: 0px 0px 1px 0px"></textarea></div>
+                            <div style="display: inline">临床诊断：<textarea type="text" id="sampatientdignoses" style="border-width: 0px 0px 1px 0px"></textarea>
                             </div>
                         </div>
 
@@ -517,15 +517,15 @@
         <div style="float:left;width: 60%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
             <div style="width: 100%;padding-top:5px;height: 20px">基本信息</div>
             <div style="width: 100%;height: 20%;padding-top:5px;">
-                <div style="padding-top:5px;">病人ID：<input id="patientId" style="width: 120px;">性别：<input id="patientGender" style="width: 60px">住院号：<input id="patientZyh" style="width: 120px"></div>
-                <div style="padding-top:5px;">病人姓名：<input id="patientName" style="width: 120px">年龄：<input id="patientAge" style="width: 60px">床号：<input id="patientBed" style="width: 120px"></div>
-                <div style="padding-top:5px;">临床诊断：<input id="patientDiagnosisNote" style="width: 300px"></div>
+                <div style="padding-top:5px;">性别：<input id="patientGender" style="width: 60px;border-width: 0px 0px 1px 0px">住院号：<input id="patientZyh" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
+                <div style="padding-top:5px;">病人姓名：<input id="patientName" style="width: 120px;border-width: 0px 0px 1px 0px">年龄：<input id="patientAge" style="width: 60px;border-width: 0px 0px 1px 0px">床号：<input id="patientBed" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
+                <div style="padding-top:5px;">临床诊断：<input id="patientDiagnosisNote" style="width: 300px;border-width: 0px 0px 1px 0px"></div>
             </div>
             <div style="width: 100%;padding-top:5px;height: 20px">特殊检查</div>
             <div style="width: 100%;height: 20%;padding-top:5px;">
-                <div style="padding-top:5px;">医嘱号：<input name="" style="width: 120px">检查类型：<input name="" style="width: 120px"></div>
-                <div style="padding-top:5px;">源病理号：<input name="" style="width: 120px">申请医生：<input name="" style="width: 120px"></div>
-                <div style="padding-top:5px;">源条形码：<input name="" style="width: 120px">申请日期：<input name="" style="width: 120px"></div>
+                <div style="padding-top:5px;">医嘱号：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px">检查类型：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
+                <div style="padding-top:5px;">源病理号：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px">申请医生：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
+                <div style="padding-top:5px;">源条形码：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px">申请日期：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
             </div>
             <div style="width: 100%;padding-top:5px;height: 30px">项目一览  <input type="checkbox"> <label>全选</label> <button>删除</button> 蜡块选择<select></select></div>
             <div style="width: 100%;padding-top:5px;" id="itemListContainer">
