@@ -1,7 +1,7 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by king on 2016/10/21.
@@ -34,8 +34,8 @@ public class PimsPathologyPictures {
 
     @Id
     @Column(name = "PICTUREID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQUENCE SEQ_PICTUREID")
-    @SequenceGenerator(name = "SEQUENCE SEQ_PICTUREID", sequenceName = "SEQUENCE SEQ_PICTUREID", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_PICTUREID")
+    @SequenceGenerator(name = "SEQ_PICTUREID", sequenceName = "SEQ_PICTUREID", allocationSize=1)
     public long getPictureid() {
         return pictureid;
     }

@@ -63,6 +63,16 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 		return dr;
 	}
 
+	@RequestMapping(method = {RequestMethod.GET}, value = "/all")
+	@ResponseBody
+	public DataResponse allTestItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		DataResponse dr = new DataResponse();
+		List<PimsSysReqTestitem> result = pimsSysReqTestitemManager.allTestItem();
+		dr.setRows(getResultMap(result));
+		response.setContentType(contentType);
+		return dr;
+	}
+
 	@RequestMapping(method = {RequestMethod.POST}, value = "/remove")
 	public void remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		pimsSysReqTestitemManager.remove(Long.valueOf(request.getParameter("testitemid")));

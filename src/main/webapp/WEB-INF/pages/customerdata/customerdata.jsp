@@ -177,6 +177,30 @@
                 </div>
 
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="basrefdataalias"> 关联数据别名 </label>
+                    <div class="col-xs-8" style="">
+                        <input type="text" id="basrefdataalias" name="basrefdataalias" placeholder="关联数据别名" class="col-xs-8"/>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="basrptItemSort"> 报告项打印 </label>
+                    <div class="col-xs-8" style="">
+                        <input type="checkbox" name="basrptItemSort" id="basrptItemSort">
+                        <%--<select id="basrptItemSort" name="basrptItemSort">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>--%>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="basuseflag">使用状态</label>
                     <div class="col-xs-8">
                         <select type="text" id="basuseflag" name="basuseflag" class="col-xs-3">

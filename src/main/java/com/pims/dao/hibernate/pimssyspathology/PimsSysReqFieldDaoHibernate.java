@@ -4,7 +4,10 @@ import com.pims.dao.pimssyspathology.PimsSysReqFieldDao;
 import com.pims.model.PimsSysReqField;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by 909436637@qq.com on 2016/10/8.
@@ -31,5 +34,14 @@ public class PimsSysReqFieldDaoHibernate extends GenericDaoHibernate<PimsSysReqF
             i++;
         }
         query.setParameterList("id", idArray).executeUpdate();
+    }
+
+    @Override
+    public List<PimsSysReqField> getReqFieldList(String sql, Long hospitalId, Long pathologyId) {
+        SQLQuery query = getSession().createSQLQuery(sql);
+        query.setParameter("hospitalId", hospitalId);
+        query.setParameter("pathologyId", pathologyId);
+        query.addEntity("srf", PimsSysReqField.class);
+        return query.list();
     }
 }

@@ -20,4 +20,8 @@ public interface PimsSysReqTestitemManager extends GenericManager<PimsSysReqTest
     List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery);
 
     Integer countReqTestitem(String query);
+
+    List<PimsSysReqTestitem> allTestItem();
+
+    List<PimsSysReqTestitem> getTestItems(Long aLong);
 }

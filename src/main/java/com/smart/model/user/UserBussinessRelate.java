@@ -1,5 +1,7 @@
 package com.smart.model.user;
 
+import com.smart.model.lis.Hospital;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,8 @@ public class UserBussinessRelate implements Serializable {
     private String pathologyLib;
     //当前用户选择的病种库ID
     private Long pathologyLibId;
+
+    private Hospital hospital;
 
     public UserBussinessRelate() {
     }
@@ -36,5 +40,13 @@ public class UserBussinessRelate implements Serializable {
 
     public void setPathologyLibId(Long pathologyLibId) {
         this.pathologyLibId = pathologyLibId;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 }

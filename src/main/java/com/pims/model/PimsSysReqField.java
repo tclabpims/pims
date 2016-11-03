@@ -4,7 +4,9 @@ import com.smart.model.BaseObject;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by king on 2016/9/28.
@@ -31,6 +33,29 @@ public class PimsSysReqField extends BaseObject {
     private String invokefunc;
 
     private String invokefuncbody;
+
+    private String fieldcss;
+
+    private List<PimsSysReqField> children = new ArrayList<>();
+
+    @Transient
+    public List<PimsSysReqField> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<PimsSysReqField> children) {
+        this.children = children;
+    }
+
+    @Basic
+    @Column(name="FIELDCSS")
+    public String getFieldcss() {
+        return fieldcss;
+    }
+
+    public void setFieldcss(String fieldcss) {
+        this.fieldcss = fieldcss;
+    }
 
     @Basic
     @Column(name="INVOKEFUNC")

@@ -3,6 +3,7 @@ import com.pims.dao.pimssysreqtestitem.PimsSysReqTestitemDao;
 import com.pims.model.PimsSysReqTestitem;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,5 +38,19 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
             sb.append("%')");
             return getSession().createQuery(sb.toString()).list();
         }
+    }
+
+    @Override
+    public List<PimsSysReqTestitem> allTestItem() {
+        String hql = "from PimsSysReqTestitem where tesuseflag = 1 group by ";
+        return getSession().createQuery(hql).list();
+    }
+
+    @Override
+    public List<PimsSysReqTestitem> getTestItems(Long aLong) {
+        String hql = "from PimsSysReqTestitem as t where t.testitemid in(select d.testItemId from PimsSysPackageDetail as d where d.packageId=:packageId)";
+        Query query = getSession().createQuery(hql);
+        query.setParameter("packageId", aLong);
+        return query.list();
     }
 }

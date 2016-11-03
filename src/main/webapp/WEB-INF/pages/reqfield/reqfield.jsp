@@ -223,10 +223,17 @@
                     </div>
 
                     <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                        <label class="col-xs-3 control-label no-padding-right" for="fieldcss"> css样式 </label>
+                        <div class="col-xs-8" style="">
+                            <input type="text" id="fieldcss" name="fieldcss" placeholder="填写css样式"
+                                   class="col-xs-8">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-left:0px;margin-right:0px;">
                         <label class="col-xs-3 control-label no-padding-right" for="fieshowlevel"> 显示级别 </label>
                         <div class="col-xs-8">
-                            <input type="text" id="fieshowlevel" name="fieshowlevel" placeholder="显示级别" class="col-xs-8"
-                                   datatype="*1-255"/>
+                            <input type="text" id="fieshowlevel" name="fieshowlevel" placeholder="显示级别" readonly class="col-xs-8"/>
                         </div>
                     </div>
 

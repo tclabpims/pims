@@ -83,4 +83,14 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
         }
         return pimsSysReqTestitemDao.countTotal(builder.toString());
     }
+
+    @Override
+    public List<PimsSysReqTestitem> allTestItem() {
+        return pimsSysReqTestitemDao.allTestItem();
+    }
+
+    @Override
+    public List<PimsSysReqTestitem> getTestItems(Long aLong) {
+        return pimsSysReqTestitemDao.getTestItems(aLong);
+    }
 }

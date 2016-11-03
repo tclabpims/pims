@@ -16,4 +16,6 @@ public interface PimsSysReqFieldManager extends GenericManager<PimsSysReqField, 
     Integer countReqField(String query);
 
     void deleteFields(String mid);
+
+    List<PimsSysReqField> getReqFieldList(Long hospitalId, Long pathologyId);
 }

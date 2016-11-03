@@ -16,5 +16,8 @@ public interface PimsSysReqTestitemDao extends GenericDao<PimsSysReqTestitem,Lon
      */
     List<PimsSysReqTestitem> getTestitemInfo(String name);
 
+    List<PimsSysReqTestitem> allTestItem();
+
+    List<PimsSysReqTestitem> getTestItems(Long aLong);
 }
 

@@ -5,6 +5,8 @@ import com.pims.model.PimsSysReportFormate;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by 909436637@qq.com on 2016/10/2.
  * Description:
@@ -19,5 +21,10 @@ public class PimsSysReportFormatDaoHibernate extends GenericDaoHibernate<PimsSys
     @Override
     public void removeReportData(String s, Long pathologyid) {
         getSession().createQuery(s).setParameter("ID", pathologyid).executeUpdate();
+    }
+
+    @Override
+    public List<PimsSysReportFormate> getReportFormatByPathologyId(String s, Long pathologyId) {
+        return getSession().createQuery(s).setParameter("pathologyId", pathologyId).list();
     }
 }

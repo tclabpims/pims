@@ -16,6 +16,10 @@ public class PimsSysCustomerBasedata {
     private long bastype;
     private long basrefdataid;
     private long basuseflag;
+    //报告项排序号
+    private int basrptItemSort;
+    //别名
+    private String basrefdataalias;
     private String basfirstv;
     private String bassecondv;
     private String basthirdv;
@@ -32,6 +36,26 @@ public class PimsSysCustomerBasedata {
     private String bascustomername;
 
     private String basrefdataname;
+
+    @Basic
+    @Column(name="BASRPTITEMSORT")
+    public int getBasrptItemSort() {
+        return basrptItemSort;
+    }
+
+    public void setBasrptItemSort(int basrptItemSort) {
+        this.basrptItemSort = basrptItemSort;
+    }
+
+    @Basic
+    @Column(name="BASREFDATAALIAS")
+    public String getBasrefdataalias() {
+        return basrefdataalias;
+    }
+
+    public void setBasrefdataalias(String basrefdataalias) {
+        this.basrefdataalias = basrefdataalias;
+    }
 
     @Transient
     public String getBasrefdataname() {

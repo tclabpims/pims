@@ -17,4 +17,6 @@ public interface PimsSysReportFormatManager extends GenericManager<PimsSysReport
     Integer getPimsSysReportFormat(String query);
 
     void removeReportData(Long pathologyid);
+
+    List<PimsSysReportFormate> getReportFormatByPathologyId(Long pathologyId);
 }

@@ -14,4 +14,6 @@ public interface PimsSysReportItemsManager extends GenericManager<PimsSysReportI
     List<PimsSysReportItems> getReportItemList(GridQuery gridQuery);
 
     Integer countReportItem(String query);
+
+    List getRefFieldList(Long hospitalId, Long pathologyId);
 }

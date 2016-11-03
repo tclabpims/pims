@@ -31,7 +31,7 @@ public class PimsSysCustomerBasedataManagerImpl extends GenericManagerImpl<PimsS
     @Override
     public List<PimsSysCustomerBasedata> getCustomerDataList(GridQuery gridQuery) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("Select A.Basedataid,A.Bascustomercode,A.baspathologyid,A.bastype,A.basrefdataid,a.basuseflag,a.bascreatetime,")
+        buffer.append("Select A.Basedataid,A.Bascustomercode,A.baspathologyid,A.bastype,A.basrefdataid,a.basuseflag,a.bascreatetime,a.basrptItemSort,a.basrefdataalias,")
                 .append("(Select L.name From lab_hospital L where To_Number(A.Bascustomercode)=L.id) as Bascustomername,")
                 .append("(Select P.patnamech From Pims_Sys_Pathology P where A.baspathologyid=P.Pathologyid) as baspathologyname,")
                 .append("(select case ")
@@ -61,9 +61,11 @@ public class PimsSysCustomerBasedataManagerImpl extends GenericManagerImpl<PimsS
                 pscbd.setBasrefdataid(((BigDecimal)obj[4]).longValue());
                 pscbd.setBasuseflag(((BigDecimal)obj[5]).longValue());
                 pscbd.setBascreatetime((Date)obj[6]);
-                pscbd.setBascustomername(String.valueOf(obj[7]));
-                pscbd.setBaspathologyname(String.valueOf(obj[8]));
-                pscbd.setBasrefdataname(String.valueOf(obj[9]));
+                pscbd.setBasrptItemSort(((BigDecimal)obj[7]).intValue());
+                pscbd.setBasrefdataalias(obj[8]==null?"":String.valueOf(obj[8]));
+                pscbd.setBascustomername(String.valueOf(obj[9]));
+                pscbd.setBaspathologyname(String.valueOf(obj[10]));
+                pscbd.setBasrefdataname(String.valueOf(obj[11]));
                 result.add(pscbd);
             }
         }
@@ -77,5 +79,11 @@ public class PimsSysCustomerBasedataManagerImpl extends GenericManagerImpl<PimsS
             builder.append(" and a.Bascustomercode='").append(query).append("'");
         }
         return pimsSysCustomerBasedataDao.countTotal(builder.toString());
+    }
+
+    @Override
+    public List<PimsSysCustomerBasedata> getCustomerDataList(Long hospitalId, Long pathologyId) {
+        String sql = "select {pb.*} from Pims_Sys_Report_Items pr,Pims_Sys_Customer_Basedata pb, Pims_Sys_Req_Field rf where Pr.Reportitemid=pb.Basrefdataid and Rf.Fieldid =Pr.Rptelementid and Rf.Fieuseflag=1 and pb.bastype=3 and Pb.Baspathologyid=:pathologyId and Pb.Bascustomercode=:hospitalId";
+        return pimsSysCustomerBasedataDao.getCustomerDataList(sql, hospitalId, pathologyId);
     }
 }

@@ -125,7 +125,14 @@
                 <th>参考值</th>
                 <th>单位</th>
             </tr>
-            #foreach($item in $results)
+            <tr>
+                <td>免疫组化</td>
+                <td>OK</td>
+                <td>&#160;</td>
+                <td>2.13</td>
+                <td>ML</td>
+            </tr>
+            #*#foreach($item in $results)
                 <tr>
                     <td>$!item.testName</td>
                     <td>$!item.testResult</td>
@@ -133,7 +140,7 @@
                     <td>$!item.reference</td>
                     <td>$!item.unit</td>
                 </tr>
-            #end
+            #end*#
         </table>
     </div>
     <!--结果信息 end-->

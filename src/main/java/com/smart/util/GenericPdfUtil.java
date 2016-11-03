@@ -28,8 +28,10 @@ public final class GenericPdfUtil {
             FileOutputStream fos = new FileOutputStream(pdfFile);
             PD4ML pd4ml = new PD4ML();
             pd4ml.setPageInsets(new Insets(10, 20, 10, 20));
-            //pd4ml.setHtmlWidth(950);
-            pd4ml.setPageSize(pd4ml.changePageOrientation(PD4Constants.A5));
+            pd4ml.setHtmlWidth(794);
+            Dimension dimension = new Dimension(794, 1123);
+            //pd4ml.setPageSize(pd4ml.changePageOrientation(PD4Constants.A4));
+            pd4ml.setPageSize(dimension);
             pd4ml.useTTF("java:fonts", true);
             pd4ml.setDefaultTTFs("MSYH", "Arial", "Courier New");
             pd4ml.enableDebugInfo();

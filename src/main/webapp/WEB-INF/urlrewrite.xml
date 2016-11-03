@@ -51,6 +51,10 @@
         <to>/scripts/$1</to>
     </rule>
     <rule>
+        <from>/pdf/**</from>
+        <to>/pdf/$1</to>
+    </rule>
+    <rule>
         <from>/styles/**</from>
         <to>/styles/$1</to>
     </rule>

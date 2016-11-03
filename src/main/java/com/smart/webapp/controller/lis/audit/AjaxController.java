@@ -283,7 +283,7 @@ public class AjaxController extends BaseAuditController {
 		JSONObject obj = new JSONObject();
 		String imgurl = "../images/bmp/"+username+".bmp";
 		obj.put("imgurl", imgurl);
-		response.setContentType("name/html;charset=UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
 		response.getWriter().print(obj.toString());
 	}
 	

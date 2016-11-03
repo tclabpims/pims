@@ -48,4 +48,6 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
      * @return
      */
     boolean canChange(Long id,String sts);
+
+    void sign(PimsPathologySample sample);
 }

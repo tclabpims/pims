@@ -35,18 +35,24 @@ function saveFieldData() {
         return false;
     }
 
-    if ($('#fieelementid').val() == '' || $('#fieelementname').val() == '' || $('#fieshowlevel').val() == '' || $('#fieshoworder').val() == '') {
+    if ($('#fieelementid').val() == '' || $('#fieelementname').val() == '') {
         layer.msg('信息填写不完整', {icon: 2, time: 1000});
         return false;
     }
+    alert($('#fieldcss').val())
     if ($('#fieldid').val() == '') {
         $('#fiepelementid').val(nodes[0].id);
+        var showorder = nodes[0].level+1+".";
+        if(nodes[0].children != null)
+            showorder = showorder + (nodes[0].children.length+1);
+        else
+            showorder = showorder + "1";
         $.post('../reqfield/edit', {
             fieelementtype: $('#fieelementtype').val(), fieelementid: $('#fieelementid').val(),
-            fieelementname: $('#fieelementname').val(), fieshowlevel: $('#fieshowlevel').val(),
+            fieelementname: $('#fieelementname').val(), fieshowlevel: nodes[0].level+1,
             fiepelementid: $('#fiepelementid').val(), fiedefaultvalue: $('#fiedefaultvalue').val(),
-            fieshoworder: $('#fieshoworder').val(), fieuseflag: $('#fieuseflag').val(),
-            invokefunc: $('#invokefunc').val(), invokefuncbody: $('#invokefuncbody').val(),
+            fieshoworder: showorder, fieuseflag: $('#fieuseflag').val(),
+            invokefunc: $('#invokefunc').val(), invokefuncbody: $('#invokefuncbody').val(),fieldcss: $('#fieldcss').val(),
             fieremark: $('#fieremark').val()
         }, function (data) {
             treeObj.addNodes(nodes[0], data, true);
@@ -59,7 +65,7 @@ function saveFieldData() {
             fieelementname: $('#fieelementname').val(), fieshowlevel: $('#fieshowlevel').val(),
             fiepelementid: $('#fiepelementid').val(), fiedefaultvalue: $('#fiedefaultvalue').val(),
             fieshoworder: $('#fieshoworder').val(), fieuseflag: $('#fieuseflag').val(),
-            invokefunc: $('#invokefunc').val(), invokefuncbody: $('#invokefuncbody').val(),
+            invokefunc: $('#invokefunc').val(), invokefuncbody: $('#invokefuncbody').val(),fieldcss: $('#fieldcss').val(),
             fieremark: $('#fieremark').val(), fieldid: $('#fieldid').val()
         }, function (data) {
             layer.msg('修改成功', {icon: 2, time: 1000});
@@ -133,4 +139,5 @@ function clearData() {
     $('#fieremark').val('');
     $('#invokefunc').val('');
     $('#invokefuncbody').val('');
+    $('#fieldcss').val('');
 }

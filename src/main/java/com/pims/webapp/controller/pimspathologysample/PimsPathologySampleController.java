@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsPathologySample;
+import com.pims.model.PimsSysPathology;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
@@ -33,7 +35,8 @@ public class PimsPathologySampleController extends PIMSBaseController{
     private PimsPathologyRequisitionManager pimsPathologyRequisitionManager;
     @Autowired
     private PimsPathologySampleManager pimsPathologySampleManager;
-
+    @Autowired
+    private PimsSysPathologyManager pimsSysPathologyManager;
     /**
      * 渲染视图
      * @param request
@@ -69,8 +72,11 @@ public class PimsPathologySampleController extends PIMSBaseController{
     @RequestMapping(value = "/get*", method = RequestMethod.GET)
     public void getsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String code = request.getParameter("id");
-        PimsPathologySample pathology = pimsPathologySampleManager.getBySampleNo(Long.parseLong(code));
+        PimsPathologySample pathology = pimsPathologySampleManager.get(Long.parseLong(code));
+        PimsSysPathology psp = pimsSysPathologyManager.get(pathology.getSampathologyid());
         JSONObject pathMap = getJSONObject(pathology);
+        pathMap.put("patIsSampling",psp.getPatissampling());
+        pathMap.put("specialCheck",psp.getPatisspecialcheck());
         PrintwriterUtil.print(response, pathMap.toString());
     }
 

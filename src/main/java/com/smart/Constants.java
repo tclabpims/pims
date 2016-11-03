@@ -1,6 +1,10 @@
 package com.smart;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Constant values used throughout the application.
@@ -165,6 +169,17 @@ public final class Constants {
 	 */
 	public static final String FALSE = "×";
 
+	public static final Set<String> patternSet = new HashSet<>();
+
+	static{
+		patternSet.add("yyyy-MM-dd HH:mm:ss");
+		patternSet.add("yyyy-MM-dd HH:mm");
+		patternSet.add("yyyy-MM-dd");
+		patternSet.add("yyyyMMdd");
+		patternSet.add("MM/dd");
+		patternSet.add("yyMMdd");
+	}
+
 	/**
 	 * 字符串:yyyy-MM-dd hh24:mi:ss
 	 */
@@ -301,4 +316,37 @@ public final class Constants {
 	public final static String defeholidayhis = "历休";
 	public final static String holiday = "公休"; //法定节假日
 	public final static String holidayOne = "日休"; //法定节假日，不补休
+
+    //---------------------------标本状态---------------------------------
+    //已登记
+    public final static int SAMPLE_STATUS_CHECK_IN = 0;
+    //已取材
+    public final static int SAMPLE_STATUS_BASED_ON = 1;
+    //已包埋
+    public final static int SAMPLE_STATUS_CHECK_EMBEDDING = 2;
+    //已切片
+    public final static int SAMPLE_STATUS_SLICE = 3;
+    //已初诊
+    public final static int SAMPLE_STATUS_INITIAL_DIAGNOSIS = 4;
+    //已审核
+    public final static int SAMPLE_STATUS_AUDIT = 5;
+    //已发送
+    public final static int SAMPLE_STATUS_SEND = 6;
+    //会诊中
+    public final static int SAMPLE_STATUS_CONSULTATION = 7;
+    //已打印
+    public final static int SAMPLE_STATUS_PRINTED = 8;
+    //------------------------------标本状态结束---------------------------------
+
+    //-----------------------------------系统公用模板的所属用户名和ID--------------------------------------
+    public final static String TEMPLATE_OWNER_NAME = "System";
+    public final static String TEMPLATE_OWNER_ID = "9999999999";
+
+	//-------------------------------------------图片类型---------------------------------------------------
+	public final static String PIC_TYPE_JPG = "jpg";
+
+	//---------------------------------------------文件大小-----------------------------------------------------
+	public final static long FILE_MAX_SIZE = 100 * 1024 * 1024;  //最大100M
+
+
 }

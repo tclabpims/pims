@@ -28,7 +28,17 @@ public class Hospital extends BaseObject{
 	private String phone;//电话
 	private String postalCard;//邮政编码
 	private String idCard;//组织代码
-	
+	private String logo;//logo文件名
+
+	@Column(name = "logo", length=50)
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
 	@Id
 	//@GeneratedValue(strategy = GenerationType.AUTO)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_HOSPITAL")

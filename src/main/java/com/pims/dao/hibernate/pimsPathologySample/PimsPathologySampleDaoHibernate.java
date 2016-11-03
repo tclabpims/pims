@@ -198,4 +198,25 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         setParameter(sample, query);
         return ((Long)query.uniqueResult()).intValue();
     }
+
+    @Override
+    public void sign(PimsPathologySample sample) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("update PimsPathologySample s set s.saminitiallytime=:saminitiallytime,s.saminitiallyuserid=:saminitiallyuserid,s.saminitiallyusername=:saminitiallyusername");
+        builder.append(",s.samauditedtime=:samauditedtime,s.samauditerid=:samauditerid,s.samauditer=:samauditer,s.samreportedtime=:samreportedtime, s.samreportorid=:samreportorid");
+        builder.append(",s.samreportor=:samreportor,s.samsamplestatus=:samsamplestatus where s.sampleid=:sampleid");
+        Query query = getSession().createQuery(builder.toString());
+        query.setParameter("saminitiallytime", sample.getSaminitiallytime());
+        query.setParameter("saminitiallyuserid", sample.getSaminitiallyuserid());
+        query.setParameter("saminitiallyusername", sample.getSaminitiallyusername());
+        query.setParameter("samauditedtime", sample.getSamauditedtime());
+        query.setParameter("samauditerid", sample.getSamauditerid());
+        query.setParameter("samauditer", sample.getSamauditer());
+        query.setParameter("samreportedtime", sample.getSamreportedtime());
+        query.setParameter("samreportorid",sample.getSamreportorid());
+        query.setParameter("samreportor", sample.getSamreportor());
+        query.setParameter("sampleid", sample.getSampleid());
+        query.setParameter("samsamplestatus", sample.getSamsamplestatus());
+        query.executeUpdate();
+    }
 }

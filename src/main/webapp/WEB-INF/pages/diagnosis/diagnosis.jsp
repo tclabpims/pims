@@ -1,12 +1,6 @@
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: 909436637@qq.com
-  Date: 2016/10/6
-  Time: 10:01
---%>
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <html>
 <head>
@@ -15,13 +9,13 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/ui.jqgrid.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/jquery-ui.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>"/>
-    <link rel="stylesheet" href="<c:url value='/styles/ztree/zTreeStyle.css'/>"/>
     <!--script type="name/javascript" src="../scripts/bootstrap.min.js"></script-->
     <script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="../scripts/i18n/grid.locale-cn.js"></script>
     <script type="text/javascript" src="../scripts/jquery.jqGrid.js"></script>
-    <script src="<c:url value='/scripts/jquery.ztree.all-3.5.js'/>"></script>
+    <script src="<c:url value='/scripts/ajaxfileupload.js'/>"></script>
+    <script src="<c:url value='/scripts/LodopFuncs.js'/>"></script>
     <script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/pspathology/diagnosis.js"></script>
@@ -82,71 +76,33 @@
     }
 </style>
 <SCRIPT LANGUAGE="JavaScript">
-    var zTreeObj;
-    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
-    /*******************************
-     * ztree 设置参数
-     ********************************/
-    var setting = {
-        data: {
-            simpleData: {
-                enable: true
-            }
-        },
-        async: {
-            enable: true,
-            url: "../reqfield/treequery",
-            dataType: "json",//默认text
-            contentType: "application/json",
-            type: "get"//默认post
-        },
-        check: {
-            enable: true,
-            chkStyle: "checkbox"
-        },
-        callback: {
-            onClick: function (event, treeId, treeNode, clickFlag) {
-                if (treeNode.id == 0) {
-                    clearData();
-                    $('#saveButton').attr("disabled", true);
-                    return false;
-                }
-                $.post('../reqfield/fieldconfig', {
-                    fieldid: treeNode.id
-                }, function (data) {
-                    $('#fieelementtype').val(data.fieelementtype);
-                    $('#fieelementid').val(data.fieelementid);
-                    $('#fieelementname').val(data.fieelementname);
-                    $('#fieshowlevel').val(data.fieshowlevel);
-                    $('#fiepelementid').val(data.fiepelementid);
-                    $('#fiedefaultvalue').val(data.fiedefaultvalue);
-                    $('#fieshoworder').val(data.fieshoworder);
-                    $('#fieuseflag').val(data.fieuseflag);
-                    $('#fieremark').val(data.fieremark);
-                    $('#fieldid').val(treeNode.id);
-                    $('#saveButton').attr("disabled", false);
-                });
-            }
-        },
-        view: {}
-    };
-    // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
-    var zNodes = [];
-    $(document).ready(function () {
-        zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
-    });
+
+    var GRID_SELECTED_ROW_SAMPLEID;
+    var GRID_SELECTED_ROW_SAMPCUSTOMERID;
+    var OsObject = navigator.userAgent;
+
+    //此地址给摄像头插件调用
+    function imgUploadPath() {
+        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/upload?sampleid="%>" + GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + GRID_SELECTED_ROW_SAMPCUSTOMERID;
+    }
+
+    //此地址给文件上传插件调用
+    function multifileUploadUrl() {
+        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/multiupload?sampleid="%>" + GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + GRID_SELECTED_ROW_SAMPCUSTOMERID;
+    }
+
 </SCRIPT>
 <div class="row" id="toolbar">
     <div id="mainTable" class="col-xs-12">
         <div style="padding-top: 5px;">
             <div class="col-xs-12">
-                <button type="button" class="btn btn-sm btn-primary " title="保存全部" onclick="AddSection()">
+                <button type="button" class="btn btn-sm btn-primary " title="保存" onclick="saveSign()">
                     保存
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="上一个" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="上一个" onclick="setSelect(0)">
                     上一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
                     下一个
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="计费调整" onclick="deleteSection()">
@@ -155,18 +111,19 @@
                 <button type="button" class="btn btn-sm btn-primary" title="图像采集" onclick="takingPicture()">
                     图像采集
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="图像导入" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="图像导入" onclick="importImg()">
                     图像导入
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="预览" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="预览" onclick="reportOperate(1)">
                     预览
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="打印" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="打印" onclick="reportOperate(2)">
                     打印
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="发送" onclick="deleteSection()">
                     发送
                 </button>
+                <button type="button" class="btn btn-sm btn-primary" title="转送">转送</button>
                 <button type="button" class="btn btn-sm btn-primary" title="导入" onclick="deleteSection()">
                     导入
                 </button>
@@ -212,20 +169,6 @@
                                     <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("options"))%>
                                 </select>
                             </div>
-                            <div style="display:inline;">
-                                <label>病理状态：</label>
-                                <select id="samsamplestatus">
-                                    <option value="">--请选择--</option>
-                                    <option value="1">已取材</option>
-                                    <option value="2">已包埋</option>
-                                    <option value="3">已切片</option>
-                                    <option value="4">已初诊</option>
-                                    <option value="5">已审核</option>
-                                    <option value="6">已发送</option>
-                                    <option value="7">会诊中</option>
-                                    <option value="8">报告已打印</option>
-                                </select>
-                            </div>
                             <div><label>切片年月：</label><input type="text" id="samplesectionfrom"
                                                             style="width: 120px">~<input type="text"
                                                                                          style="width: 120px"
@@ -236,6 +179,31 @@
                                                                                    style="width: 120px"></div>
                             <div><label>病人名称：</label><input type="text" id="sampatientnameq" style="width: 120px">
                                 <button onclick="query()"> 查询</button>
+                            </div>
+                            <div style="display:inline;">
+                                <div style="text-align: left">
+                                    <label for="selectAll">全选</label>
+                                    <input type="checkbox" name="selectAll" id="selectAll">
+                                </div>
+                                <div style="text-align: right">
+                                    <div style="display:inline;text-align: right;">
+                                        <button>抄送接收</button>
+                                    </div>
+                                    <div style="display:inline;text-align: right;">
+                                        <button>抄送取消</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display:inline;">
+                                <div style="display:inline;padding-right: 5px">
+                                    <a href="#">个人</a>
+                                </div>
+                                <div style="display:inline;padding-right: 5px">
+                                    <a href="#">全部</a>
+                                </div>
+                                <div style="display:inline;padding-right: 5px"><a href="#">已发抄送</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#">待收抄送</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#">待审抄送</a></div>
                             </div>
                         </div>
                     </div>
@@ -263,11 +231,9 @@
             </div>
             <div style="display: block;">
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
-                    <div style="display:inline;"><label>报告转送：</label><input type="text">
-                        <button>转送</button>
-                    </div>
-                    <div style="display:inline;"><label>医嘱管理：</label><input type="text">
-                        <button>申请</button>
+                    <div style="display:inline;"><label>医嘱管理：</label>
+                        <select id="yizhugl"></select>
+                        <button onclick="reqyizhu()">申请</button>
                     </div>
                 </div>
                 <div id="tabs" style="margin: 0 auto;">
@@ -333,20 +299,11 @@
                 <li><a href="#tabs-6">分子病理</a></li>
             </ul>
             <div id="tabs-3">
-                <div><label>巨检描述：</label>
-                    <button onclick="showTemplate(0,'jujianms')">从模板选择</button>
-                    <button onclick="saveAsTemplate(0,'jujianms')">存为模板</button>
-                    <textarea id="jujianms" cols="80" rows="3"></textarea></div>
-                <div><label>病理所见：</label>
-                    <button onclick="showTemplate(1,'binglisj')">从模板选择</button>
-                    <button onclick="saveAsTemplate(1,'binglisj')">存为模板</button>
-                    <textarea id="binglisj" cols="80" rows="3"></textarea></div>
-                <div><label>病理诊断：</label>
-                    <button onclick="showTemplate(2,'binglizd')">从模板选择</button>
-                    <button onclick="saveAsTemplate(2,'binglizd')">存为模板</button>
-                    <textarea id="binglizd" cols="80" rows="3"></textarea></div>
+                <form id="diagnosisInfoForm" onsubmit="return false;">
+                    <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("diagnosisItems")) == null ? "请先配置当前病种相关的病理诊断字段、报告项目以及客户相关数据" : StringEscapeUtils.unescapeHtml4((String) request.getAttribute("diagnosisItems"))%>
+                </form>
                 <div style="alignment: center">
-                    <button>保存</button>
+                    <button onclick="saveDiagnosisInfo()">保存</button>
                 </div>
 
             </div>
@@ -414,27 +371,26 @@
                 </div>
             </div>
             <div>
-                <div>报告日期：<input type="text" id="reportDatetime">
+                <div>报告日期：<input type="text" class="form_datetime1" id="samreportedtime" onchange="doctorSign(0)"
+                                 name="samreportedtime">
                     <button>延迟报告</button>
                 </div>
-                <div>初查医生：<input type="text">
-                    <button>初查签名</button>
-                    <button>取消</button>
-                    确诊病种：<select onchange="" id="">
-                        <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("options"))%>
-                    </select></div>
-                <div>审核医生：<input type="text">
-                    <button>审核签名</button>
-                    <button>取消</button>
-                    <input type="text"></div>
+                <div>初查医生：<input type="text" readonly id="saminitiallyusername" name="saminitiallyusername">
+                    <button onclick="doctorSign(1)">初查签名</button>
+                    <button onclick="doctorSign(2)">取消</button>
+                </div>
+                <div>审核医生：<input type="text" readonly id="samauditer" name="samauditer">
+                    <button onclick="doctorSign(3)">审核签名</button>
+                    <button onclick="doctorSign(4)">取消</button>
+                </div>
                 <div>
-                    <div><label>在线留言 </label><select>
-                        <option>请选择留言对象</option>
-                    </select>
-                        <button>留言发送</button>
-                    </div>
-                    <div>
-                        <textarea cols="80" rows="3"></textarea>
+                    <div style="display:none">
+                        <input type="hidden" id="samreportorid">
+                        <input type="hidden" id="samreportor">
+                        <input type="hidden" id="samauditedtime">
+                        <input type="hidden" id="samauditerid">
+                        <input type="hidden" id="saminitiallytime">
+                        <input type="hidden" id="saminitiallyuserid">
                     </div>
                 </div>
             </div>
@@ -451,11 +407,18 @@
                 </div>
             </div>
         </div>
+        <div id="imgContainer"></div>
     </div>
     <div class="row" style="display:none" id="templateGrid">
         <div class="col-xs-12 leftContent">
             <table id="templateList"></table>
             <div id="templatePager"></div>
+        </div>
+    </div>
+    <div id="reportTemplateList" style="display:none;alignment: center">
+        <div class="mainContent" style="text-align:center;">
+            <select id="reportTemplateSelect">
+            </select>
         </div>
     </div>
     <div style="text-align: left;margin-left:5px;display:none" id="templateForm">
@@ -531,5 +494,103 @@
                 <textarea id="temcontent" cols="80" rows="3"></textarea>
             </div>
         </div>
+    </div>
+    <div id="uploadDialog" style="text-align:left;display:none">
+        <fieldset style="width:95%; margin-left:4px;">
+            <div>
+                <div id="more" style="float:left;">
+                    <div class="col-sm-12" style="margin-top:5px;">
+                        <input type="file" id="imgFile" name="imgFile" class="col-sm-10"/>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div style="width: 780px;height: 500px;display: none;" id="specialCheckDialog">
+        <div style="float:left;width: 60%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
+            <div style="width: 100%;padding-top:5px;height: 20px">基本信息</div>
+            <div style="width: 100%;height: 20%;padding-top:5px;">
+                <div style="padding-top:5px;">病人ID：<input id="patientId" style="width: 120px;">性别：<input id="patientGender" style="width: 60px">住院号：<input id="patientZyh" style="width: 120px"></div>
+                <div style="padding-top:5px;">病人姓名：<input id="patientName" style="width: 120px">年龄：<input id="patientAge" style="width: 60px">床号：<input id="patientBed" style="width: 120px"></div>
+                <div style="padding-top:5px;">临床诊断：<input id="patientDiagnosisNote" style="width: 300px"></div>
+            </div>
+            <div style="width: 100%;padding-top:5px;height: 20px">特殊检查</div>
+            <div style="width: 100%;height: 20%;padding-top:5px;">
+                <div style="padding-top:5px;">医嘱号：<input name="" style="width: 120px">检查类型：<input name="" style="width: 120px"></div>
+                <div style="padding-top:5px;">源病理号：<input name="" style="width: 120px">申请医生：<input name="" style="width: 120px"></div>
+                <div style="padding-top:5px;">源条形码：<input name="" style="width: 120px">申请日期：<input name="" style="width: 120px"></div>
+            </div>
+            <div style="width: 100%;padding-top:5px;height: 30px">项目一览  <input type="checkbox"> <label>全选</label> <button>删除</button> 蜡块选择<select></select></div>
+            <div style="width: 100%;padding-top:5px;" id="itemListContainer">
+                <table id="itemList"></table>
+            </div>
+        </div>
+        <div style="float:right;width: 40%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
+            <div style="width: 100%;height: 20px;">白片信息</div>
+            <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
+                <table id="lkItemList"></table>
+            </div>
+            <div style="width: 100%;height: 25px;">项目套餐：<select></select></div>
+            <div style="width: 100%;height: 25px;">项目名称：<input></div>
+            <div style="width: 100%;height: 35%;">
+                <table id="ckItemList"></table>
+            </div>
+        </div>
+    </div>
+    <div id="flashContent" style="display: none">
+        <script type="text/javascript">
+            // 包含「Opera」文字列
+            if (OsObject.indexOf("Opera") != -1) {
+                //document.write('您的浏览器是Opera吧？');
+            }
+// 包含「MSIE」文字列
+            else if (window.ActiveXObject || "ActiveXObject" in window) {
+                document.write("<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" width=\"320\" height=\"300\" id=\"Main\">");
+                document.write("<param name=\"movie\" value=\"http://localhost:8080/scripts/picture/Main.swf\" />");
+                document.write("<param name=\"quality\" value=\"high\" />");
+                document.write("<param name=\"bgcolor\" value=\"#ffffff\" />");
+                document.write("<param name=\"allowScriptAccess\" value=\"sameDomain\" />");
+                document.write("<param name=\"allowFullScreen\" value=\"true\" />");
+                document.write("</object>");
+            }
+// 包含「chrome」文字列 ，不过360浏览器也照抄chrome的UA
+
+            else if (OsObject.indexOf("Chrome") != -1) {
+                document.write("<object type=\"application/x-shockwave-flash\" data=\"http://localhost:8080/scripts/picture/Main.swf\" width=\"320\" height=\"300\">");
+                document.write("<param name=\"quality\" value=\"high\" />");
+                document.write("<param name=\"bgcolor\" value=\"#ffffff\" />");
+                document.write("<param name=\"allowScriptAccess\" value=\"sameDomain\" />");
+                document.write("<param name=\"allowFullScreen\" value=\"true\" />");
+                document.write("</object>");
+            }
+// 包含「UCBrowser」文字列
+            else if (OsObject.indexOf("UCBrowser") != -1) {
+
+            }
+// 包含「BIDUBrowser」文字列
+            else if (OsObject.indexOf("BIDUBrowser") != -1) {
+                document.write('您的浏览器是百度浏览器吧？');
+            }
+// 包含「Firefox」文字列
+            else if (OsObject.indexOf("Firefox") != -1) {
+                document.write("<object type=\"application/x-shockwave-flash\" data=\"http://localhost:8080/scripts/picture/Main.swf\" width=\"320\" height=\"300\">");
+                document.write("<param name=\"quality\" value=\"high\" />");
+                document.write("<param name=\"bgcolor\" value=\"#ffffff\" />");
+                document.write("<param name=\"allowScriptAccess\" value=\"sameDomain\" />");
+                document.write("<param name=\"allowFullScreen\" value=\"true\" />");
+                document.write("</object>");
+            }
+// 包含「Netscape」文字列
+            else if (OsObject.indexOf("Netscape") != -1) {
+
+            }
+// 包含「Safari」文字列
+            else if (OsObject.indexOf("Safari") != -1) {
+
+            }
+            else {
+                document.write('无法识别的浏览器。');
+            }
+        </script>
     </div>
 </html>

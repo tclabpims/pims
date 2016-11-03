@@ -121,4 +121,9 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public boolean canChange(Long id, String sts) {
         return pimsPathologySampleDao.canChange(id, sts);
     }
+
+    @Override
+    public void sign(PimsPathologySample sample) {
+        pimsPathologySampleDao.sign(sample);
+    }
 }

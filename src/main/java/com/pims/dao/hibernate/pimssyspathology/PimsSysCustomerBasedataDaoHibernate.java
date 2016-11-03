@@ -3,7 +3,10 @@ package com.pims.dao.hibernate.pimssyspathology;
 import com.pims.dao.pimssyspathology.PimsSysCustomerBasedataDao;
 import com.pims.model.PimsSysCustomerBasedata;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by 909436637@qq.com on 2016/10/12.
@@ -18,5 +21,14 @@ public class PimsSysCustomerBasedataDaoHibernate extends GenericDaoHibernate<Pim
      */
     public PimsSysCustomerBasedataDaoHibernate() {
         super(PimsSysCustomerBasedata.class);
+    }
+
+    @Override
+    public List<PimsSysCustomerBasedata> getCustomerDataList(String sql, Long hospitalId, Long pathologyId) {
+        SQLQuery query = getSession().createSQLQuery(sql);
+        query.setParameter("hospitalId",hospitalId);
+        query.setParameter("pathologyId",pathologyId);
+        query.addEntity("pb",PimsSysCustomerBasedata.class);
+        return query.list();
     }
 }

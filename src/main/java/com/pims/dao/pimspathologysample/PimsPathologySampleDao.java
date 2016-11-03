@@ -48,4 +48,6 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
     List<PimsPathologySample> querySample(PimsPathologySample sample, GridQuery gridQuery, String sql);
 
     Integer totalNum(PimsPathologySample sample, String s);
+
+    void sign(PimsPathologySample sample);
 }

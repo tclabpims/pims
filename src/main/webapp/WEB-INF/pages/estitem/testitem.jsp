@@ -52,15 +52,15 @@
             <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary " title="添加检查项目" onclick="AddSection()">
                     <i class="ace-icon fa fa-fire bigger-110"></i>
-                    添加申请材料
+                    添加
                 </button>
                 <button type="button" class="btn btn-sm  btn-success" title="修改检查项目" onclick="editSection()">
                     <i class="ace-icon fa fa-pencil-square bigger-110"></i>
-                    修改申请材料
+                    修改
                 </button>
                 <button type="button" class="btn btn-sm btn-danger" title="删除检查项目" onclick="deleteSection()">
                     <i class="ace-icon fa fa-times bigger-110"></i>
-                    删除申请材料
+                    删除
                 </button>
                 <div class="input-group col-sm-3 " style="float: right;">
                     <input type="text" id="query" class="form-control search-query" placeholder="输入项目名称或病种类别"/>

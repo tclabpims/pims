@@ -3,22 +3,35 @@ package com.pims.webapp.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.DefaultJSONParser;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
+import com.pims.webapp.util.VerificaDate;
 import com.smart.Constants;
+import com.smart.model.BaseObject;
 import com.smart.model.user.User;
 import com.smart.model.user.UserBussinessRelate;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.beans.PropertyDescriptor;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
@@ -30,6 +43,37 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 public class PIMSBaseController {
 
     protected final String contentType = "application/json; charset=UTF-8";
+
+    protected List<File> multifileUpload(MultipartFile[] imgFile, String path, String sampleId) throws IOException {
+        List<File> ret = new ArrayList<>();
+        File savePath = new File(path);
+        if(!savePath.exists())savePath.mkdirs();
+        for(MultipartFile file : imgFile) {
+            if(!file.isEmpty()) {
+                String fileName = file.getOriginalFilename();
+                String name = fileName.substring(0, fileName.lastIndexOf(".")-1);
+                String type = fileName.substring(fileName.lastIndexOf("."));
+                File out = new File(path, sampleId + "_" + name + "_" + (savePath.list().length+1)+type);
+                FileUtils.copyInputStreamToFile(file.getInputStream(), out);
+                ret.add(out);
+            }
+        }
+        return ret;
+    }
+
+    protected String getRemoteHost(HttpServletRequest request){
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getRemoteAddr();
+        }
+        return ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip;
+    }
 
     public ModelAndView getmodelView(HttpServletRequest request) throws  Exception{
         Calendar c = Calendar.getInstance();
@@ -95,13 +139,22 @@ public class PIMSBaseController {
             Map<String, Object> map = new HashMap<String, Object>();
             PropertyDescriptor[] pd = PropertyUtils.getPropertyDescriptors(bean);
             for(PropertyDescriptor pdp : pd) {
-                System.out.println(pdp.getName());
                 if("class".equals(pdp.getName()))continue;
                 map.put(pdp.getName(), pdp.getReadMethod().invoke(bean, new Object[0]));
             }
             mapList.add(map);
         }
         return mapList;
+    }
+
+    protected Map<String, Object> getResultMap(BaseObject bean) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        PropertyDescriptor[] pd = PropertyUtils.getPropertyDescriptors(bean);
+        for(PropertyDescriptor pdp : pd) {
+            if("class".equals(pdp.getName()))continue;
+            map.put(pdp.getName(), pdp.getReadMethod().invoke(bean, new Object[0]));
+        }
+        return map;
     }
 
     protected List<Map<String, Object>> getResultMaps(List<?> result) throws Exception {
@@ -193,20 +246,17 @@ public class PIMSBaseController {
                             } else if (propertyTypeName.equals(String.class.getName())) {
                                 pd.getWriteMethod().invoke(ins, value);
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
-                                try {
-                                    pd.getWriteMethod().invoke(ins, Constants.DF2.parse(value));
-                                } catch (ParseException e) {
-                                    try {
-                                        pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));
-                                    } catch (ParseException e1) {
+                                if(!VerificaDate.verificationOfDateIsCorrect(value)) continue;
+                                Set<String> patternSet = Constants.patternSet;
+                                for(String p : patternSet) {
+                                    if(value.length()==p.length()) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat(p);
                                         try {
-                                            pd.getWriteMethod().invoke(ins, Constants.DF3.parse(value));
-                                        } catch (ParseException e2) {
-                                            e2.printStackTrace();
+                                            pd.getWriteMethod().invoke(ins, sdf.parse(value));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
                                         }
-                                        e1.printStackTrace();
                                     }
-                                    e.printStackTrace();
                                 }
                             }
                         }
@@ -236,7 +286,6 @@ public class PIMSBaseController {
                         }
                         String propertyTypeName = pd.getPropertyType().getName();
                         String value = (String) map.get(name);
-                        System.out.println("name== "+ name + "propertyTypeName====" + propertyTypeName);
                         if(value != null && !value.trim().equals("")){
                             if (propertyTypeName.equals(int.class.getName())
                                     || propertyTypeName.equals(Integer.class.getName())) {

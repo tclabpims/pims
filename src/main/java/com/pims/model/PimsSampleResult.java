@@ -1,17 +1,21 @@
 package com.pims.model;
 
+import com.smart.model.BaseObject;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_SAMPLE_RESULT", schema = "KFTEST", catalog = "")
-public class PimsSampleResult {
+@Table(name = "PIMS_SAMPLE_RESULT")
+public class PimsSampleResult extends BaseObject {
     private long resultid;
     private long ressampleid;
-    private String rescustomercode;
+    private long rescustomerid;
     private long restestitemid;
     private String resviewtitle;
     private String resviewsort;
@@ -24,9 +28,9 @@ public class PimsSampleResult {
     private String resresultn;
     private String resavgvaluen;
     private String resstandardvaluen;
-    private Time resinputtime;
+    private Date resinputtime;
     private String resinputuser;
-    private Time resmodifytime;
+    private Date resmodifytime;
     private String resmodifyuser;
     private String resremark;
     private String resfirstv;
@@ -34,13 +38,14 @@ public class PimsSampleResult {
     private String resthirdv;
     private Long resfirstn;
     private Long ressecondn;
-    private Time resfirstd;
-    private Time ressecondd;
-    private Time rescreatetime;
+    private Date resfirstd;
+    private Date ressecondd;
+    private Date rescreatetime;
     private String rescreateuser;
 
     @Id
-    @Column(name = "RESULTID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RESULTID")
+    @SequenceGenerator(name = "SEQ_RESULTID", sequenceName = "SEQ_RESULTID", allocationSize = 1)
     public long getResultid() {
         return resultid;
     }
@@ -60,13 +65,13 @@ public class PimsSampleResult {
     }
 
     @Basic
-    @Column(name = "RESCUSTOMERCODE")
-    public String getRescustomercode() {
-        return rescustomercode;
+    @Column(name = "RESCUSTOMERID")
+    public long getRescustomerid() {
+        return rescustomerid;
     }
 
-    public void setRescustomercode(String rescustomercode) {
-        this.rescustomercode = rescustomercode;
+    public void setRescustomerid(long rescustomerid) {
+        this.rescustomerid = rescustomerid;
     }
 
     @Basic
@@ -191,11 +196,11 @@ public class PimsSampleResult {
 
     @Basic
     @Column(name = "RESINPUTTIME")
-    public Time getResinputtime() {
+    public Date getResinputtime() {
         return resinputtime;
     }
 
-    public void setResinputtime(Time resinputtime) {
+    public void setResinputtime(Date resinputtime) {
         this.resinputtime = resinputtime;
     }
 
@@ -211,11 +216,11 @@ public class PimsSampleResult {
 
     @Basic
     @Column(name = "RESMODIFYTIME")
-    public Time getResmodifytime() {
+    public Date getResmodifytime() {
         return resmodifytime;
     }
 
-    public void setResmodifytime(Time resmodifytime) {
+    public void setResmodifytime(Date resmodifytime) {
         this.resmodifytime = resmodifytime;
     }
 
@@ -291,31 +296,31 @@ public class PimsSampleResult {
 
     @Basic
     @Column(name = "RESFIRSTD")
-    public Time getResfirstd() {
+    public Date getResfirstd() {
         return resfirstd;
     }
 
-    public void setResfirstd(Time resfirstd) {
+    public void setResfirstd(Date resfirstd) {
         this.resfirstd = resfirstd;
     }
 
     @Basic
     @Column(name = "RESSECONDD")
-    public Time getRessecondd() {
+    public Date getRessecondd() {
         return ressecondd;
     }
 
-    public void setRessecondd(Time ressecondd) {
+    public void setRessecondd(Date ressecondd) {
         this.ressecondd = ressecondd;
     }
 
     @Basic
     @Column(name = "RESCREATETIME")
-    public Time getRescreatetime() {
+    public Date getRescreatetime() {
         return rescreatetime;
     }
 
-    public void setRescreatetime(Time rescreatetime) {
+    public void setRescreatetime(Date rescreatetime) {
         this.rescreatetime = rescreatetime;
     }
 
@@ -329,6 +334,16 @@ public class PimsSampleResult {
         this.rescreateuser = rescreateuser;
     }
 
+    /**
+     * Returns a multi-line String with key=value pairs.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -338,76 +353,67 @@ public class PimsSampleResult {
 
         if (resultid != that.resultid) return false;
         if (ressampleid != that.ressampleid) return false;
+        if (rescustomerid != that.rescustomerid) return false;
         if (restestitemid != that.restestitemid) return false;
-        if (rescustomercode != null ? !rescustomercode.equals(that.rescustomercode) : that.rescustomercode != null)
-            return false;
-        if (resviewtitle != null ? !resviewtitle.equals(that.resviewtitle) : that.resviewtitle != null) return false;
-        if (resviewsort != null ? !resviewsort.equals(that.resviewsort) : that.resviewsort != null) return false;
-        if (resinputsort != null ? !resinputsort.equals(that.resinputsort) : that.resinputsort != null) return false;
-        if (resviewtype != null ? !resviewtype.equals(that.resviewtype) : that.resviewtype != null) return false;
-        if (restestresult != null ? !restestresult.equals(that.restestresult) : that.restestresult != null)
-            return false;
-        if (resresultp != null ? !resresultp.equals(that.resresultp) : that.resresultp != null) return false;
-        if (resavgvaluep != null ? !resavgvaluep.equals(that.resavgvaluep) : that.resavgvaluep != null) return false;
-        if (resstandardvaluep != null ? !resstandardvaluep.equals(that.resstandardvaluep) : that.resstandardvaluep != null)
-            return false;
-        if (resresultn != null ? !resresultn.equals(that.resresultn) : that.resresultn != null) return false;
-        if (resavgvaluen != null ? !resavgvaluen.equals(that.resavgvaluen) : that.resavgvaluen != null) return false;
-        if (resstandardvaluen != null ? !resstandardvaluen.equals(that.resstandardvaluen) : that.resstandardvaluen != null)
-            return false;
-        if (resinputtime != null ? !resinputtime.equals(that.resinputtime) : that.resinputtime != null) return false;
-        if (resinputuser != null ? !resinputuser.equals(that.resinputuser) : that.resinputuser != null) return false;
-        if (resmodifytime != null ? !resmodifytime.equals(that.resmodifytime) : that.resmodifytime != null)
-            return false;
-        if (resmodifyuser != null ? !resmodifyuser.equals(that.resmodifyuser) : that.resmodifyuser != null)
-            return false;
-        if (resremark != null ? !resremark.equals(that.resremark) : that.resremark != null) return false;
-        if (resfirstv != null ? !resfirstv.equals(that.resfirstv) : that.resfirstv != null) return false;
-        if (ressecondv != null ? !ressecondv.equals(that.ressecondv) : that.ressecondv != null) return false;
-        if (resthirdv != null ? !resthirdv.equals(that.resthirdv) : that.resthirdv != null) return false;
-        if (resfirstn != null ? !resfirstn.equals(that.resfirstn) : that.resfirstn != null) return false;
-        if (ressecondn != null ? !ressecondn.equals(that.ressecondn) : that.ressecondn != null) return false;
-        if (resfirstd != null ? !resfirstd.equals(that.resfirstd) : that.resfirstd != null) return false;
-        if (ressecondd != null ? !ressecondd.equals(that.ressecondd) : that.ressecondd != null) return false;
-        if (rescreatetime != null ? !rescreatetime.equals(that.rescreatetime) : that.rescreatetime != null)
-            return false;
-        if (rescreateuser != null ? !rescreateuser.equals(that.rescreateuser) : that.rescreateuser != null)
-            return false;
+        if (!resviewtitle.equals(that.resviewtitle)) return false;
+        if (!resviewsort.equals(that.resviewsort)) return false;
+        if (!resinputsort.equals(that.resinputsort)) return false;
+        if (!resviewtype.equals(that.resviewtype)) return false;
+        if (!restestresult.equals(that.restestresult)) return false;
+        if (!resresultp.equals(that.resresultp)) return false;
+        if (!resavgvaluep.equals(that.resavgvaluep)) return false;
+        if (!resstandardvaluep.equals(that.resstandardvaluep)) return false;
+        if (!resresultn.equals(that.resresultn)) return false;
+        if (!resavgvaluen.equals(that.resavgvaluen)) return false;
+        if (!resstandardvaluen.equals(that.resstandardvaluen)) return false;
+        if (!resinputtime.equals(that.resinputtime)) return false;
+        if (!resinputuser.equals(that.resinputuser)) return false;
+        if (!resmodifytime.equals(that.resmodifytime)) return false;
+        if (!resmodifyuser.equals(that.resmodifyuser)) return false;
+        if (!resremark.equals(that.resremark)) return false;
+        if (!resfirstv.equals(that.resfirstv)) return false;
+        if (!ressecondv.equals(that.ressecondv)) return false;
+        if (!resthirdv.equals(that.resthirdv)) return false;
+        if (!resfirstn.equals(that.resfirstn)) return false;
+        if (!ressecondn.equals(that.ressecondn)) return false;
+        if (!resfirstd.equals(that.resfirstd)) return false;
+        if (!ressecondd.equals(that.ressecondd)) return false;
+        if (!rescreatetime.equals(that.rescreatetime)) return false;
+        return rescreateuser.equals(that.rescreateuser);
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (resultid ^ (resultid >>> 32));
         result = 31 * result + (int) (ressampleid ^ (ressampleid >>> 32));
-        result = 31 * result + (rescustomercode != null ? rescustomercode.hashCode() : 0);
+        result = 31 * result + (int) (rescustomerid ^ (rescustomerid >>> 32));
         result = 31 * result + (int) (restestitemid ^ (restestitemid >>> 32));
-        result = 31 * result + (resviewtitle != null ? resviewtitle.hashCode() : 0);
-        result = 31 * result + (resviewsort != null ? resviewsort.hashCode() : 0);
-        result = 31 * result + (resinputsort != null ? resinputsort.hashCode() : 0);
-        result = 31 * result + (resviewtype != null ? resviewtype.hashCode() : 0);
-        result = 31 * result + (restestresult != null ? restestresult.hashCode() : 0);
-        result = 31 * result + (resresultp != null ? resresultp.hashCode() : 0);
-        result = 31 * result + (resavgvaluep != null ? resavgvaluep.hashCode() : 0);
-        result = 31 * result + (resstandardvaluep != null ? resstandardvaluep.hashCode() : 0);
-        result = 31 * result + (resresultn != null ? resresultn.hashCode() : 0);
-        result = 31 * result + (resavgvaluen != null ? resavgvaluen.hashCode() : 0);
-        result = 31 * result + (resstandardvaluen != null ? resstandardvaluen.hashCode() : 0);
-        result = 31 * result + (resinputtime != null ? resinputtime.hashCode() : 0);
-        result = 31 * result + (resinputuser != null ? resinputuser.hashCode() : 0);
-        result = 31 * result + (resmodifytime != null ? resmodifytime.hashCode() : 0);
-        result = 31 * result + (resmodifyuser != null ? resmodifyuser.hashCode() : 0);
-        result = 31 * result + (resremark != null ? resremark.hashCode() : 0);
-        result = 31 * result + (resfirstv != null ? resfirstv.hashCode() : 0);
-        result = 31 * result + (ressecondv != null ? ressecondv.hashCode() : 0);
-        result = 31 * result + (resthirdv != null ? resthirdv.hashCode() : 0);
-        result = 31 * result + (resfirstn != null ? resfirstn.hashCode() : 0);
-        result = 31 * result + (ressecondn != null ? ressecondn.hashCode() : 0);
-        result = 31 * result + (resfirstd != null ? resfirstd.hashCode() : 0);
-        result = 31 * result + (ressecondd != null ? ressecondd.hashCode() : 0);
-        result = 31 * result + (rescreatetime != null ? rescreatetime.hashCode() : 0);
-        result = 31 * result + (rescreateuser != null ? rescreateuser.hashCode() : 0);
+        result = 31 * result + resviewtitle.hashCode();
+        result = 31 * result + resviewsort.hashCode();
+        result = 31 * result + resinputsort.hashCode();
+        result = 31 * result + resviewtype.hashCode();
+        result = 31 * result + restestresult.hashCode();
+        result = 31 * result + resresultp.hashCode();
+        result = 31 * result + resavgvaluep.hashCode();
+        result = 31 * result + resstandardvaluep.hashCode();
+        result = 31 * result + resresultn.hashCode();
+        result = 31 * result + resavgvaluen.hashCode();
+        result = 31 * result + resstandardvaluen.hashCode();
+        result = 31 * result + resinputtime.hashCode();
+        result = 31 * result + resinputuser.hashCode();
+        result = 31 * result + resmodifytime.hashCode();
+        result = 31 * result + resmodifyuser.hashCode();
+        result = 31 * result + resremark.hashCode();
+        result = 31 * result + resfirstv.hashCode();
+        result = 31 * result + ressecondv.hashCode();
+        result = 31 * result + resthirdv.hashCode();
+        result = 31 * result + resfirstn.hashCode();
+        result = 31 * result + ressecondn.hashCode();
+        result = 31 * result + resfirstd.hashCode();
+        result = 31 * result + ressecondd.hashCode();
+        result = 31 * result + rescreatetime.hashCode();
+        result = 31 * result + rescreateuser.hashCode();
         return result;
     }
 }

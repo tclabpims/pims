@@ -194,6 +194,7 @@ function AddSection() {
             }
             $.post('../customerdata/edit', {
                 bascustomercode: $('#bascustomercode').val(), baspathologyid: $('#baspathologyid').val(),
+                basrefdataalias: $('#basrefdataalias').val(), basrptItemSort: getPrintOptionValue(),
                 bastype: $('#bastype').val(),
                 basrefdataid: $('#basrefdataid').val(), basuseflag: $('#basuseflag').val()
             }, function (data) {
@@ -227,6 +228,18 @@ function clearQuery() {
     $("#queryName").val('');
     $("#query").val('');
     search();
+}
+
+function setPrintOption() {
+    if(document.getElementById("basrptItemSort").checked) {
+        $("#basrptItemSort").val(1);
+    } else {
+        $("#basrptItemSort").val(0);
+    }
+}
+
+function getPrintOptionValue() {
+    return document.getElementById("basrptItemSort").checked?1:0;
 }
 
 /**
@@ -266,6 +279,11 @@ function editSection() {
             $('#bastype').val(msg.bastype);
             $('#basrefdataid').val(msg.basrefdataid);
             $('#basuseflag').val(msg.basuseflag);
+            if(msg.basrptItemSort == 1)
+                $("#basrptItemSort").attr("checked", true);
+            else
+                $("#basrptItemSort").attr("checked", false);
+            $('#basrefdataalias').val(msg.basrefdataalias);
             $('#baspathologyname').val(rowData.baspathologyname);
             $('#bascustomername').val(rowData.bascustomername);
             $('#basrefdataname').val(rowData.basrefdataname);
@@ -286,6 +304,7 @@ function editSection() {
                     $.post('../customerdata/edit', {
                         bascustomercode: $('#bascustomercode').val(), baspathologyid: $('#baspathologyid').val(),
                         bastype: $('#bastype').val(), basedataid: $('#basedataid').val(),
+                        basrptItemSort: getPrintOptionValue(), basrefdataalias: $('#basrefdataalias').val(),
                         basrefdataid: $('#basrefdataid').val(), basuseflag: $('#basuseflag').val()
                     }, function (data) {
                         layer.close(index);
@@ -336,7 +355,7 @@ $(function () {
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
-        colNames: ['basedataid', 'baspathologyid', 'bascustomercode', 'basrefdataid', '病种名称', '客户', '数据类型', '关联数据名称', '使用状态', '创建时间'],
+        colNames: ['basedataid', 'baspathologyid', 'bascustomercode', 'basrefdataid', '病种名称', '客户', '数据类型', '关联数据名称','别名' ,'报告打印字段','使用状态', '创建时间'],
         colModel: [
             {name: 'basedataid', index: 'basedataid', width: 30, hidden: true},
             {name: 'baspathologyid', index: 'baspathologyid', width: 30, hidden: true},
@@ -352,6 +371,8 @@ $(function () {
                 editoptions: {value: "1:申请材料数据;2:申请字段数据;3:报告项目数据;4:申请检查项目数据"}
             },
             {name: 'basrefdataname', index: 'basrefdataname', width: 30},
+            {name: 'basrefdataalias', index: 'basrefdataalias', width: 30},
+            {name: 'basrptItemSort', index: 'basrptItemSort', width: 30,formatter: "select",editoptions: {value: "1:是;0:否"}},
             {
                 name: 'basuseflag',
                 index: 'basuseflag',
@@ -697,6 +718,8 @@ function clearData() {
     $('#basrefdataname').val('');
     $('#basuseflag').val(1);
     $('#basedataid').val('');
+    $("#basrptItemSort").attr("checked",false);
+    $('#basrefdataalias').val('');
 
 }
 function updatePagerIcons(table) {

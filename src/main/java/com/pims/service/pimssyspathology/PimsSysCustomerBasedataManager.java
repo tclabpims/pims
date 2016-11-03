@@ -14,4 +14,6 @@ public interface PimsSysCustomerBasedataManager extends GenericManager<PimsSysCu
     List<PimsSysCustomerBasedata> getCustomerDataList(GridQuery gridQuery);
 
     Integer countCustomerData(String query);
+
+    List<PimsSysCustomerBasedata> getCustomerDataList(Long hospitalId, Long pathologyId);
 }

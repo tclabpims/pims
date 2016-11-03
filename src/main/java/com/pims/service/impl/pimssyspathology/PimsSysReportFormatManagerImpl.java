@@ -49,4 +49,11 @@ public class PimsSysReportFormatManagerImpl  extends GenericManagerImpl<PimsSysR
         StringBuilder hql = new StringBuilder("delete PimsSysReportFormate where formpathologyid=:ID");
         pimsSysReportFormatDao.removeReportData(hql.toString(), pathologyid);
     }
+
+    @Override
+    public List<PimsSysReportFormate> getReportFormatByPathologyId(Long pathologyId) {
+        StringBuilder hql = new StringBuilder("from PimsSysReportFormate psp");
+        hql.append(" where psp.formpathologyid=:pathologyId ");
+        return pimsSysReportFormatDao.getReportFormatByPathologyId(hql.toString(), pathologyId);
+    }
 }
