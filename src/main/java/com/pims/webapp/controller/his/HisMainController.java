@@ -1,16 +1,22 @@
 package com.pims.webapp.controller.his;
 
+import com.pims.model.PimsSysPathology;
 import com.pims.model.PimsSysReqTestitem;
 import com.pims.service.his.PimsPathologyRequisitionManager;
+import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
+import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
 import com.smart.model.user.User;
+import com.smart.model.user.UserBussinessRelate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +31,8 @@ import java.util.List;
 //@RequestMapping("/his/his_main*")
 @RequestMapping("/his/his_main*")
 public class HisMainController extends PIMSBaseController {
+    @Autowired
+    private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
     @Autowired
     private PimsSysReqTestitemManager pimsSysReqTestitemManager;
     @Autowired
@@ -48,6 +56,15 @@ public class HisMainController extends PIMSBaseController {
             long a = Long.valueOf(maxCode).longValue() + 1;
             requisitionno =  String.valueOf(a);
         }
+        List<PimsSysPathology> items = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        StringBuilder builder = new StringBuilder();
+        for(PimsSysPathology obj : items) {
+            builder.append("<option value='").append(obj.getPathologyid()).append("' ");
+            if(user.getUserBussinessRelate().getPathologyLibId().equals(String.valueOf(obj.getPathologyid()))) {
+                builder.append(" selected = 'selected' ");
+            }
+            builder.append(">").append(obj.getPatnamech()).append("</option>");
+        }
         ModelAndView view = new ModelAndView();
         view.addObject("requisitionno",requisitionno);//申请单号
         view.addObject("sevenday", sevenDay);//7天前
@@ -59,6 +76,7 @@ public class HisMainController extends PIMSBaseController {
 
         view.addObject("local_user",user.getName());//用户姓名
         view.addObject("local_userid",user.getId());//用户ID
+        view.addObject("logyids",builder.toString());
         return view;
     }
 }

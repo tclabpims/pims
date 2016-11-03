@@ -89,6 +89,18 @@ public class PimsPathologySample {
 
     private Date samplesectionto;
 
+    private String samjjsj;
+
+    @Basic
+    @Column(name = "SAMJJSJ")
+    public String getSamjjsj() {
+        return samjjsj;
+    }
+
+    public void setSamjjsj(String samjjsj) {
+        this.samjjsj = samjjsj;
+    }
+
     @Transient
     public Date getSamplesectionfrom() {
         return samplesectionfrom;
@@ -984,7 +996,8 @@ public class PimsPathologySample {
             return false;
         if (samcreateuser != null ? !samcreateuser.equals(that.samcreateuser) : that.samcreateuser != null)
             return false;
-
+        if (samjjsj != null ? !samjjsj.equals(that.samjjsj) : that.samjjsj != null)
+            return false;
         return true;
     }
 
@@ -1065,6 +1078,7 @@ public class PimsPathologySample {
         result = 31 * result + (samfirstn ^ (samfirstn >>> 32));
         result = 31 * result + (samcreatetime != null ? samcreatetime.hashCode() : 0);
         result = 31 * result + (samcreateuser != null ? samcreateuser.hashCode() : 0);
+        result = 31 * result + (samjjsj != null ? samjjsj.hashCode() : 0);
         return result;
     }
 }

@@ -13,7 +13,7 @@ public class PimsPathologyRequisition {
     private long reqcustomerid;
     private long reqpathologyid;
     private String requisitionno;
-    private boolean reqsource;
+    private int reqsource;
     private long reqtype;
     private Date reqdate;
     private String reqinspectionid;
@@ -39,7 +39,7 @@ public class PimsPathologyRequisition {
     private long reqpatienttype;
     private String reqpatientnumber;
     private String reqpatientname;
-    private boolean reqpatientsex;
+    private int reqpatientsex;
     private String reqpatientage;
     private Long reqpatagetype;
     private Date reqpatbirthday;
@@ -111,11 +111,11 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQSOURCE")
-    public boolean isReqsource() {
+    public int getReqsource() {
         return reqsource;
     }
 
-    public void setReqsource(boolean reqsource) {
+    public void setReqsource(int reqsource) {
         this.reqsource = reqsource;
     }
 
@@ -371,11 +371,11 @@ public class PimsPathologyRequisition {
 
     @Basic
     @Column(name = "REQPATIENTSEX")
-    public boolean isReqpatientsex() {
+    public int getReqpatientsex() {
         return reqpatientsex;
     }
 
-    public void setReqpatientsex(boolean reqpatientsex) {
+    public void setReqpatientsex(int reqpatientsex) {
         this.reqpatientsex = reqpatientsex;
     }
 
@@ -737,7 +737,7 @@ public class PimsPathologyRequisition {
         result = 31 * result + (int) (reqcustomerid ^ (reqcustomerid >>> 32));
         result = 31 * result + (int) (reqpathologyid ^ (reqpathologyid >>> 32));
         result = 31 * result + (requisitionno != null ? requisitionno.hashCode() : 0);
-        result = 31 * result + (reqsource ? 1 : 0);
+        result = 31 * result + (reqsource ^ (reqsource >>> 32));
         result = 31 * result + (int) (reqtype ^ (reqtype >>> 32));
         result = 31 * result + (reqdate != null ? reqdate.hashCode() : 0);
         result = 31 * result + (reqinspectionid != null ? reqinspectionid.hashCode() : 0);
@@ -763,7 +763,7 @@ public class PimsPathologyRequisition {
         result = 31 * result + (int) (reqpatienttype ^ (reqpatienttype >>> 32));
         result = 31 * result + (reqpatientnumber != null ? reqpatientnumber.hashCode() : 0);
         result = 31 * result + (reqpatientname != null ? reqpatientname.hashCode() : 0);
-        result = 31 * result + (reqpatientsex ? 1 : 0);
+        result = 31 * result + (reqpatientsex ^ (reqpatientsex >>> 32));
         result = 31 * result + (reqpatientage != null ? reqpatientage.hashCode() : 0);
         result = 31 * result + (reqpatagetype != null ? reqpatagetype.hashCode() : 0);
         result = 31 * result + (reqpatbirthday != null ? reqpatbirthday.hashCode() : 0);

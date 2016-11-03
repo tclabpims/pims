@@ -126,4 +126,13 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public void sign(PimsPathologySample sample) {
         pimsPathologySampleDao.sign(sample);
     }
+
+    /**
+     * 获取最大条码号
+     * @return
+     */
+    @Override
+    public String sampleCode() {
+        return pimsPathologySampleDao.sampleCode();
+    }
 }

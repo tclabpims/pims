@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/8
@@ -31,8 +32,8 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
      * @return
      */
     @Override
-    public List<PimsSysReqTestitem> getTestitemInfo(String name) {
-        return pimsSysReqTestitemDao.getTestitemInfo(name);
+    public List<PimsSysReqTestitem> getTestitemInfo(Map map) {
+        return pimsSysReqTestitemDao.getTestitemInfo(map);
     }
 
     @Override

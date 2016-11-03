@@ -6,6 +6,7 @@ import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/10.
@@ -48,6 +49,12 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
      * @return
      */
     boolean canChange(Long id,String sts);
+
+    /**
+     * 获取最大条码号
+     * @return
+     */
+    String sampleCode();
 
     void sign(PimsPathologySample sample);
 }

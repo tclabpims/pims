@@ -19801,7 +19801,11 @@ img.editable-click:hover {
     top: 0;
     left: 0;
     cursor: default;
-    z-index:99;
+    z-index: 99999999 !important;
+    max-height: 200px;
+    overflow-y: auto;
+    /* 防止水平滚动条 */
+    overflow-x: hidden;
 }
 .ui-menu {
     list-style: none;

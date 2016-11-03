@@ -14,4 +14,6 @@ public interface PimsSysChargeItemsManager extends GenericManager<PimsSysChargeI
     List<PimsSysChargeItems> getChargeItemsList(GridQuery gridQuery);
 
     Integer countChargeItems(String query);
+
+    List getfeeAll();
 }

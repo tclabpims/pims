@@ -50,4 +50,10 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
     Integer totalNum(PimsPathologySample sample, String s);
 
     void sign(PimsPathologySample sample);
+
+    /**
+     * 获取最大条码号
+     * @return
+     */
+    String sampleCode();
 }

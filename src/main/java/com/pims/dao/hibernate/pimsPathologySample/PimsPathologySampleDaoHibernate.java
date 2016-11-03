@@ -126,7 +126,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             Query query = getSession().createSQLQuery(" update PIMS_PATHOLOGY_SAMPLE set samisdeleted = 1 where sampleid = " + id);
             query.executeUpdate();
             //更改申请单为可用状态
-            getSession().createSQLQuery("update pims_pathology_requisition set reqstate = 0,reqsampleid= null where reqsampleid = '" + id + "'");
+            getSession().createSQLQuery("update pims_pathology_requisition set reqstate = 0,reqsampleid= 0 where reqsampleid = '" + id + "'").executeUpdate();
             return true;
         }
     }
@@ -218,5 +218,17 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         query.setParameter("sampleid", sample.getSampleid());
         query.setParameter("samsamplestatus", sample.getSamsamplestatus());
         query.executeUpdate();
+    }
+
+    /**
+     * 获取最大条码号
+     * @return
+     */
+    @Override
+    public String sampleCode() {
+        String sql = ("select max(saminspectionid) from pims_pathology_sample where samisdeleted=0");
+        Object o = getSession().createSQLQuery(sql).uniqueResult();
+        if(o==null) return null;
+        return o.toString();
     }
 }

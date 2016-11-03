@@ -11,6 +11,9 @@ function saveInfo(num) {
 			arr.push(rowData1);
 			}
 		);
+	}else{
+		alert("未选择数据!");
+		return;
 	}
 	var post = true;
 	if(post) {
@@ -40,8 +43,9 @@ function clearData() {
 /**
  * 查询切片状态
  */
-function searchSts(){
-	var req_sts = $("#req_sts").val();
+function searchSts(states){
+	var req_sts = states;
+	//var req_sts = $("#req_sts").val();
 	if(req_sts == "1"){
 		$("#saveButton").attr({"disabled":true});
 		$("#resetbutton").removeAttr("disabled");//将按钮可用
@@ -62,17 +66,29 @@ $(function() {
 		autoclose:true //选择日期后自动关闭
 	});
 	$("#resetbutton").attr({"disabled":true});
-	createNew1("");
+
 	var clientHeight= $(window).innerHeight();
-	var height =clientHeight-$('#div_1').height()- $('#div_2').height()-200;
+	var height = $("#formDialog").height() - $('#search_div_1').height()+405;
+	var width = $('#search_div_1').width()-5;
+	var width1 = $("#sampleForm").width()-5;
+
+	createNew1("",width1);
 	//var logyid = $("#logyid").val();
 	var logyid ="";
 	var patient_name = $('#patient_name').val();//病人姓名
-	var send_hosptail = $('#send_hosptail').val();
+	//var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();//病理号
 	var send_doctor = "";//内部医嘱
+	if($("#send_hosptail1").is(':checked') && $("#send_hosptail2").is(':checked')){
+		$('#send_hosptail').val("");
+	}else if($("#send_hosptail1").is(':checked')){
+		$('#send_hosptail').val("0");
+	}else if($("#send_hosptail2").is(':checked')){
+		$('#send_hosptail').val("1");
+	}
+	var send_hosptail = $('#send_hosptail').val();
 	if($("#send_doctor").is(':checked')){
 		req_code = "1";
 	}
@@ -80,7 +96,8 @@ $(function() {
 	if($("#req_code").is(':checked')){
 		req_code = "1";
 	}
-	var req_sts = $('#req_sts').val();//切片状态
+	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	//var req_sts = $('#req_sts').val();//切片状态
 	$("#new").jqGrid({
 		url: "../pathologysample/slide/ajax/sample",
 		mtype: "GET",
@@ -114,29 +131,40 @@ $(function() {
 			{name:'parpieceparts',hidden:true},//取材部位
 			{name:'sampathologyid',hidden:true}//病种类别
 		],
+		beforeSelectRow: function (rowid, e) {
+			return $(e.target).is('input[type=checkbox]');
+		},
 		loadComplete : function() {
 			var table = this;
 			setTimeout(function(){
 				updatePagerIcons(table);
 			}, 0);
-			$("#new").setSelection(1);
+			var ids = $("#new").jqGrid('getDataIDs');
+			if(ids != null && ids != ""){
+				fillInfo(1);
+			}
+			//$("#new").setSelection(1);
 		},
 		ondblClickRow: function (id) {
+			fillInfo(id);
 		},
 		onSelectRow:function(id,status){
-				fillInfo(id);
+				//fillInfo(id);
+		},
+		onCellSelect:function(id){
+			fillInfo(id);
 		},
 		onSelectAll:function(aRowids,status){
-			if(status){
-				fillInfo(0);   //选中
-			}else{
-				clearData();   //取消选中
-			}
+			// if(status){
+			// 	fillInfo(0);   //选中
+			// }else{
+			// 	clearData();   //取消选中
+			// }
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:300,
-		width:440,
+		height:height,
+		width: width,
 		//autowidth: true,
 		shrinkToFit:false,
 		autoScroll: true,
@@ -146,18 +174,19 @@ $(function() {
 		rownumWidth: 10, // the width of the row numbers columns
 		pager: "#pager"
 	});
+	$("#pager_left").remove();
 });
 /**
  * 初始化玻片列表
  * @param reqid
  */
-function createNew1(reqid){
+function createNew1(reqid,width1){
 	$("#new1").jqGrid({
 		url:"../pathologysample/slide/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
-		height: 280,
-		width:880,
+		height: 200,
+		width:width1,
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','蜡块ID','材块编号','玻片类型','玻片序号','取材医生','取材时间','包埋医生', '包埋时间','切片医生', '切片时间','切片状态','印刷状态','分类', '特检项目',
 		'玻片id','客户代码','客户代码','玻片条码号','病理编号','玻片来源','玻片使用状态','玻片号','蜡块序号','取材部位'],
@@ -177,7 +206,7 @@ function createNew1(reqid){
 			{ name: 'parsectionedtime', index: 'parsectionedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},//切片时间
 			{ name: 'parissectioned', index: 'parissectioned',formatter: "select", editoptions:{value:"0:未切片;1:已切片"},width:100},//切片状态
 			{ name: 'sliifprint', index: 'sliifprint',formatter: "select", editoptions:{value:"0:未打印;1:已打印"},width:100},//印刷状态
-			{ name: 'sampathologyid', index: 'sampathologyid',width:100},//分类
+			{ name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes()},width:100},//分类
 			{ name: 'slitestitemname', index: 'slitestitemname',width:100},//特检项目
 			{name:'slideid',hidden:true},//玻片id
 			{name:'slicustomerid',hidden:true},//客户代码
@@ -199,6 +228,8 @@ function createNew1(reqid){
 		beforeEditCell:function(rowid,cellname,v,iRow,iCol){
 			canChange(rowid,1);
 		},
+		shrinkToFit:false,
+		autoScroll: true,
 		viewrecords: true,
 		rownumbers : true,
 		ondblClickRow: function (id) {
@@ -225,17 +256,48 @@ function createNew1(reqid){
 		}
 	});
 }
+
+function gettypes(){
+	//动态生成select内容
+	var str="";
+	$.ajax({
+		type:"post",
+		async:false,
+		url:"../hpinfo/userid",
+		dataType: "json",
+		success:function(data){
+			if (data != null) {
+				for(var i=0;i<data.length;i++){
+					if(i!=data.length-1){
+						str+=data[i].id+":"+data[i].name+";";
+					}else{
+						str+=data[i].id+":"+data[i].name;
+					}
+				}
+			}
+		}
+	});
+	return str;
+}
 /**
  * 查询数据
  */
 function searchList() {
 	clearData();
 	var patient_name = $('#patient_name').val();
+	if($("#send_hosptail1").is(':checked') && $("#send_hosptail2").is(':checked')){
+		$('#send_hosptail').val("");
+	}else if($("#send_hosptail1").is(':checked')){
+		$('#send_hosptail').val("0");
+	}else if($("#send_hosptail2").is(':checked')){
+		$('#send_hosptail').val("1");
+	}
 	var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();
-	var req_sts = $('#req_sts').val();
+	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	//var req_sts = $('#req_sts').val();
 	var send_doctor = "";//内部医嘱
 	if($("#send_doctor").is(':checked')){
 		send_doctor = "1";
@@ -254,32 +316,14 @@ function searchList() {
 	}).trigger('reloadGrid');//重新载入
 }
 function fillInfo(id){
-	var selectedIds = $("#new").jqGrid('getDataIDs');
-	var maxSelectId = Math.max.apply(Math,selectedIds);
-	if(id > 0){
-		selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
-		maxSelectId = Math.max.apply(Math,selectedIds);
-	}
 	clearData();
-	var rowData = $("#new").jqGrid('getRowData',maxSelectId);
+	var rowData = $("#new").jqGrid('getRowData',id);
 	getSampleData(rowData.sampleid);
-	var dataIds = "";
-	$(selectedIds).each(function () {
-			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
-			if(dataIds == ""){
-				dataIds = "'" + rowData1.paraffinid + "'";
-			}else{
-				dataIds = dataIds +",'"+ rowData1.paraffinid+"'";
-			}
-		}
-	);
-	var req_sts = $("#req_sts").val();
+	var dataIds = "'" + rowData.paraffinid + "'";
+	//var req_sts = $("#req_sts").val();
+	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	if(req_sts == "0"){
-		$(selectedIds).each(function () {
-				var rowData2 = $("#new").jqGrid('getRowData',this.toString());
-				addRow(rowData2);
-			}
-		);
+		addRow(rowData);
 	}else{
 		jQuery("#new1").jqGrid('setGridParam',{
 			url: "../pathologysample/slide/ajax/getItem",
@@ -289,15 +333,51 @@ function fillInfo(id){
 	}
 
 }
+// function fillInfo(id){
+// 	var selectedIds = $("#new").jqGrid('getDataIDs');
+// 	var maxSelectId = Math.max.apply(Math,selectedIds);
+// 	if(id > 0){
+// 		selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
+// 		maxSelectId = Math.max.apply(Math,selectedIds);
+// 	}
+// 	clearData();
+// 	var rowData = $("#new").jqGrid('getRowData',maxSelectId);
+// 	getSampleData(rowData.sampleid);
+// 	var dataIds = "";
+// 	$(selectedIds).each(function () {
+// 			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
+// 			if(dataIds == ""){
+// 				dataIds = "'" + rowData1.paraffinid + "'";
+// 			}else{
+// 				dataIds = dataIds +",'"+ rowData1.paraffinid+"'";
+// 			}
+// 		}
+// 	);
+// 	var req_sts = $("#req_sts").val();
+// 	if(req_sts == "0"){
+// 		$(selectedIds).each(function () {
+// 				var rowData2 = $("#new").jqGrid('getRowData',this.toString());
+// 				addRow(rowData2);
+// 			}
+// 		);
+// 	}else{
+// 		jQuery("#new1").jqGrid('setGridParam',{
+// 			url: "../pathologysample/slide/ajax/getItem",
+// 			//发送数据
+// 			postData : {"reqId":dataIds}
+// 		}).trigger('reloadGrid');//重新载入
+// 	}
+//
+// }
 function getSampleData(id) {
 	$.get("../pathologysample/slide/get",{id:id},function(data) {
 		if(data != "") {
 			$("#sampathologycode").val(data.sampathologycode);
 			$("#sampleid").val(data.sampleid);
 			$("#samsamplestatus").val(data.samsamplestatus);
-			$("#samsenddoctorid").val(data.samsenddoctorid);
+			$("#samsenddoctorname").val(data.samsenddoctorname);
 			$("#sampatientname").val(data.sampatientname);
-			$("#samdeptcode").val(data.samdeptcode);
+			$("#samdeptname").val(data.samdeptname);
 			$("#sampatientnumber").val(data.sampatientnumber);
 			$("#samsamplename").val(data.samsamplename);
 			$("#sampatientbed").val(data.sampatientbed);
@@ -324,7 +404,7 @@ function addRow(data){
 		pieceid:data.pieceid,//材块ID
 		sliparaffinid: data.paraffinid,//蜡块ID
 		paraffinid: data.paraffinid,//蜡块ID
-		sliparaffincode:data.paraffinid,//材块编号
+		sliparaffincode:data.piecode,//材块编号
 		slislidetype:0,//玻片类型
 		slislideno: 1,//玻片序号
 		piedoctorname: data.piedoctorname,//取材医生
@@ -358,7 +438,7 @@ function addRow(data){
 				pieceid:data.pieceid,//材块ID
 				sliparaffinid: data.paraffinid,//蜡块ID
 				paraffinid: data.paraffinid,//蜡块ID
-				sliparaffincode:data.paraffinid,//材块编号
+				sliparaffincode:data.piecode,//材块编号
 				slislidetype:1,//玻片类型
 				slislideno: xh,//玻片序号
 				piedoctorname: data.piedoctorname,//取材医生

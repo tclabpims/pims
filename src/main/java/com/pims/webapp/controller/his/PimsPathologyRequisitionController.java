@@ -72,7 +72,9 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	public void getsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String code = request.getParameter("id");
 		PimsPathologyRequisition pathology = pimsPathologyRequisitionManager.getBySampleNo(Long.parseLong(code));
+		String sjcl = pimsPathologyRequisitionManager.getSjcl(Long.parseLong(code));
 		JSONObject pathMap = getJSONObject(pathology);
+		pathMap.put("sjcl",sjcl);
 		PrintwriterUtil.print(response, pathMap.toString());
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/10/6.
@@ -91,5 +92,10 @@ public class PimsPathologyTemplateManagerImpl extends GenericManagerImpl<PimsPat
         builder.append("from PimsPathologyTemplate as t where t.temcustomerid=:hospitalId and t.tempathologyid=:pathologyLibId and t.temclass=:tempType");
         builder.append(" and (t.temownerid=:userId or t.temtype=0) ");
         return pimsPathologyTemplateDao.getTemplateList(gridQuery, tempType, pathologyLibId, builder.toString());
+    }
+
+    @Override
+    public List getDataList(Map map) {
+        return pimsPathologyTemplateDao.getDataList(map);
     }
 }

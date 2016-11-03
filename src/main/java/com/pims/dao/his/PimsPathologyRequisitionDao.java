@@ -72,5 +72,7 @@ public interface PimsPathologyRequisitionDao extends GenericDao<PimsPathologyReq
      * @return
      */
     PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr);
+
+    String getSjcl(Long id);
 }
 

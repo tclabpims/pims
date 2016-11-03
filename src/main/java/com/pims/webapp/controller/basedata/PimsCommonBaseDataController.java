@@ -52,7 +52,8 @@ public class PimsCommonBaseDataController extends PIMSBaseController{
 				array.put(o);
 			}
 		}
-		response.setContentType("text/html; charset=UTF-8");
+		//response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(array.toString());
 		return null;
 	}

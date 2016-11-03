@@ -41,6 +41,8 @@ public interface PimsPathologyRequisitionManager extends GenericManager<PimsPath
      */
     PimsPathologyRequisition getBySampleNo(Long id);
 
+    String getSjcl(Long id);
+
     /**
      * 根据病种类别查询最大单据号
      * @param reqpathologyid

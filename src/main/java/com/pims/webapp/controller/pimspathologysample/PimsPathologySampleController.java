@@ -1,17 +1,26 @@
 package com.pims.webapp.controller.pimspathologysample;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysPathology;
+import com.alibaba.fastjson.serializer.ValueFilter;
+import com.pims.model.*;
 import com.pims.service.his.PimsPathologyRequisitionManager;
+import com.pims.service.pimspathologysample.PimsPathologyFeeManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
+import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.webapp.controller.PIMSBaseController;
+import com.smart.Constants;
+import com.smart.lisservice.WebService;
 import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
+import com.smart.webapp.util.UserUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +32,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/10.
@@ -37,6 +50,10 @@ public class PimsPathologySampleController extends PIMSBaseController{
     private PimsPathologySampleManager pimsPathologySampleManager;
     @Autowired
     private PimsSysPathologyManager pimsSysPathologyManager;
+    @Autowired
+    private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
+    @Autowired
+    private PimsPathologyFeeManager pimsPathologyFeeManager;
     /**
      * 渲染视图
      * @param request
@@ -172,7 +189,21 @@ public class PimsPathologySampleController extends PIMSBaseController{
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         JSONObject o = new JSONObject();
         if(StringUtils.isEmpty(String.valueOf(ppr.getSampleid())) || String.valueOf(ppr.getSampleid()).equals("0")){
+            //获取条码信息
+            String samplecode = pimsPathologySampleManager.sampleCode();
+            if(samplecode == null){
+                samplecode = "A12000230001";
+            }else{
+                samplecode = samplecode.substring(0,1)+(Long.parseLong(samplecode.substring(1))+1);
+            }
+            //查询客户病理编号生成规则
+            PimsHospitalPathologyInfo phi = pimsHospitalPathologyInfoManager.gethinfo(ppr);
+            phi = searchCodeValue(phi);
+            ppr.setSampathologycode(phi.getNumberPrefix()+phi.getNextNumber());
+            ppr.setSaminspectionid(samplecode);
             ppr = pimsPathologySampleManager.save(ppr);
+            pimsHospitalPathologyInfoManager.save(phi);//更新病理编号最大值
+
             //更新电子申请单已被使用
             pimsPathologyRequisitionManager.updateReqState(ppr,1);
             o.put("message", "标本添加成功！");
@@ -199,7 +230,16 @@ public class PimsPathologySampleController extends PIMSBaseController{
             o.put("message", "查不到该标本的信息！");
             o.put("success", false);
         }else{
+            PimsPathologySample pathology = pimsPathologySampleManager.getBySampleNo(ppr.getSampleid());
             pimsPathologySampleManager.delete((long) ppr.getSampleid());
+            //查询客户病理编号生成规则
+            PimsHospitalPathologyInfo phi = pimsHospitalPathologyInfoManager.gethinfo(pathology);
+            String qz =phi.getNumberPrefix()==null?"":phi.getNumberPrefix();
+            String code =  qz + phi.getNextNumber();
+            if(code.equals(pathology.getSampathologycode())){
+                phi.setNextNumber(phi.getNextNumber()-1);
+                pimsHospitalPathologyInfoManager.save(phi);
+            }
             //更新电子申请单未被使用
             //pimsPathologyRequisitionManager.updateReqState(ppr,0);
             o.put("message", "标本删除成功！");
@@ -207,5 +247,102 @@ public class PimsPathologySampleController extends PIMSBaseController{
         }
         PrintwriterUtil.print(response, o.toString());
     }
+
+    /**
+     * 获取收费列表
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/ajax/fee*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getFeeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsPathologyFee fee = (PimsPathologyFee) setBeanProperty(request,PimsPathologyFee.class);
+        if(fee == null || fee.getFeesampleid() == 0){
+            return  null;
+        }
+        List<PimsPathologyFee> list = pimsPathologyFeeManager.getSampleList(fee);
+        dataResponse.setRows(getResultMap(list));
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 打印条码
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/printList*", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String printRequestList(HttpServletRequest request, HttpServletResponse response) {
+
+        List<PimsPathologySample> lists = new ArrayList<PimsPathologySample>(); //返回JSON打印信息
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        WebService webService = new WebService();
+        String samples = request.getParameter("samples");
+        List<PimsPathologySample> samplearray = JSON.parseArray(samples,PimsPathologySample.class);//申请打印记录
+        List<PimsPathologySample> hasPrintLaborder = new ArrayList<PimsPathologySample>(); //已打印记录
+        JSONObject retObj = new JSONObject();
+        retObj.put("printOrders", samplearray);
+        retObj.put("noPrintOrders", hasPrintLaborder);
+        return JSON.toJSONString(retObj, filter);
+    }
+
+    private ValueFilter filter = new ValueFilter() {
+        @Override
+        public Object process(Object obj, String s, Object v) {
+            if (v == null)
+                return "";
+            return v;
+        }
+    };
+
+
+    /**
+     * 保存计费信息
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/savefee*", method = RequestMethod.POST)
+    public void savefee(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String fees = request.getParameter("fees");
+        String states = request.getParameter("states");
+        JSONArray feesList = JSON.parseArray(fees);
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JSONObject o = new JSONObject();
+        if(states.equals("0")){//只保存
+            for(int i=0;i<feesList.size();i++){
+                Map map = (Map) feesList.get(i);
+                PimsPathologyFee fee = (PimsPathologyFee) setBeanProperty(map,PimsPathologyFee.class);
+                if(fee.getFeestate() == 0){
+                    pimsPathologyFeeManager.save(fee);
+                }
+            }
+            o.put("message", "计费项目保存成功！");
+            o.put("success", true);
+        }else if(states.equals("1")){//保存并发送
+            for(int i=0;i<feesList.size();i++){
+                Map map = (Map) feesList.get(i);
+                PimsPathologyFee fee = (PimsPathologyFee) setBeanProperty(map,PimsPathologyFee.class);
+                fee.setFeestate(2);
+                fee.setFeesenduserid(String.valueOf(user.getId()));
+                fee.setFeesendusername(user.getName());
+                fee.setFeesendtime(new Date());
+                if(fee.getFeestate() == 0){
+                    pimsPathologyFeeManager.save(fee);
+                }
+                //// TODO: 2016/11/3 发送到HIS
+            }
+            o.put("message", "计费项目保存并发送成功！");
+            o.put("success", true);
+        }
+        PrintwriterUtil.print(response, o.toString());
+    }
+
 
 }

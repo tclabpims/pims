@@ -1,41 +1,54 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_MESSAGE", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_MESSAGE")
 public class PimsPathologyMessage {
     private long messageid;
+    private Long mescustomerid;
     private long meslevel;
     private String mescontent;
     private String messenderid;
     private String messendername;
     private long mesvaliddays;
-    private Time mesvalidtime;
+    private Date mesvalidtime;
     private String mesreceivestation;
     private String mesreceiverid;
     private String mesreceivername;
-    private Time meshandletime;
+    private Date meshandletime;
     private String meshandleuser;
     private String mesremark;
     private String mesfirstv;
     private Long mesfirstn;
-    private Time mesfirstd;
-    private Time mescreatetime;
+    private Date mesfirstd;
+    private Date mescreatetime;
     private String mescreateuser;
 
     @Id
     @Column(name = "MESSAGEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_MESSAGEID")
+    @SequenceGenerator(name = "SEQ_MESSAGEID", sequenceName = "SEQ_MESSAGEID", allocationSize=1)
     public long getMessageid() {
         return messageid;
     }
 
     public void setMessageid(long messageid) {
         this.messageid = messageid;
+    }
+
+    @Basic
+    @Column(name = "MESCUSTOMERID")
+    public Long getMescustomerid() {
+        return mescustomerid;
+    }
+
+    public void setMescustomerid(Long mescustomerid) {
+        this.mescustomerid = mescustomerid;
     }
 
     @Basic
@@ -90,11 +103,11 @@ public class PimsPathologyMessage {
 
     @Basic
     @Column(name = "MESVALIDTIME")
-    public Time getMesvalidtime() {
+    public Date getMesvalidtime() {
         return mesvalidtime;
     }
 
-    public void setMesvalidtime(Time mesvalidtime) {
+    public void setMesvalidtime(Date mesvalidtime) {
         this.mesvalidtime = mesvalidtime;
     }
 
@@ -130,11 +143,11 @@ public class PimsPathologyMessage {
 
     @Basic
     @Column(name = "MESHANDLETIME")
-    public Time getMeshandletime() {
+    public Date getMeshandletime() {
         return meshandletime;
     }
 
-    public void setMeshandletime(Time meshandletime) {
+    public void setMeshandletime(Date meshandletime) {
         this.meshandletime = meshandletime;
     }
 
@@ -180,21 +193,21 @@ public class PimsPathologyMessage {
 
     @Basic
     @Column(name = "MESFIRSTD")
-    public Time getMesfirstd() {
+    public Date getMesfirstd() {
         return mesfirstd;
     }
 
-    public void setMesfirstd(Time mesfirstd) {
+    public void setMesfirstd(Date mesfirstd) {
         this.mesfirstd = mesfirstd;
     }
 
     @Basic
     @Column(name = "MESCREATETIME")
-    public Time getMescreatetime() {
+    public Date getMescreatetime() {
         return mescreatetime;
     }
 
-    public void setMescreatetime(Time mescreatetime) {
+    public void setMescreatetime(Date mescreatetime) {
         this.mescreatetime = mescreatetime;
     }
 
@@ -218,6 +231,8 @@ public class PimsPathologyMessage {
         if (messageid != that.messageid) return false;
         if (meslevel != that.meslevel) return false;
         if (mesvaliddays != that.mesvaliddays) return false;
+        if (mescustomerid != null ? !mescustomerid.equals(that.mescustomerid) : that.mescustomerid != null)
+            return false;
         if (mescontent != null ? !mescontent.equals(that.mescontent) : that.mescontent != null) return false;
         if (messenderid != null ? !messenderid.equals(that.messenderid) : that.messenderid != null) return false;
         if (messendername != null ? !messendername.equals(that.messendername) : that.messendername != null)
@@ -248,6 +263,7 @@ public class PimsPathologyMessage {
     @Override
     public int hashCode() {
         int result = (int) (messageid ^ (messageid >>> 32));
+        result = 31 * result + (mescustomerid != null ? mescustomerid.hashCode() : 0);
         result = 31 * result + (int) (meslevel ^ (meslevel >>> 32));
         result = 31 * result + (mescontent != null ? mescontent.hashCode() : 0);
         result = 31 * result + (messenderid != null ? messenderid.hashCode() : 0);

@@ -5,6 +5,8 @@ import com.pims.model.PimsSysChargeItems;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by 909436637@qq.com on 2016/10/11.
  * Description:
@@ -17,5 +19,12 @@ public class PimsSysChargeItemsDaoHibernate extends GenericDaoHibernate<PimsSysC
      */
     public PimsSysChargeItemsDaoHibernate() {
         super(PimsSysChargeItems.class);
+    }
+
+    @Override
+    public List<PimsSysChargeItems> getfeeAll() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsSysChargeItems a,PimsSysChargeitemRef b where a.chargeitemid =b.chargeitemid and chiuseflag = 1 order by chiitemsort");
+        return getSession().createQuery(sb.toString()).list();
     }
 }

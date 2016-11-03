@@ -274,7 +274,7 @@ public class PimsPathologyTemplate extends BaseObject {
      */
     @Override
     public String toString() {
-        return null;
+        return getClass().getName();
     }
 
     @Override

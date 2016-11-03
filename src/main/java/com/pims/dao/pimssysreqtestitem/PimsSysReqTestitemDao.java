@@ -4,6 +4,7 @@ import com.pims.model.PimsSysReqTestitem;
 import com.smart.dao.GenericDao;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/8
@@ -14,7 +15,7 @@ public interface PimsSysReqTestitemDao extends GenericDao<PimsSysReqTestitem,Lon
      * @param
      * @return
      */
-    List<PimsSysReqTestitem> getTestitemInfo(String name);
+    List<PimsSysReqTestitem> getTestitemInfo(Map name);
 
     List<PimsSysReqTestitem> allTestItem();
 

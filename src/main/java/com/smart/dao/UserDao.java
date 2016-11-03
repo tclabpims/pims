@@ -49,5 +49,12 @@ public interface UserDao extends GenericDao<User, Long> {
     String getUserPassword(Long userId);
     
     List<User> getByUsername(String name);
+
+    /**
+     * 根据医院ID获取用户列表
+     * @param id
+     * @return
+     */
+    List<User> getHosUserList(long id);
     
 }

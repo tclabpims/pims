@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.DefaultJSONParser;
+import com.pims.model.PimsHospitalPathologyInfo;
+import com.pims.model.PimsSysPathology;
+import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.webapp.util.VerificaDate;
 import com.smart.Constants;
@@ -17,6 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -41,6 +45,8 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
  * Description: This class is used to do something about controller,e.g assemble parameters .
  */
 public class PIMSBaseController {
+    @Autowired
+    private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
 
     protected final String contentType = "application/json; charset=UTF-8";
 
@@ -83,19 +89,14 @@ public class PIMSBaseController {
         String today = Constants.DF2.format(new Date());
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
-//        User user = WebControllerUtil.getAuthUser();
-        UserBussinessRelate ubr = user.getUserBussinessRelate();
-        ApplicationContext ctx= WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-        PimsSysPathologyManager pimsSysPathologyManager = (PimsSysPathologyManager) ctx.getBean("pimsSysPathologyManager");
-        com.alibaba.fastjson.JSONArray items = pimsSysPathologyManager.getPathologyType();
+        List<PimsSysPathology> items = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
         StringBuilder builder = new StringBuilder();
-        for(Object obj : items) {
-            com.alibaba.fastjson.JSONObject o = (com.alibaba.fastjson.JSONObject) obj;
-            builder.append("<option value='").append(o.get("pathologyLibId")).append("' ");
-            if(ubr.getPathologyLibId().equals(String.valueOf(o.get("pathologyLibId")))) {
+        for(PimsSysPathology obj : items) {
+            builder.append("<option value='").append(obj.getPathologyid()).append("' ");
+            if(user.getUserBussinessRelate().getPathologyLibId().equals(String.valueOf(obj.getPathologyid()))) {
                 builder.append(" selected = 'selected' ");
             }
-            builder.append(">").append(o.get("pathologyLib")).append("</option>");
+            builder.append(">").append(obj.getPatnamech()).append("</option>");
         }
         ModelAndView view = new ModelAndView();
         view.addObject("logyid",logylibid);//当前用户选择的病例库
@@ -315,7 +316,8 @@ public class PIMSBaseController {
                                 pd.getWriteMethod().invoke(ins, value);
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
                                 try {
-                                    if(value.length() == 19){
+                                    if(value.length() >= 19){
+                                        value = value.substring(0,19);
                                         pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
                                     }else if(value.length() == 10){
                                         pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));
@@ -339,4 +341,30 @@ public class PIMSBaseController {
         return ins;
     }
 
+    public PimsHospitalPathologyInfo searchCodeValue(PimsHospitalPathologyInfo phi){
+        String rexpre =  phi.getRegularExpression();//病理编号的生成规则正则
+        long nextnumber = phi.getNextNumber();//当前值
+        String numberprefix = phi.getNumberPrefix()==null?"":phi.getNumberPrefix();//前缀
+        phi.setNumberPrefix(numberprefix);
+        if(rexpre == null || rexpre.equals("")){
+            nextnumber += 1;
+        }else{
+            String[] rexpres = rexpre.split("\\|D");
+            if(rexpres.length == 1 || rexpres[0].equals("")){
+                nextnumber += 1;
+            }else{
+                SimpleDateFormat sdf = new SimpleDateFormat(rexpres[0]);
+                String newlong = sdf.format(new Date());
+                String oldlong = Long.toString(nextnumber).substring(0,rexpres[0].length());
+                if(newlong.equals(oldlong)){
+                    nextnumber += 1;
+                }else{
+                    int num = Integer.parseInt(rexpres[1]);
+                    nextnumber = (long) (Long.parseLong(newlong)*(Math.pow(10,num)) + 1);
+                }
+            }
+        }
+        phi.setNextNumber(nextnumber);
+        return phi;
+    }
 }

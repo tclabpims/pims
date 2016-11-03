@@ -188,6 +188,9 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         for(int i= 0;i<materials.size();i++){
             Map map = (Map) materials.get(i);
             PimsRequisitionMaterial mater = (PimsRequisitionMaterial) setBeanProperty(map,PimsRequisitionMaterial.class);
+            if(String.valueOf(mater.getRequisitionid()).equals("0")){
+                mater.setRequisitionid(ppr.getRequisitionid());
+            }
 //            String sql = "insert into pims_requisition_material (requisitionid,materialid,reqmcustomercode,reqmmaterialname,reqmmaterialtype,reqmsamplingparts," +
 //                    "reqmspecialrequirements,reqmremark,reqmcreateuser,reqmcreatetime) values (:requisitionid,:materialid,:reqmcustomercode,:reqmmaterialname," +
 //                    ":reqmmaterialtype,:reqmsamplingparts,:reqmspecialrequirements,:reqmremark,:reqmcreateuser,:reqmcreatetime)";
@@ -206,5 +209,14 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
             pimsRequisitionMaterialManager.save(mater);
         }
         return ppr;
+    }
+
+    @Override
+    public String getSjcl(Long id) {
+        String sql = "select listagg(reqmmaterialname,',') within GROUP (order by requisitionid)   from  " +
+                "pims_requisition_material  t where  requisitionid = " + id;
+        Object o = getSession().createSQLQuery(sql).uniqueResult();
+        if(o == null) return "";
+        return o.toString();
     }
 }

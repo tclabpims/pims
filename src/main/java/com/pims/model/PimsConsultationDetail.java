@@ -1,23 +1,23 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
- * Created by king on 2016/9/28.
+ * Created by king on 2016/10/25.
  */
 @Entity
-@Table(name = "PIMS_CONSULTATION_DETAIL", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_CONSULTATION_DETAIL")
 public class PimsConsultationDetail {
     private long detailid;
     private long detconsultationid;
     private long detsampleid;
     private String detpathologycode;
-    private String detcustomercode;
+    private long detcustomerid;
     private String detdoctorid;
     private String detdoctorname;
     private long detstate;
-    private Time detconsultationtime;
+    private Date detconsultationtime;
     private String detadvice;
     private String detremark;
     private String detfirstv;
@@ -25,13 +25,15 @@ public class PimsConsultationDetail {
     private String detthirdv;
     private Long detfirstn;
     private Long detsecondn;
-    private Time detfirstd;
-    private Time detsecondd;
+    private Date detfirstd;
+    private Date detsecondd;
     private String detcreateuserid;
-    private Time detcreatetime;
+    private Date detcreatetime;
 
     @Id
     @Column(name = "DETAILID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_DETAILID")
+    @SequenceGenerator(name = "SEQ_DETAILID", sequenceName = "SEQ_DETAILID", allocationSize=1)
     public long getDetailid() {
         return detailid;
     }
@@ -71,13 +73,13 @@ public class PimsConsultationDetail {
     }
 
     @Basic
-    @Column(name = "DETCUSTOMERCODE")
-    public String getDetcustomercode() {
-        return detcustomercode;
+    @Column(name = "DETCUSTOMERID")
+    public long getDetcustomerid() {
+        return detcustomerid;
     }
 
-    public void setDetcustomercode(String detcustomercode) {
-        this.detcustomercode = detcustomercode;
+    public void setDetcustomerid(long detcustomerid) {
+        this.detcustomerid = detcustomerid;
     }
 
     @Basic
@@ -112,11 +114,11 @@ public class PimsConsultationDetail {
 
     @Basic
     @Column(name = "DETCONSULTATIONTIME")
-    public Time getDetconsultationtime() {
+    public Date getDetconsultationtime() {
         return detconsultationtime;
     }
 
-    public void setDetconsultationtime(Time detconsultationtime) {
+    public void setDetconsultationtime(Date detconsultationtime) {
         this.detconsultationtime = detconsultationtime;
     }
 
@@ -192,21 +194,21 @@ public class PimsConsultationDetail {
 
     @Basic
     @Column(name = "DETFIRSTD")
-    public Time getDetfirstd() {
+    public Date getDetfirstd() {
         return detfirstd;
     }
 
-    public void setDetfirstd(Time detfirstd) {
+    public void setDetfirstd(Date detfirstd) {
         this.detfirstd = detfirstd;
     }
 
     @Basic
     @Column(name = "DETSECONDD")
-    public Time getDetsecondd() {
+    public Date getDetsecondd() {
         return detsecondd;
     }
 
-    public void setDetsecondd(Time detsecondd) {
+    public void setDetsecondd(Date detsecondd) {
         this.detsecondd = detsecondd;
     }
 
@@ -222,11 +224,11 @@ public class PimsConsultationDetail {
 
     @Basic
     @Column(name = "DETCREATETIME")
-    public Time getDetcreatetime() {
+    public Date getDetcreatetime() {
         return detcreatetime;
     }
 
-    public void setDetcreatetime(Time detcreatetime) {
+    public void setDetcreatetime(Date detcreatetime) {
         this.detcreatetime = detcreatetime;
     }
 
@@ -240,10 +242,9 @@ public class PimsConsultationDetail {
         if (detailid != that.detailid) return false;
         if (detconsultationid != that.detconsultationid) return false;
         if (detsampleid != that.detsampleid) return false;
+        if (detcustomerid != that.detcustomerid) return false;
         if (detstate != that.detstate) return false;
         if (detpathologycode != null ? !detpathologycode.equals(that.detpathologycode) : that.detpathologycode != null)
-            return false;
-        if (detcustomercode != null ? !detcustomercode.equals(that.detcustomercode) : that.detcustomercode != null)
             return false;
         if (detdoctorid != null ? !detdoctorid.equals(that.detdoctorid) : that.detdoctorid != null) return false;
         if (detdoctorname != null ? !detdoctorname.equals(that.detdoctorname) : that.detdoctorname != null)
@@ -273,7 +274,7 @@ public class PimsConsultationDetail {
         result = 31 * result + (int) (detconsultationid ^ (detconsultationid >>> 32));
         result = 31 * result + (int) (detsampleid ^ (detsampleid >>> 32));
         result = 31 * result + (detpathologycode != null ? detpathologycode.hashCode() : 0);
-        result = 31 * result + (detcustomercode != null ? detcustomercode.hashCode() : 0);
+        result = 31 * result + (int) (detcustomerid ^ (detcustomerid >>> 32));
         result = 31 * result + (detdoctorid != null ? detdoctorid.hashCode() : 0);
         result = 31 * result + (detdoctorname != null ? detdoctorname.hashCode() : 0);
         result = 31 * result + (int) (detstate ^ (detstate >>> 32));

@@ -46,4 +46,9 @@ public class PimsSysChargeItemsManagerImpl extends GenericManagerImpl<PimsSysCha
         }
         return pimsSysChargeItemsDao.countTotal(qstr.toString());
     }
+
+    @Override
+    public List getfeeAll() {
+        return pimsSysChargeItemsDao.getfeeAll();
+    }
 }

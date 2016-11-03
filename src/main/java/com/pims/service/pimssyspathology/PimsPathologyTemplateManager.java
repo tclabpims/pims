@@ -6,6 +6,7 @@ import com.smart.model.user.User;
 import com.smart.service.GenericManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/10/6.
@@ -19,4 +20,6 @@ public interface PimsPathologyTemplateManager extends GenericManager<PimsPatholo
     Integer countTemplate(Long userId, Long hospitalId, Long tempType, Long pathologyLibId);
 
     List<PimsPathologyTemplate> getTemplateList(GridQuery gridQuery, Long tempType, Long pathologyLibId);
+
+    List getDataList(Map map);
 }

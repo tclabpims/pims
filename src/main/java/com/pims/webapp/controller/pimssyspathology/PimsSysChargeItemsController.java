@@ -1,6 +1,7 @@
 package com.pims.webapp.controller.pimssyspathology;
 
 import com.pims.model.PimsSysChargeItems;
+import com.pims.model.PimsSysChargeitemRef;
 import com.pims.model.PimsSysReqTestitem;
 import com.pims.service.pimssyspathology.PimsSysChargeItemsManager;
 import com.pims.webapp.controller.GridQuery;
@@ -8,6 +9,8 @@ import com.pims.webapp.controller.PIMSBaseController;
 import com.pims.webapp.controller.WebControllerUtil;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,6 +79,42 @@ public class PimsSysChargeItemsController extends PIMSBaseController {
     public void getChargeItemById(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsSysChargeItems pimsSysChargeItems = pimsSysChargeItemsManager.get(Long.valueOf(request.getParameter("chargeitemid")));
         PrintwriterUtil.print(response, getJSONObject(pimsSysChargeItems).toString());
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @ResponseBody
+    public String getTestitemInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List list = pimsSysChargeItemsManager.getfeeAll();
+        JSONArray array = new JSONArray();
+        if (list != null) {
+            for(int i=0;i<list.size();i++){
+                Object[] oo = (Object[]) list.get(i);
+                PimsSysChargeItems s = (PimsSysChargeItems) oo[0];
+                PimsSysChargeitemRef f = (PimsSysChargeitemRef) oo[1];
+                JSONObject o = new JSONObject();
+                o.put("feeitemid", s.getChargeitemid());//收费项目ID
+                o.put("feenamech", s.getChinesename());//中文名称
+                o.put("feenameen",s.getChienglishname());//英文名称
+                o.put("feeprince",s.getChiprice());//单价
+                o.put("feecategory",s.getChicategory());//所属统计类
+                o.put("feehisitemid",f.getRefhischargeid());//his项目id
+                o.put("feehisname",f.getRefhischargename());//his项目名称
+                o.put("feehisprice",f.getRefhisprice());//his单价
+                array.put(o);
+            }
+//            for (PimsSysChargeItems s : list) {
+//                JSONObject o = new JSONObject();
+//                o.put("chargeitemid", s.getChargeitemid());//收费ID
+//                o.put("chichinesename", s.getChinesename());//中文名称
+//                o.put("chienglishname",s.getChienglishname());//英文名称
+//                o.put("chiprice",s.getChiprice());//单价
+//                array.put(o);
+//            }
+        }
+        response.setCharacterEncoding("UTF-8");
+        //response.setContentType("text/html; charset=UTF-8");
+        response.getWriter().write(array.toString());
+        return null;
     }
 
 }
