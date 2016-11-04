@@ -2,6 +2,7 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
@@ -14,13 +15,13 @@ public class PimsPathologyOrder {
     private long ordsampleid;
     private String ordcustomercode;
     private String ordpathologycode;
-    private Time ordcreatetime;
+    private Date ordcreatetime;
     private String ordorderuserid;
     private String ordorderuser;
-    private Time ordaccepttime;
+    private Date ordaccepttime;
     private String ordacceptorid;
     private String ordacceptorname;
-    private Time ordfinishedtime;
+    private Date ordfinishedtime;
     private String ordfinisheduserid;
     private String ordfinishedusername;
     private long ordorderstate;
@@ -81,11 +82,11 @@ public class PimsPathologyOrder {
 
     @Basic
     @Column(name = "ORDCREATETIME")
-    public Time getOrdcreatetime() {
+    public Date getOrdcreatetime() {
         return ordcreatetime;
     }
 
-    public void setOrdcreatetime(Time ordcreatetime) {
+    public void setOrdcreatetime(Date ordcreatetime) {
         this.ordcreatetime = ordcreatetime;
     }
 
@@ -111,11 +112,11 @@ public class PimsPathologyOrder {
 
     @Basic
     @Column(name = "ORDACCEPTTIME")
-    public Time getOrdaccepttime() {
+    public Date getOrdaccepttime() {
         return ordaccepttime;
     }
 
-    public void setOrdaccepttime(Time ordaccepttime) {
+    public void setOrdaccepttime(Date ordaccepttime) {
         this.ordaccepttime = ordaccepttime;
     }
 
@@ -141,11 +142,11 @@ public class PimsPathologyOrder {
 
     @Basic
     @Column(name = "ORDFINISHEDTIME")
-    public Time getOrdfinishedtime() {
+    public Date getOrdfinishedtime() {
         return ordfinishedtime;
     }
 
-    public void setOrdfinishedtime(Time ordfinishedtime) {
+    public void setOrdfinishedtime(Date ordfinishedtime) {
         this.ordfinishedtime = ordfinishedtime;
     }
 
