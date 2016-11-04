@@ -308,7 +308,7 @@ function addSample() {
 	$("#reqprinttime").val("");//申请单打印时间
 	$("#reqsendtime").val("");//回写时间
 	$("#reqremark").val("");//备注信息
-	$("#reqfirstv").val("");//预留字段1(第一个varchar预留字段)
+	$("#reqfirstv").val("1");//预留字段1(第一个varchar预留字段)
 	$("#reqsecondv").val("");//预留字段2(第二个varchar预留字段)
 	$("#reqthirdv").val("");//预留字段3(第二个varchar预留字段)
 	$("#reqfirstd").val("");//预留字段4(第一个datetime预留字段)
@@ -398,12 +398,19 @@ function clearData() {
  */
 $(function() {
 	//表单校验
-	// $("#sampleForm").Validform({
-	// 	btnSubmit:"#addinfo",
-	// 	tiptype:4,
-	// 	callback:function(){
-	// 	}
-	// });
+	$("#sampleForm").Validform({
+		btnSubmit:"#addinfo",
+		tiptype:4,
+		showAllError:true,
+		ajaxPost:true,
+		beforeSubmit:function(curform){
+			//在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
+			//这里明确return false的话表单将不会提交;
+			saveInfo();
+		},
+		callback:function(){
+		}
+	});
 	$('#tabs a').click(function (e) {
 		var hrefval = $(this).attr("href");
 		$("#req_sts").val(hrefval);
