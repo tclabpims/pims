@@ -76,6 +76,19 @@ public class PimsTestItemPackageController extends PIMSBaseController {
         return dr;
     }
 
+    @RequestMapping(method = {RequestMethod.GET}, value = "/packageitems")
+    @ResponseBody
+    public DataResponse getPackageItems(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        String pathologyId = request.getParameter("pathologyId");
+        if(pathologyId != null && !"".equals(pathologyId)) {
+            List<PimsTestItemPackage> lis = pimsTestItemPackageManager.getPackageItems(Long.valueOf(pathologyId));
+            dr.setRows(getResultMap(lis));
+        }
+        response.setContentType(contentType);
+        return dr;
+    }
+
     @RequestMapping(method = {RequestMethod.GET}, value = "/packageinfo")
     @ResponseBody
     public Map<String, Object> packageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -101,11 +114,13 @@ public class PimsTestItemPackageController extends PIMSBaseController {
     public void edit(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String packageName = request.getParameter("packageName");
         String packageId = request.getParameter("packageId");
+        String pathologyId = request.getParameter("pathologyId");
         Long id = null;
         if (packageId != null && !"".equals(packageId.trim())) id = Long.valueOf(packageId);
         String selectedItems = request.getParameter("selectedItems");
         PimsTestItemPackage itemPackage = new PimsTestItemPackage();
         itemPackage.setPackageName(packageName);
+        itemPackage.setPathologyId(Long.valueOf(pathologyId));
         if (id != null) {
             itemPackage.setPackageId(id);
             pimsSysPackageDetailManager.deleteByPackageId(id);

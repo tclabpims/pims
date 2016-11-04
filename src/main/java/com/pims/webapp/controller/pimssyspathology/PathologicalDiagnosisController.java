@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.DefaultJSONParser;
 import com.pims.model.*;
+import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.*;
 import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
@@ -74,6 +76,32 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @Autowired
     private HospitalManager hospitalManager;
 
+    @Autowired
+    private PimsPathologySlideManager pimsPathologySlideManager;
+
+    @Autowired
+    private PimsPathologyParaffinManager pimsPathologyParaffinManager;
+
+    @RequestMapping(value = "/report/paraffin", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getParaffin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        String sampleId = request.getParameter("sampleId");
+        List<PimsPathologyParaffin> lis = pimsPathologyParaffinManager.getParaffinBySampleId(Long.valueOf(sampleId));
+        dr.setRows(getResultMap(lis));
+        return dr;
+    }
+
+    @RequestMapping(value = "/report/whitepiece", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getWhitePiece(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        String sampleId = request.getParameter("sampleId");
+        String paraffinNo = request.getParameter("paraffinNo");
+        List<PimsPathologySlide> lis = pimsPathologySlideManager.getWhitePiece(paraffinNo, Long.valueOf(sampleId));
+        dr.setRows(getResultMap(lis));
+        return dr;
+    }
 
     protected PimsPathologyPictures savePathologyPictures(PimsPathologyPictures pic) {
         return pimsPathologyPicturesManager.save(pic);

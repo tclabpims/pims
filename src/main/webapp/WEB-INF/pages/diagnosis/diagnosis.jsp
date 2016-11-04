@@ -180,8 +180,7 @@
                                                             style="width: 120px">~<input type="text"
                                                                                          style="width: 120px"
                                                                                          id="samplesectionto"></div>
-                            <div style="display:inline;"><label>条形码：</label><input type="text" id="saminspectionidq"
-                                                                                   style="width: 120px"></div>
+                            <div style="display:inline;"><label>条形码：</label><input type="text" id="saminspectionidq" style="width: 120px"></div>
                             <div style="display:inline;"><label>病理号：</label><input type="text" id="sampathologycodeq"
                                                                                    style="width: 120px"></div>
                             <div><label>病人名称：</label><input type="text" id="sampatientnameq" style="width: 120px">
@@ -250,17 +249,19 @@
                     </ul>
                     <div id="tabs-1">
                         <div>
-                            <div style="display: inline">病理号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">病历号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="sampathologycode"></div><input type="hidden" id="sampleid"/>
                             <div style="display: inline">条形码：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="saminspectionid"></div>
-                            <div style="display: inline">会诊记录：无</div>
+                            <div style="display: inline">年龄：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                                                                   id="sampatientage"></div>
                         </div>
                         <div>
                             <div style="display: inline">病人姓名：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                      id="sampatientname">详细
                             </div>
-                            <div style="display: inline">性别：男</div>
+                            <div style="display: inline">性别：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                                                                   id="sampatientgender"></div>
                             <div style="display: inline">送检医生：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                      id="samsenddoctorid"></div>
                         </div>
@@ -515,30 +516,46 @@
     </div>
     <div style="width: 780px;height: 500px;display: none;" id="specialCheckDialog">
         <div style="float:left;width: 60%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
-            <div style="width: 100%;padding-top:5px;height: 20px">基本信息</div>
-            <div style="width: 100%;height: 20%;padding-top:5px;">
+            <div style="width: 100%;padding-top:5px;height: 20px;font-weight:bold;">基本信息</div>
+            <div style="width: 100%;height: 20%;">
                 <div style="padding-top:5px;">性别：<input id="patientGender" style="width: 60px;border-width: 0px 0px 1px 0px">住院号：<input id="patientZyh" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
                 <div style="padding-top:5px;">病人姓名：<input id="patientName" style="width: 120px;border-width: 0px 0px 1px 0px">年龄：<input id="patientAge" style="width: 60px;border-width: 0px 0px 1px 0px">床号：<input id="patientBed" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
                 <div style="padding-top:5px;">临床诊断：<input id="patientDiagnosisNote" style="width: 300px;border-width: 0px 0px 1px 0px"></div>
             </div>
-            <div style="width: 100%;padding-top:5px;height: 20px">特殊检查</div>
-            <div style="width: 100%;height: 20%;padding-top:5px;">
-                <div style="padding-top:5px;">医嘱号：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px">检查类型：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
-                <div style="padding-top:5px;">源病理号：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px">申请医生：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
-                <div style="padding-top:5px;">源条形码：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px">申请日期：<input name="" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
+            <div style="width: 100%;height: 20px;font-weight:bold;">特殊检查</div>
+            <div style="width: 100%;height: 23%;">
+                <div style="padding-top:5px;">医嘱号：<input id="yzNo" value="自动生成" style="width: 120px;border-width: 0px 0px 1px 0px">检查类型：
+                    <select name="" style="width: 120px;border-width: 0px 0px 1px 0px">
+                        <option value="1">免疫组化</option>
+                        <option value="2">特殊染色</option>
+                        <option value="3">分子病理</option>
+                    </select>
+                </div>
+                <div style="padding-top:5px;">
+                    源病理号：<input id="yblNo" style="width: 120px;border-width: 0px 0px 1px 0px">
+                    申请医生：<input id="reqTime" style="width: 120px;border-width: 0px 0px 1px 0px">
+                </div>
+                <div style="padding-top:5px;">
+                    源条形码：<input id="ytxm" style="width: 120px;border-width: 0px 0px 1px 0px">
+                    申请日期：<input id="reqDate" style="width: 120px;border-width: 0px 0px 1px 0px">
+                </div>
+                <div style="padding-top:5px;">
+                    白片数：<input id="whitePieceNo" style="width: 120px;border-width: 0px 0px 1px 0px">
+                </div>
+
             </div>
-            <div style="width: 100%;padding-top:5px;height: 30px">项目一览  <input type="checkbox"> <label>全选</label> <button>删除</button> 蜡块选择<select></select></div>
+            <div style="width: 100%;height: 30px;font-weight:bold;">项目一览  <button onclick="removeItems()">删除</button>  蜡块选择<select id="lkxz" onchange="getWhitePiece()"></select></div>
             <div style="width: 100%;padding-top:5px;" id="itemListContainer">
                 <table id="itemList"></table>
             </div>
         </div>
         <div style="float:right;width: 40%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
-            <div style="width: 100%;height: 20px;">白片信息</div>
+            <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
             <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
                 <table id="lkItemList"></table>
             </div>
-            <div style="width: 100%;height: 25px;">项目套餐：<select></select></div>
-            <div style="width: 100%;height: 25px;">项目名称：<input></div>
+            <div style="width: 100%;height: 25px;">项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)"></select><button onclick="appendAll()">全部追加</button></div>
+            <div style="width: 100%;height: 25px;">项目名称：<input id="itemNae"></div>
             <div style="width: 100%;height: 35%;">
                 <table id="ckItemList"></table>
             </div>

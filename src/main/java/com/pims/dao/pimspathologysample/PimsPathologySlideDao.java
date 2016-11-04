@@ -45,4 +45,11 @@ public interface PimsPathologySlideDao extends GenericDao<PimsPathologySlide,Lon
      */
     boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state);
 
+    /**
+     * 查询白片的数量
+     * @param paraffincode
+     * @param sampleId
+     * @return
+     */
+    List<PimsPathologySlide> getWhitePiece(String paraffincode, Long sampleId);
 }

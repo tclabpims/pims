@@ -59,4 +59,6 @@ public interface PimsPathologyParaffinManager extends GenericManager<PimsPatholo
      */
     boolean canChange(Long id, String sts);
 
+    List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId);
+
 }

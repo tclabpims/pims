@@ -22,6 +22,17 @@ public class PimsTestItemPackage extends BaseObject {
 
     private int packageItems;
 
+    private long pathologyId;
+
+    @Column(name="PATHOLOGYID")
+    public long getPathologyId() {
+        return pathologyId;
+    }
+
+    public void setPathologyId(long pathologyId) {
+        this.pathologyId = pathologyId;
+    }
+
     @Transient
     public int getPackageItems() {
         return packageItems;

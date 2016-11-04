@@ -41,4 +41,6 @@ public interface PimsPathologySlideManager extends GenericManager<PimsPathologyS
      * @return
      */
     boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state);
+
+    List<PimsPathologySlide> getWhitePiece(String paraffincode, Long sampleId);
 }

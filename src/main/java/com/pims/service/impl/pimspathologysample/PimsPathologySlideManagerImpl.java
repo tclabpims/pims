@@ -1,10 +1,8 @@
 package com.pims.service.impl.pimspathologysample;
 
 import com.alibaba.fastjson.JSONArray;
-import com.pims.dao.pimspathologysample.PimsPathologyParaffinDao;
 import com.pims.dao.pimspathologysample.PimsPathologySlideDao;
 import com.pims.model.*;
-import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
 import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +65,16 @@ public class PimsPathologySlideManagerImpl extends GenericManagerImpl<PimsPathol
     @Override
     public boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state) {
         return pimsPathologySlideDao.updateSampleSts(slideList,paraList,sampleList,sts,state);
+    }
+
+    /**
+     * 查询白片数量
+     * @param paraffincode
+     * @param sampleId
+     * @return
+     */
+    @Override
+    public List<PimsPathologySlide> getWhitePiece(String paraffincode, Long sampleId) {
+        return pimsPathologySlideDao.getWhitePiece(paraffincode, sampleId);
     }
 }

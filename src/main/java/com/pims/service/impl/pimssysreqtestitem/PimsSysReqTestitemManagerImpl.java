@@ -37,7 +37,7 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
     }
 
     @Override
-    public List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery) {
+    public List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery, Long pathologyId) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT a.testitemid,a.teschinesename,a.tesenglishname,a.tesitemsort,a.tespinyincode,a.tesfivestroke,a.tesitemtype,").append(
                 "a.tespathologyid,a.tesitemhandle,a.tesischarge,a.tesuseflag,B.Patnamech from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
@@ -46,6 +46,9 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
         String sidx = gridQuery.getSidx();
         if (query != null && !"".equals(query.trim())) {
             builder.append(" and a.teschinesename||b.Patnamech  like '%").append(query).append("%'");
+        }
+        if(pathologyId !=null ) {
+            builder.append(" and a.tespathologyid=").append(pathologyId);
         }
         sidx = (sidx == null || sidx.trim().equals("")) ? "a.testitemid " : sidx;
         builder.append(" order by  ").append(sidx).append(gridQuery.getSord());
@@ -75,12 +78,15 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
     }
 
     @Override
-    public Integer countReqTestitem(String query) {
+    public Integer countReqTestitem(String query, Long pathologyId) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT count(1) cnt from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
                 "where A.Tespathologyid = B.Pathologyid");
         if (query != null && !"".equals(query.trim())) {
             builder.append(" and a.teschinesename||b.Patnamech  like '%").append(query).append("%'");
+        }
+        if(pathologyId !=null ) {
+            builder.append(" and a.tespathologyid=").append(pathologyId);
         }
         return pimsSysReqTestitemDao.countTotal(builder.toString());
     }

@@ -7,7 +7,7 @@ import java.sql.Time;
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_ORDER", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_ORDER")
 public class PimsPathologyOrder {
     private long orderid;
     private String ordercode;
@@ -26,8 +26,11 @@ public class PimsPathologyOrder {
     private long ordorderstate;
     private Long ordisdelete;
 
+
     @Id
     @Column(name = "ORDERID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="Seq_OrderId")
+    @SequenceGenerator(name = "Seq_OrderId", sequenceName = "Seq_OrderId", allocationSize=1)
     public long getOrderid() {
         return orderid;
     }

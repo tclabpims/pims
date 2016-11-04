@@ -4,23 +4,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.pimspathologysample.PimsPathologySlideDao;
 import com.pims.model.*;
 import com.pims.service.pimspathologysample.PimsPathologySlideManager;
-import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by king on 2016/10/10.
@@ -335,6 +331,22 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
             return true;
         }
         return false;
+    }
+
+    /**
+     * 查询白片的数量
+     *
+     * @param paraffincode
+     * @param sampleId
+     * @return
+     */
+    @Override
+    public List<PimsPathologySlide> getWhitePiece(String paraffincode, Long sampleId) {
+        String sql = " from PimsPathologySlide where slisampleid=:sampleId and sliparaffincode=:paraffincode and slislidetype=1 and sliuseflag=0";
+        Query query = getSession().createQuery(sql);
+        query.setParameter("sampleId", sampleId);
+        query.setParameter("paraffincode", paraffincode);
+        return query.list();
     }
 
     /**

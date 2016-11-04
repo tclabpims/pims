@@ -55,8 +55,11 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 	public DataResponse query(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		DataResponse dr = new DataResponse();
 		GridQuery gridQuery = new GridQuery(request);
-		List<PimsSysReqTestitem> result = pimsSysReqTestitemManager.getReqTestitemList(gridQuery);
-		Integer total = pimsSysReqTestitemManager.countReqTestitem(gridQuery.getQuery());
+		String sid = request.getParameter("pathologyId");
+		Long pathologyId = null;
+		if(sid != null && !"".equals(sid)) pathologyId = Long.valueOf(sid);
+		List<PimsSysReqTestitem> result = pimsSysReqTestitemManager.getReqTestitemList(gridQuery, pathologyId);
+		Integer total = pimsSysReqTestitemManager.countReqTestitem(gridQuery.getQuery(), pathologyId);
 		dr.setRecords(total);
 		dr.setPage(gridQuery.getPage());
 		dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));

@@ -4,6 +4,7 @@ import com.pims.dao.pimssyspathology.PimsTestItemPackageDao;
 import com.pims.model.PimsSysPackageDetail;
 import com.pims.model.PimsTestItemPackage;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
@@ -25,4 +26,11 @@ public class PimsTestItemPackageDaoHibernate extends GenericDaoHibernate<PimsTes
     }
 
 
+    @Override
+    public List<PimsTestItemPackage> getPackageItems(Long aLong) {
+        String hql = "from PimsTestItemPackage where pathologyId=:pathologyId";
+        Query query = getSession().createQuery(hql);
+        query.setParameter("pathologyId", aLong);
+        return query.list();
+    }
 }
