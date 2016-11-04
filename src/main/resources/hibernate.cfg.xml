@@ -134,6 +134,7 @@
         <mapping class="com.pims.model.PimsCommonBaseData"/>
         <mapping class="com.pims.model.PimsHospitalPathologyInfo"/>
         <mapping class="com.pims.model.PimsPathologyReceivemessage"/>
+        <mapping class="com.pims.model.PimsSysTestFee"/>
         <mapping class="com.pims.model.PimsSysPackageDetail"/>
         <mapping class="com.pims.model.PimsTestItemPackage"/>
     </session-factory>

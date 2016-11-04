@@ -57,7 +57,8 @@
 			<button type="button" class="btn-sm btn-info" id="deleteButton" onclick="deleteSample()">
 				删除
 			</button>
-			<button type="button" class="btn-sm btn-info" id="saveButton" onclick="saveInfo()">
+			<%--onclick="saveInfo()"--%>
+			<button type="button" class="btn-sm btn-info" id="saveButton" onclick="clickOther()">
 				保存
 			</button>
 			<button type="button" class="btn-sm btn-info" onclick="printCode()">
@@ -348,6 +349,9 @@
 		<%--<div class="widget-box widget-color-green"></div>--%>
 		<div id="formDialog" class="col-sm-8 leftContent">
 			<form class="form-horizontal"  style="background-color: #E8E8E8"  action="#" method="post" id="sampleForm" >
+				<button type="submit" class="btn-sm btn-info" id="saveButton1" style="display:none;">
+					保存
+				</button>
 				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-left" for="saminspectionid">条形码:</label>
 					<div class="col-sm-3">
@@ -411,7 +415,7 @@
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病人姓名:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampatientname" name="sampatientname" />
+						<input type="text" id="sampatientname" name="sampatientname" datatype="*" />
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系电话:</label>
 					<div class="col-sm-3 ">
@@ -421,11 +425,11 @@
 				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >住院号:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampatientnumber" name="sampatientnumber"/>
+						<input type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"/>
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >床号:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号"/>
+						<input type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"/>
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系地址:</label>
 					<div class="col-sm-3">
@@ -444,7 +448,7 @@
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientage">年&nbsp;龄:</label>
 					<div class="col-sm-3">
 						<span class="input-icon input-icon-right" style="width:90%">
-							<input type="text" id="sampatientage" style="float:left;width:50%"/>
+							<input type="text" id="sampatientage" style="float:left;width:50%" name="sampatientage" datatype="n1-2"/>
 							<select  style="float:left;width:30%" id="sampatientagetype">
 								<option value="1">岁</option>
 								<option value="2">月</option>
@@ -464,30 +468,30 @@
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医生:</label>
 					<div class="col-sm-3 ">
 						<input type="hidden" id="samsenddoctorid"/>
-						<input  type="text" id="samsenddoctorname"/>
+						<input  type="text" id="samsenddoctorname" name="samsenddoctorname" datatype="*"/>
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samdeptcode">送检科室:</label>
 					<div class="col-sm-3">
 						<input type="hidden" id="samdeptcode"/><!--申请科室名称-->
-						<input  type="text" id="samdeptname"/><!--申请科室名称-->
+						<input  type="text" id="samdeptname" name="samdeptname" datatype="*"/><!--申请科室名称-->
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医院:</label>
 					<div class="col-sm-3 ">
-						<input  type="text" id="samsendhospital"/>
+						<input  type="text" id="samsendhospital" name="samsendhospital" datatype="*"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检时间:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form_datetime1" value="${samsendtime}" id="samsendtime"/>
+						<input type="text" class="form_datetime1" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samreceivertime">接收日期:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form_datetime1" value="${samreceivertime}" id="samreceivertime"/>
+						<input type="text" class="form_datetime1" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samfirstn">组织袋数:</label>
 					<div class="col-sm-3">
-						<input type="text" id="samfirstn" />
+						<input type="text" id="samfirstn"  name="samfirstn" datatype="n1-2"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
@@ -504,11 +508,11 @@
 				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samsamplename">送检材料:</label>
 					<div class="col-sm-3">
-						<textarea id="samsamplename"></textarea>
+						<textarea id="samsamplename"  name="samsamplename" datatype="*"></textarea>
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientdignoses">临床诊断:</label>
 					<div class="col-sm-3">
-						<textarea id="sampatientdignoses"></textarea>
+						<textarea id="sampatientdignoses"  name="sampatientdignoses" datatype="*"></textarea>
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samthirdv">手术所见:</label>
 					<div class="col-sm-3">

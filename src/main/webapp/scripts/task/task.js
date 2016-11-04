@@ -277,7 +277,7 @@ function CurentTime(now) {
 	var day = now.getDate();            //日
 	var hh = now.getHours();            //时
 	var mm = now.getMinutes();          //分
-	var ss = now.getMilliseconds();    //秒
+	var ss = now.getSeconds();    //秒
 	var clock = year + "-";
 	if(month < 10)
 		clock += "0";
@@ -302,7 +302,7 @@ function CurentTime1(now) {
 	var day = now.getDate();            //日
 	var hh = now.getHours();            //时
 	var mm = now.getMinutes();          //分
-	var ss = now.getMilliseconds();    //秒
+	var ss = now.getSeconds();    //秒
 	var clock = year;
 	if(month < 10)
 		clock += "0";

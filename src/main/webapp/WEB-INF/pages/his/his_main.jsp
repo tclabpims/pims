@@ -15,7 +15,7 @@
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
     <script type="text/javascript" src="../scripts/his/his_main.js"></script>
-	<%--<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>--%>
+	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
@@ -174,7 +174,7 @@
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">申请病区:</label>
 			<div class="col-sm-3 ">
 				<input type="hidden" id="reqwardcode"/>
-				<input type="text" class="col-sm-9" id="reqwardname" name="reqwardname"/><!-- 申请病区名称-->
+				<input type="text" class="col-sm-9" id="reqwardname" name="reqwardname" datatype="*"/><!-- 申请病区名称-->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatienttype">患者类型:</label>
 			<div class="col-sm-3 ">
@@ -196,19 +196,19 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">送检医院:</label>
 			<div class="col-sm-3 ">
-				<input type="text" class="col-sm-9" id="reqsendhospital"/>
+				<input type="text" class="col-sm-9" id="reqsendhospital" name="reqsendhospital"  datatype="*"/>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqdeptcode">送检科室:</label>
 			<div class="col-sm-3 ">
 				<input type="hidden" id="reqdeptcode"/><!--申请科室名称-->
-				<input  type="text" class="col-sm-9" id="reqdeptname"/><!--申请科室名称-->
+				<input  type="text" class="col-sm-9" id="reqdeptname" name="reqdeptname"  datatype="*"/><!--申请科室名称-->
 			</div>
 		</div>
 		<div class="form-group" style="z-index: 99999999;margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqdoctorid">送检医生:</label>
 			<div class="col-sm-3 ">
 				<input type="hidden" id="reqdoctorid"/><!--申请医生姓名 -->
-				<input   type="text"  class="col-sm-9" id="reqdoctorname"/><!--申请医生姓名 -->
+				<input   type="text"  class="col-sm-9" id="reqdoctorname" name="reqdoctorname"  datatype="*"/><!--申请医生姓名 -->
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsendphone">送检电话:</label>
 			<div class="col-sm-3 ">
@@ -216,7 +216,7 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检时间:</label>
 			<div class="col-sm-3">
-				<input type="text" class="col-sm-9 form_datetime1" id="reqdate" />
+				<input type="text" class="col-sm-9 form_datetime1" id="reqdate"  name="reqdate"  datatype="*"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
@@ -253,7 +253,7 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatientname">病人姓名:</label>
 			<div class="col-sm-3">
-				<input type="text" class="col-sm-9"  id="reqpatientname"/>
+				<input type="text" class="col-sm-9"  id="reqpatientname"  name="reqpatientname"  datatype="*"/>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">性别:</label>
 			<div class="col-sm-3">
@@ -268,7 +268,7 @@
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >年龄:</label>
 			<div class="col-sm-3">
 				<span class="input-icon input-icon-right" style="width:75%">
-					<input type="text" id="reqpatientage" style="float:left;width:60%"/>
+					<input type="text" id="reqpatientage" style="float:left;width:60%"  name="reqpatientage"  datatype="n1-2"/>
 					<select  style="float:left;width:40%" id="reqpatagetype">
 						<option value="1">岁</option>
 						<option value="2">月</option>
@@ -280,11 +280,11 @@
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatientnumber">住院号:</label>
 			<div class="col-sm-3">
-				<input type="text"  class="col-sm-9" id="reqpatientnumber"/>
+				<input type="text"  class="col-sm-9" id="reqpatientnumber"  name="reqpatientnumber"  datatype="*"/>
 			</div>
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqfirstn">床号:</label>
 			<div class="col-sm-3">
-				<input type="text" class="col-sm-9"  id="reqfirstn" />
+				<input type="text" class="col-sm-9"  id="reqfirstn"   name="reqfirstn"  datatype="*"/>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
@@ -304,15 +304,14 @@
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatdiagnosis">临床诊断:</label>
 			<div class="col-sm-11">
-				<textarea id="reqpatdiagnosis" style="height: 50px;width: 80%" class="col-sm-9" ></textarea>
+				<textarea id="reqpatdiagnosis" style="height: 50px;width: 80%" class="col-sm-9"    name="reqpatdiagnosis"  datatype="*"></textarea>
 			</div>
 		</div>
 		<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatcompany">检查要求:</label>
 			<div class="col-sm-11">
 				<textarea id="reqpatcompany" style="height: 50px;width: 80%" class="col-sm-9" ></textarea>
-				<button type="button" class="btn-sm btn-success" style="float: right" onclick="saveInfo()" id="savebutton">
-					<i class="ace-icon fa fa-print bigger-110"></i>
+				<button type="submit" class="btn-sm btn-success" style="float: right"  id="savebutton">
 					保存
 				</button>
 			</div>

@@ -14,6 +14,7 @@ import com.pims.service.pimspathologysample.PimsPathologyFeeManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
+import com.pims.service.pimssyspathology.PimsSysTestFeeManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
 import com.smart.lisservice.WebService;
@@ -54,6 +55,8 @@ public class PimsPathologySampleController extends PIMSBaseController{
     private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
     @Autowired
     private PimsPathologyFeeManager pimsPathologyFeeManager;
+    @Autowired
+    private PimsSysTestFeeManager pimsSysTestFeeManager;
     /**
      * 渲染视图
      * @param request
@@ -206,6 +209,38 @@ public class PimsPathologySampleController extends PIMSBaseController{
 
             //更新电子申请单已被使用
             pimsPathologyRequisitionManager.updateReqState(ppr,1);
+            //增加收费项目
+            if(ppr.getSampopuser() != null && !ppr.getSampopuser().equals("")){
+                List list = pimsSysTestFeeManager.getTestFeeList(ppr.getSampopuser());
+                if(list != null && list.size()>0){
+                    for(Object oo:list){
+                        Object[] ob = (Object[]) oo;
+                        PimsSysChargeItems psc = (PimsSysChargeItems) ob[0];
+                        PimsSysChargeitemRef pscr = (PimsSysChargeitemRef) ob[1];
+                        PimsPathologyFee pp = new PimsPathologyFee();
+                        pp.setFeecustomerid(ppr.getSamcustomerid());//客户Id
+                        pp.setFeesampleid(ppr.getSampleid());//标本号
+                        pp.setFeepathologyid(ppr.getSampathologyid());//病种Id
+                        pp.setFeepathologycode(ppr.getSampathologycode());//病理编号
+                        pp.setFeesource(0);//费用来源(0登记自动生成,1医嘱生成,2手工录入)
+                        pp.setFeestate(0);//费用状态(0已保存,1已计费,2已发送到His,3发送失败）
+                        pp.setFeecategory(psc.getChicategory());//统计类别
+                        pp.setFeeitemid(psc.getChargeitemid());//收费项目Id
+                        pp.setFeenamech(psc.getChinesename());//中文名称
+                        pp.setFeenameen(psc.getChienglishname());//英文名称
+                        pp.setFeeprince(psc.getChiprice());//单价
+                        pp.setFeehisitemid(pscr.getRefhischargeid());//His项目Id
+                        pp.setFeehisname(pscr.getRefhischargename());//His项目名称
+                        pp.setFeehisprice(pscr.getRefhisprice());//His单价
+                        pp.setFeeamount(1);//N	数量
+                        pp.setFeecost(psc.getChiprice());//金额
+                        pp.setFeeuserid(String.valueOf(user.getId()));//计费人员id
+                        pp.setFeeusername(user.getName());//计费人员
+                        pp.setFeetime(new Date());//计费时间
+                        pimsPathologyFeeManager.save(pp);
+                    }
+                }
+            }
             o.put("message", "标本添加成功！");
             o.put("success", true);
         } else{

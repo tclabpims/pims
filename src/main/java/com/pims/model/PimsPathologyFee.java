@@ -20,12 +20,12 @@ public class PimsPathologyFee {
     private long feeitemid;
     private String feenamech;
     private String feenameen;
-    private long feeprince;
+    private Double feeprince;
     private String feehisitemid;
     private String feehisname;
-    private long feehisprice;
+    private double feehisprice;
     private long feeamount;
-    private Long feecost;
+    private Double feecost;
     private String feeuserid;
     private String feeusername;
     private Date feetime;
@@ -156,11 +156,11 @@ public class PimsPathologyFee {
 
     @Basic
     @Column(name = "FEEPRINCE")
-    public long getFeeprince() {
+    public Double getFeeprince() {
         return feeprince;
     }
 
-    public void setFeeprince(long feeprince) {
+    public void setFeeprince(Double feeprince) {
         this.feeprince = feeprince;
     }
 
@@ -186,11 +186,11 @@ public class PimsPathologyFee {
 
     @Basic
     @Column(name = "FEEHISPRICE")
-    public long getFeehisprice() {
+    public double getFeehisprice() {
         return feehisprice;
     }
 
-    public void setFeehisprice(long feehisprice) {
+    public void setFeehisprice(double feehisprice) {
         this.feehisprice = feehisprice;
     }
 
@@ -206,11 +206,11 @@ public class PimsPathologyFee {
 
     @Basic
     @Column(name = "FEECOST")
-    public Long getFeecost() {
+    public Double getFeecost() {
         return feecost;
     }
 
-    public void setFeecost(Long feecost) {
+    public void setFeecost(Double feecost) {
         this.feecost = feecost;
     }
 
@@ -378,8 +378,10 @@ public class PimsPathologyFee {
         if (feesource != that.feesource) return false;
         if (feestate != that.feestate) return false;
         if (feeitemid != that.feeitemid) return false;
-        if (feeprince != that.feeprince) return false;
-        if (feehisprice != that.feehisprice) return false;
+        //if (feeprince != that.feeprince) return false;
+        if (feeprince != null ? !feeprince.equals(that.feeprince) : that.feeprince != null) return false;
+       // if (feehisprice != that.feehisprice) return false;
+        if (Double.compare(that.feehisprice, feehisprice) != 0) return false;
         if (feeamount != that.feeamount) return false;
         if (feepathologycode != null ? !feepathologycode.equals(that.feepathologycode) : that.feepathologycode != null)
             return false;
@@ -412,6 +414,7 @@ public class PimsPathologyFee {
 
     @Override
     public int hashCode() {
+        long temp;
         int result = (int) (feeid ^ (feeid >>> 32));
         result = 31 * result + (int) (feecustomerid ^ (feecustomerid >>> 32));
         result = 31 * result + (int) (feesampleid ^ (feesampleid >>> 32));
@@ -423,10 +426,13 @@ public class PimsPathologyFee {
         result = 31 * result + (int) (feeitemid ^ (feeitemid >>> 32));
         result = 31 * result + (feenamech != null ? feenamech.hashCode() : 0);
         result = 31 * result + (feenameen != null ? feenameen.hashCode() : 0);
-        result = 31 * result + (int) (feeprince ^ (feeprince >>> 32));
+        //result = 31 * result + (int) (feeprince ^ (feeprince >>> 32));
+        result = 31 * result + (feeprince != null ? feeprince.hashCode() : 0);
         result = 31 * result + (feehisitemid != null ? feehisitemid.hashCode() : 0);
         result = 31 * result + (feehisname != null ? feehisname.hashCode() : 0);
-        result = 31 * result + (int) (feehisprice ^ (feehisprice >>> 32));
+       //result = 31 * result + (int) (feehisprice ^ (feehisprice >>> 32));
+        temp = Double.doubleToLongBits(feehisprice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (int) (feeamount ^ (feeamount >>> 32));
         result = 31 * result + (feecost != null ? feecost.hashCode() : 0);
         result = 31 * result + (feeuserid != null ? feeuserid.hashCode() : 0);

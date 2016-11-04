@@ -105,6 +105,10 @@ function getSampleData(id) {
 		}
 	});
 }
+
+function clickOther() {
+	$("#saveButton1").click();
+}
 /**
  * 保存数据
  * $("input[name='samfirstv']:checked").val(),
@@ -219,9 +223,9 @@ function addSample() {
 	$("#sampatientnumber").val("1");//住院卡号/门诊卡号
 	$("#sampatienttype").val("");//患者类型(病人类型： 1门诊,2住院,3体检,4婚检,5科研,6特勤,7其他)
 	$("#sampatientname").val("");//姓名
-	$("#sampatientsex").val("");//患者性别(1男,2女,3未知)
+	$("#sampatientsex").val("0");//患者性别(1男,2女,3未知)
 	$("#sampatientage").val("");//年龄
-	$("#sampatientagetype").val("");//年龄类型(1年、2岁、3月、4周、5日、6小时)
+	$("#sampatientagetype").val("1");//年龄类型(1年、2岁、3月、4周、5日、6小时)
 	$("#sampatientbed").val("");//患者床号
 	$("#samsampleclass").val("1");//标本种类
 	$("#samsamplename").val("1");//标本名称(,多个检查项目名称之间用逗号隔开)
@@ -333,6 +337,13 @@ $(function() {
 	$("#sampleForm").Validform({
 		btnSubmit:"#saveButton",
 		tiptype:4,
+		showAllError:true,
+		ajaxPost:true,
+		beforeSubmit:function(curform){
+			//在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
+			//这里明确return false的话表单将不会提交;
+			saveInfo();
+		},
 		callback:function(){
 		}
 	});
@@ -386,7 +397,7 @@ $(function() {
 			.appendTo( ul );
 	};
 	//送检科室
-	$("#samdeptcode").autocomplete({
+	$("#samdeptname").autocomplete({
 		source: function( request, response ) {
 			$.ajax({
 				url: "../basadata/ajax/item",
@@ -1033,7 +1044,7 @@ function getSampleData1(id) {
 			$("#samreqdocname").val(data.samreqdocname);//申请医生姓名
 			$("#samsendtime").val(CurentTime(new Date(data.samsendtime)));//送检时间
 			$("#samsenddoctorid").val(data.samsenddoctorid);//送检医生id
-			//$("#samsenddoctorname").val(data.samsenddoctorname);//送检医生姓名----
+			$("#samsenddoctorname").val(data.samsenddoctorname);//送检医生姓名----
 			$("#samsendhospital").val(data.samsendhospital);//送检单位名称
 			$("#samsendphone").val(data.samsendphone);//送检联系电话
 			$("#samdigcode").val(data.samdigcode);//诊疗小组代码
@@ -1131,7 +1142,8 @@ function CurentTime(now) {
     var day = now.getDate();            //日
     var hh = now.getHours();            //时
     var mm = now.getMinutes();          //分
-    var ss = now.getMilliseconds();    //秒
+    //var ss = now.getMilliseconds();    //秒
+	var ss = now.getSeconds();    //秒
     var clock = year + "-";
     if(month < 10)
         clock += "0";

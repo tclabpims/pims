@@ -1,5 +1,6 @@
 package com.smart.dao.hibernate;
 
+import com.pims.webapp.util.VerificaDate;
 import com.smart.Constants;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
@@ -17,6 +18,7 @@ import java.lang.InstantiationException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.Resource;
 
@@ -334,18 +336,17 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
                             } else if (propertyTypeName.equals(String.class.getName())) {
                                 pd.getWriteMethod().invoke(ins, value);
                             } else if (propertyTypeName.equals(java.util.Date.class.getName())) {
-
-                                try {
-                                    if(value.length() >= 19){
-                                        value = value.substring(0,19);
-                                        pd.getWriteMethod().invoke(ins, Constants.SDF.parse(value));
-                                    }else if(value.length() == 10){
-                                        pd.getWriteMethod().invoke(ins,Constants.DF2.parse(value));
-                                    }else if(value.length() == 8){
-                                        pd.getWriteMethod().invoke(ins, Constants.DF3.parse(value));
+                                if(!VerificaDate.verificationOfDateIsCorrect(value)) continue;
+                                Set<String> patternSet = Constants.patternSet;
+                                for(String p : patternSet) {
+                                    if(value.length()==p.length()) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat(p);
+                                        try {
+                                            pd.getWriteMethod().invoke(ins, sdf.parse(value));
+                                        } catch (java.text.ParseException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                } catch (java.text.ParseException e) {
-                                    e.printStackTrace();
                                 }
                             }
                         }
