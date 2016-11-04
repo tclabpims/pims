@@ -321,7 +321,7 @@ function reqyizhu() {
                     if (ret != null && ret.length > 0) {
                         $("#lkxz").append("<option value=''></option>");
                         for (var i = 0; i < ret.length; i++) {
-                            $("#lkxz").append("<option value='" + ret[i].paraffinid + "' parnullslidenum='"+ret[i].parnullslidenum+ "'>" + ret[i].parname + "</option>");
+                            $("#lkxz").append("<option value='" + ret[i].paraffinid + "' parnullslidenum='"+ret[i].parnullslidenum+ "'>" + ret[i].parparaffincode + "</option>");
                         }
                     }
                 });

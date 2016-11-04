@@ -2,12 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_ORDER_CHECK", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_ORDER_CHECK")
 public class PimsPathologyOrderCheck {
     private long checkid;
     private long cheorderid;
@@ -23,19 +24,21 @@ public class PimsPathologyOrderCheck {
     private long cheischarge;
     private Long chechargestate;
     private String chetestresult;
-    private Time cheresulttime;
+    private Date cheresulttime;
     private String cheresultuser;
     private String cheremark;
     private String chefirstv;
     private String chesecondv;
     private String chethirdv;
     private Long chefirstn;
-    private Time chefirstd;
-    private Time checreatetime;
+    private Date chefirstd;
+    private Date checreatetime;
     private String checreateuser;
 
     @Id
     @Column(name = "CHECKID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="Seq_CheckId")
+    @SequenceGenerator(name = "Seq_CheckId", sequenceName = "Seq_CheckId", allocationSize=1)
     public long getCheckid() {
         return checkid;
     }
@@ -176,11 +179,11 @@ public class PimsPathologyOrderCheck {
 
     @Basic
     @Column(name = "CHERESULTTIME")
-    public Time getCheresulttime() {
+    public Date getCheresulttime() {
         return cheresulttime;
     }
 
-    public void setCheresulttime(Time cheresulttime) {
+    public void setCheresulttime(Date cheresulttime) {
         this.cheresulttime = cheresulttime;
     }
 
@@ -246,21 +249,21 @@ public class PimsPathologyOrderCheck {
 
     @Basic
     @Column(name = "CHEFIRSTD")
-    public Time getChefirstd() {
+    public Date getChefirstd() {
         return chefirstd;
     }
 
-    public void setChefirstd(Time chefirstd) {
+    public void setChefirstd(Date chefirstd) {
         this.chefirstd = chefirstd;
     }
 
     @Basic
     @Column(name = "CHECREATETIME")
-    public Time getChecreatetime() {
+    public Date getChecreatetime() {
         return checreatetime;
     }
 
-    public void setChecreatetime(Time checreatetime) {
+    public void setChecreatetime(Date checreatetime) {
         this.checreatetime = checreatetime;
     }
 
