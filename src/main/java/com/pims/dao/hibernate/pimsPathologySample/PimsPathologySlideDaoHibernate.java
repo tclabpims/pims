@@ -8,12 +8,10 @@ import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -347,6 +345,16 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         query.setParameter("sampleId", sampleId);
         query.setParameter("paraffincode", paraffincode);
         return query.list();
+    }
+
+    @Override
+    public void updateWhitePieceUsedFlag(String paraffincode, Long sampleId, Long num) {
+        String hql = " update PimsPathologySlide set sliuseflag=1 where slisampleid=:sampleId and sliparaffincode=:paraffincode and rownum<=:num";
+        Query query = getSession().createQuery(hql);
+        query.setParameter("sampleId", sampleId);
+        query.setParameter("paraffincode", paraffincode);
+        query.setParameter("num", num);
+        query.executeUpdate();
     }
 
     /**

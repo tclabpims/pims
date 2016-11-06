@@ -314,8 +314,23 @@ function reqyizhu() {
                 $("#patientAge").val($("#sampatientage").val());//年龄
                 $("#yblNo").val(rowData.sampathologycode);//病理号
                 $("#ytxm").val($("#saminspectionid").val());//条码号
+
+                $("#sampleid").val(rowData.sampleid);
+                $("#customerId").val(rowData.samcustomerid);
+                $("#pathologyCode").val(rowData.sampathologycode);
+
+                $("#reqDate").val('');
+                $("#reqDoctor").val('');
+                $("#reqDoctorId").val('');
+
+                var code = new Date().Format("yyyyMMdd")+"-"+$("#customerId").val()+"-"+$("#sampleid").val();
+                code = code +"-" + parseInt((Math.random()*9000 + 1000), 10);
+                $("#ordercode").val(code);
+
                 $("#lkxz").empty();
                 $("#ckItemList").jqGrid('clearGridData');
+                $("#itemList").jqGrid('clearGridData');
+                $("#lkItemList").jqGrid('clearGridData');
                 $.get("../diagnosis/report/paraffin", {sampleId: rowData.sampleid}, function (data) {
                     var ret = data.rows;
                     if (ret != null && ret.length > 0) {
@@ -328,7 +343,7 @@ function reqyizhu() {
                 getPackageItems(rowData.sampathologyid);
             },
             yes: function (index, layero) {
-
+                saveSpecialDiagnosis(index);
             }
         });
     } else if (yizhutype == 2 || yizhutype == 3) {
@@ -336,6 +351,75 @@ function reqyizhu() {
     } else if (yizhutype == 1) {
         alert(3)
     }
+}
+
+function saveSpecialDiagnosis(lindex) {
+    var reqDoctor = $("#reqDoctor").val();
+    var reqDoctorId = $("#reqDoctorId").val();
+    var reqDate = $("#reqDate").val();
+    var whitePieceNo = $("#whitePieceNo").val();
+    var paraffinCode = $("#lkxz").find("option:selected").text();
+    var sampleId = $("#sampleid").val();
+    var customerId = $("#customerId").val();
+    var pathologyCode = $("#pathologyCode").val();
+    var ordercode = $("#ordercode").val();
+    var reqType = $("#reqType").val();
+    var paraffinId = $("#lkxz").val();
+
+    if($.trim(sampleId) == "" ) {
+        layer.alert("标本号不存在", {icon: 1, title: "提示"});
+        return false;
+    }
+    if($.trim(customerId) == "" ) {
+        layer.alert("客户号不存在", {icon: 1, title: "提示"});
+        return false;
+    }
+    if($.trim(pathologyCode) == "" ) {
+        layer.alert("病理号不存在", {icon: 1, title: "提示"});
+        return false;
+    }
+    if($.trim(reqDoctor) == "" || $.trim(reqDoctorId) == "") {
+        layer.alert("请选择申请医生", {icon: 1, title: "提示"});
+        return false;
+    }
+    if($.trim(reqDate) == "" ) {
+        layer.alert("请选择申请日期", {icon: 1, title: "提示"});
+        return false;
+    }
+    /*if($.trim(whitePieceNo) == "" || !parseInt(whitePieceNo)) {
+        layer.alert("请填写白片数量", {icon: 1, title: "提示"});
+        return false;
+    }*/
+    if($.trim(paraffinCode) == "") {
+        layer.alert("请选择蜡块", {icon: 1, title: "提示"});
+        return false;
+    }
+    var rowIds = $("#itemList").jqGrid("getDataIDs");
+    if(rowIds.length == 0) {
+        layer.alert("请选择检查项目", {icon: 1, title: "提示"});
+        return false;
+    }
+    var items = [];
+    for(var i = 0; i < rowIds.length; i++) {
+        items[i] = $("#itemList").jqGrid("getRowData", rowIds[i]);
+    }
+
+    var d = $("#lkItemList").jqGrid('getRowData',0);
+    var inventory = 0;
+    var need = items.length + parseInt(d.yuliu);
+    if(need > d.kucun) inventory = need - d.kucun;
+    //alert(inventory);
+    $.get("../pathology/order/save", {
+        reqDoctor:reqDoctor,reqDoctorId:reqDoctorId,
+        reqDate:reqDate,
+        paraffinCode:paraffinCode,sampleId:sampleId,
+        customerId:customerId,pathologyCode:pathologyCode,
+        orderCode:ordercode,reqType:reqType,
+        paraffinId:paraffinId,items:JSON.stringify(items),
+        inventory:inventory
+    }, function(){
+        layer.close(lindex);
+    })
 }
 
 function getItemInfo(v){
@@ -377,6 +461,8 @@ function getWhitePiece() {
         if (ret != null && ret.length > 0) {
             var yl = $("#lkxz").find("option:selected").attr("parnullslidenum");
             $("#lkItemList").jqGrid('addRowData',0, {lkno:v,kucun:ret.length,yuliu:yl});
+        } else {
+            $("#lkItemList").jqGrid('addRowData',0, {lkno:v,kucun:0,yuliu:0});
         }
     });
 }
@@ -648,7 +734,11 @@ function buttonFormat(cellval,options,pos,cnt) {
     return "<button onclick=appendItem('" + cellval + "')>追加</button>";
 }
 
-function appendItem() {
+function yuliuFormat(cellval,options,pos,cnt) {
+    return "<input type='text' id='yuliuInput' value='"+cellval+"'>";
+}
+
+function appendItem(v) {
     var lakuai = $("#lkxz").find("option:selected").text();
     if(lakuai == "") {
         layer.alert("请先选择蜡块", {icon: 1, title: "提示"});
@@ -766,7 +856,14 @@ $(function () {
     $("#lkItemList").jqGrid({
         datatype: "json",
         width: 300,
+        cellEdit: true,
+        cellsubmit:'clientArray',
         colNames: ['蜡块编号','库存', '预留'],
+        afterEditCell:function(rowid,name,val,iRow,iCol){
+            //$("#lkItemList").jqGrid('setSelection',rowid);
+            $('#lkItemList').jqGrid('saveCell',$("#lkItemList").jqGrid.editrow,$("#lkItemList").jqGrid.editcol);
+
+        },
         colModel: [
             {
                 name: 'lkno',
@@ -779,35 +876,26 @@ $(function () {
                 width: 30
             },
             {
-                name: 'yuliu', index: 'kucun', width: 40
+                name: 'yuliu', index: 'yuliu', width: 40,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
             }
         ],
-        loadComplete: function () {
-            var table = this;
-            setTimeout(function () {
-                //updatePagerIcons(table);
-            }, 0);
-        },
-        ondblClickRow: function (id) {
-        },
-        viewrecords: true,
         shrinkToFit: true,
         altRows: true,
         height: 100,
-        rowNum: 5,
-        onSelectRow: function (id) {
-        }
+        rowNum: 5
     });
 
     $("#ckItemList").jqGrid({
         mtype: "GET",
         datatype: "json",
         width: 300,
-        colNames: ['追加', '项目名称','英文名称'],
+        colNames: ['追加','testitemid', '项目名称','英文名称','tesischarge'],
         colModel: [
-            {name: 'testitemid', index: 'testitemid', width: 30, formatter:buttonFormat},
+            {name:'append',index:'append',formatter:buttonFormat},
+            {name: 'testitemid', index: 'testitemid', hidden: true},
             {name: 'teschinesename', index: 'teschinesename', width: 35},
-            {name: 'tesenglishname', index: 'tesenglishname', width: 35}
+            {name: 'tesenglishname', index: 'tesenglishname', width: 35},
+            {name: 'tesischarge', index: 'tesischarge', hidden: true}
         ],
         loadComplete: function () {
             var table = this;
@@ -832,7 +920,7 @@ $(function () {
         datatype: "json",
         width: 400,
         multiselect: true,
-        colNames: ['testitemid', '蜡块编号', '项目名称', '英文名称'],
+        colNames: ['testitemid', '蜡块编号', '项目名称', '英文名称', 'tesischarge'],
         colModel: [
             {
                 name: 'testitemid', index: 'testitemid', hidden: true
@@ -843,7 +931,8 @@ $(function () {
                 width: 30
             },
             {name: 'teschinesename', index: 'teschinesename', width: 40},
-            {name: 'tesenglishname', index: 'tesenglishname', width: 40}
+            {name: 'tesenglishname', index: 'tesenglishname', width: 40},
+            {name: 'tesischarge', index: 'tesischarge', hidden: true}
         ],
         loadComplete: function () {
             var table = this;
@@ -1016,12 +1105,6 @@ $(function () {
             $("#datepickerf").datepicker("option", "maxDate", selectedDate);
         }
     });
-    $("#reqDate").datepicker({
-        changeMonth: true,
-        dateFormat: "yy-mm-dd",
-        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
-        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d']
-    });
     $(".form_datetime1").datetimepicker({
         //minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
@@ -1029,4 +1112,47 @@ $(function () {
         todayBtn: 1,
         autoclose: true //选择日期后自动关闭
     });
+
+    $('#reqDate').datepicker({
+        changeMonth: true,
+        dateFormat: "yy-mm-dd",
+        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+        autoclose: true //选择日期后自动关闭
+    });
+
+    //送检医生
+    $("#reqDoctor").autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: "../basadata/ajax/item",
+                dataType: "json",
+                data: {
+                    name : request.term,//名称
+                    bddatatype:3,//送检医生
+                    bdcustomerid:$("#customerId").val()//账号所属医院
+                },
+                success: function( data ) {
+                    response( $.map( data, function( result ) {
+                        return {
+                            label: result.id + " : " + result.name,
+                            value: result.name,
+                            id : result.id
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 0,
+        select: function( event, ui ) {
+            $( "#reqDoctorId" ).val(ui.item.id);
+            $( "#reqDoctor" ).val(ui.item.value);
+            //return false;
+        }
+    })
+        .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+            .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+            .appendTo( ul );
+    };
 })

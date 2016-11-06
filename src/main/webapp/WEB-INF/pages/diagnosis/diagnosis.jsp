@@ -9,8 +9,12 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/ui.jqgrid.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/jquery-ui.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>"/>
-    <!--script type="name/javascript" src="../scripts/bootstrap.min.js"></script-->
+    <script type="text/javascript" src="<c:url value="/scripts/ace.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/scripts/ace-elements.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
+    <script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="../scripts/i18n/grid.locale-cn.js"></script>
     <script type="text/javascript" src="../scripts/jquery.jqGrid.js"></script>
@@ -75,6 +79,11 @@
     .tab-content.current {
         display: inherit;
     }
+    .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+    .ui-timepicker-div dl { text-align: left; }
+    .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+    .ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+    .ui-timepicker-div td { font-size: 90%; }
 </style>
 <SCRIPT LANGUAGE="JavaScript">
 
@@ -250,7 +259,10 @@
                     <div id="tabs-1">
                         <div>
                             <div style="display: inline">病历号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
-                                                                    id="sampathologycode"></div><input type="hidden" id="sampleid"/>
+                                                                    id="sampathologycode"></div>
+                            <input type="hidden" id="sampleid"/>
+                            <input type="hidden" id="customerId"/>
+                            <input type="hidden" id="pathologyCode"/>
                             <div style="display: inline">条形码：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="saminspectionid"></div>
                             <div style="display: inline">年龄：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
@@ -524,24 +536,25 @@
             </div>
             <div style="width: 100%;height: 20px;font-weight:bold;">特殊检查</div>
             <div style="width: 100%;height: 23%;">
-                <div style="padding-top:5px;">医嘱号：<input id="yzNo" value="自动生成" style="width: 120px;border-width: 0px 0px 1px 0px">检查类型：
-                    <select name="" style="width: 120px;border-width: 0px 0px 1px 0px">
+                <div style="padding-top:5px;">医嘱号：<input id="ordercode" value="" readonly style="width: 120px;border-width: 0px 0px 1px 0px">检查类型：
+                    <select name="" id="reqType" style="width: 120px;border-width: 0px 0px 1px 0px">
                         <option value="1">免疫组化</option>
                         <option value="2">特殊染色</option>
                         <option value="3">分子病理</option>
                     </select>
                 </div>
                 <div style="padding-top:5px;">
-                    源病理号：<input id="yblNo" style="width: 120px;border-width: 0px 0px 1px 0px">
-                    申请医生：<input id="reqTime" style="width: 120px;border-width: 0px 0px 1px 0px">
+                    源病理号：<input id="yblNo" readonly style="width: 120px;border-width: 0px 0px 1px 0px">
+                    申请医生：
+                    <input id="reqDoctor" style="width: 120px;border-width: 0px 0px 1px 0px">
+                    <input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
+                    <input type="hidden" id="reqDoctorId" value=""/>
                 </div>
                 <div style="padding-top:5px;">
-                    源条形码：<input id="ytxm" style="width: 120px;border-width: 0px 0px 1px 0px">
-                    申请日期：<input id="reqDate" style="width: 120px;border-width: 0px 0px 1px 0px">
+                    源条形码：<input id="ytxm" readonly style="width: 120px;border-width: 0px 0px 1px 0px">
+                    申请日期：<input id="reqDate" class="" style="width: 120px;border-width: 0px 0px 1px 0px">
                 </div>
-                <div style="padding-top:5px;">
-                    白片数：<input id="whitePieceNo" style="width: 120px;border-width: 0px 0px 1px 0px">
-                </div>
+                <input id="whitePieceNo" type="hidden" style="width: 120px;border-width: 0px 0px 1px 0px">
 
             </div>
             <div style="width: 100%;height: 30px;font-weight:bold;">项目一览  <button onclick="removeItems()">删除</button>  蜡块选择<select id="lkxz" onchange="getWhitePiece()"></select></div>

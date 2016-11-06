@@ -7,6 +7,8 @@ import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by 909436637@qq.com on 2016/11/4.
  * Description:
@@ -22,4 +24,8 @@ public class PimsPathologyOrderCheckManagerImpl extends GenericManagerImpl<PimsP
         this.pathologyOrderCheckDao = pathologyOrderCheckDao;
     }
 
+    @Override
+    public void batchSave(List<PimsPathologyOrderCheck> checkItems) {
+        pathologyOrderCheckDao.batchSave(checkItems);
+    }
 }

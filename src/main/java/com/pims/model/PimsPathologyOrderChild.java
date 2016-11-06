@@ -14,7 +14,7 @@ public class PimsPathologyOrderChild {
     private long chiorderid;
     private String chiordercode;
     private String chipathologycode;
-    private String chicustomercode;
+    private long chicustomercode;
     private long chisampleid;
     private long chiparaffinid;
     private long chiparaffinno;
@@ -86,12 +86,12 @@ public class PimsPathologyOrderChild {
     }
 
     @Basic
-    @Column(name = "CHICUSTOMERCODE")
-    public String getChicustomercode() {
+    @Column(name = "CHICUSTOMERID")
+    public long getChicustomercode() {
         return chicustomercode;
     }
 
-    public void setChicustomercode(String chicustomercode) {
+    public void setChicustomercode(long chicustomercode) {
         this.chicustomercode = chicustomercode;
     }
 
@@ -374,13 +374,12 @@ public class PimsPathologyOrderChild {
 
         if (childorderid != that.childorderid) return false;
         if (chiorderid != that.chiorderid) return false;
+        if (chicustomercode != that.chicustomercode) return false;
         if (chisampleid != that.chisampleid) return false;
         if (chiparaffinid != that.chiparaffinid) return false;
         if (chiparaffinno != that.chiparaffinno) return false;
         if (chiordercode != null ? !chiordercode.equals(that.chiordercode) : that.chiordercode != null) return false;
         if (chipathologycode != null ? !chipathologycode.equals(that.chipathologycode) : that.chipathologycode != null)
-            return false;
-        if (chicustomercode != null ? !chicustomercode.equals(that.chicustomercode) : that.chicustomercode != null)
             return false;
         if (chiparaffincode != null ? !chiparaffincode.equals(that.chiparaffincode) : that.chiparaffincode != null)
             return false;
@@ -416,10 +415,8 @@ public class PimsPathologyOrderChild {
         if (chifirstd != null ? !chifirstd.equals(that.chifirstd) : that.chifirstd != null) return false;
         if (chicreatetime != null ? !chicreatetime.equals(that.chicreatetime) : that.chicreatetime != null)
             return false;
-        if (chicreateuser != null ? !chicreateuser.equals(that.chicreateuser) : that.chicreateuser != null)
-            return false;
+        return chicreateuser != null ? chicreateuser.equals(that.chicreateuser) : that.chicreateuser == null;
 
-        return true;
     }
 
     @Override
@@ -428,7 +425,7 @@ public class PimsPathologyOrderChild {
         result = 31 * result + (int) (chiorderid ^ (chiorderid >>> 32));
         result = 31 * result + (chiordercode != null ? chiordercode.hashCode() : 0);
         result = 31 * result + (chipathologycode != null ? chipathologycode.hashCode() : 0);
-        result = 31 * result + (chicustomercode != null ? chicustomercode.hashCode() : 0);
+        result = 31 * result + (int) (chicustomercode ^ (chicustomercode >>> 32));
         result = 31 * result + (int) (chisampleid ^ (chisampleid >>> 32));
         result = 31 * result + (int) (chiparaffinid ^ (chiparaffinid >>> 32));
         result = 31 * result + (int) (chiparaffinno ^ (chiparaffinno >>> 32));

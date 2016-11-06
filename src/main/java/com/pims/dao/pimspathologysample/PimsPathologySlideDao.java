@@ -52,4 +52,6 @@ public interface PimsPathologySlideDao extends GenericDao<PimsPathologySlide,Lon
      * @return
      */
     List<PimsPathologySlide> getWhitePiece(String paraffincode, Long sampleId);
+
+    void updateWhitePieceUsedFlag(String paraffincode, Long sampleId, Long num);
 }

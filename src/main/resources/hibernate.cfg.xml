@@ -137,5 +137,8 @@
         <mapping class="com.pims.model.PimsSysTestFee"/>
         <mapping class="com.pims.model.PimsSysPackageDetail"/>
         <mapping class="com.pims.model.PimsTestItemPackage"/>
+        <mapping class="com.pims.model.PimsPathologyOrderChild"/>
+        <mapping class="com.pims.model.PimsPathologyOrderCheck"/>
+        <mapping class="com.pims.model.PimsPathologyOrder"/>
     </session-factory>
 </hibernate-configuration>

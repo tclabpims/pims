@@ -13,7 +13,7 @@ public class PimsPathologyOrder {
     private long orderid;
     private String ordercode;
     private long ordsampleid;
-    private String ordcustomercode;
+    private long ordcustomercode;
     private String ordpathologycode;
     private Date ordcreatetime;
     private String ordorderuserid;
@@ -61,12 +61,12 @@ public class PimsPathologyOrder {
     }
 
     @Basic
-    @Column(name = "ORDCUSTOMERCODE")
-    public String getOrdcustomercode() {
+    @Column(name = "ORDCUSTOMERID")
+    public long getOrdcustomercode() {
         return ordcustomercode;
     }
 
-    public void setOrdcustomercode(String ordcustomercode) {
+    public void setOrdcustomercode(long ordcustomercode) {
         this.ordcustomercode = ordcustomercode;
     }
 
@@ -199,10 +199,9 @@ public class PimsPathologyOrder {
 
         if (orderid != that.orderid) return false;
         if (ordsampleid != that.ordsampleid) return false;
+        if (ordcustomercode != that.ordcustomercode) return false;
         if (ordorderstate != that.ordorderstate) return false;
         if (ordercode != null ? !ordercode.equals(that.ordercode) : that.ordercode != null) return false;
-        if (ordcustomercode != null ? !ordcustomercode.equals(that.ordcustomercode) : that.ordcustomercode != null)
-            return false;
         if (ordpathologycode != null ? !ordpathologycode.equals(that.ordpathologycode) : that.ordpathologycode != null)
             return false;
         if (ordcreatetime != null ? !ordcreatetime.equals(that.ordcreatetime) : that.ordcreatetime != null)
@@ -222,9 +221,8 @@ public class PimsPathologyOrder {
             return false;
         if (ordfinishedusername != null ? !ordfinishedusername.equals(that.ordfinishedusername) : that.ordfinishedusername != null)
             return false;
-        if (ordisdelete != null ? !ordisdelete.equals(that.ordisdelete) : that.ordisdelete != null) return false;
+        return ordisdelete != null ? ordisdelete.equals(that.ordisdelete) : that.ordisdelete == null;
 
-        return true;
     }
 
     @Override
@@ -232,7 +230,7 @@ public class PimsPathologyOrder {
         int result = (int) (orderid ^ (orderid >>> 32));
         result = 31 * result + (ordercode != null ? ordercode.hashCode() : 0);
         result = 31 * result + (int) (ordsampleid ^ (ordsampleid >>> 32));
-        result = 31 * result + (ordcustomercode != null ? ordcustomercode.hashCode() : 0);
+        result = 31 * result + (int) (ordcustomercode ^ (ordcustomercode >>> 32));
         result = 31 * result + (ordpathologycode != null ? ordpathologycode.hashCode() : 0);
         result = 31 * result + (ordcreatetime != null ? ordcreatetime.hashCode() : 0);
         result = 31 * result + (ordorderuserid != null ? ordorderuserid.hashCode() : 0);
