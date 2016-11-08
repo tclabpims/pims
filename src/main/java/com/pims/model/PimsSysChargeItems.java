@@ -11,6 +11,7 @@ import java.util.Date;
 @Table(name = "PIMS_SYS_CHARGE_ITEMS")
 public class PimsSysChargeItems {
     private long chargeitemid;
+    private long testitemid;
     private String chinesename;
     private String chienglishname;
     private String chiitemsort;
@@ -20,6 +21,15 @@ public class PimsSysChargeItems {
     private String chiremark;
     private String chicreateuser;
     private Date chicreatetime;
+
+    @Column(name = "TESTITEMID")
+    public long getTestitemid() {
+        return testitemid;
+    }
+
+    public void setTestitemid(long testitemid) {
+        this.testitemid = testitemid;
+    }
 
     @Id
     @Column(name = "CHARGEITEMID")

@@ -133,6 +133,7 @@
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="chinesename"> 中文名称 </label>
                     <div class="col-xs-8" style="">
+                        <input type="hidden" id="testitemid">
                         <input type="text" id="chinesename" name="chinesename" placeholder="中文名称" class="col-xs-8"
                                datatype="*2-255"/>
                     </div>
@@ -140,7 +141,7 @@
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="chienglishname"> 英文名称 </label>
                     <div class="col-xs-8" style="">
-                        <input type="text" id="chienglishname" name="chienglishname" placeholder="英文名称" class="col-xs-8"
+                        <input type="text" id="chienglishname" name="chienglishname" readonly placeholder="英文名称" class="col-xs-8"
                                datatype="*2-255"/>
                     </div>
                 </div>

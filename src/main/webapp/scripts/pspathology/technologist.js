@@ -387,9 +387,9 @@ function saveSpecialDiagnosis(lindex) {
         return false;
     }
     /*if($.trim(whitePieceNo) == "" || !parseInt(whitePieceNo)) {
-        layer.alert("请填写白片数量", {icon: 1, title: "提示"});
-        return false;
-    }*/
+     layer.alert("请填写白片数量", {icon: 1, title: "提示"});
+     return false;
+     }*/
     if($.trim(paraffinCode) == "") {
         layer.alert("请选择蜡块", {icon: 1, title: "提示"});
         return false;
@@ -700,11 +700,13 @@ function reportOperate(v) {
         success: function () {
             $.get("../diagnosis/report/getTemplate", {"sampleid": GRID_SELECTED_ROW_SAMPLEID}, function (data) {
                     var rows = data.rows;
-                    $("#reportTemplateSelect").empty();
+                    var select = $("#reportTemplateSelect");
                     if (rows.length > 0) {
                         for (var i = 0; i < rows.length; i++) {
-                            $("#reportTemplateSelect").append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
+                            select.append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
                         }
+                    } else {
+                        select.empty();
                     }
                 }
             );//重新载入
@@ -791,7 +793,7 @@ function appendAll() {
                 if(insertedId[j] == row.testitemid) e = true;
             }
             if(!e)
-            $("#itemList").jqGrid("addRowData", (itemNo+1), row);
+                $("#itemList").jqGrid("addRowData", (itemNo+1), row);
         }
     }
 }
@@ -809,7 +811,7 @@ $(function () {
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
-        colNames: ['选择', '病理状态', '病理号', '送检医生', 'id', 'samcustomerid','sampathologyid'],
+        colNames: ['选择', '特检类型', '医嘱号', '申请医生', 'id', 'samcustomerid','sampathologyid'],
         colModel: [
             {
                 name: 'matsort', index: 'matsort', width: 20, align: "center",
@@ -1066,18 +1068,18 @@ $(function () {
         {
             activate: function (event, ui) {
                 /*var active = $('#tabs').tabs('option', 'active');
-                var href = $("#tabs ul>li a").eq(active).attr("href");
-                var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
-                if (selrow == null || selrow.length == 0) return;
-                var rowData = $("#sectionList").jqGrid('getRowData', selrow);
-                if (href == '#tabs-2') {
-                    jQuery("#materialList").jqGrid("clearGridData");
-                    jQuery("#materialList").jqGrid('setGridParam', {
-                        url: "../pathologysample/pieces/ajax/getItem",
-                        datatype: 'json',
-                        postData: {"reqId": rowData.sampleid}
-                    }).trigger('reloadGrid');//重新载入
-                }*/
+                 var href = $("#tabs ul>li a").eq(active).attr("href");
+                 var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
+                 if (selrow == null || selrow.length == 0) return;
+                 var rowData = $("#sectionList").jqGrid('getRowData', selrow);
+                 if (href == '#tabs-2') {
+                 jQuery("#materialList").jqGrid("clearGridData");
+                 jQuery("#materialList").jqGrid('setGridParam', {
+                 url: "../pathologysample/pieces/ajax/getItem",
+                 datatype: 'json',
+                 postData: {"reqId": rowData.sampleid}
+                 }).trigger('reloadGrid');//重新载入
+                 }*/
             }
         });
     $(document).ready(function () {
@@ -1194,8 +1196,8 @@ $(function () {
             row.tesischarge = ui.item.tesischarge;
             appendItem(row);
             /*$("#chinesename").val(ui.item.label);
-            $("#chienglishname").val(ui.item.value);
-            $("#testitemid").val(ui.item.id);*/
+             $("#chienglishname").val(ui.item.value);
+             $("#testitemid").val(ui.item.id);*/
         }
     })
         .data( "ui-autocomplete" )._renderItem = function( ul, item ) {

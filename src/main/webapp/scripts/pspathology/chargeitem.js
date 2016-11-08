@@ -21,7 +21,7 @@ function  AddSection(){
                 $.post('../chargeitem/edit', {chinesename:$('#chinesename').val(),chienglishname:$('#chienglishname').val(),
                     chicategory : $('#chicategory').val(),
                     chiprice : $('#chiprice').val(), chiuseflag : $('#chiuseflag').val(),
-                    chiremark : $('#chiremark').val(),
+                    chiremark : $('#chiremark').val(),testitemid:$("#testitemid").val(),
                     chiitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
                 },function(data){
                     layer.close(index);
@@ -88,6 +88,7 @@ function editSection(){
             $('#chiprice').val(msg.chiprice);
             $('#chiuseflag').val(msg.chiuseflag);
             $('#chiremark').val(msg.chiremark);
+            $("#testitemid").val(msg.testitemid);
             var chiitemsort = msg.chiitemsort;
             $("#FN").val(chiitemsort.charAt(1));
             $("#SN").val(chiitemsort.charAt(2));
@@ -105,7 +106,7 @@ function editSection(){
                         $.post('../chargeitem/edit', {chargeitemid:$('#chargeitemid').val(),chinesename:$('#chinesename').val(),chienglishname:$('#chienglishname').val(),
                             chicategory : $('#chicategory').val(),
                             chiprice : $('#chiprice').val(), chiuseflag : $('#chiuseflag').val(),
-                            chiremark : $('#chiremark').val(),
+                            chiremark : $('#chiremark').val(),testitemid:$("#testitemid").val(),
                             chiitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
                         },function(data){
                             layer.close(index);
@@ -189,7 +190,47 @@ $(function(){
         }
     });
 
+    //检查项目名称
+    $("#chinesename").autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: "../estitem/querytestitem",
+                dataType: "json",
+                data: {
+                    query:$("#chinesename").val(),//项目中文名称
+                    isCharge:"true",//项目中文名称
+                    filter:"true"//项目中文名称
+                },
+                success: function( data ) {
+                    response( $.map( data, function( result ) {
+                        return {
+                            label: result.teschinesename,
+                            value: result.tesenglishname,
+                            id : result.testitemid
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 0,
+        select: function( event, ui ) {
+            $("#chinesename").val(ui.item.label);
+            $("#chienglishname").val(ui.item.value);
+            $("#testitemid").val(ui.item.id);
+            //$( "#reqDoctorId" ).val(ui.item.id);
+            //$( "#reqDoctor" ).val(ui.item.value);
+            //return false;
+        }
+    })
+        .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+            .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+            .appendTo( ul );
+    };
+
 });
+
+
 function  clearData(){
     $('#chinesename').val('');
     $('#chienglishname').val('');

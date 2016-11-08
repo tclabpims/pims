@@ -6,6 +6,7 @@ import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.pims.webapp.controller.WebControllerUtil;
+import com.smart.Constants;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.codehaus.jettison.json.JSONArray;
@@ -33,6 +34,30 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 	@RequestMapping(value = "/testitem", method = RequestMethod.GET)
 	public ModelAndView reqTestItem() throws Exception {
 		return new ModelAndView();
+	}
+
+	@RequestMapping(method = {RequestMethod.GET}, value = "/querytestitem")
+	@ResponseBody
+	public void queryTestItem(HttpServletRequest request, HttpServletResponse response) {
+		String query = request.getParameter("query");
+		Map<String, Object> param = new HashMap<>();
+		param.put("name", query);
+		param.put("isCharge", request.getParameter("isCharge"));
+		param.put("filter", request.getParameter("filter"));
+		List<PimsSysReqTestitem> lis = pimsSysReqTestitemManager.getTestitemInfo(param);
+		com.alibaba.fastjson.JSONArray result = new com.alibaba.fastjson.JSONArray();
+		if(lis.size() > 0) {
+			for(PimsSysReqTestitem item : lis) {
+				com.alibaba.fastjson.JSONObject obj = new  com.alibaba.fastjson.JSONObject();
+				obj.put("testitemid", item.getTestitemid());
+				obj.put("teschinesename", item.getTeschinesename());
+				obj.put("tesenglishname", item.getTesenglishname());
+				obj.put("tesischarge", item.getTesischarge());
+				result.add(obj);
+			}
+		}
+		response.setContentType(contentType);
+		PrintwriterUtil.print(response, result.toString());
 	}
 
 	@RequestMapping(method = {RequestMethod.POST}, value = "/edit")

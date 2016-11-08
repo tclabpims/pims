@@ -117,7 +117,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
         String picNum = request.getParameter("picNum");
-        int picNumInt = (picNum == null || "".equals(picNum))?0:Integer.valueOf(picNum);
+        int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
         String templateUrl = request.getParameter("templateUrl");
         int operateType = Integer.valueOf(request.getParameter("type"));
 
@@ -127,43 +127,50 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId);
 
         VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
+        if (picNumInt > pictures.size()) picNumInt = pictures.size();
         context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
         context.put("picNum", picNumInt);
         context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
 
-        if(picNumInt > 0) {
-            for(int i = 0; i < picNumInt; i++) {
-                PimsPathologyPictures pic = pictures.get(i);
-                String realPath = pic.getPicsavepath();
-                if (realPath != null && realPath.length() > 0) {
-                    realPath = realPath.substring(realPath.indexOf("\\images"));
-                    realPath = realPath.replaceAll("\\\\", "/");
-                    context.put("imgsrc"+i, request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +realPath);
+        if (picNumInt > 0) {
+            Map<String, String> map1 = new HashMap<>();
+                for (int i = 0; i < picNumInt; i++) {
+                    PimsPathologyPictures pic = pictures.get(i);
+                    String realPath = pic.getPicsavepath();
+                    if (realPath != null && realPath.length() > 0) {
+                        realPath = realPath.substring(realPath.indexOf("\\images"));
+                        realPath = realPath.replaceAll("\\\\", "/");
+                        if(picNumInt == 1) {
+                            context.put("imgsrc", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                        }
+                        else
+                            map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                    }
                 }
+                context.put("multiSrc", map1);
             }
+
+            VelocityEngine engine = new VelocityEngine();
+            engine.setProperty(Velocity.RESOURCE_LOADER, "class");
+            engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+            engine.init();
+
+            Template template = engine.getTemplate(templateUrl, "UTF-8");
+            StringWriter writer = new StringWriter();
+            template.merge(context, writer);
+
+            String rootDir = request.getSession().getServletContext().getRealPath("/pdf");
+            String fileName = sampleId + ".html";
+            String outputFile = rootDir + File.separator + fileName;
+            generateHtml(outputFile, writer.toString());
+
+            response.setContentType(super.contentType);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
+
+            return map;
         }
-
-        VelocityEngine engine = new VelocityEngine();
-        engine.setProperty(Velocity.RESOURCE_LOADER, "class");
-        engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        engine.init();
-
-        Template template = engine.getTemplate(templateUrl, "UTF-8");
-        StringWriter writer = new StringWriter();
-        template.merge(context, writer);
-
-        String rootDir = request.getSession().getServletContext().getRealPath("/pdf");
-        String fileName = sampleId + ".html";
-        String outputFile = rootDir + File.separator + fileName;
-        generateHtml(outputFile, writer.toString());
-
-        response.setContentType(super.contentType);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
-
-        return map;
-    }
 
     private String getHospitalLogo(HttpServletRequest request, Long hospitalId) {
         Hospital hospital = hospitalManager.get(hospitalId);
@@ -176,7 +183,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 
     private void generateHtml(String fileName, String html) {
         File file = new File(fileName);
-        if(file.exists()) {
+        if (file.exists()) {
             file.delete();
         }
         RandomAccessFile mm = null;
@@ -298,7 +305,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         Map<String, Object> map = new HashMap<>();
         map.put("name", pp.getPicpicturename());
         map.put("pictureid", pp.getPictureid());
-        map.put("src", customerFileDir + File.separator + fileName);
+        map.put("src", customerFileDir + "/" + fileName);
         map.put("continuous", continuous);
         response.setContentType(contentType);
         return map;

@@ -14,7 +14,9 @@ import com.smart.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +29,7 @@ import java.util.List;
  * Description:
  */
 @Controller
-@RequestMapping(value = "/pathology/order")
+@RequestMapping(value = "/order")
 public class PimsPathologyOrderController extends PIMSBaseController {
 
     @Autowired
@@ -41,6 +43,12 @@ public class PimsPathologyOrderController extends PIMSBaseController {
 
     @Autowired
     private PimsPathologySlideManager pimsPathologySlideManager;
+
+    @RequestMapping(value = "/technologist", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView technologist(HttpServletRequest request, HttpServletResponse response) {
+        return new ModelAndView();
+    }
 
     @RequestMapping(value = "/save")
     @ResponseBody
