@@ -17,51 +17,34 @@
     <script type="text/javascript" src="../scripts/pathologysample/pieces.js"></script>
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
+	<style>
+		select {
+			height:34px;
+		}
+		.ui-autocomplete {
+			z-index: 99999999;
+		}
+		.div_div {
+			float:left;
+			margin:10px 5px;
+			text-align:center;
+		}
+	</style>
 </head>
-<style>
-	select {
-		height:34px;
-	}
-	.ui-autocomplete {
-		z-index: 99999999;
-	}
-    label {
-        font-size: 13px;
-    }
-    .form-group{
-        margin-bottom: 0px;
-    }
-</style>
-<body>
-<div class="row" id="div_1">
-		<div>
-			<button type="button" class="btn-sm btn-info" onclick="upSample()">
-				上一个
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="downSample()">
-				下一个
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="print()">
-				打印
-			</button>
-			<button type="button" class="btn-sm btn-info" id="saveButton" onclick="saveInfo(1)">
-				取材
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="hisChange()">
-				计费调整
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="imgCollect()">
-				图像采集
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="listPrint()">
-				列表打印
-			</button>
-		</div>
-</div>
+<body style="text-align: center;">
+	<div class="row" id="div_1"style="background-color: #E8E8E8;" >
+		<div class="div_div"><img src="/styles/imagepims/up.png" style="cursor:pointer;display: block" onclick="upSample()">上一个</div>
+		<div class="div_div"><img src="/styles/imagepims/down.png" style="cursor:pointer;display: block" onclick="downSample()">下一个</div>
+		<div class="div_div"><img src="/styles/imagepims/print.png" style="cursor:pointer;display: block" onclick="printCode()">打印</div>
+		<div class="div_div"><img src="/styles/imagepims/piece.png" style="cursor:pointer;display: block" id="saveButton" onclick="saveInfo(1)">取材</div>
+		<div class="div_div"><img src="/styles/imagepims/fee.png" style="cursor:pointer;display: block" id="hisbutton">计费调整</div>
+		<div class="div_div"><img src="/styles/imagepims/imgget.png" style="cursor:pointer;display: block " onclick="imgCollect()">图像采集</div>
+		<div class="div_div"><img src="/styles/imagepims/listprint.png" style="cursor:pointer;display: block" onclick="listPrint()">列表打印</div>
+	</div>
 <div class="row">
 	<div>
-		<h5 style="float: left;width: 33%"><strong>&nbsp;工作列表</strong></h5>
-		<h5 style="float: left;width: 50%"><strong>&nbsp;取材管理</strong>
+		<h5 style="float: left;width: 33%"><strong>&nbsp;<img src="/styles/imagepims/worklist.png">&nbsp;工作列表</strong></h5>
+		<h5 style="float: left;width: 50%"><strong>&nbsp;<img src="/styles/imagepims/piecemage.png">&nbsp;取材管理</strong>
 			<span>&nbsp;&nbsp;取材医生:</span>
 			<select id="doctor_id" style="width: 20%" onchange="searchDoctor('1')">
 				<%out.println(request.getAttribute("piecesname"));%>
@@ -71,9 +54,8 @@
 				<%out.println(request.getAttribute("piecesname"));%>
 			</select>
 		</h5>
-		<h5 style="float: left;width: 17%"><strong>&nbsp;图像采集</strong></h5>
+		<h5 style="float: left;width: 17%"><strong>&nbsp;<img src="/styles/imagepims/imgget0.png">&nbsp;图像采集</strong></h5>
 	</div>
-	<div class="widget-box widget-color-green"></div>
 	<div class="col-sm-4 leftContent" id="div_2">
 		<div id="search_div_1" style="background-color: #E8E8E8">
 		<table>
@@ -101,7 +83,7 @@
 			<span>&nbsp;补取医嘱:&nbsp;</span>&nbsp;&nbsp;
 			<input type="checkbox" id="send_doctor" value="1"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<span>
-				<button type="button" class="btn-sm btn-info" onclick="searchList()">
+				<button type="button" class="btn btn-xs  btn-info" onclick="searchList()">
 					查询
 				</button>
 			</span>
@@ -185,16 +167,17 @@
 			</div>
 				</div>
 			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<h5 style="float: left"><strong>&nbsp;材块列表&nbsp;&nbsp;</strong></h5>
-				<button type="button" class="btn-sm btn-info" id="addrow1" onclick="addRow()">
+				<h5 style="float: left"><strong>&nbsp;材块列表&nbsp;&nbsp;</strong>
+				<button type="button" class="btn btn-xs btn-info" id="addrow1" onclick="addRow()">
 					追加行
 				</button>
-				<button type="button" class="btn-sm btn-info" onclick="delRow()">
+				<button type="button" class="btn btn-xs btn-info" onclick="delRow()">
 					删除行
 				</button>
-				<button type="button" class="btn-sm btn-info" onclick="saveInfo(0)">
+				<button type="button" class="btn btn-xs btn-info" onclick="saveInfo(0)">
 					保存
 				</button>
+				</h5>
 			</div>
 			<div class="form-group " style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 				<table id="new1" class="table table-striped table-bordered table-hover">
@@ -203,7 +186,7 @@
 			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
 				<h5 style="float: left;width: 60%"><strong>&nbsp;巨检所见&nbsp;&nbsp;&nbsp;&nbsp;</strong>
 					<input type="text" id="jjsj" style="width: 40%"/>
-					<button type="button" class="btn-sm btn-info" onclick="saveAsTemplate(0,'samjjsj')">
+					<button type="button" class="btn btn-xs btn-info" onclick="saveAsTemplate(0,'samjjsj')">
 						模版保存
 					</button>
 				</h5>
@@ -213,7 +196,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="col-sm-2 rightContent" style="border-style: solid;border-color: #0A246A;border-width: 1px">
+	<div class="col-sm-2 rightContent">
 	</div>
 </div>
 <div style="text-align: left;margin-left:5px;display:none" id="templateForm">

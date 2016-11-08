@@ -1,7 +1,38 @@
+var nowrow = "";//当前显示数据所在的行
+function changeimgclick(num) {//1切片 取消包埋
+	if(num == 1){
+		nowrow = 3;
+		if (typeof document.addEventListener == "undefined") {
+			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
+			document.getElementById("saveButton").attachEvent("onclick",saveInfo);
+			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
+		} else {
+			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
+			document.getElementById("saveButton").addEventListener("click",saveInfo,false);
+			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
+		}
+		$("#saveButton").css("cursor","pointer");
+		$("#resetbutton").css("cursor","default");
+	}else{
+		nowrow = 2;
+		if (typeof document.addEventListener == "undefined") {
+			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
+			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
+			document.getElementById("resetbutton").attachEvent("onclick",saveInfo);
+		} else {
+			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
+			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
+			document.getElementById("resetbutton").addEventListener("click",saveInfo,false);
+		}
+		$("#saveButton").css("cursor","default");
+		$("#resetbutton").css("cursor","pointer");
+	}
+}
 /**
  * 切片
  */
-function saveInfo(num) {
+function saveInfo() {
+	var num =nowrow;
 	var rowdatas = $('#new1').jqGrid('getRowData');
 	var selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
 	var arr = new Array();
@@ -47,11 +78,13 @@ function searchSts(states){
 	var req_sts = states;
 	//var req_sts = $("#req_sts").val();
 	if(req_sts == "1"){
-		$("#saveButton").attr({"disabled":true});
-		$("#resetbutton").removeAttr("disabled");//将按钮可用
+		changeimgclick(2);
+		// $("#saveButton").attr({"disabled":true});
+		// $("#resetbutton").removeAttr("disabled");//将按钮可用
 	}else{
-		$("#resetbutton").attr({"disabled":true});
-		$("#saveButton").removeAttr("disabled");//将按钮可用
+		// $("#resetbutton").attr({"disabled":true});
+		// $("#saveButton").removeAttr("disabled");//将按钮可用
+		changeimgclick(1);
 	}
 }
 /**
@@ -65,8 +98,8 @@ $(function() {
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
 	});
-	$("#resetbutton").attr({"disabled":true});
-
+	// $("#resetbutton").attr({"disabled":true});
+	changeimgclick(1);
 	var clientHeight= $(window).innerHeight();
 	var height = $("#formDialog").height() - $('#search_div_1').height()+405;
 	var width = $('#search_div_1').width()-5;

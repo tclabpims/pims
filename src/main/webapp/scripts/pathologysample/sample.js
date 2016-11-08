@@ -1,14 +1,6 @@
-/**
- * 当前显示数据所在的行
- * @type {string}
- */
-var nowrow = "";
-/**
- * 当前页面状态
- * @type {string}
- */
-var addstates = "";
-function getData(obj,event) {
+var nowrow = "";//当前显示数据所在的行
+var addstates = "";//当前页面状态
+function getData(obj,event) {//获取数据
 	var e=e||event;
     var key = event.keyCode;
     if(navigator.appName=="Netscape"){
@@ -27,11 +19,7 @@ function getData(obj,event) {
 			break;
 	}
 }
-/**
- * 根据申请单据补充登记单信息
- * @param id
- */
-function getSampleData(id) {
+function getSampleData(id) {//根据申请单据补充登记单信息
 	$.get("../pimspathology/get",{id:id},function(data) {
 		if(data != "") {
 			$("#sampleid").val("");//标本id
@@ -105,9 +93,43 @@ function getSampleData(id) {
 		}
 	});
 }
-
-function clickOther() {
+function clickOther() {//实现表单验证
 	$("#saveButton1").click();
+}
+function changeimgclick(num) {//1新增 2 修改
+	if(num == 1){
+		if (typeof document.addEventListener == "undefined") {
+			document.getElementById("editButton").detachEvent("onclick",editSample);
+			document.getElementById("deleteButton").detachEvent("onclick",deleteSample);
+			document.getElementById("hisbutton").detachEvent("onclick",hisChange);
+		} else {
+			document.getElementById("editButton").removeEventListener("click",editSample,false);
+			document.getElementById("deleteButton").removeEventListener("click",deleteSample,false);
+			document.getElementById("hisbutton").removeEventListener("click",hisChange,false);
+		}
+		$("#editButton").css("cursor","default");
+		$("#deleteButton").css("cursor","default");
+		$("#hisbutton").css("cursor","default");
+	}else if(num == 2){
+		if (typeof document.addEventListener == "undefined") {
+			document.getElementById("editButton").detachEvent("onclick",editSample);
+			document.getElementById("editButton").attachEvent("onclick",editSample);
+			document.getElementById("deleteButton").detachEvent("onclick",deleteSample);
+			document.getElementById("deleteButton").attachEvent("onclick",deleteSample);
+			document.getElementById("hisbutton").detachEvent("onclick",hisChange);
+			document.getElementById("hisbutton").attachEvent("onclick",hisChange)
+		} else {
+			document.getElementById("editButton").removeEventListener("click",editSample,false);
+			document.getElementById("editButton").addEventListener("click",editSample,false);
+			document.getElementById("deleteButton").removeEventListener("click",deleteSample,false);
+			document.getElementById("deleteButton").addEventListener("click",deleteSample,false);
+			document.getElementById("hisbutton").removeEventListener("click",hisChange,false);
+			document.getElementById("hisbutton").addEventListener("click",hisChange,false);
+		}
+		$("#editButton").css("cursor","pointer");
+		$("#deleteButton").css("cursor","pointer");
+		$("#hisbutton").css("cursor","pointer");
+	}
 }
 /**
  * 保存数据
@@ -202,12 +224,13 @@ function saveInfo() {
  */
 function addSample() {
 	addstates = "0";
-	$("#hisbutton").removeAttr("disabled");//将按钮可用
 	clearData();
+	changeimgclick(1);
 	$('#sampleForm').find('input,textarea,select').removeAttr('disabled') ;
-	$("#saveButton").removeAttr("disabled");//将按钮可用
-	$("#editButton").attr({"disabled":"disabled"});
-	$("#deleteButton").attr({"disabled":"disabled"});
+	//$("#hisbutton").removeAttr("disabled");//将按钮可用
+	// $("#saveButton").removeAttr("disabled");//将按钮可用
+	// $("#editButton").attr({"disabled":"disabled"});
+	// $("#deleteButton").attr({"disabled":"disabled"});
 	$("#sampleid").val("");//标本id
 	$("#saminspectionid").val("");//标本条码号
 	$("#sampathologycode").val("");//病理编号
@@ -468,6 +491,7 @@ $(function() {
 	var height = $("#formDialog").height() - $('#search_div_1').height() + 230;
     var width = $('#div_2').width();
     var width1 = $("#formDialog").width();
+	//alert($(window).innerWidth());
 	//var logyid = $("#logyid").val();
 	var logyid ="";
 	var send_hosptail = "";
@@ -490,13 +514,13 @@ $(function() {
 		colNames: ['ID','条形码', '病理号', '送检医生','送检医院','病人名','病理状态','性别','年龄','年龄类型','临床诊断','申请时间','送检时间','登记时间'],
 		colModel: [
 			{name:'sampleid',hidden:true},
-			{ name: 'saminspectionid', index: 'saminspectionid',width:'100px'},
-			{ name: 'sampathologycode', index: 'sampathologycode',width:'100px'},
-			{ name: 'samsenddoctorname', index: 'samsenddoctorname',width:'100px'},
-			{ name: 'samsendhospital', index: 'samsendhospital',width:'100px'},
-			{ name: 'sampatientname', index: 'sampatientname',width:'100px'},
+			{ name: 'saminspectionid', index: 'saminspectionid',width:'100px', align: "center"},
+			{ name: 'sampathologycode', index: 'sampathologycode',width:'100px', align: "center"},
+			{ name: 'samsenddoctorname', index: 'samsenddoctorname',width:'100px', align: "center"},
+			{ name: 'samsendhospital', index: 'samsendhospital',width:'100px', align: "center"},
+			{ name: 'sampatientname', index: 'sampatientname',width:'100px', align: "center"},
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;" +
-			"6:已发送;7:会诊中:8:报告已打印"},width:'100px'},
+			"6:已发送;7:会诊中:8:报告已打印"},width:'100px', align: "center"},
 			{name:'sampatientsex',hidden:true},
 			{name:'sampatientage',hidden:true},
 			{name:'sampatientagetype',hidden:true},
@@ -548,17 +572,18 @@ $(function() {
 		// },
 		multiselect: true,
 		viewrecords: true,
-		height:height,
+		height:455,
         width:width,
         shrinkToFit:false,
         autoScroll: true,
 		//autowidth: true,
-		rowNum: 10,
-		rowList:[10,20,30],
+		rowNum: 20,
+		rowList:[20,30,40],
 		rownumbers: true, // 显示行号
 		rownumWidth: 35, // the width of the row numbers columns
 		pager: "#pager"
 	});
+
 	$("#new1").jqGrid({
 		url: "../pathologysample/sample/ajax/getreqinfo",
 		mtype: "GET",
@@ -570,20 +595,20 @@ $(function() {
 			{ name: 'selectinfo', index: 'selectinfo', sortable: false, align: "center", width: "70px" },
 			{ name: 'showinfo', index: 'showinfo', sortable: false, align: "center", width: "70px" },
 			{name:'requisitionid',hidden:true},
-			{ name: 'requisitionno', index: 'requisitionno'},
-			{ name: 'reqpathologyid', index: 'reqpathologyid',formatter: "select", editoptions:{value:gettypes()}},
-			{ name: 'reqdate', index: 'reqdate',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
-			{ name: 'reqpatientname', index: 'reqpatientname'},
-			{ name: 'reqsendhospital', index: 'reqsendhospital'},
-			{ name: 'reqdeptname', index: 'reqdeptname'},
-			{ name: 'reqdoctorname', index: 'reqdoctorname'}
+			{ name: 'requisitionno', index: 'requisitionno', align: "center"},
+			{ name: 'reqpathologyid', index: 'reqpathologyid',formatter: "select", editoptions:{value:gettypes()}, align: "center"},
+			{ name: 'reqdate', index: 'reqdate',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}, align: "center"},
+			{ name: 'reqpatientname', index: 'reqpatientname', align: "center"},
+			{ name: 'reqsendhospital', index: 'reqsendhospital', align: "center"},
+			{ name: 'reqdeptname', index: 'reqdeptname', align: "center"},
+			{ name: 'reqdoctorname', index: 'reqdoctorname', align: "center"}
 		],
 		gridComplete: function () {
 			var ids = jQuery("#new1").jqGrid('getDataIDs');
 			for (var i = 0; i < ids.length; i++) {
 				var id = ids[i];
-				var showinfo = "<button onclick='showInfo("+id+")' >详情</button>";
-				var selectinfo = "<button onclick='fillInfo("+id+")' >选择</button>";
+				var showinfo = "<button style='border-radius:5px;border:1px solid #C2C2C2;' onclick='showInfo("+id+")' >详情</button>";
+				var selectinfo = "<button style='border-radius:5px;border:1px solid #C2C2C2;' onclick='fillInfo("+id+")' >选择</button>";
 				jQuery("#new1").jqGrid('setRowData', ids[i], { selectinfo: selectinfo, showinfo: showinfo });
 			}
 		},
@@ -600,10 +625,12 @@ $(function() {
 		// 	fillInfo(id);
 		// },
 		viewrecords: true,
-		height:100,
+		height:134,
         width:width1,
 		autowidth: true,
 		rowNum: 10,
+		shrinkToFit:false,
+		autoScroll: true,
 		//rowList:[10,20,30],
 		rownumbers: true, // 显示行号
 		rownumWidth: 35, // the width of the row numbers columns
@@ -620,9 +647,8 @@ function createNew1(width) {
 		url:"../pathologysample/sample/ajax/fee",
 		datatype: "json",
 		mtype:"GET",
-		height: 100,
+		height: 133,
         width:width,
-		autowidth: true,
 		postData:{"feesampleid":$("#sampleid").val(),"feesource":"0"},
 		colNames: ['ID','项目名称','单价','数量', '金额','记录人员','记录时间','发送状态'],
 		colModel: [
@@ -641,6 +667,9 @@ function createNew1(width) {
 				updatePagerIcons(table);
 			}, 0);
 		},
+		autowidth: true,
+		shrinkToFit:false,
+		autoScroll: true,
 		viewrecords: true,
 		rownumbers : true
 	});
@@ -662,31 +691,31 @@ function createNew2() {
             '费用状态','统计类别','中文名称','英文名称','his项目id','his项目名称','his单价','计费人员id','发送人员id'],
         colModel: [
             { name: 'feeid', index: 'feeid',hidden: true },//收费id
-            { name: 'feenamech', index: 'feenamech',editable:true,editoptions: {dataInit: function (elem) {myAutocomplete(elem);}},
+            { name: 'feenamech', index: 'feenamech',editable:true,editoptions: {dataInit: function (elem) {myAutocomplete(elem);}, align: "center"},
                 // edittype: "select",formatter: "select",editoptions:{value:getfeelist(), dataEvents: [
                 // {type: 'change',fn: function(e) {
                 // 	jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {reqmmaterialname:$(this).find("option:selected").text()});
                 // 	jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feeitemid:$(this).val()});
                 // }}]},
                 width: 80},//收费项目
-            { name: 'feeprince', index: 'feeprince', width: 60},//单价
+            { name: 'feeprince', index: 'feeprince', width: 60, align: "center"},//单价
             { name: 'feeamount', index: 'feeamount',editable:true, width: 60,editoptions: {
                 dataEvents: [
                     {type: 'change',fn: function(e) {
                         var rowdata = jQuery("#sectionList3").jqGrid('getRowData', $(this).parent().parent().attr('id'));
                         jQuery("#sectionList3").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feecost:$(this).val()*rowdata.feeprince});
                     }}]
-            }},//数量
-            { name: 'feecost', index: 'feecost', width: 60},//金额
-            { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已计费;2:已发送;3:发送失败"}, width: 60},//状态
-            { name: 'feeusername', index: 'feeusername', width: 60},//记录人
+            }, align: "center"},//数量
+            { name: 'feecost', index: 'feecost', width: 60, align: "center"},//金额
+            { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已计费;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
+            { name: 'feeusername', index: 'feeusername', width: 60, align: "center"},//记录人
             { name: 'feetime', index: 'feetime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
                 return "";
                 return CurentTime(new Date(cellvalue));}},//记录时间
             { name: 'feesendusername', index: 'feesendusername', width: 60},//发送人
             { name: 'feesendtime', index: 'feesendtime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
                 return "";
-                return CurentTime(new Date(cellvalue));}},//发送时间
+                return CurentTime(new Date(cellvalue));}, align: "center"},//发送时间
             { name: 'feecustomerid', index: 'feecustomerid',hidden: true },//客户id
             { name: 'feesampleid', index: 'feesampleid',hidden: true },//标本号
             { name: 'feepathologyid', index: 'feepathologyid',hidden: true },//病种id
@@ -968,15 +997,16 @@ function fillInfo(id){
 	}
 	getSampleData(rowData.requisitionid);
 	// $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
-	$("#editButton").attr({"disabled":"disabled"});
-	$("#deleteButton").attr({"disabled":"disabled"});
-	$("#hisbutton").removeAttr("disabled");
+	// $("#editButton").attr({"disabled":"disabled"});
+	// $("#deleteButton").attr({"disabled":"disabled"});
+	// $("#hisbutton").removeAttr("disabled");
+	changeimgclick(1);
 	addstates="0";
 	$('#sampleForm').find('input,textarea,select').removeAttr('disabled') ;
-	$("#saveButton").removeAttr("disabled");//将按钮可用
-	$("#sampathologycode").attr({"disabled":"disabled"});
-	$("#samrequistionid").attr({"disabled":"disabled"});
-	$("#sampathologyid").attr({"disabled":"disabled"});
+	// $("#saveButton").removeAttr("disabled");//将按钮可用
+	// $("#sampathologycode").attr({"disabled":"disabled"});
+	// $("#samrequistionid").attr({"disabled":"disabled"});
+	// $("#sampathologyid").attr({"disabled":"disabled"});
 }
 /**
  * 选择标本信息
@@ -986,9 +1016,6 @@ function fillInfo(id){
 function fillInfo1(id){
 	nowrow = id;
 	clearData();
-	//$("#new").children().children().remove_css("background-color","yellow");
-	//$("#new").children().children("tr[id='"+id+"']").css("background-color","yellow");
-	//var id = $("#new").jqGrid('getGridParam', 'selrow');
 	var rowData = $("#new").jqGrid('getRowData',id);
 	if (id == null || id == 0) {
 		layer.msg('请先选择数据', {icon: 2, time: 1000});
@@ -1001,10 +1028,11 @@ function fillInfo1(id){
         postData:{"feesampleid":rowData.sampleid,"feesource":"0"}
     }).trigger('reloadGrid');//重新载入
 	$('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
-	$("#editButton").removeAttr("disabled");//将按钮可用
-	$("#editButton").removeAttr("disabled");//将按钮可用
-	$("#saveButton").attr({"disabled":"disabled"});
-	$("#hisbutton").attr({"disabled":"disabled"});
+	// $("#editButton").removeAttr("disabled");//将按钮可用
+	// $("#deleteButton").removeAttr("disabled");//将按钮可用
+	// $("#saveButton").attr({"disabled":"disabled"});
+	// $("#hisbutton").attr({"disabled":"disabled"});
+	changeimgclick(2);
 }
 /**
  * 填充标本详细信息
@@ -1109,7 +1137,8 @@ function upSample(){
 		id = parseInt(id) - 1;
 		//$("#new").setSelection(id);
 	}
-	fillInfo1(id);
+	$("#new").jqGrid('setSelection', id);
+	//fillInfo1(id);
 }
 /**
  * 下一个
@@ -1452,13 +1481,6 @@ function Setup() {//打印维护
 
 function CreateDataBill(data) {
 	if(data && data!=null){
-		var patientInfo = data.sampatientname + " "+ data.sampatientsex + " "+ data.sampatientage+data.sampatientagetype
-		if(data.samisemergency != 0) {
-			patientInfo += " 急";
-		}
-		var exam = data.testName + "  "+ data.sampleType;
-		var patientInfo1 = data.patientCode +"  "+data.hosSectionName;
-		var labInfo = data.labDepartment + " " + data.sampleType + " " + data.container+data.volume;
 		var sex = "";
 		if(data.sampatientsex == '0'){sex = '男'}else if(data.sampatientsex == '1'){sex = '女'}else{sex = '未知'}
 		var ageUnit = "";
@@ -1475,8 +1497,8 @@ function CreateDataBill(data) {
 		}
 		LODOP = getLodop();
 		LODOP.PRINT_INIT("");
-		LODOP.SET_PRINT_PAGESIZE(0,980,1100,"A4");
-		LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
+		LODOP.SET_PRINT_PAGESIZE(0,520,400,"A4");
+		// LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
 		LODOP.ADD_PRINT_TEXT(10,100,230,35,"树兰（杭州）医院");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
 		LODOP.ADD_PRINT_TEXT(45,100,230,35,"浙江大学国际医院");
@@ -1533,6 +1555,23 @@ function CreateDataBill(data) {
 function startPrint(data) {
 	CreateDataBill(data);
 	//开始打印
-	// LODOP.PRINT();
-	LODOP.PREVIEW();
+	LODOP.PRINT();
+	//LODOP.PREVIEW();
+}
+/**
+ * 获取浏览器名称及版本号
+ * @returns {{appname: string, version: number}}
+ */
+function appInfo(){
+	var browser = {appname: 'unknown', version: 0},
+		userAgent = window.navigator.userAgent.toLowerCase();
+	//IE,firefox,opera,chrome,netscape
+	if ( /(msie|firefox|opera|chrome|netscape)\D+(\d[\d.]*)/.test( userAgent ) ){
+		browser.appname = RegExp.$1;
+		browser.version = RegExp.$2;
+	} else if ( /version\D+(\d[\d.]*).*safari/.test( userAgent ) ){ // safari
+		browser.appname = 'safari';
+		browser.version = RegExp.$2;
+	}
+	return browser;
 }

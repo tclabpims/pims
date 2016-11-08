@@ -37,8 +37,7 @@
 			<span>-</span>
 			<input type="text" class="form_datetime" style="height: 28px" id="req_af_time"/>
 			<span >&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<button type="button" class="btn-sm btn-success" style="float: right" onclick="searchList()">
-				<i class="ace-icon fa fa-print bigger-110"></i>
+			<button type="button" class="btn btn-xs btn-success" style="float: right" onclick="searchList()">
 				查询
 			</button>
 		</table>

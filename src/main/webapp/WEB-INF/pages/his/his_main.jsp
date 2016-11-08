@@ -66,23 +66,23 @@
 			<span >&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<span>送检医生:</span>
 			<input type="text" style="height: 28px" id="send_doctor"/>
-			<button type="button" class="btn-sm btn-info" style="float: right" onclick="searchList()">
+			<button type="button" class="btn btn-xs btn-info" style="float: right" onclick="searchList()">
 				查询
 			</button>
 		</table>
 	</div>
 	<table>
 		<h5><strong>&nbsp;工作安排一览</strong></h5>
-		<button type="button" class="btn-sm btn-info" onclick="addSample()">
+		<button type="button" class="btn btn-xs btn-info" onclick="addSample()">
 			新增
-		</button>
-		<button type="button" class="btn-sm  btn-info"  onclick="viewSample()">
+		</button>&nbsp;
+		<button type="button" class="btn btn-xs  btn-info"  onclick="viewSample()">
 			查看
-		</button>
-		<button type="button" class="btn-sm btn-info" onclick="deleteSample()">
+		</button>&nbsp;
+		<button type="button" class="btn btn-xs btn-info" onclick="deleteSample()">
 			删除
-		</button>
-		<button type="button" class="btn-sm btn-info" onclick="print()">
+		</button>&nbsp;
+		<button type="button" class="btn btn-xs btn-info" onclick="print()">
 			打印
 		</button>
 	</table>
@@ -311,7 +311,7 @@
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatcompany">检查要求:</label>
 			<div class="col-sm-11">
 				<textarea id="reqpatcompany" style="height: 50px;width: 80%" class="col-sm-9" ></textarea>
-				<button type="submit" class="btn-sm btn-success" style="float: right"  id="savebutton">
+				<button type="submit" class="btn btn-xs btn-success" style="float: right"  id="savebutton">
 					保存
 				</button>
 			</div>
@@ -323,10 +323,10 @@
 			<div class="widget-main no-padding  col-sm-5" style="margin-top: 5px">
 				<div class="form-group" style="margin-right:0px;margin-left:0px;">
 					<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;组织信息</label>
-					<button type="button" class="btn-sm btn-info " onclick="addRow()">
+					<button type="button" class="btn btn-xs btn-info " onclick="addRow()">
 						追加行
 					</button>
-					<button type="button" class="btn-sm btn-info" onclick="delRow()">
+					<button type="button" class="btn btn-xs btn-info" onclick="delRow()">
 						删除行
 					</button>
 				</div>

@@ -47,24 +47,24 @@
         <%@ include file="/common/messages.jsp" %>
             <decorator:body/>
     </div>
-    <div class="footer">
-        <div class="footer-inner" style="left: 0px;">
-            <div class="footer-content">
-				 <span class="">
-        	<fmt:message key="project.name"/> |
-        	<fmt:message key="webapp.version"/>
-            <c:if test="${pageContext.request.remoteUser != null}">
-                | <fmt:message key="user.status"/> ${pageContext.request.remoteUser}
-            </c:if>
-            | <a target="_blank" href="http://192.168.15.73/lab"><fmt:message key="update.name"/></a>
-       	    | <a target="_blank" href="<fmt:message key="wsdjk.url"/>"><fmt:message key="wsdjk.name"/></a>
-   		</span>
-   		<span style="float: right;">
-       		 &copy; <fmt:message key="copyright.year"/> <a target="_blank" href="http://192.168.15.73/zhishi"><fmt:message key="company.name"/></a>
-        </span>
-            </div>
-        </div>
-    </div>
+    <%--<div class="footer">--%>
+        <%--<div class="footer-inner" style="left: 0px;">--%>
+            <%--<div class="footer-content">--%>
+				 <%--<span class="">--%>
+        	<%--<fmt:message key="project.name"/> |--%>
+        	<%--<fmt:message key="webapp.version"/>--%>
+            <%--<c:if test="${pageContext.request.remoteUser != null}">--%>
+                <%--| <fmt:message key="user.status"/> ${pageContext.request.remoteUser}--%>
+            <%--</c:if>--%>
+            <%--| <a target="_blank" href="http://192.168.15.73/lab"><fmt:message key="update.name"/></a>--%>
+       	    <%--| <a target="_blank" href="<fmt:message key="wsdjk.url"/>"><fmt:message key="wsdjk.name"/></a>--%>
+   		<%--</span>--%>
+   		<%--<span style="float: right;">--%>
+       		 <%--&copy; <fmt:message key="copyright.year"/> <a target="_blank" href="http://192.168.15.73/zhishi"><fmt:message key="company.name"/></a>--%>
+        <%--</span>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
 
 <%= (request.getAttribute("scripts") != null) ?  request.getAttribute("scripts") : "" %>

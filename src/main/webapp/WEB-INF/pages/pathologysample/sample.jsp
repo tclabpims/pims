@@ -1,6 +1,5 @@
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-
 <head>
     <title><fmt:message key="SpecimenReg.title"/></title>
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
@@ -17,82 +16,44 @@
     <script type="text/javascript" src="../scripts/pathologysample/sample.js"></script>
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
-	<%--<script type="text/javascript" src="../scripts/consultation/cons1.js"></script>--%>
 	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
 	<style>
-		/*select {*/
-			/*height:34px;*/
-		/*}*/
-		.ui-autocomplete {
-			z-index: 99999999;
-		}
-		/*label {*/
-			/*font-size: 12px;*/
-		/*}*/
-		/*span{*/
-			/*font-size: 12px;*/
-		/*}*/
-		/*.input_style{*/
-			/*height: 28px;*/
-		/*}*/
+		.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }
+		.div_img{cursor:pointer;display: block;margin-bottom:11px;}
+		.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}
+		.img_style{width: 18px;height: 23px}
+		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
+		.input_style{height: 24px;font-size: 12px!important;}
+		.ui-jqgrid-sortable{text-align: center;}
+		.ui-jqgrid-hbox{padding-right: 0px!important;}
 	</style>
 </head>
-<script>
-	$(window).resize(function () {          //当浏览器大小变化时
-		alert($(window).height());          //浏览器时下窗口可视区域高度
-		alert($(document).height());        //浏览器时下窗口文档的高度
-		alert($(document.body).height());   //浏览器时下窗口文档body的高度
-		alert($(document.body).outerHeight(true)); //浏览器时下窗口文档body的总高度 包括border padding margin
-	});
-</script>
-<body>
-	<div class="row" id="div_1">
-		<div>
-			<button type="button" class="btn-sm btn-info" onclick="addSample()">
-				新增
-			</button>
-			<button type="button" class="btn-sm btn-info" id="editButton" onclick="editSample()">
-				修改
-			</button>
-			<button type="button" class="btn-sm btn-info" id="deleteButton" onclick="deleteSample()">
-				删除
-			</button>
-			<%--onclick="saveInfo()"--%>
-			<button type="button" class="btn-sm btn-info" id="saveButton" onclick="clickOther()">
-				保存
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="printCode()">
-				打印
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="upSample()">
-				上一个
-			</button>
-			<button type="button" class="btn-sm btn-info" onclick="downSample()">
-				下一个
-			</button>
-			<button type="button" class="btn-sm btn-info" id="hisbutton" onclick="hisChange()">
-				计费调整
-			</button>
-			<%--<button type="button" class="btn-sm btn-info" title="会诊管理" onclick="consMarage()">--%>
-				<%--<i class="ace-icon fa fa-print bigger-110"></i>--%>
-				<%--会诊管理--%>
-			<%--</button>--%>
-		</div>
+<body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
+	<div class="div_1" id="div_1">
+			<div class="div_div"><img src="/styles/imagepims/add.png" class="div_img" onclick="addSample()">新增</div>
+			<div class="div_div"><img src="/styles/imagepims/edit.png" class="div_img" id="editButton">修改</div>
+			<div class="div_div"><img src="/styles/imagepims/delete.png" class="div_img" id="deleteButton">删除</div>
+			<div class="div_div"><img src="/styles/imagepims/save.png" class="div_img" id="saveButton" onclick="saveInfo()">保存</div>
+			<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
+			<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
+			<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
+			<div class="div_div"><img src="/styles/imagepims/fee.png" class="div_img" id="hisbutton">计费调整</div>
 	</div>
 	<div  class="row" id="userGrid" style="display: none;">
-		<h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong></h5>
-		<button type="button" class="btn-sm btn-info" onclick="addRow()">
+		<h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+		<button type="button" class="btn btn-sm btn-info" onclick="addRow()">
 			追加行
 		</button>
-		<button type="button" class="btn-sm btn-info" onclick="delRow()">
+		<button type="button" class="btn btn-sm btn-info" onclick="delRow()">
 			删除行
 		</button>
-		<button type="button" class="btn-sm btn-info" onclick="savefeeRow('0')">
+		<button type="button" class="btn btn-sm btn-info" onclick="savefeeRow('0')">
 			保存
 		</button>
-		<button type="button" class="btn-sm btn-info" onclick="savefeeRow('1')">
+		<button type="button" class="btn btn-sm btn-info" onclick="savefeeRow('1')">
 			保存并发送
 		</button>
+		</h5>
 		<div class="col-xs-12 leftContent">
 			<table id="sectionList3"></table>
 		</div>
@@ -288,7 +249,7 @@
 		</form>
 		<div class="widget-main no-padding">
 			<p1>电子申请单列表</p1>
-			<div class="widget-box widget-color-green">
+			<div class="widget-box widget-color-blue">
 				<div class="widget-main no-padding  col-sm-5" style="margin-top: 5px">
 					<div class="form-group" style="margin-right:0px;margin-left:0px;">
 						<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;组织信息</label>
@@ -344,16 +305,15 @@
 			</table>
 		</div>
 	</div>
-	<div class="row" id="div_main">
-		<h5  style="float: left;width: 67%"><strong>&nbsp;标本登记</strong></h5><h5><strong>&nbsp;已登记标本一览</strong></h5>
+	<div id="div_main">
+		<h5  style="float: left;width: 67%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/main.png" class="img_style">&nbsp;标本登记</strong></h5>
+		<h5 style="float: left;width: 33%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/list.png" class="img_style">&nbsp;已登记标本一览</strong></h5>
 		<%--<div class="widget-box widget-color-green"></div>--%>
 		<div id="formDialog" class="col-sm-8 leftContent">
-			<form class="form-horizontal"  style="background-color: #E8E8E8"  action="#" method="post" id="sampleForm" >
-				<button type="submit" class="btn-sm btn-info" id="saveButton1" style="display:none;">
-					保存
-				</button>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-left" for="saminspectionid">条形码:</label>
+			<form class="form-horizontal" style="background-color: #F9F9F9;height: 299px;border:1px solid #E0E0E0;"  action="#" method="post" id="sampleForm" >
+				<button type="submit"id="saveButton1" style="display:none;">保存</button>
+				<div class="form-group" style="margin-top: 10px;margin-bottom: 5px">
+					<label  class="label_style col-sm-1" for="saminspectionid">条形码:</label>
 					<div class="col-sm-3">
 						<input type="hidden" id="sampleid"><!--标本id-->
 						<input type="hidden" id="samcustomerid"/><!--客户id-->
@@ -393,63 +353,61 @@
 						<input type="hidden" id="samregisttime"/><!--登记时间-->
 						<input type="hidden" id="samregisterid"/><!--登记人员-->
 						<input type="hidden" id="samregistername"/><!--登记人员姓名-->
-						<input type="text" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}" readonly/>
+						<input type="text" class="input_style" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}" readonly/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samrequistionid">临床申请:</label>
+					<label class="label_style col-sm-1" for="samrequistionid">临床申请:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="samrequistionid" name="samrequistionid"/>
+						<input class="input_style" type="text" id="samrequistionid" name="samrequistionid"/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病种类别:</label>
+					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">
-						<select class="col-sm-9" id="sampathologyid" >
-							<%String reslut = (String) request.getAttribute("logyids");
-								out.println(reslut);
-							%>
+						<select class="input_style col-sm-8" id="sampathologyid" >
+							<%out.println(request.getAttribute("logyids"));%>
 						</select>
 					</div>
 				</div>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病理编号:</label>
+				<div class="form-group" style="margin-bottom: 5px">
+					<label class="label_style col-sm-1" >病理编号:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampathologycode" name="sampathologycode" readonly/>
+						<input class="input_style" type="text" id="sampathologycode" name="sampathologycode" readonly/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病人姓名:</label>
+					<label class="label_style col-sm-1" >病人姓名:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampatientname" name="sampatientname" datatype="*" />
+						<input class="input_style" type="text" id="sampatientname" name="sampatientname" datatype="*" />
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系电话:</label>
+					<label class="label_style col-sm-1" >联系电话:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampatientphoneno" name="sampatientphoneno"/>
+						<input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno"/>
 					</div>
 				</div>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >住院号:</label>
+				<div class="form-group" style="margin-bottom: 5px;">
+					<label class="col-sm-1 label_style" >住院号:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"/>
+						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >床号:</label>
+					<label class="col-sm-1 label_style" >床号:</label>
 					<div class="col-sm-3 ">
-						<input type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"/>
+						<input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >联系地址:</label>
+					<label class="col-sm-1 label_style" >联系地址:</label>
 					<div class="col-sm-3">
-						<input type="text" id="sampatientaddress" name="sampatientaddress"/>
+						<input class="input_style" type="text" id="sampatientaddress" name="sampatientaddress"/>
 					</div>
 				</div>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientsex">性&nbsp;别:</label>
+				<div class="form-group" style="margin-bottom: 5px;">
+					<label class="col-sm-1 label_style" for="sampatientsex">性&nbsp;别:</label>
 					<div class="col-sm-3">
-						<select class="col-sm-9" id="sampatientsex">
+						<select class=" input_style col-sm-8" id="sampatientsex">
 							<option value="0">男</option>
 							<option value="1">女</option>
 							<option value="2">未知</option>
 						</select>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientage">年&nbsp;龄:</label>
+					<label class="col-sm-1 label_style" for="sampatientage">年&nbsp;龄:</label>
 					<div class="col-sm-3">
-						<span class="input-icon input-icon-right" style="width:90%">
-							<input type="text" id="sampatientage" style="float:left;width:50%" name="sampatientage" datatype="n1-2"/>
-							<select  style="float:left;width:30%" id="sampatientagetype">
+						<span class="label_style" style="width:90%">
+							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%" name="sampatientage" datatype="n1-2"/>
+							<select class="input_style" style="float:left;width:25%" id="sampatientagetype">
 								<option value="1">岁</option>
 								<option value="2">月</option>
 								<option value="4">周</option>
@@ -458,124 +416,131 @@
 							</select>
 						</span>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-left" >知情书:</label>
-					<div class="col-sm-3">
-						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  value="1" name="samfirstv"/>&nbsp;&nbsp;已签&nbsp;&nbsp;
+					<label class="col-sm-1 label_style" >知情书:</label>
+					<div class="col-sm-3 input_style">
+						&nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio"  value="1" name="samfirstv"/>&nbsp;&nbsp;已签&nbsp;&nbsp;
 						<input type="radio" value="2" name="samfirstv"/>&nbsp;&nbsp;未签
 					</div>
 				</div>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医生:</label>
+				<div class="form-group" style="margin-bottom: 5px;">
+					<label class="col-sm-1 label_style" >送检医生:</label>
 					<div class="col-sm-3 ">
 						<input type="hidden" id="samsenddoctorid"/>
-						<input  type="text" id="samsenddoctorname" name="samsenddoctorname" datatype="*"/>
+						<input  class="input_style" type="text" id="samsenddoctorname" name="samsenddoctorname" datatype="*"/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samdeptcode">送检科室:</label>
+					<label class="col-sm-1 label_style" for="samdeptcode">送检科室:</label>
 					<div class="col-sm-3">
 						<input type="hidden" id="samdeptcode"/><!--申请科室名称-->
-						<input  type="text" id="samdeptname" name="samdeptname" datatype="*"/><!--申请科室名称-->
+						<input class="input_style" type="text" id="samdeptname" name="samdeptname" datatype="*"/><!--申请科室名称-->
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检医院:</label>
+					<label class="col-sm-1 label_style" >送检医院:</label>
 					<div class="col-sm-3 ">
-						<input  type="text" id="samsendhospital" name="samsendhospital" datatype="*"/>
+						<input class="input_style" type="text" id="samsendhospital" name="samsendhospital" datatype="*"/>
 					</div>
 				</div>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检时间:</label>
+				<div class="form-group" style="margin-bottom: 5px;">
+					<label class="col-sm-1 label_style" >送检时间:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form_datetime1" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
+						<input  type="text" class="form_datetime1 input_style" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samreceivertime">接收日期:</label>
+					<label class="col-sm-1 label_style" for="samreceivertime">接收日期:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form_datetime1" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
+						<input type="text" class="form_datetime1 input_style" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samfirstn">组织袋数:</label>
+					<label class="col-sm-1 label_style" for="samfirstn">组织袋数:</label>
 					<div class="col-sm-3">
-						<input type="text" id="samfirstn"  name="samfirstn" datatype="n1-2"/>
+						<input class="input_style" type="text" id="samfirstn"  name="samfirstn" datatype="n1-2"/>
 					</div>
 				</div>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">标本状态:</label>
-					<div class="col-sm-3">
+				<div class="form-group" style="margin-bottom: 5px;">
+					<label style="font-size: 13px;"  class="col-sm-1 label_style">标本状态:</label>
+					<div class="col-sm-3 input_style">
 						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv"/>&nbsp;&nbsp;合格&nbsp;&nbsp;
 						<input type="radio" value="2" name="samsecondv"/>&nbsp;&nbsp;不合格
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samremark">原因:</label>
+					<label class="col-sm-1 label_style" for="samremark">原因:</label>
 					<div class="col-sm-7">
-						<input type="text" id="samremark" class="col-sm-11"/>
+						<input  type="text" id="samremark" class="col-sm-10 label_style"/>
 					</div>
 				</div>
-				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samsamplename">送检材料:</label>
+				<div class="form-group" style="margin-bottom: 5px;">
+					<label class="col-sm-1 label_style" for="samsamplename">送检材料:</label>
 					<div class="col-sm-3">
-						<textarea id="samsamplename"  name="samsamplename" datatype="*"></textarea>
+						<textarea id="samsamplename" style="height: 55px;font-size: 12px" name="samsamplename" datatype="*"></textarea>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="sampatientdignoses">临床诊断:</label>
+					<label class="col-sm-1 label_style" for="sampatientdignoses">临床诊断:</label>
 					<div class="col-sm-3">
-						<textarea id="sampatientdignoses"  name="sampatientdignoses" datatype="*"></textarea>
+						<textarea id="sampatientdignoses" style="height: 55px;font-size: 12px" name="sampatientdignoses" datatype="*"></textarea>
 					</div>
-					<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="samthirdv">手术所见:</label>
+					<label class="col-sm-1 label_style" for="samthirdv">手术所见:</label>
 					<div class="col-sm-3">
-						<textarea id="samthirdv"></textarea>
+						<textarea id="samthirdv" style="height: 55px;font-size: 12px"></textarea>
 					</div>
 				</div>
 			</form>
-			<div class="widget-box widget-color-green"></div>
-			<div class="widget-main no-padding">
-				<h5><strong>&nbsp;电子申请单列表</strong></h5>
-				<table id="new1" class="table table-striped table-bordered table-hover" style="height: 50px">
+			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
+			<div class="widget-main no-padding" id="div_req">
+				<h5 style="font-size: 14px;"><strong>&nbsp;电子申请单列表</strong></h5>
+				<table id="new1" class="table-striped">
 				</table>
 				<div id="pager1"></div>
 			</div>
-			<div class="widget-box widget-color-green"></div>
+			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
 			<div class="widget-main no-padding">
-				<h5><strong>&nbsp;费用列表</strong></h5>
+				<h5 style="font-size: 14px;"><strong>&nbsp;费用列表</strong></h5>
 				<table id="new2" class="table table-striped table-bordered table-hover">
 				</table>
 			</div>
 		</div>
 		<div class="col-sm-4 rightContent" id="div_2">
-			<div id = "search_div_1" style="background-color: #E8E8E8">
-			<table>
-				<span style="width: 30%;">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
-				<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
-				<input type="hidden" id="local_logyid" value="${logyid}"/>
-				<input type="hidden" id="local_userid" value="${local_userid}"/>
-				<input type="hidden" id="local_username" value="${local_username}"/>
-				<select id="logyid" class="input_style">
-					<%out.println((String) request.getAttribute("logyids"));%>
-				</select>
-			</table>
-			<table>
-				<span>&nbsp;&nbsp;登记年月:&nbsp;&nbsp;</span>
-				<input type="text" class="form_datetime input_style" placeholder="" value="${sevenday}" id="req_bf_time"/>
-				<span>-</span>
-				<input type="text" class="form_datetime input_style" placeholder="" value="${receivetime}"  id="req_af_time"/>
-			</table>
-			<table>
-				<span>&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
-				<input type="text" id="send_dept" class="input_style"/>
-			</table>
-			<table>
-				<span>&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>
-				<input type="text" id="send_hosptail" class="input_style"/>
-			</table>
-			<table>
-				<span >&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>
-				<input type="text" id="send_doctor" class="input_style"/>
-			</table>
-			<table>
-				<span>&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>
-				<input type="text" id="patient_name" class="input_style"/>
-			</table>
-			<table>
-				<span>&nbsp;&nbsp;标本状态:&nbsp;&nbsp;</span>
-				<input type="radio"   value="1" name="req_sts" checked/>合格
-				<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn-sm btn-info" onclick="searchList()">
-						查询
-					</button>
-			</table>
+			<div id = "search_div_1" style="background-color: #F9F9F9;height: 254px;border:1px solid #E0E0E0;">
+				<div style="margin-top: 10px">
+					<table style="margin-bottom: 5px;">
+						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
+						<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
+						<input type="hidden" id="local_logyid" value="${logyid}"/>
+						<input type="hidden" id="local_userid" value="${local_userid}"/>
+						<input type="hidden" id="local_username" value="${local_username}"/>
+						<select id="logyid" class="input_style">
+							<%out.println((String) request.getAttribute("logyids"));%>
+						</select>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;登记年月:&nbsp;&nbsp;</span>
+						<input type="text" class="form_datetime input_style" placeholder="" value="${sevenday}" id="req_bf_time"/>
+						<span>-</span>
+						<input type="text" class="form_datetime input_style" placeholder="" value="${receivetime}"  id="req_af_time"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
+						<input type="text" id="send_dept" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>
+						<input type="text" id="send_hosptail" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>
+						<input type="text" id="send_doctor" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>
+						<input type="text" id="patient_name" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<div class="input_style">
+							<span class="input_style">&nbsp;&nbsp;标本状态:&nbsp;&nbsp;</span>
+							<input type="radio"   value="1" name="req_sts" checked/>合格
+							<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span >
+							<button type="button"class="btn btn-xs btn-info" onclick="searchList()">
+							查询
+							</button>
+						</span>
+						</div>&nbsp;&nbsp;&nbsp;
+					</table>
+				</div>
+
 			</div>
 			<table>
 				<div class="row">
