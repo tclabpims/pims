@@ -59,9 +59,9 @@
 		</div>
 	</div>
 	<div id="formDialog1" style="display:none;" class="col-sm-12">
-		<form class="form-horizontal"  action="#" method="post" id="sampleForm1" >
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-left" for="requisitionno">申请单号:</label>
+		<form class="form-horizontal" style="background-color: #F9F9F9;border:1px solid #E0E0E0;"  action="#" method="post" id="sampleForm1" >
+			<div class="form-group" style="margin-top:10px;margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="requisitionno">申请单号:</label>
 				<div class="col-sm-3">
 					<input type="hidden" id="requisitionid"/><!--申请id-->
 					<input type="hidden" id="reqcustomerid"><!--客户id-->
@@ -81,37 +81,37 @@
 					<input type="hidden" id="reqisdeleted"/><!--是否删除(0正常，1已删除) -->
 					<input type="hidden" id="reqcreateuser"/><!--创建人员-->
 					<input type="hidden" id="reqcreatetime"/><!-- 创建时间-->
-					<input type="text" class="col-sm-9"  id="requisitionno" name="requisitionno" value="${requisitionno}" readonly/>
+					<input type="text" class="col-sm-9 input_style"  id="requisitionno" name="requisitionno" value="${requisitionno}" readonly/>
 				</div>
-				<label style="font-size: 13px;"  class=" col-sm-1 control-label no-padding-right" for="reqitemnames">检查项目:</label>
+				<label class=" col-sm-1 label_style" for="reqitemnames">检查项目:</label>
 				<div class="col-sm-3 ">
 					<input type="hidden" id="reqitemids"/>
-					<input type="text" class="col-sm-9" id="reqitemnames" name="reqitemnames"  datatype="s1-16"/>
+					<input type="text" class="col-sm-9 input_style" id="reqitemnames" name="reqitemnames"  datatype="s1-16"/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >病种类别:</label>
+				<label class="col-sm-1 label_style" >病种类别:</label>
 				<div class="col-sm-3">
-					<select class="col-sm-9" id="reqpathologyid" disabled>
+					<select class="col-sm-9 input_style" id="reqpathologyid" disabled>
 						<%out.println(request.getAttribute("logyids"));%>
 					</select>
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqtype">申请类型:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqtype">申请类型:</label>
 				<div class="col-sm-3 ">
-					<select class="col-sm-9" id="reqtype">
+					<select class="col-sm-9 input_style" id="reqtype">
 						<option value="1">住院</option>
 						<option value="2">门诊</option>
 						<option value="3">手术室</option>
 					</select>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">申请病区:</label>
+				<label class="col-sm-1 label_style">申请病区:</label>
 				<div class="col-sm-3 ">
 					<input type="hidden" id="reqwardcode"/>
-					<input type="text" class="col-sm-9" id="reqwardname" name="reqwardname"/><!-- 申请病区名称-->
+					<input type="text" class="col-sm-9 input_style" id="reqwardname" name="reqwardname"/><!-- 申请病区名称-->
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatienttype">患者类型:</label>
+				<label class="col-sm-1 label_style" for="reqpatienttype">患者类型:</label>
 				<div class="col-sm-3 ">
-					<select class="col-sm-9" id="reqpatienttype"><!--患者类型(病人类型： 1住院,2门诊,3体检,4婚检,5科研,6特勤,7其他)-->
+					<select class="col-sm-9 input_style" id="reqpatienttype"><!--患者类型(病人类型： 1住院,2门诊,3体检,4婚检,5科研,6特勤,7其他)-->
 						<option value="1">住院</option>
 						<option value="2">门诊</option>
 						<option value="3">体检</option>
@@ -122,75 +122,75 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqinspectionid">病理编号:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqinspectionid">病理编号:</label>
 				<div class="col-sm-3 ">
-					<input type="text" class="col-sm-9"  id="reqinspectionid" name="reqinspectionid" readonly/>
+					<input type="text" class="col-sm-9 input_style"  id="reqinspectionid" name="reqinspectionid" readonly/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">送检医院:</label>
+				<label class="col-sm-1 label_style">送检医院:</label>
 				<div class="col-sm-3 ">
-					<input type="text" class="col-sm-9" id="reqsendhospital"/>
+					<input type="text" class="col-sm-9 input_style" id="reqsendhospital"/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqdeptcode">送检科室:</label>
+				<label class="col-sm-1 label_style" for="reqdeptcode">送检科室:</label>
 				<div class="col-sm-3 ">
 					<input type="hidden" id="reqdeptcode"/><!--申请科室名称-->
-					<input  type="text" class="col-sm-9" id="reqdeptname"/><!--申请科室名称-->
+					<input  type="text" class="col-sm-9 input_style" id="reqdeptname"/><!--申请科室名称-->
 				</div>
 			</div>
-			<div class="form-group" style="z-index: 99999999;margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqdoctorid">送检医生:</label>
+			<div class="form-group" style="z-index: 99999999;margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqdoctorid">送检医生:</label>
 				<div class="col-sm-3 ">
 					<input type="hidden" id="reqdoctorid"/><!--申请医生姓名 -->
-					<input   type="text"  class="col-sm-9" id="reqdoctorname"/><!--申请医生姓名 -->
+					<input   type="text"  class="col-sm-9 input_style" id="reqdoctorname"/><!--申请医生姓名 -->
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsendphone">送检电话:</label>
+				<label class="col-sm-1 label_style" for="reqsendphone">送检电话:</label>
 				<div class="col-sm-3 ">
-					<input type="text" class="col-sm-9"  id="reqsendphone" name="reqsendphone"/>
+					<input type="text" class="col-sm-9 input_style"  id="reqsendphone" name="reqsendphone"/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >送检时间:</label>
+				<label class="col-sm-1 label_style" >送检时间:</label>
 				<div class="col-sm-3">
-					<input type="text" class="col-sm-9 form_datetime1" id="reqdate" />
+					<input type="text" class="col-sm-9 form_datetime1 input_style" id="reqdate" />
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqplanexectime">接收时间:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqplanexectime">接收时间:</label>
 				<div class="col-sm-3">
-					<input type="text" class="col-sm-9"  id="reqplanexectime" name="reqplanexectime" readonly/>
+					<input type="text" class="col-sm-9 input_style"  id="reqplanexectime" name="reqplanexectime" readonly/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqsecondv">手术医生:</label>
+				<label class="col-sm-1 label_style" for="reqsecondv">手术医生:</label>
 				<div class="col-sm-3">
-					<input   type="text" class="col-sm-9" style="max-height:200px;overflow-y:scroll;" id="reqsecondv"/><!--手术医生 -->
+					<input   type="text" class="col-sm-9 input_style" id="reqsecondv"/><!--手术医生 -->
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqthirdv">手术电话:</label>
+				<label class="col-sm-1 label_style" for="reqthirdv">手术电话:</label>
 				<div class="col-sm-3">
-					<input type="text" class="col-sm-9"  id="reqthirdv" name="reqthirdv"/>
+					<input type="text" class="col-sm-9 input_style"  id="reqthirdv" name="reqthirdv"/>
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqfirstd">手术时间:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqfirstd">手术时间:</label>
 				<div class="col-sm-3 ">
-					<input type="text" class="col-sm-9 form_datetime1"  id="reqfirstd" name="reqfirstd"/>
+					<input type="text" class="col-sm-9 form_datetime1 input_style"  id="reqfirstd" name="reqfirstd"/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqremark">手术所见:</label>
+				<label class="col-sm-1 label_style" for="reqremark">手术所见:</label>
 				<div class="col-sm-3 ">
-					<input type="text" class="col-sm-9"  id="reqremark" name="reqremark"/>
+					<input type="text" class="col-sm-9 input_style"  id="reqremark" name="reqremark"/>
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" fpr="reqfirstv">知情书:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" fpr="reqfirstv">知情书:</label>
 				<div class="col-sm-3">
-					<select class="col-sm-9" id="reqfirstv">
+					<select class="col-sm-9 input_style" id="reqfirstv">
 						<option value="1">已签</option>
 						<option value="2">未签</option>
 					</select>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatientname">病人姓名:</label>
+				<label class="col-sm-1 label_style" for="reqpatientname">病人姓名:</label>
 				<div class="col-sm-3">
-					<input type="text" class="col-sm-9"  id="reqpatientname"/>
+					<input type="text" class="col-sm-9 input_style"  id="reqpatientname"/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">性别:</label>
+				<label class="col-sm-1 label_style">性别:</label>
 				<div class="col-sm-3">
-					<select class="col-sm-9" id="reqpatientsex">
+					<select class="col-sm-9 input_style" id="reqpatientsex">
 						<option value="0">男</option>
 						<option value="1">女</option>
 						<option value="">未知</option>
@@ -532,12 +532,11 @@
 							<span class="input_style">&nbsp;&nbsp;标本状态:&nbsp;&nbsp;</span>
 							<input type="radio"   value="1" name="req_sts" checked/>合格
 							<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span >
-							<button type="button"class="btn btn-xs btn-info" onclick="searchList()">
-							查询
+							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
+								<span style="color: white;">查询</span>
 							</button>
-						</span>
-						</div>&nbsp;&nbsp;&nbsp;
+						</div>
 					</table>
 				</div>
 
