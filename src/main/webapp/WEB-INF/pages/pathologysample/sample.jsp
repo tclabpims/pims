@@ -197,12 +197,12 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" >年龄:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" >年龄:</label>
 				<div class="col-sm-3">
-				<span class="input-icon input-icon-right" style="width:75%">
-					<input type="text" id="reqpatientage" style="float:left;width:60%"/>
-					<select  style="float:left;width:40%" id="reqpatagetype">
+				<span class="input_style" style="width:75%">
+					<input type="text" class="input_style" id="reqpatientage" style="float:left;width:50%"/>
+					<select  class="input_style" style="float:left;width:25%" id="reqpatagetype">
 						<option value="1">岁</option>
 						<option value="2">月</option>
 						<option value="4">周</option>
@@ -211,98 +211,78 @@
 					</select>
 				</span>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatientnumber">住院号:</label>
+				<label class="col-sm-1 label_style" for="reqpatientnumber">住院号:</label>
 				<div class="col-sm-3">
-					<input type="text"  class="col-sm-9" id="reqpatientnumber"/>
+					<input type="text"  class="col-sm-9 input_style" id="reqpatientnumber"/>
 				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqfirstn">床号:</label>
+				<label class="col-sm-1 label_style" for="reqfirstn">床号:</label>
 				<div class="col-sm-3">
-					<input type="text" class="col-sm-9"  id="reqfirstn" />
-				</div>
-			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpattelephone">联系电话:</label>
-				<div class="col-sm-3">
-					<input type="text"  class="col-sm-9" id="reqpattelephone"/>
-				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">邮编:</label>
-				<div class="col-sm-3">
-					<input type="text" class="col-sm-9"  class="form_datetime1"/>
-				</div>
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpataddress">联系地址:</label>
-				<div class="col-sm-3">
-					<input type="text" class="col-sm-9"  id="reqpataddress" />
+					<input type="text" class="col-sm-9 input_style"  id="reqfirstn" />
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatdiagnosis">临床诊断:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqpattelephone">联系电话:</label>
+				<div class="col-sm-3">
+					<input type="text"  class="col-sm-9 input_style" id="reqpattelephone"/>
+				</div>
+				<label class="col-sm-1 label_style">邮编:</label>
+				<div class="col-sm-3">
+					<input type="text" class="col-sm-9 input_style"  class="form_datetime1"/>
+				</div>
+				<label class="col-sm-1 label_style" for="reqpataddress">联系地址:</label>
+				<div class="col-sm-3">
+					<input type="text" class="col-sm-9 input_style"  id="reqpataddress" />
+				</div>
+			</div>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqpatdiagnosis">临床诊断:</label>
 				<div class="col-sm-11">
-					<textarea id="reqpatdiagnosis" style="height: 50px;width: 80%" class="col-sm-9" ></textarea>
+					<textarea id="reqpatdiagnosis" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
 				</div>
 			</div>
-			<div class="form-group" style="margin-right:0px;margin-left:0px;margin-bottom: 0px;">
-				<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right" for="reqpatcompany">检查要求:</label>
+			<div class="form-group" style="margin-bottom: 5px;">
+				<label class="col-sm-1 label_style" for="reqpatcompany">检查要求:</label>
 				<div class="col-sm-11">
-					<textarea id="reqpatcompany" style="height: 50px;width: 80%" class="col-sm-9" ></textarea>
+					<textarea id="reqpatcompany" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
 				</div>
 			</div>
 		</form>
-		<div class="widget-main no-padding">
-			<p1>电子申请单列表</p1>
-			<div class="widget-box widget-color-blue">
-				<div class="widget-main no-padding  col-sm-5" style="margin-top: 5px">
-					<div class="form-group" style="margin-right:0px;margin-left:0px;">
-						<label class="control-label" style="text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;组织信息</label>
-					</div>
+		<div class="form-horizontal">
+			<h5 style="font-size: 14px;"><strong>&nbsp;电子申请单列表</strong></h5>
+			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
+				<div class="col-sm-5 leftContent" style="margin-top: 5px">
+					<h5 style="font-size: 14px;"><strong>&nbsp;组织信息</strong></h5>
 					<div class="form-group " style="margin-right:0px;margin-left:0px;">
-						<table id="new3" class="table table-striped table-bordered table-hover">
+						<table id="new3" class="table-striped">
 						</table>
 					</div>
 				</div>
-				<div class="widget-main no-padding  col-sm-7" style="margin-top: 5px">
-					<div class="form-group" style="margin-right:0px;margin-left:0px;">
-						<label class="col-sm-2 control-label no-padding-right" for="X">X光:</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12" id="X"/>
-						</div>
-						<label class="col-sm-2 control-label no-padding-right" for="CT">CT:</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12 input-mask-date" id="CT"/>
-						</div>
+				<div class="col-sm-7 rightContent" style="margin-top: 5px">
+					<div class="form-group" style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style" for="X">X光:</label>
+						<input type="text" class="col-sm-4 input_style" id="X"/>
+						<label class="col-sm-2 label_style" for="CT">CT:</label>
+						<input type="text" class="col-sm-4 input_style" id="CT"/>
 					</div>
-					<div class="form-group" style="margin-right:0px;margin-left:0px;">
-						<label class="col-sm-2 control-label no-padding-right" for="B">B超:</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12" id="B"/>
-						</div>
-						<label class="col-sm-2 control-label no-padding-right" for="previous">婚史:</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12 input-mask-date" id="previous"/>
-						</div>
+					<div class="form-group" style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style" for="B">B超:</label>
+						<input type="text" class="col-sm-4 input_style" id="B"/>
+						<label class="col-sm-2 label_style" for="previous">婚史:</label>
+						<input type="text" class="col-sm-4 input_style" id="previous"/>
 					</div>
-					<div class="form-group" style="margin-right:0px;margin-left:0px;">
-						<label class="col-sm-2 control-label no-padding-right" for="menses">月经初潮:</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12" id="menses"/>
-						</div>
-						<label class="col-sm-2 control-label no-padding-right" for="cycle">周期:</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12 input-mask-date" id="cycle"/>
-						</div>
+					<div class="form-group" style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style" for="menses">月经初潮:</label>
+						<input type="text" class="col-sm-4 input_style" id="menses"/>
+						<label class="col-sm-2 label_style" for="cycle">周期:</label>
+						<input type="text" class="col-sm-4 input_style" id="cycle"/>
 					</div>
-					<div class="form-group" style="margin-right:0px;margin-left:0px;">
-						<label class="col-sm-2 control-label no-padding-right" for="cesarean">产史:</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12" id="cesarean"/>
-						</div>
-						<label class="col-sm-2 control-label no-padding-right" for="endmenses">末次月经</label>
-						<div class="col-sm-4">
-							<input type="text" class="col-sm-12 input-mask-date" id="endmenses"/>
-						</div>
+					<div class="form-group" style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style" for="cesarean">产史:</label>
+						<input type="text" class="col-sm-4 input_style" id="cesarean"/>
+						<label class="col-sm-2 label_style" for="endmenses">末次月经:</label>
+						<input type="text" class="col-sm-4 input_style" id="endmenses"/>
 					</div>
 				</div>
-			</div>
-			</table>
 		</div>
 	</div>
 	<div id="div_main">

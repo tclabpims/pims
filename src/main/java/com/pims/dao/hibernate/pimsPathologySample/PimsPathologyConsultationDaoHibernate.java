@@ -94,7 +94,7 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
      */
     @Override
     public List<PimsConsultationDetail> getConDets(Long id) {
-        String sql = " from PimsConsultationDetail where detadvice is not null and detconsultationid ="+ id;
+        String sql = " from PimsConsultationDetail where detconsultationid ="+ id+" order by detadvice asc,detconsultationtime desc";
         return getSession().createQuery(sql).list();
     }
 

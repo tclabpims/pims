@@ -37,24 +37,25 @@ function consMarage() {
 									arr.push(rowData1);
 								}
 							);
+							$.post("../consultation/cons/addCons", {
+									userlist:JSON.stringify(arr),
+									sampleid:sampleid,
+									samcustomerid:$("#samcustomerid").val(),
+									sampathologycode:$("#sampathologycode").val()
+								},
+								function(data) {
+									if(data.success) {
+										layer.close(index);
+										location.href='../consultation/cons.jsp?id='+ sampleid;
+									} else {
+										layer.msg(data.message, {icon:2, time: 1000});
+									}
+								});
 						}else{
 							layer.msg('请先选择用户', {icon: 2,time: 1000});
 							return false;
 						}
-						$.post("../consultation/cons/addCons", {
-								userlist:JSON.stringify(arr),
-								sampleid:sampleid,
-								samcustomerid:$("#samcustomerid").val(),
-								sampathologycode:$("#sampathologycode").val()
-							},
-							function(data) {
-								if(data.success) {
-									layer.close(index);
-									location.href='../consultation/cons.jsp?id='+ sampleid;
-								} else {
-									layer.msg(data.message, {icon:2, time: 1000});
-								}
-							});
+
 					}
 				})
 			}

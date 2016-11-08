@@ -1,3 +1,4 @@
+var hrefval = "";//状态
 /**
  * 获取详细信息
  * @param id
@@ -5,21 +6,23 @@
 function getSampleData(id,receid) {
 	$.get("../message/message/get",{id:id},function(data) {
 		if(data != "") {
-			$.ajax({
-				type:"post",
-				async:false,
-				url:"../receive/receive/editSample",
-				dataType: "json",
-				data:{id:receid},
-				success:function(data){
-					if (data.success) {
+			if(data.receivests == "0"){
+				$.ajax({
+					type:"post",
+					async:false,
+					url:"../receive/receive/editSample",
+					dataType: "json",
+					data:{id:receid},
+					success:function(data){
+						if (data.success) {
+						}
 					}
-				}
-			});
+				});
+			}
 			$("#mescontent").val(data.mescontent);
 			$("#messendername").val(data.messendername);
 			$("#meshandletime").val(CurentTime(new Date(data.meshandletime)));
-			$("#req_sts").val(0);
+			//$("#req_sts").val(0);
 			searchList();
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
@@ -61,7 +64,7 @@ function clearData() {
  */
 $(function() {
 	$('#tabs a').click(function (e) {
-		var hrefval = $(this).attr("href");
+		hrefval = $(this).attr("href");
 		$("#req_sts").val(hrefval);
 		searchList();
 		e.preventDefault();
@@ -108,7 +111,7 @@ $(function() {
 			viewSample();
 		},
 		viewrecords: true,
-		height:700,
+		height:350,
 		autowidth: true,
 		rowNum: 10,
 		rowList:[10,20,30],

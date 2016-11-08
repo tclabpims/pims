@@ -3,16 +3,16 @@
  * 保存会诊结果
  */
 function saveInfo() {
-	var rowdatas = $('#new1').jqGrid('getRowData');
-	var selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
-	var arr = new Array();
-	if(selectedIds.length > 0){
-		$(selectedIds).each(function () {
-			var rowData1 = $("#new").jqGrid('getRowData',this.toString());
-			arr.push(rowData1);
-			}
-		);
-	}
+	// var rowdatas = $('#new1').jqGrid('getRowData');
+	// var selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
+	// var arr = new Array();
+	// if(selectedIds.length > 0){
+	// 	$(selectedIds).each(function () {
+	// 		var rowData1 = $("#new").jqGrid('getRowData',this.toString());
+	// 		arr.push(rowData1);
+	// 		}
+	// 	);
+	// }
 	var post = true;
 	if(post) {
 		$.post("../consultation/cons/editSample", {
@@ -70,12 +70,19 @@ $(function() {
 			$("#nums").val(data.paranums);
 			$("#samreceivertime").val(CurentTime(new Date(data.samreceivertime)));
 			$("#sampatientdignoses").val(data.sampatientdignoses);
+			if(data.consstate == "0"){
+				$("input[name='hzstates'][value='0']").attr("checked",true);
+			}else if(data.consstate == "1"){
+				$("input[name='hzstates'][value='1']").attr("checked",true);
+			}else if(data.consstate == "2"){
+				$("input[name='hzstates'][value='2']").attr("checked",true);
+			}
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
 	});
 	$("#new1").jqGrid({
-		caption:"材块列表",
+		//caption:"材块列表",
 		url: "../consultation/cons/ajax/peice",
 		mtype: "GET",
 		datatype: "json",
@@ -149,9 +156,20 @@ $(function() {
 			if (data != null) {
 				for(var i=0;i<data.length;i++){
 					var j = i+1;
-					html += j+"."+ data[i].detdoctorname+":"+ CurentTime(new Date(data[i].detconsultationtime))+"更新";
-					html +="<textarea id='text_"+i+"' style='width: 80%'>"+data[i].detadvice+
-						"</textarea><a href='#' id='copy_input_"+i+"' style='width: 20%' onclick=saveValue('copy_input_"+i+"','text_"+i+"') class='copy'>复制</a>";
+					if(i==0){
+						html += "<div style=\"margin-top:10px;margin-bottom:5px;\">";
+					}else{
+						html += "<div style=\"margin-bottom:5px;\">";
+					}
+					if(data[i].detadvice == null || data[i].detadvice == ""){
+						html += "<span class=\"input_style\" style=\"width: 100%;\"><strong>&nbsp;&nbsp;"+ j+"."+ data[i].detdoctorname+
+							"还未发表会诊意见</strong></span></div>";
+					}else{
+						html += "<span class=\"input_style\" style=\"width: 100%;\"><strong>&nbsp;&nbsp;"+ j+"."+ data[i].detdoctorname+":"+ CurentTime(new Date(data[i].detconsultationtime))+
+							"更新</strong><span style=\"float:right\">&nbsp;&nbsp;</span><button id='copy_input_"+
+							i+"' style='float: right' onclick=saveValue('copy_input_"+i+"','text_"+i+"') class='copy'>复制</button></span>";
+						html +="&nbsp;&nbsp;<textarea id='text_"+i+"' style='overflow-y:visible;height:100px;font-size:12px;width: 100%'>"+data[i].detadvice+ "</textarea>&nbsp;&nbsp;</div>";
+					}
 				}
 			}
 		}
