@@ -60,7 +60,7 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
 
     @Override
     public List<PimsSysReqTestitem> allTestItem() {
-        String hql = "from PimsSysReqTestitem where tesuseflag = 1 group by ";
+        String hql = "from PimsSysReqTestitem where tesuseflag = 1 ";
         return getSession().createQuery(hql).list();
     }
 
