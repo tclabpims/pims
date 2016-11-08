@@ -90,4 +90,9 @@ public class PimsPathologyParaffinManagerImpl extends GenericManagerImpl<PimsPat
     public boolean canChange(Long id,String sts) {
         return pimsPathologyParaffinDao.canChange(id,sts);
     }
+
+    @Override
+    public List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId) {
+        return pimsPathologyParaffinDao.getParaffinBySampleId(sampleId);
+    }
 }

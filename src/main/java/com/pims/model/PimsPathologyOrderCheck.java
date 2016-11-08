@@ -2,19 +2,20 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_ORDER_CHECK", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_ORDER_CHECK")
 public class PimsPathologyOrderCheck {
     private long checkid;
     private long cheorderid;
     private long chechildorderid;
     private String chepathologycode;
     private long chesampleid;
-    private String customercode;
+    private long customercode;
     private String cheorderitemid;
     private String chenamech;
     private String chenameen;
@@ -23,19 +24,21 @@ public class PimsPathologyOrderCheck {
     private long cheischarge;
     private Long chechargestate;
     private String chetestresult;
-    private Time cheresulttime;
+    private Date cheresulttime;
     private String cheresultuser;
     private String cheremark;
     private String chefirstv;
     private String chesecondv;
     private String chethirdv;
     private Long chefirstn;
-    private Time chefirstd;
-    private Time checreatetime;
+    private Date chefirstd;
+    private Date checreatetime;
     private String checreateuser;
 
     @Id
     @Column(name = "CHECKID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="Seq_CheckId")
+    @SequenceGenerator(name = "Seq_CheckId", sequenceName = "Seq_CheckId", allocationSize=1)
     public long getCheckid() {
         return checkid;
     }
@@ -85,12 +88,12 @@ public class PimsPathologyOrderCheck {
     }
 
     @Basic
-    @Column(name = "CUSTOMERCODE")
-    public String getCustomercode() {
+    @Column(name = "CHECUSTOMERID")
+    public long getCustomercode() {
         return customercode;
     }
 
-    public void setCustomercode(String customercode) {
+    public void setCustomercode(long customercode) {
         this.customercode = customercode;
     }
 
@@ -176,11 +179,11 @@ public class PimsPathologyOrderCheck {
 
     @Basic
     @Column(name = "CHERESULTTIME")
-    public Time getCheresulttime() {
+    public Date getCheresulttime() {
         return cheresulttime;
     }
 
-    public void setCheresulttime(Time cheresulttime) {
+    public void setCheresulttime(Date cheresulttime) {
         this.cheresulttime = cheresulttime;
     }
 
@@ -246,21 +249,21 @@ public class PimsPathologyOrderCheck {
 
     @Basic
     @Column(name = "CHEFIRSTD")
-    public Time getChefirstd() {
+    public Date getChefirstd() {
         return chefirstd;
     }
 
-    public void setChefirstd(Time chefirstd) {
+    public void setChefirstd(Date chefirstd) {
         this.chefirstd = chefirstd;
     }
 
     @Basic
     @Column(name = "CHECREATETIME")
-    public Time getChecreatetime() {
+    public Date getChecreatetime() {
         return checreatetime;
     }
 
-    public void setChecreatetime(Time checreatetime) {
+    public void setChecreatetime(Date checreatetime) {
         this.checreatetime = checreatetime;
     }
 
@@ -285,11 +288,11 @@ public class PimsPathologyOrderCheck {
         if (cheorderid != that.cheorderid) return false;
         if (chechildorderid != that.chechildorderid) return false;
         if (chesampleid != that.chesampleid) return false;
+        if (customercode != that.customercode) return false;
         if (cheitemtype != that.cheitemtype) return false;
         if (cheischarge != that.cheischarge) return false;
         if (chepathologycode != null ? !chepathologycode.equals(that.chepathologycode) : that.chepathologycode != null)
             return false;
-        if (customercode != null ? !customercode.equals(that.customercode) : that.customercode != null) return false;
         if (cheorderitemid != null ? !cheorderitemid.equals(that.cheorderitemid) : that.cheorderitemid != null)
             return false;
         if (chenamech != null ? !chenamech.equals(that.chenamech) : that.chenamech != null) return false;
@@ -311,10 +314,8 @@ public class PimsPathologyOrderCheck {
         if (chefirstd != null ? !chefirstd.equals(that.chefirstd) : that.chefirstd != null) return false;
         if (checreatetime != null ? !checreatetime.equals(that.checreatetime) : that.checreatetime != null)
             return false;
-        if (checreateuser != null ? !checreateuser.equals(that.checreateuser) : that.checreateuser != null)
-            return false;
+        return checreateuser != null ? checreateuser.equals(that.checreateuser) : that.checreateuser == null;
 
-        return true;
     }
 
     @Override
@@ -324,7 +325,7 @@ public class PimsPathologyOrderCheck {
         result = 31 * result + (int) (chechildorderid ^ (chechildorderid >>> 32));
         result = 31 * result + (chepathologycode != null ? chepathologycode.hashCode() : 0);
         result = 31 * result + (int) (chesampleid ^ (chesampleid >>> 32));
-        result = 31 * result + (customercode != null ? customercode.hashCode() : 0);
+        result = 31 * result + (int) (customercode ^ (customercode >>> 32));
         result = 31 * result + (cheorderitemid != null ? cheorderitemid.hashCode() : 0);
         result = 31 * result + (chenamech != null ? chenamech.hashCode() : 0);
         result = 31 * result + (chenameen != null ? chenameen.hashCode() : 0);

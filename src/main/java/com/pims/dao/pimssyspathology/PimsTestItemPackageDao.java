@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface PimsTestItemPackageDao extends GenericDao<PimsTestItemPackage, Long> {
 
+    List<PimsTestItemPackage> getPackageItems(Long aLong);
 }

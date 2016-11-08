@@ -48,7 +48,8 @@ public class PimsTestItemPackageManagerImpl extends GenericManagerImpl<PimsTestI
                 itemPackage.setPackageName(String.valueOf(obj[1]));
                 itemPackage.setPackageDiscount(String.valueOf(obj[2]));
                 itemPackage.setPackageUseTimes(((BigDecimal)obj[3]).intValue());
-                itemPackage.setPackageItems(((BigDecimal)obj[4]).intValue());
+                itemPackage.setPathologyId(((BigDecimal)obj[4]).longValue());
+                itemPackage.setPackageItems(((BigDecimal)obj[5]).intValue());
                 ret.add(itemPackage);
             }
         }
@@ -63,5 +64,10 @@ public class PimsTestItemPackageManagerImpl extends GenericManagerImpl<PimsTestI
             qstr.append(" where p.packageName like '%").append(query).append("%'");
         }
         return packageDao.countTotal(qstr.toString());
+    }
+
+    @Override
+    public List<PimsTestItemPackage> getPackageItems(Long aLong) {
+        return packageDao.getPackageItems(aLong);
     }
 }

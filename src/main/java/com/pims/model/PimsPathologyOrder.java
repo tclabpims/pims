@@ -2,32 +2,36 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_ORDER", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_ORDER")
 public class PimsPathologyOrder {
     private long orderid;
     private String ordercode;
     private long ordsampleid;
-    private String ordcustomercode;
+    private long ordcustomercode;
     private String ordpathologycode;
-    private Time ordcreatetime;
+    private Date ordcreatetime;
     private String ordorderuserid;
     private String ordorderuser;
-    private Time ordaccepttime;
+    private Date ordaccepttime;
     private String ordacceptorid;
     private String ordacceptorname;
-    private Time ordfinishedtime;
+    private Date ordfinishedtime;
     private String ordfinisheduserid;
     private String ordfinishedusername;
     private long ordorderstate;
     private Long ordisdelete;
 
+
     @Id
     @Column(name = "ORDERID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="Seq_OrderId")
+    @SequenceGenerator(name = "Seq_OrderId", sequenceName = "Seq_OrderId", allocationSize=1)
     public long getOrderid() {
         return orderid;
     }
@@ -57,12 +61,12 @@ public class PimsPathologyOrder {
     }
 
     @Basic
-    @Column(name = "ORDCUSTOMERCODE")
-    public String getOrdcustomercode() {
+    @Column(name = "ORDCUSTOMERID")
+    public long getOrdcustomercode() {
         return ordcustomercode;
     }
 
-    public void setOrdcustomercode(String ordcustomercode) {
+    public void setOrdcustomercode(long ordcustomercode) {
         this.ordcustomercode = ordcustomercode;
     }
 
@@ -78,11 +82,11 @@ public class PimsPathologyOrder {
 
     @Basic
     @Column(name = "ORDCREATETIME")
-    public Time getOrdcreatetime() {
+    public Date getOrdcreatetime() {
         return ordcreatetime;
     }
 
-    public void setOrdcreatetime(Time ordcreatetime) {
+    public void setOrdcreatetime(Date ordcreatetime) {
         this.ordcreatetime = ordcreatetime;
     }
 
@@ -108,11 +112,11 @@ public class PimsPathologyOrder {
 
     @Basic
     @Column(name = "ORDACCEPTTIME")
-    public Time getOrdaccepttime() {
+    public Date getOrdaccepttime() {
         return ordaccepttime;
     }
 
-    public void setOrdaccepttime(Time ordaccepttime) {
+    public void setOrdaccepttime(Date ordaccepttime) {
         this.ordaccepttime = ordaccepttime;
     }
 
@@ -138,11 +142,11 @@ public class PimsPathologyOrder {
 
     @Basic
     @Column(name = "ORDFINISHEDTIME")
-    public Time getOrdfinishedtime() {
+    public Date getOrdfinishedtime() {
         return ordfinishedtime;
     }
 
-    public void setOrdfinishedtime(Time ordfinishedtime) {
+    public void setOrdfinishedtime(Date ordfinishedtime) {
         this.ordfinishedtime = ordfinishedtime;
     }
 
@@ -195,10 +199,9 @@ public class PimsPathologyOrder {
 
         if (orderid != that.orderid) return false;
         if (ordsampleid != that.ordsampleid) return false;
+        if (ordcustomercode != that.ordcustomercode) return false;
         if (ordorderstate != that.ordorderstate) return false;
         if (ordercode != null ? !ordercode.equals(that.ordercode) : that.ordercode != null) return false;
-        if (ordcustomercode != null ? !ordcustomercode.equals(that.ordcustomercode) : that.ordcustomercode != null)
-            return false;
         if (ordpathologycode != null ? !ordpathologycode.equals(that.ordpathologycode) : that.ordpathologycode != null)
             return false;
         if (ordcreatetime != null ? !ordcreatetime.equals(that.ordcreatetime) : that.ordcreatetime != null)
@@ -218,9 +221,8 @@ public class PimsPathologyOrder {
             return false;
         if (ordfinishedusername != null ? !ordfinishedusername.equals(that.ordfinishedusername) : that.ordfinishedusername != null)
             return false;
-        if (ordisdelete != null ? !ordisdelete.equals(that.ordisdelete) : that.ordisdelete != null) return false;
+        return ordisdelete != null ? ordisdelete.equals(that.ordisdelete) : that.ordisdelete == null;
 
-        return true;
     }
 
     @Override
@@ -228,7 +230,7 @@ public class PimsPathologyOrder {
         int result = (int) (orderid ^ (orderid >>> 32));
         result = 31 * result + (ordercode != null ? ordercode.hashCode() : 0);
         result = 31 * result + (int) (ordsampleid ^ (ordsampleid >>> 32));
-        result = 31 * result + (ordcustomercode != null ? ordcustomercode.hashCode() : 0);
+        result = 31 * result + (int) (ordcustomercode ^ (ordcustomercode >>> 32));
         result = 31 * result + (ordpathologycode != null ? ordpathologycode.hashCode() : 0);
         result = 31 * result + (ordcreatetime != null ? ordcreatetime.hashCode() : 0);
         result = 31 * result + (ordorderuserid != null ? ordorderuserid.hashCode() : 0);

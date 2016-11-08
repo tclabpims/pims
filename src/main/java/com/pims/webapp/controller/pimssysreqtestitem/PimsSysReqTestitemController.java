@@ -6,6 +6,7 @@ import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.pims.webapp.controller.WebControllerUtil;
+import com.smart.Constants;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.codehaus.jettison.json.JSONArray;
@@ -35,6 +36,30 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 		return new ModelAndView();
 	}
 
+	@RequestMapping(method = {RequestMethod.GET}, value = "/querytestitem")
+	@ResponseBody
+	public void queryTestItem(HttpServletRequest request, HttpServletResponse response) {
+		String query = request.getParameter("query");
+		Map<String, Object> param = new HashMap<>();
+		param.put("name", query);
+		param.put("isCharge", request.getParameter("isCharge"));
+		param.put("filter", request.getParameter("filter"));
+		List<PimsSysReqTestitem> lis = pimsSysReqTestitemManager.getTestitemInfo(param);
+		com.alibaba.fastjson.JSONArray result = new com.alibaba.fastjson.JSONArray();
+		if(lis.size() > 0) {
+			for(PimsSysReqTestitem item : lis) {
+				com.alibaba.fastjson.JSONObject obj = new  com.alibaba.fastjson.JSONObject();
+				obj.put("testitemid", item.getTestitemid());
+				obj.put("teschinesename", item.getTeschinesename());
+				obj.put("tesenglishname", item.getTesenglishname());
+				obj.put("tesischarge", item.getTesischarge());
+				result.add(obj);
+			}
+		}
+		response.setContentType(contentType);
+		PrintwriterUtil.print(response, result.toString());
+	}
+
 	@RequestMapping(method = {RequestMethod.POST}, value = "/edit")
 	@ResponseBody
 	public void saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -55,8 +80,11 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 	public DataResponse query(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		DataResponse dr = new DataResponse();
 		GridQuery gridQuery = new GridQuery(request);
-		List<PimsSysReqTestitem> result = pimsSysReqTestitemManager.getReqTestitemList(gridQuery);
-		Integer total = pimsSysReqTestitemManager.countReqTestitem(gridQuery.getQuery());
+		String sid = request.getParameter("pathologyId");
+		Long pathologyId = null;
+		if(sid != null && !"".equals(sid)) pathologyId = Long.valueOf(sid);
+		List<PimsSysReqTestitem> result = pimsSysReqTestitemManager.getReqTestitemList(gridQuery, pathologyId);
+		Integer total = pimsSysReqTestitemManager.countReqTestitem(gridQuery.getQuery(), pathologyId);
 		dr.setRecords(total);
 		dr.setPage(gridQuery.getPage());
 		dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));

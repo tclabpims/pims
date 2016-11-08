@@ -2,23 +2,24 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_ORDER_CHILD", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_ORDER_CHILD")
 public class PimsPathologyOrderChild {
     private long childorderid;
     private long chiorderid;
     private String chiordercode;
     private String chipathologycode;
-    private String chicustomercode;
+    private long chicustomercode;
     private long chisampleid;
     private long chiparaffinid;
     private long chiparaffinno;
     private String chiparaffincode;
-    private Time chireqtime;
+    private Date chireqtime;
     private String chirequserid;
     private String chirequsername;
     private Long chiordertype;
@@ -28,22 +29,24 @@ public class PimsPathologyOrderChild {
     private Long chiisdelete;
     private Long chislidenum;
     private Long chinullslidenum;
-    private Time chireceivetime;
+    private Date chireceivetime;
     private String chireceiverid;
     private String chireceivername;
-    private Time chiexectime;
+    private Date chiexectime;
     private String chiexecuserid;
     private String chiexecusername;
     private String chifirstv;
     private String chisecondv;
     private String chithirdv;
     private Long chifirstn;
-    private Time chifirstd;
-    private Time chicreatetime;
+    private Date chifirstd;
+    private Date chicreatetime;
     private String chicreateuser;
 
     @Id
     @Column(name = "CHILDORDERID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="Seq_Order_ChildId")
+    @SequenceGenerator(name = "Seq_Order_ChildId", sequenceName = "Seq_Order_ChildId", allocationSize=1)
     public long getChildorderid() {
         return childorderid;
     }
@@ -83,12 +86,12 @@ public class PimsPathologyOrderChild {
     }
 
     @Basic
-    @Column(name = "CHICUSTOMERCODE")
-    public String getChicustomercode() {
+    @Column(name = "CHICUSTOMERID")
+    public long getChicustomercode() {
         return chicustomercode;
     }
 
-    public void setChicustomercode(String chicustomercode) {
+    public void setChicustomercode(long chicustomercode) {
         this.chicustomercode = chicustomercode;
     }
 
@@ -134,11 +137,11 @@ public class PimsPathologyOrderChild {
 
     @Basic
     @Column(name = "CHIREQTIME")
-    public Time getChireqtime() {
+    public Date getChireqtime() {
         return chireqtime;
     }
 
-    public void setChireqtime(Time chireqtime) {
+    public void setChireqtime(Date chireqtime) {
         this.chireqtime = chireqtime;
     }
 
@@ -234,11 +237,11 @@ public class PimsPathologyOrderChild {
 
     @Basic
     @Column(name = "CHIRECEIVETIME")
-    public Time getChireceivetime() {
+    public Date getChireceivetime() {
         return chireceivetime;
     }
 
-    public void setChireceivetime(Time chireceivetime) {
+    public void setChireceivetime(Date chireceivetime) {
         this.chireceivetime = chireceivetime;
     }
 
@@ -264,11 +267,11 @@ public class PimsPathologyOrderChild {
 
     @Basic
     @Column(name = "CHIEXECTIME")
-    public Time getChiexectime() {
+    public Date getChiexectime() {
         return chiexectime;
     }
 
-    public void setChiexectime(Time chiexectime) {
+    public void setChiexectime(Date chiexectime) {
         this.chiexectime = chiexectime;
     }
 
@@ -334,21 +337,21 @@ public class PimsPathologyOrderChild {
 
     @Basic
     @Column(name = "CHIFIRSTD")
-    public Time getChifirstd() {
+    public Date getChifirstd() {
         return chifirstd;
     }
 
-    public void setChifirstd(Time chifirstd) {
+    public void setChifirstd(Date chifirstd) {
         this.chifirstd = chifirstd;
     }
 
     @Basic
     @Column(name = "CHICREATETIME")
-    public Time getChicreatetime() {
+    public Date getChicreatetime() {
         return chicreatetime;
     }
 
-    public void setChicreatetime(Time chicreatetime) {
+    public void setChicreatetime(Date chicreatetime) {
         this.chicreatetime = chicreatetime;
     }
 
@@ -371,13 +374,12 @@ public class PimsPathologyOrderChild {
 
         if (childorderid != that.childorderid) return false;
         if (chiorderid != that.chiorderid) return false;
+        if (chicustomercode != that.chicustomercode) return false;
         if (chisampleid != that.chisampleid) return false;
         if (chiparaffinid != that.chiparaffinid) return false;
         if (chiparaffinno != that.chiparaffinno) return false;
         if (chiordercode != null ? !chiordercode.equals(that.chiordercode) : that.chiordercode != null) return false;
         if (chipathologycode != null ? !chipathologycode.equals(that.chipathologycode) : that.chipathologycode != null)
-            return false;
-        if (chicustomercode != null ? !chicustomercode.equals(that.chicustomercode) : that.chicustomercode != null)
             return false;
         if (chiparaffincode != null ? !chiparaffincode.equals(that.chiparaffincode) : that.chiparaffincode != null)
             return false;
@@ -413,10 +415,8 @@ public class PimsPathologyOrderChild {
         if (chifirstd != null ? !chifirstd.equals(that.chifirstd) : that.chifirstd != null) return false;
         if (chicreatetime != null ? !chicreatetime.equals(that.chicreatetime) : that.chicreatetime != null)
             return false;
-        if (chicreateuser != null ? !chicreateuser.equals(that.chicreateuser) : that.chicreateuser != null)
-            return false;
+        return chicreateuser != null ? chicreateuser.equals(that.chicreateuser) : that.chicreateuser == null;
 
-        return true;
     }
 
     @Override
@@ -425,7 +425,7 @@ public class PimsPathologyOrderChild {
         result = 31 * result + (int) (chiorderid ^ (chiorderid >>> 32));
         result = 31 * result + (chiordercode != null ? chiordercode.hashCode() : 0);
         result = 31 * result + (chipathologycode != null ? chipathologycode.hashCode() : 0);
-        result = 31 * result + (chicustomercode != null ? chicustomercode.hashCode() : 0);
+        result = 31 * result + (int) (chicustomercode ^ (chicustomercode >>> 32));
         result = 31 * result + (int) (chisampleid ^ (chisampleid >>> 32));
         result = 31 * result + (int) (chiparaffinid ^ (chiparaffinid >>> 32));
         result = 31 * result + (int) (chiparaffinno ^ (chiparaffinno >>> 32));

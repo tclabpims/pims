@@ -8,6 +8,14 @@ function chooseTestItem() {
         title: "检查项目列表",
         content: $("#itemGrid"),
         btn: ["确定", "取消"],
+        success:function() {
+            jQuery("#itemList").jqGrid('setGridParam', {
+                url: "../estitem/query",
+                //发送数据
+                postData: {"pathologyId": $("#pathologySelect").val(), "sidx": "testitemid"},
+                page: 1
+            }).trigger('reloadGrid');//重新载入
+        },
         yes: function (index, layero) {
             var id = $("#itemList").jqGrid('getGridParam', 'selarrrow');
 
@@ -34,6 +42,25 @@ function removeTestItem() {
     $("#itemSelect option:selected").remove();
 }
 
+function clearChoosedItem() {
+    $("#itemSelect").empty();
+}
+
+function getPathologyType() {
+    $.get("../pspathology/dcm/querytype", {}, function (data) {
+        if(data != null && data.length > 0) {
+            for(var i = 0; i < data.length; i++) {
+                $("#pathologySelect").append("<option value='" + data[i].pathologyLibId + "'>" + data[i].pathologyLib + "</option>");
+            }
+            var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
+            var rowData = $("#sectionList").jqGrid('getRowData', id);
+            if (id == null || id.length == 0) {
+                $("#pathologySelect").val(rowData.pathologyId);
+            }
+        }
+    })
+}
+
 /************************************
  *  添加病种
  *  add by zcw 2015-05-16
@@ -49,6 +76,9 @@ function AddSection() {
         title: "添加套餐信息",
         content: $("#addDialog"),
         btn: ["保存", "取消"],
+        success:function () {
+            getPathologyType();
+        },
         yes: function (index, layero) {
             var packageName = $.trim($("#packageName").val());
             if (packageName == "") {
@@ -66,6 +96,7 @@ function AddSection() {
             $.get('../package/edit', {
                 selectedItems: items,
                 packageName: $("#packageName").val(),
+                pathologyId: $("#pathologySelect").val(),
                 packageId: $("#packageId").val()
             }, function (data) {
                 layer.close(index);
@@ -131,6 +162,7 @@ function editSection() {
                 content: $("#addDialog"),
                 btn: ["保存", "取消"],
                 success: function (layero, index) {
+                    getPathologyType();
                     $("#packageName").val(rowData.packageName);
                     $("#packageId").val(rowData.packageId);
                 },
@@ -151,6 +183,7 @@ function editSection() {
                     $.get('../package/edit', {
                         selectedItems: items,
                         packageName: $("#packageName").val(),
+                        pathologyId: $("#pathologySelect").val(),
                         packageId: $("#packageId").val()
                     }, function (data) {
                         layer.close(index);
@@ -195,7 +228,7 @@ $(function () {
     var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
 
     $("#itemList").jqGrid({
-        url: "../estitem/query",
+        //url: "../estitem/query",
         mtype: "GET",
         datatype: "json",
         width: 800,
@@ -237,12 +270,13 @@ $(function () {
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
-        colNames: ['套餐编号', '套餐名称', '使用次数', '套餐项目数'],
+        colNames: ['套餐编号', '套餐名称', '使用次数', '套餐项目数','pathologyId'],
         colModel: [
             {name: 'packageId', index: 'packageId', width: 30},
             {name: 'packageName', index: 'packageName', width: 30},
             {name: 'packageUseTimes', index: 'packageUseTimes', width: 30},
-            {name: 'packageItems', index: 'packageItems', width: 30}
+            {name: 'packageItems', index: 'packageItems', width: 30},
+            {name: 'pathologyId', index: 'pathologyId', hidden: true}
         ],
         loadComplete: function () {
             var table = this;

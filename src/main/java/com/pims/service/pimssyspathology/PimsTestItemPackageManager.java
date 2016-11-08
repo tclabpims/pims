@@ -16,4 +16,6 @@ public interface PimsTestItemPackageManager extends GenericManager<PimsTestItemP
     List<PimsTestItemPackage> getPackageList(GridQuery gridQuery);
 
     Integer countPackage(String query);
+
+    List<PimsTestItemPackage> getPackageItems(Long aLong);
 }

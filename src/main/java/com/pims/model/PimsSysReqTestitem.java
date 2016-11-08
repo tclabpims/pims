@@ -24,12 +24,22 @@ public class PimsSysReqTestitem extends BaseObject {
     private Long tesitemhandle;
     private long tesischarge;
     private long tesuseflag;
+    private long tesitemproperty;
     private String tesfirstv;
     private String tessecondv;
     private Long tesfirstn;
     private String tesreamrk;
     private String tescreateuser;
     private Date tescreatetime;
+
+    @Column(name="tesitemproperty")
+    public long getTesitemproperty() {
+        return tesitemproperty;
+    }
+
+    public void setTesitemproperty(long tesitemproperty) {
+        this.tesitemproperty = tesitemproperty;
+    }
 
     @Transient
     public String getTespathologyname() {

@@ -24,22 +24,34 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
     @Override
     public List<PimsSysReqTestitem> getTestitemInfo( Map map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsSysReqTestitem where tesuseflag = 1 ");
+        sb.append(" from PimsSysReqTestitem p where p.tesuseflag = 1 ");
         if(map == null){
             return  null;
         }
-        if(!StringUtils.isEmpty(String.valueOf(map.get("tesitemtype")))){
-            sb.append(" and tesitemtype = " + map.get("tesitemtype"));
+        if(!StringUtils.isEmpty((String)(map.get("tesitemtype")))){
+            sb.append(" and p.tesitemtype = " + map.get("tesitemtype"));
         }
-        if(!StringUtils.isEmpty(String.valueOf(map.get("name")))){
+
+        if(!StringUtils.isEmpty((String)(map.get("isCharge")))){
+            if(((String)map.get("isCharge")).trim().equals("true"))
+            sb.append(" and p.tesischarge =1 ");
+            else
+                sb.append(" and p.tesischarge =0 ");
+        }
+
+        if(!StringUtils.isEmpty((String)(map.get("filter")))){
+            sb.append(" and not exists (select p2.testitemid from PimsSysChargeItems p2 where p2.testitemid=p.testitemid and p.tesitemtype=2)");
+        }
+
+        if(!StringUtils.isEmpty((String)(map.get("name")))){
             String name = map.get("name").toString().toUpperCase();
-            sb.append(" and ( upper(teschinesename) like '%");
+            sb.append(" and ( upper(p.teschinesename) like '%");
             sb.append(name);
-            sb.append("%' or upper(tesenglishname) like '%");
+            sb.append("%' or upper(p.tesenglishname) like '%");
             sb.append(name);
-            sb.append("%' or upper(tespinyincode) like '%");
+            sb.append("%' or upper(p.tespinyincode) like '%");
             sb.append(name);
-            sb.append("%' or upper(tesfivestroke) like '%");
+            sb.append("%' or upper(p.tesfivestroke) like '%");
             sb.append(name);
             sb.append("%')");
         }

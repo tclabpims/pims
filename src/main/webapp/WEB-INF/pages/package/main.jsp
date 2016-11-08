@@ -44,15 +44,15 @@
     <div id="mainTable" class="col-xs-12">
         <div style="padding-top: 5px;">
             <div class="col-xs-12">
-                <button type="button" class="btn btn-sm btn-primary " title="添加检查项目" onclick="AddSection()">
+                <button type="button" class="btn btn-sm btn-primary " title="添加" onclick="AddSection()">
                     <i class="ace-icon fa fa-fire bigger-110"></i>
                     添加
                 </button>
-                <button type="button" class="btn btn-sm  btn-success" title="修改检查项目" onclick="editSection()">
+                <button type="button" class="btn btn-sm  btn-success" title="修改" onclick="editSection()">
                     <i class="ace-icon fa fa-pencil-square bigger-110"></i>
                     修改
                 </button>
-                <button type="button" class="btn btn-sm btn-danger" title="删除检查项目" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-danger" title="删除" onclick="deleteSection()">
                     <i class="ace-icon fa fa-times bigger-110"></i>
                     删除
                 </button>
@@ -101,6 +101,12 @@
                     <div class="col-xs-8" style="">
                         <input type="text" id="packageName" name="packageName" placeholder="套餐名称" class="col-xs-8"
                                datatype="*2-255"/>
+                    </div>
+                    <label class="col-xs-3 control-label no-padding-right" for="pathologySelect"> 选择病种 </label>
+                    <div class="col-xs-8" style="">
+                        <select type="text" id="pathologySelect" name="pathologySelect" onchange="clearChoosedItem()" placeholder="选择病种" class="col-xs-8">
+
+                        </select>
                     </div>
                 </div>
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">

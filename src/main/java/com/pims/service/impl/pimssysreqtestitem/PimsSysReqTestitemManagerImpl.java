@@ -37,15 +37,18 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
     }
 
     @Override
-    public List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery) {
+    public List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery, Long pathologyId) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT a.testitemid,a.teschinesename,a.tesenglishname,a.tesitemsort,a.tespinyincode,a.tesfivestroke,a.tesitemtype,").append(
-                "a.tespathologyid,a.tesitemhandle,a.tesischarge,a.tesuseflag,B.Patnamech from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
+                "a.tespathologyid,a.tesitemhandle,a.tesischarge,a.tesuseflag,B.Patnamech,a.tesitemproperty from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
                 "where A.Tespathologyid = B.Pathologyid");
         String query = gridQuery.getQuery();
         String sidx = gridQuery.getSidx();
         if (query != null && !"".equals(query.trim())) {
             builder.append(" and a.teschinesename||b.Patnamech  like '%").append(query).append("%'");
+        }
+        if(pathologyId !=null ) {
+            builder.append(" and a.tespathologyid=").append(pathologyId);
         }
         sidx = (sidx == null || sidx.trim().equals("")) ? "a.testitemid " : sidx;
         builder.append(" order by  ").append(sidx).append(gridQuery.getSord());
@@ -68,6 +71,7 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
                 pimsSysReqTestitem1.setTesischarge(((BigDecimal)obj[9]).longValue());
                 pimsSysReqTestitem1.setTesuseflag(((BigDecimal)obj[10]).longValue());
                 pimsSysReqTestitem1.setTespathologyname(String.valueOf(obj[11]==null?"":obj[11]));
+                pimsSysReqTestitem1.setTesitemproperty(((BigDecimal)obj[12]).longValue());
                 pimsSysReqTestitem.add(pimsSysReqTestitem1);
             }
         }
@@ -75,12 +79,15 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
     }
 
     @Override
-    public Integer countReqTestitem(String query) {
+    public Integer countReqTestitem(String query, Long pathologyId) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT count(1) cnt from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
                 "where A.Tespathologyid = B.Pathologyid");
         if (query != null && !"".equals(query.trim())) {
             builder.append(" and a.teschinesename||b.Patnamech  like '%").append(query).append("%'");
+        }
+        if(pathologyId !=null ) {
+            builder.append(" and a.tespathologyid=").append(pathologyId);
         }
         return pimsSysReqTestitemDao.countTotal(builder.toString());
     }

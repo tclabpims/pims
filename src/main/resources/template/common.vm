@@ -70,11 +70,12 @@
     <div class="itemtitle">镜下所见：</div>
     <div id="picContainer" class="imgContainer">
         #if ($!picNum == 1)
-        <div style="width:100%;text-align:center;"><img src="$!imgsrc0" width="305px" height="210px" /></div>
+        <div style="width:100%;text-align:center;"><img src="$!imgsrc" width="305px" height="210px" /></div>
             #elseif ($!picNum > 1)
-                #foreach($foo in [0..$!picNum])
-                    #set($src="imgsrc"+$foo)
-                    <div style="width:100%;text-align:left;display:inline"><img src="$!src" width="305px" height="210px" /></div>
+                #foreach($foo in $multiSrc)
+                    <div style="width:100%;text-align:left;display:inline;padding-left:50px">
+                        <img src="$!foo" width="305px" height="210px" />
+                    </div>
                 #end
         #end
     </div>

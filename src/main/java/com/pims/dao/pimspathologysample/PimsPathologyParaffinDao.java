@@ -58,4 +58,6 @@ public interface PimsPathologyParaffinDao extends GenericDao<PimsPathologyParaff
      * @return
      */
     boolean canChange(Long id, String sts);
+
+    List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId);
 }
