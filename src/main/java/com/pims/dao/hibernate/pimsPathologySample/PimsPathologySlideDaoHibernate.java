@@ -40,43 +40,28 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
     public StringBuffer getSearchSql(StringBuffer sb,PimsBaseModel map){
         sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
         if(!StringUtils.isEmpty(map.getReq_sts())){
-            sb.append(" and parissectioned= " + map.getReq_sts());
-//            if(map.getReq_sts().equals("1")){//已切片
-//                if(!StringUtils.isEmpty(map.getSend_hosptail())){//打印状态
-//                    sb.append(",PimsPathologySlide where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid and sliparaffinid = paraffinid");
-//                    sb.append(" and sliifprint = " + map.getSend_hosptail());
-//                    sb.append(" and parissectioned = " + map.getReq_sts());
-//                }else{
-//                    sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
-//                    sb.append(" and parissectioned= " + map.getReq_sts());
-//                }
-//            }else{
-//                sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
-//                sb.append(" and parissectioned= " + map.getReq_sts());
-//            }
-//        }else{
-//            sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+            sb.append(" and parissectioned= " + map.getReq_sts());//切片状态
         }
         if(!StringUtils.isEmpty(map.getLogyid())){
-            sb.append(" and sampathologyid = " + map.getLogyid());
+            sb.append(" and sampathologyid = " + map.getLogyid());//病种类别
         }
         if(map.getReq_bf_time() != null){
-            sb.append(" and pieembedtime >= :req_bf_time");
+            sb.append(" and pieembedtime >= :req_bf_time");//开始时间
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
             //sb.append(" and parfirstn = " +  map.getSend_doctor());
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
-            sb.append(" and parpathologycode = " + map.getSend_dept());
+            sb.append(" and parpathologycode like '%" + map.getSend_dept().toUpperCase()+"%'");//病理编号
         }
         if(!StringUtils.isEmpty(map.getPatient_name())){
-            sb.append(" and sampatientname = " + map.getPatient_name());
+            sb.append(" and sampatientname like '%" + map.getPatient_name().toUpperCase()+"%'");//病人姓名
         }
         if(map.getReq_af_time() != null){
-            sb.append(" and  pieembedtime < :req_af_time");
+            sb.append(" and  pieembedtime < :req_af_time");//结束时间
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
-            sb.append(" and parnullslidenum  > 0");
+            sb.append(" and parnullslidenum  > 0");//是否预留白片
         }
         return sb;
     }

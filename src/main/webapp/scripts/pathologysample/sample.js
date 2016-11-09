@@ -12,10 +12,9 @@ function getData(obj,event) {//获取数据
 		case 13 : 
 			var id=obj.value;
 			var type = 1;
-			if(obj.id == 'sampleno') {
-				type = 2;
+			if(obj.id == 'samrequistionid') {
+				//根据申请单号查询申请数据
 			}
-			getSampleData(id, type);
 			break;
 	}
 }
@@ -359,7 +358,10 @@ $(function() {
 	//表单校验
 	$("#sampleForm").Validform({
 		btnSubmit:"#saveButton",
-		tiptype:4,
+		//tiptype:3,
+		tiptype:function(msg,o){
+			layer.msg(msg);
+		},
 		showAllError:true,
 		ajaxPost:true,
 		beforeSubmit:function(curform){

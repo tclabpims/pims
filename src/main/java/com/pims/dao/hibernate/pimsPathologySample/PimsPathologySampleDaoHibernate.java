@@ -32,31 +32,31 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
      */
     public StringBuffer getSearchSql(StringBuffer sb, PimsBaseModel map) {
         if (!StringUtils.isEmpty(map.getLogyid())) {
-            sb.append(" and sampathologyid = " + map.getLogyid());
+            sb.append(" and sampathologyid = " + map.getLogyid());//病种类别
         }
         if (map.getReq_bf_time() != null) {
-            sb.append(" and samregisttime >= :req_bf_time");
+            sb.append(" and samregisttime >= :req_bf_time");//开始时间
         }
         if (!StringUtils.isEmpty(map.getReq_sts())) {
-            sb.append(" and samsecondv = " + map.getReq_sts());
+            sb.append(" and samsecondv = " + map.getReq_sts());//标本状态合格不合格
         }
         if (!StringUtils.isEmpty(map.getSend_doctor())) {
-            sb.append(" and samsenddoctorid = " + map.getSend_doctor());
+            sb.append(" and samsenddoctorname like '%" + map.getSend_doctor().toUpperCase()+"%'");//送检医生
         }
         if (!StringUtils.isEmpty(map.getSend_dept())) {
-            sb.append(" and sampathologycode = " + map.getSend_dept());
+            sb.append(" and sampathologycode like '%" + map.getSend_dept().toUpperCase()+"%'");//病理编号
         }
         if (!StringUtils.isEmpty(map.getSend_hosptail())) {
-            sb.append(" and samsendhospital = " + map.getSend_hosptail());
+            sb.append(" and samsendhospital like '%" + map.getSend_hosptail().toUpperCase()+"%'");//送检医院
         }
         if (!StringUtils.isEmpty(map.getPatient_name())) {
-            sb.append(" and sampatientname = " + map.getPatient_name());
+            sb.append(" and sampatientname like '%" + map.getPatient_name().toUpperCase()+"%'");//病人姓名
         }
         if (map.getReq_af_time() != null) {
-            sb.append(" and  samregisttime < :req_af_time");
+            sb.append(" and  samregisttime < :req_af_time");//结束时间
         }
         if (!StringUtils.isEmpty(map.getReq_code())) {
-            sb.append(" and saminspectionid = " + map.getReq_code());
+            sb.append(" and saminspectionid = " + map.getReq_code());//病理状态
         }
         return sb;
     }

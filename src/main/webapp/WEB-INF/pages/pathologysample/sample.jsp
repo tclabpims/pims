@@ -337,7 +337,7 @@
 					</div>
 					<label class="label_style col-sm-1" for="samrequistionid">临床申请:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="samrequistionid" name="samrequistionid"/>
+						<input class="input_style" type="text" id="samrequistionid" name="samrequistionid" onkeypress="getData(this,event)"/>
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">
@@ -348,7 +348,7 @@
 				</div>
 				<div class="form-group" style="margin-bottom: 5px">
 					<label class="label_style col-sm-1" >病理编号:</label>
-					<div class="col-sm-3 ">
+					<div class="col-sm-3">
 						<input class="input_style" type="text" id="sampathologycode" name="sampathologycode" readonly/>
 					</div>
 					<label class="label_style col-sm-1" >病人姓名:</label>

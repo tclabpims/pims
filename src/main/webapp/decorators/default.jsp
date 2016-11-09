@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="en">
 <head>
@@ -18,23 +19,21 @@
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap.min.css'/>" />
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/font-awesome.css'/>" />
     <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ace.min.css'/>" />
-    <%-- <link rel="stylesheet" type="name/css"  href="<c:url value='../styles/bootstrap.min.css'/>" /> --%>
+     <%--<link rel="stylesheet" type="name/css"  href="<c:url value='../styles/bootstrap.min.css'/>" />--%>
 </head>
 <body<decorator:getProperty property="body.id" writeEntireProperty="true"/><decorator:getProperty property="body.class" writeEntireProperty="true"/>  class="no-skin">
     <c:set var="currentMenu" scope="request">
         <decorator:getProperty property="meta.menu"/></c:set>
 
-    <div id="head" class="navbar navbar-default " role="navigation">
+    <div id="head" class="navbar navbar-default " role="navigation" style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="<c:url value='/'/>"><fmt:message key="webapp.name"/></a>
+            <%--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">--%>
+                <%--<span class="icon-bar"></span>--%>
+                <%--<span class="icon-bar"></span>--%>
+                <%--<span class="icon-bar"></span>--%>
+            <%--</button>--%>
+            <img style="margin-top: 5px;margin-bottom: 8px;margin-left: 20px;margin-right: 20px" src="/styles/imagepims/logo.png">
         </div>
-
         <%@ include file="/common/menu.jsp" %>
         <c:if test="${pageContext.request.locale.language ne 'en'}">
             <div id="switchLocale" ><a href="<c:url value='/?locale=en'/>">
@@ -42,7 +41,6 @@
             </div>
         </c:if>
     </div>
-
     <div class="main-container" sytle="padding-top:50px;" id="content">
         <%@ include file="/common/messages.jsp" %>
             <decorator:body/>
