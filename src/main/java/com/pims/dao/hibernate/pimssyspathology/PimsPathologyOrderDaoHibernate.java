@@ -45,7 +45,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         if(endDate == null || "".equals(endDate.trim())) {
             endDate = Constants.DF2.format(new Date());
         }
-        builder.append(" and c.ChiReqTime  between to_date(':startDate','yyyy-mm-dd') and to_date(':endDate','yyyy-mm-dd') ");
+        builder.append(" and c.ChiReqTime  between to_date(:startDate,'yyyy-mm-dd') and to_date(:endDate,'yyyy-mm-dd') ");
 
         if(patientName != null && !"".equals(patientName.trim())) {
             builder.append(" and s.SamPatientName like '%:patientName%' ");
@@ -94,7 +94,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         if(endDate == null || "".equals(endDate.trim())) {
             endDate = Constants.DF2.format(new Date());
         }
-        builder.append(" and c.ChiReqTime  between to_date(':startDate','yyyy-mm-dd') and to_date(':endDate','yyyy-mm-dd') ");
+        builder.append(" and c.ChiReqTime  between to_date(:startDate,'yyyy-mm-dd') and to_date(:endDate,'yyyy-mm-dd') ");
 
         if(patientName != null && !"".equals(patientName.trim())) {
             builder.append(" and s.SamPatientName like '%:patientName%' ");

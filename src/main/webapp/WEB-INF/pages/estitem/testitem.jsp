@@ -172,6 +172,16 @@
                     </div>
                 </div>
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="tesisorder">医嘱项目</label>
+                    <div class="col-xs-8">
+                        <select type="text" id="tesisorder" name="tesisorder" class="col-xs-3">
+                            <option value="100"></option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="tespathologyname"> 病种类别 </label>
                     <div class="col-xs-8">
                         <input type="text" id="tespathologyname" onclick="showPathology()" name="tespathologyname"

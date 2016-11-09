@@ -142,7 +142,7 @@ public class PIMSBaseController {
             builder.append("<option value=\"")
                     .append(o.get("pathologyLibId"))
                     .append("\" ");
-            if (ubr.getPathologyLibId().equals(String.valueOf(o.get("pathologyLibId")))) {
+            if (ubr.getPathologyLibId()!= null && ubr.getPathologyLibId().equals((o.get("pathologyLibId")))) {
                 builder.append(" selected ");
             }
             builder.append(">")

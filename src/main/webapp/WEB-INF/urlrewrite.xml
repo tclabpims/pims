@@ -82,7 +82,6 @@
         <from>/barcode</from>
         <to>/barcode</to>
     </rule>
-
     <!-- Spring MVC -->
     <rule>
         <from>/**</from>

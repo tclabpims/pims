@@ -92,6 +92,15 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         return dr;
     }
 
+    @RequestMapping(value = "/camera", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView camera(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("sampleId", request.getParameter("sampleId"));
+        mv.addObject("customerId", request.getParameter("customerId"));
+        return mv;
+    }
+
     @RequestMapping(value = "/report/whitepiece", method = RequestMethod.GET)
     @ResponseBody
     public DataResponse getWhitePiece(HttpServletRequest request, HttpServletResponse response) throws Exception {

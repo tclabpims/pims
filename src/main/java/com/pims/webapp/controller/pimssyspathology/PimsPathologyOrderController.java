@@ -61,7 +61,7 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         dr.setRecords(total);
         dr.setPage(gridQuery.getPage());
         dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));
-        dr.setRows(getResultMap(result));
+        dr.setRows(result);
         response.setContentType(contentType);
         return dr;
     }

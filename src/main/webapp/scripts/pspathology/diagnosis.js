@@ -127,15 +127,19 @@ function takingPicture() {
         return false;
     }
     layer.open({
-        type: 1,
+        type: 2,
         title: '病理诊断>图像采集',
-        shadeClose: true,
-        shade: false,
-        maxmin: true, //开启最大化最小化按钮
+        shadeClose: false,
+        shade: 0.5,
+        closeBtn:false,
+        maxmin: false, //开启最大化最小化按钮
         area: ['320px', '360px'],
-        content: $('#flashContent'),
-        success: function (layero, index) {
-
+        content: ["../diagnosis/camera"],
+        btn:["关闭"],
+        yes: function(index, layero){
+            //swfobject.removeSWF("Main");
+            layer.close(index); //如果设定了yes回调，需进行手工关闭
+           // console.log(layero)
         }
     });
 }

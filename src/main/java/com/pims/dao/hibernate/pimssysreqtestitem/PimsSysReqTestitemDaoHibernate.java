@@ -82,7 +82,7 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
      */
     @Override
     public List<PimsSysReqTestitem> orderTreatmentItem(Long pathologyId, Long specialCheck, Long patIsSampling) {
-        StringBuilder hql = new StringBuilder("from PimsSysReqTestitem where tespathologyid=:pathologyId and tesuseflag=1 ");
+        StringBuilder hql = new StringBuilder("from PimsSysReqTestitem where tespathologyid=:pathologyId and tesuseflag=1 and tesisorder=1");
         if(specialCheck == 0L && patIsSampling == 0L) {
             hql.append(" and (tesitemtype=1 or tesitemtype=3) ");
         } else if(specialCheck == 1L && patIsSampling == 0L) {

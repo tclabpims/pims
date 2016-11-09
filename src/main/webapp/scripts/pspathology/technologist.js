@@ -491,7 +491,7 @@ function getSampleData1(id) {
             $("#sampatientbed").val(data.sampatientbed);//患者床号
             $("#sampatientage").val(data.sampatientage);//患者床号
 
-            createOptions(data.patIsSampling, data.specialCheck);
+            //createOptions(data.patIsSampling, data.specialCheck);
 
             var mills = data.saminitiallytime;
             var t1;
@@ -521,73 +521,16 @@ function getSampleData1(id) {
             $("#samreportorid").val(data.samreportorid);//报告医生编号
             $("#samreportor").val(data.samreportor);//报告医生姓名
 
-            $.get("../diagnosis/sampleresult", {sampleid: id}, function (data) {
-                var x = document.getElementById("diagnosisInfoForm");
-                for (itm in data) {
-                    var resultid = data[itm].resultid;
-                    var restestitemid = data[itm].restestitemid;
-                    for (var i = 0; i < x.length; i++) {
-                        var e = x.elements[i];
-                        if ($("#" + e.id).attr("rptItemId") == restestitemid) {
-                            $("#" + e.id).val(data[itm].restestresult);
-                            $("#" + e.id).attr("hiddenValue", resultid);
-                        }
-                    }
-                }
-                var emptyResult = jQuery.isEmptyObject(data);
-                if (emptyResult) {
-                    for (var i = 0; i < x.length; i++) {
-                        var e = x.elements[i];
-                        if ($("#" + e.id).attr("rptItemId")) {
-                            $("#" + e.id).val('');
-                            $("#" + e.id).attr("hiddenValue", "");
-                        }
-                    }
-                }
-                getSamplePicures(id);
-            })
+            //重新加载取材信息列表
+            jQuery("#materialList").jqGrid("clearGridData");
+            jQuery("#materialList").jqGrid('setGridParam', {
+                url: "../pathologysample/pieces/ajax/getItem",
+                datatype: 'json',
+                postData: {"reqId": data.sampleid}
+            }).trigger('reloadGrid');//重新载入
 
         } else {
-            layer.msg("该申请单不存在！", {icon: 0, time: 1000});
-        }
-    });
-}
-
-function getSamplePicures(sampleId) {
-    $.get("../diagnosis/pictures", {sampleid: sampleId}, function (data) {
-        var ret = data;
-        var container = $("#imgContainer");
-        container.empty();
-        for (var item in ret) {
-            var objNewDiv = $('<div>', {'id': new Date().getTime(), 'style': 'padding-bottom:5px'});
-            objNewDiv.html("<img src='" + ret[item] + "' name='" + item + "' onclick='removePicture(\"" + item + "\")' width='220' height='150'>");
-            container.append(objNewDiv);
-        }
-
-        //重新加载取材信息列表
-        jQuery("#materialList").jqGrid("clearGridData");
-        jQuery("#materialList").jqGrid('setGridParam', {
-            url: "../pathologysample/pieces/ajax/getItem",
-            datatype: 'json',
-            postData: {"reqId": sampleId}
-        }).trigger('reloadGrid');//重新载入
-    });
-}
-
-function removePicture(pictureName) {
-    layer.msg('需要删除图片吗？', {
-        time: 3000, //自动关闭
-        btn: ['是', '否'],
-        yes: function (index) {
-            $.get("../diagnosis/removePicture", {
-                name: pictureName,
-                smapleid: GRID_SELECTED_ROW_SAMPLEID
-            }, function (data) {
-                var es = document.getElementsByName(pictureName);
-                var pn = es[0].parentNode;
-                pn.parentNode.removeChild(pn);
-            });
-            layer.close(index);
+            layer.msg("该医嘱申请不存在！", {icon: 0, time: 1000});
         }
     });
 }
@@ -807,28 +750,32 @@ $(function () {
 
     $("#sectionList").jqGrid({
         caption: "",
-        url: "../diagnosis/query",
+        url: "../order/getorders",
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
-        colNames: ['选择', '特检类型', '医嘱号', '申请医生', 'id', 'samcustomerid','sampathologyid'],
+        postData:{
+            specialCheck:$("#q_specialCheck").val(),
+            pathologyCode:$("#q_pathologyCode").val(),
+            startDate:$("#q_startDate").val(),
+            endDate:$("#q_endDate").val(),
+            patientName:$("#q_patientName").val(),
+        },
+        colNames: [ '特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId','ordCustomerId','ordPathologyCode','chiOrderState','samPathologyId'],
         colModel: [
             {
-                name: 'matsort', index: 'matsort', width: 20, align: "center",
-                formatter: "checkbox", formatoptions: {disabled: false}
+                name: 'chiOrderType',
+                index: 'chiOrderType',
+                width: 30
             },
-            {
-                name: 'samsamplestatus',
-                index: 'samsamplestatus',
-                width: 30,
-                formatter: "select",
-                editoptions: {value: "0:已登记;1:已取材;2:包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中;8:报告已打印"}
-            },
-            {name: 'sampathologycode', index: 'sampathologycode', width: 40},
-            {name: 'samsenddoctorname', index: 'samsenddoctorname', width: 40},
-            {name: 'sampleid', index: 'sampleid', hidden: true},
-            {name: 'samcustomerid', index: 'samcustomerid', hidden: true},
-            {name: 'sampathologyid', index: 'sampathologyid', hidden: true}
+            {name: 'orderCode', index: 'orderCode', width: 40},
+            {name: 'ordOrderUser', index: 'ordOrderUser', width: 40},
+            {name: 'orderId', index: 'orderId', hidden: true},
+            {name: 'ordSampleId', index: 'ordSampleId', hidden: true},
+            {name: 'ordCustomerId', index: 'ordCustomerId', hidden: true},
+            {name: 'ordPathologyCode', index: 'ordPathologyCode', hidden: true},
+            {name: 'chiOrderState', index: 'chiOrderState', hidden: true},
+            {name: 'samPathologyId', index: 'samPathologyId', hidden: true}
         ],
         loadComplete: function () {
             var table = this;
@@ -849,10 +796,10 @@ $(function () {
         pager: "#pager",
         onSelectRow: function (id) {
             var rowData = $("#sectionList").jqGrid('getRowData', id);
-            if (rowData != null && rowData.sampleid != null && rowData.sampleid != "")
-                getSampleData1(rowData.sampleid);
-            GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
-            GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
+            if (rowData != null && rowData.ordSampleId != null && rowData.ordSampleId != "")
+                getSampleData1(rowData.ordSampleId);
+            GRID_SELECTED_ROW_SAMPLEID = rowData.ordSampleId;
+            GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.ordSampleId;
         }
     });
 

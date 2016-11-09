@@ -40,7 +40,7 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
     public List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery, Long pathologyId) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT a.testitemid,a.teschinesename,a.tesenglishname,a.tesitemsort,a.tespinyincode,a.tesfivestroke,a.tesitemtype,").append(
-                "a.tespathologyid,a.tesitemhandle,a.tesischarge,a.tesuseflag,B.Patnamech,a.tesitemproperty from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
+                "a.tespathologyid,a.tesitemhandle,a.tesischarge,a.tesuseflag,B.Patnamech,a.tesitemproperty,a.tesisorder from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
                 "where A.Tespathologyid = B.Pathologyid");
         String query = gridQuery.getQuery();
         String sidx = gridQuery.getSidx();
@@ -72,6 +72,7 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
                 pimsSysReqTestitem1.setTesuseflag(((BigDecimal)obj[10]).longValue());
                 pimsSysReqTestitem1.setTespathologyname(String.valueOf(obj[11]==null?"":obj[11]));
                 pimsSysReqTestitem1.setTesitemproperty(((BigDecimal)obj[12]).longValue());
+                pimsSysReqTestitem1.setTesisorder(((BigDecimal)obj[13]).longValue());
                 pimsSysReqTestitem.add(pimsSysReqTestitem1);
             }
         }

@@ -11,6 +11,9 @@
     </excludes>
     <decorator name="none" page="Main.html">
         <pattern>/scripts/picture/*.htm*</pattern>
+    </decorator>/diagnosis/camera
+    <decorator name="none" page="camera.jsp">
+        <pattern>/diagnosis/camera</pattern>
     </decorator>
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>

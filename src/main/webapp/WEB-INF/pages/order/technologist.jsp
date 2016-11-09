@@ -146,7 +146,7 @@
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline;"><label>特检类型：</label>
-                                <select onchange="" id="sampathologyid">
+                                <select onchange="" id="q_specialCheck">
                                     <option value="">--请选择--</option>
                                     <option value='1'>补取</option>
                                     <option value='2'>重切</option>
@@ -156,13 +156,13 @@
                                     <option value='6'>分子病理</option>
                                 </select>
                             </div>
-                            <div><label>申请年月：</label><input type="text" id="samplesectionfrom"
+                            <div><label>申请年月：</label><input type="text" id="q_startDate"
                                                             style="width: 120px">~<input type="text"
                                                                                          style="width: 120px"
-                                                                                         id="samplesectionto"></div>
-                            <div style="display:inline;"><label>源病理号：</label><input type="text" id="sampathologycodeq"
+                                                                                         id="q_endDate"></div>
+                            <div style="display:inline;"><label>源病理号：</label><input type="text" id="q_pathologyCode"
                                                                                     style="width: 120px"></div>
-                            <div style="display:inline;"><label>病人名称：</label><input type="text" id="sampatientnameq" style="width: 120px">
+                            <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 120px">
                                 <button onclick="query()"> 查询</button></div>
                             <div style="display:inline;">
                                 <div style="text-align: left">

@@ -31,6 +31,16 @@ public class PimsSysReqTestitem extends BaseObject {
     private String tesreamrk;
     private String tescreateuser;
     private Date tescreatetime;
+    private long tesisorder;//是否是医嘱项目
+
+    @Column(name="tesisorder")
+    public long getTesisorder() {
+        return tesisorder;
+    }
+
+    public void setTesisorder(long tesisorder) {
+        this.tesisorder = tesisorder;
+    }
 
     @Column(name="tesitemproperty")
     public long getTesitemproperty() {

@@ -55,7 +55,7 @@ function  AddSection(){
                     tesitemtype : $('#tesitemtype').val(), tespathologyid : $('#tespathologyid').val(),
                     tesuseflag : $('#tesuseflag').val(), tesreamrk : $('#tesreamrk').val(),
                     tespinyincode : $('#tespinyincode').val(), tesfivestroke : $('#tesfivestroke').val(),
-                    tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+                    tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val(),tesisorder:$("#tesisorder").val()
                 },function(data){
                     layer.close(index);
                     $("#sectionList").trigger('reloadGrid');
@@ -66,7 +66,7 @@ function  AddSection(){
                     tesitemtype : $('#tesitemtype').val(), tespathologyid : $('#tespathologyid').val(),
                     tesuseflag : $('#tesuseflag').val(), tesreamrk : $('#tesreamrk').val(),tesitemproperty:$('#tesitemproperty').val(),
                     tespinyincode : $('#tespinyincode').val(), tesfivestroke : $('#tesfivestroke').val(),
-                    tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+                    tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val(),tesisorder:$("#tesisorder").val()
                 },function(data){
                     layer.close(index);
                     $("#sectionList").trigger('reloadGrid');
@@ -138,6 +138,7 @@ function editSection(){
             $("#tesuseflag").val(msg.tesuseflag);
             $("#tesreamrk").val(msg.tesreamrk);
             $('#tesitemproperty').val(msg.tesitemproperty);
+            $('#tesisorder').val(msg.tesisorder);
             var sortNo = msg.tesitemsort;
             $("#FN").val(sortNo.charAt(1));
             $("#SN").val(sortNo.charAt(2));
@@ -158,7 +159,7 @@ function editSection(){
                             tesitemtype : $('#tesitemtype').val(), tespathologyid : $('#tespathologyid').val(),
                             tesuseflag : $('#tesuseflag').val(), tesreamrk : $('#tesreamrk').val(),tesitemproperty:$('#tesitemproperty').val(),
                             tespinyincode : $('#tespinyincode').val(), tesfivestroke : $('#tesfivestroke').val(),
-                            tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+                            tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val(),tesisorder:$("#tesisorder").val()
                         },function(data){
                             layer.close(index);
                             $("#sectionList").trigger('reloadGrid');
@@ -169,7 +170,7 @@ function editSection(){
                             tesitemtype : $('#tesitemtype').val(), tespathologyid : $('#tespathologyid').val(),
                             tesuseflag : $('#tesuseflag').val(), tesreamrk : $('#tesreamrk').val(),tesitemproperty:$('#tesitemproperty').val(),
                             tespinyincode : $('#tespinyincode').val(), tesfivestroke : $('#tesfivestroke').val(),
-                            tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+                            tesitemsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val(),tesisorder:$("#tesisorder").val()
                         },function(data){
                             layer.close(index);
                             $("#sectionList").trigger('reloadGrid');
@@ -260,7 +261,7 @@ $(function(){
         mtype: "GET",
         datatype: "json",
         width:$('.leftContent').width(),
-        colNames: ['排序号','testitemid','中文名称','英文名称','tespathologyid','病种类别','项目类型','项目属性','内部遗嘱处理','是否需要计费','使用状态', '拼音码','五笔码'],
+        colNames: ['排序号','testitemid','中文名称','英文名称','tespathologyid','病种类别','项目类型','项目属性','医嘱项目','内部遗嘱处理','是否需要计费','使用状态', '拼音码','五笔码'],
         colModel: [
             { name: 'tesitemsort', index: 'tesitemsort', width: 30},
             { name: 'testitemid', index: 'testitemid', width: 30, hidden: true },
@@ -270,6 +271,7 @@ $(function(){
             { name: 'tespathologyname', index: 'tespathologyname', width: 30},
             { name: 'tesitemtype', index: 'tesitemtype', width: 30,formatter: "select", editoptions:{value:"1:申请开单项目;2:内部医嘱检测项目;3:内部医嘱技术处理项目"}},
             { name: 'tesitemproperty', index: 'tesitemproperty', width: 30,formatter: "select", editoptions:{value:"0:癌基因蛋白;1:单克隆抗体;"}},
+            { name: 'tesisorder', index: 'tesisorder', width: 30,formatter: "select", editoptions:{value:"1:是;0:否"}},
             { name: 'tesitemhandle', index: 'tesitemhandle', width: 50,formatter: "select", editoptions:{value:"1:取材处理;2:切片处理"}},
             { name: 'tesischarge', index: 'tesischarge', width: 30,formatter: "select", editoptions:{value:"1:是;0:否"}},
             { name: 'tesuseflag', index: 'tesuseflag', width: 30,formatter: "select", editoptions:{value:"1:启用;0:停用"}},
@@ -313,6 +315,7 @@ function  clearData(){
     $('#tesuseflag').val('1');
     $('#tesreamrk').val('');
     $('#tesitemproperty').val('100');
+    $('#tesisorder').val('100');
     $("#FN").val('0');$("#SN").val('0');$("#TN").val('0');
 
 }
