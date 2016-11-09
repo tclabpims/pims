@@ -51,28 +51,28 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
      */
     public StringBuffer getSearchSql(StringBuffer sb,PimsBaseModel map){
         if(!StringUtils.isEmpty(map.getLogyid())){
-            sb.append(" and sampathologyid = " + map.getLogyid());
+            sb.append(" and sampathologyid = " + map.getLogyid());//病种类别
         }
         if(map.getReq_bf_time() != null){
-            sb.append(" and piesamplingtime >= :req_bf_time");
+            sb.append(" and piesamplingtime >= :req_bf_time");//开始时间
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
-            sb.append(" and piestate = " + map.getReq_sts());
+            sb.append(" and piestate = " + map.getReq_sts());//包埋状态
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
             //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
-            sb.append(" and piepathologycode = " + map.getSend_dept());
+            sb.append(" and piepathologycode = " + map.getSend_dept());//病理编号
         }
         if(!StringUtils.isEmpty(map.getSend_hosptail())){
             //sb.append(" and samsendhospital = " + map.getSend_hosptail());
         }
 //        if(!StringUtils.isEmpty(map.getPatient_name())){
-//            sb.append(" and b.sampatientname = " + map.getPatient_name());
+//            sb.append(" and b.sampatientname = " + map.getPatient_name());//病人姓名
 //        }
         if(map.getReq_af_time() != null){
-            sb.append(" and  piesamplingtime < :req_af_time");
+            sb.append(" and  piesamplingtime < :req_af_time");//结束时间
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             //sb.append(" and saminspectionid = " + map.getReq_code());

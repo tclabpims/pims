@@ -43,14 +43,14 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
      */
     public StringBuffer getSearchSql(StringBuffer sb,PimsBaseModel map){
         if(!StringUtils.isEmpty(map.getLogyid())){
-            sb.append(" and sampathologyid = " + map.getLogyid());
+            sb.append(" and sampathologyid = " + map.getLogyid());//病种类别
         }
         if(map.getReq_bf_time() != null){
-            sb.append(" and samregisttime >= :req_bf_time");
+            sb.append(" and samregisttime >= :req_bf_time");//开始时间
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
             if(map.getReq_sts().equals("1")){
-                sb.append(" and samsamplestatus = " + map.getReq_sts());
+                sb.append(" and samsamplestatus = " + map.getReq_sts());//取材状态
             }else{
                 sb.append(" and samsamplestatus =  0");
             }
@@ -59,16 +59,16 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
             //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
-            sb.append(" and sampathologycode = " + map.getSend_dept());
+            sb.append(" and sampathologycode like '%" + map.getSend_dept().toUpperCase()+"%'");//病理编号
         }
         if(!StringUtils.isEmpty(map.getSend_hosptail())){
             //sb.append(" and samsendhospital = " + map.getSend_hosptail());
         }
         if(!StringUtils.isEmpty(map.getPatient_name())){
-            sb.append(" and sampatientname = " + map.getPatient_name());
+            sb.append(" and sampatientname  like '%" + map.getPatient_name()+"%'");//病人姓名
         }
         if(map.getReq_af_time() != null){
-            sb.append(" and  samregisttime < :req_af_time");
+            sb.append(" and  samregisttime < :req_af_time");//结束时间
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             //sb.append(" and saminspectionid = " + map.getReq_code());

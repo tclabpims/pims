@@ -68,13 +68,12 @@
 
 
     });
-
     function getQueryStringByName(name) {
         var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
         if (result == null || result.length < 1) {
             return "";
-
         }
+        //alert(result);
         return result[1];
     }
 
@@ -110,9 +109,9 @@
 
     .navbar-nav > li > a {
         padding-top: 8px;
-        padding-bottom: 7px
+        padding-bottom: 7px;
+        font-size: 16px!important;
     }
-
     .navbar-brand {
         height: 30px;
         padding-top: 8px;
@@ -131,6 +130,7 @@
                             key="menu.pb.pbcx"/></a></span>
                 </li>
             </c:if>
+            <menu:displayMenu name="Home"/>
             <menu:displayMenu name="SpecimenDispose"/>
             <menu:displayMenu name="PathologicalDiagnosis"/>
             <menu:displayMenu name="MedicalOrderTreatment"/>
@@ -142,10 +142,11 @@
         </ul>
         <input type="hidden" id="scode" value="210800"/>
         <input type="hidden" id="pathologyLibId"/>
-        <div id="hospital" class="collapse navbar-collapse" style="float:right;font-size:14px;color:white">
-            我的未处理工作：<a href="#" style="color: #ffffff">（10）</a>|
-            当前病种库：
-            <select onchange="changePathologyType()" id="pathologyType">
+        <div id="hospital" class="collapse navbar-collapse" style="float:right;font-size:14px;margin-top:8px;color:white">
+            <%--我的未处理工作：<a href="#" style="color: #ffffff">（10）</a>|--%>
+            病理库：
+            <select style="appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border: 0;font-size: 14px;color: #ffffff"
+                    onchange="changePathologyType()" id="pathologyType">
                     <%--<%
                         User user = WebControllerUtil.getAuthUser();
                         UserBussinessRelate ubr = user.getUserBussinessRelate();
@@ -177,14 +178,25 @@
         </select>
     </div>
 </div>
-<div style="width:100%;height: 25px;float:left;color:white">
-    <div style="float:left;padding-left: 15px;font-size:14px;" id="navigationBar"></div>
+<div style="width:100%;float:left;height: 30px;background-color: #ffffff">
+    <div style="float:left;padding-left: 15px;font-size:14px;color: #808080" id="navigationBar"></div>
     <div style="float:right;padding-right:15px;font-size:14px;">
-        <a href="/home" style="color: #ffffff">系统首页</a>
-        |<a href="#" style="color: #ffffff">打印机设定</a>
-        |<a href="#" style="color: #ffffff">修改密码</a>
-        |<a href="/logout" style="color: #ffffff">退出登录</a>
-        |<a href="#" style="color: #ffffff">系统帮助</a>
-        |<a href="#" style="color: #ffffff">联系我们</a>
+        <a href="#" style="background-color: green;border-radius:5px;float:left;margin-top: 2px;">&nbsp;
+            <img src="/styles/imagepims/nookwork.png">
+            <span style="color: #ffffff">我的未处理工作</span>&nbsp;<span style="color: red">(5)</span>&nbsp;
+        </a>
+        <ul style="float:left;list-style: none;margin-right: 20px">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: blue"><img src="/styles/imagepims/set.png">设置</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">打印机设定</a></li>
+                    <li><a href="#">病种再设定</a></li>
+                    <li><a href="#">修改密码</a></li>
+                    <li><a href="#">系统帮助</a></li>
+                    <li><a href="#">联系我们</a></li>
+                </ul>
+            </li>
+        </ul>
+        <a href="/logout"><img src="/styles/imagepims/lgout.png">退出</a>
     </div>
 </div>

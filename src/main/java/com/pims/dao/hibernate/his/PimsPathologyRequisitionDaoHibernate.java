@@ -32,13 +32,13 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
      */
     public StringBuffer getStringSql(StringBuffer buffer,PimsBaseModel pims){
         if (!StringUtils.isEmpty(pims.getReq_code())) {
-            buffer.append("and RequisitionNo like '%" + pims.getReq_code()+"%'");//申请单号
+            buffer.append("and RequisitionNo like '%" + pims.getReq_code().toUpperCase()+"%'");//申请单号
         }
         if (!StringUtils.isEmpty(pims.getPatient_name())) {
-            buffer.append(" and ReqPatientName  like '%" + pims.getPatient_name()+"%'");//病人姓名
+            buffer.append(" and ReqPatientName  like '%" + pims.getPatient_name().toUpperCase()+"%'");//病人姓名
         }
         if (!StringUtils.isEmpty(pims.getSend_hosptail())) {
-            buffer.append(" and  ReqSendHospital = " + pims.getSend_hosptail());//送检医院
+            buffer.append(" and  ReqSendHospital like '%" + pims.getSend_hosptail().toUpperCase()+"%'");//送检医院
         }
         if (pims.getReq_bf_time() != null) {
             buffer.append(" and ReqDate >= :req_bf_time");//起始时间
@@ -47,10 +47,10 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
             buffer.append(" and  ReqDate < :req_af_time");//截至时间
         }
         if (!StringUtils.isEmpty(pims.getSend_dept())) {
-            buffer.append(" and  ReqDeptName = " + pims.getSend_dept());//送检科室
+            buffer.append(" and  ReqDeptName like '%" + pims.getSend_dept().toUpperCase()+"%'");//送检科室
         }
         if (!StringUtils.isEmpty(pims.getSend_doctor())) {
-            buffer.append(" and ReqDoctorName = " + pims.getSend_doctor());//送检医生
+            buffer.append(" and ReqDoctorName like '%" + pims.getSend_doctor().toUpperCase()+"%'");//送检医生
         }
         if (!StringUtils.isEmpty(pims.getReq_sts())) {
             buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态

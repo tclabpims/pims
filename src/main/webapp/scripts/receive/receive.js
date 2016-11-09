@@ -6,19 +6,17 @@ var hrefval = "";//状态
 function getSampleData(id,receid) {
 	$.get("../message/message/get",{id:id},function(data) {
 		if(data != "") {
-			if(data.receivests == "0"){
-				$.ajax({
-					type:"post",
-					async:false,
-					url:"../receive/receive/editSample",
-					dataType: "json",
-					data:{id:receid},
-					success:function(data){
-						if (data.success) {
-						}
+			$.ajax({
+				type:"post",
+				async:false,
+				url:"../receive/receive/editSample",
+				dataType: "json",
+				data:{id:receid},
+				success:function(data){
+					if (data.success) {
 					}
-				});
-			}
+				}
+			});
 			$("#mescontent").val(data.mescontent);
 			$("#messendername").val(data.messendername);
 			$("#meshandletime").val(CurentTime(new Date(data.meshandletime)));

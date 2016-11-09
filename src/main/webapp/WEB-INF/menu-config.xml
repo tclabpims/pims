@@ -4,8 +4,8 @@
         <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
     </Displayers>
     <Menus>
-        <!--<Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER"/>
-        <Menu name="SampleManage" title="sample.manage.title" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        <Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+        <!--<Menu name="SampleManage" title="sample.manage.title" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
         	<Item name="Input" title="sample.manage.input" page="/manage/input" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         	<Item name="Execute" title="sample.manage.execute" page="/manage/execute" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="Modify" title="sample.manage.modify" page="/manage/modify" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
