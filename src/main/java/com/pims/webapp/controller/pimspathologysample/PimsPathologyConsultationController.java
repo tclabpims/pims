@@ -146,6 +146,10 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
         //蜡块个数
         int nums = pimsPathologyConsultationManager.getParaNums(Long.parseLong(code));
         pathMap.put("paranums",nums);
+
+        PimsPathologyConsultation cons = pimsPathologyConsultationManager.getConsInfo(pathology.getSampleid());
+        pathMap.put("consstate",cons.getConconsultationstate());//查询会诊状态
+        pathMap.put("detconsultationid",cons.getConsultationid());//查询会诊ID
         //病理诊断
         //免组染色
         //HPV结果
@@ -198,6 +202,8 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
         //更改会诊结果信息
         if(con.getConsponsoreduserid() != null && !con.getConsponsoreduserid().equals(String.valueOf(user.getId()))){
             PimsConsultationDetail condet = (PimsConsultationDetail)setBeanProperty(request,PimsConsultationDetail.class);
+            condet.setDetdoctorid(String.valueOf(user.getId()));
+            condet.setDetconsultationid(con.getConsultationid());
             pimsConsultationDetailManager.updateDetil(condet);
         }
         //更新单据信息
@@ -220,6 +226,7 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
         JSONObject o = new JSONObject();
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PimsPathologySample sample = (PimsPathologySample)setBeanProperty(request,PimsPathologySample.class);
+        sample = pimsPathologySampleManager.getBySampleNo(sample.getSampleid());
         String  userList = request.getParameter("userlist");
         com.alibaba.fastjson.JSONArray users = JSON.parseArray(userList);
         PimsPathologyConsultation con = new PimsPathologyConsultation();

@@ -204,7 +204,7 @@ $(function() {
 		rowNum: 10,
 		rowList:[10,20,30],
 		rownumbers: true, // 显示行号
-		rownumWidth: 10, // the width of the row numbers columns
+		rownumWidth: 35, // the width of the row numbers columns
 		pager: "#pager"
 	});
 	$("#pager_left").remove();

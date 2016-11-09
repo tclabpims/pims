@@ -97,7 +97,7 @@ $(function() {
 	var clientHeight= $(window).innerHeight();
 	var height = $("#formDialog").height() - $('#search_div_1').height()+70;
 	var width = $('#search_div_1').width()-5;
-	var width1 = $("#sampleForm").width()-5;
+	var width1 = $("#div_main").width();
 
 	createNew1("",width1);
 
@@ -154,7 +154,7 @@ $(function() {
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:height,
+		height:390,
 		width: width,
 		shrinkToFit:false,
 		autoScroll: true,
