@@ -97,6 +97,7 @@ public class PimsPathologySampleController extends PIMSBaseController{
         JSONObject pathMap = getJSONObject(pathology);
         pathMap.put("patIsSampling",psp.getPatissampling());
         pathMap.put("specialCheck",psp.getPatisspecialcheck());
+        pathMap.put("pathologyid",psp.getPathologyid());
         PrintwriterUtil.print(response, pathMap.toString());
     }
 

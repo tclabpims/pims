@@ -24,5 +24,20 @@ public interface PimsSysReqTestitemManager extends GenericManager<PimsSysReqTest
 
     List<PimsSysReqTestitem> allTestItem();
 
+    /**
+     * 根据套餐ID取检查项目列表
+     * @param aLong 套餐ID
+     * @return
+     */
     List<PimsSysReqTestitem> getTestItems(Long aLong);
+
+
+    /**
+     * 按照病种编号、取材要求、特检要求取医嘱项目
+     * @param pathologyId
+     * @param specialCheck
+     * @param patIsSampling
+     * @return
+     */
+    List<PimsSysReqTestitem> orderTreatmentItem(Long pathologyId, Long specialCheck, Long patIsSampling);
 }

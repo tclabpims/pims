@@ -50,6 +50,26 @@ public class PIMSBaseController {
 
     protected final String contentType = "application/json; charset=UTF-8";
 
+    private Date start;
+
+    private Date end;
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
     protected List<File> multifileUpload(MultipartFile[] imgFile, String path, String sampleId) throws IOException {
         List<File> ret = new ArrayList<>();
         File savePath = new File(path);

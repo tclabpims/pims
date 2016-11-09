@@ -357,7 +357,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             for (File file : uploadFiles) {
                 PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), file, (filePath.list().length + 1), request);
                 map.put("name", pp.getPicpicturename());
-                map.put("src", customerFileDir + "/" + file.getName());
+                map.put("src", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/"+customerFileDir + "/" + file.getName());
             }
         }
         response.setContentType(contentType);

@@ -537,11 +537,7 @@
             <div style="width: 100%;height: 20px;font-weight:bold;">特殊检查</div>
             <div style="width: 100%;height: 23%;">
                 <div style="padding-top:5px;">医嘱号：<input id="ordercode" value="" readonly style="width: 120px;border-width: 0px 0px 1px 0px">检查类型：
-                    <select name="" id="reqType" style="width: 120px;border-width: 0px 0px 1px 0px">
-                        <option value="1">免疫组化</option>
-                        <option value="2">特殊染色</option>
-                        <option value="3">分子病理</option>
-                    </select>
+                    <input name="reqType" id="reqType" readonly style="width: 120px;border-width: 0px 0px 1px 0px">
                 </div>
                 <div style="padding-top:5px;">
                     源病理号：<input id="yblNo" readonly style="width: 120px;border-width: 0px 0px 1px 0px">

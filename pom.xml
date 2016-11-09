@@ -156,6 +156,19 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>8.1.14.v20131031</version>
                 <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>8080</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                    </webAppConfig>
+                    <stopPort>9966</stopPort>
+                    <stopKey>foo</stopKey>
+                    <contextXml>${project.basedir}/src/main/resources/jetty-context.xml</contextXml>
                     <webApp>
                         <contextPath>/</contextPath>
                     </webApp>
@@ -1139,9 +1152,9 @@
                 <jdbc.artifactId>ojdbc14</jdbc.artifactId>
                 <jdbc.version>10.2.0.4.0</jdbc.version>
                 <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
-                <jdbc.url>jdbc:oracle:thin:@localhost:1521:orcl</jdbc.url>
-                <jdbc.username>system</jdbc.username>
-                <jdbc.password>Orcl123456789</jdbc.password>
+                <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:pims</jdbc.url>
+                <jdbc.username>pathology</jdbc.username>
+                <jdbc.password>pathology#123</jdbc.password>
                 <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
             </properties>
         </profile>
@@ -1239,9 +1252,9 @@
         <jdbc.artifactId>ojdbc14</jdbc.artifactId>
         <jdbc.version>10.2.0.4.0</jdbc.version>
         <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
-        <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</jdbc.url>
-        <jdbc.username>system</jdbc.username>
-        <jdbc.password>Orcl123456789</jdbc.password>
+        <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:pims</jdbc.url>
+        <jdbc.username>pathology</jdbc.username>
+        <jdbc.password>pathology#123</jdbc.password>
         <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
 
         <!-- <dbunit.dataTypeFactoryName>org.dbunit.ext.mysql.MySqlDataTypeFactory</dbunit.dataTypeFactoryName>

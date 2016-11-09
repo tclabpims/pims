@@ -175,10 +175,12 @@ function ajaxFileUpload() {
         fileElementId: ["imgFile"],
         dataType: 'json',
         data: {sampleid: GRID_SELECTED_ROW_SAMPLEID, samcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID},
-        success: function (data) {
+        success: function (data,status) {
+
+        },
+        error: function(data, status, e){
             var container = $("#imgContainer");
-            var objNewDiv = $('<div>', {'id': 'mydiv', 'style': 'padding-bottom:5px'});
-            objNewDiv.html("<img src='" + data.src + "' width='220' onclick='removePicture(\"" + data.name + "\")' height='150'>");
+            var objNewDiv = "<div id='mydiv' style='padding-bottom:5px'><img src='" + data.src + "' width='220' onclick='removePicture(\"" + data.name + "\")' height='150'></div>";
             container.append(objNewDiv);
             layer.msg('上传成功！', {icon: 2, time: 1000});
         }
@@ -276,14 +278,20 @@ var commonDiagnosis = "<option value='1'>补取</option><option value='2'>重切
 //如果病种是特殊检验，医嘱里面允许以下操作
 var specialDiagnosis = "<option value='4'>免疫组化</option><option value='5'>特殊染色</option><option value='6'>分子病理</option>";
 
-function createOptions(patIsSampling, specialCheck) {
+function createOptions(pathologyid,patIsSampling, specialCheck) {
     $("#yizhugl").empty();
-    if (patIsSampling == 0) {
-        $("#yizhugl").append(commonDiagnosis);
-    }
-    if (specialCheck == 0) {
-        $("#yizhugl").append(specialDiagnosis);
-    }
+    $.get("../estitem/orderitem",{
+        pathologyId:pathologyid,
+        patIsSampling:patIsSampling,
+        specialCheck:specialCheck
+    },function(data){
+        if(data != null && data.length > 0) {
+            for(var i = 0; i < data.length; i++) {
+                var opt_ = "<option testitemid='"+data[i].testitemid+"' value='"+data[i].tesenglishname+"'>"+data[i].teschinesename+"</option>";
+                $("#yizhugl").append(opt_);
+            }
+        }
+    });
 }
 
 function reqyizhu() {
@@ -295,7 +303,7 @@ function reqyizhu() {
     var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
     var rowData = $("#sectionList").jqGrid('getRowData', selrow);
     //如果是特检医嘱 打开特检相应的页面
-    if (yizhutype == 4 || yizhutype == 5 || yizhutype == 6) {
+    if (yizhutype == 'MYZH' || yizhutype == 'TSRS' || yizhutype == 'FZBL') {
         layer.open({
             type: 1,
             title: '病理诊断>病理医嘱申请',
@@ -314,6 +322,7 @@ function reqyizhu() {
                 $("#patientAge").val($("#sampatientage").val());//年龄
                 $("#yblNo").val(rowData.sampathologycode);//病理号
                 $("#ytxm").val($("#saminspectionid").val());//条码号
+                $("#reqType").val($("#yizhugl").find("option:selected").text());//检查类型
 
                 $("#sampleid").val(rowData.sampleid);
                 $("#customerId").val(rowData.samcustomerid);
@@ -363,9 +372,8 @@ function saveSpecialDiagnosis(lindex) {
     var customerId = $("#customerId").val();
     var pathologyCode = $("#pathologyCode").val();
     var ordercode = $("#ordercode").val();
-    var reqType = $("#reqType").val();
     var paraffinId = $("#lkxz").val();
-
+    var testItemId = $("#yizhugl").find("option:selected").attr("testitemid");
     if($.trim(sampleId) == "" ) {
         layer.alert("标本号不存在", {icon: 1, title: "提示"});
         return false;
@@ -408,13 +416,12 @@ function saveSpecialDiagnosis(lindex) {
     var inventory = 0;
     var need = items.length + parseInt(d.yuliu);
     if(need > d.kucun) inventory = need - d.kucun;
-    //alert(inventory);
     $.get("../order/save", {
         reqDoctor:reqDoctor,reqDoctorId:reqDoctorId,
         reqDate:reqDate,
         paraffinCode:paraffinCode,sampleId:sampleId,
         customerId:customerId,pathologyCode:pathologyCode,
-        orderCode:ordercode,reqType:reqType,
+        orderCode:ordercode,testItemId:testItemId,
         paraffinId:paraffinId,items:JSON.stringify(items),
         inventory:inventory
     }, function(){
@@ -491,7 +498,7 @@ function getSampleData1(id) {
             $("#sampatientbed").val(data.sampatientbed);//患者床号
             $("#sampatientage").val(data.sampatientage);//患者床号
 
-            createOptions(data.patIsSampling, data.specialCheck);
+            createOptions(data.pathologyid, data.patIsSampling, data.specialCheck);
 
             var mills = data.saminitiallytime;
             var t1;
@@ -581,7 +588,7 @@ function removePicture(pictureName) {
         yes: function (index) {
             $.get("../diagnosis/removePicture", {
                 name: pictureName,
-                smapleid: GRID_SELECTED_ROW_SAMPLEID
+                sampleid: GRID_SELECTED_ROW_SAMPLEID
             }, function (data) {
                 var es = document.getElementsByName(pictureName);
                 var pn = es[0].parentNode;
@@ -848,9 +855,9 @@ $(function () {
         onSelectRow: function (id) {
             var rowData = $("#sectionList").jqGrid('getRowData', id);
             if (rowData != null && rowData.sampleid != null && rowData.sampleid != "")
+                GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
+                GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
                 getSampleData1(rowData.sampleid);
-            GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
-            GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
         }
     });
 

@@ -9,8 +9,10 @@ import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderCheckManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderChildManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
+import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
+import com.smart.webapp.util.DataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,27 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     @Autowired
     private PimsPathologySlideManager pimsPathologySlideManager;
 
+    @RequestMapping(value = "/getorders", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        GridQuery gridQuery = new GridQuery(request);
+        String specialCheck = request.getParameter("specialCheck");
+        String pathologyCode = request.getParameter("pathologyCode");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        String patientName = request.getParameter("patientName");
+        String orderState = request.getParameter("orderState");
+        List result = pimsPathologyOrderManager.getOrders(gridQuery, specialCheck, pathologyCode, startDate, endDate, patientName, orderState);
+        Integer total = pimsPathologyOrderManager.countOrders(specialCheck, pathologyCode, startDate, endDate, patientName, orderState);
+        dr.setRecords(total);
+        dr.setPage(gridQuery.getPage());
+        dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));
+        dr.setRows(getResultMap(result));
+        response.setContentType(contentType);
+        return dr;
+    }
+
     @RequestMapping(value = "/technologist", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView technologist(HttpServletRequest request, HttpServletResponse response) {
@@ -64,9 +86,9 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         String reqDate = request.getParameter("reqDate");//申请日期
         //int whitePieceNo = Integer.valueOf(request.getParameter("whitePieceNo"));//白片数量
         String paraffinCode = request.getParameter("paraffinCode");//蜡块编号
-        int reqType = Integer.valueOf(request.getParameter("reqType"));//申请类型
-        int inventory = Integer.valueOf(request.getParameter("inventory"));//切白片数
+        Integer inventory = Integer.valueOf(request.getParameter("inventory"));//切白片数
         long paraffinId = Long.valueOf(request.getParameter("paraffinId"));//蜡块ID
+        long testItemId = Long.valueOf(request.getParameter("testItemId"));//医嘱申请的开单项目ID
         String items = request.getParameter("items");//检查项目
 
         JSONArray array = JSONArray.parseArray(items);
@@ -85,7 +107,7 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         pathologyOrder = pimsPathologyOrderManager.save(pathologyOrder);
 
         //保存医嘱子项信息
-        PimsPathologyOrderChild orderChild = saveOrderChild(pathologyOrder, paraffinCode, paraffinId, inventory, reqType);
+        PimsPathologyOrderChild orderChild = saveOrderChild(pathologyOrder, paraffinCode, paraffinId, inventory, testItemId);
 
         //保存检验项目信息
         int totalItem = saveOrderCheckItem(pathologyOrder, orderChild.getChildorderid(), array, orderChild.getChiordertype());
@@ -96,13 +118,14 @@ public class PimsPathologyOrderController extends PIMSBaseController {
 
     }
 
-    private PimsPathologyOrderChild saveOrderChild(PimsPathologyOrder pathologyOrder, String paraffinCode, long paraffinId, int whitePieceNo, int reqType) {
+    private PimsPathologyOrderChild saveOrderChild(PimsPathologyOrder pathologyOrder, String paraffinCode, long paraffinId, int whitePieceNo, long testItemId) {
         PimsPathologyOrderChild orderChild = new PimsPathologyOrderChild();
-        //if(reqType == 4 || reqType == 5 || reqType == 6) reqType = 2;
-        orderChild.setChiordertype((long)reqType);
+        //医嘱类型设置为检查项目的ID
+        orderChild.setChiordertype(testItemId);
         orderChild.setChiparaffincode(paraffinCode);
         orderChild.setChiparaffinid(paraffinId);
         orderChild.setChicreatetime(new Date());
+        orderChild.setTestItemId(testItemId);
         orderChild.setChicreateuser(pathologyOrder.getOrdorderuser());
         orderChild.setChicustomercode(pathologyOrder.getOrdcustomercode());
         orderChild.setChireqtime(pathologyOrder.getOrdcreatetime());

@@ -71,4 +71,28 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
         query.setParameter("packageId", aLong);
         return query.list();
     }
+
+    /**
+     * 按照病种编号、取材要求、特检要求取医嘱项目
+     *
+     * @param pathologyId   医嘱ID
+     * @param specialCheck  是否特检
+     * @param patIsSampling 是否取材
+     * @return 申请检查项目
+     */
+    @Override
+    public List<PimsSysReqTestitem> orderTreatmentItem(Long pathologyId, Long specialCheck, Long patIsSampling) {
+        StringBuilder hql = new StringBuilder("from PimsSysReqTestitem where tespathologyid=:pathologyId and tesuseflag=1 ");
+        if(specialCheck == 0L && patIsSampling == 0L) {
+            hql.append(" and (tesitemtype=1 or tesitemtype=3) ");
+        } else if(specialCheck == 1L && patIsSampling == 0L) {
+            hql.append(" and tesitemtype=3 ");
+        } else if(specialCheck == 0L && patIsSampling == 1L) {
+            hql.append(" and tesitemtype=1 ");
+        }
+
+        Query query = getSession().createQuery(hql.toString());
+        query.setParameter("pathologyId", pathologyId);
+        return query.list();
+    }
 }

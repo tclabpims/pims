@@ -36,15 +36,17 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 		return new ModelAndView();
 	}
 
-	@RequestMapping(method = {RequestMethod.GET}, value = "/querytestitem")
+	@RequestMapping(method = {RequestMethod.GET}, value = "/orderitem")
 	@ResponseBody
-	public void queryTestItem(HttpServletRequest request, HttpServletResponse response) {
-		String query = request.getParameter("query");
-		Map<String, Object> param = new HashMap<>();
-		param.put("name", query);
-		param.put("isCharge", request.getParameter("isCharge"));
-		param.put("filter", request.getParameter("filter"));
-		List<PimsSysReqTestitem> lis = pimsSysReqTestitemManager.getTestitemInfo(param);
+	public void orderTreatmentItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Long patIsSampling = Long.valueOf(request.getParameter("patIsSampling"));
+		Long specialCheck = Long.valueOf(request.getParameter("specialCheck"));
+		Long pathologyId = Long.valueOf(request.getParameter("pathologyId"));
+		List<PimsSysReqTestitem> lis = pimsSysReqTestitemManager.orderTreatmentItem(pathologyId, specialCheck, patIsSampling);
+		printResult(lis, response);
+	}
+
+	private void printResult(List<PimsSysReqTestitem> lis, HttpServletResponse response) {
 		com.alibaba.fastjson.JSONArray result = new com.alibaba.fastjson.JSONArray();
 		if(lis.size() > 0) {
 			for(PimsSysReqTestitem item : lis) {
@@ -58,6 +60,18 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 		}
 		response.setContentType(contentType);
 		PrintwriterUtil.print(response, result.toString());
+	}
+
+	@RequestMapping(method = {RequestMethod.GET}, value = "/querytestitem")
+	@ResponseBody
+	public void queryTestItem(HttpServletRequest request, HttpServletResponse response) {
+		String query = request.getParameter("query");
+		Map<String, Object> param = new HashMap<>();
+		param.put("name", query);
+		param.put("isCharge", request.getParameter("isCharge"));
+		param.put("filter", request.getParameter("filter"));
+		List<PimsSysReqTestitem> lis = pimsSysReqTestitemManager.getTestitemInfo(param);
+		printResult(lis, response);
 	}
 
 	@RequestMapping(method = {RequestMethod.POST}, value = "/edit")

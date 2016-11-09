@@ -10,6 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "PIMS_PATHOLOGY_ORDER_CHILD")
 public class PimsPathologyOrderChild {
+    private long testItemId;
     private long childorderid;
     private long chiorderid;
     private String chiordercode;
@@ -42,6 +43,15 @@ public class PimsPathologyOrderChild {
     private Date chifirstd;
     private Date chicreatetime;
     private String chicreateuser;
+
+    @Column(name="TESTITEMID")
+    public long getTestItemId() {
+        return testItemId;
+    }
+
+    public void setTestItemId(long testItemId) {
+        this.testItemId = testItemId;
+    }
 
     @Id
     @Column(name = "CHILDORDERID")

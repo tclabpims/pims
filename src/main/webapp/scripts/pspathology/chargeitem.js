@@ -204,8 +204,8 @@ $(function(){
                 success: function( data ) {
                     response( $.map( data, function( result ) {
                         return {
-                            label: result.teschinesename,
-                            value: result.tesenglishname,
+                            label: result.tesenglishname,
+                            value: result.teschinesename,
                             id : result.testitemid
                         }
                     }));
@@ -214,8 +214,8 @@ $(function(){
         },
         minLength: 0,
         select: function( event, ui ) {
-            $("#chinesename").val(ui.item.label);
-            $("#chienglishname").val(ui.item.value);
+            $("#chinesename").val(ui.item.value);
+            $("#chienglishname").val(ui.item.label);
             $("#testitemid").val(ui.item.id);
             //$( "#reqDoctorId" ).val(ui.item.id);
             //$( "#reqDoctor" ).val(ui.item.value);
