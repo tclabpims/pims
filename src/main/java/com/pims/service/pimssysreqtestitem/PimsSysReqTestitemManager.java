@@ -40,4 +40,6 @@ public interface PimsSysReqTestitemManager extends GenericManager<PimsSysReqTest
      * @return
      */
     List<PimsSysReqTestitem> orderTreatmentItem(Long pathologyId, Long specialCheck, Long patIsSampling);
+
+    List<PimsSysReqTestitem> allValidOrderItem();
 }

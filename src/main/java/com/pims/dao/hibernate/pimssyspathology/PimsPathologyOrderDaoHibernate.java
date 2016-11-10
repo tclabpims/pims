@@ -28,9 +28,9 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
 
     @Override
     public List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
-        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,c.ChiOrderType,c.ChiOrderState,s.SamPathologyId ");
-        builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s where ");
-        builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid ");
+        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId ");
+        builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s,PIMS_SYS_REQ_TESTITEM t where ");
+        builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid and t.testitemid=c.testItemId ");
         if(specialCheck != null && !"".equals(specialCheck.trim())) {
             builder.append(" and c.ChiOrderType=:specialCheck");
         }
@@ -78,8 +78,8 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
     @Override
     public Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
         StringBuilder builder = new StringBuilder("select count(1) cnt ");
-        builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s where ");
-        builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid ");
+        builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s,PIMS_SYS_REQ_TESTITEM t where ");
+        builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid and t.testitemid=c.testItemId ");
         if(specialCheck != null && !"".equals(specialCheck.trim())) {
             builder.append(" and c.ChiOrderType=:specialCheck");
         }

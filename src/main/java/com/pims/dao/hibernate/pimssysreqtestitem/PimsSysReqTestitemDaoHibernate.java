@@ -95,4 +95,13 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
         query.setParameter("pathologyId", pathologyId);
         return query.list();
     }
+
+    /**
+     * @return 取系统 申请检查项目 中设置过的医嘱项目
+     */
+    @Override
+    public List<PimsSysReqTestitem> allValidOrderItem() {
+        Query query = getSession().createQuery("from PimsSysReqTestitem where tesuseflag=1 and tesisorder=1");
+        return query.list();
+    }
 }

@@ -30,5 +30,11 @@ public interface PimsSysReqTestitemDao extends GenericDao<PimsSysReqTestitem,Lon
      * @return 申请检查项目
      */
     List<PimsSysReqTestitem> orderTreatmentItem(Long pathologyId, Long specialCheck, Long patIsSampling);
+
+    /**
+     *
+     * @return 取系统 申请检查项目 中设置过的医嘱项目
+     */
+    List<PimsSysReqTestitem> allValidOrderItem();
 }
 

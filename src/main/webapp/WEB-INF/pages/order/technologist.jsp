@@ -146,14 +146,8 @@
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline;"><label>特检类型：</label>
-                                <select onchange="" id="q_specialCheck">
+                                <select id="q_specialCheck">
                                     <option value="">--请选择--</option>
-                                    <option value='1'>补取</option>
-                                    <option value='2'>重切</option>
-                                    <option value='3'>深切</option>
-                                    <option value='4'>免疫组化</option>
-                                    <option value='5'>特殊染色</option>
-                                    <option value='6'>分子病理</option>
                                 </select>
                             </div>
                             <div><label>申请年月：</label><input type="text" id="q_startDate"

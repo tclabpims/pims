@@ -13,179 +13,6 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
-
-var targetTextareaId;
-function showTemplate(v, target) {
-    targetTextareaId = target;
-    var a = $(function () {
-        jQuery("#templateList").jqGrid('setGridParam', {
-            url: "../diagnosis/getpathologytemp",
-            mtype: "GET",
-            datatype: "json",
-            postData: {
-                "type": v
-            },
-            page: 1
-        }).trigger('reloadGrid');//重新载入
-    })
-}
-
-function createImgElement(src) {
-    var ret = jQuery.parseJSON(src);
-    var container = $("#imgContainer");
-    var c = ret.continuous;
-    if (c == "false") {
-        container.empty();
-    }
-    var objNewDiv = $('<div>', {'id': 'mydiv', 'style': 'padding-bottom:5px'});
-    objNewDiv.html("<img src='" + ret.src + "' width='220' onclick='removePicture(\"" + ret.name + "\")' height='150'>");
-    container.append(objNewDiv);
-}
-
-function appendIFileElement(data) {
-
-}
-
-function saveAsTemplate(v, obj) {
-    $('#temkey').val('');
-    $('#tempinyin').val('');
-    $('#temfivestroke').val('');
-    $('#temspellcode').val('');
-    $('#temsort').val('');
-    $("#FN").val('0');
-    $("#SN").val('0');
-    $("#TN").val('0');
-    $("#temcontent").val(document.getElementById(obj).value);
-    layer.open({
-        type: 1,
-        area: ['800px', '500px'],
-        fix: false, //不固定
-        maxmin: true,
-        shade: 0.5,
-        title: "模板",
-        content: $('#templateForm'),
-        btn: ["确定", "取消"],
-        yes: function (index, layero) {
-            $.post('../diagnosis/edit', {
-                temcontent: $('#temcontent').val(),
-                temtype: $('#owner').attr("checked") == true ? 1 : 0, temclass: v,
-                temkey: $('#temkey').val(),
-                temfivestroke: $('#temfivestroke').val(), temspellcode: $('#temspellcode').val(),
-                tempinyin: $('#tempinyin').val(), temsort: "A" + $("#FN").val() + $("#SN").val() + $("#TN").val()
-            }, function (data) {
-                layer.close(index);
-            });
-        }
-    })
-
-}
-
-function saveDiagnosisInfo() {
-    var x = document.getElementById("diagnosisInfoForm");
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
-    var rowData = $("#sectionList").jqGrid('getRowData', id);
-    var result = [];
-    var j = 0;
-    for (var i = 0; i < x.length; i++) {
-        if (x.elements[i].type == 'textarea') {
-            var e = x.elements[i];
-            var data = {};
-            data.resultid = $("#" + e.id).attr("hiddenValue");
-            data.resviewtype = e.type;
-            data.restestresult = e.value;
-            data.restestitemid = $("#" + e.id).attr("rptItemId");
-            data.resviewtitle = e.placeholder;
-            data.resviewsort = $("#" + e.id).attr("printOrder");
-            data.resinputsort = $("#" + e.id).attr("showOrder");
-            data.ressampleid = rowData.sampleid;
-            result[j] = data;
-            j++;
-        }
-    }
-    $.post('../diagnosis/saveResult', {result: JSON.stringify(result)}, function (data) {
-        for (var i = 0; i < x.length; i++) {
-            if (x.elements[i].type == 'textarea') {
-                var e = x.elements[i];
-                var restestitemid = $("#" + e.id).attr("rptItemId");
-                if (data[restestitemid]) {
-                    $("#" + e.id).attr("hiddenValue", data[restestitemid]);
-                }
-            }
-        }
-        layer.msg('保存成功！', {icon: 2, time: 1000});
-    });
-}
-
-function takingPicture() {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
-    layer.open({
-        type: 1,
-        title: '病理诊断>图像采集',
-        shadeClose: true,
-        shade: false,
-        maxmin: true, //开启最大化最小化按钮
-        area: ['320px', '360px'],
-        content: $('#flashContent'),
-        success: function (layero, index) {
-
-        }
-    });
-}
-
-function importImg() {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
-    layer.open({
-        type: 1,
-        title: '病理诊断>图像导入',
-        shadeClose: true,
-        shade: false,
-        maxmin: true, //开启最大化最小化按钮
-        area: ['260px', '300px'],
-        content: $('#uploadDialog'),
-        btn: ["确定", "取消"],
-        yes: function (index, layero) {
-            if ($("#imgFile").val().length > 0) {
-                ajaxFileUpload();
-                layer.close(index);
-            }
-            else {
-                layer.msg('请先选择图片', {icon: 2, time: 1000});
-                return false;
-            }
-        }
-    });
-}
-
-function ajaxFileUpload() {
-    $.ajaxFileUpload({
-        url: '../diagnosis/uploadimg',
-        secureuri: false,
-        fileElementId: ["imgFile"],
-        dataType: 'json',
-        data: {sampleid: GRID_SELECTED_ROW_SAMPLEID, samcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID},
-        success: function (data) {
-            var container = $("#imgContainer");
-            var objNewDiv = $('<div>', {'id': 'mydiv', 'style': 'padding-bottom:5px'});
-            objNewDiv.html("<img src='" + data.src + "' width='220' onclick='removePicture(\"" + data.name + "\")' height='150'>");
-            container.append(objNewDiv);
-            layer.msg('上传成功！', {icon: 2, time: 1000});
-        }
-    });
-    return false;
-}
-
 function search() {
     var query = $('#query').val() || '';
     jQuery("#sectionList").jqGrid('setGridParam', {
@@ -204,267 +31,18 @@ $(function () {
         }
     });
 });
-function clearData() {
-    $('#fieelementtype').val('input');
-    $('#fieelementid').val('');
-    $('#fieelementname').val('');
-    $('#fieshowlevel').val('');
-    $('#fiepelementid').val('');
-    $('#fiedefaultvalue').val('');
-    $('#fieshoworder').val('');
-    $('#fieuseflag').val('1');
-    $('#fieremark').val('');
-}
 
-function doctorSign(f) {
-    var reportTime = $("#samreportedtime").val();
-    if (f == 1 || f == 3 || (f == 0 && reportTime != '')) {
-        $.get("../diagnosis/signdoctor", {}, function (data) {
-            if (f == 1) {
-                $("#saminitiallyusername").val(data.name);
-                $("#saminitiallytime").val(data.time);
-                $("#saminitiallyuserid").val(data.id);
-            } else if (f == 3) {
-                $("#samauditer").val(data.name);
-                $("#samauditedtime").val(data.time);
-                $("#samauditerid").val(data.id);
-            } else {
-                $("#samreportor").val(data.name);
-                $("#samreportorid").val(data.id);
-            }
-        });
-    }
-
-    if (f == 2 || f == 4) {
-        if (f == 2) {
-            $("#saminitiallyusername").val('');
-            $("#saminitiallytime").val('');
-            $("#saminitiallyuserid").val('');
-        } else {
-            $("#samauditer").val('');
-            $("#samauditedtime").val('');
-            $("#samauditerid").val('');
-        }
-    }
-}
-
-function saveSign() {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
-    var rowData = $("#sectionList").jqGrid('getRowData', id);
-    $.post('../diagnosis/saveSign', {
-        sampleid: rowData.sampleid,
-        saminitiallytime: $("#saminitiallytime").val(),
-        saminitiallyuserid: $("#saminitiallyuserid").val(),
-        saminitiallyusername: $("#saminitiallyusername").val(),
-        samauditedtime: $("#samauditedtime").val(),
-        samauditerid: $("#samauditerid").val(),
-        samauditer: $("#samauditer").val(),
-        samreportedtime: $("#samreportedtime").val(),
-        samreportorid: $("#samreportorid").val(),
-        samreportor: $("#samreportor").val()
-    }, function (data) {
-        layer.msg('保存成功！', {icon: 2, time: 1000});
-    })
-}
-//如果病种要取材，医嘱里面允许以下操作
-var commonDiagnosis = "<option value='1'>补取</option><option value='2'>重切</option><option value='3'>深切</option>";
-
-//如果病种是特殊检验，医嘱里面允许以下操作
-var specialDiagnosis = "<option value='4'>免疫组化</option><option value='5'>特殊染色</option><option value='6'>分子病理</option>";
-
-function createOptions(patIsSampling, specialCheck) {
-    $("#yizhugl").empty();
-    if (patIsSampling == 0) {
-        $("#yizhugl").append(commonDiagnosis);
-    }
-    if (specialCheck == 0) {
-        $("#yizhugl").append(specialDiagnosis);
-    }
-}
-
-function reqyizhu() {
-    var yizhutype = $("#yizhugl").val();
-    if (yizhutype == null) {
-        layer.msg("请先选择医嘱类型！", {icon: 0, time: 1000});
-        return false;
-    }
-    var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
-    var rowData = $("#sectionList").jqGrid('getRowData', selrow);
-    //如果是特检医嘱 打开特检相应的页面
-    if (yizhutype == 4 || yizhutype == 5 || yizhutype == 6) {
-        layer.open({
-            type: 1,
-            title: '病理诊断>病理医嘱申请',
-            shadeClose: false,
-            shade: 0.5,
-            maxmin: false, //开启最大化最小化按钮
-            area: ['800px', '620px'],
-            content: $('#specialCheckDialog'),
-            btn: ["保存", "取消"],
-            success: function () {
-                $("#patientZyh").val($("#sampatientnumber").val());//住院卡号/门诊卡号 11
-                $("#patientName").val($("#sampatientname").val());//姓名 11
-                $("#patientGender").val($("#sampatientgender").val());//患者性别(1男,2女,3未知)
-                $("#patientDiagnosisNote").val($("#sampatientdignoses").val());//临床诊断 11
-                $("#patientBed").val($("#sampatientbed").val());//患者床号
-                $("#patientAge").val($("#sampatientage").val());//年龄
-                $("#yblNo").val(rowData.sampathologycode);//病理号
-                $("#ytxm").val($("#saminspectionid").val());//条码号
-
-                $("#sampleid").val(rowData.sampleid);
-                $("#customerId").val(rowData.samcustomerid);
-                $("#pathologyCode").val(rowData.sampathologycode);
-
-                $("#reqDate").val('');
-                $("#reqDoctor").val('');
-                $("#reqDoctorId").val('');
-
-                var code = new Date().Format("yyyyMMdd")+"-"+$("#customerId").val()+"-"+$("#sampleid").val();
-                code = code +"-" + parseInt((Math.random()*9000 + 1000), 10);
-                $("#ordercode").val(code);
-
-                $("#lkxz").empty();
-                $("#ckItemList").jqGrid('clearGridData');
-                $("#itemList").jqGrid('clearGridData');
-                $("#lkItemList").jqGrid('clearGridData');
-                $.get("../diagnosis/report/paraffin", {sampleId: rowData.sampleid}, function (data) {
-                    var ret = data.rows;
-                    if (ret != null && ret.length > 0) {
-                        $("#lkxz").append("<option value=''></option>");
-                        for (var i = 0; i < ret.length; i++) {
-                            $("#lkxz").append("<option value='" + ret[i].paraffinid + "' parnullslidenum='"+ret[i].parnullslidenum+ "'>" + ret[i].parparaffincode + "</option>");
-                        }
-                    }
-                });
-                getPackageItems(rowData.sampathologyid);
-            },
-            yes: function (index, layero) {
-                saveSpecialDiagnosis(index);
-            }
-        });
-    } else if (yizhutype == 2 || yizhutype == 3) {
-        alert(2)
-    } else if (yizhutype == 1) {
-        alert(3)
-    }
-}
-
-function saveSpecialDiagnosis(lindex) {
-    var reqDoctor = $("#reqDoctor").val();
-    var reqDoctorId = $("#reqDoctorId").val();
-    var reqDate = $("#reqDate").val();
-    var whitePieceNo = $("#whitePieceNo").val();
-    var paraffinCode = $("#lkxz").find("option:selected").text();
-    var sampleId = $("#sampleid").val();
-    var customerId = $("#customerId").val();
-    var pathologyCode = $("#pathologyCode").val();
-    var ordercode = $("#ordercode").val();
-    var reqType = $("#reqType").val();
-    var paraffinId = $("#lkxz").val();
-
-    if($.trim(sampleId) == "" ) {
-        layer.alert("标本号不存在", {icon: 1, title: "提示"});
-        return false;
-    }
-    if($.trim(customerId) == "" ) {
-        layer.alert("客户号不存在", {icon: 1, title: "提示"});
-        return false;
-    }
-    if($.trim(pathologyCode) == "" ) {
-        layer.alert("病理号不存在", {icon: 1, title: "提示"});
-        return false;
-    }
-    if($.trim(reqDoctor) == "" || $.trim(reqDoctorId) == "") {
-        layer.alert("请选择申请医生", {icon: 1, title: "提示"});
-        return false;
-    }
-    if($.trim(reqDate) == "" ) {
-        layer.alert("请选择申请日期", {icon: 1, title: "提示"});
-        return false;
-    }
-    /*if($.trim(whitePieceNo) == "" || !parseInt(whitePieceNo)) {
-     layer.alert("请填写白片数量", {icon: 1, title: "提示"});
-     return false;
-     }*/
-    if($.trim(paraffinCode) == "") {
-        layer.alert("请选择蜡块", {icon: 1, title: "提示"});
-        return false;
-    }
-    var rowIds = $("#itemList").jqGrid("getDataIDs");
-    if(rowIds.length == 0) {
-        layer.alert("请选择检查项目", {icon: 1, title: "提示"});
-        return false;
-    }
-    var items = [];
-    for(var i = 0; i < rowIds.length; i++) {
-        items[i] = $("#itemList").jqGrid("getRowData", rowIds[i]);
-    }
-
-    var d = $("#lkItemList").jqGrid('getRowData',0);
-    var inventory = 0;
-    var need = items.length + parseInt(d.yuliu);
-    if(need > d.kucun) inventory = need - d.kucun;
-    //alert(inventory);
-    $.get("../order/save", {
-        reqDoctor:reqDoctor,reqDoctorId:reqDoctorId,
-        reqDate:reqDate,
-        paraffinCode:paraffinCode,sampleId:sampleId,
-        customerId:customerId,pathologyCode:pathologyCode,
-        orderCode:ordercode,reqType:reqType,
-        paraffinId:paraffinId,items:JSON.stringify(items),
-        inventory:inventory
-    }, function(){
-        layer.close(lindex);
-    })
-}
-
-function getItemInfo(v){
-    $("#ckItemList").jqGrid('clearGridData');
-    if(v == null || v == "") return;
-    $.get("../package/testitems", {packageId:v}, function (data) {
-        var ret = data.rows;
+function getOrderItems() {
+    $("#q_specialCheck").empty();
+    $.get("../estitem/allorderitem", {}, function (data) {
+        var ret = data;
         if (ret != null && ret.length > 0) {
+            $("#q_specialCheck").append("<option value=''>请选择</option>");
             for (var i = 0; i < ret.length; i++) {
-                $("#ckItemList").jqGrid("addRowData",i,ret[i]);
+                $("#q_specialCheck").append("<option value='" + ret[i].testitemid + "'>" + ret[i].teschinesename + "</option>");
             }
         }
     })
-}
-
-function getPackageItems(pid) {
-    $("#itemPackage").empty();
-    if(pid != null && pid !="") {
-        $.get("../package/packageitems", {pathologyId:pid}, function (data) {
-            var ret = data.rows;
-            if (ret != null && ret.length > 0) {
-                $("#itemPackage").append("<option value=''></option>");
-                for (var i = 0; i < ret.length; i++) {
-                    $("#itemPackage").append("<option value='" + ret[i].packageId + "'>" + ret[i].packageName + "</option>");
-                }
-            }
-        })
-    }
-}
-
-function getWhitePiece() {
-    $("#lkItemList").jqGrid('clearGridData');
-    var v = $("#lkxz").find("option:selected").text();
-    if (v == "") return;
-    var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
-    var rowData = $("#sectionList").jqGrid('getRowData', selrow);
-    $.get("../diagnosis/report/whitepiece", {sampleId: rowData.sampleid, paraffinNo: v}, function (data) {
-        var ret = data.rows;
-        if (ret != null && ret.length > 0) {
-            var yl = $("#lkxz").find("option:selected").attr("parnullslidenum");
-            $("#lkItemList").jqGrid('addRowData',0, {lkno:v,kucun:ret.length,yuliu:yl});
-        } else {
-            $("#lkItemList").jqGrid('addRowData',0, {lkno:v,kucun:0,yuliu:0});
-        }
-    });
 }
 
 function getSampleData1(id) {
@@ -536,125 +114,22 @@ function getSampleData1(id) {
 }
 
 function query() {
-    var sampathologyid = $("#sampathologyid").val();
-    var samplesectionfrom = $("#samplesectionfrom").val();
-    var samplesectionto = $("#samplesectionto").val();
-    var saminspectionid = $("#saminspectionidq").val();
-    var sampathologycode = $("#sampathologycodeq").val();
-    var sampatientname = $("#sampatientnameq").val();
+    var specialCheck = $("#q_specialCheck").val();
+    var startDate = $("#q_startDate").val();
+    var endDate = $("#q_endDate").val();
+    var pathologyCode = $("#q_pathologyCode").val();
+    var patientName = $("#q_patientName").val();
     jQuery("#sectionList").jqGrid('setGridParam', {
         datatype: 'json',
         postData: {
-            "sampathologyid": sampathologyid,
-            "samplesectionfrom": samplesectionfrom,
-            "samplesectionto": samplesectionto,
-            "saminspectionid": saminspectionid,
-            "sampathologycode": sampathologycode,
-            "sampatientname": sampatientname
+            "specialCheck": specialCheck,
+            "startDate": startDate,
+            "endDate": endDate,
+            "pathologyCode": pathologyCode,
+            "patientName": patientName
         },
         page: 1
     }).trigger('reloadGrid');//重新载入
-}
-
-function CurentTime(now) {
-    //var now = new Date();
-    var year = now.getFullYear();       //年
-    var month = now.getMonth() + 1;     //月
-    var day = now.getDate();            //日
-    var hh = now.getHours();            //时
-    var mm = now.getMinutes();          //分
-    var ss = now.getMilliseconds();    //秒
-    var clock = year + "-";
-    if (month < 10)
-        clock += "0";
-    clock += month + "-";
-    if (day < 10)
-        clock += "0";
-    clock += day + " ";
-    if (hh < 10)
-        clock += "0";
-    clock += hh + ":";
-    if (mm < 10) clock += '0';
-    clock += mm + ":";
-    if (ss < 10) clock += '0';
-    clock += ss;
-    return (clock);
-}
-
-function print(url) {
-    LODOP = getLodop();
-    LODOP.PRINT_INIT("报告单打印");
-    LODOP.ADD_PRINT_URL(10, 10, 794, 1123, url);
-    LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
-    LODOP.SET_PRINT_STYLEA(0, "VOrient", 3);
-    //LODOP.PREVIEW();
-    LODOP.PRINT();
-}
-
-function reportOperate(v) {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
-    layer.open({
-        type: 1,
-        area: ['300px', '150px'],
-        fix: false, //不固定
-        maxmin: true,
-        shade: 0.5,
-        title: "选择报告打印模板",
-        content: $('#reportTemplateList'),
-        btn: ["确定", "取消"],
-        yes: function (index, layero) {
-            var template = $("#reportTemplateSelect").val();
-            if (template == null || template == "") {
-                layer.msg("报告模板不存在，请先配置", {icon: 0, time: 3000});
-                layer.close(index);
-            } else {
-                var picNum = $("#reportTemplateSelect").find("option:selected").attr("picNum");
-                $.get("../diagnosis/report/print", {
-                    "sampleid": GRID_SELECTED_ROW_SAMPLEID,
-                    "templateUrl": template,
-                    "type": v,
-                    "picNum": picNum
-                }, function (data) {
-                    if (v == 1) {
-                        layer.open({
-                            type: 2,
-                            title: "报告单预览",
-                            area: ['854px', '600px'],
-                            btn: ["打印", "关闭"],
-                            maxmin: true,
-                            shade: 0.5,
-                            content: data.url,
-                            yes: function (index1, layero1) {
-                                print(data.url);
-                                layer.close(index1);
-                            }
-                        });
-                    } else {
-                        print(data.url);
-                    }
-                });//重新载入
-            }
-            layer.close(index);
-        },
-        success: function () {
-            $.get("../diagnosis/report/getTemplate", {"sampleid": GRID_SELECTED_ROW_SAMPLEID}, function (data) {
-                    var rows = data.rows;
-                    var select = $("#reportTemplateSelect");
-                    if (rows.length > 0) {
-                        for (var i = 0; i < rows.length; i++) {
-                            select.append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
-                        }
-                    } else {
-                        select.empty();
-                    }
-                }
-            );//重新载入
-        }
-    })
 }
 
 var crno = 1;
@@ -680,67 +155,6 @@ function setSelect(c) {
     $("#sectionList").jqGrid('setSelection', crno);
 }
 
-function buttonFormat(cellval,options,pos,cnt) {
-
-    return "<button onclick=appendItem('" + cellval + "')>追加</button>";
-}
-
-function yuliuFormat(cellval,options,pos,cnt) {
-    return "<input type='text' id='yuliuInput' value='"+cellval+"'>";
-}
-
-function appendItem(v) {
-    var lakuai = $("#lkxz").find("option:selected").text();
-    if(lakuai == "") {
-        layer.alert("请先选择蜡块", {icon: 1, title: "提示"});
-        return false;
-    }
-    var selrow = $("#ckItemList").jqGrid('getGridParam', 'selrow');
-    if ((selrow == null || selrow.length == 0) && v == null) return;
-    var row = null;
-    if(v != null ) row = v;
-    else row = $("#ckItemList").jqGrid('getRowData', selrow);
-    row.lkno = lakuai;
-    var itemNo = $("#itemList").jqGrid("getDataIDs").length;
-    var insertedId = $("#itemList").getCol("testitemid");
-    var e = false;
-    for(var j =0; j < insertedId.length; j++) {
-        if(insertedId[j] == row.testitemid) e = true;
-    }
-    if(!e)
-        $("#itemList").jqGrid("addRowData", (itemNo+1), row);
-}
-
-function removeItems() {
-    var selectedRowIds = $("#itemList").jqGrid("getGridParam","selarrrow");
-    for(var i = 0;i < selectedRowIds.length ;i ++) {
-        $("#itemList").jqGrid("delRowData", selectedRowIds[i]);
-    }
-}
-
-function appendAll() {
-    var rows = $("#ckItemList").jqGrid("getDataIDs");
-    var lakuai = $("#lkxz").find("option:selected").text();
-    if(lakuai == "") {
-        layer.alert("请先选择蜡块", {icon: 1, title: "提示"});
-        return false;
-    }
-    if(rows.length > 0) {
-        for(var i = 0; i < rows.length; i++) {
-            var row = $("#ckItemList").jqGrid("getRowData", rows[i]);
-            row.lkno = lakuai;
-            var itemNo = $("#itemList").jqGrid("getDataIDs").length;
-            var insertedId = $("#itemList").getCol("testitemid");
-            var e = false;
-            for(var j =0; j < insertedId.length; j++) {
-                if(insertedId[j] == row.testitemid) e = true;
-            }
-            if(!e)
-                $("#itemList").jqGrid("addRowData", (itemNo+1), row);
-        }
-    }
-}
-
 $(function () {
     $(window).on('resize.jqGrid', function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
@@ -754,14 +168,14 @@ $(function () {
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
-        postData:{
-            specialCheck:$("#q_specialCheck").val(),
-            pathologyCode:$("#q_pathologyCode").val(),
-            startDate:$("#q_startDate").val(),
-            endDate:$("#q_endDate").val(),
-            patientName:$("#q_patientName").val(),
+        postData: {
+            specialCheck: $("#q_specialCheck").val(),
+            pathologyCode: $("#q_pathologyCode").val(),
+            startDate: $("#q_startDate").val(),
+            endDate: $("#q_endDate").val(),
+            patientName: $("#q_patientName").val(),
         },
-        colNames: [ '特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId','ordCustomerId','ordPathologyCode','chiOrderState','samPathologyId'],
+        colNames: ['特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId'],
         colModel: [
             {
                 name: 'chiOrderType',
@@ -809,104 +223,6 @@ $(function () {
             }
         }
     );
-
-    $("#lkItemList").jqGrid({
-        datatype: "json",
-        width: 300,
-        cellEdit: true,
-        cellsubmit:'clientArray',
-        colNames: ['蜡块编号','库存', '预留'],
-        afterEditCell:function(rowid,name,val,iRow,iCol){
-            //$("#lkItemList").jqGrid('setSelection',rowid);
-            $('#lkItemList').jqGrid('saveCell',$("#lkItemList").jqGrid.editrow,$("#lkItemList").jqGrid.editcol);
-
-        },
-        colModel: [
-            {
-                name: 'lkno',
-                index: 'lkno',
-                width: 30
-            },
-            {
-                name: 'kucun',
-                index: 'kucun',
-                width: 30
-            },
-            {
-                name: 'yuliu', index: 'yuliu', width: 40,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
-            }
-        ],
-        shrinkToFit: true,
-        altRows: true,
-        height: 100,
-        rowNum: 5
-    });
-
-    $("#ckItemList").jqGrid({
-        mtype: "GET",
-        datatype: "json",
-        width: 300,
-        colNames: ['追加','testitemid', '项目名称','英文名称','tesischarge'],
-        colModel: [
-            {name:'append',index:'append',formatter:buttonFormat},
-            {name: 'testitemid', index: 'testitemid', hidden: true},
-            {name: 'teschinesename', index: 'teschinesename', width: 35},
-            {name: 'tesenglishname', index: 'tesenglishname', width: 35},
-            {name: 'tesischarge', index: 'tesischarge', hidden: true}
-        ],
-        loadComplete: function () {
-            var table = this;
-            setTimeout(function () {
-                //updatePagerIcons(table);
-            }, 0);
-        },
-        ondblClickRow: function (id) {
-        },
-        viewrecords: true,
-        shrinkToFit: true,
-        altRows: true,
-        height: 230,
-        rowNum: 5,
-        onSelectRow: function (id) {
-
-        }
-    });
-
-    $("#itemList").jqGrid({
-        mtype: "GET",
-        datatype: "json",
-        width: 400,
-        multiselect: true,
-        colNames: ['testitemid', '蜡块编号', '项目名称', '英文名称', 'tesischarge'],
-        colModel: [
-            {
-                name: 'testitemid', index: 'testitemid', hidden: true
-            },
-            {
-                name: 'lkno',
-                index: 'lkno',
-                width: 30
-            },
-            {name: 'teschinesename', index: 'teschinesename', width: 40},
-            {name: 'tesenglishname', index: 'tesenglishname', width: 40},
-            {name: 'tesischarge', index: 'tesischarge', hidden: true}
-        ],
-        loadComplete: function () {
-            var table = this;
-            setTimeout(function () {
-                //updatePagerIcons(table);
-            }, 0);
-        },
-        ondblClickRow: function (id) {
-        },
-        viewrecords: true,
-        shrinkToFit: true,
-        altRows: true,
-        height: 180,
-        onSelectRow: function (id) {
-
-        }
-    });
 
     $("#materialList").jqGrid({
         datatype: "json",
@@ -960,73 +276,10 @@ $(function () {
         rownumbers: true // 显示行号
     });
 
-    $("#templateList").jqGrid({
-        caption: "病理模板",
-        width: 790,
-        colNames: ['关键字', '内容'],
-        colModel: [
-            {name: 'temkey', index: 'temkey', width: 50},
-            {name: 'temcontent', index: 'temcontent', width: 300}
-        ],
-        loadComplete: function () {
-            var table = this;
-            setTimeout(function () {
-                updatePagerIcons(table);
-            }, 0);
-            layer.open({
-                type: 1,
-                area: ['800px', '500px'],
-                fix: false, //不固定
-                maxmin: true,
-                shade: 0.5,
-                title: "模板",
-                content: $('#templateGrid'),
-                btn: ["确定", "取消"],
-                yes: function (index, layero) {
-                    var id = $('#templateList').jqGrid('getGridParam', 'selrow');
-                    if (id == null || id.length == 0) {
-                        layer.msg('请先选择病种模板', {icon: 2, time: 1000});
-                        return false;
-                    }
-                    var rowData = $("#templateList").jqGrid('getRowData', id);
-                    document.getElementById(targetTextareaId).value = rowData.temcontent;
-                    layer.close(index);
-                }
-            })
-        },
-        ondblClickRow: function (id) {
-
-        },
-        viewrecords: true,
-        shrinkToFit: true,
-        altRows: true,
-        height: height,
-        rowNum: 10,
-        rowList: [10, 20, 30],
-        rownumbers: true, // 显示行号
-        rownumWidth: 35, // the width of the row numbers columns
-        pager: "#templatePager",
-        onSelectRow: function (id) {
-
-        }
-    });
-
     $("#tabs").tabs(
         {
             activate: function (event, ui) {
-                /*var active = $('#tabs').tabs('option', 'active');
-                 var href = $("#tabs ul>li a").eq(active).attr("href");
-                 var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
-                 if (selrow == null || selrow.length == 0) return;
-                 var rowData = $("#sectionList").jqGrid('getRowData', selrow);
-                 if (href == '#tabs-2') {
-                 jQuery("#materialList").jqGrid("clearGridData");
-                 jQuery("#materialList").jqGrid('setGridParam', {
-                 url: "../pathologysample/pieces/ajax/getItem",
-                 datatype: 'json',
-                 postData: {"reqId": rowData.sampleid}
-                 }).trigger('reloadGrid');//重新载入
-                 }*/
+
             }
         });
     $(document).ready(function () {
@@ -1080,62 +333,62 @@ $(function () {
 
     //送检医生
     $("#reqDoctor").autocomplete({
-        source: function( request, response ) {
+        source: function (request, response) {
             $.ajax({
                 url: "../basadata/ajax/item",
                 dataType: "json",
                 data: {
-                    name : request.term,//名称
-                    bddatatype:3,//送检医生
-                    bdcustomerid:$("#customerId").val()//账号所属医院
+                    name: request.term,//名称
+                    bddatatype: 3,//送检医生
+                    bdcustomerid: $("#customerId").val()//账号所属医院
                 },
-                success: function( data ) {
-                    response( $.map( data, function( result ) {
+                success: function (data) {
+                    response($.map(data, function (result) {
                         return {
                             label: result.id + " : " + result.name,
                             value: result.name,
-                            id : result.id
+                            id: result.id
                         }
                     }));
                 }
             });
         },
         minLength: 0,
-        select: function( event, ui ) {
-            $( "#reqDoctorId" ).val(ui.item.id);
-            $( "#reqDoctor" ).val(ui.item.value);
+        select: function (event, ui) {
+            $("#reqDoctorId").val(ui.item.id);
+            $("#reqDoctor").val(ui.item.value);
             //return false;
         }
     })
-        .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-        return $( "<li>" )
-            .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
-            .appendTo( ul );
+        .data("ui-autocomplete")._renderItem = function (ul, item) {
+        return $("<li>")
+            .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
+            .appendTo(ul);
     };
 
     //检查项目名称
     $("#itemName").autocomplete({
-        source: function( request, response ) {
+        source: function (request, response) {
             $.ajax({
                 url: "../estitem/querytestitem",
                 dataType: "json",
                 data: {
-                    query:$("#itemName").val()//项目中文名称
+                    query: $("#itemName").val()//项目中文名称
                 },
-                success: function( data ) {
-                    response( $.map( data, function( result ) {
+                success: function (data) {
+                    response($.map(data, function (result) {
                         return {
                             label: result.teschinesename,
                             value: result.tesenglishname,
-                            id : result.testitemid,
-                            tesischarge : result.tesischarge
+                            id: result.testitemid,
+                            tesischarge: result.tesischarge
                         }
                     }));
                 }
             });
         },
         minLength: 0,
-        select: function( event, ui ) {
+        select: function (event, ui) {
             var row = {};
             row.tesenglishname = ui.item.value;
             row.teschinesename = ui.item.label;
@@ -1147,9 +400,11 @@ $(function () {
              $("#testitemid").val(ui.item.id);*/
         }
     })
-        .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-        return $( "<li>" )
-            .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
-            .appendTo( ul );
+        .data("ui-autocomplete")._renderItem = function (ul, item) {
+        return $("<li>")
+            .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
+            .appendTo(ul);
     };
+
+    getOrderItems();
 })

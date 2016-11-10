@@ -116,4 +116,9 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
 
         return pimsSysReqTestitemDao.orderTreatmentItem(pathologyId, specialCheck, patIsSampling);
     }
+
+    @Override
+    public List<PimsSysReqTestitem> allValidOrderItem() {
+        return pimsSysReqTestitemDao.allValidOrderItem();
+    }
 }

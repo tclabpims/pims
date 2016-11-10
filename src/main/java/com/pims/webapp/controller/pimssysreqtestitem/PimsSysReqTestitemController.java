@@ -36,6 +36,13 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 		return new ModelAndView();
 	}
 
+	@RequestMapping(method = {RequestMethod.GET}, value = "/allorderitem")
+	@ResponseBody
+	public void allValidOrderItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<PimsSysReqTestitem> lis = pimsSysReqTestitemManager.allValidOrderItem();
+		printResult(lis, response);
+	}
+
 	@RequestMapping(method = {RequestMethod.GET}, value = "/orderitem")
 	@ResponseBody
 	public void orderTreatmentItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
