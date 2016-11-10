@@ -41,17 +41,17 @@
 	</div>
 	<div  class="row" id="userGrid" style="display: none;">
 		<h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-		<button type="button" class="btn btn-sm btn-info" onclick="addRow()">
-			追加行
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="addRow()">
+			<span style="color: white">追加行</span>
 		</button>
-		<button type="button" class="btn btn-sm btn-info" onclick="delRow()">
-			删除行
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="delRow()">
+			<span style="color: white">删除行</span>
 		</button>
-		<button type="button" class="btn btn-sm btn-info" onclick="savefeeRow('0')">
-			保存
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('0')">
+			<span style="color: white">保存</span>
 		</button>
-		<button type="button" class="btn btn-sm btn-info" onclick="savefeeRow('1')">
-			保存并发送
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('1')">
+			<span style="color: white">保存并发送</span>
 		</button>
 		</h5>
 		<div class="col-xs-12 leftContent">

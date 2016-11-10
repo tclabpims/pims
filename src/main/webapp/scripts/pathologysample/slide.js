@@ -1,4 +1,15 @@
 var nowrow = "";//当前显示数据所在的行
+/**
+ * 设置颜色
+ * @param id
+ */
+function setcolor(id){
+	var ids = $("#new").getDataIDs();
+	$.each(ids, function (key, val) {
+		$("#new").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+	});
+	$("#new").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
 function changeimgclick(num) {//1切片 取消包埋
 	if(num == 1){
 		nowrow = 3;
@@ -349,6 +360,7 @@ function searchList() {
 	}).trigger('reloadGrid');//重新载入
 }
 function fillInfo(id){
+	setcolor(id);
 	clearData();
 	var rowData = $("#new").jqGrid('getRowData',id);
 	getSampleData(rowData.sampleid);
@@ -560,5 +572,112 @@ function canChange(id,numsts){
 			});
 	}
 }
+
+function printCode() {
+	//打印标本条码号
+	var ids = $("#new").jqGrid('getGridParam', 'selarrrow');
+	if(ids == null || ids == ""){
+		layer.msg("请选择打印数据!", {icon:2, time: 1000});
+		return;
+	}
+	var saveDatas = [];
+	$.each(ids, function (key, val) {
+		var rowData = $("#new").jqGrid("getRowData", ids[key]);
+		saveDatas.push(rowData);
+		startPrint(rowData);
+	});
+	// $.ajax({
+	// 	type: "POST",
+	// 	async: false,
+	// 	url: "../nursestation/inexecute/printRequestList",
+	// 	dataType: "json",
+	// 	contentType: "application/json",
+	// 	data: JSON.stringify(saveDatas),
+	// 	success: function (data) {
+	// 		var printDatas = data.printOrders
+	// 		var noPrintDatas = data.noPrintOrders;
+	// 		for (i = 0; i < printDatas.length; i++) {
+	// 			startPrint(printDatas[i]);
+	// 		}
+	// 		for (i = 0; i < noPrintDatas.length; i++) {
+	//
+	// 		}
+	// 	}
+	//
+	// });
+	//刷新当前节点数据
+	// var zTree = $.fn.zTree.getZTreeObj("tree");
+	// var nodes = zTree.getSelectedNodes();
+	// if (nodes.length > 0) {
+	// 	zTree.selectNode(nodes[0]);
+	// 	zTree.setting.callback.onClick(null, zTree.setting.treeId, nodes[0]);//调用事件
+	// }
+}
+
+var LODOP; //声明为全局变量
+
+function Preview() {//打印预览
+	LODOP = getLodop();
+	CreateDataBill(data)
+	LODOP.PREVIEW();
+}
+function Setup() {//打印维护
+	LODOP = getLodop();
+	LODOP.PRINT_SETUP();
+}
+function CreateDataBill(data) {
+	if(data && data!=null){
+		var sex = "";
+		if(data.sampatientsex == '0'){sex = '男'}else if(data.sampatientsex == '1'){sex = '女'}else{sex = '未知'}
+		var ageUnit = "";
+		if(data.sampatientagetype == '1'){
+			ageUnit = "岁";
+		}else if(data.sampatientagetype == '2'){
+			ageUnit = "月";
+		}else if(data.sampatientagetype == '4'){
+			ageUnit = "周";
+		}else if(data.sampatientagetype == '5'){
+			ageUnit = "日";
+		}else if(data.sampatientagetype == '6'){
+			ageUnit = "小时";
+		}
+		LODOP = getLodop();
+		LODOP.PRINT_INIT("");
+		LODOP.SET_PRINT_PAGESIZE(0,520,400,"A4");
+		// LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
+		LODOP.ADD_PRINT_TEXT(10,100,230,35,"树兰（杭州）医院");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
+		LODOP.ADD_PRINT_TEXT(45,100,230,35,"浙江大学国际医院");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
+		LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
+		LODOP.SET_PRINT_STYLEA(0,"Horient",2);
+		LODOP.ADD_PRINT_TEXTA("nameText","33.00mm","12.46mm",45,20,"姓名：");
+		LODOP.ADD_PRINT_TEXTA("name","33.00mm","23.31mm",90,20,data.sampatientname);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("sexText","33.00mm","46.86mm",45,20,"性别：");
+		LODOP.ADD_PRINT_TEXTA("sex","33.00mm","58.5mm",30,20,sex);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("ageText","33.00mm","65.91mm",45,20,"年龄：");
+		LODOP.ADD_PRINT_TEXTA("age","33.00mm","77.55mm",40,20,data.sampatientage + ageUnit);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("examText","38.00mm","5.85mm",70,20,"临床诊断：");
+		LODOP.ADD_PRINT_TEXTA("exam","38.00mm","23.31mm",300,20,data.sampatientdignoses);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("requestTimeText","43.00mm","5.85mm",70,20,"申请时间：");
+		LODOP.ADD_PRINT_TEXTA("requestTime","43.00mm","23.31mm",300,20,data.samreqtime);
+		LODOP.ADD_PRINT_TEXTA("requesterText","48.00mm","5.85mm",70,20,"送检时间：");
+		LODOP.ADD_PRINT_TEXTA("requester","48.00mm","23.31mm",300,20,data.samsendtime);
+		LODOP.ADD_PRINT_TEXTA("executeTimeText","53.00mm","5.85mm",70,20,"登记时间：");
+		LODOP.ADD_PRINT_TEXTA("executeTime","53.00mm","23.31mm",300,20,data.samregisttime);
+
+	}
+}
+function startPrint(data) {
+	CreateDataBill(data);
+	//开始打印
+	LODOP.PRINT();
+//LODOP.PREVIEW();
+}
+
 
 

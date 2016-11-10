@@ -57,4 +57,6 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
     String sampleCode();
 
     void sign(PimsPathologySample sample);
+
+    int getSamStaNum();
 }

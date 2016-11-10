@@ -29,6 +29,8 @@ import java.util.*;
 public class PimsPathologyTaskController extends PIMSBaseController{
     @Autowired
     private PimsPathologyTaskManager pimsPathologyTaskManager;
+    @Autowired
+    private PimsPathologySampleManager pimsPathologySampleManager;
 
     /**
      * 渲染视图
@@ -99,6 +101,39 @@ public class PimsPathologyTaskController extends PIMSBaseController{
     }
 
     /**
+     * 判断标本是否已抄送
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/isExistsTask*", method = RequestMethod.POST)
+    public String isExistsTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        JSONObject o = new JSONObject();
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String states = request.getParameter("states");
+        String tasks = request.getParameter("tasks");
+        com.alibaba.fastjson.JSONArray taskList = JSON.parseArray(tasks);
+        for(int i=0;i<taskList.size();i++){
+            Map map = (Map) taskList.get(i);
+            PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+            if(!pimsPathologyTaskManager.isExistsTask(Integer.parseInt(states),sample.getSampleid())) {
+                o.put("message", "标本不允许发起多次抄送！");
+                o.put("success", true);
+                PrintwriterUtil.print(response, o.toString());
+                return null;
+            }
+        }
+        o.put("message", "可以发起抄送！");
+        o.put("success", false);
+        PrintwriterUtil.print(response, o.toString());
+        return  null;
+    }
+
+
+
+
+    /**
      * 发起抄送
      * @param request
      * @param response
@@ -115,6 +150,7 @@ public class PimsPathologyTaskController extends PIMSBaseController{
         for(int i=0;i<taskList.size();i++){
             Map map = (Map) taskList.get(i);
             PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+            sample = pimsPathologySampleManager.getBySampleNo(sample.getSampleid());
             if(pimsPathologyTaskManager.isExistsTask(Integer.parseInt(states),sample.getSampleid())){
                 PimsPathologyTask task = new PimsPathologyTask();
                 task.setTascustomerid(sample.getSamcustomerid());//客户Id

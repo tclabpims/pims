@@ -1,4 +1,18 @@
 var nowrow = "";
+var GRID_SELECTED_ROW_SAMPLEID = "";
+var GRID_SELECTED_ROW_SAMPCUSTOMERID = "";
+var PIC_TAKING_FROM = 1;
+/**
+ * 设置颜色
+ * @param id
+ */
+function setcolor(id){
+	var ids = $("#new").getDataIDs();
+	$.each(ids, function (key, val) {
+		$("#new").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+	});
+	$("#new").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
 /**
  * 上一个
  */
@@ -119,7 +133,7 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['ID','取材状态', '病理号', '送检医生','送检医院','病人名','补取医嘱'],
+		colNames: ['ID','取材状态', '病理号', '送检医生','送检医院','病人名','补取医嘱','客户ID'],
 		colModel: [
 			{name:'sampleid',hidden:true},
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中:8:报告已打印"}},
@@ -127,7 +141,8 @@ $(function() {
 			{ name: 'samsenddoctorname', index: 'samsenddoctorname'},
 			{ name: 'samsendhospital', index: 'samsendhospital'},
 			{ name: 'sampatientname', index: 'sampatientname'},
-			{ name: 'samsamplestatus', index: 'samsamplestatus'}
+			{ name: 'samsamplestatus', index: 'samsamplestatus'},
+			{ name: 'samcustomerid', index: 'samcustomerid',hidden:true}
 		],
 		beforeSelectRow: function (rowid, e) {
 			return $(e.target).is('input[type=checkbox]');
@@ -164,6 +179,7 @@ $(function() {
 		rownumWidth: 30, // the width of the row numbers columns
 		pager: "#pager"
 	});
+	createNew2();
 	$("#pager_left").remove();
 	//巨检描述
 	$("#jjsj").autocomplete({
@@ -303,10 +319,13 @@ function searchList() {
 	}).trigger('reloadGrid');//重新载入
 }
 function fillInfo(id){
+	setcolor(id);
 	nowrow = id;
 	clearData();
 	//var id = $("#new").jqGrid('getGridParam', 'selrow');
 	var rowData = $("#new").jqGrid('getRowData',id);
+	GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
+	GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
 	if (id == null || id == 0) {
 		layer.msg('请先选择数据', {icon: 2, time: 1000});
 		return false;
@@ -317,6 +336,7 @@ function fillInfo(id){
 	// }else{
 	// 	$("#addrow1").removeAttr("disabled");
 	// }
+	getSamplePicures(rowData.sampleid);
 	if($("#samsamplestatus").val() > 1){
 		$("#addrow1").attr({"disabled":true});
 	}else{
@@ -561,7 +581,518 @@ function saveAsTemplate(v, obj) {
 	})
 
 }
+/**
+ * 图像采集
+ * @returns {boolean}
+ */
+function takingPicture() {
+	var id = nowrow;
+	if (id == null || id.length == 0) {
+		layer.msg('请先选择标本', {icon: 2, time: 1000});
+		return false;
+	}
+	layer.open({
+		type: 2,
+		title: '标本处理>取材管理>图像采集',
+		shadeClose: false,
+		shade: 0.5,
+		closeBtn:false,
+		maxmin: false, //开启最大化最小化按钮
+		area: ['320px', '360px'],
+		content: ["../diagnosis/camera"],
+		btn:["关闭"],
+		yes: function(index, layero){
+			//swfobject.removeSWF("Main");
+			layer.close(index); //如果设定了yes回调，需进行手工关闭
+			// console.log(layero)
+		}
+	});
+}
 
+function createImgElement(src) {
+	var ret = jQuery.parseJSON(src);
+	var container = $("#imgContainer");
+	var c = ret.continuous;
+	if (c == "false") {
+		container.empty();
+	}
+	var objNewDiv = $('<div>', {'id': 'mydiv', 'style': 'padding-bottom:5px'});
+	objNewDiv.html("<img src='" + ret.src + "' width='220' onclick='removePicture(\"" + ret.name + "\")' height='150'>");
+	container.append(objNewDiv);
+}
+
+function getSamplePicures(sampleId) {
+	$.get("../diagnosis/pictures", {sampleid: sampleId, picpictureclass:PIC_TAKING_FROM}, function (data) {
+		var ret = data;
+		var container = $("#imgContainer");
+		container.empty();
+		for (var item in ret) {
+			var objNewDiv = $('<div>', {'id': new Date().getTime(), 'style': 'padding-bottom:5px'});
+			objNewDiv.html("<img src='" + ret[item] + "' name='" + item + "' onclick='removePicture(\"" + item + "\")' width='220' height='150'>");
+			container.append(objNewDiv);
+		}
+	});
+}
+
+/**
+ * 计费调整
+ */
+function hisChange() {
+	//alert(addstates);
+	var sampleid = $("#sampleid").val();
+	if(sampleid == null || sampleid == ""){
+		layer.msg("该病理标本未登记，无法进行计费调整!", {icon:2, time: 1000});
+		return;
+	}else{
+		jQuery("#sectionList3").jqGrid('setGridParam',{
+			url: "../pathologysample/sample/ajax/fee",
+			//发送数据
+			postData:{"feesampleid":sampleid,"feesource":"0"}
+		}).trigger('reloadGrid');//重新载入
+		// $("#sectionList3").jqGrid({
+		// 	caption: "&nbsp;&nbsp;计费管理",
+		// 	url: "../pathologysample/sample/ajax/fee",
+		// 	mtype: "GET",
+		// 	datatype: "json",
+		// 	postData:{"feesampleid":sampleid,"feesource":"0"},
+		// 	width:900,
+		// 	height:600,
+		// 	colNames: ['id','收费项目', '单价','数量','金额','状态','记录人','记录时间','发送人','发送时间','客户id','标本号','病种id','病理编号','费用来源',
+		// 		'费用状态','统计类别','中文名称','英文名称','his项目id','his项目名称','his单价','计费人员id','发送人员id'],
+		// 	colModel: [
+		// 		{ name: 'feeid', index: 'feeid',hidden: true },//收费id
+		// 		{ name: 'feenamech', index: 'feenamech',editable:true,editoptions: {dataInit: function (elem) {myAutocomplete(elem);}},
+		// 			// edittype: "select",formatter: "select",editoptions:{value:getfeelist(), dataEvents: [
+		// 			// {type: 'change',fn: function(e) {
+		// 			// 	jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {reqmmaterialname:$(this).find("option:selected").text()});
+		// 			// 	jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feeitemid:$(this).val()});
+		// 			// }}]},
+		// 			width: 80},//收费项目
+		// 		{ name: 'feeprince', index: 'feeprince', width: 60},//单价
+		// 		{ name: 'feeamount', index: 'feeamount',editable:true, width: 60,editoptions: {
+		// 			dataEvents: [
+		// 				{type: 'change',fn: function(e) {
+		// 					var rowdata = jQuery("#sectionList3").jqGrid('getRowData', $(this).parent().parent().attr('id'));
+		// 					jQuery("#sectionList3").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feecost:$(this).val()*rowdata.feeprince});
+		// 				}}]
+		// 			}},//数量
+		// 		{ name: 'feecost', index: 'feecost', width: 60},//金额
+		// 		{ name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已计费;2:已发送;3:发送失败"}, width: 60},//状态
+		// 		{ name: 'feeusername', index: 'feeusername', width: 60},//记录人
+		// 		{ name: 'feetime', index: 'feetime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
+		// 			return "";
+		// 			return CurentTime(new Date(cellvalue));}},//记录时间
+		// 		{ name: 'feesendusername', index: 'feesendusername', width: 60},//发送人
+		// 		{ name: 'feesendtime', index: 'feesendtime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
+		// 			return "";
+		// 			return CurentTime(new Date(cellvalue));}},//发送时间
+		// 		{ name: 'feecustomerid', index: 'feecustomerid',hidden: true },//客户id
+		// 		{ name: 'feesampleid', index: 'feesampleid',hidden: true },//标本号
+		// 		{ name: 'feepathologyid', index: 'feepathologyid',hidden: true },//病种id
+		// 		{ name: 'feepathologycode', index: 'feepathologycode',hidden: true },//病理编号
+		// 		{ name: 'feesource', index: 'feesource',hidden: true },//费用来源
+		// 		{ name: 'feestate', index: 'feestate',hidden: true },//费用状态
+		// 		{ name: 'feecategory', index: 'feecategory',hidden: true },//统计类别
+		// 		{ name: 'feeitemid', index: 'feeitemid',hidden: true },//中文名称
+		// 		{ name: 'feenameen', index: 'feenameen',hidden: true },//英文名称
+		// 		{ name: 'feehisitemid', index: 'feehisitemid',hidden: true },//his项目id
+		// 		{ name: 'feehisname', index: 'feehisname',hidden: true },//his项目名称
+		// 		{ name: 'feehisprice', index: 'feehisprice',hidden: true },//his单价
+		// 		{ name: 'feeuserid', index: 'feeuserid',hidden: true },//计费人员id
+		// 		{ name: 'feesenduserid', index: 'feesenduserid',hidden: true },//发送人员id
+		// 	],
+		// 	loadComplete : function() {
+		// 		var table = this;
+		// 		setTimeout(function(){
+		// 			updatePagerIcons(table);
+		// 		}, 0);
+		// 	},
+		//    beforeEditCell: function (rowid, cellname, value, iRow, iCol) {
+		//        var rec = jQuery("#sectionList3").jqGrid('getRowData', rowid);
+		//        if (rec.feestate == "1" || rec.feestate == "2") {
+		//            setTimeout(function () {
+		//                jQuery("#sectionList3").jqGrid('restoreCell', iRow, iCol);
+		//                //===>或者设置为只读
+		//                //$('#' + rowid + '_amount').attr('readonly', true);
+		//            }, 1);
+		//        }
+		//    },
+		// 	ondblClickRow: function (id) {
+		// 	},
+		// 	multiselect: true,
+		// 	viewrecords: true,
+		// 	cellsubmit: "clientArray",
+		// 	cellEdit:true,
+		// 	shrinkToFit: true,
+		// 	altRows:true,
+		// 	height: 'auto',
+		// 	// rowNum: 10,
+		// 	// rowList:[10,20,30],
+		// 	// rownumbers: true, // 显示行号
+		// 	// rownumWidth: 35, // the width of the row numbers columns
+		// 	// pager: "#pager3",
+		// 	onSelectRow: function(id){
+		//
+		// 	}
+		// });
+		layer.open({
+			type: 1,
+			area: ['900px','600px'],
+			fix: false, //不固定
+			maxmin: true,
+			multiselect: true,
+			rownumbers : true,
+			shade:0.5,
+			title: "计费",
+			content: $('#userGrid')
+		})
+	}
+
+}
+/**
+ * 计费调整界面模糊匹配功能
+ * @param elem
+ */
+function myAutocomplete(elem) {
+	//收费项目
+	$(elem).autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../chargeitem/info",
+				dataType: "json",
+				data: {
+					// name : request.term,//名称
+					// bddatatype:4,//送检医院
+					// bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.feenamech + " : " + result.feenameen,
+							value: result.feenamech,//中文名称
+							id : result.feeitemid,//收费项目ID
+							feenameen : result.feenameen,//英文名称
+							feeprince : result.feeprince,//单价
+							feecategory : result.feecategory,//所属统计类
+							feehisitemid : result.feehisitemid,//his项目id
+							feehisname : result.feehisname,//his项目名称
+							feehisprice : result.feehisprice//his单价
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeitemid:ui.item.id});//收费项目ID
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feenamech:ui.item.name});//中文名称
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feenameen:ui.item.feenameen});//英文名称
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeprince:ui.item.feeprince});//单价
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feecategory:ui.item.feecategory});//所属统计类
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisitemid:ui.item.feehisitemid});//his项目id
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisname:ui.item.feehisname});//his项目名称
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisprice:ui.item.feehisprice});//his单价
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeamount:""});//数量
+			jQuery("#sectionList3").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feecost:""});//金额
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
+}
+/**
+ * 增加行
+ */
+function addRow1(){
+	var selectedId = $("#sectionList3").jqGrid("getGridParam", "selrow");
+	var dataRow = {
+		feeid:"",//收费id
+		feeitemid:"",//收费项目
+		feeprince:"",//单价
+		feeamount:"",//数量
+		feecost:"",//金额
+		feestate:"0",//状态
+		feeusername:$("#local_username").val(),//记录人
+		feetime:new Date(),//记录时间
+		feesendusername:"",//发送人
+		feesendtime:"",//发送时间
+		feecustomerid:$("#samcustomerid").val(),//客户id
+		feesampleid:$("#sampleid").val(),//标本号
+		feepathologyid:$("#sampathologyid").val(),//病种id
+		feepathologycode:$("#sampathologycode").val(),//病理编号
+		feesource:"2",//费用来源
+		feestate:"0",//费用状态
+		feecategory:"",//统计类别
+		feenamech:"",//中文名称
+		feenameen:"",//英文名称
+		feehisitemid:"",//his项目id
+		feehisname:"",//his项目名称
+		feehisprice:"",//his单价
+		feeuserid:$("#local_userid").val(),//计费人员id
+		feesenduserid:"",//发送人员id
+	};
+	var ids = $("#sectionList3").jqGrid('getDataIDs');
+	var rowid = 1;
+	if(Math.max.apply(Math,ids) > ids.length ){
+		rowid = Math.max.apply(Math,ids) + 1;
+	}else{
+		rowid = ids.length + 1;
+	}
+	if (selectedId) {
+		$("#sectionList3").jqGrid("addRowData", rowid, dataRow, "after", selectedId);
+	} else {
+		$("#sectionList3").jqGrid("addRowData", rowid, dataRow, "last");
+	}
+	//$('#plsfList').jqGrid('editRow', rowid, false);
+}
+/**
+ * 删除行
+ */
+function delRow1(){
+	// var selectedId = $("#sectionList3").jqGrid("getGridParam","selarrrow");
+	// if(selectedIds == null || selectedIds == ""){
+	// 	alert("请选择要删除的行!");
+	// 	return;
+	// }else{
+	// 	$("#sectionList3").jqGrid("delRowData", selectedId);
+	// }
+	var selectedIds = $("#sectionList3").jqGrid("getGridParam","selarrrow");
+	if(selectedIds == null || selectedIds == ""){
+		layer.msg("请选择要删除的行!", {icon:2, time: 1000});
+		return;
+	}else{
+		$(selectedIds).each(function () {
+				var delrow = this.toString();
+				var rowData = $("#sectionList3").jqGrid('getRowData',delrow);
+				if(rowData.feestate == "0" || rowData.feestate == "3"){
+					$("#sectionList3").jqGrid("delRowData", delrow);
+				}else if(rowData.feestate == "1" || rowData.feestate == "2") {
+					layer.msg("已计费或已发送数据无法删除!", {icon:2, time: 1000});
+					return;
+				}
+			}
+		);
+	}
+}
+/**
+ * 保存计费信息
+ */
+function savefeeRow(states) {
+	var rowdatas = $('#sectionList3').jqGrid('getRowData');
+	$.post("../pathologysample/sample/savefee", {
+			fees:JSON.stringify(rowdatas),
+			states:states
+		},
+		function(data) {
+			if(data.success) {
+				layer.msg(data.message, {icon: 1, time: 1000});
+				location.reload();
+			} else {
+				layer.msg(data.message, {icon:2, time: 1000});
+			}
+		});
+
+}
+/**
+ * 初始化计费调整
+ */
+function createNew2() {
+	var sampleid = $("#sampleid").val();
+	$("#sectionList3").jqGrid({
+		caption: "&nbsp;&nbsp;计费管理",
+		url: "../pathologysample/sample/ajax/fee",
+		mtype: "GET",
+		datatype: "json",
+		postData:{"feesampleid":sampleid,"feesource":"0"},
+		width:900,
+		height:600,
+		colNames: ['id','收费项目', '单价','数量','金额','状态','记录人','记录时间','发送人','发送时间','客户id','标本号','病种id','病理编号','费用来源',
+			'费用状态','统计类别','中文名称','英文名称','his项目id','his项目名称','his单价','计费人员id','发送人员id'],
+		colModel: [
+			{ name: 'feeid', index: 'feeid',hidden: true },//收费id
+			{ name: 'feenamech', index: 'feenamech',editable:true,editoptions: {dataInit: function (elem) {myAutocomplete(elem);}, align: "center"},
+				// edittype: "select",formatter: "select",editoptions:{value:getfeelist(), dataEvents: [
+				// {type: 'change',fn: function(e) {
+				// 	jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {reqmmaterialname:$(this).find("option:selected").text()});
+				// 	jQuery("#new1").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feeitemid:$(this).val()});
+				// }}]},
+				width: 80},//收费项目
+			{ name: 'feeprince', index: 'feeprince', width: 60, align: "center"},//单价
+			{ name: 'feeamount', index: 'feeamount',editable:true, width: 60,editoptions: {
+				dataEvents: [
+					{type: 'change',fn: function(e) {
+						var rowdata = jQuery("#sectionList3").jqGrid('getRowData', $(this).parent().parent().attr('id'));
+						jQuery("#sectionList3").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feecost:$(this).val()*rowdata.feeprince});
+					}}]
+			}, align: "center"},//数量
+			{ name: 'feecost', index: 'feecost', width: 60, align: "center"},//金额
+			{ name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已计费;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
+			{ name: 'feeusername', index: 'feeusername', width: 60, align: "center"},//记录人
+			{ name: 'feetime', index: 'feetime', width: 100,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
+				return "";
+				return CurentTime(new Date(cellvalue));}},//记录时间
+			{ name: 'feesendusername', index: 'feesendusername', width: 60},//发送人
+			{ name: 'feesendtime', index: 'feesendtime', width: 100,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
+				return "";
+				return CurentTime(new Date(cellvalue));}, align: "center"},//发送时间
+			{ name: 'feecustomerid', index: 'feecustomerid',hidden: true },//客户id
+			{ name: 'feesampleid', index: 'feesampleid',hidden: true },//标本号
+			{ name: 'feepathologyid', index: 'feepathologyid',hidden: true },//病种id
+			{ name: 'feepathologycode', index: 'feepathologycode',hidden: true },//病理编号
+			{ name: 'feesource', index: 'feesource',hidden: true },//费用来源
+			{ name: 'feestate', index: 'feestate',hidden: true },//费用状态
+			{ name: 'feecategory', index: 'feecategory',hidden: true },//统计类别
+			{ name: 'feeitemid', index: 'feeitemid',hidden: true },//中文名称
+			{ name: 'feenameen', index: 'feenameen',hidden: true },//英文名称
+			{ name: 'feehisitemid', index: 'feehisitemid',hidden: true },//his项目id
+			{ name: 'feehisname', index: 'feehisname',hidden: true },//his项目名称
+			{ name: 'feehisprice', index: 'feehisprice',hidden: true },//his单价
+			{ name: 'feeuserid', index: 'feeuserid',hidden: true },//计费人员id
+			{ name: 'feesenduserid', index: 'feesenduserid',hidden: true },//发送人员id
+		],
+		loadComplete : function() {
+			var table = this;
+			setTimeout(function(){
+				updatePagerIcons(table);
+			}, 0);
+		},
+		beforeEditCell: function (rowid, cellname, value, iRow, iCol) {
+			var rec = jQuery("#sectionList3").jqGrid('getRowData', rowid);
+			if (rec.feestate == "1" || rec.feestate == "2") {
+				setTimeout(function () {
+					jQuery("#sectionList3").jqGrid('restoreCell', iRow, iCol);
+					//===>或者设置为只读
+					//$('#' + rowid + '_amount').attr('readonly', true);
+				}, 1);
+			}
+		},
+		ondblClickRow: function (id) {
+		},
+		multiselect: true,
+		viewrecords: true,
+		cellsubmit: "clientArray",
+		cellEdit:true,
+		shrinkToFit: true,
+		altRows:true,
+		height: 'auto',
+		// rowNum: 10,
+		// rowList:[10,20,30],
+		// rownumbers: true, // 显示行号
+		// rownumWidth: 35, // the width of the row numbers columns
+		// pager: "#pager3",
+		onSelectRow: function(id){
+
+		}
+	});
+}
+
+function printCode() {
+	//打印标本条码号
+	var ids = $("#new").jqGrid('getGridParam', 'selarrrow');
+	if(ids == null || ids == ""){
+		layer.msg("请选择打印数据!", {icon:2, time: 1000});
+		return;
+	}
+	var saveDatas = [];
+	$.each(ids, function (key, val) {
+		var rowData = $("#new").jqGrid("getRowData", ids[key]);
+		saveDatas.push(rowData);
+		startPrint(rowData);
+	});
+	// $.ajax({
+	// 	type: "POST",
+	// 	async: false,
+	// 	url: "../nursestation/inexecute/printRequestList",
+	// 	dataType: "json",
+	// 	contentType: "application/json",
+	// 	data: JSON.stringify(saveDatas),
+	// 	success: function (data) {
+	// 		var printDatas = data.printOrders
+	// 		var noPrintDatas = data.noPrintOrders;
+	// 		for (i = 0; i < printDatas.length; i++) {
+	// 			startPrint(printDatas[i]);
+	// 		}
+	// 		for (i = 0; i < noPrintDatas.length; i++) {
+	//
+	// 		}
+	// 	}
+	//
+	// });
+	//刷新当前节点数据
+	// var zTree = $.fn.zTree.getZTreeObj("tree");
+	// var nodes = zTree.getSelectedNodes();
+	// if (nodes.length > 0) {
+	// 	zTree.selectNode(nodes[0]);
+	// 	zTree.setting.callback.onClick(null, zTree.setting.treeId, nodes[0]);//调用事件
+	// }
+}
+
+var LODOP; //声明为全局变量
+
+function Preview() {//打印预览
+	LODOP = getLodop();
+	CreateDataBill(data)
+	LODOP.PREVIEW();
+}
+function Setup() {//打印维护
+	LODOP = getLodop();
+	LODOP.PRINT_SETUP();
+}
+function CreateDataBill(data) {
+	if(data && data!=null){
+		var sex = "";
+		if(data.sampatientsex == '0'){sex = '男'}else if(data.sampatientsex == '1'){sex = '女'}else{sex = '未知'}
+		var ageUnit = "";
+		if(data.sampatientagetype == '1'){
+			ageUnit = "岁";
+		}else if(data.sampatientagetype == '2'){
+			ageUnit = "月";
+		}else if(data.sampatientagetype == '4'){
+			ageUnit = "周";
+		}else if(data.sampatientagetype == '5'){
+			ageUnit = "日";
+		}else if(data.sampatientagetype == '6'){
+			ageUnit = "小时";
+		}
+		LODOP = getLodop();
+		LODOP.PRINT_INIT("");
+		LODOP.SET_PRINT_PAGESIZE(0,520,400,"A4");
+		// LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
+		LODOP.ADD_PRINT_TEXT(10,100,230,35,"树兰（杭州）医院");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
+		LODOP.ADD_PRINT_TEXT(45,100,230,35,"浙江大学国际医院");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
+		LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
+		LODOP.SET_PRINT_STYLEA(0,"Horient",2);
+		LODOP.ADD_PRINT_TEXTA("nameText","33.00mm","12.46mm",45,20,"姓名：");
+		LODOP.ADD_PRINT_TEXTA("name","33.00mm","23.31mm",90,20,data.sampatientname);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("sexText","33.00mm","46.86mm",45,20,"性别：");
+		LODOP.ADD_PRINT_TEXTA("sex","33.00mm","58.5mm",30,20,sex);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("ageText","33.00mm","65.91mm",45,20,"年龄：");
+		LODOP.ADD_PRINT_TEXTA("age","33.00mm","77.55mm",40,20,data.sampatientage + ageUnit);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("examText","38.00mm","5.85mm",70,20,"临床诊断：");
+		LODOP.ADD_PRINT_TEXTA("exam","38.00mm","23.31mm",300,20,data.sampatientdignoses);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		LODOP.ADD_PRINT_TEXTA("requestTimeText","43.00mm","5.85mm",70,20,"申请时间：");
+		LODOP.ADD_PRINT_TEXTA("requestTime","43.00mm","23.31mm",300,20,data.samreqtime);
+		LODOP.ADD_PRINT_TEXTA("requesterText","48.00mm","5.85mm",70,20,"送检时间：");
+		LODOP.ADD_PRINT_TEXTA("requester","48.00mm","23.31mm",300,20,data.samsendtime);
+		LODOP.ADD_PRINT_TEXTA("executeTimeText","53.00mm","5.85mm",70,20,"登记时间：");
+		LODOP.ADD_PRINT_TEXTA("executeTime","53.00mm","23.31mm",300,20,data.samregisttime);
+
+	}
+}
+function startPrint(data) {
+	CreateDataBill(data);
+	//开始打印
+	LODOP.PRINT();
+//LODOP.PREVIEW();
+}
 
 
 

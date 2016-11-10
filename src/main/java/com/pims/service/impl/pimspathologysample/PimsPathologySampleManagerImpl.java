@@ -135,4 +135,9 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public String sampleCode() {
         return pimsPathologySampleDao.sampleCode();
     }
+
+    @Override
+    public int getSamStaNum() {
+        return pimsPathologySampleDao.getSamStaNum();
+    }
 }

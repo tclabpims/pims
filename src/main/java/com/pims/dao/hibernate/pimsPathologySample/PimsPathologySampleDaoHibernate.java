@@ -56,7 +56,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             sb.append(" and  samregisttime < :req_af_time");//结束时间
         }
         if (!StringUtils.isEmpty(map.getReq_code())) {
-            sb.append(" and saminspectionid = " + map.getReq_code());//病理状态
+            sb.append(" and samsamplestatus = " + map.getReq_code());//病理状态
         }
         return sb;
     }
@@ -230,5 +230,11 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         Object o = getSession().createSQLQuery(sql).uniqueResult();
         if(o==null) return null;
         return o.toString();
+    }
+
+    @Override
+    public int getSamStaNum() {
+        String sql = "select count(1) from pims_pathology_sample where samsamplestatus in (3,4,5,6,7)";
+        return countTotal(sql).intValue();
     }
 }
