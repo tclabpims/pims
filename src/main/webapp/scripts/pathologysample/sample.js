@@ -1016,6 +1016,7 @@ function fillInfo(id){
  * @returns {boolean}
  */
 function fillInfo1(id){
+	setcolor(id);
 	nowrow = id;
 	clearData();
 	var rowData = $("#new").jqGrid('getRowData',id);
@@ -1124,6 +1125,17 @@ function getSampleData1(id) {
 	});
 }
 /**
+ * 设置颜色
+ * @param id
+ */
+function setcolor(id){
+	var ids = $("#new").getDataIDs();
+	$.each(ids, function (key, val) {
+		$("#new").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+	});
+	$("#new").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
+/**
  * 上一个
  */
 function upSample(){
@@ -1139,6 +1151,7 @@ function upSample(){
 		id = parseInt(id) - 1;
 		//$("#new").setSelection(id);
 	}
+	setcolor(id);
 	$("#new").jqGrid('setSelection', id);
 	//fillInfo1(id);
 }
@@ -1158,6 +1171,7 @@ function downSample() {
 		id = parseInt(id) + 1;
 		//$("#new").setSelection(id);
 	}
+	setcolor(id);
 	fillInfo1(id);
 }
 /**
@@ -1525,32 +1539,6 @@ function CreateDataBill(data) {
 		LODOP.ADD_PRINT_TEXTA("requester","48.00mm","23.31mm",300,20,data.samsendtime);
 		LODOP.ADD_PRINT_TEXTA("executeTimeText","53.00mm","5.85mm",70,20,"登记时间：");
 		LODOP.ADD_PRINT_TEXTA("executeTime","53.00mm","23.31mm",300,20,data.samregisttime);
-		LODOP.ADD_PRINT_TEXTA("reportTimeText","58.00mm","5.58mm",70,20,"报告时间：");
-		LODOP.ADD_PRINT_TEXTA("reportTime","58.00mm","23.31mm",300,20,data.reportTime);
-		LODOP.ADD_PRINT_TEXTA("reportPlaceText","63.00mm","5.58mm",70,20,"取单地点：");
-		LODOP.ADD_PRINT_TEXTA("reportPlace","63.00mm","23.31mm",300,20,data.reportPlace);
-		LODOP.ADD_PRINT_TEXTA("tip1","68.00mm","5.58mm",360,20,"*法定节假日(如:春节等)仪器故障报告时间顺延*");
-		LODOP.ADD_PRINT_TEXTA("tip2","73.00mm","5.58mm",360,20,"*抽血时请携带就诊卡，凭此单或就诊卡取检验报告*");
-
-		LODOP.ADD_PRINT_TEXTA("patientinfo","78mm","2.85mm",180,20,patientInfo);
-		LODOP.ADD_PRINT_TEXTA("testinfo","82mm","2.95mm",180,20,data.testName);
-		LODOP.ADD_PRINT_BARCODEA("barcode","86mm","2.85mm","46mm",30,"128B",data.barcode);
-		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
-		LODOP.ADD_PRINT_TEXTA("code","94mm","8.2mm",150,20,"*"+data.sampleNo+"*");
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("patientinfo1","98mm","2.95mm",180,20,patientInfo1);
-		LODOP.ADD_PRINT_TEXTA("labInfo","102mm","2.95mm",180,20, labInfo);
-		LODOP.ADD_PRINT_TEXTA("datetime","106mm","2.95mm",180,20,"采集时间 "+data.executeTime);
-
-		LODOP.ADD_PRINT_TEXTA("patientinfo","78mm","51.25mm",180,20,patientInfo);
-		LODOP.ADD_PRINT_TEXTA("testinfo","82mm","51.25mm",180,20,data.testName);
-		LODOP.ADD_PRINT_BARCODEA("barcode","86mm","51.25mm","46mm",30,"128B",data.barcode);
-		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
-		LODOP.ADD_PRINT_TEXTA("code","94mm","55.95mm",150,20,"*"+data.sampleNo+"*");
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("patientinfo1","98mm","51.25mm",180,20,patientInfo1);
-		LODOP.ADD_PRINT_TEXTA("labInfo","102mm","51.25mm",180,20, labInfo);
-		LODOP.ADD_PRINT_TEXTA("datetime","106mm","51.25mm",180,20,"采集时间 "+data.executeTime);
 
 	}
 }

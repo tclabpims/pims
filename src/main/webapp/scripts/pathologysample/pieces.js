@@ -1,5 +1,16 @@
 var nowrow = "";
 /**
+ * 设置颜色
+ * @param id
+ */
+function setcolor(id){
+	var ids = $("#new").getDataIDs();
+	$.each(ids, function (key, val) {
+		$("#new").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+	});
+	$("#new").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
+/**
  * 上一个
  */
 function upSample(){
@@ -303,6 +314,7 @@ function searchList() {
 	}).trigger('reloadGrid');//重新载入
 }
 function fillInfo(id){
+	setcolor(id);
 	nowrow = id;
 	clearData();
 	//var id = $("#new").jqGrid('getGridParam', 'selrow');
@@ -560,6 +572,30 @@ function saveAsTemplate(v, obj) {
 		}
 	})
 
+}
+
+function takingPicture() {
+	var id = nowrow;
+	if (id == null || id.length == 0) {
+		layer.msg('请先选择标本', {icon: 2, time: 1000});
+		return false;
+	}
+	layer.open({
+		type: 2,
+		title: '标本处理>取材管理>图像采集',
+		shadeClose: false,
+		shade: 0.5,
+		closeBtn:false,
+		maxmin: false, //开启最大化最小化按钮
+		area: ['320px', '360px'],
+		content: ["../diagnosis/camera"],
+		btn:["关闭"],
+		yes: function(index, layero){
+			//swfobject.removeSWF("Main");
+			layer.close(index); //如果设定了yes回调，需进行手工关闭
+			// console.log(layero)
+		}
+	});
 }
 
 

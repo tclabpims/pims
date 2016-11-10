@@ -1,4 +1,15 @@
 var nowrow = "";//当前显示数据所在的行
+/**
+ * 设置颜色
+ * @param id
+ */
+function setcolor(id){
+	var ids = $("#new").getDataIDs();
+	$.each(ids, function (key, val) {
+		$("#new").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+	});
+	$("#new").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
 function changeimgclick(num) {//1切片 取消包埋
 	if(num == 1){
 		nowrow = 3;
@@ -349,6 +360,7 @@ function searchList() {
 	}).trigger('reloadGrid');//重新载入
 }
 function fillInfo(id){
+	setcolor(id);
 	clearData();
 	var rowData = $("#new").jqGrid('getRowData',id);
 	getSampleData(rowData.sampleid);

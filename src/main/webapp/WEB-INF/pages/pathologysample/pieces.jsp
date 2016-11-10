@@ -36,7 +36,7 @@
 		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
 		<div class="div_div"><img src="/styles/imagepims/piece.png" class="div_img" id="saveButton" onclick="saveInfo(1)">取材</div>
 		<div class="div_div"><img src="/styles/imagepims/fee.png" class="div_img" id="hisbutton">计费调整</div>
-		<div class="div_div"><img src="/styles/imagepims/imgget.png" class="div_img" onclick="imgCollect()">图像采集</div>
+		<div class="div_div"><img src="/styles/imagepims/imgget.png" class="div_img" onclick="takingPicture()">图像采集</div>
 		<div class="div_div"><img src="/styles/imagepims/listprint.png" class="div_img" onclick="listPrint()">列表打印</div>
 	</div>
 	<div>
