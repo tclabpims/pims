@@ -45,6 +45,16 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     @Autowired
     private PimsPathologySlideManager pimsPathologySlideManager;
 
+    @RequestMapping(value = "/orderchildandcheckitem", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getOrderChildAndCheckItem(HttpServletRequest request, HttpServletResponse response) {
+        DataResponse dr = new DataResponse();
+        long orderId = Long.valueOf(request.getParameter("orderId"));
+        PimsPathologyOrderChild child = pimsPathologyOrderChildManager.getChildByOrderId(orderId);
+        List<PimsPathologyOrderCheck> orderChecks = pimsPathologyOrderCheckManager.getOrderCheckByOrderId(orderId);
+        return dr;
+    }
+
     @RequestMapping(value = "/getorders", method = RequestMethod.GET)
     @ResponseBody
     public DataResponse getOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface PimsPathologyOrderCheckDao extends GenericDao<PimsPathologyOrderCheck, Long> {
     void batchSave(List<PimsPathologyOrderCheck> checkItems);
+
+    List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId);
 }

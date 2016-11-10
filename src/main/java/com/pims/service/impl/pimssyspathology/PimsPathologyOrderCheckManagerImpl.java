@@ -28,4 +28,9 @@ public class PimsPathologyOrderCheckManagerImpl extends GenericManagerImpl<PimsP
     public void batchSave(List<PimsPathologyOrderCheck> checkItems) {
         pathologyOrderCheckDao.batchSave(checkItems);
     }
+
+    @Override
+    public List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId) {
+        return pathologyOrderCheckDao.getOrderCheckByOrderId(orderId);
+    }
 }

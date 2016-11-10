@@ -3,6 +3,7 @@ package com.pims.dao.hibernate.pimssyspathology;
 import com.pims.dao.pimssyspathology.PimsPathologyOrderChildDao;
 import com.pims.model.PimsPathologyOrderChild;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,5 +18,12 @@ public class PimsPathologyOrderChildDaoHibernate extends GenericDaoHibernate<Pim
      */
     public PimsPathologyOrderChildDaoHibernate() {
         super(PimsPathologyOrderChild.class);
+    }
+
+    @Override
+    public PimsPathologyOrderChild getChildByOrderId(long orderId) {
+        Query query = getSession().createQuery("from PimsPathologyOrderChild where chiorderid=:orderId");
+        query.setParameter("orderId", orderId);
+        return (PimsPathologyOrderChild) query.uniqueResult();
     }
 }

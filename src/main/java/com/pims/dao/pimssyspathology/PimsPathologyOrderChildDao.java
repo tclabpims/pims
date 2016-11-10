@@ -8,4 +8,5 @@ import com.smart.dao.GenericDao;
  * Description:
  */
 public interface PimsPathologyOrderChildDao extends GenericDao<PimsPathologyOrderChild, Long> {
+    PimsPathologyOrderChild getChildByOrderId(long orderId);
 }

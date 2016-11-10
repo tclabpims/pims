@@ -39,7 +39,6 @@ function saveFieldData() {
         layer.msg('信息填写不完整', {icon: 2, time: 1000});
         return false;
     }
-    alert($('#fieldcss').val())
     if ($('#fieldid').val() == '') {
         $('#fiepelementid').val(nodes[0].id);
         var showorder = nodes[0].level+1+".";

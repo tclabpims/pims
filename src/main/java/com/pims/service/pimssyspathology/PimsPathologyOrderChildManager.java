@@ -8,4 +8,5 @@ import com.smart.service.GenericManager;
  * Description:
  */
 public interface PimsPathologyOrderChildManager extends GenericManager<PimsPathologyOrderChild, Long> {
+    PimsPathologyOrderChild getChildByOrderId(long orderId);
 }

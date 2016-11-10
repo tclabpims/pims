@@ -3,6 +3,7 @@ package com.pims.dao.hibernate.pimssyspathology;
 import com.pims.dao.pimssyspathology.PimsPathologyOrderCheckDao;
 import com.pims.model.PimsPathologyOrderCheck;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
@@ -33,5 +34,12 @@ public class PimsPathologyOrderCheckDaoHibernate extends GenericDaoHibernate<Pim
         //transaction.commit();
         //session.flush();
        // session.close();
+    }
+
+    @Override
+    public List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId) {
+        Query query = getSession().createQuery(" from PimsPathologyOrderCheck where cheorderid=:orderId");
+        query.setParameter("orderId", orderId);
+        return query.list();
     }
 }

@@ -71,7 +71,7 @@ function getSampleData1(id) {
 
             //createOptions(data.patIsSampling, data.specialCheck);
 
-            var mills = data.saminitiallytime;
+            /*var mills = data.saminitiallytime;
             var t1;
             if (mills != null && mills != "") {
                 t1 = new Date(parseInt(mills)).Format("yyyy-MM-dd hh:mm:ss")
@@ -97,7 +97,7 @@ function getSampleData1(id) {
                 $("#samreportedtime").val('');//报告时间
             }
             $("#samreportorid").val(data.samreportorid);//报告医生编号
-            $("#samreportor").val(data.samreportor);//报告医生姓名
+            $("#samreportor").val(data.samreportor);//报告医生姓名*/
 
             //重新加载取材信息列表
             jQuery("#materialList").jqGrid("clearGridData");
@@ -153,6 +153,31 @@ function setSelect(c) {
         else crno = crno + 1;
     }
     $("#sectionList").jqGrid('setSelection', crno);
+}
+
+function CurentTime(now) {
+    //var now = new Date();
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();            //日
+    var hh = now.getHours();            //时
+    var mm = now.getMinutes();          //分
+    var ss = now.getMilliseconds();    //秒
+    var clock = year + "-";
+    if (month < 10)
+        clock += "0";
+    clock += month + "-";
+    if (day < 10)
+        clock += "0";
+    clock += day + " ";
+    if (hh < 10)
+        clock += "0";
+    clock += hh + ":";
+    if (mm < 10) clock += '0';
+    clock += mm + ":";
+    if (ss < 10) clock += '0';
+    clock += ss;
+    return (clock);
 }
 
 $(function () {

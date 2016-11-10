@@ -22,4 +22,8 @@ public class PimsPathologyOrderChildManagerImpl extends GenericManagerImpl<PimsP
         this.pathologyOrderChildDao = pathologyOrderChildDao;
     }
 
+    @Override
+    public PimsPathologyOrderChild getChildByOrderId(long orderId) {
+        return pathologyOrderChildDao.getChildByOrderId(orderId);
+    }
 }

@@ -240,13 +240,23 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         context.put("samdeptname", sample.getSamdeptname());
         context.put("samsenddoctorname", sample.getSamsenddoctorname());
         context.put("samsamplename", sample.getSamsamplename());
+        if(sample.getSamsendtime() != null)
         context.put("samsendtime", Constants.DF2.format(sample.getSamsendtime()));
+        else
+        context.put("samsendtime", "");
         context.put("sampatientaddress", sample.getSampatientaddress());
+        if(sample.getSamreceivertime() != null)
         context.put("samreceivertime", Constants.DF2.format(sample.getSamreceivertime()));
+        else
+        context.put("samreceivertime", "");
         context.put("sampatientdignoses", sample.getSampatientdignoses());
         context.put("samreportor", sample.getSamreportor());
         context.put("samauditer", sample.getSamauditer());
+        if(sample.getSamreportedtime() != null)
         context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
+        else
+        context.put("samreportedtime", "");
+
         return context;
     }
 
