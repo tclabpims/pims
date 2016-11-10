@@ -365,11 +365,11 @@ public class PimsPathologySampleController extends PIMSBaseController{
             for(int i=0;i<feesList.size();i++){
                 Map map = (Map) feesList.get(i);
                 PimsPathologyFee fee = (PimsPathologyFee) setBeanProperty(map,PimsPathologyFee.class);
-                fee.setFeestate(2);
                 fee.setFeesenduserid(String.valueOf(user.getId()));
                 fee.setFeesendusername(user.getName());
                 fee.setFeesendtime(new Date());
                 if(fee.getFeestate() == 0){
+                    fee.setFeestate(2);
                     pimsPathologyFeeManager.save(fee);
                 }
                 //// TODO: 2016/11/3 发送到HIS

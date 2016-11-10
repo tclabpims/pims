@@ -17,6 +17,7 @@
     <script type="text/javascript" src="../scripts/pathologysample/slide.js"></script>
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
+	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
 	<style>
 		.ui-autocomplete {z-index: 99999999;}
 		.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }

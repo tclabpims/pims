@@ -56,4 +56,6 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
      * @return
      */
     String sampleCode();
+
+    int getSamStaNum();
 }

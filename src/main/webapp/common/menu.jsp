@@ -183,7 +183,7 @@
     <div style="float:right;padding-right:15px;font-size:14px;">
         <a href="#" style="background-color: green;border-radius:5px;float:left;margin-top: 2px;">&nbsp;
             <img src="/styles/imagepims/nookwork.png">
-            <span style="color: #ffffff">我的未处理工作</span>&nbsp;<span style="color: red">(5)</span>&nbsp;
+            <span style="color: #ffffff">我的未处理工作</span>&nbsp;<span style="color: red">(${noworkList})</span>&nbsp;
         </a>
         <ul style="float:left;list-style: none;margin-right: 20px">
             <li class="dropdown">

@@ -23,6 +23,7 @@
     <script type="text/javascript" src="<c:url value='/scripts/layer/layer.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/pspathology/diagnosis.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/consultation/cons1.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/task/task1.js'/>"></script>
 </head>
 <style>
     .ui-jqgrid {
@@ -115,6 +116,12 @@
             <div id="pager3"></div>
         </div>
     </div>
+    <div class="row" id="userGrid1" style="display: none;">
+        <div class="col-xs-12">
+            <table id="sectionList4"></table>
+            <div id="pager4"></div>
+        </div>
+    </div>
     <div id="mainTable" class="col-xs-12">
         <div style="padding-top: 5px;">
             <div class="col-xs-12">
@@ -152,7 +159,7 @@
                 <button type="button" class="btn btn-sm btn-primary" title="导出" onclick="deleteSection()">
                     导出
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="csMarage()">
                     抄送管理
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="发起会诊" onclick="consMarage()">

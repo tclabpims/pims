@@ -231,4 +231,10 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(o==null) return null;
         return o.toString();
     }
+
+    @Override
+    public int getSamStaNum() {
+        String sql = "select count(1) from pims_pathology_sample where samsamplestatus in (3,4,5,6,7)";
+        return countTotal(sql).intValue();
+    }
 }
