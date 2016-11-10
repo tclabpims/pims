@@ -4,6 +4,7 @@ import com.pims.model.PimsPathologyOrderCheck;
 import com.smart.dao.GenericDao;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 909436637@qq.com on 2016/11/4.
@@ -13,4 +14,6 @@ public interface PimsPathologyOrderCheckDao extends GenericDao<PimsPathologyOrde
     void batchSave(List<PimsPathologyOrderCheck> checkItems);
 
     List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId);
+
+    List calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode);
 }

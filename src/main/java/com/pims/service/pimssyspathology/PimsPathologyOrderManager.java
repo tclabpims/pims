@@ -2,6 +2,7 @@ package com.pims.service.pimssyspathology;
 
 import com.pims.model.PimsPathologyOrder;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.model.user.User;
 import com.smart.service.GenericManager;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface PimsPathologyOrderManager extends GenericManager<PimsPathologyO
     List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState);
 
     Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState);
+
+    void updateOrderState(long orderId, long orderState, User user);
 }

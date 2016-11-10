@@ -86,22 +86,9 @@
     .ui-timepicker-div td { font-size: 90%; }
 </style>
 <SCRIPT LANGUAGE="JavaScript">
-
-    var GRID_SELECTED_ROW_SAMPLEID;
-    var GRID_SELECTED_ROW_SAMPCUSTOMERID;
     var OsObject = navigator.userAgent;
-
-    //此地址给摄像头插件调用
-    function imgUploadPath() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/upload?sampleid="%>" + GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + GRID_SELECTED_ROW_SAMPCUSTOMERID;
-    }
-
-    //此地址给文件上传插件调用
-    function multifileUploadUrl() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/multiupload?sampleid="%>" + GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + GRID_SELECTED_ROW_SAMPCUSTOMERID;
-    }
-
 </SCRIPT>
+<body>
 <div class="row" id="toolbar">
     <div  class="row" id="userGrid" style="display: none;">
         <div class="col-xs-12">
@@ -118,10 +105,10 @@
                 <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="接收" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="接收" id="btAccept" onclick="accept()">
                     接收
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="完成" onclick="takingPicture()">
+                <button type="button" class="btn btn-sm btn-primary" title="完成" id="btFinish" onclick="finish()">
                     完成
                 </button>
             </div>
@@ -205,7 +192,7 @@
                     </ul>
                     <div id="tabs-1">
                         <div>
-                            <div style="display: inline">病历号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">病理号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="sampathologycode"></div>
                             <input type="hidden" id="sampleid"/>
                             <input type="hidden" id="customerId"/>
@@ -258,7 +245,36 @@
                 </div>
             </div>
         </div>
-
+        <div><h6>申请信息</h6></div>
+        <div>
+            <div style="display: inline;float: left">病理号：<input id="chipathologycode" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;">特检类型：<input id="testItemChName" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;float: right">申请时间：<input id="chireqtime" style="border-width: 0px 0px 1px 0px"></div>
+        </div>
+        <div>
+            <div style="display: inline;float: left">医嘱号：<input id="chiordercode" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;">申请医生：<input id="chirequsername" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;float: right"><font color="red">白片数</font>：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
+        </div>
+        <div>
+            <div style="float: left">
+                <div style="height:26px">
+                        <div><h6>检测项目一览</h6></div>
+                </div>
+                <div style="height:200px">
+                    <div><table id="checkItemList"></table></div>
+                </div>
+                <div style="height:26px">
+                    <div>检测项目合计：<span id="itemCal"></span></div>
+                </div>
+            </div>
+            <div style="float: right">
+                <div style="height:26px">
+                    <div><h6>医嘱开单费用列表</h6></div>
+                </div>
+                <div style="height:200px"><table id="childChargeList"></table></div>
+            </div>
+        </div>
     </div>
     <div id="takingPicture" class="col-xs-2">
         <div class="widget-box widget-color-green ui-sortable-handle">
@@ -421,60 +437,5 @@
             </div>
         </div>
     </div>
-    <div id="flashContent" style="display: none">
-        <script type="text/javascript">
-            // 包含「Opera」文字列
-            if (OsObject.indexOf("Opera") != -1) {
-                //document.write('您的浏览器是Opera吧？');
-            }
-// 包含「MSIE」文字列
-            else if (window.ActiveXObject || "ActiveXObject" in window) {
-                document.write("<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" width=\"320\" height=\"300\" id=\"Main\">");
-                document.write("<param name=\"movie\" value=\"http://localhost:8080/scripts/picture/Main.swf\" />");
-                document.write("<param name=\"quality\" value=\"high\" />");
-                document.write("<param name=\"bgcolor\" value=\"#ffffff\" />");
-                document.write("<param name=\"allowScriptAccess\" value=\"sameDomain\" />");
-                document.write("<param name=\"allowFullScreen\" value=\"true\" />");
-                document.write("</object>");
-            }
-// 包含「chrome」文字列 ，不过360浏览器也照抄chrome的UA
-
-            else if (OsObject.indexOf("Chrome") != -1) {
-                document.write("<object type=\"application/x-shockwave-flash\" data=\"http://localhost:8080/scripts/picture/Main.swf\" width=\"320\" height=\"300\">");
-                document.write("<param name=\"quality\" value=\"high\" />");
-                document.write("<param name=\"bgcolor\" value=\"#ffffff\" />");
-                document.write("<param name=\"allowScriptAccess\" value=\"sameDomain\" />");
-                document.write("<param name=\"allowFullScreen\" value=\"true\" />");
-                document.write("</object>");
-            }
-// 包含「UCBrowser」文字列
-            else if (OsObject.indexOf("UCBrowser") != -1) {
-
-            }
-// 包含「BIDUBrowser」文字列
-            else if (OsObject.indexOf("BIDUBrowser") != -1) {
-                document.write('您的浏览器是百度浏览器吧？');
-            }
-// 包含「Firefox」文字列
-            else if (OsObject.indexOf("Firefox") != -1) {
-                document.write("<object type=\"application/x-shockwave-flash\" data=\"http://localhost:8080/scripts/picture/Main.swf\" width=\"320\" height=\"300\">");
-                document.write("<param name=\"quality\" value=\"high\" />");
-                document.write("<param name=\"bgcolor\" value=\"#ffffff\" />");
-                document.write("<param name=\"allowScriptAccess\" value=\"sameDomain\" />");
-                document.write("<param name=\"allowFullScreen\" value=\"true\" />");
-                document.write("</object>");
-            }
-// 包含「Netscape」文字列
-            else if (OsObject.indexOf("Netscape") != -1) {
-
-            }
-// 包含「Safari」文字列
-            else if (OsObject.indexOf("Safari") != -1) {
-
-            }
-            else {
-                document.write('无法识别的浏览器。');
-            }
-        </script>
-    </div>
+</body>
 </html>

@@ -4,11 +4,13 @@ import com.pims.dao.pimssyspathology.PimsPathologyOrderCheckDao;
 import com.pims.model.PimsPathologyOrderCheck;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 909436637@qq.com on 2016/11/4.
@@ -40,6 +42,15 @@ public class PimsPathologyOrderCheckDaoHibernate extends GenericDaoHibernate<Pim
     public List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId) {
         Query query = getSession().createQuery(" from PimsPathologyOrderCheck where cheorderid=:orderId");
         query.setParameter("orderId", orderId);
+        return query.list();
+    }
+
+    @Override
+    public List calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode) {
+        String sql = "select Rf.Refhischargename,Rf.Refhisprice,Rf.Referenceid,ps.chargeitemid from PIMS_SYS_CHARGEITEM_REF rf,PIMS_SYS_CHARGE_ITEMS ps where Rf.Chargeitemid=ps.chargeitemid and ps.testitemid in(:checkItemId) and rf.CUSTOMERID=:ordcustomercode";
+        SQLQuery query = getSession().createSQLQuery(sql);
+        query.setParameterList("checkItemId", checkItemId);
+        query.setParameter("ordcustomercode", ordcustomercode);
         return query.list();
     }
 }

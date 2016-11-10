@@ -5,6 +5,7 @@ import com.pims.model.PimsPathologyOrder;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import com.smart.model.user.User;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
@@ -120,5 +121,26 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);
         return ((BigDecimal)query.uniqueResult()).intValue();
+    }
+
+    /**
+     * 更新医嘱状态 设置操作人员
+     * @param orderId 医嘱编号
+     * @param orderState 医嘱状态：0已申请 1已接受 2已完成 3已签收 4已取消
+     * @param user 当前操作用户
+     */
+    @Override
+    public void updateOrderState(long orderId, long orderState, User user) {
+        Long userId = user.getId();
+        String name = user.getName();
+        if(orderState == Constants.ORDER_STATE_ACCEPT) {
+
+        } else if(orderState == Constants.ORDER_STATE_FINISH) {
+
+        } else if(orderState == Constants.ORDER_STATE_RECEIVING) {
+
+        } else if(orderState == Constants.ORDER_STATE_CANCEL) {
+
+        }
     }
 }

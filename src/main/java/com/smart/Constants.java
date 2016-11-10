@@ -348,5 +348,11 @@ public final class Constants {
 	//---------------------------------------------文件大小-----------------------------------------------------
 	public final static long FILE_MAX_SIZE = 100 * 1024 * 1024;  //最大100M
 
+	//---------------------------------------------医嘱状态-----------------------------------------------------
+	public final static long ORDER_STATE_REQUEST = 0;
+	public final static long ORDER_STATE_ACCEPT = 1;
+	public final static long ORDER_STATE_FINISH = 2;
+	public final static long ORDER_STATE_RECEIVING = 3;
+	public final static long ORDER_STATE_CANCEL = 4;
 
 }

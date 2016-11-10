@@ -5,13 +5,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsPathologyOrder;
 import com.pims.model.PimsPathologyOrderCheck;
 import com.pims.model.PimsPathologyOrderChild;
+import com.pims.model.PimsSysReqTestitem;
 import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderCheckManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderChildManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
+import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
+import com.pims.webapp.controller.WebControllerUtil;
 import com.smart.Constants;
+import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 909436637@qq.com on 2016/11/4.
@@ -45,13 +48,61 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     @Autowired
     private PimsPathologySlideManager pimsPathologySlideManager;
 
+    @Autowired
+    private PimsSysReqTestitemManager pimsSysReqTestitemManager;
+
+    @RequestMapping(value = "/updateorderstate", method = RequestMethod.GET)
+    @ResponseBody
+    public void updateOrderState(HttpServletRequest request, HttpServletResponse response) throws Exception  {
+        long orderId = Long.valueOf(request.getParameter("orderId"));
+        long orderState = Long.valueOf(request.getParameter("orderState"));
+        User user = WebControllerUtil.getAuthUser();
+        pimsPathologyOrderManager.updateOrderState(orderId, orderState, user);
+    }
+
     @RequestMapping(value = "/orderchildandcheckitem", method = RequestMethod.GET)
     @ResponseBody
-    public DataResponse getOrderChildAndCheckItem(HttpServletRequest request, HttpServletResponse response) {
+    public DataResponse getOrderChildAndCheckItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dr = new DataResponse();
         long orderId = Long.valueOf(request.getParameter("orderId"));
+        PimsPathologyOrder order = pimsPathologyOrderManager.get(orderId);
         PimsPathologyOrderChild child = pimsPathologyOrderChildManager.getChildByOrderId(orderId);
+        PimsSysReqTestitem testitem = pimsSysReqTestitemManager.get(child.getTestItemId());
+        child.setTestItemChName(testitem.getTeschinesename());
+        //技术检查项
         List<PimsPathologyOrderCheck> orderChecks = pimsPathologyOrderCheckManager.getOrderCheckByOrderId(orderId);
+
+        //取医嘱项目的计费信息
+        List<Map<String, Object>> orderChildChargeItem = pimsPathologyOrderChildManager.getOrderChildChargeItem(child.getTestItemId(), order.getOrdcustomercode());
+
+        JSONArray childChargeJson = new JSONArray();
+
+        if(orderChildChargeItem.size() > 0) {
+            for(Map<String, Object> map : orderChildChargeItem) {
+                JSONObject jsonObject = new JSONObject(map);
+                childChargeJson.add(jsonObject);
+            }
+        }
+
+        //取检验项目的计费信息
+        String checkChargeJson = "{}";
+        Set<Long> checkItemId = new HashSet<>();
+        if(orderChecks.size() > 0) {
+            for(PimsPathologyOrderCheck ck : orderChecks) {
+                checkItemId.add(Long.valueOf(ck.getCheorderitemid()));
+            }
+        }
+
+        if(checkItemId.size() > 0) {
+            checkChargeJson = pimsPathologyOrderCheckManager.calCheckItemCharge(checkItemId, order.getOrdcustomercode());
+        }
+
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("checkChargeJson", checkChargeJson);
+        userData.put("childChargeJson", childChargeJson);
+        userData.put("orderChild", JSONObject.toJSON(child).toString());
+        dr.setUserdata(userData);
+        dr.setRows(getResultMap(orderChecks));
         return dr;
     }
 

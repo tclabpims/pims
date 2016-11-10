@@ -4,6 +4,7 @@ import com.pims.dao.pimssyspathology.PimsPathologyOrderDao;
 import com.pims.model.PimsPathologyOrder;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.model.user.User;
 import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,10 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
     @Override
     public Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
         return pimsPathologyOrderDao.countOrders(specialCheck, pathologyCode, startDate, endDate, patientName, orderState);
+    }
+
+    @Override
+    public void updateOrderState(long orderId, long orderState, User user) {
+        pimsPathologyOrderDao.updateOrderState(orderId, orderState, user);
     }
 }
