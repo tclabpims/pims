@@ -105,10 +105,10 @@
                 <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="接收" id="btAccept" onclick="accept()">
+                <button type="button" class="btn btn-sm btn-primary" title="接收" id="btAccept" onclick="updateState(1)">
                     接收
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="完成" id="btFinish" onclick="finish()">
+                <button type="button" class="btn btn-sm btn-primary" title="完成" id="btFinish" onclick="updateState(2)">
                     完成
                 </button>
             </div>
@@ -144,7 +144,7 @@
                             <div style="display:inline;"><label>源病理号：</label><input type="text" id="q_pathologyCode"
                                                                                     style="width: 120px"></div>
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 120px">
-                                <button onclick="query()"> 查询</button></div>
+                                <button onclick="query(-1)"> 查询</button></div>
                             <div style="display:inline;">
                                 <div style="text-align: left">
                                     <label for="selectAll">全选</label>
@@ -153,12 +153,12 @@
                             </div>
                             <div style="display:inline;">
                                 <div style="display:inline;padding-right: 5px">
-                                    <a href="#">全部</a>
+                                    <a href="#" onclick="query(-1)">全部</a>
                                 </div>
-                                <div style="display:inline;padding-right: 5px"><a href="#">已申请</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#">已接收</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#">已完成</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#">已签收</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(0)">已申请</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(1)">已接收</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(2)">已完成</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(3)">已签收</a></div>
                             </div>
                         </div>
                     </div>
