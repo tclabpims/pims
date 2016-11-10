@@ -42,7 +42,7 @@
     }
 
 </SCRIPT>
-<body>
+<body onunload="removeVideo()">
 <div id="flashContent" style="display: none;">
     <p>
         To view this page ensure that Adobe Flash Player version
@@ -85,6 +85,11 @@
                     });});
         // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
         swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+
+    function removeVideo() {
+        swfobject.removeSWF("Main");
+    }
+
 </script>
 <noscript>
     <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="Main">
