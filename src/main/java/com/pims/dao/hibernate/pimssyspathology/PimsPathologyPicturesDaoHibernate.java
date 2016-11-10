@@ -31,8 +31,10 @@ public class PimsPathologyPicturesDaoHibernate extends GenericDaoHibernate<PimsP
     }
 
     @Override
-    public List<PimsPathologyPictures> getSamplePicture(Long sampleId) {
-        Query query = getSession().createQuery("from PimsPathologyPictures as a  where a.picsampleid=:sampleId");
-        return query.setParameter("sampleId", sampleId).list();
+    public List<PimsPathologyPictures> getSamplePicture(Long sampleId, Long pictureClass) {
+        Query query = getSession().createQuery("from PimsPathologyPictures as a  where a.picsampleid=:sampleId and picpictureclass=:pictureClass");
+        query.setParameter("sampleId", sampleId);
+        query.setParameter("pictureClass", pictureClass);
+        return query.list();
     }
 }

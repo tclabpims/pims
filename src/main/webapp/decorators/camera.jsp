@@ -29,12 +29,12 @@
 <SCRIPT LANGUAGE="JavaScript">
     //此地址给摄像头插件调用
     function imgUploadPath() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/upload?sampleid="%>" + parent.GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + parent.GRID_SELECTED_ROW_SAMPCUSTOMERID;
+        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/upload?sampleid="%>" + parent.GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + parent.GRID_SELECTED_ROW_SAMPCUSTOMERID + "&picpictureclass=" + parent.PIC_TAKING_FROM;
     }
 
     //此地址给文件上传插件调用
     function multifileUploadUrl() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/multiupload?sampleid="%>" + parent.GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + parent.GRID_SELECTED_ROW_SAMPCUSTOMERID;
+        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/multiupload?sampleid="%>" + parent.GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + parent.GRID_SELECTED_ROW_SAMPCUSTOMERID + "&picpictureclass=" + parent.PIC_TAKING_FROM;
     }
 
     function createImgElement(src) {

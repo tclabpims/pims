@@ -12,5 +12,5 @@ import java.util.List;
 public interface PimsPathologyPicturesDao extends GenericDao<PimsPathologyPictures, Long> {
     void removeByName(String picName, Long sampleId);
 
-    List<PimsPathologyPictures> getSamplePicture(Long sampleId);
+    List<PimsPathologyPictures> getSamplePicture(Long sampleId, Long pictureClass);
 }

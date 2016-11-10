@@ -126,6 +126,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
         String picNum = request.getParameter("picNum");
+        Long pictureClass = Long.valueOf(request.getParameter("picpictureclass"));
         int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
         String templateUrl = request.getParameter("templateUrl");
         int operateType = Integer.valueOf(request.getParameter("type"));
@@ -133,7 +134,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         PimsPathologySample pimsPathologySample = pimsPathologySampleManager.get(sampleId);
         PimsSysPathology pathology = pimsSysPathologyManager.get(pimsPathologySample.getSampathologyid());
         PimsSampleResult result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
-        List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId);
+        List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
 
         VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
         if (picNumInt > pictures.size()) picNumInt = pictures.size();
@@ -271,6 +272,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         String sampleId = request.getParameter("sampleid");
         String samCustomerId = request.getParameter("samcustomerid");
         String continuous = request.getParameter("continuous");
+        Long picPictureClass = Long.valueOf(request.getParameter("picpictureclass"));
         ServletInputStream inputStream = request.getInputStream();
         BufferedImage bufferedImage = ImageIO.read(inputStream);
         String customerFileDir = "/images/jpg" + "/" + samCustomerId + "/" + sampleId;
@@ -319,7 +321,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             ImageIO.write(bufferedImage, "jpeg", dirPath);
         }
 
-        PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), dirPath, picIndex, request);
+        PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), dirPath, picIndex, request, picPictureClass);
 
         Map<String, Object> map = new HashMap<>();
         map.put("name", pp.getPicpicturename());
@@ -331,7 +333,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     }
 
 
-    private PimsPathologyPictures saveImageFile(Long sampleId, File dirPath, int picIndex, HttpServletRequest request) throws IOException {
+    private PimsPathologyPictures saveImageFile(Long sampleId, File dirPath, int picIndex, HttpServletRequest request, Long pictureClass) throws IOException {
         User user = WebControllerUtil.getAuthUser();
         PimsPathologySample sample = pimsPathologySampleManager.get(sampleId);
         PimsPathologyPictures pic = new PimsPathologyPictures();
@@ -342,7 +344,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         pic.setPiccreateuser(String.valueOf(user.getId()));
         pic.setPiccustomerid(sample.getSamcustomerid());
         pic.setPicpathologycode(sample.getSampathologycode());
-        pic.setPicpictureclass(2);
+        pic.setPicpictureclass(pictureClass);
         pic.setPicpicturename(dirPath.getName());
         pic.setPicpicturetype(1);
         pic.setPicpictureno(picIndex);
@@ -364,6 +366,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         Map<String, Object> map = new HashMap<>();
         String sampleId = request.getParameter("sampleid");
         String samCustomerId = request.getParameter("samcustomerid");
+        Long picPictureClass = Long.valueOf(request.getParameter("picpictureclass"));
         String customerFileDir = "/images/jpg" + "/" + samCustomerId + "/" + sampleId;
         // the directory to upload to
         String uploadDir = request.getSession().getServletContext().getRealPath(customerFileDir);
@@ -374,7 +377,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         File filePath = new File(uploadDir);
         if (uploadFiles.size() > 0) {
             for (File file : uploadFiles) {
-                PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), file, (filePath.list().length + 1), request);
+                PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), file, (filePath.list().length + 1), request, picPictureClass);
                 map.put("name", pp.getPicpicturename());
                 map.put("src", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/"+customerFileDir + "/" + file.getName());
             }
@@ -456,7 +459,8 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     public Map<String, String> samplePictures(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> map = new HashMap<>();
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
-        List<PimsPathologyPictures> list = pimsPathologyPicturesManager.getSamplePicture(sampleId);
+        Long pictureClass = Long.valueOf(request.getParameter("picpictureclass"));
+        List<PimsPathologyPictures> list = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
         if (list.size() > 0) {
             String url = null;
             for (PimsPathologyPictures pic : list) {

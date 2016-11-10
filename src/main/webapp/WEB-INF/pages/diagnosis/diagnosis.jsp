@@ -102,20 +102,9 @@
     object:focus { outline:none; }
 </style>
 <SCRIPT LANGUAGE="JavaScript">
-
     var GRID_SELECTED_ROW_SAMPLEID;
     var GRID_SELECTED_ROW_SAMPCUSTOMERID;
     var OsObject = navigator.userAgent;
-
-    //此地址给摄像头插件调用
-    function imgUploadPath() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/upload?sampleid="%>" + GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + GRID_SELECTED_ROW_SAMPCUSTOMERID;
-    }
-
-    //此地址给文件上传插件调用
-    function multifileUploadUrl() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/multiupload?sampleid="%>" + GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + GRID_SELECTED_ROW_SAMPCUSTOMERID;
-    }
 
 </SCRIPT>
 <body>

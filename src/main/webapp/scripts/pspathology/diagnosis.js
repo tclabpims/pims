@@ -13,7 +13,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
-
+var PIC_TAKING_FROM = 2;
 var targetTextareaId;
 function showTemplate(v, target) {
     targetTextareaId = target;
@@ -565,7 +565,7 @@ function getSampleData1(id) {
 }
 
 function getSamplePicures(sampleId) {
-    $.get("../diagnosis/pictures", {sampleid: sampleId}, function (data) {
+    $.get("../diagnosis/pictures", {sampleid: sampleId, picpictureclass:PIC_TAKING_FROM}, function (data) {
         var ret = data;
         var container = $("#imgContainer");
         container.empty();
@@ -685,6 +685,7 @@ function reportOperate(v) {
                     "sampleid": GRID_SELECTED_ROW_SAMPLEID,
                     "templateUrl": template,
                     "type": v,
+                    "picpictureclass": PIC_TAKING_FROM,
                     "picNum": picNum
                 }, function (data) {
                     if (v == 1) {

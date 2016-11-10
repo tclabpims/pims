@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface PimsPathologyPicturesManager extends GenericManager<PimsPathologyPictures, Long> {
     void removeByName(String picName, Long sampleId);
-    List<PimsPathologyPictures> getSamplePicture(Long sampleId);
+    List<PimsPathologyPictures> getSamplePicture(Long sampleId, Long pictureClass);
 
 }

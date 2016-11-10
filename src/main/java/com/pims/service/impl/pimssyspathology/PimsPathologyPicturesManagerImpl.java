@@ -30,7 +30,7 @@ public class PimsPathologyPicturesManagerImpl extends GenericManagerImpl<PimsPat
     }
 
     @Override
-    public List<PimsPathologyPictures> getSamplePicture(Long sampleId) {
-        return pathologyPicturesDao.getSamplePicture(sampleId);
+    public List<PimsPathologyPictures> getSamplePicture(Long sampleId, Long pictureClass) {
+        return pathologyPicturesDao.getSamplePicture(sampleId, pictureClass);
     }
 }
