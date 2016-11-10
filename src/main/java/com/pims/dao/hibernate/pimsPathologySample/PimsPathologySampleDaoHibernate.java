@@ -56,7 +56,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             sb.append(" and  samregisttime < :req_af_time");//结束时间
         }
         if (!StringUtils.isEmpty(map.getReq_code())) {
-            sb.append(" and saminspectionid = " + map.getReq_code());//病理状态
+            sb.append(" and samsamplestatus = " + map.getReq_code());//病理状态
         }
         return sb;
     }

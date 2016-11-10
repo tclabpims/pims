@@ -61,37 +61,37 @@
         <ul id="tabs" class="nav nav-tabs">
             <li class="active">
                 <a href="#maintab" data-toggle="tab">
-                    未初查
+                    未初查(${nocc})
                 </a>
             </li>
             <li>
                 <a href="#infotab" data-toggle="tab">
-                    未审核
+                    未审核(${nosh})
                 </a>
             </li>
             <li>
                 <a href="#infotab" data-toggle="tab">
-                    未打印
+                    未打印(${nody})
                 </a>
             </li>
             <li>
                 <a href="#infotab" data-toggle="tab">
-                    未发送
+                    未发送(${nofs})
                 </a>
             </li>
             <li>
                 <a href="#infotab" data-toggle="tab">
-                    未接收
+                    未接收(${nojs})
                 </a>
             </li>
             <li>
                 <a href="#infotab" data-toggle="tab">
-                    未签收
+                    未签收(${noqs})
                 </a>
             </li>
             <li>
                 <a href="#infotab" data-toggle="tab">
-                    未取材
+                    未取材(${noqc})
                 </a>
             </li>
         </ul>

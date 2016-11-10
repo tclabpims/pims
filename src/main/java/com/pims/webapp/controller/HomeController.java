@@ -46,15 +46,15 @@ public class HomeController extends PIMSBaseController{
         PimsBaseModel map = new PimsBaseModel();
         ModelAndView view = new ModelAndView();
         int noworkList = pimsPathologySampleManager.getSamStaNum();//工作未处理
-        map.setReq_sts("3");
+        map.setReq_code("3");
         int nocc = pimsPathologySampleManager.getReqListNum(map);//未初查
-        map.setReq_sts("4");
+        map.setReq_code("4");
         int nosh = pimsPathologySampleManager.getReqListNum(map);//未审核
-        map.setReq_sts("6");
+        map.setReq_code("6");
         int nody = pimsPathologySampleManager.getReqListNum(map);//未打印
-        map.setReq_sts("5");
+        map.setReq_code("5");
         int nofs = pimsPathologySampleManager.getReqListNum(map);//未发送
-        map.setReq_sts("3");
+        map.setReq_code("3");
         int nojs = pimsPathologySampleManager.getReqListNum(map);//未接收
         map = new PimsBaseModel();
         int noqs = pimsPathologySampleManager.getReqListNum(map);//未签收
