@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pims.model.*;
 import com.pims.service.his.PimsPathologyRequisitionManager;
-import com.pims.service.pimspathologysample.PimsConsultationDetailManager;
-import com.pims.service.pimspathologysample.PimsPathologyConsultationManager;
-import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
-import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.pims.service.pimspathologysample.*;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
@@ -42,6 +39,10 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
     private PimsPathologyConsultationManager pimsPathologyConsultationManager;
     @Autowired
     private PimsConsultationDetailManager pimsConsultationDetailManager;
+    @Autowired
+    private PimsPathologyReceivemessageManager pimsPathologyReceivemessageManager;
+    @Autowired
+    private PimsPathologyMessageManager pimsPathologyMessageManager;
 
     /**
      * 渲染视图
@@ -238,6 +239,18 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
         con.setConsponsoredtime(new Date());//发起时间
         con.setConconsultationstate(0);//会诊状态,0 会诊中,1已完成
         con = pimsPathologyConsultationManager.save(con);
+        //发布消息
+        PimsPathologyMessage message = new PimsPathologyMessage();
+        message.setMescustomerid(user.getHospitalId());//客户Id
+        message.setMeslevel(3);//消息级别(0系统级,1科室级,2工作站级,3用户级)
+        message.setMescontent(user.getName()+" 医生 邀请您参与病理号："+sample.getSampathologycode() +
+                " 的会诊!");//消息内容
+        message.setMessenderid(String.valueOf(user.getId()));//发布用户Id
+        message.setMessendername(user.getName());//发布用户姓名
+        message.setMeshandletime(new Date());//处理时间
+        message.setMescreatetime(new Date());//创建时间
+        message.setMescreateuser(String.valueOf(user.getId()));//创建用户
+        message = pimsPathologyMessageManager.save(message);
         for(int i=0;i<users.size();i++){
             Map map = (Map)users.get(i);
             PimsConsultationDetail condet = new PimsConsultationDetail();
@@ -250,6 +263,15 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
             condet.setDetdoctorname(u.getName());//医生姓名
             condet.setDetstate(0);//状态
             pimsConsultationDetailManager.save(condet);
+            //推送消息通知
+            PimsPathologyReceivemessage receivemessage = new PimsPathologyReceivemessage();
+            receivemessage.setRecmessageid(message.getMessageid());//消息Id
+            receivemessage.setReceiveruserid(String.valueOf(u.getId()));//接收人Id
+            receivemessage.setReceiverusername(u.getName());//接收人姓名
+            receivemessage.setReceivests(0);//状态
+            receivemessage.setReccreatetime(message.getMescreatetime());//创建时间
+            receivemessage.setReccreateuser(message.getMescreateuser());//创建用户
+            pimsPathologyReceivemessageManager.save(receivemessage);
         }
         o.put("message", "标本编辑成功！");
         o.put("success", true);

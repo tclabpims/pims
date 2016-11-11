@@ -26,6 +26,7 @@
 		.input_style{height: 24px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
+		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -285,11 +286,102 @@
 				</div>
 		</div>
 	</div>
+	<div>
+		<h5 style="float: left;width: 34%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/list.png" class="img_style">&nbsp;已登记标本一览</strong></h5>
+		<h5  style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/main.png" class="img_style">&nbsp;标本登记</strong></h5>
+	</div>
+	<ul id="tabss" class="nav nav-tabs">
+		<li class="active">
+			<a href="#sample_id" data-toggle="tab">
+				已登记标本
+			</a>
+		</li>
+		<li>
+			<a href="#req_id" data-toggle="tab">
+				电子申请单
+			</a>
+		</li>
+	</ul>
 	<div id="div_main">
-		<h5  style="float: left;width: 67%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/main.png" class="img_style">&nbsp;标本登记</strong></h5>
-		<h5 style="float: left;width: 33%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/list.png" class="img_style">&nbsp;已登记标本一览</strong></h5>
-		<%--<div class="widget-box widget-color-green"></div>--%>
-		<div id="formDialog" class="col-sm-8 leftContent">
+		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">
+			<div id = "search_div_1" style="background-color: #F9F9F9;height: 254px;border:1px solid #E0E0E0;">
+				<div style="margin-top: 10px">
+					<table style="margin-bottom: 5px;">
+						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
+						<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
+						<input type="hidden" id="local_logyid" value="${logyid}"/>
+						<input type="hidden" id="local_userid" value="${local_userid}"/>
+						<input type="hidden" id="local_username" value="${local_username}"/>
+						<select id="logyid" class="input_style">
+							<%out.println((String) request.getAttribute("logyids"));%>
+						</select>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;登记年月:&nbsp;&nbsp;</span>
+						<input type="text" class="form_datetime input_style" placeholder="" value="${sevenday}" id="req_bf_time"/>
+						<span>-</span>
+						<input type="text" class="form_datetime input_style" placeholder="" value="${receivetime}"  id="req_af_time"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
+						<input type="text" id="send_dept" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>
+						<input type="text" id="send_hosptail" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>
+						<input type="text" id="send_doctor" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>
+						<input type="text" id="patient_name" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
+						<div class="input_style">
+							<span class="input_style">&nbsp;&nbsp;标本状态:&nbsp;&nbsp;</span>
+							<input type="radio"   value="1" name="req_sts" checked/>合格
+							<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
+								<span style="color: white;">查询</span>
+							</button>
+						</div>
+					</table>
+				</div>
+
+			</div>
+			<table>
+				<div class="row">
+					<div>
+						<div class="widget-body" style="overflow:auto;">
+							<div class="widget-main no-padding">
+								<table id="new" class="table-striped">
+								</table>
+								<div id="pager"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</table>
+		</div>
+		<div id="req_id" class="row col-sm-4 leftContent" style="display: none;margin-left: 5px;">
+			<table>
+				<div>
+					<div>
+						<div class="widget-body" style="overflow:auto;">
+							<div class="widget-main no-padding">
+								<table id="new1" class="table-striped">
+								</table>
+								<%--<div id="pager1"></div>--%>
+							</div>
+						</div>
+					</div>
+				</div>
+			</table>
+		</div>
+		<div id="formDialog" style="float: right;margin-top: 0px" class="col-sm-8 rightContent" >
 			<form class="form-horizontal" style="background-color: #F9F9F9;height: 299px;border:1px solid #E0E0E0;"  action="#" method="post" id="sampleForm" >
 				<button type="submit"id="saveButton1" style="display:none;">保存</button>
 				<div class="form-group" style="margin-top: 10px;margin-bottom: 5px">
@@ -341,7 +433,7 @@
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">
-						<select class="input_style col-sm-8" id="sampathologyid" >
+						<select class="input_style col-sm-8" id="sampathologyid" disabled="disabled">
 							<%out.println(request.getAttribute("logyids"));%>
 						</select>
 					</div>
@@ -459,81 +551,11 @@
 				</div>
 			</form>
 			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
-			<div class="widget-main no-padding" id="div_req">
-				<h5 style="font-size: 14px;"><strong>&nbsp;电子申请单列表</strong></h5>
-				<table id="new1" class="table-striped">
-				</table>
-				<div id="pager1"></div>
-			</div>
-			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
 			<div class="widget-main no-padding">
 				<h5 style="font-size: 14px;"><strong>&nbsp;费用列表</strong></h5>
 				<table id="new2" class="table table-striped table-bordered table-hover">
 				</table>
 			</div>
-		</div>
-		<div class="col-sm-4 rightContent" id="div_2">
-			<div id = "search_div_1" style="background-color: #F9F9F9;height: 254px;border:1px solid #E0E0E0;">
-				<div style="margin-top: 10px">
-					<table style="margin-bottom: 5px;">
-						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
-						<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
-						<input type="hidden" id="local_logyid" value="${logyid}"/>
-						<input type="hidden" id="local_userid" value="${local_userid}"/>
-						<input type="hidden" id="local_username" value="${local_username}"/>
-						<select id="logyid" class="input_style">
-							<%out.println((String) request.getAttribute("logyids"));%>
-						</select>
-					</table>
-					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;登记年月:&nbsp;&nbsp;</span>
-						<input type="text" class="form_datetime input_style" placeholder="" value="${sevenday}" id="req_bf_time"/>
-						<span>-</span>
-						<input type="text" class="form_datetime input_style" placeholder="" value="${receivetime}"  id="req_af_time"/>
-					</table>
-					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
-						<input type="text" id="send_dept" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>
-						<input type="text" id="send_hosptail" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>
-						<input type="text" id="send_doctor" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>
-						<input type="text" id="patient_name" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
-						<div class="input_style">
-							<span class="input_style">&nbsp;&nbsp;标本状态:&nbsp;&nbsp;</span>
-							<input type="radio"   value="1" name="req_sts" checked/>合格
-							<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
-								<span style="color: white;">查询</span>
-							</button>
-						</div>
-					</table>
-				</div>
-
-			</div>
-			<table>
-				<div class="row">
-					<div>
-						<div class="widget-body" style="overflow:auto;">
-							<div class="widget-main no-padding">
-								<table id="new" class="table table-striped table-bordered table-hover">
-								</table>
-								<div id="pager"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</table>
 		</div>
 	</div>
 </body>

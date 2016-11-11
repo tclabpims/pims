@@ -111,9 +111,10 @@ public class PIMSBaseController {
         Long logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
         List<PimsSysPathology> items = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
         StringBuilder builder = new StringBuilder();
+        builder.append("<option value=''>全部</option>");
         for(PimsSysPathology obj : items) {
             builder.append("<option value='").append(obj.getPathologyid()).append("' ");
-            if(user.getUserBussinessRelate().getPathologyLibId().equals(String.valueOf(obj.getPathologyid()))) {
+            if((String.valueOf(user.getUserBussinessRelate().getPathologyLibId())).equals(String.valueOf(obj.getPathologyid()))) {
                 builder.append(" selected = 'selected' ");
             }
             builder.append(">").append(obj.getPatnamech()).append("</option>");

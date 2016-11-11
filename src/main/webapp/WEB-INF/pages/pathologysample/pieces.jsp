@@ -75,10 +75,11 @@
 			<h5 style="float: left;width: 16%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/imgget0.png" class="img_style">&nbsp;图像采集</strong></h5>
 		</div>
 		<div class="col-sm-4 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 156px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 121px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;登记年月:&nbsp;</span>
+						<input type="hidden" id="req_sts" value="0">
 						<input type="hidden" id="local_userid" value="${local_userid}"/><!--当前登录用户id-->
 						<input type="hidden" id="local_username" value="${local_username}"/><!--当前登录用户名称-->
 						<input type="text" class="form_datetime input_style" value="${sevenday}" id="req_bf_time"/>
@@ -93,13 +94,13 @@
 						<span class="input_style">&nbsp;病人姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
 					</table>
-					<table style="margin-bottom: 5px;">
-						<div class="input_style">
-							<span class="input_style">&nbsp;取材状态:&nbsp;</span>
-							<input type="radio" name="req_sts" value="0" checked/>&nbsp;未取&nbsp;
-							<input type="radio" name="req_sts" value="1"/>&nbsp;已取&nbsp;
-						</div>
-					</table>
+					<%--<table style="margin-bottom: 5px;">--%>
+						<%--<div class="input_style">--%>
+							<%--<span class="input_style">&nbsp;取材状态:&nbsp;</span>--%>
+							<%--<input type="radio" name="req_sts" value="0" checked/>&nbsp;未取&nbsp;--%>
+							<%--<input type="radio" name="req_sts" value="1"/>&nbsp;已取&nbsp;--%>
+						<%--</div>--%>
+					<%--</table>--%>
 					<table style="margin-bottom: 5px;">
 						<div class="input_style">
 							<span class="input_style">&nbsp;补取医嘱:&nbsp;</span>&nbsp;&nbsp;
@@ -114,6 +115,18 @@
 					</table>
 				</div>
 			</div>
+			<ul id="tabss" class="nav nav-tabs">
+				<li class="active">
+					<a href="0" data-toggle="tab">
+						未取材
+					</a>
+				</li>
+				<li>
+					<a href="1" data-toggle="tab">
+						已取材
+					</a>
+				</li>
+			</ul>
 			<div class="widget-main no-padding">
 				<table id="new" class="table-striped">
 				</table>
@@ -193,6 +206,18 @@
 				</div>
 				<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
 				<div class="widget-main no-padding">
+					<h5 style="float: left;width: 60%;font-size: 14px;"><strong>&nbsp;巨检所见&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+						<input type="text" id="jjsj" style="width: 40%"/>
+						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px" onclick="saveAsTemplate(0,'samjjsj')">
+							<span style="color: white">模版保存</span>
+						</button>
+					</h5>
+				</div>
+				<div class="widget-main no-padding">
+					<textarea id="samjjsj" style="width: 100%;height: 90px"></textarea>
+				</div>
+				<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
+				<div class="widget-main no-padding">
 					<h5><strong style="font-size: 14px;">&nbsp;材块列表</strong>
 						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;" id="addrow1" onclick="addRow()">
 							<span style="color: white">追加行</span>
@@ -209,18 +234,7 @@
 					<table id="new1" class="table-striped">
 					</table>
 				</div>
-				<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
-				<div class="widget-main no-padding">
-					<h5 style="float: left;width: 60%;font-size: 14px;"><strong>&nbsp;巨检所见&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-						<input type="text" id="jjsj" style="width: 40%"/>
-						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px" onclick="saveAsTemplate(0,'samjjsj')">
-							<span style="color: white">模版保存</span>
-						</button>
-					</h5>
-				</div>
-				<div class="widget-main no-padding">
-					<textarea id="samjjsj" style="width: 100%;height: 90px"></textarea>
-				</div>
+
 			</form>
 		</div>
 		<div class="col-sm-2 rightContent">

@@ -109,6 +109,13 @@ $(function() {
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
 	});
+	$('#tabss a').click(function (e) {
+		var hrefval = $(this).attr("href");
+		searchSts(hrefval);
+		$("#req_sts").val(hrefval);
+		searchList();
+		e.preventDefault();
+	});
 	// $("#resetbutton").attr({"disabled":true});
 	changeimgclick(1);
 	var clientHeight= $(window).innerHeight();
@@ -140,8 +147,8 @@ $(function() {
 	if($("#req_code").is(':checked')){
 		req_code = "1";
 	}
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
-	//var req_sts = $('#req_sts').val();//切片状态
+	// var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $('#req_sts').val();//切片状态
 	$("#new").jqGrid({
 		url: "../pathologysample/slide/ajax/sample",
 		mtype: "GET",
@@ -340,8 +347,8 @@ function searchList() {
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
-	//var req_sts = $('#req_sts').val();
+	// var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $('#req_sts').val();
 	var send_doctor = "";//内部医嘱
 	if($("#send_doctor").is(':checked')){
 		send_doctor = "1";

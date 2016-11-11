@@ -1,3 +1,4 @@
+var hrefval = "";
 var nowrow = "";
 var GRID_SELECTED_ROW_SAMPLEID = "";
 var GRID_SELECTED_ROW_SAMPCUSTOMERID = "";
@@ -107,8 +108,21 @@ $(function() {
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
 	});
-
-	var clientHeight= $(window).innerHeight();
+	$('#tabss a').click(function (e) {
+		hrefval = $(this).attr("href");
+		$("#req_sts").val(hrefval);
+		searchList();
+		e.preventDefault();
+	});
+	document.onkeydown = function(e){
+		if(e.keyCode==13) {
+			var ids=$("#new1").jqGrid("getGridParam","selarrrow");
+			if(ids != null && ids != ""){
+				addRow();
+			}
+		}
+	}
+var clientHeight= $(window).innerHeight();
 	var height = $("#formDialog").height() - $('#search_div_1').height()+70;
 	var width = $('#search_div_1').width()-5;
 	var width1 = $("#div_main").width();
@@ -125,8 +139,8 @@ $(function() {
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();//病理号
 	var send_doctor = $('#send_doctor').val();//补医嘱
-	//var req_sts = $('#req_sts').val();//取材状态
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $('#req_sts').val();//取材状态
+	//var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	$("#new").jqGrid({
 		url: "../pathologysample/pieces/ajax/sample",
 		mtype: "GET",
@@ -169,7 +183,7 @@ $(function() {
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:390,
+		height:400,
 		width: width,
 		shrinkToFit:false,
 		autoScroll: true,
@@ -307,8 +321,8 @@ function searchList() {
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();
 	var send_doctor = $('#send_doctor').val();
-	//var req_sts = $('#req_sts').val();
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $('#req_sts').val();
+	// var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	jQuery("#new").jqGrid("clearGridData");
 	jQuery("#new").jqGrid('setGridParam',{
 		url: "../pathologysample/pieces/ajax/sample",
@@ -389,10 +403,13 @@ function getSampleData(id) {
 	});
 }
 function addRow(){
+	var jjinfo = "";
 	var ids = $("#new1").jqGrid('getDataIDs');
 	var maxId = 1;
 	if(ids == null || ids == ""){
 	}else{
+		var rowData = $("#new1").jqGrid('getRowData',Math.max.apply(Math,ids));
+		jjinfo = rowData.pieparts;
 		maxId = Math.max.apply(Math,ids)+1;
 	}
 	var  sampathologycode = $('#sampathologycode').val();
@@ -405,7 +422,7 @@ function addRow(){
 		piesamplingno: maxId,
 		piecounts: 1,
 		pienullslidenum:0,
-		pieparts:"",
+		pieparts:jjinfo,
 		piedoctorid:$("#doctor_id").val() ,
 		pierecorderid: $("#input_user").val(),
 		piedoctorname:$("#doctor_id").find("option:selected").text(),

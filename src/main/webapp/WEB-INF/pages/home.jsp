@@ -4,7 +4,7 @@
 <head>
     <title><fmt:message key="home.title"/></title>
     <meta name="menu" content="Home"/>
-    <script src="<c:url value="/scripts/home.js"/>"></script>
+    <%--<script src="<c:url value="/scripts/home.js"/>"></script>--%>
 <style>
     .img_style{width: 18px;height: 23px}
     .label_style1{font-size: 14px;margin-right: 40px;}
@@ -60,6 +60,59 @@
     <div>
         <ul id="tabs" class="nav nav-tabs">
             <li class="active">
+                <a href="3" data-toggle="tab">
+                    未初查(${nocc})
+                </a>
+            </li>
+            <li>
+                <a href="4" data-toggle="tab">
+                    未审核(${nosh})
+                </a>
+            </li>
+            <li>
+                <a href="6" data-toggle="tab">
+                    未打印(${nody})
+                </a>
+            </li>
+            <li>
+                <a href="5" data-toggle="tab">
+                    未发送(${nofs})
+                </a>
+            </li>
+            <li>
+                <a href="#infotab" data-toggle="tab">
+                    未接收(${nojs})
+                </a>
+            </li>
+            <li>
+                <a href="#infotab" data-toggle="tab">
+                    未签收(${noqs})
+                </a>
+            </li>
+            <li>
+                <a href="#infotab" data-toggle="tab">
+                    未取材(${noqc})
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="row" id="main_id">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="new" class="table">
+                    </table>
+                    <div id="pager"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-right: 0px;margin-left: 0px;" >
+        <h5  style="float: left;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/sysnofinish.png" class="img_style">&nbsp;系统未处理信息</strong></h5>
+    </div>
+    <div>
+        <ul id="tab1" class="nav nav-tabs">
+            <li class="active">
                 <a href="#maintab" data-toggle="tab">
                     未初查(${nocc})
                 </a>
@@ -96,5 +149,15 @@
             </li>
         </ul>
     </div>
-
+    <div class="row" id="main_id1" style="height: 300px">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="new1" class="table">
+                    </table>
+                    <div id="pager1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>

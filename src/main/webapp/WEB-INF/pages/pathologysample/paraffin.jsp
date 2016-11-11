@@ -38,10 +38,11 @@
 	<h5 style="font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/paramarge.png" class="img_style">&nbsp;&nbsp;包埋管理</strong></h5>
 	<div>
 		<div class="col-sm-4 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 167px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 127px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<table  style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;&nbsp;取材年月:&nbsp;</span>
+						<input type="hidden" id="req_sts" value="1">
 						<input type="hidden" id="local_username" value="${local_username}"/>
 						<input type="hidden" id="local_userid" value="${local_userid}"/>
 						<input type="hidden" id="logyid" value="${logyid}"/>
@@ -59,11 +60,11 @@
 						<input type="text" id="patient_name" class="input_style"/>
 					</table>
 					<table style="margin-bottom: 5px;">
-						<div class="input_style">
-							<span class="input_style">&nbsp;&nbsp;包埋状态:&nbsp;</span>
-							<input type="radio" name="req_sts" value="1" checked onclick="searchSts('1')"/>&nbsp;待包埋&nbsp;
-							<input type="radio" name="req_sts" value="2" onclick="searchSts('2')"/>&nbsp;已包埋&nbsp;
-						</div>
+						<%--<div class="input_style">--%>
+							<%--<span class="input_style">&nbsp;&nbsp;包埋状态:&nbsp;</span>--%>
+							<%--<input type="radio" name="req_sts" value="1" checked onclick="searchSts('1')"/>&nbsp;待包埋&nbsp;--%>
+							<%--<input type="radio" name="req_sts" value="2" onclick="searchSts('2')"/>&nbsp;已包埋&nbsp;--%>
+						<%--</div>--%>
 					</table>
 					<table style="margin-bottom: 5px;">
 						<div class="input_style">
@@ -79,6 +80,18 @@
 					</table>
 				</div>
 			</div>
+			<ul id="tabss" class="nav nav-tabs">
+				<li class="active">
+					<a href="1" data-toggle="tab">
+						待包埋
+					</a>
+				</li>
+				<li>
+					<a href="2" data-toggle="tab">
+						已包埋
+					</a>
+				</li>
+			</ul>
 			<div class="widget-main no-padding">
 				<table id="new" class="table-striped">
 				</table>
