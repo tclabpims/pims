@@ -4,7 +4,10 @@ import com.pims.dao.pimssyspathology.PimsPathologyOrderChildDao;
 import com.pims.model.PimsPathologyOrderChild;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by 909436637@qq.com on 2016/11/4.
@@ -25,5 +28,13 @@ public class PimsPathologyOrderChildDaoHibernate extends GenericDaoHibernate<Pim
         Query query = getSession().createQuery("from PimsPathologyOrderChild where chiorderid=:orderId");
         query.setParameter("orderId", orderId);
         return (PimsPathologyOrderChild) query.uniqueResult();
+    }
+
+    @Override
+    public List getOrderChildChargeItem(long testItemId, long ordcustomercode) {
+        SQLQuery query = getSession().createSQLQuery("select Rf.Refhischargename,Rf.Refhisprice,Rf.Referenceid,ps.chargeitemid from PIMS_SYS_CHARGEITEM_REF rf,PIMS_SYS_CHARGE_ITEMS ps where Rf.Chargeitemid=ps.chargeitemid and ps.testitemid=:testItemId and rf.CUSTOMERID=:ordcustomercode");
+        query.setParameter("testItemId", testItemId);
+        query.setParameter("ordcustomercode", ordcustomercode);
+        return query.list();
     }
 }

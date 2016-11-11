@@ -5,6 +5,7 @@ import com.pims.model.PimsPathologyOrder;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import com.smart.model.user.User;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
@@ -120,5 +121,54 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);
         return ((BigDecimal)query.uniqueResult()).intValue();
+    }
+
+    /**
+     * 更新医嘱状态 设置操作人员
+     * @param orderId 医嘱编号
+     * @param orderState 医嘱状态：0已申请 1已接受 2已完成 3已签收 4已取消
+     * @param user 当前操作用户
+     */
+    @Override
+    public void updateOrderState(long orderId, long orderState, User user) {
+        Long userId = user.getId();
+        String name = user.getName();
+        String sql;
+        String sql1 = "update Pims_Pathology_Order set OrdOrderState=:orderState where OrderId=:orderId";
+        String sql2 = "update Pims_Pathology_Order_Child set ChiOrderState=:orderState where ChiOrderId=:orderId";
+        if(orderState == Constants.ORDER_STATE_ACCEPT) {
+            sql = "update Pims_Pathology_Order set OrdOrderState=:orderState,OrdAcceptTime=:date,OrdAcceptorId=:userId,OrdAcceptorName=:name where OrderId=:orderId";
+            executeUpdate(sql, orderState, userId, name, orderId);
+            sql = "update Pims_Pathology_Order_Child set ChiOrderState=:orderState,ChiReceiveTime=:date,ChiReceiverId=:userId,ChiReceiverName=:name where ChiOrderId=:orderId";
+            executeUpdate(sql, orderState, userId, name, orderId);
+        } else if(orderState == Constants.ORDER_STATE_FINISH) {
+            sql = "update Pims_Pathology_Order set OrdOrderState=:orderState,OrdFinishedTime=:date,OrdFinishedUserId=:userId,OrdFinishedUserName=:name where OrderId=:orderId";
+            executeUpdate(sql, orderState, userId, name, orderId);
+            executeUpdate1(sql2, orderState, orderId);
+        } else if(orderState == Constants.ORDER_STATE_RECEIVING) {
+            executeUpdate1(sql1, orderState, orderId);
+            sql = "update Pims_Pathology_Order_Child set ChiOrderState=:orderState, ChiExecTime=:date,ChiExecUserId=:userId,ChiExecUserName=:name where ChiOrderId=:orderId";
+            executeUpdate(sql, orderState, userId, name, orderId);
+        } else if(orderState == Constants.ORDER_STATE_CANCEL) {
+            executeUpdate1(sql1, orderState, orderId);
+            executeUpdate1(sql2, orderState, orderId);
+        }
+    }
+
+    private void executeUpdate1(String sql, Long orderState, Long orderId) {
+        SQLQuery query = getSession().createSQLQuery(sql);
+        query.setParameter("orderState", orderState);
+        query.setParameter("orderId", orderId);
+        query.executeUpdate();
+    }
+
+    private void executeUpdate(String sql, Long orderState, Long userId, String name, Long orderId) {
+        SQLQuery query = getSession().createSQLQuery(sql);
+        query.setParameter("orderState", orderState);
+        query.setParameter("date", new Date());
+        query.setParameter("userId", userId);
+        query.setParameter("name", name);
+        query.setParameter("orderId", orderId);
+        query.executeUpdate();
     }
 }

@@ -45,6 +45,66 @@ function getOrderItems() {
     })
 }
 
+function getOrderInfo(orderId) {
+    $.get("../order/orderchildandcheckitem", {orderId:orderId}, function (data) {
+        var checkItems = data.rows;
+        var childInfo = jQuery.parseJSON(data.userdata.orderChild);
+        var checkChargeJson = jQuery.parseJSON(data.userdata.checkChargeJson);
+        var childChargeJson = data.userdata.childChargeJson;
+
+        $("#chipathologycode").val(childInfo.chipathologycode);
+        $("#testItemChName").val(childInfo.testItemChName);
+        $("#chireqtime").val(new Date(childInfo.chireqtime).Format("yyyy-MM-dd"));
+        $("#chiordercode").val(childInfo.chiordercode);
+        $("#chirequsername").val(childInfo.chirequsername);
+        $("#chinullslidenum").val(childInfo.chinullslidenum);
+
+        jQuery("#checkItemList").jqGrid("clearGridData");
+        if(checkItems.length > 0) {
+            for(var i = 0; i < checkItems.length; i++) {
+                checkItems[i].chiparaffincode = childInfo.chiparaffincode;
+                checkItems[i].chirequsername = childInfo.chirequsername;
+                checkItems[i].chiorderstate = childInfo.chiorderstate;
+            }
+        }
+        jQuery("#checkItemList")[0].addJSONData(checkItems);
+
+        jQuery("#childChargeList").jqGrid("clearGridData");
+
+        jQuery("#childChargeList")[0].addJSONData(childChargeJson);
+
+        var itemCal = "申请数量：" + checkChargeJson.reqItem + ",应收费用：￥" + checkChargeJson.totalMoney;
+        $("#itemCal").html(itemCal);
+    })
+}
+
+function updateState(state) {
+    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
+    if (id == null || id.length == 0) {
+        layer.msg('请先选择医嘱', {icon: 2, time: 1000});
+        return false;
+    }
+    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    var wp = $("#chinullslidenum").val();
+    if(wp > 0) {
+        layer.confirm('这个医嘱需要切：'+wp + " 个白片，是否继续？", {
+            btn: ['继续','取消'] //按钮
+        }, function(){
+            doUpdate(rowData, state);
+        }, function(){
+
+        });
+    }
+    else doUpdate(rowData, state);
+}
+
+function doUpdate(rowData, state) {
+    $.get("../order/updateorderstate", {orderState:state, orderId:rowData.orderId}, function(data){
+        rowData.chiOrderState = state;
+        layer.alert("操作成功！");
+    });
+}
+
 function getSampleData1(id) {
     $.get("../pathologysample/sample/get", {id: id}, function (data) {
         if (data != "") {
@@ -69,36 +129,6 @@ function getSampleData1(id) {
             $("#sampatientbed").val(data.sampatientbed);//患者床号
             $("#sampatientage").val(data.sampatientage);//患者床号
 
-            //createOptions(data.patIsSampling, data.specialCheck);
-
-            /*var mills = data.saminitiallytime;
-            var t1;
-            if (mills != null && mills != "") {
-                t1 = new Date(parseInt(mills)).Format("yyyy-MM-dd hh:mm:ss")
-                $("#saminitiallytime").val(t1);
-            } else {
-                $("#saminitiallytime").val('');
-            }//初诊时间
-            $("#saminitiallyuserid").val(data.saminitiallyuserid);//初诊医生编号
-            $("#saminitiallyusername").val(data.saminitiallyusername);//初诊医生姓名
-            if (mills != null && mills != "") {
-                t1 = new Date(parseInt(mills)).Format("yyyy-MM-dd hh:mm:ss")
-                $("#samauditedtime").val(t1);
-            } else {
-                $("#samauditedtime").val('');
-            }//审核时间
-            $("#samauditerid").val(data.samauditerid);//审核医生编号
-            $("#samauditer").val(data.samauditer);//审核医生姓名
-            mills = data.samreportedtime;
-            if (mills != null && mills != "") {
-                t1 = new Date(parseInt(mills)).Format("yyyy-MM-dd hh:mm:ss")
-                $("#samreportedtime").val(t1);//报告时间
-            } else {
-                $("#samreportedtime").val('');//报告时间
-            }
-            $("#samreportorid").val(data.samreportorid);//报告医生编号
-            $("#samreportor").val(data.samreportor);//报告医生姓名*/
-
             //重新加载取材信息列表
             jQuery("#materialList").jqGrid("clearGridData");
             jQuery("#materialList").jqGrid('setGridParam', {
@@ -106,28 +136,29 @@ function getSampleData1(id) {
                 datatype: 'json',
                 postData: {"reqId": data.sampleid}
             }).trigger('reloadGrid');//重新载入
-
         } else {
             layer.msg("该医嘱申请不存在！", {icon: 0, time: 1000});
         }
     });
 }
 
-function query() {
+function query(state) {
     var specialCheck = $("#q_specialCheck").val();
     var startDate = $("#q_startDate").val();
     var endDate = $("#q_endDate").val();
     var pathologyCode = $("#q_pathologyCode").val();
     var patientName = $("#q_patientName").val();
+    var param = {
+        "specialCheck": specialCheck,
+        "startDate": startDate,
+        "endDate": endDate,
+        "pathologyCode": pathologyCode,
+        "patientName": patientName
+    };
+    if(state != -1) param.orderState = state;
     jQuery("#sectionList").jqGrid('setGridParam', {
         datatype: 'json',
-        postData: {
-            "specialCheck": specialCheck,
-            "startDate": startDate,
-            "endDate": endDate,
-            "pathologyCode": pathologyCode,
-            "patientName": patientName
-        },
+        postData: param,
         page: 1
     }).trigger('reloadGrid');//重新载入
 }
@@ -235,10 +266,19 @@ $(function () {
         pager: "#pager",
         onSelectRow: function (id) {
             var rowData = $("#sectionList").jqGrid('getRowData', id);
-            if (rowData != null && rowData.ordSampleId != null && rowData.ordSampleId != "")
-                getSampleData1(rowData.ordSampleId);
-            GRID_SELECTED_ROW_SAMPLEID = rowData.ordSampleId;
-            GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.ordSampleId;
+            getSampleData1(rowData.ordSampleId);
+            getOrderInfo(rowData.orderId);
+            var state = rowData.chiOrderState;
+            if(state >= 1 ) {
+                $("#btAccept").attr("disabled", "disabled");
+                if(state == 1)
+                    $("#btFinish").removeAttr("disabled");
+                else if(state >= 2)
+                    $("#btFinish").attr("disabled", "disabled");
+            } else {
+                $("#btFinish").attr("disabled", "disabled");
+                $("#btAccept").removeAttr("disabled");
+            }
         }
     });
 
@@ -248,6 +288,51 @@ $(function () {
             }
         }
     );
+
+    $("#checkItemList").jqGrid({
+        datatype: "json",
+        mtype: "GET",
+        colNames: ['蜡块编号', '项目名称', '申请医生', '状态'],
+        colModel: [
+            {name: 'chiparaffincode', index: 'chiparaffincode', width: 100},
+            {name: 'chenamech', index: 'chenamech', width: 80},
+            {name: 'chirequsername', index: 'chirequsername', width: 80},
+            {name: 'chiorderstate', index: 'chiorderstate', width: 60, formatter:"select",editoptions: {value: "0:已申请;1:已接受;2:已完成;3:已签收;4:已取消"}}
+        ],
+        loadComplete: function () {
+            /*var table = this;
+             setTimeout(function(){
+             updatePagerIcons(table);
+             }, 0);*/
+        },
+        shrinkToFit: true,
+        scrollOffset: 2,
+        rowNum: 10,
+        rownumbers: true // 显示行号
+    });
+
+    $("#childChargeList").jqGrid({
+        datatype: "json",
+        mtype: "GET",
+        height:150,
+        colNames: ['项目名称', '单价', '金额', '数量'],
+        colModel: [
+            {name: 'hisChargeName', index: 'hisChargeName', width: 100},
+            {name: 'hisPrice', index: 'hisPrice', width: 60},
+            {name: 'hisPrice', index: 'hisPrice', width: 60},
+            {name: 'num', index: 'num', width: 50}
+        ],
+        loadComplete: function () {
+            /*var table = this;
+             setTimeout(function(){
+             updatePagerIcons(table);
+             }, 0);*/
+        },
+        shrinkToFit: false,
+        scrollOffset: 2,
+        rowNum: 10,
+        rownumbers: true // 显示行号
+    });
 
     $("#materialList").jqGrid({
         datatype: "json",

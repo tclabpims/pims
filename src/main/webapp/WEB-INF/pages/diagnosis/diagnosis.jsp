@@ -272,7 +272,7 @@
                     </ul>
                     <div id="tabs-1">
                         <div>
-                            <div style="display: inline">病历号：<input type="text"
+                            <div style="display: inline">病理号：<input type="text"
                                                                     style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="sampathologycode"></div>
                             <input type="hidden" id="sampleid"/>
