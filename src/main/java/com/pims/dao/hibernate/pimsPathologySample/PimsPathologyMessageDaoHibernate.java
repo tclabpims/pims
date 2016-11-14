@@ -40,7 +40,7 @@ public class PimsPathologyMessageDaoHibernate extends GenericDaoHibernate<PimsPa
             sb.append(" and meshandletime >= :req_bf_time");
         }
         if (map.getReq_af_time() != null) {
-            sb.append(" and  meshandletime < :req_af_time");
+            sb.append(" and  meshandletime < :req_af_time + 1");
         }
         return sb;
     }

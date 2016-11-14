@@ -3,7 +3,6 @@ package com.pims.dao.hibernate.pimsPathologySample;
 import com.pims.dao.pimspathologysample.PimsPathologyConsultationDao;
 import com.pims.model.*;
 import com.smart.dao.hibernate.GenericDaoHibernate;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,13 +27,16 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
             sb.append(" and consponsoredtime >= :req_bf_time");
         }
         if (map.getReq_af_time() != null) {
-            sb.append(" and  consponsoredtime < :req_af_time");
+            sb.append(" and  consponsoredtime < :req_af_time + 1");
         }
         if(map.getSend_hosptail() != null){//创建人
             sb.append(" and consponsoreduserid = '"+ map.getSend_hosptail()+"'");
         }
         if(map.getReq_sts() != null){
             sb.append(" and conconsultationstate =" + map.getReq_sts());
+        }
+        if(map.getPatient_name() != null){//邀请医生
+            sb.append(" and consultationid in (select detconsultationid from pims_consultation_detail where detdoctorid = '"  + map.getPatient_name() + "')");
         }
         return  sb;
     }
@@ -47,6 +49,7 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
     public List<PimsPathologyConsultation> getConList(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
         sb.append(" from PimsPathologyConsultation where 1 = 1 ");
+        getsql(sb,map);
         return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
     }
     /**
@@ -58,6 +61,7 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
     public int getReqListNum(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
         sb.append(" select count(1) from pims_pathology_consultation where 1 = 1 ");
+        getsql(sb,map);
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time()).intValue();
     }
     /**

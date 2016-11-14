@@ -58,7 +58,7 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
             sb.append(" and sampatientname like '%" + map.getPatient_name().toUpperCase()+"%'");//病人姓名
         }
         if(map.getReq_af_time() != null){
-            sb.append(" and  pieembedtime < :req_af_time");//结束时间
+            sb.append(" and  pieembedtime < :req_af_time + 1");//结束时间
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             sb.append(" and parnullslidenum  > 0");//是否预留白片

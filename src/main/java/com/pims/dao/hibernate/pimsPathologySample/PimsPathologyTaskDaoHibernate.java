@@ -45,7 +45,7 @@ public class PimsPathologyTaskDaoHibernate extends GenericDaoHibernate<PimsPatho
             sb.append(" and tasfirstd >= :req_bf_time");
         }
         if (map.getReq_af_time() != null) {
-            sb.append(" and  tasfirstd < :req_af_time");
+            sb.append(" and  tasfirstd < :req_af_time + 1");
         }
         return sb;
     }
