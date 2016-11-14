@@ -27,7 +27,7 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
             sb.append(" and consponsoredtime >= :req_bf_time");
         }
         if (map.getReq_af_time() != null) {
-            sb.append(" and  consponsoredtime < :req_af_time + 1");
+            sb.append(" and  consponsoredtime < :req_af_time");
         }
         if(map.getSend_hosptail() != null){//创建人
             sb.append(" and consponsoreduserid = '"+ map.getSend_hosptail()+"'");

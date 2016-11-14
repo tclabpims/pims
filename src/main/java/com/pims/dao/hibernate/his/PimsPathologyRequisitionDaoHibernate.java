@@ -44,7 +44,7 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
             buffer.append(" and ReqDate >= :req_bf_time");//起始时间
         }
         if (pims.getReq_af_time() != null) {
-            buffer.append(" and  ReqDate < :req_af_time + 1");//截至时间
+            buffer.append(" and  ReqDate < :req_af_time");//截至时间
         }
         if (!StringUtils.isEmpty(pims.getSend_dept())) {
             buffer.append(" and  ReqDeptName like '%" + pims.getSend_dept().toUpperCase()+"%'");//送检科室

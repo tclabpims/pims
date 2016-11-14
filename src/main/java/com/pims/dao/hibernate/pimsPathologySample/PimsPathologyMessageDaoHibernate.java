@@ -40,8 +40,16 @@ public class PimsPathologyMessageDaoHibernate extends GenericDaoHibernate<PimsPa
             sb.append(" and meshandletime >= :req_bf_time");
         }
         if (map.getReq_af_time() != null) {
-            sb.append(" and  meshandletime < :req_af_time + 1");
+            sb.append(" and  meshandletime < :req_af_time");
         }
+//        if(map.getPatient_name() != null){
+//            sb.append(" and  messageid in (select recmessageid from PIMS_PATHOLOGY_RECEIVEMESSAGE where receiveruserid = '"+ map.getPatient_name()+"'");
+//            if(!StringUtils.isEmpty(map.getReq_sts())){
+//                sb.append(" and receivests = " + map.getReq_sts() + ")");
+//            }else{
+//               sb.append(")") ;
+//            }
+//        }
         return sb;
     }
 
