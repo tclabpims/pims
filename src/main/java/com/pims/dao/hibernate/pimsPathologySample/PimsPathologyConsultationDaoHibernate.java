@@ -3,6 +3,7 @@ package com.pims.dao.hibernate.pimsPathologySample;
 import com.pims.dao.pimspathologysample.PimsPathologyConsultationDao;
 import com.pims.model.*;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,11 +33,8 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
         if(map.getSend_hosptail() != null){//创建人
             sb.append(" and consponsoreduserid = '"+ map.getSend_hosptail()+"'");
         }
-        if(map.getReq_sts() != null){
+        if(!StringUtils.isEmpty(map.getReq_sts())){
             sb.append(" and conconsultationstate =" + map.getReq_sts());
-        }
-        if(map.getPatient_name() != null){//邀请医生
-            sb.append(" and consultationid in (select detconsultationid from pims_consultation_detail where detdoctorid = '"  + map.getPatient_name() + "')");
         }
         return  sb;
     }
