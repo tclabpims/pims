@@ -153,12 +153,6 @@
                     发送
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="转送">转送</button>
-                <button type="button" class="btn btn-sm btn-primary" title="导入" onclick="deleteSection()">
-                    导入
-                </button>
-                <button type="button" class="btn btn-sm btn-primary" title="导出" onclick="deleteSection()">
-                    导出
-                </button>
                 <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="csMarage()">
                     抄送管理
                 </button>
@@ -545,11 +539,14 @@
             <div style="width: 100%;height: 25px;font-weight:bold;">项目一览
                 <button onclick="removeItems()">删除</button>
                 蜡块选择<select id="lkxz" onchange="getWhitePiece()"></select></div>
-            <div style="width: 100%;padding-top:5px;" id="itemListContainer">
+            <div style="width: 100%;padding-top:5px;display: none" id="itemListContainer">
                 <table id="itemList"></table>
             </div>
             <div style="width: 100%;" id="itemSummary">
                 <%--癌基因蛋白：3 项，199元；单克隆抗体：3 项，199元；合计：398元--%>
+            </div>
+            <div style="width: 100%;padding-top:5px;display: none" id="pieceListContainer">
+                <table id="pieceList"></table>
             </div>
         </div>
         <div style="float:right;width: 40%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
@@ -557,13 +554,15 @@
             <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
                 <table id="lkItemList"></table>
             </div>
-            <div style="width: 100%;height: 25px;">项目套餐：<select id="itemPackage"
-                                                                onchange="getItemInfo(this.value)"></select>
+            <div style="width: 100%;height: 25px;display: none" id="packageContainer">
+                项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)"></select>
                 <button onclick="appendAll()">全部追加</button>
             </div>
-            <div style="width: 100%;height: 25px;">项目名称：<input id="itemName"></div>
-            <div style="width: 100%;height: 35%;">
-                <table id="ckItemList"></table>
+            <div id="rightListContainer" style="display: none">
+                <div style="width: 100%;height: 25px;">项目名称：<input id="itemName"></div>
+                <div style="width: 100%;height: 35%;">
+                    <table id="ckItemList"></table>
+                </div>
             </div>
         </div>
     </div>

@@ -306,8 +306,6 @@ function reqyizhu() {
     }
     var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
     var rowData = $("#sectionList").jqGrid('getRowData', selrow);
-    //如果是特检医嘱 打开特检相应的页面
-    if (yizhutype == 'MYZH' || yizhutype == 'TSRS' || yizhutype == 'FZBL') {
         layer.open({
             type: 1,
             title: '病理诊断>病理医嘱申请',
@@ -340,7 +338,7 @@ function reqyizhu() {
                 code = code +"-" + parseInt((Math.random()*9000 + 1000), 10);
                 $("#ordercode").val(code);
 
-                $("#lkxz").empty();
+               /* $("#lkxz").empty();
                 $("#ckItemList").jqGrid('clearGridData');
                 $("#itemList").jqGrid('clearGridData');
                 $("#lkItemList").jqGrid('clearGridData');
@@ -353,17 +351,64 @@ function reqyizhu() {
                         }
                     }
                 });
-                getPackageItems(rowData.sampathologyid);
+                getPackageItems(rowData.sampathologyid);*/
+                initOrderForm(yizhutype,rowData.sampleid,rowData.sampathologyid);
             },
             yes: function (index, layero) {
                 saveSpecialDiagnosis(index);
             }
         });
-    } else if (yizhutype == 2 || yizhutype == 3) {
-        alert(2)
-    } else if (yizhutype == 1) {
-        alert(3)
+
+}
+
+function initOrderForm(type, sampleid, sampathologyid) {
+    if (type == 'MYZH' || type == 'TSRS' || type == 'FZBL' || type=='CHONGQIE' ||type=='SHENQIE') {
+        $("#lkxz").empty();
+        $.get("../diagnosis/report/paraffin", {sampleId: sampleid}, function (data) {
+            var ret = data.rows;
+            if (ret != null && ret.length > 0) {
+                $("#lkxz").append("<option value=''></option>");
+                for (var i = 0; i < ret.length; i++) {
+                    $("#lkxz").append("<option value='" + ret[i].paraffinid + "' parnullslidenum='"+ret[i].parnullslidenum+ "'>" + ret[i].parparaffincode + "</option>");
+                }
+            }
+        });
+        if (type == 'MYZH' || type == 'TSRS' || type == 'FZBL') {
+            getPackageItems(sampathologyid);
+            $("#itemListContainer").css('display','block');
+            $("#packageContainer").css('display','block');
+            $("#rightListContainer").css('display','block');
+            $("#pieceListContainer").css('display','none');
+            $("#ckItemList").jqGrid('clearGridData');
+            $("#itemList").jqGrid('clearGridData');
+            $("#lkItemList").jqGrid('clearGridData');
+        } else {
+            $("#pieceListContainer").css('display','block');
+            $("#itemListContainer").css('display','none');
+            $("#packageContainer").css('display','none');
+            $("#rightListContainer").css('display','none');
+            initPieceList();
+        }
     }
+}
+
+function initPieceList() {
+    $("#pieceList").jqGrid({
+        datatype: "json",
+        cellEdit: true,
+        cellsubmit:'clientArray',
+        colNames: ['蜡块编号', '部位', '取材医生', '备注',''],
+        colModel: [
+            {name: 'chiparaffincode', index: 'chiparaffincode', width: 90},
+            {name: 'chenamech', index: 'chenamech', width: 120,editable:true,edittype:'text',editrules: {edithidden:true,required:true}},
+            {name: 'qcys', index: 'qcys', width: 120},
+            {name: 'checreateuser', index: 'checreateuser', width: 80,editable:true,edittype:'text',editrules: {edithidden:true,required:true}},
+            {name: 'insertNew', index: 'insertNew', width: 80,formatter:buttonFormat}
+        ],
+        multiselect:true,
+        shrinkToFit: true,
+        scrollOffset: 2
+    });
 }
 
 function saveSpecialDiagnosis(lindex) {
@@ -476,6 +521,8 @@ function getWhitePiece() {
         }
     });
 }
+
+
 
 function getOrderTabs(sampleId) {
     var ul = $("#tabPanel");
