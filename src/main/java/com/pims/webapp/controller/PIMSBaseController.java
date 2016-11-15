@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.DefaultJSONParser;
 import com.pims.model.PimsHospitalPathologyInfo;
+import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysPathology;
+import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.webapp.util.VerificaDate;
@@ -19,6 +21,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -47,6 +50,8 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 public class PIMSBaseController {
     @Autowired
     private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
+    @Autowired
+    private PimsPathologySampleManager pimsPathologySampleManager;
 
     protected final String contentType = "application/json; charset=UTF-8";
 
@@ -121,8 +126,16 @@ public class PIMSBaseController {
         }
         ModelAndView view = new ModelAndView();
         view.addObject("logyid",logylibid);//当前用户选择的病例库
-        view.addObject("sevenday", sevenDay);//7天前
-        view.addObject("receivetime", today);//当前时间
+        String id = request.getParameter("id");
+        if(!StringUtils.isEmpty(id)){
+            PimsPathologySample pathology = pimsPathologySampleManager.get(Long.parseLong(id));
+            view.addObject("sevenday", "");//7天前
+            view.addObject("receivetime", "");//当前时间
+            view.addObject("code", pathology.getSampathologycode());//病理号
+        }else{
+            view.addObject("sevenday", sevenDay);//7天前
+            view.addObject("receivetime", today);//当前时间
+        }
         view.addObject("local_username",user.getName());//当前登录用户名
         view.addObject("local_userid",user.getId());//当前登录用户id
         view.addObject("send_hosptail",user.getHospitalId());//账号所属医院

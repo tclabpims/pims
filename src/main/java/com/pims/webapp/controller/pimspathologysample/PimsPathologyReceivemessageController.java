@@ -80,6 +80,8 @@ public class PimsPathologyReceivemessageController extends PIMSBaseController{
     @ResponseBody
     public String getReqNum(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsBaseModel ppr = new PimsBaseModel();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ppr.setPatient_name(String.valueOf(user.getId()));
         ppr.setReq_sts("0");
         int num = pimsPathologyReceivemessageManager.getTaskListNum(ppr);
         JSONObject o = new JSONObject();

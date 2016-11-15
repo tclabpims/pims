@@ -47,12 +47,18 @@ $(function () {
     $('#div_lable_1 a').click(function (e) {
         $('#div_lable_1 a').each(function(){
             $("#show_div_"+ $(this).attr("href")).css('display','none');
-            $("#show_div_"+ $(this).attr("href")+"_"+ $(this).attr("href")).css('display','none');
+            if($(this).attr("href") == 1){
+                $("#show_div_1_1").css('display','none');
+                $("#show_div_1_2").css('display','none');
+            }
             $(this).css("border-bottom","0px");
         });
         e.preventDefault();//阻止a链接的跳转行为
         $("#show_div_"+ $(this).attr("href")).css('display','block');
-        $("#show_div_"+ $(this).attr("href")+"_"+ $(this).attr("href")).css('display','block');
+        if($(this).attr("href") == 1){
+            $("#show_div_1_1").css('display','block');
+            $("#show_div_1_2").css('display','block');
+        }
         $(this).css("border-bottom","4px solid #0FCFA0");
         $(this).tab('show');//显示当前选中的链接及关联的content
     });
@@ -60,14 +66,17 @@ $(function () {
      * 我的未处理工作
      */
     $('#show_div_1 a').click(function (e) {
-        var hrefval = $(this).attr("href");
-        jQuery("#new1").jqGrid("clearGridData");
-        jQuery("#new1").jqGrid('setGridParam',{
-            url: "../pathologysample/sample/ajax/samplelist",
-            //发送数据
-            postData : {"req_sts":hrefval,"patient_name":$("#local_userid").val()},
-            page : 1
-        }).trigger('reloadGrid');//重新载入
+        var hrefval = $(this).attr("href").split(",");
+        jQuery("#new"+hrefval[0]).jqGrid("clearGridData");
+        if(hrefval[0] == 1){
+            jQuery("#new1").jqGrid('setGridParam',{
+                url: "../pathologysample/sample/ajax/samplelist",
+                postData : {"req_sts":hrefval[1],"patient_name":$("#local_userid").val()},
+                page : 1
+            }).trigger('reloadGrid');//重新载入
+        }else if(hrefval[0] == 2){
+
+        }
         e.preventDefault();
     });
     /**
@@ -86,35 +95,30 @@ $(function () {
         if(href[0] == 0){//未取材
             jQuery("#sysnew0").jqGrid('setGridParam',{
                 url: "../pathologysample/sample/ajax/sample",
-                //发送数据
                 postData : {"req_code":0},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 1){//未包埋
             jQuery("#sysnew1").jqGrid('setGridParam',{
                 url: "../pathologysample/paraffin/ajax/sample",
-                //发送数据
-                postData : {"req_sts":1},
+                postData : {"req_sts":0},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 2){//未切片
             jQuery("#sysnew2").jqGrid('setGridParam',{
                 url: "../pathologysample/slide/ajax/sample",
-                //发送数据
-                postData : {"req_sts":2},
+                postData : {"req_sts":0},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 3){//未初查未审核未打印未发送
             jQuery("#sysnew3").jqGrid('setGridParam',{
                 url: "../pathologysample/sample/ajax/samplelist",
-                //发送数据
                 postData : {"req_sts":href[1]},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 4){//未接收未签收未补取
             jQuery("#new1").jqGrid('setGridParam',{
                 url: "../pathologysample/sample/ajax/samplelist",
-                //发送数据
                 postData : {"req_sts":href[1]},
                 page : 1
             }).trigger('reloadGrid');//重新载入
@@ -151,10 +155,11 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            // viewSample();
+            var rowData = $("#sysnew0").jqGrid('getRowData',id);
+            location.href='../pathologysample/pieces.jsp?m=取材管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -203,10 +208,11 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            // viewSample();
+            var rowData = $("#sysnew1").jqGrid('getRowData',id);
+            location.href='../pathologysample/paraffin?m=包埋管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -259,10 +265,11 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            // viewSample();
+            var rowData = $("#sysnew2").jqGrid('getRowData',id);
+            location.href='../pathologysample/slide?m=切片管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -303,7 +310,7 @@ $(function () {
             location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -344,7 +351,7 @@ $(function () {
             location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -383,7 +390,7 @@ $(function () {
             location.href='../consultation/cons.jsp?m=会诊管理&id='+ rowData.consampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -419,7 +426,7 @@ $(function () {
             viewSample(3,id);
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -459,7 +466,7 @@ $(function () {
             location.href='../consultation/cons.jsp?m=会诊管理&id='+ rowData.consampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -493,7 +500,7 @@ $(function () {
             viewSample(7,id);
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,

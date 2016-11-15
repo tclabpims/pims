@@ -79,37 +79,37 @@
     <div id="show_div_1" style="display: none">
         <ul id="tabs" class="nav nav-tabs">
             <li class="active">
-                <a href="3" data-toggle="tab">
+                <a href="1,3" data-toggle="tab">
                     未初查(${nocc})
                 </a>
             </li>
             <li>
-                <a href="4" data-toggle="tab">
+                <a href="1,4" data-toggle="tab">
                     未审核(${nosh})
                 </a>
             </li>
             <li>
-                <a href="6" data-toggle="tab">
+                <a href="1,6" data-toggle="tab">
                     未打印(${nody})
                 </a>
             </li>
             <li>
-                <a href="5" data-toggle="tab">
+                <a href="1,5" data-toggle="tab">
                     未发送(${nofs})
                 </a>
             </li>
             <li>
-                <a href="#infotab" data-toggle="tab">
+                <a href="2_1,0" data-toggle="tab">
                     未接收(${nojs})
                 </a>
             </li>
             <li>
-                <a href="#infotab" data-toggle="tab">
+                <a href="2_1,2" data-toggle="tab">
                     未签收(${noqs})
                 </a>
             </li>
             <li>
-                <a href="#infotab" data-toggle="tab">
+                <a href="2_1,3" data-toggle="tab">
                     未补取(${noqc})
                 </a>
             </li>
@@ -122,6 +122,17 @@
                     <table id="new1" class="table">
                     </table>
                     <div id="pager1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="show_div_2_1" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="new2_1" class="table">
+                    </table>
+                    <div id="pager2_1"></div>
                 </div>
             </div>
         </div>
@@ -257,37 +268,37 @@
         <ul id="sys" class="nav nav-tabs">
             <li class="active">
                 <a href="0" data-toggle="tab">
-                    未取材(${nocc})
+                    未取材(${nosyscq})
                 </a>
             </li>
             <li>
                 <a href="1" data-toggle="tab">
-                    未包埋(${nosh})
+                    未包埋(${nosysbm})
                 </a>
             </li>
             <li>
                 <a href="2" data-toggle="tab">
-                    未切片(${nody})
+                    未切片(${nosysqp})
                 </a>
             </li>
             <li>
                 <a href="3,3" data-toggle="tab">
-                    未初查(${nofs})
+                    未初查(${nosyscc})
                 </a>
             </li>
             <li>
                 <a href="3,4" data-toggle="tab">
-                    未审核(${nojs})
+                    未审核(${nosyssh})
                 </a>
             </li>
             <li>
                 <a href="3,6" data-toggle="tab">
-                    未打印(${noqs})
+                    未打印(${nosysdy})
                 </a>
             </li>
             <li>
                 <a href="3,5" data-toggle="tab">
-                    未发送(${noqc})
+                    未发送(${nosysfs})
                 </a>
             </li>
             <li>
