@@ -110,7 +110,7 @@
             </li>
             <li>
                 <a href="#infotab" data-toggle="tab">
-                    未取材(${noqc})
+                    未补取(${noqc})
                 </a>
             </li>
         </ul>
@@ -191,230 +191,168 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin-right: 0px;margin-left: 0px;" >
-        <h5  style="float: left;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/sysnofinish.png" class="img_style">&nbsp;系统未处理信息</strong></h5>
-    </div>
-    <div>
-        <ul id="tab1" class="nav nav-tabs">
-            <li class="active">
-                <a href="#maintab" data-toggle="tab">
-                    未初查(${nocc})
-                </a>
-            </li>
-            <li>
-                <a href="#infotab" data-toggle="tab">
-                    未审核(${nosh})
-                </a>
-            </li>
-            <li>
-                <a href="#infotab" data-toggle="tab">
-                    未打印(${nody})
-                </a>
-            </li>
-            <li>
-                <a href="#infotab" data-toggle="tab">
-                    未发送(${nofs})
-                </a>
-            </li>
-            <li>
-                <a href="#infotab" data-toggle="tab">
-                    未接收(${nojs})
-                </a>
-            </li>
-            <li>
-                <a href="#infotab" data-toggle="tab">
-                    未签收(${noqs})
-                </a>
-            </li>
-            <li>
-                <a href="#infotab" data-toggle="tab">
-                    未取材(${noqc})
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="row">
+    <div class="row" id="show_div_6" style="display: none">
+        <div>
+            <div style="margin-top: 5px">
+                <table style="margin-bottom: 10px">
+                    <span class="input_style">&nbsp;&nbsp;发起年月:&nbsp;&nbsp;</span>
+                    <input type="text" class="form_datetime input_style" value="${sevenday}" id="req_bf_time6"/>
+                    <span>-</span>
+                    <input type="text" class="form_datetime input_style" value="${receivetime}"  id="req_af_time6"/>
+                    <span style="width: 30%;" class="input_style">&nbsp;&nbsp;状态:&nbsp;&nbsp;</span>
+                    <select id="req_sts6" class="input_style">
+                        <option value="">全部</option>
+                        <option value="0" selected>会诊中</option>
+                        <option value="1">会诊终了</option>
+                        <option value="2">会诊取消</option>
+                    </select>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList(6)">
+                        <span style="color: white;">查询</span>
+                    </button>
+                </table>
+            </div>
+
+        </div>
         <div>
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
-                    <table id="new" class="table">
+                    <table id="new6" class="table">
                     </table>
-                    <div id="pager"></div>
+                    <div id="pager6"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="formDialog" style="display: none">
-        <form class="form-horizontal" style="background-color: #F9F9F9;height: 299px;border:1px solid #E0E0E0;"  action="#" method="post" id="sampleForm" >
-            <div class="form-group" style="margin-top: 10px;margin-bottom: 5px">
-                <label  class="label_style col-sm-1" for="saminspectionid">条形码:</label>
-                <div class="col-sm-3">
-                    <input type="hidden" id="sampleid"><!--标本id-->
-                    <input type="hidden" id="samcustomerid"/><!--客户id-->
-                    <input type="hidden" id="samcustomercode" /><!--客户id-->
-                    <input type="hidden" id="samsource"/><!--是否外送-->
-                    <input type="hidden" id="samotherid"/><!--第三方条码号-->
-                    <input type="hidden" id="samisdeleted"/><!--删除标记-->
-                    <input type="hidden" id="sampatientid" /><!--患者唯一号(病案号)-->
-                    <input type="hidden" id="saminpatientid" /><!--就诊id(患者每一次来院的id)-->
-                    <input type="hidden" id="saminpatientno" /><!--住院序号(住院次数)-->
-                    <input type="hidden" id="sampatienttype"/><!--患者类型-->
-                    <input type="hidden" id="samsampleclass"/><!--标本种类-->
-                    <input type="hidden" id="sampopuser"/><!--标本检查项目id-->
-                    <input type="hidden" id="samisemergency"/><!--是否加急-->
-                    <input type="hidden" id="samisdecacified"/><!--是否脱钙-->
-                    <input type="hidden" id="samissamplingall"/><!--是否全取-->
-                    <input type="hidden" id="samsamplestatus"/><!--标本状态-->
-                    <input type="hidden" id="samreqtime"/><!--申请时间-->
-                    <input type="hidden" id="samreqdocid"/><!--申请医生id-->
-                    <input type="hidden" id="samreqdocname"/><!--申请医生姓名-->
-                    <input type="hidden" id="samsendphone"/><!--送检联系电话-->
-                    <input type="hidden" id="samdigcode"/><!--诊疗小组代码-->
-                    <input type="hidden" id="samwardcode"/><!--病区代码-->
-                    <input type="hidden" id="samwardname"/><!--病区名称-->
-                    <input type="hidden" id="sampatientidcardno"/><!--身份证号-->
-                    <input type="hidden" id="sampatientcompany"/><!--工作单位-->
-                    <input type="hidden" id="samismenopause"/><!--是否绝经-->
-                    <input type="hidden" id="reqlastmenstruation"/><!--末次月经时间-->
-                    <input type="hidden" id="samischarged"/><!--收费状态-->
-                    <input type="hidden" id="samreceiverid"/><!--接收人员id-->
-                    <input type="hidden" id="samreceivername"/><!--接收人员姓名-->
-                    <input type="hidden" id="saminitiallytime"/><!--初诊时间-->
-                    <input type="hidden" id="saminitiallyuserid"/><!--初诊人员id-->
-                    <input type="hidden" id="saminitiallyusername"/><!--初诊人员姓名-->
-                    <input type="hidden" id="samcreatetime"/><!--创建时间-->
-                    <input type="hidden" id="samcreateuser"/><!--创建人员-->
-                    <input type="hidden" id="samregisttime"/><!--登记时间-->
-                    <input type="hidden" id="samregisterid"/><!--登记人员-->
-                    <input type="hidden" id="samregistername"/><!--登记人员姓名-->
-                    <input type="text" class="input_style" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}" readonly/>
-                </div>
-                <label class="label_style col-sm-1" for="samrequistionid">临床申请:</label>
-                <div class="col-sm-3 ">
-                    <input class="input_style" type="text" id="samrequistionid" name="samrequistionid" onkeypress="getData(this,event)"/>
-                </div>
-                <label class="label_style col-sm-1" >病种类别:</label>
-                <div class="col-sm-3">
-                    <select class="input_style col-sm-8" id="sampathologyid" disabled="disabled">
-                        <%out.println(request.getAttribute("logyids"));%>
-                    </select>
+    <div class="row" id="show_div_7" style="display: none">
+        <div>
+            <div style="margin-top: 5px">
+                <table style="margin-bottom: 10px">
+                    <span class="input_style">&nbsp;&nbsp;发起年月:&nbsp;&nbsp;</span>
+                    <input type="text" class="form_datetime input_style" value="${sevenday}" id="req_bf_time7"/>
+                    <span>-</span>
+                    <input type="text" class="form_datetime input_style" value="${receivetime}"  id="req_af_time7"/>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList(7)">
+                        <span style="color: white;">查询</span>
+                    </button>
+                </table>
+            </div>
+
+        </div>
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="new7" class="table">
+                    </table>
+                    <div id="pager7"></div>
                 </div>
             </div>
-            <div class="form-group" style="margin-bottom: 5px">
-                <label class="label_style col-sm-1" >病理编号:</label>
-                <div class="col-sm-3">
-                    <input class="input_style" type="text" id="sampathologycode" name="sampathologycode" readonly/>
-                </div>
-                <label class="label_style col-sm-1" >病人姓名:</label>
-                <div class="col-sm-3 ">
-                    <input class="input_style" type="text" id="sampatientname" name="sampatientname" datatype="*" />
-                </div>
-                <label class="label_style col-sm-1" >联系电话:</label>
-                <div class="col-sm-3 ">
-                    <input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno"/>
-                </div>
-            </div>
-            <div class="form-group" style="margin-bottom: 5px;">
-                <label class="col-sm-1 label_style" >住院号:</label>
-                <div class="col-sm-3 ">
-                    <input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"/>
-                </div>
-                <label class="col-sm-1 label_style" >床号:</label>
-                <div class="col-sm-3 ">
-                    <input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"/>
-                </div>
-                <label class="col-sm-1 label_style" >联系地址:</label>
-                <div class="col-sm-3">
-                    <input class="input_style" type="text" id="sampatientaddress" name="sampatientaddress"/>
-                </div>
-            </div>
-            <div class="form-group" style="margin-bottom: 5px;">
-                <label class="col-sm-1 label_style" for="sampatientsex">性&nbsp;别:</label>
-                <div class="col-sm-3">
-                    <select class=" input_style col-sm-8" id="sampatientsex">
-                        <option value="0">男</option>
-                        <option value="1">女</option>
-                        <option value="2">未知</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 label_style" for="sampatientage">年&nbsp;龄:</label>
-                <div class="col-sm-3">
-						<span class="label_style" style="width:90%">
-							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%" name="sampatientage" datatype="n1-2"/>
-							<select class="input_style" style="float:left;width:25%" id="sampatientagetype">
-								<option value="1">岁</option>
-								<option value="2">月</option>
-								<option value="4">周</option>
-								<option value="5">日</option>
-								<option value="6">小时</option>
-							</select>
-						</span>
-                </div>
-                <label class="col-sm-1 label_style" >知情书:</label>
-                <div class="col-sm-3 input_style">
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio"  value="1" name="samfirstv"/>&nbsp;&nbsp;已签&nbsp;&nbsp;
-                    <input type="radio" value="2" name="samfirstv"/>&nbsp;&nbsp;未签
-                </div>
-            </div>
-            <div class="form-group" style="margin-bottom: 5px;">
-                <label class="col-sm-1 label_style" >送检医生:</label>
-                <div class="col-sm-3 ">
-                    <input type="hidden" id="samsenddoctorid"/>
-                    <input  class="input_style" type="text" id="samsenddoctorname" name="samsenddoctorname" datatype="*"/>
-                </div>
-                <label class="col-sm-1 label_style" for="samdeptcode">送检科室:</label>
-                <div class="col-sm-3">
-                    <input type="hidden" id="samdeptcode"/><!--申请科室名称-->
-                    <input class="input_style" type="text" id="samdeptname" name="samdeptname" datatype="*"/><!--申请科室名称-->
-                </div>
-                <label class="col-sm-1 label_style" >送检医院:</label>
-                <div class="col-sm-3 ">
-                    <input class="input_style" type="text" id="samsendhospital" name="samsendhospital" datatype="*"/>
+        </div>
+    </div>
+    <div class="row" style="margin-right: 0px;margin-left: 0px;" >
+        <h5  style="float: left;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/sysnofinish.png" class="img_style">&nbsp;系统未处理信息</strong></h5>
+    </div>
+    <div>
+        <ul id="sys" class="nav nav-tabs">
+            <li class="active">
+                <a href="0" data-toggle="tab">
+                    未取材(${nocc})
+                </a>
+            </li>
+            <li>
+                <a href="1" data-toggle="tab">
+                    未包埋(${nosh})
+                </a>
+            </li>
+            <li>
+                <a href="2" data-toggle="tab">
+                    未切片(${nody})
+                </a>
+            </li>
+            <li>
+                <a href="3,3" data-toggle="tab">
+                    未初查(${nofs})
+                </a>
+            </li>
+            <li>
+                <a href="3,4" data-toggle="tab">
+                    未审核(${nojs})
+                </a>
+            </li>
+            <li>
+                <a href="3,6" data-toggle="tab">
+                    未打印(${noqs})
+                </a>
+            </li>
+            <li>
+                <a href="3,5" data-toggle="tab">
+                    未发送(${noqc})
+                </a>
+            </li>
+            <li>
+                <a href="#sys_4" data-toggle="tab">
+                    未接收(${nojs})
+                </a>
+            </li>
+            <li>
+                <a href="#sys_5" data-toggle="tab">
+                    未完成(${noqs})
+                </a>
+            </li>
+            <li>
+                <a href="#sys_6" data-toggle="tab">
+                    未签收(${noqc})
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="row" id="sys_0" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="sysnew0" class="table">
+                    </table>
+                    <div id="syspager0"></div>
                 </div>
             </div>
-            <div class="form-group" style="margin-bottom: 5px;">
-                <label class="col-sm-1 label_style" >送检时间:</label>
-                <div class="col-sm-3">
-                    <input  type="text" class="form_datetime1 input_style" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
-                </div>
-                <label class="col-sm-1 label_style" for="samreceivertime">接收日期:</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form_datetime1 input_style" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
-                </div>
-                <label class="col-sm-1 label_style" for="samfirstn">组织袋数:</label>
-                <div class="col-sm-3">
-                    <input class="input_style" type="text" id="samfirstn"  name="samfirstn" datatype="n1-2"/>
+        </div>
+    </div>
+    <div class="row" id="sys_1" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="sysnew1" class="table">
+                    </table>
+                    <div id="syspager1"></div>
                 </div>
             </div>
-            <div class="form-group" style="margin-bottom: 5px;">
-                <label style="font-size: 13px;"  class="col-sm-1 label_style">标本状态:</label>
-                <div class="col-sm-3 input_style">
-                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv"/>&nbsp;&nbsp;合格&nbsp;&nbsp;
-                    <input type="radio" value="2" name="samsecondv"/>&nbsp;&nbsp;不合格
-                </div>
-                <label class="col-sm-1 label_style" for="samremark">原因:</label>
-                <div class="col-sm-7">
-                    <input  type="text" id="samremark" class="col-sm-10 label_style"/>
-                </div>
-            </div>
-            <div class="form-group" style="margin-bottom: 5px;">
-                <label class="col-sm-1 label_style" for="samsamplename">送检材料:</label>
-                <div class="col-sm-3">
-                    <textarea id="samsamplename" style="height: 55px;font-size: 12px" name="samsamplename" datatype="*"></textarea>
-                </div>
-                <label class="col-sm-1 label_style" for="sampatientdignoses">临床诊断:</label>
-                <div class="col-sm-3">
-                    <textarea id="sampatientdignoses" style="height: 55px;font-size: 12px" name="sampatientdignoses" datatype="*"></textarea>
-                </div>
-                <label class="col-sm-1 label_style" for="samthirdv">手术所见:</label>
-                <div class="col-sm-3">
-                    <textarea id="samthirdv" style="height: 55px;font-size: 12px"></textarea>
+        </div>
+    </div>
+    <div class="row" id="sys_2" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="sysnew2" class="table">
+                    </table>
+                    <div id="syspager2"></div>
                 </div>
             </div>
-        </form>
+        </div>
+    </div>
+    <div class="row" id="sys_3" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="sysnew3" class="table">
+                    </table>
+                    <div id="syspager3"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="formDialog3" style="display:none;" class="col-sm-12">
-        <form class="form-horizontal" style="background-color: #F9F9F9;height: 430px;border:1px solid #E0E0E0;" action="#" method="post" id="sampleForm" >
+        <form class="form-horizontal" style="background-color: #F9F9F9;height: 430px;border:1px solid #E0E0E0;" action="#" method="post" id="sampleForm3" >
             <div class="form-group" style="margin-top: 10px;margin-bottom: 5px">
                 <label class="col-sm-2 label_style">消息内容:</label>
                 <div class="col-sm-10">

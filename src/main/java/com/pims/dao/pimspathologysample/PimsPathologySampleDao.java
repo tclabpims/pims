@@ -26,6 +26,20 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
     int getReqListNum(PimsBaseModel map);
 
     /**
+     * 首页查询标本信息
+     * @param map
+     * @return
+     */
+    List getSList(PimsBaseModel map);
+
+    /**
+     * 首页查询标本数量
+     * @param map
+     * @return
+     */
+    int getSNum(PimsBaseModel map);
+
+    /**
      * 查询标本内容
      * @param id
      * @return

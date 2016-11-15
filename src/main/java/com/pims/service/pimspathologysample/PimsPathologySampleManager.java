@@ -59,4 +59,18 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
     void sign(PimsPathologySample sample);
 
     int getSamStaNum();
+
+    /**
+     * 首页查询标本信息
+     * @param map
+     * @return
+     */
+    List getSList(PimsBaseModel map);
+
+    /**
+     * 首页查询标本数量
+     * @param map
+     * @return
+     */
+    int getSNum(PimsBaseModel map);
 }

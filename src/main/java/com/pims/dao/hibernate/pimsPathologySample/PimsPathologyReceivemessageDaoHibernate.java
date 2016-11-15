@@ -34,7 +34,6 @@ public class PimsPathologyReceivemessageDaoHibernate extends GenericDaoHibernate
      */
     public StringBuffer getsql(StringBuffer sb, PimsBaseModel map) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        sb.append(" and receiveruserid ="+ user.getId());
         if(!StringUtils.isEmpty(map.getReq_sts())){
             sb.append(" and receivests = "+ map.getReq_sts());
         }
@@ -43,6 +42,9 @@ public class PimsPathologyReceivemessageDaoHibernate extends GenericDaoHibernate
         }
         if (map.getReq_af_time() != null) {
             sb.append(" and  meshandletime < :req_af_time");
+        }
+        if(!StringUtils.isEmpty(map.getPatient_name())){
+            sb.append(" and receiveruserid ="+ user.getId());
         }
         return sb;
     }

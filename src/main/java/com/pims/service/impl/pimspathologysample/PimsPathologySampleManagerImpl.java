@@ -140,4 +140,14 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public int getSamStaNum() {
         return pimsPathologySampleDao.getSamStaNum();
     }
+
+    @Override
+    public List getSList(PimsBaseModel map) {
+        return pimsPathologySampleDao.getSList(map);
+    }
+
+    @Override
+    public int getSNum(PimsBaseModel map) {
+        return pimsPathologySampleDao.getSNum(map);
+    }
 }

@@ -34,10 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by king on 2016/10/10.
@@ -122,6 +119,44 @@ public class PimsPathologySampleController extends PIMSBaseController{
         dataResponse.setPage(ppr.getPage());
         dataResponse.setTotal(getTotalPage(num, ppr.getRow(), ppr.getPage()));
         dataResponse.setRows(getResultMap(list));
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 获取首页标本列表
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/ajax/samplelist*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getSampleList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<PimsPathologySample> list = pimsPathologySampleManager.getSList(ppr);
+        int num = pimsPathologySampleManager.getSNum(ppr);
+        List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+        if(list == null || list.size() == 0) {
+            return null;
+        }else{
+            for(Object bean:list){
+                Map<String, Object> map = new HashMap<String, Object>();
+                Object[] pd = (Object[]) bean;
+                String[] st = {"sampleid","sampathologyid","sampathologycode","samsenddoctorname",
+                        "samsendhospital","sampatientname","piedoctorname","piesamplingtime","samsamplestatus","piedoctorid"};
+                for(int i=0;i<pd.length;i++){
+                    Object o = pd[i];
+                    map.put(st[i],o);
+                }
+                mapList.add(map);
+            }
+        }
+        dataResponse.setRecords(num);
+        dataResponse.setPage(ppr.getPage());
+        dataResponse.setTotal(getTotalPage(num, ppr.getRow(), ppr.getPage()));
+        dataResponse.setRows(mapList);
         response.setContentType("text/html; charset=UTF-8");
         return dataResponse;
     }
