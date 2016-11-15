@@ -42,7 +42,7 @@
 				<div style="margin-top:10px;">
 					<table  style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;&nbsp;取材年月:&nbsp;</span>
-						<input type="hidden" id="req_sts" value="1">
+						<input type="hidden" id="req_sts" value="0">
 						<input type="hidden" id="local_username" value="${local_username}"/>
 						<input type="hidden" id="local_userid" value="${local_userid}"/>
 						<input type="hidden" id="logyid" value="${logyid}"/>
@@ -82,12 +82,12 @@
 			</div>
 			<ul id="tabss" class="nav nav-tabs">
 				<li class="active">
-					<a href="1" data-toggle="tab">
+					<a href="0" data-toggle="tab">
 						待包埋
 					</a>
 				</li>
 				<li>
-					<a href="2" data-toggle="tab">
+					<a href="1" data-toggle="tab">
 						已包埋
 					</a>
 				</li>

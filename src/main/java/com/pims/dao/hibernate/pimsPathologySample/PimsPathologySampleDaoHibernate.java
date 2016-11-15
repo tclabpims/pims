@@ -237,4 +237,44 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         String sql = "select count(1) from pims_pathology_sample where samsamplestatus in (3,4,5,6,7)";
         return countTotal(sql).intValue();
     }
+
+    public StringBuffer getSSql(StringBuffer sb,PimsBaseModel map){
+        if(!StringUtils.isEmpty(map.getReq_sts())){
+            sb.append(" and SAMSAMPLESTATUS = " + map.getReq_sts());
+        }
+        if(!StringUtils.isEmpty(map.getPatient_name())){
+            sb.append(" and PIEDOCTORID = " + map.getPatient_name());
+        }
+        return sb;
+    }
+
+    @Override
+    public List getSList(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" SELECT SAMPLEID,SAMPATHOLOGYID,SAMPATHOLOGYCODE,SAMSENDDOCTORNAME," +
+                "SAMSENDHOSPITAL,SAMPATIENTNAME,PIEDOCTORNAME,PIESAMPLINGTIME,SAMSAMPLESTATUS,PIEDOCTORID FROM " +
+                "(SELECT A.SAMPLEID,A.SAMPATHOLOGYID,A.SAMPATHOLOGYCODE,A.SAMSENDDOCTORNAME," +
+                "A.SAMSENDHOSPITAL,A.SAMPATIENTNAME,A.SAMSAMPLESTATUS,B.PIEDOCTORNAME,B.PIESAMPLINGTIME,B.PIEDOCTORID," +
+                "RANK() OVER (PARTITION BY A.SAMPLEID ORDER BY B.PIESAMPLINGTIME,B.PIECEID ) AS RANK_NUM " +
+                " FROM PIMS_PATHOLOGY_SAMPLE A,PIMS_PATHOLOGY_PIECES B " +
+                "WHERE A.SAMPLEID = B.PIESAMPLEID) WHERE RANK_NUM = 1");
+        getSSql(sb,map);
+        Query query = getSession().createSQLQuery(sb.toString());
+        query.setFirstResult(map.getStart());
+        query.setMaxResults(map.getEnd());
+        return query.list();
+    }
+
+    @Override
+    public int getSNum(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" SELECT COUNT(1) FROM " +
+                "(SELECT A.SAMPLEID,A.SAMPATHOLOGYID,A.SAMPATHOLOGYCODE,A.SAMSENDDOCTORNAME," +
+                "A.SAMSENDHOSPITAL,A.SAMPATIENTNAME,A.SAMSAMPLESTATUS,B.PIEDOCTORNAME,B.PIESAMPLINGTIME,B.PIEDOCTORID," +
+                "RANK() OVER (PARTITION BY A.SAMPLEID ORDER BY B.PIESAMPLINGTIME,B.PIECEID ) AS RANK_NUM " +
+                " FROM PIMS_PATHOLOGY_SAMPLE A,PIMS_PATHOLOGY_PIECES B " +
+                "WHERE A.SAMPLEID = B.PIESAMPLEID) WHERE RANK_NUM = 1");
+        getSSql(sb,map);
+        return countTotal(sb.toString());
+    }
 }

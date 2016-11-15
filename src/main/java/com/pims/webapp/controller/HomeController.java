@@ -58,15 +58,19 @@ public class HomeController extends PIMSBaseController{
         cal.add(Calendar.DAY_OF_YEAR, +1);
         String today = Constants.DF2.format(cal.getTime());
         int noworkList = pimsPathologySampleManager.getSamStaNum();//工作未处理
-        map.setReq_code("3");
-        int nocc = pimsPathologySampleManager.getReqListNum(map);//未初查
-        map.setReq_code("4");
-        int nosh = pimsPathologySampleManager.getReqListNum(map);//未审核
-        map.setReq_code("6");
-        int nody = pimsPathologySampleManager.getReqListNum(map);//未打印
-        map.setReq_code("5");
-        int nofs = pimsPathologySampleManager.getReqListNum(map);//未发送
-        map.setReq_code("3");
+        map.setReq_sts("3");
+        map.setPatient_name(String.valueOf(user.getId()));
+        int nocc = pimsPathologySampleManager.getSNum(map);//未初查
+        map.setReq_sts("4");
+        map.setPatient_name(String.valueOf(user.getId()));
+        int nosh = pimsPathologySampleManager.getSNum(map);//未审核
+        map.setReq_sts("6");
+        map.setPatient_name(String.valueOf(user.getId()));
+        int nody = pimsPathologySampleManager.getSNum(map);//未打印
+        map.setReq_sts("5");
+        map.setPatient_name(String.valueOf(user.getId()));
+        int nofs = pimsPathologySampleManager.getSNum(map);//未发送
+        map.setReq_sts("3");
         int nojs = pimsPathologySampleManager.getReqListNum(map);//未接收
         map = new PimsBaseModel();
         int noqs = pimsPathologySampleManager.getReqListNum(map);//未签收
@@ -76,7 +80,7 @@ public class HomeController extends PIMSBaseController{
         map.setReq_sts("0");
         map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
         map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
-        map.setSend_hosptail(String.valueOf(user.getId()));
+        map.setPatient_name(String.valueOf(user.getId()));
         int mycons = pimsConsultationDetailManager.getReqListNum(map);//我的会诊
         map = new PimsBaseModel();
         map.setReq_sts("0");
@@ -88,11 +92,12 @@ public class HomeController extends PIMSBaseController{
         map.setReq_sts("0");
         map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
         map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
-        map.setSend_hosptail(String.valueOf(user.getId()));
+        map.setPatient_name(String.valueOf(user.getId()));
         int mysendcons = pimsPathologyConsultationManager.getReqListNum(map);//发起的会诊
         map = new PimsBaseModel();
         map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
         map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
+        map.setPatient_name(String.valueOf(user.getId()));
         int mysendmessage = pimsPathologyMessageManager.getTaskListNum(map);//发起的留言
         ModelAndView view = new ModelAndView();
         view.addObject("sevenday", sevenDay1);//7天前

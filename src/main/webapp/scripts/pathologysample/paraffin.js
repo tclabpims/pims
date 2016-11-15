@@ -156,7 +156,7 @@ $(function() {
 			{ name: 'piecode', index: 'piecode'},//材块编号
 			{ name: 'piespecial', index: 'piespecial'},//特殊要求
 			{ name: 'pienullslidenum', index: 'pienullslidenum'},//白片数
-			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"1:未包埋;2:已包埋"},width:70},//病理状态
+			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"},width:70},//病理状态
 			{ name: 'piefirstv', index: 'piefirstv'},//补取医嘱
 			{name:'piecounts',hidden:true},//材块数
 			{name:'pienullslidenum',hidden:true},//白片数

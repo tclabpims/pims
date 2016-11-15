@@ -57,7 +57,7 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
             sb.append(" and piesamplingtime >= :req_bf_time");//开始时间
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
-            sb.append(" and piestate = " + map.getReq_sts());//包埋状态
+            sb.append(" and pieisembed = " + map.getReq_sts());//包埋状态
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
             //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());

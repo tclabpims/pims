@@ -34,13 +34,14 @@ public class PimsPathologyMessageDaoHibernate extends GenericDaoHibernate<PimsPa
      * @return
      */
     public StringBuffer getsql(StringBuffer sb, PimsBaseModel map) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        sb.append(" and messenderid ="+ user.getId());
         if (map.getReq_bf_time() != null) {
             sb.append(" and meshandletime >= :req_bf_time");
         }
         if (map.getReq_af_time() != null) {
             sb.append(" and  meshandletime < :req_af_time");
+        }
+        if(!StringUtils.isEmpty(map.getPatient_name())){
+            sb.append(" and messenderid ="+ map.getPatient_name());
         }
 //        if(map.getPatient_name() != null){
 //            sb.append(" and  messageid in (select recmessageid from PIMS_PATHOLOGY_RECEIVEMESSAGE where receiveruserid = '"+ map.getPatient_name()+"'");
