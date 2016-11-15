@@ -69,7 +69,7 @@
         </Menu>
 
         <Menu name="MedicalOrderTreatment" title="MedicalOrderTreatment.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
-            <Item name="MOTManageDoctor" title="menu.MOTManageDoctor" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="MOTManageDoctor" title="menu.MOTManageDoctor" page="/order/orderdoctor" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="MOTManageTechnician" title="menu.MOTManageTechnician" page="/order/technologist" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 

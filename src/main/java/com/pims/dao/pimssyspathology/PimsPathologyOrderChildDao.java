@@ -13,4 +13,6 @@ public interface PimsPathologyOrderChildDao extends GenericDao<PimsPathologyOrde
     PimsPathologyOrderChild getChildByOrderId(long orderId);
 
     List getOrderChildChargeItem(long testItemId, long ordcustomercode);
+
+    void updateWhitePiece(Long orderChildId, Long inventory);
 }

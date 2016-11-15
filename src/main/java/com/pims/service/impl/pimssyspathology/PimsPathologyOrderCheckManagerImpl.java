@@ -1,5 +1,6 @@
 package com.pims.service.impl.pimssyspathology;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pims.dao.pimssyspathology.PimsPathologyOrderCheckDao;
 import com.pims.model.PimsPathologyOrderCheck;
@@ -52,5 +53,25 @@ public class PimsPathologyOrderCheckManagerImpl extends GenericManagerImpl<PimsP
             res.put("totalMoney", totalMoney);
         }
         return res.toString();
+    }
+
+    @Override
+    public void updateTestResult(JSONArray json, String name) {
+        pathologyOrderCheckDao.updateTestResult(json, name);
+    }
+
+    @Override
+    public void removeItems(Set<Long> oldItems, long orderId) {
+        pathologyOrderCheckDao.removeItems(oldItems, orderId);
+    }
+
+    @Override
+    public void removeByOrderId(long orderId) {
+        pathologyOrderCheckDao.removeByOrderId(orderId);
+    }
+
+    @Override
+    public void updateItemStatus(Set<Long> s) {
+        pathologyOrderCheckDao.updateItemStatus(s);
     }
 }

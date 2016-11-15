@@ -95,4 +95,16 @@ public class PimsPathologyParaffinManagerImpl extends GenericManagerImpl<PimsPat
     public List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId) {
         return pimsPathologyParaffinDao.getParaffinBySampleId(sampleId);
     }
+
+    /**
+     * 按照标本编号和蜡块编号取蜡块信息
+     *
+     * @param sampleId     标本编号
+     * @param paraffinCode 蜡块编号
+     * @return 蜡块信息
+     */
+    @Override
+    public PimsPathologyParaffin getPimsPathologyParaffin(long sampleId, String paraffinCode) {
+        return pimsPathologyParaffinDao.getPimsPathologyParaffin(sampleId, paraffinCode);
+    }
 }
