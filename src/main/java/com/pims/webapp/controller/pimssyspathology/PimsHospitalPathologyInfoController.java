@@ -106,7 +106,7 @@ public class PimsHospitalPathologyInfoController extends PIMSBaseController {
         return dr;
     }
 
-    @RequestMapping(method = {RequestMethod.GET}, value = "/userid")
+    @RequestMapping(method = {RequestMethod.GET}, value = "/userid",produces="text/html;charset=UTF-8")
     @ResponseBody
     public String getPathologyByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
         User user = WebControllerUtil.getAuthUser();

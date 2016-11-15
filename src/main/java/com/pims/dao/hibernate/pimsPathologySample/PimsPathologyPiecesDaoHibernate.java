@@ -50,7 +50,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         }
         if(!StringUtils.isEmpty(map.getReq_sts())){
             if(map.getReq_sts().equals("1")){
-                sb.append(" and samsamplestatus = " + map.getReq_sts());//取材状态
+                sb.append(" and samsamplestatus > 0 " );//取材状态
             }else{
                 sb.append(" and samsamplestatus =  0");
             }

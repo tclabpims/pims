@@ -226,6 +226,7 @@ function addSample() {
 	clearData();
 	changeimgclick(1);
 	$('#sampleForm').find('input,textarea,select').removeAttr('disabled') ;
+	$("#sampathologyid").attr({"disabled":"disabled"});
 	//$("#hisbutton").removeAttr("disabled");//将按钮可用
 	// $("#saveButton").removeAttr("disabled");//将按钮可用
 	// $("#editButton").attr({"disabled":"disabled"});
@@ -303,6 +304,7 @@ function editSample(){
 			//var data = JSON.parse(data);
 			if(data.success) {
 				$('#sampleForm').find('input,textarea,select').removeAttr('disabled');
+				$("#sampathologyid").attr({"disabled":"disabled"});
 				$("#saveButton").removeAttr("disabled");//将按钮可用
 				$("#addButton").removeAttr("disabled");//将按钮可用
 				$("#editButton").removeAttr("disabled");//将按钮可用
@@ -372,6 +374,18 @@ $(function() {
 		callback:function(){
 		}
 	});
+	$("#sample_id").css('display','block');
+	$('#tabss a:first').tab('show');//初始化显示哪个tab
+	$('#tabss a').click(function (e) {
+		$('#tabss').find('li').each(function(){
+			$($(this).find('a').attr("href")).css('display','none');
+		});
+		e.preventDefault();//阻止a链接的跳转行为
+		$($(this).attr("href")).css('display','block');
+		$(this).tab('show');//显示当前选中的链接及关联的content
+	});
+
+
 	$(".form_datetime").datetimepicker({
 		minView: "month", //选择日期后，不会再跳转去选择时分秒
 		format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
@@ -491,11 +505,11 @@ $(function() {
 	};
 	var clientHeight= $(window).innerHeight();
 	var height = $("#formDialog").height() - $('#search_div_1').height() + 230;
-    var width = $('#div_2').width();
-    var width1 = $("#formDialog").width();
+    var width = $('#search_div_1').width();
+    var width1 = $("#sampleForm").width();
 	//alert($(window).innerWidth());
-	//var logyid = $("#logyid").val();
-	var logyid ="";
+	var logyid = $("#logyid").val();
+	// var logyid ="";
 	var send_hosptail = "";
 	var req_code = $('#req_code').val();
 	var patient_name = $('#patient_name').val();
@@ -574,15 +588,15 @@ $(function() {
 		// },
 		multiselect: true,
 		viewrecords: true,
-		height:455,
+		height:200,
         width:width,
         shrinkToFit:false,
         autoScroll: true,
 		//autowidth: true,
-		rowNum: 20,
+		rowNum: 10,
 		rowList:[20,30,40],
 		rownumbers: true, // 显示行号
-		rownumWidth: 35, // the width of the row numbers columns
+		rownumWidth: 30, // the width of the row numbers columns
 		pager: "#pager"
 	});
 
@@ -590,8 +604,7 @@ $(function() {
 		url: "../pathologysample/sample/ajax/getreqinfo",
 		mtype: "GET",
 		datatype: "json",
-		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
-			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
+		postData:{},
 		colNames: ['选择','详情','ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室',"送检医生"],
 		colModel: [
 			{ name: 'selectinfo', index: 'selectinfo', sortable: false, align: "center", width: "70px" },
@@ -627,19 +640,21 @@ $(function() {
 		// 	fillInfo(id);
 		// },
 		viewrecords: true,
-		height:134,
-        width:width1,
-		autowidth: true,
-		rowNum: 10,
+		height:454,
+        width:width,
+		//autowidth: true,
+		// rowNum: 20,
 		shrinkToFit:false,
 		autoScroll: true,
-		//rowList:[10,20,30],
+		// rowList:[10,20,30],
 		rownumbers: true, // 显示行号
-		rownumWidth: 35, // the width of the row numbers columns
-		pager: "#pager1"
+		rownumWidth: 30, // the width of the row numbers columns
+		// pager: "#pager1"
 	});
+
     createNew2();
     $("#pager_left").remove();
+	$("#pager1_left").remove();
 });
 /**
  * 初始化收费项目列表
@@ -669,9 +684,9 @@ function createNew1(width) {
 				updatePagerIcons(table);
 			}, 0);
 		},
-		autowidth: true,
-		shrinkToFit:false,
-		autoScroll: true,
+		//autowidth: true,
+		// shrinkToFit:false,
+		// autoScroll: true,
 		viewrecords: true,
 		rownumbers : true
 	});
@@ -973,6 +988,7 @@ function searchList() {
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();
 	var send_doctor = $('#send_doctor').val();
+	var logyid = $("#logyid").val();
 	//var req_sts = $('#req_sts').val();
 	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	jQuery("#new").jqGrid("clearGridData");
@@ -980,7 +996,7 @@ function searchList() {
 		url: "../pathologysample/sample/ajax/sample",
 		//发送数据
 		postData : {"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
-			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
+			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
 		page : 1
 	}).trigger('reloadGrid');//重新载入
 }
@@ -1005,6 +1021,7 @@ function fillInfo(id){
 	changeimgclick(1);
 	addstates="0";
 	$('#sampleForm').find('input,textarea,select').removeAttr('disabled') ;
+	$("#sampathologyid").attr({"disabled":"disabled"});
 	// $("#saveButton").removeAttr("disabled");//将按钮可用
 	// $("#sampathologycode").attr({"disabled":"disabled"});
 	// $("#samrequistionid").attr({"disabled":"disabled"});

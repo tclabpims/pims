@@ -267,19 +267,24 @@ public class PimsPathologySampleController extends PIMSBaseController{
             o.put("success", false);
         }else{
             PimsPathologySample pathology = pimsPathologySampleManager.getBySampleNo(ppr.getSampleid());
-            pimsPathologySampleManager.delete((long) ppr.getSampleid());
+
             //查询客户病理编号生成规则
             PimsHospitalPathologyInfo phi = pimsHospitalPathologyInfoManager.gethinfo(pathology);
             String qz =phi.getNumberPrefix()==null?"":phi.getNumberPrefix();
             String code =  qz + phi.getNextNumber();
             if(code.equals(pathology.getSampathologycode())){
                 phi.setNextNumber(phi.getNextNumber()-1);
+                pimsPathologySampleManager.delete((long) ppr.getSampleid());
                 pimsHospitalPathologyInfoManager.save(phi);
+                o.put("message", "标本删除成功！");
+                o.put("success", true);
+            }else{
+                o.put("message", "不允许跳号删除！");
+                o.put("success", false);
             }
             //更新电子申请单未被使用
             //pimsPathologyRequisitionManager.updateReqState(ppr,0);
-            o.put("message", "标本删除成功！");
-            o.put("success", true);
+
         }
         PrintwriterUtil.print(response, o.toString());
     }

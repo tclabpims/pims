@@ -1,12 +1,12 @@
 package com.pims.webapp.controller;
 
 import com.pims.model.PimsBaseModel;
-import com.pims.service.pimspathologysample.PimsPathologyConsultationManager;
-import com.pims.service.pimspathologysample.PimsPathologyFeeManager;
-import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.pims.model.PimsSysPathology;
+import com.pims.service.pimspathologysample.*;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssyspathology.PimsSysTestFeeManager;
+import com.smart.Constants;
 import com.smart.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by king on 2016/11/10.
@@ -27,13 +30,11 @@ public class HomeController extends PIMSBaseController{
     @Autowired
     private PimsPathologyConsultationManager pimsPathologyConsultationManager;//病理会诊
     @Autowired
-    private PimsSysPathologyManager pimsSysPathologyManager;
+    private PimsPathologyMessageManager pimsPathologyMessageManager;//发送的消息
     @Autowired
-    private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
+    private PimsPathologyReceivemessageManager pimsPathologyReceivemessageManager;//我的消息
     @Autowired
-    private PimsPathologyFeeManager pimsPathologyFeeManager;
-    @Autowired
-    private PimsSysTestFeeManager pimsSysTestFeeManager;
+    private PimsConsultationDetailManager pimsConsultationDetailManager;//受邀会诊
     /**
      * 渲染视图
      * @param request
@@ -43,8 +44,19 @@ public class HomeController extends PIMSBaseController{
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, - 7);
+        Date monday1 = c.getTime();
+        String sevenDay1 = Constants.DF2.format(monday1);
+        String today1 = Constants.DF2.format(new Date());
         PimsBaseModel map = new PimsBaseModel();
-        ModelAndView view = new ModelAndView();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, - 7);
+        Date monday = cal.getTime();
+        String sevenDay = Constants.DF2.format(monday);
+        cal.setTime(new Date());
+        cal.add(Calendar.DAY_OF_YEAR, +1);
+        String today = Constants.DF2.format(cal.getTime());
         int noworkList = pimsPathologySampleManager.getSamStaNum();//工作未处理
         map.setReq_code("3");
         int nocc = pimsPathologySampleManager.getReqListNum(map);//未初查
@@ -62,8 +74,32 @@ public class HomeController extends PIMSBaseController{
         int noqc = pimsPathologySampleManager.getReqListNum(map);//未取材
         map = new PimsBaseModel();
         map.setReq_sts("0");
+        map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
+        map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
         map.setSend_hosptail(String.valueOf(user.getId()));
-        int mycons = pimsPathologyConsultationManager.getReqListNum(map);//病理会诊
+        int mycons = pimsConsultationDetailManager.getReqListNum(map);//我的会诊
+        map = new PimsBaseModel();
+        map.setReq_sts("0");
+        map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
+        map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
+        map.setPatient_name(String.valueOf(user.getId()));
+        int mymessage = pimsPathologyReceivemessageManager.getTaskListNum(map);//我的留言
+        map = new PimsBaseModel();
+        map.setReq_sts("0");
+        map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
+        map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
+        map.setSend_hosptail(String.valueOf(user.getId()));
+        int mysendcons = pimsPathologyConsultationManager.getReqListNum(map);//发起的会诊
+        map = new PimsBaseModel();
+        map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
+        map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
+        int mysendmessage = pimsPathologyMessageManager.getTaskListNum(map);//发起的留言
+        ModelAndView view = new ModelAndView();
+        view.addObject("sevenday", sevenDay1);//7天前
+        view.addObject("receivetime", today1);//当前时间
+        view.addObject("local_username",user.getName());//当前登录用户名
+        view.addObject("local_userid",user.getId());//当前登录用户id
+        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
         view.addObject("noworkList",noworkList);//工作未处理
         view.addObject("nocc",nocc);//未初查
         view.addObject("nosh",nosh);//未审核
@@ -72,7 +108,10 @@ public class HomeController extends PIMSBaseController{
         view.addObject("nojs",nojs);//未接收
         view.addObject("noqs",noqs);//未签收
         view.addObject("noqc",noqc);//未取材
-        view.addObject("mycons",mycons);//病理会诊
+        view.addObject("mycons",mycons);//我的会诊
+        view.addObject("mymessage",mymessage);//我的消息
+        view.addObject("mysendcons",mysendcons);//发起的会诊
+        view.addObject("mysendmessage",mysendmessage);//发起的消息
         return view;
     }
 

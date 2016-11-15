@@ -23,9 +23,24 @@ public class PimsConsultationDetailManagerImpl extends GenericManagerImpl<PimsCo
     private PimsConsultationDetailDao pimsConsultationDetailDao;
 
     @Autowired
-    public void setPimsPathologyConsultationDao(PimsConsultationDetailDao pimsConsultationDetailDao) {
+    public void setPimsConsultationDetailDao(PimsConsultationDetailDao pimsConsultationDetailDao) {
         this.pimsConsultationDetailDao = pimsConsultationDetailDao;
         this.dao = pimsConsultationDetailDao;
+    }
+
+    /**
+     * 查询受邀请的会诊列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List getConList(PimsBaseModel map) {
+        return pimsConsultationDetailDao.getConList(map);
+    }
+
+    @Override
+    public int getReqListNum(PimsBaseModel map) {
+        return pimsConsultationDetailDao.getReqListNum(map);
     }
 
     /**

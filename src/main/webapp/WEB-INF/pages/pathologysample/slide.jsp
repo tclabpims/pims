@@ -40,10 +40,11 @@
 	<h5 style="font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/slidemarage.png">&nbsp;&nbsp;切片管理</strong></h5>
 	<div>
 		<div class="col-sm-4 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 206px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 180px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;包埋年月:&nbsp;</span>
+						<input type="hidden" id="req_sts" value="0">
 						<input type="hidden" id="local_name" value="${local_username}"/>
 						<input type="text" class="form_datetime input_style" value="${sevenday}" id="req_bf_time"/>
 						<span class="input_style">-</span>
@@ -57,11 +58,11 @@
 						<span class="input_style">&nbsp;病人姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
 					</table>
-					<table  style="margin-bottom: 5px;">
-						<span class="input_style">&nbsp;切片状态:&nbsp;</span>
-						<input type="radio" name="req_sts" value="0" checked onclick="searchSts('0')">&nbsp;待切片&nbsp;
-						<input type="radio" name="req_sts" value="1" onclick="searchSts('1')">&nbsp;已切片&nbsp;
-					</table>
+					<%--<table  style="margin-bottom: 5px;">--%>
+						<%--<span class="input_style">&nbsp;切片状态:&nbsp;</span>--%>
+						<%--<input type="radio" name="req_sts" value="0" checked onclick="searchSts('0')">&nbsp;待切片&nbsp;--%>
+						<%--<input type="radio" name="req_sts" value="1" onclick="searchSts('1')">&nbsp;已切片&nbsp;--%>
+					<%--</table>--%>
 					<table style="margin-bottom: 5px;">
 						<div class="input_style">
 							<span>&nbsp;打印状态:&nbsp;</span>
@@ -90,6 +91,18 @@
 					</table>
 				</div>
 			</div>
+			<ul id="tabss" class="nav nav-tabs">
+				<li class="active">
+					<a href="0" data-toggle="tab">
+						待切片
+					</a>
+				</li>
+				<li>
+					<a href="1" data-toggle="tab">
+						已切片
+					</a>
+				</li>
+			</ul>
 			<div class="widget-main no-padding">
 				<table id="new" class="table-striped">
 				</table>

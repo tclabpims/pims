@@ -33,7 +33,7 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
         if(map.getSend_hosptail() != null){//创建人
             sb.append(" and consponsoreduserid = '"+ map.getSend_hosptail()+"'");
         }
-        if(map.getReq_sts() != null){
+        if(!StringUtils.isEmpty(map.getReq_sts())){
             sb.append(" and conconsultationstate =" + map.getReq_sts());
         }
         return  sb;
@@ -47,6 +47,7 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
     public List<PimsPathologyConsultation> getConList(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
         sb.append(" from PimsPathologyConsultation where 1 = 1 ");
+        getsql(sb,map);
         return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
     }
     /**
@@ -58,6 +59,7 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
     public int getReqListNum(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
         sb.append(" select count(1) from pims_pathology_consultation where 1 = 1 ");
+        getsql(sb,map);
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time()).intValue();
     }
     /**

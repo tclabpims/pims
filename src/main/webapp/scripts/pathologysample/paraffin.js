@@ -109,6 +109,13 @@ $(function() {
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
 	});
+	$('#tabss a').click(function (e) {
+		var hrefval = $(this).attr("href");
+		searchSts(hrefval);
+		$("#req_sts").val(hrefval);
+		searchList();
+		e.preventDefault();
+	});
 	//$("#resetbutton").attr({"disabled":true});
 	changeimgclick(1);
 	var clientHeight= $(window).innerHeight();
@@ -131,7 +138,8 @@ $(function() {
 	if($("#send_doctor").is(':checked')){
 		send_doctor = "1";
 	}
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	// var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $('#req_sts').val();//包埋状态
 
 	$("#new").jqGrid({
 		url: "../pathologysample/paraffin/ajax/sample",
@@ -139,14 +147,16 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['材块ID','标本id','病理状态','病理状态', '病理号','材块编号','补取医嘱','材块数','白片数', '取材部位','特殊要求', '取材时间','取材医生ID','取材医生','序号','包埋状态'],
+		colNames: ['材块ID','标本id','病理状态', '病理号','材块编号','特殊要求','白片数','病理状态','补取医嘱','材块数','白片数', '取材部位','特殊要求', '取材时间','取材医生ID','取材医生','序号','包埋状态'],
 		colModel: [
 			{name:'pieceid',hidden:true},//材块ID
 			{name:'sampleid',hidden:true},//标本id
 			{name:'samsamplestatus',hidden:true},//病理状态
-			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"1:未包埋;2:已包埋"},width:70},//病理状态
 			{ name: 'piepathologycode', index: 'piepathologycode'},//病理号
 			{ name: 'piecode', index: 'piecode'},//材块编号
+			{ name: 'piespecial', index: 'piespecial'},//特殊要求
+			{ name: 'pienullslidenum', index: 'pienullslidenum'},//白片数
+			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"1:未包埋;2:已包埋"},width:70},//病理状态
 			{ name: 'piefirstv', index: 'piefirstv'},//补取医嘱
 			{name:'piecounts',hidden:true},//材块数
 			{name:'pienullslidenum',hidden:true},//白片数
@@ -291,7 +301,8 @@ function searchList() {
 		send_doctor = "1";
 	}
 	//var req_sts = $('#req_sts').val();
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	// var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $('#req_sts').val();//包埋状态
 	jQuery("#new").jqGrid("clearGridData");
 	jQuery("#new").jqGrid('setGridParam',{
 		url: "../pathologysample/paraffin/ajax/sample",
@@ -307,7 +318,8 @@ function fillInfo(id){
 	var rowData = $("#new").jqGrid('getRowData',id);
 	getSampleData(rowData.sampleid);
 	var dataIds = "'" + rowData.pieceid + "'";
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	//var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $("#req_sts").val();//包埋状态
 	if(req_sts == "1"){
 		var rowData2 = $("#new").jqGrid('getRowData',id);
 		addRow(rowData2);
