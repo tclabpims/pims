@@ -6,6 +6,7 @@ import com.smart.model.user.User;
 import com.smart.service.GenericManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/11/4.
@@ -17,4 +18,8 @@ public interface PimsPathologyOrderManager extends GenericManager<PimsPathologyO
     Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState);
 
     void updateOrderState(long orderId, long orderState, User user);
+
+    List<Map<String,Object>> getSampleOrder(long sampleId);
+
+    List<Map<String,Object>> getCheckItems(long sampleId, long testItemId);
 }

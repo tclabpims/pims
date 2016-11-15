@@ -74,4 +74,12 @@ public class PimsPathologyOrderCheckManagerImpl extends GenericManagerImpl<PimsP
     public void updateItemStatus(Set<Long> s) {
         pathologyOrderCheckDao.updateItemStatus(s);
     }
+
+    @Override
+    public void saveResult(JSONArray array) {
+        for(Object obj : array) {
+            JSONObject jsonObject = (JSONObject)obj;
+            pathologyOrderCheckDao.saveResult(jsonObject.getLongValue("checkid"), jsonObject.getString("chetestresult"));
+        }
+    }
 }

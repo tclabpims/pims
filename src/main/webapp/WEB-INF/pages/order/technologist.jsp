@@ -262,7 +262,7 @@
                         <div style="float: left">
                             <h6>检测项目一览</h6>
                         </div>
-                        <div style="float: right"><button onclick="finishItem()">已检测</button></div>
+                        <div style="float: right"><button onclick="finishItem()">已完成</button></div>
                 </div>
                 <div style="height:200px">
                     <div><table id="checkItemList"></table></div>

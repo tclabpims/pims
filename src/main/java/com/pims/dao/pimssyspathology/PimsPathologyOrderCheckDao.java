@@ -25,4 +25,6 @@ public interface PimsPathologyOrderCheckDao extends GenericDao<PimsPathologyOrde
     void removeByOrderId(long orderId);
 
     void updateItemStatus(Set<Long> s);
+
+    void saveResult(long checkid, String chetestresult);
 }

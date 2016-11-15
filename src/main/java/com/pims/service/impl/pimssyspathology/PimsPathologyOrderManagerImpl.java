@@ -62,4 +62,48 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
     public void updateOrderState(long orderId, long orderState, User user) {
         pimsPathologyOrderDao.updateOrderState(orderId, orderState, user);
     }
+
+    @Override
+    public List<Map<String, Object>> getSampleOrder(long sampleId) {
+        List result = pimsPathologyOrderDao.getSampleOrder(sampleId);
+        List<Map<String, Object>> lis = new ArrayList<>();
+        if(result.size() > 0) {
+            for(Object obj : result) {
+                Object[] order = (Object[])obj;
+                Map<String, Object> map = new HashMap<>();
+                map.put("teschinesename", order[0]);
+                map.put("tesenglishname", order[1]);
+                map.put("testitemid", order[2]);
+                map.put("tesischarge", order[3]);
+                lis.add(map);
+            }
+        }
+        return lis;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCheckItems(long sampleId, long testItemId) {
+        List lis = pimsPathologyOrderDao.getCheckItems(sampleId, testItemId);
+        List<Map<String, Object>> result = new ArrayList<>();
+        if(lis.size() > 0) {
+            for(Object obj : lis) {
+                Object[] o = (Object[])obj;
+                Map<String, Object> map = new HashMap<>();
+                map.put("checkid", o[0]);
+                map.put("cheorderid", o[1]);
+                map.put("chechildorderid", o[2]);
+                map.put("cheorderitemid", o[6]);
+                map.put("chenamech", o[7]);
+                map.put("chenameen", o[8]);
+                map.put("cheischarge", o[11]);
+                map.put("chetestresult", o[13]);
+                map.put("checreatetime", o[22]);
+                map.put("checreateuser", o[23]);
+                map.put("finishstatus", o[24]);
+                map.put("chiparaffincode", o[25]);
+                result.add(map);
+            }
+        }
+        return result;
+    }
 }

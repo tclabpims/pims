@@ -94,4 +94,12 @@ public class PimsPathologyOrderCheckDaoHibernate extends GenericDaoHibernate<Pim
         query.setParameterList("items", s);
         query.executeUpdate();
     }
+
+    @Override
+    public void saveResult(long checkid, String chetestresult) {
+        SQLQuery query = getSession().createSQLQuery("update Pims_Pathology_Order_Check set chetestresult=:chetestresult where checkid=:checkid");
+        query.setParameter("checkid", checkid);
+        query.setParameter("chetestresult", chetestresult);
+        query.executeUpdate();
+    }
 }

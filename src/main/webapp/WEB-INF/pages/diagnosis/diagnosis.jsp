@@ -344,11 +344,11 @@
             </div>
         </div>
         <div id="ctabs">
-            <ul>
-                <li><a href="#tabs-3">报告诊断</a></li>
-                <li><a href="#tabs-4">免疫组化</a></li>
+            <ul id="tabPanel">
+                <li id="commonPathology"><a href="#tabs-3">报告诊断</a></li>
+                <%--<li><a href="#tabs-4">免疫组化</a></li>
                 <li><a href="#tabs-5">特殊染色</a></li>
-                <li><a href="#tabs-6">分子病理</a></li>
+                <li><a href="#tabs-6">分子病理</a></li>--%>
             </ul>
             <div id="tabs-3">
                 <form id="diagnosisInfoForm" onsubmit="return false;">
@@ -359,68 +359,17 @@
                 </div>
 
             </div>
-            <div id="tabs-4">
-                <div>
-                    <div style="display: inline">诊断报告：<select>
-                        <option>病理所见模板</option>
-                    </select>
-                        <button> 模板保存</button>
-                    </div>
-                    <div style="display: inline"><select>
-                        <option>病理报告模板</option>
-                    </select>
-                        <button> 模板保存</button>
-                    </div>
-                </div>
-                <div><label>巨检描述：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>病理所见：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>病理诊断：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>免疫结果：</label><textarea cols="80" rows="3"></textarea></div>
-                <div style="alignment: center">
-                    <button>保存</button>
-                </div>
+            <div id="tabs-MYZH" style="display: none">
+                <div style="padding-bottom:2px;"><button onclick="saveResult('MYZHItem')">保存结果</button></div>
+                <div><table id="MYZHItem"></table></div>
             </div>
-            <div id="tabs-5">
-                <div>
-                    <div style="display: inline">诊断报告：<select>
-                        <option>病理所见模板</option>
-                    </select>
-                        <button> 模板保存</button>
-                    </div>
-                    <div style="display: inline"><select>
-                        <option>病理报告模板</option>
-                    </select>
-                        <button> 模板保存</button>
-                    </div>
-                </div>
-                <div><label>巨检描述：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>病理所见：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>病理诊断：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>特殊染色：</label><textarea cols="80" rows="3"></textarea></div>
-                <div style="alignment: center">
-                    <button>保存</button>
-                </div>
+            <div id="tabs-TSRS"  style="display: none">
+                <div style="padding-bottom:2px;"><button onclick="saveResult('TSRSItem')">保存结果</button></div>
+                <div><table id="TSRSItem"></table></div>
             </div>
-            <div id="tabs-6">
-                <div>
-                    <div style="display: inline">诊断报告：<select>
-                        <option>病理所见模板</option>
-                    </select>
-                        <button> 模板保存</button>
-                    </div>
-                    <div style="display: inline"><select>
-                        <option>病理报告模板</option>
-                    </select>
-                        <button> 模板保存</button>
-                    </div>
-                </div>
-                <div><label>巨检描述：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>病理所见：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>病理诊断：</label><textarea cols="80" rows="3"></textarea></div>
-                <div><label>分子病理：</label><textarea cols="80" rows="3"></textarea></div>
-                <div style="alignment: center">
-                    <button>保存</button>
-                </div>
+            <div id="tabs-FZBL" style="display: none">
+                    <div style="padding-bottom:2px;"><button onclick="saveResult('FZBLItem')">保存结果</button></div>
+                    <div><table id="FZBLItem"></table></div>
             </div>
             <div>
                 <div>报告日期：<input type="text" class="form_datetime1" id="samreportedtime" onchange="doctorSign(0)"

@@ -25,4 +25,6 @@ public interface PimsPathologyOrderCheckManager extends GenericManager<PimsPatho
     void removeByOrderId(long orderId);
 
     void updateItemStatus(Set<Long> s);
+
+    void saveResult(JSONArray array);
 }

@@ -53,6 +53,36 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     private PimsPathologyParaffinManager pimsPathologyParaffinManager;
 
 
+    @RequestMapping(value = "/getrequestedorder", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getRequestedOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        long sampleId = Long.valueOf(request.getParameter("sampleId"));
+        List<Map<String, Object>> lis = pimsPathologyOrderManager.getSampleOrder(sampleId);
+        dr.setRows(lis);
+        return dr;
+    }
+
+
+    @RequestMapping(value = "/getcheckitems", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getCheckItems(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        long sampleId = Long.valueOf(request.getParameter("sampleId"));
+        long testItemId = Long.valueOf(request.getParameter("testItemId"));
+        List<Map<String, Object>> lis = pimsPathologyOrderManager.getCheckItems(sampleId, testItemId);
+        dr.setRows(lis);
+        return dr;
+    }
+
+    @RequestMapping(value = "/saveresult", method = RequestMethod.GET)
+    @ResponseBody
+    public void saveResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String items = request.getParameter("items");
+        JSONArray array = JSONArray.parseArray(items);
+        pimsPathologyOrderCheckManager.saveResult(array);
+    }
+
     @RequestMapping(value = "/updateitemstatus", method = RequestMethod.GET)
     @ResponseBody
     public void updateItemStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {

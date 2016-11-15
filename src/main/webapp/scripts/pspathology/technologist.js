@@ -90,7 +90,7 @@ function updateState(state) {
     var unchecked = false;
     for(var i = 0; i < checkItems.length; i++) {
         var r = $("#checkItemList").jqGrid('getRowData', checkItems[i]);
-        if(r.finishStatus == 0) {
+        if(state == 2 && r.finishStatus == 0) {
             unchecked = true;
             layer.alert("项目："+r.chenamech+" 还没有完成检测");
             break;
@@ -234,10 +234,10 @@ function finishItem() {
     }
     var order = $("#sectionList").jqGrid('getRowData', id);
 
-    if(order.chiOrderState == 0) {
+    /*if(order.chiOrderState == 0) {
         layer.msg('请先接收医嘱', {icon: 2, time: 1000});
         return false;
-    }
+    }*/
 
     var selected = $("#checkItemList").jqGrid("getGridParam", "selarrrow");
     if(selected == null || selected.length == 0) {

@@ -17,4 +17,8 @@ public interface PimsPathologyOrderDao extends GenericDao<PimsPathologyOrder, Lo
     Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState);
 
     void updateOrderState(long orderId, long orderState, User user);
+
+    List getSampleOrder(long sampleId);
+
+    List getCheckItems(long sampleId, long testItemId);
 }

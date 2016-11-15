@@ -155,6 +155,21 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         }
     }
 
+    @Override
+    public List getSampleOrder(long sampleId) {
+        SQLQuery query = getSession().createSQLQuery("select T.Teschinesename,T.Tesenglishname,T.Testitemid,T.Tesischarge from pims_pathology_order o,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t where o.ordsampleid=:sampleId and o.orderid=c.chiorderid and C.Testitemid=T.Testitemid and T.Tesisorder=1 group by T.Teschinesename,T.Tesenglishname,T.Testitemid,T.Tesischarge");
+        query.setParameter("sampleId", sampleId);
+        return query.list();
+    }
+
+    @Override
+    public List getCheckItems(long sampleId, long testItemId) {
+        SQLQuery query = getSession().createSQLQuery("select c.*,oc.chiparaffincode from PIMS_PATHOLOGY_ORDER_CHECK c,pims_pathology_order o,PIMS_PATHOLOGY_ORDER_CHILD oc where o.orderid=c.cheorderid and o.orderid=oc.chiorderid and o.ordsampleid=:sampleId and Oc.Testitemid=:testItemId order by C.Checreatetime desc");
+        query.setParameter("sampleId", sampleId);
+        query.setParameter("testItemId", testItemId);
+        return query.list();
+    }
+
     private void executeUpdate1(String sql, Long orderState, Long orderId) {
         SQLQuery query = getSession().createSQLQuery(sql);
         query.setParameter("orderState", orderState);
