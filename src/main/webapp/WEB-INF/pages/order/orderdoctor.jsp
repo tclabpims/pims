@@ -4,7 +4,7 @@
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <html>
 <head>
-    <title>医嘱处理管理-技师</title>
+    <title>医嘱处理管理-医师</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/ui.jqgrid.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/jquery-ui.css'/>"/>
@@ -22,7 +22,7 @@
     <script src="<c:url value='/scripts/LodopFuncs.js'/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/validform/Validform.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/layer/layer.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/scripts/pspathology/technologist.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/scripts/pspathology/orderdoctor.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/consultation/cons1.js"/>"></script>
 </head>
 <style>
@@ -105,11 +105,17 @@
                 <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="接收" id="btAccept" onclick="updateState(1)">
-                    接收
+                <button type="button" class="btn btn-sm btn-primary" title="取消医嘱" id="btCancel" onclick="updateState(4)">
+                    取消医嘱
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="完成" id="btFinish" onclick="updateState(2)">
-                    完成
+                <button type="button" class="btn btn-sm btn-primary" title="保存" id="btFinish" onclick="saveOrder()">
+                    保存
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" title="计费调整" id="btChagreAdjust" onclick="chargeAdjust()">
+                    计费调整
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" title="签收" id="btReceive" onclick="updateState(3)">
+                    签收
                 </button>
             </div>
         </div>
@@ -259,10 +265,7 @@
         <div>
             <div style="float: left">
                 <div style="height:26px">
-                        <div style="float: left">
-                            <h6>检测项目一览</h6>
-                        </div>
-                        <div style="float: right"><button onclick="finishItem()">已检测</button></div>
+                    <div><h6>检测项目一览</h6></div>
                 </div>
                 <div style="height:200px">
                     <div><table id="checkItemList"></table></div>
@@ -271,7 +274,7 @@
                     <div>检测项目合计：<span id="itemCal"></span></div>
                 </div>
             </div>
-            <div style="float: right">
+            <div style="float: left">
                 <div style="height:26px">
                     <div><h6>医嘱开单费用列表</h6></div>
                 </div>
@@ -290,7 +293,20 @@
                 </div>
             </div>
         </div>
-        <div id="imgContainer"></div>
+        <div>
+            <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
+            <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
+                <table id="lkItemList"></table>
+            </div>
+            <div style="width: 100%;height: 25px;">
+                项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)"></select>
+            </div>
+            <div style="width: 100%;padding-top:5px"><button onclick="appendAll()">全部追加</button></div>
+            <div style="width: 100%;padding-top:5px">项目名称：<input id="itemName"></div>
+            <div style="width: 100%;padding-top:5px;">
+                <table id="ckItemList"></table>
+            </div>
+        </div>
     </div>
     <div style="width: 780px;height: 500px;display: none;" id="specialCheckDialog">
         <div style="float:left;width: 60%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
@@ -315,6 +331,8 @@
                     <input id="reqDoctor" style="width: 120px;border-width: 0px 0px 1px 0px">
                     <input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
                     <input type="hidden" id="reqDoctorId" value=""/>
+                    <input type="hidden" id="orderType" value=""/>
+                    <input type="hidden" id="childItemId" value=""/>
                 </div>
                 <div style="padding-top:5px;">
                     源条形码：<input id="ytxm" readonly style="width: 120px;border-width: 0px 0px 1px 0px">
@@ -331,17 +349,7 @@
                 <%--癌基因蛋白：3 项，199元；单克隆抗体：3 项，199元；合计：398元--%>
             </div>
         </div>
-        <div style="float:right;width: 40%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
-            <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
-            <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
-                <table id="lkItemList"></table>
-            </div>
-            <div style="width: 100%;height: 25px;">项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)"></select><button onclick="appendAll()">全部追加</button></div>
-            <div style="width: 100%;height: 25px;">项目名称：<input id="itemName"></div>
-            <div style="width: 100%;height: 35%;">
-                <table id="ckItemList"></table>
-            </div>
-        </div>
+
     </div>
 </body>
 </html>

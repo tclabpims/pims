@@ -1,5 +1,6 @@
 package com.pims.service.pimssyspathology;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsPathologyOrderCheck;
 import com.smart.service.GenericManager;
 
@@ -16,4 +17,12 @@ public interface PimsPathologyOrderCheckManager extends GenericManager<PimsPatho
     List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId);
 
     String calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode);
+
+    void updateTestResult(JSONArray json, String name);
+
+    void removeItems(Set<Long> oldItems, long orderId);
+
+    void removeByOrderId(long orderId);
+
+    void updateItemStatus(Set<Long> s);
 }

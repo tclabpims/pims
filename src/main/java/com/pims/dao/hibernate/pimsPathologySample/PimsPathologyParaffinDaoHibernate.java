@@ -376,4 +376,13 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         query.setParameter("sampleId", sampleId);
         return query.list();
     }
+
+    @Override
+    public PimsPathologyParaffin getPimsPathologyParaffin(long sampleId, String paraffinCode) {
+        String hql = " from PimsPathologyParaffin where parsampleid=:sampleId and parparaffincode=:paraffinCode";
+        Query query = getSession().createQuery(hql);
+        query.setParameter("sampleId", sampleId);
+        query.setParameter("paraffinCode", paraffinCode);
+        return (PimsPathologyParaffin) query.list().get(0);
+    }
 }

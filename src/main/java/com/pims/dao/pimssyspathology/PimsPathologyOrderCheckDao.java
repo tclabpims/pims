@@ -1,5 +1,6 @@
 package com.pims.dao.pimssyspathology;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsPathologyOrderCheck;
 import com.smart.dao.GenericDao;
 
@@ -16,4 +17,12 @@ public interface PimsPathologyOrderCheckDao extends GenericDao<PimsPathologyOrde
     List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId);
 
     List calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode);
+
+    void updateTestResult(JSONArray json, String name);
+
+    void removeItems(Set<Long> oldItems, long orderId);
+
+    void removeByOrderId(long orderId);
+
+    void updateItemStatus(Set<Long> s);
 }

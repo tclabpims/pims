@@ -61,4 +61,12 @@ public interface PimsPathologyParaffinManager extends GenericManager<PimsPatholo
 
     List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId);
 
+    /**
+     * 按照标本编号和蜡块编号取蜡块信息
+     * @param sampleId 标本编号
+     * @param paraffinCode 蜡块编号
+     * @return 蜡块信息
+     */
+    PimsPathologyParaffin getPimsPathologyParaffin(long sampleId, String paraffinCode);
+
 }

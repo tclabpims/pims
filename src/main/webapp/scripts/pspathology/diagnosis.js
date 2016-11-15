@@ -370,7 +370,6 @@ function saveSpecialDiagnosis(lindex) {
     var reqDoctor = $("#reqDoctor").val();
     var reqDoctorId = $("#reqDoctorId").val();
     var reqDate = $("#reqDate").val();
-    var whitePieceNo = $("#whitePieceNo").val();
     var paraffinCode = $("#lkxz").find("option:selected").text();
     var sampleId = $("#sampleid").val();
     var customerId = $("#customerId").val();

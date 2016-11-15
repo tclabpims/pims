@@ -34,6 +34,7 @@ public class PimsPathologyOrderCheck {
     private Date chefirstd;
     private Date checreatetime;
     private String checreateuser;
+    private long finishStatus;
 
     @Id
     @Column(name = "CHECKID")
@@ -45,6 +46,15 @@ public class PimsPathologyOrderCheck {
 
     public void setCheckid(long checkid) {
         this.checkid = checkid;
+    }
+
+    @Column(name="FINISHSTATUS")
+    public long getFinishStatus() {
+        return finishStatus;
+    }
+
+    public void setFinishStatus(long finishStatus) {
+        this.finishStatus = finishStatus;
     }
 
     @Basic

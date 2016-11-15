@@ -14,4 +14,6 @@ public interface PimsPathologyOrderChildManager extends GenericManager<PimsPatho
     PimsPathologyOrderChild getChildByOrderId(long orderId);
 
     List<Map<String,Object>> getOrderChildChargeItem(long testItemId, long ordcustomercode);
+
+    void updateWhitePiece(Long orderChildId, Long inventory);
 }

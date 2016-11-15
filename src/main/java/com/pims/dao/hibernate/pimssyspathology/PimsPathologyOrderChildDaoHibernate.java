@@ -37,4 +37,12 @@ public class PimsPathologyOrderChildDaoHibernate extends GenericDaoHibernate<Pim
         query.setParameter("ordcustomercode", ordcustomercode);
         return query.list();
     }
+
+    @Override
+    public void updateWhitePiece(Long orderChildId, Long inventory) {
+        SQLQuery query = getSession().createSQLQuery("update PIMS_PATHOLOGY_ORDER_CHILD set CHINULLSLIDENUM=:inventory where CHILDORDERID=:orderChildId");
+        query.setParameter("inventory", inventory);
+        query.setParameter("orderChildId", orderChildId);
+        query.executeUpdate();
+    }
 }

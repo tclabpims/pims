@@ -2,10 +2,8 @@ package com.pims.webapp.controller.pimssyspathology;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pims.model.PimsPathologyOrder;
-import com.pims.model.PimsPathologyOrderCheck;
-import com.pims.model.PimsPathologyOrderChild;
-import com.pims.model.PimsSysReqTestitem;
+import com.pims.model.*;
+import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
 import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderCheckManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderChildManager;
@@ -50,6 +48,94 @@ public class PimsPathologyOrderController extends PIMSBaseController {
 
     @Autowired
     private PimsSysReqTestitemManager pimsSysReqTestitemManager;
+
+    @Autowired
+    private PimsPathologyParaffinManager pimsPathologyParaffinManager;
+
+
+    @RequestMapping(value = "/updateitemstatus", method = RequestMethod.GET)
+    @ResponseBody
+    public void updateItemStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String items = request.getParameter("items");
+        String[] itemArray = items.split(",");
+        Set<Long> s = new HashSet<>();
+        for(String str : itemArray) {
+            s.add(Long.valueOf(str));
+        }
+        pimsPathologyOrderCheckManager.updateItemStatus(s);
+    }
+
+    @RequestMapping(value = "/updatecheckitem", method = RequestMethod.GET)
+    @ResponseBody
+    public void updateCheckItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String testItems = request.getParameter("testItems");
+        Long inventory = Long.valueOf(request.getParameter("inventory"));
+        Long orderChildId = Long.valueOf(request.getParameter("orderChildId"));
+        long orderId = Long.valueOf(request.getParameter("orderId"));
+        JSONArray array = JSONArray.parseArray(testItems);
+
+        List<PimsPathologyOrderCheck> newItems = new ArrayList<>();
+        Set<Long> keepItems = new HashSet<>();
+
+        for(Object item : array) {
+            JSONObject o = (JSONObject)item;
+            boolean newAppend = o.getBooleanValue("newAppend");
+            PimsPathologyOrderCheck pathologyOrderCheck = new PimsPathologyOrderCheck();
+            pathologyOrderCheck.setCheorderid(o.getLongValue("orderId"));
+            pathologyOrderCheck.setChechildorderid(o.getLongValue("orderChildId"));
+            if(newAppend) {
+                pathologyOrderCheck.setChechildorderid(o.getLongValue("childItemId"));
+                pathologyOrderCheck.setCheischarge(o.getLongValue("cheischarge"));
+                pathologyOrderCheck.setChenameen(o.getString("chenameen"));
+                pathologyOrderCheck.setChenamech(o.getString("chenamech"));
+                pathologyOrderCheck.setChepathologycode(o.getString("ordPathologyCode"));
+                pathologyOrderCheck.setChecreateuser(o.getString("reqDoctor"));
+                pathologyOrderCheck.setChecreatetime(new Date());
+                pathologyOrderCheck.setCheorderitemid(o.getString("cheorderitemid"));
+                pathologyOrderCheck.setChesampleid(o.getLongValue("ordSampleId"));
+                pathologyOrderCheck.setCustomercode(o.getLongValue("ordCustomerId"));
+                pathologyOrderCheck.setCheitemtype(1L);
+                pathologyOrderCheck.setChechargestate(0L);
+                pathologyOrderCheck.setFinishStatus(0L);
+                newItems.add(pathologyOrderCheck);
+            } else {
+                keepItems.add(o.getLongValue("cheorderitemid"));
+            }
+        }
+
+        if(newItems.size() > 0) {
+            for(PimsPathologyOrderCheck oc : newItems) {
+                PimsPathologyOrderCheck o = pimsPathologyOrderCheckManager.save(oc);
+                keepItems.add(Long.valueOf(o.getCheorderitemid()));
+            }
+        }
+        pimsPathologyOrderCheckManager.removeItems(keepItems, orderId);
+        pimsPathologyOrderChildManager.updateWhitePiece(orderChildId, inventory);
+    }
+
+    @RequestMapping(value = "/updatetestresult", method = RequestMethod.GET)
+    @ResponseBody
+    public void updateTestResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String result = request.getParameter("result");
+        JSONArray json = JSONArray.parseArray(result);
+        User user = WebControllerUtil.getAuthUser();
+        pimsPathologyOrderCheckManager.updateTestResult(json, user.getName());
+    }
+
+    @RequestMapping(value = "/getparaffin", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getParaffin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        String paraffinCode = request.getParameter("paraffinCode");
+        long sampleId = Long.valueOf(request.getParameter("sampleId"));
+        PimsPathologyParaffin p3 = pimsPathologyParaffinManager.getPimsPathologyParaffin(sampleId, paraffinCode);
+        Map<String, Object> result = new HashMap<>();
+        result.put("paraffinId", p3.getParaffinid());
+        result.put("parnullslidenum", p3.getParnullslidenum());
+        result.put("parPieceParts", p3.getParpieceparts());
+        dr.setUserdata(result);
+        return dr;
+    }
 
     @RequestMapping(value = "/updateorderstate", method = RequestMethod.GET)
     @ResponseBody
@@ -133,6 +219,12 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         return new ModelAndView();
     }
 
+    @RequestMapping(value = "/orderdoctor", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView doctor(HttpServletRequest request, HttpServletResponse response) {
+        return new ModelAndView();
+    }
+
     @RequestMapping(value = "/save")
     @ResponseBody
     public void save(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -160,7 +252,7 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         pathologyOrder.setOrdcreatetime(Constants.DF2.parse(reqDate));
         pathologyOrder.setOrdorderuser(reqDoctor);
         pathologyOrder.setOrdorderuserid(reqDoctorId);
-        pathologyOrder.setOrdorderstate(0L);//医嘱状态为：申请
+        pathologyOrder.setOrdorderstate(Constants.ORDER_STATE_REQUEST);//医嘱状态为：申请
         pathologyOrder.setOrdisdelete(0L); //状态正常
         pathologyOrder.setOrdercode(orderCode);
 

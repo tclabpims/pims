@@ -29,7 +29,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
 
     @Override
     public List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
-        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId ");
+        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,c.ChiParaffinCode ");
         builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s,PIMS_SYS_REQ_TESTITEM t where ");
         builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid and t.testitemid=c.testItemId ");
         if(specialCheck != null && !"".equals(specialCheck.trim())) {

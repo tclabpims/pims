@@ -49,4 +49,9 @@ public class PimsPathologyOrderChildManagerImpl extends GenericManagerImpl<PimsP
         }
         return lis;
     }
+
+    @Override
+    public void updateWhitePiece(Long orderChildId, Long inventory) {
+        pathologyOrderChildDao.updateWhitePiece(orderChildId, inventory);
+    }
 }
