@@ -71,8 +71,22 @@ public interface PimsPathologyRequisitionDao extends GenericDao<PimsPathologyReq
      * @param ppr
      * @return
      */
-    PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr);
+    PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr,JSONArray fields);
 
     String getSjcl(Long id);
+
+    /**
+     * 新增查询申请字段
+     * @param map
+     * @return
+     */
+    List searchLists(PimsBaseModel map);
+
+    /**
+     * 查看申请字段
+     * @param id
+     * @return
+     */
+    List searchViews(long id);
 }
 

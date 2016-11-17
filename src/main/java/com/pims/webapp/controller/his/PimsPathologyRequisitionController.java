@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/pimspathology")
@@ -152,6 +149,46 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	}
 
 	/**
+	 * 新增单据时动态生成申请字符串
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/ajax/item*", method = RequestMethod.GET)
+	@ResponseBody
+	public String getSysData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PimsBaseModel map = new PimsBaseModel();
+		map.setReq_code(request.getParameter("req_code"));
+		map.setLogyid(request.getParameter("logyid"));
+		List list = pimsPathologyRequisitionManager.searchLists(map);
+		String resultString = getResultJsons(list);
+		//response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(resultString);
+		return null;
+	}
+
+	/**
+	 * 查看单据时动态生成申请字符串
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/ajax/reqdata*", method = RequestMethod.GET)
+	@ResponseBody
+	public String getReqData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = request.getParameter("id");
+		List list = pimsPathologyRequisitionManager.searchViews(Long.parseLong(id));
+		String resultString = getResultJsons(list);
+		//response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(resultString);
+		return null;
+	}
+
+	/**
 	 * 保存单据
 	 * @param request
 	 * @param response
@@ -163,9 +200,11 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		PimsPathologyRequisition ppr = (PimsPathologyRequisition)setBeanProperty(request,PimsPathologyRequisition.class);
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String materiallist = request.getParameter("material");
+		String fieldlist = request.getParameter("arrs");
 		JSONArray materials = JSON.parseArray(materiallist);
+		JSONArray fields = JSON.parseArray(fieldlist);
 		JSONObject o = new JSONObject();
-		ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr);
+		ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr,fields);
 		//pimsPathologyRequisitionManager.save(ppr);
 		o.put("requisitionid", ppr.getRequisitionid());
 		o.put("requisitionno", ppr.getRequisitionno());

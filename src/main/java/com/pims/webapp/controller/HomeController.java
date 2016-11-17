@@ -4,6 +4,7 @@ import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsSysPathology;
 import com.pims.service.pimspathologysample.*;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
+import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssyspathology.PimsSysTestFeeManager;
 import com.smart.Constants;
@@ -41,6 +42,8 @@ public class HomeController extends PIMSBaseController{
     private PimsPathologyParaffinManager pimsPathologyParaffinManager;//包埋
     @Autowired
     private PimsPathologySlideManager pimsPathologySlideManager;//切片
+    @Autowired
+    private PimsPathologyOrderManager pimsPathologyOrderManager;//医嘱
     /**
      * 渲染视图
      * @param request
@@ -76,12 +79,15 @@ public class HomeController extends PIMSBaseController{
         map.setReq_sts("5");
         map.setPatient_name(String.valueOf(user.getId()));
         int nofs = pimsPathologySampleManager.getSNum(map);//未发送
-        map.setReq_sts("3");
-        int nojs = pimsPathologySampleManager.getReqListNum(map);//未接收
         map = new PimsBaseModel();
-        int noqs = pimsPathologySampleManager.getReqListNum(map);//未签收
+        map.setReq_sts("2");
+        map.setPatient_name(String.valueOf(user.getId()));
+        int noqs = pimsPathologyOrderManager.getOrderNum(map);//未签收
         map = new PimsBaseModel();
-        int noqc = pimsPathologySampleManager.getReqListNum(map);//未补取
+        map.setReq_sts("0");
+        map.setReq_code("1");
+        map.setPatient_name(String.valueOf(user.getId()));
+        int nobq = pimsPathologyOrderManager.getOrderNum(map);//未补取
         map = new PimsBaseModel();
         map.setReq_sts("0");
         map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
@@ -123,6 +129,16 @@ public class HomeController extends PIMSBaseController{
         int nosysdy = pimsPathologySampleManager.getSNum(map);//系统未打印
         map.setReq_sts("5");
         int nosysfs = pimsPathologySampleManager.getSNum(map);//系统未发送
+        map.setReq_sts("2");
+        int nosyswc = pimsPathologyOrderManager.getOrderNum(map);//系统未完成
+        map.setReq_sts("2");
+        int nosysqs = pimsPathologyOrderManager.getOrderNum(map);//系统未签收
+        map.setReq_sts("0");
+        map.setReq_code("0");
+        int nosysjs = pimsPathologyOrderManager.getOrderNum(map);//系统未接收
+        map.setReq_sts("0");
+        map.setReq_code("1");
+        int nosysbq = pimsPathologyOrderManager.getOrderNum(map);//系统未补取
 
 
 
@@ -137,9 +153,8 @@ public class HomeController extends PIMSBaseController{
         view.addObject("nosh",nosh);//未审核
         view.addObject("nody",nody);//未打印
         view.addObject("nofs",nofs);//未发送
-        view.addObject("nojs",nojs);//未接收
         view.addObject("noqs",noqs);//未签收
-        view.addObject("noqc",noqc);//未取材
+        view.addObject("noqc",nobq);//未取材
         view.addObject("mycons",mycons);//我的会诊
         view.addObject("mymessage",mymessage);//我的消息
         view.addObject("mysendcons",mysendcons);//发起的会诊
@@ -152,6 +167,10 @@ public class HomeController extends PIMSBaseController{
         view.addObject("nosyssh",nosyssh);//系统未审核
         view.addObject("nosysdy",nosysdy);//系统未打印
         view.addObject("nosysfs",nosysfs);//系统未发送
+        view.addObject("nosyswc",nosyswc);//系统未完成
+        view.addObject("nosysqs",nosysqs); //系统未签收
+        view.addObject("nosysjs",nosysjs); //系统未接收
+        view.addObject("nosysbq",nosysbq); //系统未补取
         return view;
     }
 

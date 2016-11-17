@@ -13,4 +13,11 @@ public interface PimsSysReqFieldDao extends GenericDao<PimsSysReqField, Long> {
     void deleteFields(String mid);
 
     List<PimsSysReqField> getReqFieldList(String sql, Long hospitalId, Long pathologyId);
+
+    /**
+     * 根据对象ID获取系统申请配置字段信息表
+     * @param fieelementid
+     * @return
+     */
+    PimsSysReqField getInfo(String fieelementid);
 }

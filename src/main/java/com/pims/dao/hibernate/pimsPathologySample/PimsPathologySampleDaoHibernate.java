@@ -5,8 +5,10 @@ import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import com.smart.model.user.User;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -234,7 +236,16 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
 
     @Override
     public int getSamStaNum() {
-        String sql = "select count(1) from pims_pathology_sample where samsamplestatus in (3,4,5,6,7)";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String sql = "SELECT COUNT(1) FROM " +
+                "(SELECT A.SAMPLEID,A.SAMPATHOLOGYID,A.SAMPATHOLOGYCODE,A.SAMSENDDOCTORNAME," +
+                "A.SAMSENDHOSPITAL,A.SAMPATIENTNAME,A.SAMSAMPLESTATUS,B.PIEDOCTORNAME,B.PIESAMPLINGTIME,B.PIEDOCTORID," +
+                "RANK() OVER (PARTITION BY A.SAMPLEID ORDER BY B.PIESAMPLINGTIME,B.PIECEID ) AS RANK_NUM " +
+                "FROM PIMS_PATHOLOGY_SAMPLE A,PIMS_PATHOLOGY_PIECES B " +
+                "WHERE A.SAMPLEID = B.PIESAMPLEID) WHERE RANK_NUM = 1 " +
+                "AND ((SAMSAMPLESTATUS IN (3,5,6,7)  AND PIEDOCTORID = '"+user.getId()+"' ) " +
+                " OR (SAMSAMPLESTATUS = 4 AND SAMPLEID IN (SELECT tassampleid FROM pims_pathology_task WHERE tastasktype = 0 AND tasreciverid = '"+user.getId()+"'))" +
+                " OR (SAMSAMPLESTATUS = 4 AND PIEDOCTORID = '"+user.getId()+"' AND SAMPLEID NOT IN (SELECT tassampleid FROM pims_pathology_task WHERE tastasktype = 0)))";
         return countTotal(sql).intValue();
     }
 

@@ -44,4 +44,14 @@ public class PimsSysReqFieldDaoHibernate extends GenericDaoHibernate<PimsSysReqF
         query.addEntity("srf", PimsSysReqField.class);
         return query.list();
     }
+
+    /**
+     * 根据对象ID获取系统申请配置字段信息表
+     * @param fieelementid
+     * @return
+     */
+    @Override
+    public PimsSysReqField getInfo(String fieelementid) {
+        return (PimsSysReqField)getSession().createQuery(" from PimsSysReqField where fieelementid = '"+ fieelementid+"'").uniqueResult();
+    }
 }

@@ -348,4 +348,18 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         return i;
     }
 
+    @RequestMapping(value = "/orderlist", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse OrderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        PimsBaseModel model = new PimsBaseModel(request);
+        List result = pimsPathologyOrderManager.getOrderList(model);
+        Integer total = pimsPathologyOrderManager.getOrderNum(model);
+        dr.setRecords(total);
+        dr.setPage(model.getPage());
+        dr.setTotal(getTotalPage(total, model.getRow(), model.getPage()));
+        dr.setRows(getResultMaps(result));
+        response.setContentType(contentType);
+        return dr;
+    }
 }

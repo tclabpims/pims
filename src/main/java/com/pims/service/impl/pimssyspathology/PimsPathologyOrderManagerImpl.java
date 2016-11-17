@@ -1,6 +1,7 @@
 package com.pims.service.impl.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsPathologyOrderDao;
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyOrder;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
 import com.pims.webapp.controller.GridQuery;
@@ -105,5 +106,15 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
             }
         }
         return result;
+    }
+
+    @Override
+    public List getOrderList(PimsBaseModel map) {
+        return pimsPathologyOrderDao.getOrderList(map);
+    }
+
+    @Override
+    public int getOrderNum(PimsBaseModel map) {
+        return pimsPathologyOrderDao.getOrderNum(map);
     }
 }

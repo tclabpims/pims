@@ -99,17 +99,12 @@
                 </a>
             </li>
             <li>
-                <a href="2_1,0" data-toggle="tab">
-                    未接收(${nojs})
-                </a>
-            </li>
-            <li>
                 <a href="2_1,2" data-toggle="tab">
                     未签收(${noqs})
                 </a>
             </li>
             <li>
-                <a href="2_1,3" data-toggle="tab">
+                <a href="2_1,0,1" data-toggle="tab">
                     未补取(${noqc})
                 </a>
             </li>
@@ -126,7 +121,7 @@
             </div>
         </div>
     </div>
-    <div class="row" id="show_div_2_1" style="display: none">
+    <div class="row" id="show_div_1_2" style="display: none">
         <div>
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
@@ -302,18 +297,23 @@
                 </a>
             </li>
             <li>
-                <a href="#sys_4" data-toggle="tab">
-                    未接收(${nojs})
+                <a href="4,0,0" data-toggle="tab">
+                    未接收(${nosysjs})
                 </a>
             </li>
             <li>
-                <a href="#sys_5" data-toggle="tab">
-                    未完成(${noqs})
+                <a href="4,1" data-toggle="tab">
+                    未完成(${nosyswc})
                 </a>
             </li>
             <li>
-                <a href="#sys_6" data-toggle="tab">
-                    未签收(${noqc})
+                <a href="4,2" data-toggle="tab">
+                    未签收(${nosysqs})
+                </a>
+            </li>
+            <li>
+                <a href="4,0,1" data-toggle="tab">
+                    未补取(${nosysbq})
                 </a>
             </li>
         </ul>
@@ -358,6 +358,17 @@
                     <table id="sysnew3" class="table">
                     </table>
                     <div id="syspager3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="sys_4" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="sysnew4" class="table">
+                    </table>
+                    <div id="syspager4"></div>
                 </div>
             </div>
         </div>

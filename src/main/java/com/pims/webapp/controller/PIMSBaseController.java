@@ -182,6 +182,39 @@ public class PIMSBaseController {
         return mapList;
     }
 
+    protected String getResultJsons(List<?> result) throws Exception {
+        org.codehaus.jettison.json.JSONArray mapList = new org.codehaus.jettison.json.JSONArray();
+        if(result == null || result.size() == 0) return null;
+        for(Object o : result) {
+            org.codehaus.jettison.json.JSONObject map = new org.codehaus.jettison.json.JSONObject();
+            Object[] oo = (Object[]) o;
+            for(Object bean : oo) {
+                PropertyDescriptor[] pd = PropertyUtils.getPropertyDescriptors(bean);
+                for(PropertyDescriptor pdp : pd) {
+                    if("class".equals(pdp.getName()))continue;
+                    map.put(pdp.getName(), pdp.getReadMethod().invoke(bean, new Object[0]));
+                }
+            }
+            mapList.put(map);
+        }
+        return mapList.toString();
+    }
+
+    protected String getResultJson(List<?> result) throws Exception {
+        org.codehaus.jettison.json.JSONArray mapList = new org.codehaus.jettison.json.JSONArray();
+        if(result == null || result.size() == 0) return null;
+        for(Object bean : result) {
+            org.codehaus.jettison.json.JSONObject map = new org.codehaus.jettison.json.JSONObject();
+            PropertyDescriptor[] pd = PropertyUtils.getPropertyDescriptors(bean);
+            for(PropertyDescriptor pdp : pd) {
+                if("class".equals(pdp.getName()))continue;
+                map.put(pdp.getName(), pdp.getReadMethod().invoke(bean, new Object[0]));
+            }
+            mapList.put(map);
+        }
+        return mapList.toString();
+    }
+
     protected Map<String, Object> getResultMap(BaseObject bean) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         PropertyDescriptor[] pd = PropertyUtils.getPropertyDescriptors(bean);
