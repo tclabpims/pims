@@ -12,9 +12,9 @@ import java.util.List;
  * Description:
  */
 public interface PimsPathologyOrderDao extends GenericDao<PimsPathologyOrder, Long> {
-    List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState);
+    List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState, String ingore);
 
-    Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState);
+    Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState, String ingore);
 
     void updateOrderState(long orderId, long orderState, User user);
 

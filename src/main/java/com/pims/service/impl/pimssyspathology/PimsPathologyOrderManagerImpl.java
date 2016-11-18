@@ -30,9 +30,9 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
     }
 
     @Override
-    public List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
+    public List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState, String ingore) {
         List<Map<String, Object>> lis = new ArrayList<>();
-        List data = pimsPathologyOrderDao.getOrders(gridQuery, specialCheck, pathologyCode, startDate, endDate, patientName, orderState);
+        List data = pimsPathologyOrderDao.getOrders(gridQuery, specialCheck, pathologyCode, startDate, endDate, patientName, orderState, ingore);
         if (data.size() > 0) {
             for (Object obj : data) {
                 Object[] row = (Object[]) obj;
@@ -46,7 +46,7 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
                 map.put("chiOrderType", row[6]);
                 map.put("chiOrderState", row[7]);
                 map.put("samPathologyId", row[8]);
-                map.put("chiParaffinCode", row[9]);
+                map.put("tesenglishname", row[9]);
                 lis.add(map);
             }
         }
@@ -54,8 +54,8 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
     }
 
     @Override
-    public Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
-        return pimsPathologyOrderDao.countOrders(specialCheck, pathologyCode, startDate, endDate, patientName, orderState);
+    public Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState, String ingore) {
+        return pimsPathologyOrderDao.countOrders(specialCheck, pathologyCode, startDate, endDate, patientName, orderState, ingore);
     }
 
     @Override
@@ -92,15 +92,15 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
                 map.put("checkid", o[0]);
                 map.put("cheorderid", o[1]);
                 map.put("chechildorderid", o[2]);
-                map.put("cheorderitemid", o[6]);
-                map.put("chenamech", o[7]);
-                map.put("chenameen", o[8]);
-                map.put("cheischarge", o[11]);
-                map.put("chetestresult", o[13]);
-                map.put("checreatetime", o[22]);
-                map.put("checreateuser", o[23]);
-                map.put("finishstatus", o[24]);
-                map.put("chiparaffincode", o[25]);
+                map.put("cheorderitemid", o[3]);
+                map.put("chenamech", o[4]);
+                map.put("chenameen", o[5]);
+                map.put("cheischarge", o[6]);
+                map.put("chetestresult", o[7]);
+                map.put("checreatetime", o[8]);
+                map.put("checreateuser", o[9]);
+                map.put("finishstatus", o[10]);
+                map.put("chiparaffincode", o[11]);
                 result.add(map);
             }
         }

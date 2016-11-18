@@ -2,26 +2,18 @@ package com.pims.dao.hibernate.pimsPathologySample;
 
 import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.pimspathologysample.PimsPathologyParaffinDao;
-import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.model.*;
 import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
-import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by king on 2016/10/10.
@@ -384,5 +376,24 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         query.setParameter("sampleId", sampleId);
         query.setParameter("paraffinCode", paraffinCode);
         return (PimsPathologyParaffin) query.list().get(0);
+    }
+
+    @Override
+    public List getParaffinMaterial(PimsPathologyParaffin paraffin) {
+        String[] pieceIds = paraffin.getParpieceids().split(",");
+        Set<Long> set = new HashSet<>();
+        for(String  str : pieceIds) {
+            set.add(Long.valueOf(str));
+        }
+        SQLQuery query = getSession().createSQLQuery("select PieceId, PieParts, PieDoctorName from Pims_Pathology_Pieces where PieceId in(:id)");
+        query.setParameterList("id", set);
+        return query.list();
+    }
+
+    @Override
+    public List getParaffinFromOrder(long orderId) {
+        SQLQuery query = getSession().createSQLQuery("select Childorderid,Chiparaffinid,Chiparaffincode,Chislidenum,Chinullslidenum from Pims_Pathology_Order_Child where Chiorderid=:orderId");
+        query.setParameter("orderId", orderId);
+        return query.list();
     }
 }

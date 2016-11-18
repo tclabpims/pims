@@ -536,9 +536,26 @@
                 <input id="whitePieceNo" type="hidden" style="width: 120px;border-width: 0px 0px 1px 0px">
 
             </div>
-            <div style="width: 100%;height: 25px;font-weight:bold;">项目一览
+            <div style="display: none" id="addMaterial">
+                <div class="widget-main no-padding">
+                    <h5><strong style="font-size: 14px;">&nbsp;材块列表</strong>
+                        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;" id="addrow1" onclick="addRow()">
+                            <span style="color: white">追加行</span>
+                        </button>
+                        <button type="button"  style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;" onclick="delRow()">
+                            <span style="color: white">删除行</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="widget-main no-padding">
+                    <table id="new1" class="table-striped">
+                    </table>
+                </div>
+            </div>
+            <div id="leftBottomContainer" style="width: 100%;height: 25px;font-weight:bold;">项目一览
                 <button onclick="removeItems()">删除</button>
-                蜡块选择<select id="lkxz" onchange="getWhitePiece()"></select></div>
+                蜡块选择<select id="lkxz" onchange="getWhitePiece()"></select>
+            </div>
             <div style="width: 100%;padding-top:5px;display: none" id="itemListContainer">
                 <table id="itemList"></table>
             </div>
@@ -550,7 +567,7 @@
             </div>
         </div>
         <div style="float:right;width: 40%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
-            <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
+            <div style="width: 100%;height: 20px;;font-weight:bold;" id="whitePieceTitle">白片信息</div>
             <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
                 <table id="lkItemList"></table>
             </div>

@@ -7,10 +7,7 @@ import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 909436637@qq.com on 2016/11/4.
@@ -53,5 +50,20 @@ public class PimsPathologyOrderChildManagerImpl extends GenericManagerImpl<PimsP
     @Override
     public void updateWhitePiece(Long orderChildId, Long inventory) {
         pathologyOrderChildDao.updateWhitePiece(orderChildId, inventory);
+    }
+
+    @Override
+    public List<PimsPathologyOrderChild> getChildList(long oderId) {
+        return pathologyOrderChildDao.getChildList(oderId);
+    }
+
+    @Override
+    public void updateChildItemStatus(Set<Long> s) {
+        pathologyOrderChildDao.updateChildItemStatus(s);
+    }
+
+    @Override
+    public String getMaxPieceNo(long sampleId) {
+        return pathologyOrderChildDao.getMaxPieceNo(sampleId);
     }
 }

@@ -5,6 +5,7 @@ import com.smart.service.GenericManager;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by 909436637@qq.com on 2016/11/4.
@@ -16,4 +17,10 @@ public interface PimsPathologyOrderChildManager extends GenericManager<PimsPatho
     List<Map<String,Object>> getOrderChildChargeItem(long testItemId, long ordcustomercode);
 
     void updateWhitePiece(Long orderChildId, Long inventory);
+
+    List<PimsPathologyOrderChild> getChildList(long oderId);
+
+    void updateChildItemStatus(Set<Long> s);
+
+    String getMaxPieceNo(long sampleId);
 }

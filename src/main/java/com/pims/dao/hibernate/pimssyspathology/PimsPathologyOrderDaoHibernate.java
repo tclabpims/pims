@@ -28,10 +28,13 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
     }
 
     @Override
-    public List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
-        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,c.ChiParaffinCode ");
+    public List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState, String ingore) {
+        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,t.tesenglishname ");
         builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s,PIMS_SYS_REQ_TESTITEM t where ");
         builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid and t.testitemid=c.testItemId ");
+        if(ingore != null ) {
+            builder.append("and t.tesenglishname !='").append(ingore).append("' ");
+        }
         if(specialCheck != null && !"".equals(specialCheck.trim())) {
             builder.append(" and c.ChiOrderType=:specialCheck");
         }
@@ -54,6 +57,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         if(orderState != null && !"".equals(orderState.trim())) {
             builder.append(" and c.ChiOrderState =:orderState ");
         }
+        builder.append(" group by o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,t.tesenglishname");
         builder.append(" order by o.orderid desc");
 
         SQLQuery query = getSession().createSQLQuery(builder.toString());
@@ -77,10 +81,13 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
     }
 
     @Override
-    public Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState) {
-        StringBuilder builder = new StringBuilder("select count(1) cnt ");
+    public Integer countOrders(String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState, String ingore) {
+        StringBuilder builder = new StringBuilder("select count(distinct(o.orderid)) cnt ");
         builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s,PIMS_SYS_REQ_TESTITEM t where ");
         builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid and t.testitemid=c.testItemId ");
+        if(ingore != null ) {
+            builder.append("and t.tesenglishname !='").append(ingore).append("' ");
+        }
         if(specialCheck != null && !"".equals(specialCheck.trim())) {
             builder.append(" and c.ChiOrderType=:specialCheck");
         }
@@ -164,7 +171,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
 
     @Override
     public List getCheckItems(long sampleId, long testItemId) {
-        SQLQuery query = getSession().createSQLQuery("select c.*,oc.chiparaffincode from PIMS_PATHOLOGY_ORDER_CHECK c,pims_pathology_order o,PIMS_PATHOLOGY_ORDER_CHILD oc where o.orderid=c.cheorderid and o.orderid=oc.chiorderid and o.ordsampleid=:sampleId and Oc.Testitemid=:testItemId order by C.Checreatetime desc");
+        SQLQuery query = getSession().createSQLQuery("select distinct(c.checkid),c.cheorderid,c.chechildorderid,c.cheorderitemid,c.chenamech,c.chenameen,c.cheischarge,chetestresult,c.checreatetime,c.checreateuser,c.finishstatus,c.paraffincode from PIMS_PATHOLOGY_ORDER_CHECK c,pims_pathology_order o,PIMS_PATHOLOGY_ORDER_CHILD oc where o.orderid=c.cheorderid and o.orderid=oc.chiorderid and o.ordsampleid=:sampleId and Oc.Testitemid=:testItemId order by C.Checreatetime desc");
         query.setParameter("sampleId", sampleId);
         query.setParameter("testItemId", testItemId);
         return query.list();

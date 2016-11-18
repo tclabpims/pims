@@ -342,6 +342,13 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         query.executeUpdate();
     }
 
+    @Override
+    public PimsPathologySlide getSlideByParaffinId(long chiparaffinid) {
+        Query query = getSession().createQuery("from PimsPathologySlide where sliparaffinid=:chiparaffinid and rownum=1 order by slideid desc");
+        query.setParameter("chiparaffinid", chiparaffinid);
+        return (PimsPathologySlide) query.uniqueResult();
+    }
+
     /**
      * 切片或取消片，更新蜡块信息，并更新标本信息
      * @param slideList 切片列表,paraList 蜡块列表,sts 状态,state 逻辑更新标志,sampleList 标本列表

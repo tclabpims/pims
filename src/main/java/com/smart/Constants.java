@@ -355,4 +355,18 @@ public final class Constants {
 	public final static long ORDER_STATE_RECEIVING = 3;
 	public final static long ORDER_STATE_CANCEL = 4;
 
+	//---------------------------------------------医嘱类型-----------------------------------------------------
+	public final static String ORDER_TYPE_MYZH = "MYZH";
+	public final static String ORDER_TYPE_TSRS = "TSRS";
+	public final static String ORDER_TYPE_FZBL = "FZBL";
+	public final static String ORDER_TYPE_CHONGQIE = "CHONGQIE";
+	public final static String ORDER_TYPE_SHENQIE = "SHENQIE";
+	public final static String ORDER_TYPE_BUQU = "BUQU";
+
+	//病理状态 1:未报告 2：已签发 3：已审核 4：已打印
+
+	public static final int PATHOLOGY_STATUS_NOT_REPORTED = 1;
+	public static final int PATHOLOGY_STATUS_REPORTED = 2;
+	public static final int PATHOLOGY_STATUS_CHECKED = 3;
+	public static final int PATHOLOGY_STATUS_PRINTED= 4;
 }

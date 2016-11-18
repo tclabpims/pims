@@ -161,7 +161,13 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         setParameter(sample, query);
         query.setFirstResult(gridQuery.getStart());
         query.setMaxResults(gridQuery.getEnd());
-        return query.list();
+        List<PimsPathologySample> lis = query.list();
+        if(lis.size() > 0) {
+            for(PimsPathologySample sp : lis) {
+                sp.setSampathologystatus(sp.pathologyStatus());
+            }
+        }
+        return lis;
     }
 
     private void setParameter(PimsPathologySample sample, Query query) {

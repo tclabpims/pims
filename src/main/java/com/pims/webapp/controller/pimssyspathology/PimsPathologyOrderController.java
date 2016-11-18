@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pims.model.*;
 import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
+import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
 import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderCheckManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderChildManager;
@@ -52,6 +53,50 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     @Autowired
     private PimsPathologyParaffinManager pimsPathologyParaffinManager;
 
+    @Autowired
+    private PimsPathologyPiecesManager pimsPathologyPiecesManager;
+
+    @RequestMapping(value = "/getmaxpieceno", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getMaxPieceNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        long sampleId = Long.valueOf(request.getParameter("sampleId"));
+        String maxPieceNo = pimsPathologyOrderChildManager.getMaxPieceNo(sampleId);
+        Map<String, Object> o = new HashMap<>();
+        o.put("maxPieceNo", maxPieceNo);
+        dr.setUserdata(o);
+        return dr;
+    }
+
+    @RequestMapping(value = "/getchildlist", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getChildList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        long oderId = Long.valueOf(request.getParameter("orderId"));
+        List<PimsPathologyOrderChild> list = pimsPathologyOrderChildManager.getChildList(oderId);
+        dr.setRows(getResultMap(list));
+        return dr;
+    }
+
+    @RequestMapping(value = "/getparaffinfromorder", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getParaffinFromOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        long oderId = Long.valueOf(request.getParameter("orderId"));
+        List<Map<String, Object>> list = pimsPathologyParaffinManager.getParaffinFromOrder(oderId);
+        dr.setRows(list);
+        return dr;
+    }
+
+    @RequestMapping(value = "/getparaffinmaterial", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getParaffinMaterial(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dr = new DataResponse();
+        long paraffinId = Long.valueOf(request.getParameter("paraffinId"));
+        List<Map<String, Object>> list = pimsPathologyParaffinManager.getParaffinMaterial(paraffinId);
+        dr.setRows(list);
+        return dr;
+    }
 
     @RequestMapping(value = "/getrequestedorder", method = RequestMethod.GET)
     @ResponseBody
@@ -86,13 +131,66 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     @RequestMapping(value = "/updateitemstatus", method = RequestMethod.GET)
     @ResponseBody
     public void updateItemStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String orderType = request.getParameter("orderType");
         String items = request.getParameter("items");
+        Long orderId = Long.valueOf(request.getParameter("orderId"));
         String[] itemArray = items.split(",");
         Set<Long> s = new HashSet<>();
-        for(String str : itemArray) {
+        for (String str : itemArray) {
             s.add(Long.valueOf(str));
         }
-        pimsPathologyOrderCheckManager.updateItemStatus(s);
+        if(orderType.equals(Constants.ORDER_TYPE_MYZH) || orderType.equals(Constants.ORDER_TYPE_FZBL)
+                || orderType.equals(Constants.ORDER_TYPE_TSRS))
+            pimsPathologyOrderCheckManager.updateItemStatus(s);
+        if(orderType.equals(Constants.ORDER_TYPE_SHENQIE) || orderType.equals(Constants.ORDER_TYPE_CHONGQIE)) {
+            pimsPathologyOrderChildManager.updateChildItemStatus(s);
+        }
+        saveSlide(orderId);
+    }
+
+    private void saveSlide(Long orderId ) {
+        List<PimsPathologyOrderChild> child = pimsPathologyOrderChildManager.getChildList(orderId);
+        User user = WebControllerUtil.getAuthUser();
+        for(PimsPathologyOrderChild orderChild : child) {
+            PimsPathologySlide slide = pimsPathologySlideManager.getSlideByParaffinId(orderChild.getChiparaffinid());
+            int totalSlide = orderChild.getChinullslidenum().intValue();
+            //常规片
+            int commonSlide = orderChild.getChislidenum().intValue();
+            //预留白片
+            int obligateSlide = totalSlide - commonSlide;
+            int slideNo = slide==null?1:Integer.valueOf(slide.getSlislideno());
+            String slideCode = slide == null?orderChild.getChiparaffincode()+"-0":slide.getSlislidecode();
+            int slideCodeStart = Integer.valueOf(slideCode.substring(slideCode.lastIndexOf("-")+1));
+            setSlide(slideNo,slideCodeStart,0,commonSlide,orderChild,user.getId());
+            setSlide((slideNo+commonSlide),(slideCodeStart+commonSlide),1,obligateSlide,orderChild,user.getId());
+        }
+
+    }
+
+    private void setSlide(int slideNo,int slideCodeStart, int type, int number, PimsPathologyOrderChild orderChild, Long userId) {
+        for(int i = 0; i < number; i++) {
+            slideNo++;
+            slideCodeStart++;
+            PimsPathologySlide newSlide = new PimsPathologySlide();
+            newSlide.setSlicreatetime(new Date());
+            newSlide.setSlicreateuser(String.valueOf(userId));
+            newSlide.setSlicustomerid(orderChild.getChicustomercode());
+            newSlide.setSlifirstn(orderChild.getChiorderid());
+            newSlide.setSliparaffincode(orderChild.getChiparaffincode());
+            newSlide.setSlipathologycode(orderChild.getChipathologycode());
+            //newSlide.setSliparaffinno(slide.getSliparaffinno());
+            newSlide.setSliifprint(0);
+            newSlide.setSlisampleid(orderChild.getChisampleid());
+            newSlide.setSlislidesource(2L);
+            newSlide.setSliuseflag(1L);
+            newSlide.setSlitestitemid(orderChild.getTestItemId());
+            newSlide.setSlislideno(String.valueOf(slideNo));
+            newSlide.setSlislidecode(orderChild.getChiparaffincode()+"-"+String.valueOf(slideCodeStart));
+            newSlide.setSlislidetype(type);
+            newSlide.setSliparaffinname(orderChild.getChiparaffincode());
+            newSlide.setSliparaffinid(orderChild.getChiparaffinid());
+            pimsPathologySlideManager.save(newSlide);
+        }
     }
 
     @RequestMapping(value = "/updatecheckitem", method = RequestMethod.GET)
@@ -107,13 +205,13 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         List<PimsPathologyOrderCheck> newItems = new ArrayList<>();
         Set<Long> keepItems = new HashSet<>();
 
-        for(Object item : array) {
-            JSONObject o = (JSONObject)item;
+        for (Object item : array) {
+            JSONObject o = (JSONObject) item;
             boolean newAppend = o.getBooleanValue("newAppend");
             PimsPathologyOrderCheck pathologyOrderCheck = new PimsPathologyOrderCheck();
             pathologyOrderCheck.setCheorderid(o.getLongValue("orderId"));
             pathologyOrderCheck.setChechildorderid(o.getLongValue("orderChildId"));
-            if(newAppend) {
+            if (newAppend) {
                 pathologyOrderCheck.setChechildorderid(o.getLongValue("childItemId"));
                 pathologyOrderCheck.setCheischarge(o.getLongValue("cheischarge"));
                 pathologyOrderCheck.setChenameen(o.getString("chenameen"));
@@ -133,8 +231,8 @@ public class PimsPathologyOrderController extends PIMSBaseController {
             }
         }
 
-        if(newItems.size() > 0) {
-            for(PimsPathologyOrderCheck oc : newItems) {
+        if (newItems.size() > 0) {
+            for (PimsPathologyOrderCheck oc : newItems) {
                 PimsPathologyOrderCheck o = pimsPathologyOrderCheckManager.save(oc);
                 keepItems.add(Long.valueOf(o.getCheorderitemid()));
             }
@@ -169,7 +267,7 @@ public class PimsPathologyOrderController extends PIMSBaseController {
 
     @RequestMapping(value = "/updateorderstate", method = RequestMethod.GET)
     @ResponseBody
-    public void updateOrderState(HttpServletRequest request, HttpServletResponse response) throws Exception  {
+    public void updateOrderState(HttpServletRequest request, HttpServletResponse response) throws Exception {
         long orderId = Long.valueOf(request.getParameter("orderId"));
         long orderState = Long.valueOf(request.getParameter("orderState"));
         User user = WebControllerUtil.getAuthUser();
@@ -181,10 +279,21 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     public DataResponse getOrderChildAndCheckItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dr = new DataResponse();
         long orderId = Long.valueOf(request.getParameter("orderId"));
+        String orderType = request.getParameter("orderType");
         PimsPathologyOrder order = pimsPathologyOrderManager.get(orderId);
         PimsPathologyOrderChild child = pimsPathologyOrderChildManager.getChildByOrderId(orderId);
         PimsSysReqTestitem testitem = pimsSysReqTestitemManager.get(child.getTestItemId());
         child.setTestItemChName(testitem.getTeschinesename());
+
+        if(orderType.equals(Constants.ORDER_TYPE_BUQU)) {
+            List<PimsPathologyPieces> pieces = pimsPathologyPiecesManager.getPiecesByOrderId(orderId);
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("orderChild", JSONObject.toJSON(child).toString());
+            dr.setUserdata(userData);
+            dr.setRows(getResultMap(pieces));
+            return dr;
+        }
+
         //技术检查项
         List<PimsPathologyOrderCheck> orderChecks = pimsPathologyOrderCheckManager.getOrderCheckByOrderId(orderId);
 
@@ -193,8 +302,8 @@ public class PimsPathologyOrderController extends PIMSBaseController {
 
         JSONArray childChargeJson = new JSONArray();
 
-        if(orderChildChargeItem.size() > 0) {
-            for(Map<String, Object> map : orderChildChargeItem) {
+        if (orderChildChargeItem.size() > 0) {
+            for (Map<String, Object> map : orderChildChargeItem) {
                 JSONObject jsonObject = new JSONObject(map);
                 childChargeJson.add(jsonObject);
             }
@@ -203,13 +312,13 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         //取检验项目的计费信息
         String checkChargeJson = "{}";
         Set<Long> checkItemId = new HashSet<>();
-        if(orderChecks.size() > 0) {
-            for(PimsPathologyOrderCheck ck : orderChecks) {
+        if (orderChecks.size() > 0) {
+            for (PimsPathologyOrderCheck ck : orderChecks) {
                 checkItemId.add(Long.valueOf(ck.getCheorderitemid()));
             }
         }
 
-        if(checkItemId.size() > 0) {
+        if (checkItemId.size() > 0) {
             checkChargeJson = pimsPathologyOrderCheckManager.calCheckItemCharge(checkItemId, order.getOrdcustomercode());
         }
 
@@ -233,8 +342,9 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         String endDate = request.getParameter("endDate");
         String patientName = request.getParameter("patientName");
         String orderState = request.getParameter("orderState");
-        List result = pimsPathologyOrderManager.getOrders(gridQuery, specialCheck, pathologyCode, startDate, endDate, patientName, orderState);
-        Integer total = pimsPathologyOrderManager.countOrders(specialCheck, pathologyCode, startDate, endDate, patientName, orderState);
+        String ingore = request.getParameter("ingore");
+        List result = pimsPathologyOrderManager.getOrders(gridQuery, specialCheck, pathologyCode, startDate, endDate, patientName, orderState, ingore);
+        Integer total = pimsPathologyOrderManager.countOrders(specialCheck, pathologyCode, startDate, endDate, patientName, orderState, ingore);
         dr.setRecords(total);
         dr.setPage(gridQuery.getPage());
         dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));
@@ -260,6 +370,7 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     public void save(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsPathologyOrder pathologyOrder = new PimsPathologyOrder();
 
+        String orderType = request.getParameter("orderType");//医嘱类型
         String orderCode = request.getParameter("orderCode");//医嘱号
         long sampleId = Long.valueOf(request.getParameter("sampleId"));//标本号
         long customerId = Long.valueOf(request.getParameter("customerId"));//客户号
@@ -267,13 +378,12 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         String reqDoctor = request.getParameter("reqDoctor");//申请医生
         String reqDoctorId = request.getParameter("reqDoctorId");//申请医生ID
         String reqDate = request.getParameter("reqDate");//申请日期
-        //int whitePieceNo = Integer.valueOf(request.getParameter("whitePieceNo"));//白片数量
-        String paraffinCode = request.getParameter("paraffinCode");//蜡块编号
-        Integer inventory = Integer.valueOf(request.getParameter("inventory"));//切白片数
-        long paraffinId = Long.valueOf(request.getParameter("paraffinId"));//蜡块ID
-        long testItemId = Long.valueOf(request.getParameter("testItemId"));//医嘱申请的开单项目ID
-        String items = request.getParameter("items");//检查项目
 
+        long testItemId = Long.valueOf(request.getParameter("testItemId"));//医嘱申请的开单项目ID
+        String items = request.getParameter("items");//医嘱项目
+        String paraffinItems = request.getParameter("paraffinItems");//蜡块库存和预留信息
+
+        JSONArray paraffinArray = JSONArray.parseArray(paraffinItems);
         JSONArray array = JSONArray.parseArray(items);
 
         pathologyOrder.setOrdsampleid(sampleId);
@@ -290,28 +400,35 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         pathologyOrder = pimsPathologyOrderManager.save(pathologyOrder);
 
         //保存医嘱子项信息
-        PimsPathologyOrderChild orderChild = saveOrderChild(pathologyOrder, paraffinCode, paraffinId, inventory, testItemId);
-
-        //保存检验项目信息
-        int totalItem = saveOrderCheckItem(pathologyOrder, orderChild.getChildorderid(), array, orderChild.getChiordertype());
-
-        //更新白片使用状态
-        pimsPathologySlideManager.updateWhitePieceUsedFlag(paraffinCode, sampleId, (long)totalItem);
-
-
+        if(orderType.equals(Constants.ORDER_TYPE_BUQU)) {
+            int nullSlide = 0;
+            for(Object obj : array) {
+                nullSlide +=Integer.valueOf(String.valueOf(((JSONObject)obj).get("pienullslidenum")));
+            }
+            PimsPathologyOrderChild orderChild = saveOrderChild(pathologyOrder, testItemId, nullSlide);
+            for(Object obj : array) {
+                ((JSONObject) obj).put("piefirstn", orderChild.getChiorderid());
+            }
+            pimsPathologyPiecesManager.saveOrderMaterial(array);
+        } else {
+            List<PimsPathologyOrderChild> orderChild = saveOrderChild(pathologyOrder, paraffinArray, testItemId, orderType);
+            if (orderType.equals(Constants.ORDER_TYPE_FZBL) || orderType.equals(Constants.ORDER_TYPE_MYZH) || orderType.equals(Constants.ORDER_TYPE_TSRS))
+                //保存检验项目信息
+                saveOrderCheckItem(pathologyOrder, orderChild, array);
+            }
     }
 
-    private PimsPathologyOrderChild saveOrderChild(PimsPathologyOrder pathologyOrder, String paraffinCode, long paraffinId, int whitePieceNo, long testItemId) {
+    private PimsPathologyOrderChild saveOrderChild(PimsPathologyOrder pathologyOrder, long testItemId, int nullSlide) {
         PimsPathologyOrderChild orderChild = new PimsPathologyOrderChild();
         //医嘱类型设置为检查项目的ID
         orderChild.setChiordertype(testItemId);
-        orderChild.setChiparaffincode(paraffinCode);
-        orderChild.setChiparaffinid(paraffinId);
         orderChild.setChicreatetime(new Date());
         orderChild.setTestItemId(testItemId);
         orderChild.setChicreateuser(pathologyOrder.getOrdorderuser());
         orderChild.setChicustomercode(pathologyOrder.getOrdcustomercode());
         orderChild.setChireqtime(pathologyOrder.getOrdcreatetime());
+        orderChild.setChihandletype(1L);
+        orderChild.setChinullslidenum((long)nullSlide);
         orderChild.setChirequserid(pathologyOrder.getOrdorderuserid());
         orderChild.setChirequsername(pathologyOrder.getOrdorderuser());
         orderChild.setChisampleid(pathologyOrder.getOrdsampleid());
@@ -320,17 +437,68 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         orderChild.setChiorderstate(pathologyOrder.getOrdorderstate());
         orderChild.setChiisdelete(pathologyOrder.getOrdisdelete());
         orderChild.setChipathologycode(pathologyOrder.getOrdpathologycode());
-        orderChild.setChinullslidenum((long)whitePieceNo);
+        orderChild.setFinishStatus(0L);
+        orderChild.setChiparaffincode(" ");
+        orderChild.setChiparaffinno(0L);
+        orderChild.setChiparaffinid(0L);
+        //orderChild.setChinullslidenum(0L);
         orderChild = pimsPathologyOrderChildManager.save(orderChild);
         return orderChild;
     }
 
-    private int saveOrderCheckItem(PimsPathologyOrder pathologyOrder, long orderChildId, JSONArray array, long oderType) {
-        int i = 0;
-        for(Object obj : array) {
+    private List<PimsPathologyOrderChild> saveOrderChild(PimsPathologyOrder pathologyOrder, JSONArray paraffinArray, long testItemId, String orderType) {
+        List<PimsPathologyOrderChild> result = new ArrayList<>();
+        for (Object obj : paraffinArray) {
+            JSONObject jsonObject = (JSONObject) obj;
+            Long paraffinTotalItem = jsonObject.getLongValue("totalItem");
+            Long inventory = jsonObject.getLongValue("kucun");
+            Long obligate = jsonObject.getLongValue("yuliu");
+            long nullPiece = 0;
+            if ((paraffinTotalItem + obligate) > inventory) nullPiece = (paraffinTotalItem + obligate) - inventory;
+            PimsPathologyOrderChild orderChild = new PimsPathologyOrderChild();
+            //医嘱类型设置为检查项目的ID
+            orderChild.setChiordertype(testItemId);
+            orderChild.setChiparaffincode(jsonObject.getString("lkno"));
+            orderChild.setChiparaffinid(jsonObject.getLongValue("lkid"));
+            if(orderType.equals("CHONGQIE") || orderType.equals("SHENQIE"))
+                orderChild.setChihandletype(2L);
+            orderChild.setChicreatetime(new Date());
+            orderChild.setTestItemId(testItemId);
+            orderChild.setChislidenum(paraffinTotalItem);
+            orderChild.setChicreateuser(pathologyOrder.getOrdorderuser());
+            orderChild.setChicustomercode(pathologyOrder.getOrdcustomercode());
+            orderChild.setChireqtime(pathologyOrder.getOrdcreatetime());
+            orderChild.setChirequserid(pathologyOrder.getOrdorderuserid());
+            orderChild.setChirequsername(pathologyOrder.getOrdorderuser());
+            orderChild.setChisampleid(pathologyOrder.getOrdsampleid());
+            orderChild.setChiordercode(pathologyOrder.getOrdercode());
+            orderChild.setChiorderid(pathologyOrder.getOrderid());
+            orderChild.setChiorderstate(pathologyOrder.getOrdorderstate());
+            orderChild.setChiisdelete(pathologyOrder.getOrdisdelete());
+            orderChild.setChipathologycode(pathologyOrder.getOrdpathologycode());
+            orderChild.setChinullslidenum(nullPiece);
+            orderChild.setChicontent(jsonObject.getString("chicontent"));
+            orderChild.setFinishStatus(0L);
+            orderChild = pimsPathologyOrderChildManager.save(orderChild);
+            result.add(orderChild);
+
+            pimsPathologySlideManager.updateWhitePieceUsedFlag(jsonObject.getString("lkno"), pathologyOrder.getOrdsampleid(), paraffinTotalItem);
+        }
+        return result;
+    }
+
+    private void saveOrderCheckItem(PimsPathologyOrder pathologyOrder, List<PimsPathologyOrderChild> orderChild, JSONArray array) {
+        for (Object obj : array) {
             PimsPathologyOrderCheck checkItem = new PimsPathologyOrderCheck();
-            checkItem.setCheitemtype(oderType);
-            checkItem.setChechildorderid(orderChildId);
+            String paraffinCode = ((JSONObject) obj).getString("lkno");
+            for (PimsPathologyOrderChild c : orderChild) {
+                if (c.getChiparaffincode().equals(paraffinCode)) {
+                    checkItem.setCheitemtype(c.getChiordertype());
+                    checkItem.setChechildorderid(c.getChildorderid());
+                    break;
+                }
+            }
+            checkItem.setParaffincode(paraffinCode);
             checkItem.setChechargestate(0L);
             checkItem.setChecreatetime(pathologyOrder.getOrdcreatetime());
             checkItem.setChecreateuser(pathologyOrder.getOrdorderuser());
@@ -338,14 +506,12 @@ public class PimsPathologyOrderController extends PIMSBaseController {
             checkItem.setCheorderid(pathologyOrder.getOrderid());
             checkItem.setChepathologycode(pathologyOrder.getOrdpathologycode());
             checkItem.setCustomercode(pathologyOrder.getOrdcustomercode());
-            checkItem.setCheorderitemid(((JSONObject)obj).getString("testitemid"));
-            checkItem.setChenamech(((JSONObject)obj).getString("teschinesename"));
-            checkItem.setChenameen(((JSONObject)obj).getString("tesenglishname"));
-            checkItem.setCheischarge(((JSONObject)obj).getLong("tesischarge"));
+            checkItem.setCheorderitemid(((JSONObject) obj).getString("testitemid"));
+            checkItem.setChenamech(((JSONObject) obj).getString("teschinesename"));
+            checkItem.setChenameen(((JSONObject) obj).getString("tesenglishname"));
+            checkItem.setCheischarge(((JSONObject) obj).getLong("tesischarge"));
             pimsPathologyOrderCheckManager.save(checkItem);
-            i++;
         }
-        return i;
     }
 
 }

@@ -45,8 +45,8 @@ function getOrderItems() {
     })
 }
 
-function getOrderInfo(orderId) {
-    $.get("../order/orderchildandcheckitem", {orderId:orderId}, function (data) {
+function getOrderInfo(orderId, orderType) {
+    $.get("../order/orderchildandcheckitem", {orderId:orderId,orderType:orderType}, function (data) {
         var checkItems = data.rows;
         var childInfo = jQuery.parseJSON(data.userdata.orderChild);
         var checkChargeJson = jQuery.parseJSON(data.userdata.checkChargeJson);
@@ -59,23 +59,50 @@ function getOrderInfo(orderId) {
         $("#chirequsername").val(childInfo.chirequsername);
         $("#chinullslidenum").val(childInfo.chinullslidenum);
 
-        jQuery("#checkItemList").jqGrid("clearGridData");
-        if(checkItems.length > 0) {
-            for(var i = 0; i < checkItems.length; i++) {
-                checkItems[i].chiparaffincode = childInfo.chiparaffincode;
-                checkItems[i].chirequsername = childInfo.chirequsername;
-                checkItems[i].chiorderstate = childInfo.chiorderstate;
+        hideOrShow(orderType);
+
+        if(orderType == "MYZH" || orderType == "FZBL" || orderType == "TSRS") {
+            jQuery("#checkItemList").jqGrid("clearGridData");
+            if(checkItems.length > 0) {
+                for(var i = 0; i < checkItems.length; i++) {
+                    checkItems[i].chiparaffincode = childInfo.chiparaffincode;
+                    checkItems[i].chirequsername = childInfo.chirequsername;
+                    checkItems[i].chiorderstate = childInfo.chiorderstate;
+                }
             }
+            jQuery("#checkItemList")[0].addJSONData(checkItems);
+
+            jQuery("#childChargeList").jqGrid("clearGridData");
+
+            jQuery("#childChargeList")[0].addJSONData(childChargeJson);
+
+            var itemCal = "申请数量：" + checkChargeJson.reqItem + ",应收费用：￥" + checkChargeJson.totalMoney;
+            $("#itemCal").html(itemCal);
+        } else {
+            showPieceGrid(orderId, orderType);
         }
-        jQuery("#checkItemList")[0].addJSONData(checkItems);
-
-        jQuery("#childChargeList").jqGrid("clearGridData");
-
-        jQuery("#childChargeList")[0].addJSONData(childChargeJson);
-
-        var itemCal = "申请数量：" + checkChargeJson.reqItem + ",应收费用：￥" + checkChargeJson.totalMoney;
-        $("#itemCal").html(itemCal);
     })
+}
+
+function showPieceGrid(orderId, orderType) {
+    jQuery("#materialPieceList").jqGrid('setGridParam', {
+        url:"../order/getchildlist",
+        postData:{orderId:orderId}
+    }).trigger('reloadGrid');
+}
+
+function hideOrShow(orderType) {
+    if(orderType == "MYZH" || orderType == "FZBL" || orderType == "TSRS") {
+        $("#checkItemListContainer").css('display', 'block');
+        $("#checkItemCalContainer").css('display', 'block');
+        $("#chargeItemListContainer").css('display', 'block');
+        $("#materialPieceListContainer").css('display', 'none');
+    } else {
+        $("#checkItemListContainer").css('display', 'none');
+        $("#checkItemCalContainer").css('display', 'none');
+        $("#chargeItemListContainer").css('display', 'none');
+        $("#materialPieceListContainer").css('display', 'block');
+    }
 }
 
 function updateState(state) {
@@ -226,7 +253,6 @@ function CurentTime(now) {
 }
 
 function finishItem() {
-
     var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
     if (id == null || id.length == 0) {
         layer.msg('请先选择医嘱', {icon: 2, time: 1000});
@@ -239,28 +265,40 @@ function finishItem() {
         return false;
     }*/
 
-    var selected = $("#checkItemList").jqGrid("getGridParam", "selarrrow");
-    if(selected == null || selected.length == 0) {
-        layer.alert("请先选择已经完成检测的项目！");
-        return;
-    }
-
-    var items = [];
-    var j = 0;
-    for(var i = 0; i < selected.length; i++) {
-        var rowData = $("#checkItemList").jqGrid("getRowData",selected[i]);
-        if(rowData.finishStatus == 1) continue;
-        items[j] = rowData.checkid;
-        j++;
+    var orderType = order.tesenglishname,orderId = order.orderId;
+    var selected, items = [],j=0;
+    if(orderType == "MYZH" || orderType == "FZBL" || orderType == "TSRS") {
+        selected = $("#checkItemList").jqGrid("getGridParam", "selarrrow");
+        if(selected == null || selected.length == 0) {
+            layer.alert("请先选择已经完成检测的项目！");
+            return;
+        }
+        for(var i = 0; i < selected.length; i++) {
+            var rowData = $("#checkItemList").jqGrid("getRowData",selected[i]);
+            if(rowData.finishStatus == 1) continue;
+            items[j] = rowData.checkid;
+            j++;
+        }
+    } else {
+        selected = $("#materialPieceList").jqGrid("getGridParam", "selarrrow");
+        if(selected == null || selected.length == 0) {
+            layer.alert("请先选择已经完成切片的蜡块！");
+            return;
+        }
+        for(var i = 0; i < selected.length; i++) {
+            var rowData = $("#materialPieceList").jqGrid("getRowData",selected[i]);
+            if(rowData.finishStatus == 1) continue;
+            items[j] = rowData.childorderid;
+            j++;
+        }
     }
     if(items.length == 0) {
-
         return;
     }
-    $.get("../order/updateitemstatus", {items:items.join(",")}, function (data)
-    {
-        layer.alert("设置成功！");
-    }
+    $.get("../order/updateitemstatus", {items:items.join(","), orderType:orderType, orderId:orderId}, function (data)
+        {
+            layer.alert("设置成功！");
+        }
     )
 }
 
@@ -273,7 +311,7 @@ $(function () {
 
     $("#sectionList").jqGrid({
         caption: "",
-        url: "../order/getorders",
+        url: "../order/getorders?ingore=BUQU",
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
@@ -282,10 +320,15 @@ $(function () {
             pathologyCode: $("#q_pathologyCode").val(),
             startDate: $("#q_startDate").val(),
             endDate: $("#q_endDate").val(),
-            patientName: $("#q_patientName").val(),
+            patientName: $("#q_patientName").val()
         },
-        colNames: ['特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId'],
+        colNames: ['tesenglishname','特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId'],
         colModel: [
+            {
+                name: 'tesenglishname',
+                index: 'tesenglishname',
+                hidden:true
+            },
             {
                 name: 'chiOrderType',
                 index: 'chiOrderType',
@@ -320,7 +363,7 @@ $(function () {
         onSelectRow: function (id) {
             var rowData = $("#sectionList").jqGrid('getRowData', id);
             getSampleData1(rowData.ordSampleId);
-            getOrderInfo(rowData.orderId);
+            getOrderInfo(rowData.orderId, rowData.tesenglishname);
             var state = rowData.chiOrderState;
             if(state >= 1 ) {
                 $("#btAccept").attr("disabled", "disabled");
@@ -342,13 +385,35 @@ $(function () {
         }
     );
 
+    $("#materialPieceList").jqGrid({
+        datatype: "json",
+        mtype: "GET",
+        colNames: ['childorderid','蜡块编号', '常规片数', '白片数', '备注','状态'],
+        colModel: [
+            {name: 'childorderid', index: 'childorderid', hidden: true},
+            {name: 'chiparaffincode', index: 'chiparaffincode', width: 85},
+            {name: 'chislidenum', index: 'chislidenum', width: 80},
+            {name: 'chinullslidenum', index: 'chinullslidenum', width: 80},
+            {name: 'chicontent', index: 'chicontent', width: 60},
+            {name: 'finishStatus', index: 'finishStatus', width: 60,formatter:"select",editoptions: {value: "0:未完成;1:已完成"}}
+        ],
+        loadComplete: function () {
+
+        },
+        multiselect:true,
+        shrinkToFit: true,
+        scrollOffset: 2,
+        rowNum: 10,
+        rownumbers: true // 显示行号
+    });
+
     $("#checkItemList").jqGrid({
         datatype: "json",
         mtype: "GET",
         colNames: ['checkid','蜡块编号', '项目名称', '申请医生', '状态'],
         colModel: [
             {name: 'checkid', index: 'checkid', hidden: true},
-            {name: 'chiparaffincode', index: 'chiparaffincode', width: 85},
+            {name: 'paraffincode', index: 'paraffincode', width: 85},
             {name: 'chenamech', index: 'chenamech', width: 80},
             {name: 'chirequsername', index: 'chirequsername', width: 80},
             {name: 'finishStatus', index: 'finishStatus', width: 60, formatter:"select",editoptions: {value: "0:未完成;1:已完成"}}

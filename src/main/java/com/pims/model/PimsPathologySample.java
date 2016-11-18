@@ -1,5 +1,7 @@
 package com.pims.model;
 
+import com.smart.Constants;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -90,6 +92,24 @@ public class PimsPathologySample {
     private Date samplesectionto;
 
     private String samjjsj;
+    //病理状态 1:未报告 2：已签发 3：已审核 4：已打印
+    private int sampathologystatus;
+
+    @Transient
+    public int getSampathologystatus() {
+        return sampathologystatus;
+    }
+
+    public void setSampathologystatus(int sampathologystatus) {
+        this.sampathologystatus = sampathologystatus;
+    }
+
+    public int pathologyStatus() {
+        if(samreportorid != null) return Constants.PATHOLOGY_STATUS_PRINTED;
+        else if(samauditerid != null && samreportorid == null) return Constants.PATHOLOGY_STATUS_CHECKED;
+        else if(saminitiallyuserid != null && samauditerid == null) return Constants.PATHOLOGY_STATUS_REPORTED;
+        else return Constants.PATHOLOGY_STATUS_NOT_REPORTED;
+    }
 
     @Basic
     @Column(name = "SAMJJSJ")

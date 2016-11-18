@@ -3,7 +3,6 @@ package com.pims.dao.pimspathologysample;
 import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyParaffin;
-import com.pims.model.PimsPathologyPieces;
 import com.pims.model.PimsPathologySample;
 import com.smart.dao.GenericDao;
 
@@ -62,4 +61,8 @@ public interface PimsPathologyParaffinDao extends GenericDao<PimsPathologyParaff
     List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId);
 
     PimsPathologyParaffin getPimsPathologyParaffin(long sampleId, String paraffinCode);
+
+    List getParaffinMaterial(PimsPathologyParaffin paraffin);
+
+    List getParaffinFromOrder(long oderId);
 }

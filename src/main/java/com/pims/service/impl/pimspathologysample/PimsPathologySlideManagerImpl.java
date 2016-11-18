@@ -88,4 +88,9 @@ public class PimsPathologySlideManagerImpl extends GenericManagerImpl<PimsPathol
     public void updateWhitePieceUsedFlag(String paraffincode, Long sampleId, Long num) {
         pimsPathologySlideDao.updateWhitePieceUsedFlag(paraffincode, sampleId, num);
     }
+
+    @Override
+    public PimsPathologySlide getSlideByParaffinId(long chiparaffinid) {
+        return pimsPathologySlideDao.getSlideByParaffinId(chiparaffinid);
+    }
 }

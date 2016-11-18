@@ -45,27 +45,31 @@ function getOrderItems() {
     })
 }
 
-function getWhitePiece(sampleid,pcode) {
-
-    $.get("../diagnosis/report/whitepiece", {sampleId: sampleid, paraffinNo: pcode}, function (data) {
+function getWhitePiece(orderId) {
+    $.get("../order/getparaffinfromorder", {orderId: orderId}, function (data) {
         var ret = data.rows;
-        if (ret != null && ret.length > 0) {
-            $.get("../order/getparaffin", {paraffinCode:pcode, sampleId: sampleid}, function(data1){
-                var yl = data1.userdata.parnullslidenum;
-                $("#lkItemList").jqGrid('addRowData',0, {lkno:pcode,kucun:ret.length,yuliu:yl});
-            })
-        } else {
-            $("#lkItemList").jqGrid('addRowData',0, {lkno:pcode,kucun:0,yuliu:0});
+        for(var i = 0; i < ret.length; i++) {
+            var lkno = ret[i].chiparaffincode;
+            var kucun,yuliu;
+            var childorderid = ret[i].childorderid;
+            var chislidenum = ret[i].chislidenum;
+            var chinullslidenum = ret[i].chinullslidenum;
+            var chiparaffinid = ret[i].chiparaffinid;
+
+            if(chislidenum == "") chislidenum = 0;
+            if(chinullslidenum == "") chinullslidenum = 0;
+
+            yuliu = parseInt(chinullslidenum)-parseInt(chislidenum);
+            kucun = yuliu;
+            $("#lkItemList").jqGrid('addRowData',i, {lkno:lkno,kucun:kucun,yuliu:yuliu, childorderid:childorderid,chiparaffinid:chiparaffinid});
         }
     });
 }
 
-function getOrderInfo(orderId) {
-    $.get("../order/orderchildandcheckitem", {orderId:orderId}, function (data) {
+function getOrderInfo(orderId, orderType) {
+    $.get("../order/orderchildandcheckitem", {orderId:orderId,orderType:orderType}, function (data) {
         var checkItems = data.rows;
         var childInfo = jQuery.parseJSON(data.userdata.orderChild);
-        var checkChargeJson = jQuery.parseJSON(data.userdata.checkChargeJson);
-        var childChargeJson = data.userdata.childChargeJson;
 
         $("#chipathologycode").val(childInfo.chipathologycode);
         $("#testItemChName").val(childInfo.testItemChName);
@@ -73,26 +77,65 @@ function getOrderInfo(orderId) {
         $("#chiordercode").val(childInfo.chiordercode);
         $("#chirequsername").val(childInfo.chirequsername);
         $("#chinullslidenum").val(childInfo.chinullslidenum);
-        $("#orderType").val(childInfo.chiordertype);
-        $("#childItemId").val(childInfo.childorderid);
 
-        jQuery("#checkItemList").jqGrid("clearGridData");
-        if(checkItems.length > 0) {
-            for(var i = 0; i < checkItems.length; i++) {
-                checkItems[i].chiparaffincode = childInfo.chiparaffincode;
-                checkItems[i].chirequsername = childInfo.chirequsername;
-                checkItems[i].chiorderstate = childInfo.chiorderstate;
+        hideOrShow(orderType);
+
+        if(orderType == "MYZH" || orderType == "FZBL" || orderType == "TSRS") {
+            var checkChargeJson = jQuery.parseJSON(data.userdata.checkChargeJson);
+            var childChargeJson = data.userdata.childChargeJson;
+            jQuery("#checkItemList").jqGrid("clearGridData");
+            if(checkItems.length > 0) {
+                for(var i = 0; i < checkItems.length; i++) {
+                    checkItems[i].chiparaffincode = childInfo.chiparaffincode;
+                    checkItems[i].chirequsername = childInfo.chirequsername;
+                    checkItems[i].chiorderstate = childInfo.chiorderstate;
+                }
             }
+            jQuery("#checkItemList")[0].addJSONData(checkItems);
+
+            jQuery("#childChargeList").jqGrid("clearGridData");
+
+            jQuery("#childChargeList")[0].addJSONData(childChargeJson);
+
+            var itemCal = "申请数量：" + checkChargeJson.reqItem + ",应收费用：￥" + checkChargeJson.totalMoney;
+            $("#itemCal").html(itemCal);
+        } else if(orderType != "BUQU") {
+            showPieceGrid(orderId, orderType);
+        } else {
+            $("#new1").jqGrid("clearGridData");
+            jQuery("#new1")[0].addJSONData(checkItems);
+
         }
-        jQuery("#checkItemList")[0].addJSONData(checkItems);
-
-        jQuery("#childChargeList").jqGrid("clearGridData");
-
-        jQuery("#childChargeList")[0].addJSONData(childChargeJson);
-
-        var itemCal = "申请数量：" + checkChargeJson.reqItem + ",应收费用：￥" + checkChargeJson.totalMoney;
-        $("#itemCal").html(itemCal);
     })
+}
+
+function showPieceGrid(orderId, orderType) {
+    jQuery("#materialPieceList").jqGrid('setGridParam', {
+        url:"../order/getchildlist",
+        postData:{orderId:orderId}
+    }).trigger('reloadGrid');
+}
+
+function hideOrShow(orderType) {
+    if(orderType == "MYZH" || orderType == "FZBL" || orderType == "TSRS") {
+        $("#checkItemListContainer").css('display', 'block');
+        $("#checkItemCalContainer").css('display', 'block');
+        $("#chargeItemListContainer").css('display', 'block');
+        $("#materialPieceListContainer").css('display', 'none');
+        $("#pieceListContainer").css('display', 'none');
+    } else if(orderType == "CHONGQIE" || orderType == "SHENQIE") {
+        $("#checkItemListContainer").css('display', 'none');
+        $("#checkItemCalContainer").css('display', 'none');
+        $("#chargeItemListContainer").css('display', 'none');
+        $("#pieceListContainer").css('display', 'none');
+        $("#materialPieceListContainer").css('display', 'block');
+    } else {
+        $("#checkItemListContainer").css('display', 'none');
+        $("#checkItemCalContainer").css('display', 'none');
+        $("#chargeItemListContainer").css('display', 'none');
+        $("#pieceListContainer").css('display', 'block');
+        $("#materialPieceListContainer").css('display', 'none');
+    }
 }
 
 function updateState(state) {
@@ -409,8 +452,13 @@ $(function () {
             endDate: $("#q_endDate").val(),
             patientName: $("#q_patientName").val(),
         },
-        colNames: ['特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId','chiParaffinCode'],
+        colNames: ['tesenglishname','特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId','chiParaffinCode'],
         colModel: [
+            {
+                name: 'tesenglishname',
+                index: 'tesenglishname',
+                hidden:true
+            },
             {
                 name: 'chiOrderType',
                 index: 'chiOrderType',
@@ -445,16 +493,21 @@ $(function () {
         pager: "#pager",
         onSelectRow: function (id) {
             var rowData = $("#sectionList").jqGrid('getRowData', id);
+            var orderType = (rowData.tesenglishname);
             getSampleData1(rowData.ordSampleId);
-            getOrderInfo(rowData.orderId);
+            getOrderInfo(rowData.orderId, orderType);
             $("#lkItemList").jqGrid('clearGridData');
             $("#ckItemList").jqGrid('clearGridData');
             $("#itemPackage").empty();
             $("#itemName").attr("readonly", "readonly");
-            if(rowData.chiOrderState == 0) {
-                getPackageItems(rowData.samPathologyId);
-                getWhitePiece(rowData.ordSampleId, rowData.chiParaffinCode);
-                $("#itemName").removeAttr("readonly");
+            if(rowData.chiOrderState == 0 && (orderType == "MYZH" || orderType == "FZBL"
+                || orderType == "TSRS" || orderType == "CHONGQIE" || orderType == "SHENQIE")) {
+                if(orderType == "MYZH" || orderType == "FZBL"
+                || orderType == "TSRS") {
+                    getPackageItems(rowData.samPathologyId);
+                    $("#itemName").removeAttr("readonly");
+                }
+                getWhitePiece(rowData.orderId);
             }
             var state = rowData.chiOrderState;
             if(state == 1 || state == 3) {
@@ -470,12 +523,64 @@ $(function () {
         }
     });
 
+    $("#new1").jqGrid({
+        datatype: "json",
+        mtype:"GET",
+        height:130,
+        width: 665,
+        colNames: ['材块条码编号','客户ID','取材单位','病理号', '取材序号','材块数','白片数', '取材部位','取材医生ID','取材医生','录入员ID',
+            '录入员', '取材时间','特殊要求', '取材状态','pieisembed'],
+        colModel: [
+            {name:'piecode',hidden:true},//材块条码编号
+            {name:'piesampleid',hidden:true},//客户ID
+            {name:'pieunit',hidden:true},//取材单位
+            { name: 'piepathologycode', index: 'piepathologycode', width:75},//病理号
+            { name: 'piesamplingno', index: 'piesamplingno', width:65},//取材序号
+            { name: 'piecounts', index: 'piecounts', width:60},//材块数
+            { name: 'pienullslidenum', index: 'pienullslidenum', width:60},//白片数
+            { name: 'pieparts', index: 'pieparts', width:65},//取材部位
+            { name: 'piedoctorid', hidden:true},//取材医生ID
+            { name: 'piedoctorname', index: 'piedoctorname', width:65},//取材医生
+            { name: 'pierecorderid', hidden:true},//录入员ID
+            { name: 'pierecordername', index: 'pierecordername', width:60},//录入员
+            { name: 'piesamplingtime', index: 'piesamplingtime', width:90,formatter:function(cellvalue, options, row){return new Date().Format("yyyy-MM-dd hh:mm:ss")}},//取材时间
+            { name: 'piespecial', index: 'piespecial', width:65,editable:true},//特殊要求
+            { name: 'piestate', index: 'piestate', width:65,formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}},//取材状态
+            { name: 'pieisembed', index: 'pieisembed', hidden:true}
+        ],
+        viewrecords: true,
+        cellsubmit: "clientArray",
+        rownumbers : true
+    });
+
     jQuery("#sectionList").jqGrid('bindKeys', {
             "onEnter": function (rowid) {
                 $("#sectionList").jqGrid('setSelection', rowid);
             }
         }
     );
+
+    $("#materialPieceList").jqGrid({
+        datatype: "json",
+        mtype: "GET",
+        colNames: ['childorderid','蜡块编号', '常规片数', '白片数', '备注','状态'],
+        colModel: [
+            {name: 'childorderid', index: 'childorderid', hidden: true},
+            {name: 'chiparaffincode', index: 'chiparaffincode', width: 85},
+            {name: 'chislidenum', index: 'chislidenum', width: 80},
+            {name: 'chinullslidenum', index: 'chinullslidenum', width: 80},
+            {name: 'chicontent', index: 'chicontent', width: 60},
+            {name: 'finishStatus', index: 'finishStatus', width: 60,formatter:"select",editoptions: {value: "0:未完成;1:已完成"}}
+        ],
+        loadComplete: function () {
+
+        },
+        multiselect:true,
+        shrinkToFit: true,
+        scrollOffset: 2,
+        rowNum: 10,
+        rownumbers: true // 显示行号
+    });
 
     $("#checkItemList").jqGrid({
         datatype: "json",
@@ -490,7 +595,7 @@ $(function () {
         colNames: ['cheorderitemid','蜡块编号', '项目名称','结果', '申请医生', '状态','操作','checreatetime','chenameen','cheischarge'],
         colModel: [
             {name: 'cheorderitemid', index: 'cheorderitemid', hidden:true},
-            {name: 'chiparaffincode', index: 'chiparaffincode', width: 100},
+            {name: 'paraffincode', index: 'paraffincode', width: 100},
             {name: 'chenamech', index: 'chenamech', width: 120},
             {name: 'chetestresult', index: 'chetestresult', width: 120,editable:true,edittype:'text',editrules: {edithidden:true,required:true}},
             {name: 'chirequsername', index: 'chirequsername', width: 80},
@@ -541,7 +646,7 @@ $(function () {
         width: 210,
         cellEdit: true,
         cellsubmit:'clientArray',
-        colNames: ['蜡块编号','库存', '预留'],
+        colNames: ['蜡块编号','库存', '预留','childorderid','chiparaffinid'],
         afterEditCell:function(rowid,name,val,iRow,iCol){
             //$("#lkItemList").jqGrid('setSelection',rowid);
             $('#lkItemList').jqGrid('saveCell',$("#lkItemList").jqGrid.editrow,$("#lkItemList").jqGrid.editcol);
@@ -560,6 +665,17 @@ $(function () {
             },
             {
                 name: 'yuliu', index: 'yuliu', width: 40,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
+            }
+            ,
+            {
+                name: 'childorderid',
+                index: 'childorderid',
+                hidden: true
+            },
+            {
+                name: 'chiparaffinid',
+                index: 'chiparaffinid',
+                hidden: true
             }
         ],
         shrinkToFit: true,

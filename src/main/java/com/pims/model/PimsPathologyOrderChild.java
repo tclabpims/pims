@@ -44,6 +44,16 @@ public class PimsPathologyOrderChild {
     private Date chifirstd;
     private Date chicreatetime;
     private String chicreateuser;
+    private Long finishStatus;
+
+    @Column(name="finishstatus")
+    public Long getFinishStatus() {
+        return finishStatus;
+    }
+
+    public void setFinishStatus(Long finishstatus) {
+        this.finishStatus = finishstatus;
+    }
 
     @Transient
     public String getTestItemChName() {

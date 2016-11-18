@@ -1,16 +1,21 @@
 package com.pims.service.impl.pimspathologysample;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyPieces;
 import com.pims.model.PimsPathologySample;
 import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
+import com.smart.Constants;
 import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/10.
@@ -111,5 +116,41 @@ public class PimsPathologyPiecesManagerImpl extends GenericManagerImpl<PimsPatho
     @Override
     public boolean updateSampleSts(JSONArray piecesList, PimsPathologySample sample, int sts, int state){
         return pimsPathologyPiecesDao.updateSampleSts(piecesList,sample,sts,state);
+    }
+
+    @Override
+    @Transactional
+    public void saveOrderMaterial(JSONArray array) {
+        for (Object anArray : array) {//取材
+            JSONObject map = (JSONObject) anArray;
+            PimsPathologyPieces piece = new PimsPathologyPieces();
+            piece.setPiecode((String) map.get("piecode"));
+            piece.setPiesampleid(Long.valueOf(String.valueOf(map.get("piesampleid"))));
+            piece.setPiefirstn(Long.valueOf(String.valueOf(map.get("piefirstn"))));
+            piece.setPieunit(String.valueOf(map.get("pieunit")));
+            piece.setPiepathologycode(String.valueOf(map.get("piepathologycode")));
+            piece.setPiesamplingno(String.valueOf(map.get("piesamplingno")));
+            piece.setPieparts(String.valueOf(map.get("pieparts")));
+            piece.setPiecounts(Long.valueOf(String.valueOf((map.get("piecounts")))));
+            piece.setPienullslidenum(Long.valueOf(String.valueOf(map.get("pienullslidenum"))));
+            piece.setPiestate(Long.valueOf(String.valueOf(map.get("piestate"))));
+            piece.setPieisembed(String.valueOf(map.get("pieisembed")));
+            piece.setPierecorderid(String.valueOf(map.get("pierecorderid")));
+            piece.setPiedoctorid(String.valueOf(map.get("piedoctorid")));
+            piece.setPiedoctorname(String.valueOf(map.get("piedoctorname")));
+            piece.setPierecordername(String.valueOf(map.get("pierecordername")));
+            piece.setPiespecial(String.valueOf(map.get("piespecial")));
+            try {
+                piece.setPiesamplingtime(Constants.SDF.parse(String.valueOf(map.get("piesamplingtime"))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            save(piece);
+        }
+    }
+
+    @Override
+    public List<PimsPathologyPieces> getPiecesByOrderId(long orderId) {
+        return pimsPathologyPiecesDao.getPiecesByOrderId(orderId);
     }
 }

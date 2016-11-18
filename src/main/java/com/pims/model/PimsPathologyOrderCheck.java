@@ -14,6 +14,7 @@ public class PimsPathologyOrderCheck {
     private long cheorderid;
     private long chechildorderid;
     private String chepathologycode;
+    private String paraffincode;
     private long chesampleid;
     private long customercode;
     private String cheorderitemid;
@@ -46,6 +47,15 @@ public class PimsPathologyOrderCheck {
 
     public void setCheckid(long checkid) {
         this.checkid = checkid;
+    }
+
+    @Column(name="PARAFFINCODE")
+    public String getParaffincode() {
+        return paraffincode;
+    }
+
+    public void setParaffincode(String paraffincode) {
+        this.paraffincode = paraffincode;
     }
 
     @Column(name="FINISHSTATUS")

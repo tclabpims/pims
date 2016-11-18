@@ -51,4 +51,6 @@ public interface PimsPathologySlideManager extends GenericManager<PimsPathologyS
      * @param num
      */
     void updateWhitePieceUsedFlag(String paraffincode, Long sampleId, Long num);
+
+    PimsPathologySlide getSlideByParaffinId(long chiparaffinid);
 }

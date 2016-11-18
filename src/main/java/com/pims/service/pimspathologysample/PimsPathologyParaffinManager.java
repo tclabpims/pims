@@ -3,11 +3,11 @@ package com.pims.service.pimspathologysample;
 import com.alibaba.fastjson.JSONArray;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyParaffin;
-import com.pims.model.PimsPathologyPieces;
 import com.pims.model.PimsPathologySample;
 import com.smart.service.GenericManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/10.
@@ -69,4 +69,7 @@ public interface PimsPathologyParaffinManager extends GenericManager<PimsPatholo
      */
     PimsPathologyParaffin getPimsPathologyParaffin(long sampleId, String paraffinCode);
 
+    List<Map<String, Object>> getParaffinMaterial(long paraffinId);
+
+    List<Map<String,Object>> getParaffinFromOrder(long oderId);
 }

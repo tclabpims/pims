@@ -138,7 +138,7 @@
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
                     <div class="scroll-content">
                         <div class="content">
-                            <div style="display:inline;"><label>特检类型：</label>
+                            <div style="display:inline;"><label>医嘱类型：</label>
                                 <select id="q_specialCheck">
                                     <option value="">--请选择--</option>
                                 </select>
@@ -254,7 +254,7 @@
         <div><h6>申请信息</h6></div>
         <div>
             <div style="display: inline;float: left">病理号：<input id="chipathologycode" style="border-width: 0px 0px 1px 0px"></div>
-            <div style="display: inline;">特检类型：<input id="testItemChName" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;">医嘱类型：<input id="testItemChName" style="border-width: 0px 0px 1px 0px"></div>
             <div style="display: inline;float: right">申请时间：<input id="chireqtime" style="border-width: 0px 0px 1px 0px"></div>
         </div>
         <div>
@@ -265,16 +265,23 @@
         <div>
             <div style="float: left">
                 <div style="height:26px">
-                    <div><h6>检测项目一览</h6></div>
+                    <div><h6>项目一览</h6></div>
                 </div>
-                <div style="height:200px">
+                <div style="height:200px;display: none;" id="materialPieceListContainer">
+                    <div><table id="materialPieceList"></table></div>
+                </div>
+                <div style="height:200px;display: none;" id="pieceListContainer">
+                    <div><table id="new1"></table></div>
+                </div>
+                <div style="height:200px" id="checkItemListContainer">
                     <div><table id="checkItemList"></table></div>
                 </div>
-                <div style="height:26px">
+
+                <div style="height:26px"  id="checkItemCalContainer">
                     <div>检测项目合计：<span id="itemCal"></span></div>
                 </div>
             </div>
-            <div style="float: left">
+            <div style="float: left"  id="chargeItemListContainer">
                 <div style="height:26px">
                     <div><h6>医嘱开单费用列表</h6></div>
                 </div>

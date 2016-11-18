@@ -6,6 +6,7 @@ import com.pims.model.PimsPathologyPieces;
 import com.pims.model.PimsPathologySample;
 import com.smart.service.GenericManager;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -71,4 +72,8 @@ public interface PimsPathologyPiecesManager extends GenericManager<PimsPathology
      * @return
      */
     public boolean updateSampleSts(JSONArray piecesList, PimsPathologySample sample, int sts, int state);
+
+    void saveOrderMaterial(JSONArray array);
+
+    List<PimsPathologyPieces> getPiecesByOrderId(long orderId);
 }
