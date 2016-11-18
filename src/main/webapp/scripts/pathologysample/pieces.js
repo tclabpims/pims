@@ -138,7 +138,10 @@ var clientHeight= $(window).innerHeight();
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();//病理号
-	var send_doctor = $('#send_doctor').val();//补医嘱
+	var send_doctor = "";//补医嘱
+	if($("#send_doctor").is(":checked")){
+		send_doctor = $('#send_doctor').val();//补医嘱
+	}
 	var req_sts = $('#req_sts').val();//取材状态
 	//var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	$("#new").jqGrid({
@@ -244,7 +247,7 @@ function createNew1(reqid,width1){
 		// autoScroll: true,
 		postData:{"reqId":reqid},
 		colNames: ['材块条码编号','客户ID','材块ID','取材单位','病理号', '取材序号','材块数','白片数', '取材部位','取材医生ID','取材医生','录入员ID',
-			'录入员', '取材时间','特殊要求', '取材状态','标记物','是否脱水','脱水时间','是否包埋','包埋时间','包埋人员id','包埋人员姓名','所属蜡块id'],
+			'录入员', '取材时间','特殊要求', '取材状态','标记物','是否脱水','脱水时间','是否包埋','包埋时间','包埋人员id','包埋人员姓名','所属蜡块id','补取医嘱'],
 		colModel: [
 			{name:'piecode',hidden:true},//材块条码编号
 			{name:'piesampleid',hidden:true},//客户ID
@@ -269,7 +272,8 @@ function createNew1(reqid,width1){
 			{name:'pieembedtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//包埋时间
 			{name:'pieembeddoctorid',hidden:true},//包埋人员id
 			{name:'pieembeddoctorname',hidden:true},//包埋人员姓名
-			{name:'pieparaffinid',hidden:true}//所属蜡块id
+			{name:'pieparaffinid',hidden:true},//所属蜡块id
+			{name:'piefirstv',hidden:true}//补取医嘱
 			],
 		loadComplete : function() {
 			var table = this;
@@ -320,7 +324,11 @@ function searchList() {
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
 	var send_dept = $('#send_dept').val();
-	var send_doctor = $('#send_doctor').val();
+	// var send_doctor = $('#send_doctor').val();
+	var send_doctor = "";//补医嘱
+	if($("#send_doctor").is(":checked")){
+		send_doctor = $('#send_doctor').val();//补医嘱
+	}
 	var req_sts = $('#req_sts').val();
 	// var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	jQuery("#new").jqGrid("clearGridData");
@@ -437,7 +445,8 @@ function addRow(){
 		pieembedtime:"",//包埋时间
 		pieembeddoctorid:"",//包埋人员id
 		pieembeddoctorname:"",//包埋人员姓名
-		pieparaffinid:""//所属蜡块id
+		pieparaffinid:"",//所属蜡块id
+		piefirstv:""//补取医嘱
 	};
 	$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
 }
@@ -647,6 +656,25 @@ function getSamplePicures(sampleId) {
 			var objNewDiv = $('<div>', {'id': new Date().getTime(), 'style': 'padding-bottom:5px'});
 			objNewDiv.html("<img src='" + ret[item] + "' name='" + item + "' onclick='removePicture(\"" + item + "\")' width='220' height='150'>");
 			container.append(objNewDiv);
+		}
+	});
+}
+
+function removePicture(pictureName) {
+	var rowData = $("#new").jqGrid('getRowData',nowrow);
+	layer.msg('需要删除图片吗？', {
+		time: 3000, //自动关闭
+		btn: ['是', '否'],
+		yes: function (index) {
+			$.get("../diagnosis/removePicture", {
+				name: pictureName,
+				sampleid: rowData.sampleid
+			}, function (data) {
+				var es = document.getElementsByName(pictureName);
+				var pn = es[0].parentNode;
+				pn.parentNode.removeChild(pn);
+			});
+			layer.close(index);
 		}
 	});
 }
@@ -992,8 +1020,9 @@ function createNew2() {
 		cellsubmit: "clientArray",
 		cellEdit:true,
 		shrinkToFit: true,
-		altRows:true,
-		height: 'auto',
+		rownumbers : true,
+		// altRows:true,
+		// height: 'auto',
 		// rowNum: 10,
 		// rowList:[10,20,30],
 		// rownumbers: true, // 显示行号

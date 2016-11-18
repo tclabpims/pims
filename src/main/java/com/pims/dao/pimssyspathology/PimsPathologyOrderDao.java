@@ -1,5 +1,6 @@
 package com.pims.dao.pimssyspathology;
 
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyOrder;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.GenericDao;
@@ -21,4 +22,7 @@ public interface PimsPathologyOrderDao extends GenericDao<PimsPathologyOrder, Lo
     List getSampleOrder(long sampleId);
 
     List getCheckItems(long sampleId, long testItemId);
+
+    List getOrderList(PimsBaseModel map);
+    int getOrderNum(PimsBaseModel map);
 }

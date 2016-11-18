@@ -320,7 +320,7 @@ function fillInfo(id){
 	var dataIds = "'" + rowData.pieceid + "'";
 	//var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	var req_sts = $("#req_sts").val();//包埋状态
-	if(req_sts == "1"){
+	if(req_sts == "0"){
 		var rowData2 = $("#new").jqGrid('getRowData',id);
 		addRow(rowData2);
 	}else{

@@ -419,6 +419,23 @@ public class PimsPathologySampleController extends PIMSBaseController{
         }
         PrintwriterUtil.print(response, o.toString());
     }
+    /**
+     * 获取新消息数量
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/ajax/num*", method = RequestMethod.GET)
+    @ResponseBody
+    public String getReqNum(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int noworkList = pimsPathologySampleManager.getSamStaNum();
+        JSONObject o = new JSONObject();
+        o.put("nonum",noworkList);
+        o.put("success",1);
+        PrintwriterUtil.print(response, o.toString());
+        return  null;
 
+    }
 
 }

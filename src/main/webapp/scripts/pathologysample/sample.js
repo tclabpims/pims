@@ -771,8 +771,9 @@ function createNew2() {
         cellsubmit: "clientArray",
         cellEdit:true,
         shrinkToFit: true,
-        altRows:true,
-        height: 'auto',
+		rownumbers : true,
+        // altRows:true,
+        // height: 'auto',
         // rowNum: 10,
         // rowList:[10,20,30],
         // rownumbers: true, // 显示行号

@@ -5,10 +5,13 @@ import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.*;
 import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
+import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
 import com.smart.dao.hibernate.GenericDaoHibernate;
+import com.smart.model.user.User;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
     public PimsPathologyPiecesDaoHibernate(){super(PimsPathologyPieces.class);}
     @Autowired
     private PimsPathologyPiecesManager pimsPathologyPiecesManager;
+    @Autowired
+    private PimsPathologyOrderManager pimsPathologyOrderManager;
     /**
      * 查询材块列表不分页
      * @param code
@@ -56,7 +61,8 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
             }
         }
         if(!StringUtils.isEmpty(map.getSend_doctor())){
-            //sb.append(" and samsenddoctorid = " +  map.getSend_doctor());
+            sb.append(" and sampleid in (select chisampleid from pims_pathology_order_child " +
+                    "where chihandletype = 1 and chiisdelete = 0)");//补医嘱
         }
         if(!StringUtils.isEmpty(map.getSend_dept())){
             sb.append(" and sampathologycode like '%" + map.getSend_dept().toUpperCase()+"%'");//病理编号
@@ -220,6 +226,12 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 if(piece.getPiestate().longValue() == 0){//未取材
                     piece.setPiestate((long) 1);
                     piece = pimsPathologyPiecesManager.save(piece);
+                    //判断材块是不是补取
+                    if(!StringUtils.isEmpty(piece.getPiefirstv())){
+                        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                        pimsPathologyOrderManager.updateOrderState(Long.parseLong(piece.getPiefirstv()),1,user);
+                        pimsPathologyOrderManager.updateOrderState(Long.parseLong(piece.getPiefirstv()),2,user);
+                    }
                 }
                 list1.add(piece.getPieceid());
             }

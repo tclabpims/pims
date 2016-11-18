@@ -35,6 +35,10 @@
 	<div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" id="div_0">
 		<div style="margin-top: 10px;">
 			<table style="margin-bottom: 5px">
+				<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
+				<input type="hidden" id="local_logyid" value="${logyid}"/>
+				<input type="hidden" id="local_userid" value="${local_userid}"/>
+				<input type="hidden" id="local_username" value="${local_username}"/>
 				<span class="input_style">发送时间:</span>
 				<input type="hidden" id="req_sts" value="0"/>
 				<input type="text" class="form_datetime input_style" id="req_bf_time"/>

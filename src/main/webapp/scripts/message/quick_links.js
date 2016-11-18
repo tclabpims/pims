@@ -280,6 +280,7 @@ function reqnum() {
 			url: '../receive/receive/ajax/num',
 			dataType: 'json',
 			cache: false,
+			data:{"patient_name":$("#local_userid").val()},
 			success: function(data){
 				if(1 == data.success){
 					if(0 == data.num){

@@ -58,4 +58,9 @@ public class PimsSysReqFieldManagerImpl extends GenericManagerImpl<PimsSysReqFie
         String sql = "select {srf.*} from Pims_Sys_Req_Field srf where srf.Fieldid in (select Rf.Fieldid from Pims_Sys_Report_Items pr,Pims_Sys_Customer_Basedata pb, Pims_Sys_Req_Field rf where Pr.Reportitemid=pb.Basrefdataid and Rf.Fieldid =Pr.Rptelementid and Rf.Fieuseflag=1 and pb.bastype=3 and Pb.Baspathologyid=:pathologyId and Pb.Bascustomercode=:hospitalId)  order by srf.fieshoworder";
         return pimsSysReqFieldDao.getReqFieldList(sql, hospitalId, pathologyId);
     }
+
+    @Override
+    public PimsSysReqField getInfo(String fieelementid) {
+        return pimsSysReqFieldDao.getInfo(fieelementid);
+    }
 }

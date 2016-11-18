@@ -1,3 +1,4 @@
+var NOW_LOGYID = $("#logylibid").val();
 /**
  * 回车事件
  * @param obj
@@ -89,11 +90,10 @@ function getSampleData(id) {
 /**
  * 保存信息
  */
-function saveInfo() {
-	var rowdatas = $('#new1').jqGrid('getRowData');
-	var post = true;
+function saveInfo1(post,arrs,rowdatas) {
 	if(post) {
 		$.post("../pimspathology/editSample", {
+				arrs:JSON.stringify(arrs),
 				material:JSON.stringify(rowdatas),
 				requisitionid:$("#requisitionid").val(),//申请id
 				reqcustomerid:$("#reqcustomerid").val(),//客户id
@@ -162,6 +162,33 @@ function saveInfo() {
 				}
 			});
 	}
+
+}
+function saveInfo() {
+	var rowdatas = $('#new1').jqGrid('getRowData');
+	var post = true;
+	var arrs = new Array();
+	$.ajax({
+		type:'get',
+		url: '../pimspathology/ajax/item',
+		data:{"logyid":$("#reqpathologyid").val(),"req_code":$("#lcal_hosptail").val()},
+		dataType:"json",
+		error:function(value){
+			saveInfo1(post,arrs,rowdatas);
+		},
+		success: function(obj){
+			$.each(obj,function(n,value) {
+				var arr = {};
+				arr["id"] = value.fieelementid;
+				arr["value"] = $("#"+ value.fieelementid).val();
+				// alert(arr);
+				arrs.push(arr);
+			});
+			saveInfo1(post,arrs,rowdatas);
+		}
+	});
+
+
 }
 /**
  * 创建取材材料单据
@@ -316,6 +343,7 @@ function addSample() {
 	$("#reqfirstn").val("");//预留字段6(第一个numberic预留字段)
 	$("#reqcreateuser").val($("#local_userid").val());//创建人员
 	$("#reqcreatetime").val(CurentTime(new Date()));//创建时间
+	getdynamicdiv($("#logylibid").val(),0);
 	layer.open({
 		type: 1,
 		area: ['1000px','600px'],
@@ -326,6 +354,93 @@ function addSample() {
 		title: "申请信息录入",
 		content: $("#formDialog")
 	});
+}
+function getdynamicdiv(logyid,num) {
+	$("#dynamic_div2").empty();
+	var html = "";
+	if(num == 0){//新增
+		$.ajax({
+			type:'get',
+			url: '../pimspathology/ajax/item',
+			data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val()},
+			dataType:"json",
+			// error:function(value){
+			// 	ds.dialog.alert('加载失败');
+			// },
+			success: function(obj){
+				var fieremark = "";
+				var maxnum = 0;
+				$.each(obj,function(n,value) {
+					if(fieremark != value.fieremark){
+						fieremark = value.fieremark;
+						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+					}
+					if(maxnum == 0){
+						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+					}
+					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+					if(value.fieelementtype == "input"){
+						html +=" type= \"text\"";
+					}
+					html +=">";
+					if(value.invokefuncbody != null && value.invokefuncbody != ""){
+						html += value.invokefuncbody;
+					}
+					html +="</"+value.fieelementtype+">"
+					if(maxnum == 12){
+						html +="</div>";
+						maxnum = 0;
+					}
+				});
+				$("#dynamic_div2").html(html);
+			}
+		});
+	}else if(num ==1){//查看
+		$.ajax({
+			type:'get',
+			url: '../pimspathology/ajax/reqdata',
+			data:{"id":logyid},
+			dataType:"json",
+			// error:function(value){
+			// 	ds.dialog.alert('加载失败');
+			// },
+			success: function(obj){
+				var fieremark = "";
+				var maxnum = 0;
+				$.each(obj,function(n,value) {
+					if(fieremark != value.fieremark){
+						fieremark = value.fieremark;
+						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+					}
+					if(maxnum == 0){
+						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+					}
+					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+					if(value.fieelementtype == "input"){
+						html +=" type= \"text\"";
+					}
+					if(value.fieelementtype == "textarea"){
+						html +=">"+value.reqfvalue;
+					}else{
+						html +="value=\""+value.reqfvalue+"\">";
+					}
+					if(value.invokefuncbody != null && value.invokefuncbody != ""){
+						html += value.invokefuncbody;
+					}
+					html +="</"+value.fieelementtype+">"
+					if(maxnum == 12){
+						html +="</div>";
+						maxnum = 0;
+					}
+				});
+				$("#dynamic_div2").html(html);
+			}
+		});
+	}
+
+	
 }
 /**
  * 修改数据
@@ -347,6 +462,7 @@ function viewSample() {
 		//发送数据
 		postData : {"reqId":rowData.requisitionid}
 	}).trigger('reloadGrid');//重新载入
+	getdynamicdiv(rowData.requisitionid,1);
 	layer.open({
 		type: 1,
 		area: ['1000px','600px'],
@@ -457,6 +573,10 @@ $(function() {
 		select: function( event, ui ) {
 			$( "#reqitemids" ).val(ui.item.id);
 			$( "#reqitemnames" ).val(ui.item.value);
+			if(NOW_LOGYID != ui.item.tespathologyid){
+				NOW_LOGYID = ui.item.tespathologyid;
+				getdynamicdiv(NOW_LOGYID,0);
+			}
 			$("#reqpathologyid").val(ui.item.tespathologyid);
 			//return false;
 		}
@@ -734,13 +854,25 @@ function searchList() {
 function addRow(){
 	var selectedId = $("#new1").jqGrid("getGridParam", "selrow");
     var  requisitionid = $('#requisitionid').val();
+	var reqmmaterialname = "";
+	$.ajax({
+		type:"post",
+		async:false,
+		url:"../reqmaterial/info",
+		dataType: "json",
+		success:function(data){
+			if (data != null) {
+				reqmmaterialname = data[0].name;
+			}
+		}
+	});
 	var dataRow = {
 		requisitionid:requisitionid,//申请单ID
 		materialid:"",//ID
 		reqmsamplingparts:"",//切取部位
 		reqmmaterialtype:1,//送检材料
 		reqmcustomercode:$("#all_hosptial").val(),//客户id
-		reqmmaterialname:"",//材料名称
+		reqmmaterialname:reqmmaterialname,//材料名称
 		reqmspecialrequirements:"",//取材特殊要求
 		reqmremark:"",//备注信息
 		reqmcreateuser:$("#local_userid").val(),//录入人员

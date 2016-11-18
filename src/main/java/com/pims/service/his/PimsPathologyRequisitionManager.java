@@ -71,7 +71,18 @@ public interface PimsPathologyRequisitionManager extends GenericManager<PimsPath
      * @param ppr
      * @return
      */
-    PimsPathologyRequisition insertOrUpdate(JSONArray materials,PimsPathologyRequisition ppr);
-
+    PimsPathologyRequisition insertOrUpdate(JSONArray materials,PimsPathologyRequisition ppr,JSONArray fields);
+    /**
+     * 查询申请字段
+     * @param map
+     * @return
+     */
+    List searchLists(PimsBaseModel map);
+    /**
+     * 查看申请字段
+     * @param id
+     * @return
+     */
+    List searchViews(long id);
 
 }

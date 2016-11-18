@@ -55,7 +55,7 @@
 			<span style="color: white">保存并发送</span>
 		</button>
 		</h5>
-		<div class="col-xs-12 leftContent">
+		<div class="col-xs-12">
 			<table id="sectionList3"></table>
 		</div>
 	</div>

@@ -1,5 +1,6 @@
 package com.pims.service.pimssyspathology;
 
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyOrder;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.model.user.User;
@@ -22,4 +23,7 @@ public interface PimsPathologyOrderManager extends GenericManager<PimsPathologyO
     List<Map<String,Object>> getSampleOrder(long sampleId);
 
     List<Map<String,Object>> getCheckItems(long sampleId, long testItemId);
+
+    List getOrderList(PimsBaseModel map);
+    int getOrderNum(PimsBaseModel map);
 }

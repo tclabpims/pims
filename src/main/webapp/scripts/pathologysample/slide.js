@@ -372,8 +372,8 @@ function fillInfo(id){
 	var rowData = $("#new").jqGrid('getRowData',id);
 	getSampleData(rowData.sampleid);
 	var dataIds = "'" + rowData.paraffinid + "'";
-	//var req_sts = $("#req_sts").val();
-	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
+	var req_sts = $("#req_sts").val();
+	// var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
 	if(req_sts == "0"){
 		addRow(rowData);
 	}else{

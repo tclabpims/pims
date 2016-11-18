@@ -1,11 +1,13 @@
 package com.pims.dao.hibernate.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsPathologyOrderDao;
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyOrder;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
@@ -192,5 +194,39 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         query.setParameter("name", name);
         query.setParameter("orderId", orderId);
         query.executeUpdate();
+    }
+
+    public StringBuffer getsql(StringBuffer sb,PimsBaseModel map){
+        if(!StringUtils.isEmpty(map.getReq_sts())){
+            sb.append(" and chiorderstate = " + map.getReq_sts());
+        }
+        if(!StringUtils.isEmpty(map.getReq_code())){
+            if(map.getReq_code().equals("0")){
+                sb.append(" and (chihandletype = 2 or chihandletype is null)");
+            }else{
+                sb.append(" and chihandletype = " + map.getReq_code());
+            }
+        }
+        if(!StringUtils.isEmpty(map.getPatient_name())){
+            sb.append(" and  ordorderuserid = '" +map.getPatient_name() +  "'");
+        }
+        return sb;
+    }
+    @Override
+    public List getOrderList(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyOrder,PimsPathologyOrderChild,PimsPathologySample " +
+                "where orderid = chiorderid and ordsampleid=sampleid and ordisdelete = 0 and chiisdelete = 0 ");
+        getsql(sb,map);
+        return pagingList(sb.toString(),map.getStart(),map.getEnd());
+    }
+
+    @Override
+    public int getOrderNum(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select count(1) from pims_pathology_order,pims_pathology_order_child,pims_pathology_sample " +
+                "where orderid = chiorderid and ordsampleid=sampleid and ordisdelete = 0 and chiisdelete = 0 ");
+        getsql(sb,map);
+        return countTotal(sb.toString());
     }
 }

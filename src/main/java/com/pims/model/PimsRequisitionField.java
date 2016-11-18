@@ -200,6 +200,8 @@ public class PimsRequisitionField {
 
     @Id
     @Column(name = "REQFID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_FIELD")
+    @SequenceGenerator(name = "SEQ_FIELD", sequenceName = "SEQ_FIELD", allocationSize=1)
     public long getReqfid() {
         return reqfid;
     }

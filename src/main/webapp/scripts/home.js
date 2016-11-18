@@ -47,12 +47,18 @@ $(function () {
     $('#div_lable_1 a').click(function (e) {
         $('#div_lable_1 a').each(function(){
             $("#show_div_"+ $(this).attr("href")).css('display','none');
-            $("#show_div_"+ $(this).attr("href")+"_"+ $(this).attr("href")).css('display','none');
+            if($(this).attr("href") == 1){
+                $("#show_div_1_1").css('display','none');
+                $("#show_div_1_2").css('display','none');
+            }
             $(this).css("border-bottom","0px");
         });
         e.preventDefault();//阻止a链接的跳转行为
         $("#show_div_"+ $(this).attr("href")).css('display','block');
-        $("#show_div_"+ $(this).attr("href")+"_"+ $(this).attr("href")).css('display','block');
+        if($(this).attr("href") == 1){
+            $("#show_div_1_1").css('display','block');
+            //$("#show_div_1_2").css('display','block');
+        }
         $(this).css("border-bottom","4px solid #0FCFA0");
         $(this).tab('show');//显示当前选中的链接及关联的content
     });
@@ -60,14 +66,29 @@ $(function () {
      * 我的未处理工作
      */
     $('#show_div_1 a').click(function (e) {
-        var hrefval = $(this).attr("href");
-        jQuery("#new1").jqGrid("clearGridData");
-        jQuery("#new1").jqGrid('setGridParam',{
-            url: "../pathologysample/sample/ajax/samplelist",
-            //发送数据
-            postData : {"req_sts":hrefval,"patient_name":$("#local_userid").val()},
-            page : 1
-        }).trigger('reloadGrid');//重新载入
+        var hrefval = $(this).attr("href").split(",");
+        jQuery("#new"+hrefval[0]).jqGrid("clearGridData");
+        if(hrefval[0] == 1){
+            $("#show_div_1_1").css('display','block');
+            $("#show_div_1_2").css('display','none');
+            jQuery("#new1").jqGrid('setGridParam',{
+                url: "../pathologysample/sample/ajax/samplelist",
+                postData : {"req_sts":hrefval[1],"patient_name":$("#local_userid").val()},
+                page : 1
+            }).trigger('reloadGrid');//重新载入
+        }else if(hrefval[0] == "2_1"){
+            $("#show_div_1_1").css('display','none');
+            $("#show_div_1_2").css('display','block');
+            var req_code = "";
+            if(hrefval.length == 3){
+                req_code = hrefval[2];
+            }
+            jQuery("#new2_1").jqGrid('setGridParam',{
+                url: "../order/orderlist",
+                postData : {"req_sts":hrefval[1],"req_code":req_code,"patient_name":$("#local_userid").val()},
+                page : 1
+            }).trigger('reloadGrid');//重新载入
+        }
         e.preventDefault();
     });
     /**
@@ -86,36 +107,35 @@ $(function () {
         if(href[0] == 0){//未取材
             jQuery("#sysnew0").jqGrid('setGridParam',{
                 url: "../pathologysample/sample/ajax/sample",
-                //发送数据
                 postData : {"req_code":0},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 1){//未包埋
             jQuery("#sysnew1").jqGrid('setGridParam',{
                 url: "../pathologysample/paraffin/ajax/sample",
-                //发送数据
-                postData : {"req_sts":1},
+                postData : {"req_sts":0},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 2){//未切片
             jQuery("#sysnew2").jqGrid('setGridParam',{
                 url: "../pathologysample/slide/ajax/sample",
-                //发送数据
-                postData : {"req_sts":2},
+                postData : {"req_sts":0},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 3){//未初查未审核未打印未发送
             jQuery("#sysnew3").jqGrid('setGridParam',{
                 url: "../pathologysample/sample/ajax/samplelist",
-                //发送数据
                 postData : {"req_sts":href[1]},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }else if(href[0] == 4){//未接收未签收未补取
-            jQuery("#new1").jqGrid('setGridParam',{
-                url: "../pathologysample/sample/ajax/samplelist",
-                //发送数据
-                postData : {"req_sts":href[1]},
+            var req_code = "";
+            if(href.length == 3){
+                req_code = href[2];
+            }
+            jQuery("#sysnew4").jqGrid('setGridParam',{
+                url: "../order/orderlist",
+                postData : {"req_sts":href[1],"req_code":req_code},
                 page : 1
             }).trigger('reloadGrid');//重新载入
         }
@@ -151,10 +171,11 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            // viewSample();
+            var rowData = $("#sysnew0").jqGrid('getRowData',id);
+            location.href='../pathologysample/pieces.jsp?m=取材管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -203,10 +224,11 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            // viewSample();
+            var rowData = $("#sysnew1").jqGrid('getRowData',id);
+            location.href='../pathologysample/paraffin?m=包埋管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -259,10 +281,11 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            // viewSample();
+            var rowData = $("#sysnew2").jqGrid('getRowData',id);
+            location.href='../pathologysample/slide?m=切片管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -303,7 +326,7 @@ $(function () {
             location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -311,6 +334,48 @@ $(function () {
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#syspager3"
+    });
+
+    /**
+     * 系统未接收、未完成、未签收，未补取
+     */
+    $("#sysnew4").jqGrid({
+        url: "../order/orderlist",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_sts":"0","req_code":"0"},
+        colNames: ['ID', '病种类型','病理号', '医嘱号','病人姓名','申请医生','接收者','签收者'],
+        colModel: [
+            {name:'sampleid',hidden:true},//ID
+            { name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes1()},align:"center",width:'100px'},//病种类型
+            { name: 'sampathologycode', index: 'sampathologycode',width:'100px', align: "center"},//病理号
+            { name: 'ordercode', index: 'ordercode',width:'100px', align: "center"},//医嘱号
+            { name: 'sampatientname', index: 'sampatientname',width:'100px', align: "center"},//病人姓名
+            { name: 'ordorderuser', index: 'ordorderuser',width:'100px', align: "center"},//申请医生
+            { name: 'ordacceptorname', index: 'ordacceptorname',width:'100px', align: "center"},//接收者
+            { name: 'ordorderuser', index: 'ordorderuser',width:'100px', align: "center"}//签收者
+        ],
+        gridComplete: function () {
+        },
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        ondblClickRow: function (id) {
+            var rowData = $("#sysnew4").jqGrid('getRowData',id);
+            location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
+        },
+        viewrecords: true,
+        height:320,
+        width:width,
+        //autowidth: true,
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // 行号宽度
+        pager: "#syspager4"
     });
     /**
      * 我的未处理
@@ -344,7 +409,7 @@ $(function () {
             location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -352,6 +417,47 @@ $(function () {
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager1"
+    });
+    /**
+     * 未签收，未补取
+     */
+    $("#new2_1").jqGrid({
+        url: "../order/orderlist",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_sts":"2","patient_name":$("#local_userid").val()},
+        colNames: ['ID', '病种类型','病理号', '医嘱号','病人姓名','申请医生','接收者','签收者'],
+        colModel: [
+            {name:'sampleid',hidden:true},//ID
+            { name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes1()},align:"center",width:'100px'},//病种类型
+            { name: 'sampathologycode', index: 'sampathologycode',width:'100px', align: "center"},//病理号
+            { name: 'ordercode', index: 'ordercode',width:'100px', align: "center"},//医嘱号
+            { name: 'sampatientname', index: 'sampatientname',width:'100px', align: "center"},//病人姓名
+            { name: 'ordorderuser', index: 'ordorderuser',width:'100px', align: "center"},//申请医生
+            { name: 'ordacceptorname', index: 'ordacceptorname',width:'100px', align: "center"},//接收者
+            { name: 'ordorderuser', index: 'ordorderuser',width:'100px', align: "center"}//签收者
+        ],
+        gridComplete: function () {
+        },
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        ondblClickRow: function (id) {
+            var rowData = $("#new2_1").jqGrid('getRowData',id);
+            location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
+        },
+        viewrecords: true,
+        height:320,
+        width:width,
+        //autowidth: true,
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // 行号宽度
+        pager: "#pager2_1"
     });
     /**
      * 我的会诊
@@ -383,7 +489,7 @@ $(function () {
             location.href='../consultation/cons.jsp?m=会诊管理&id='+ rowData.consampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -419,7 +525,7 @@ $(function () {
             viewSample(3,id);
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -459,7 +565,7 @@ $(function () {
             location.href='../consultation/cons.jsp?m=会诊管理&id='+ rowData.consampleid;
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,
@@ -493,7 +599,7 @@ $(function () {
             viewSample(7,id);
         },
         viewrecords: true,
-        height:300,
+        height:320,
         width:width,
         //autowidth: true,
         rowNum: 10,

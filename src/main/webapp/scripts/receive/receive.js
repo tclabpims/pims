@@ -89,7 +89,7 @@ $(function() {
 		url: "../receive/receive/ajax/sample",
 		mtype: "GET",
 		datatype: "json",
-		postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_sts":0},
+		postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_sts":0,"patient_name":$("#local_userid").val()},
 		colNames: ['接收消息ID','消息ID','消息内容', '发布用户', '发布时间','状态'],
 		colModel: [
 			{name:'receivemessageid',hidden:true},
@@ -133,7 +133,7 @@ function searchList() {
 	jQuery("#new").jqGrid('setGridParam',{
 		url: "../receive/receive/ajax/sample",
 		//发送数据
-		postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_sts":req_sts},
+		postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_sts":req_sts,"patient_name":$("#local_userid").val()},
 		page : 1
 	}).trigger('reloadGrid');//重新载入
 }

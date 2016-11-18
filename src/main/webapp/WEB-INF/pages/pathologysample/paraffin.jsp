@@ -53,7 +53,7 @@
 					</table>
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;&nbsp;病理号码:&nbsp;</span>
-						<input type="text" id="send_dept" class="input_style"/>
+						<input type="text" id="send_dept" class="input_style" value="${code}"/>
 					</table>
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;</span>
