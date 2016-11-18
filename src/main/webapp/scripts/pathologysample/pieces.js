@@ -273,7 +273,7 @@ function createNew1(reqid,width1){
 			{name:'pieembeddoctorid',hidden:true},//包埋人员id
 			{name:'pieembeddoctorname',hidden:true},//包埋人员姓名
 			{name:'pieparaffinid',hidden:true},//所属蜡块id
-			{name:'piefirstv',hidden:true}//补取医嘱
+			{name:'piefirstn',hidden:true}//补取医嘱
 			],
 		loadComplete : function() {
 			var table = this;
@@ -446,7 +446,7 @@ function addRow(){
 		pieembeddoctorid:"",//包埋人员id
 		pieembeddoctorname:"",//包埋人员姓名
 		pieparaffinid:"",//所属蜡块id
-		piefirstv:""//补取医嘱
+		piefirstn:""//补取医嘱
 	};
 	$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
 }

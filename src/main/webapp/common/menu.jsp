@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/base/base.css'/>" />
 <script type="text/javascript" src="../scripts/layer/layer.js"></script>
 <script type="text/javascript">
+    var time1;
     function labChange() {
     }
 
@@ -65,6 +66,7 @@
             $("#navigationBar").html("当前模块:" + decodeURI(menuName));
         }
         var num = 0;
+
         $.ajax({
             url: '../pathologysample/sample/ajax/num',
             dataType: 'json',
@@ -78,12 +80,20 @@
                         num = data.nonum;
                         //消息总数最大只显示 99
                         $("#span_id2").text("("+Math.min(99, num)+")");
-                        setInterval(function(){ $("#span_id1").fadeOut(500).fadeIn(500); },1000);
+                        time1 = setInterval(function(){ $("#span_id1").fadeOut(500).fadeIn(500); },1000);
                     }
                 }
             }
         });
     });
+    function spanfcus() {
+        clearInterval(time1);
+    }
+    function spanblur() {
+        time1 = setInterval(function(){ $("#span_id1").fadeOut(500).fadeIn(500); },1000);
+    }
+
+
     function getQueryStringByName(name) {
         var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
         if (result == null || result.length < 1) {
@@ -197,7 +207,7 @@
 <div style="width:100%;float:left;height: 30px;background-color: #ffffff">
     <div style="float:left;padding-left: 15px;font-size:14px;color: #808080" id="navigationBar"></div>
     <div style="float:right;padding-right:15px;font-size:14px;">
-        <a  id="span_id1" href="/home" style="background-color: green;border-radius:5px;float:left;margin-top: 2px;">&nbsp;
+        <a  id="span_id1" href="/home" style="background-color: green;border-radius:5px;float:left;margin-top: 2px;" onmouseover="spanfcus()" onmouseleave="spanblur()">&nbsp;
             <img src="/styles/imagepims/nookwork.png">
             <span style="color: #ffffff">我的未处理工作</span>&nbsp;<span id="span_id2" style="color: red"></span>&nbsp;
         </a>

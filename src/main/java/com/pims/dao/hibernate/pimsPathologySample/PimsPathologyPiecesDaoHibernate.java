@@ -227,10 +227,10 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                     piece.setPiestate((long) 1);
                     piece = pimsPathologyPiecesManager.save(piece);
                     //判断材块是不是补取
-                    if(!StringUtils.isEmpty(piece.getPiefirstv())){
+                    if(piece.getPiefirstn() != null){
                         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                        pimsPathologyOrderManager.updateOrderState(Long.parseLong(piece.getPiefirstv()),1,user);
-                        pimsPathologyOrderManager.updateOrderState(Long.parseLong(piece.getPiefirstv()),2,user);
+                        pimsPathologyOrderManager.updateOrderState(piece.getPiefirstn(),1,user);
+                        pimsPathologyOrderManager.updateOrderState(piece.getPiefirstn(),2,user);
                     }
                 }
                 list1.add(piece.getPieceid());
