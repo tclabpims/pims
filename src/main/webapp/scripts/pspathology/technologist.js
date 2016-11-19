@@ -392,7 +392,7 @@ $(function () {
         colModel: [
             {name: 'childorderid', index: 'childorderid', hidden: true},
             {name: 'chiparaffincode', index: 'chiparaffincode', width: 85},
-            {name: 'chislidenum', index: 'chislidenum', width: 80},
+            {name: 'chislidenum', index: 'chislidenum', hidden: true},
             {name: 'chinullslidenum', index: 'chinullslidenum', width: 80},
             {name: 'chicontent', index: 'chicontent', width: 60},
             {name: 'finishStatus', index: 'finishStatus', width: 60,formatter:"select",editoptions: {value: "0:未完成;1:已完成"}}

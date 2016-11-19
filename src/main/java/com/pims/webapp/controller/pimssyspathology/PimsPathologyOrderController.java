@@ -448,6 +448,9 @@ public class PimsPathologyOrderController extends PIMSBaseController {
 
     private List<PimsPathologyOrderChild> saveOrderChild(PimsPathologyOrder pathologyOrder, JSONArray paraffinArray, long testItemId, String orderType) {
         List<PimsPathologyOrderChild> result = new ArrayList<>();
+        String maxPieceNo = pimsPathologyOrderChildManager.getMaxPieceNo(pathologyOrder.getOrdsampleid());
+        int pieceNo = 1;
+        if(maxPieceNo != null) pieceNo += Integer.valueOf(maxPieceNo);
         for (Object obj : paraffinArray) {
             JSONObject jsonObject = (JSONObject) obj;
             Long paraffinTotalItem = jsonObject.getLongValue("totalItem");
@@ -481,8 +484,20 @@ public class PimsPathologyOrderController extends PIMSBaseController {
             orderChild.setFinishStatus(0L);
             orderChild = pimsPathologyOrderChildManager.save(orderChild);
             result.add(orderChild);
-
             pimsPathologySlideManager.updateWhitePieceUsedFlag(jsonObject.getString("lkno"), pathologyOrder.getOrdsampleid(), paraffinTotalItem);
+
+            if(nullPiece > 0) {
+                PimsPathologyPieces pieces = new PimsPathologyPieces();
+                pieces.setPiesampleid(pathologyOrder.getOrdsampleid());
+                pieces.setPiepathologycode(pathologyOrder.getOrdpathologycode());
+                pieces.setPieunit("1");
+                pieces.setPienullslidenum(nullPiece);
+                pieces.setPieparaffinid(jsonObject.getString("lkno"));
+                pieces.setPiesamplingno(String.valueOf(pieceNo));
+                pieces.setPiefirstn(pathologyOrder.getOrderid());
+                pimsPathologyPiecesManager.save(pieces);
+                pieceNo++;
+            }
         }
         return result;
     }

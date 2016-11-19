@@ -134,7 +134,7 @@
                 <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="计费调整" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="计费调整" onclick="adjustCharge()">
                     计费调整
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="图像采集" onclick="takingPicture()">
@@ -149,7 +149,7 @@
                 <button type="button" class="btn btn-sm btn-primary" title="打印" onclick="reportOperate(2)">
                     打印
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="发送" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="发送" onclick="">
                     发送
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="转送">转送</button>
@@ -169,7 +169,25 @@
         </div>
     </div>
 </div>
-
+<div  class="row" id="chargeAdjustGrid" style="display: none;">
+    <h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="addChargeRow()">
+            <span style="color: white">追加行</span>
+        </button>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="delChargeRow()">
+            <span style="color: white">删除行</span>
+        </button>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('0')">
+            <span style="color: white">保存</span>
+        </button>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('1')">
+            <span style="color: white">保存并发送</span>
+        </button>
+    </h5>
+    <div class="col-xs-12">
+        <table id="chargeAdjustList"></table>
+    </div>
+</div>
 <div class="row" id="maincontent">
     <div class="col-xs-4">
         <div class="widget-box widget-color-green ui-sortable-handle">

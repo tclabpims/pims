@@ -364,7 +364,7 @@ function initOrderForm(type, sampleid, sampathologyid) {
             $("#ckItemList").jqGrid('clearGridData');
             $("#itemList").jqGrid('clearGridData');
             $("#lkItemList").jqGrid('clearGridData');
-        } else if(type =='CHONGQIE' || type == "SHENQIE") {
+        } else if (type == 'CHONGQIE' || type == "SHENQIE") {
             $("#pieceListContainer").css('display', 'block');
             $("#itemListContainer").css('display', 'none');
             $("#packageContainer").css('display', 'none');
@@ -373,7 +373,7 @@ function initOrderForm(type, sampleid, sampathologyid) {
             $("#pieceList").jqGrid('clearGridData');
             initPieceList();
         }
-    }else {
+    } else {
         $("#pieceListContainer").css('display', 'none');
         $("#itemListContainer").css('display', 'none');
         $("#packageContainer").css('display', 'none');
@@ -391,9 +391,9 @@ function initPieceList() {
         datatype: "json",
         cellEdit: true,
         cellsubmit: 'clientArray',
-        afterSaveCell: function(rowid,name,val,iRow,iCol) {
+        afterSaveCell: function (rowid, name, val, iRow, iCol) {
             var row = $("#pieceList").jqGrid("getRowData", rowid);
-            setRemark(row.parparaffincode,val);
+            setRemark(row.parparaffincode, val);
         },
         colNames: ['蜡块编号', '取材医生', '备注'],
         colModel: [
@@ -446,7 +446,7 @@ function requestOrder(lindex) {
         layer.alert("请选择申请日期", {icon: 1, title: "提示"});
         return false;
     }
-    if(orderType != "BUQU") {
+    if (orderType != "BUQU") {
         if ($.trim(paraffinCode) == "") {
             layer.alert("请选择蜡块", {icon: 1, title: "提示"});
             return false;
@@ -483,7 +483,7 @@ function requestOrder(lindex) {
             items[i] = $("#new1").jqGrid("getRowData", rowIds[i]);
         }
     }
-    if(orderType != "BUQU") {
+    if (orderType != "BUQU") {
         var lkrows = $("#lkItemList").jqGrid("getDataIDs");
         for (var i = 0; i < lkrows.length; i++) {
             paraffinItems[i] = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
@@ -492,7 +492,7 @@ function requestOrder(lindex) {
 
     //alert("JSON.stringify(items):" + JSON.stringify(items));
     /*alert("JSON.stringify(paraffinItems):" + JSON.stringify(paraffinItems));
-    return;*/
+     return;*/
     $.get("../order/save", {
         reqDoctor: reqDoctor, reqDoctorId: reqDoctorId,
         reqDate: reqDate,
@@ -535,54 +535,43 @@ function getPackageItems(pid) {
 }
 
 function getWhitePiece() {
-    //$("#lkItemList").jqGrid('clearGridData');
-    var v = $("#lkxz").find("option:selected").text();
-    if (v == "") return;
-    var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
-    var rowData = $("#sectionList").jqGrid('getRowData', selrow);
-    var dataId = $("#lkItemList").jqGrid("getDataIDs");
     var paraffinId = $("#lkxz").val();
+    if (paraffinId == "") return;
+    var v = $("#lkxz").find("option:selected").text();
+    var parnullslidenum = $("#lkxz").find("option:selected").attr("parnullslidenum");
+    var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
+    var dataId = $("#lkItemList").jqGrid("getDataIDs");
     var rowId = 1;
-    var d1;
+    var d1 = {lkno: v, kucun: parnullslidenum, yuliu: 0, lkid: paraffinId};
     if (dataId.length > 0) rowId += dataId.length;
-    $.get("../diagnosis/report/whitepiece", {sampleId: rowData.sampleid, paraffinNo: v}, function (data) {
-        var ret = data.rows;
-        if (ret != null && ret.length > 0) {
-            var yl = $("#lkxz").find("option:selected").attr("parnullslidenum");
-            d1 = {lkno: v, kucun: ret.length, yuliu: yl, lkid: paraffinId};
-            if (!isAdded(d1, dataId)) $("#lkItemList").jqGrid('addRowData', rowId, d1);
-        } else {
-            d1 = {lkno: v, kucun: 0, yuliu: 0, lkid: paraffinId};
-            if (!isAdded(d1, dataId)) $("#lkItemList").jqGrid('addRowData', rowId, d1);
-        }
-        var orderType_ = $("#yizhugl").val();
-        if (orderType_ == 'CHONGQIE' || orderType_ == 'SHENQIE') {
-            $.get("../order/getparaffinmaterial", {paraffinId: paraffinId}, function (ret) {
-                var dataIDs = $("#pieceList").jqGrid("getDataIDs");
-                var rows = ret.rows;
-                if (rows.length > 0) {
-                    var rowId_ = 1;
-                    if (dataIDs.length > 0) {
-                        rowId_ += dataIDs.length;
-                    }
-                    for (var i = 0; i < rows.length; i++) {
-                        var exsits = false;
-                        for (var j = 0; j < dataIDs.length; j++) {
-                            var erow = $("#pieceList").jqGrid("getRowData", dataIDs[j]);
-                            if (erow.parparaffincode == rows[i].parparaffincode) {
-                                exsits = true;
-                                break;
-                            }
-                        }
-                        if (!exsits) {
-                            $("#pieceList").jqGrid("addRowData", rowId_, rows[i], "last");
-                        }
-                        setTotalNumValue(v);
-                    }
+    if (!isAdded(d1, dataId)) $("#lkItemList").jqGrid('addRowData', rowId, d1);
+    var orderType_ = $("#yizhugl").val();
+    if (orderType_ == 'CHONGQIE' || orderType_ == 'SHENQIE') {
+        $.get("../order/getparaffinmaterial", {paraffinId: paraffinId}, function (ret) {
+            var dataIDs = $("#pieceList").jqGrid("getDataIDs");
+            var rows = ret.rows;
+            if (rows.length > 0) {
+                var rowId_ = 1;
+                if (dataIDs.length > 0) {
+                    rowId_ += dataIDs.length;
                 }
-            });
-        }
-    });
+                for (var i = 0; i < rows.length; i++) {
+                    var exsits = false;
+                    for (var j = 0; j < dataIDs.length; j++) {
+                        var erow = $("#pieceList").jqGrid("getRowData", dataIDs[j]);
+                        if (erow.parparaffincode == rows[i].parparaffincode) {
+                            exsits = true;
+                            break;
+                        }
+                    }
+                    if (!exsits) {
+                        $("#pieceList").jqGrid("addRowData", rowId_, rows[i], "last");
+                    }
+                    setTotalNumValue(v);
+                }
+            }
+        });
+    }
 }
 
 function isAdded(rows, dataIDs) {
@@ -610,7 +599,7 @@ function getOrderTabs(sampleId) {
         if (tsrs != null)tsrs.parentNode.removeChild(tsrs);
         if (ret.length > 0) {
             for (var i = 0; i < ret.length; i++) {
-                if(ret[i].tesenglishname == "MYZH" || ret[i].tesenglishname == "FZBL" || ret[i].tesenglishname == "TSRS") {
+                if (ret[i].tesenglishname == "MYZH" || ret[i].tesenglishname == "FZBL" || ret[i].tesenglishname == "TSRS") {
                     var li_ = "<li itemId=\"order_" + ret[i].testitemid + "\" id=\"order_" + ret[i].tesenglishname + "\" tesischarge=\"" + ret[i].tesischarge + "\"><a href=\"#tabs-" + ret[i].tesenglishname + "\">" + ret[i].teschinesename + "</a></li>";
                     //alert(li_);
                     ul.append(li_);
@@ -1054,83 +1043,87 @@ function setRemark(pcode, r) {
 
 function setTotalNumValue(pcode) {
     var lkrows = $("#lkItemList").jqGrid("getDataIDs");
+    var orderType_ = $("#yizhugl").val();
     for (var i = 0; i < lkrows.length; i++) {
         var row = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
         if (pcode == row.lkno) {
+            if(orderType_ == "CHONGQIE" ||orderType_ == "SHENQIE")row.totalItem=0;
+            else {
             if (row.totalItem == "")
-                row.totalItem = 1;
-            else
-                row.totalItem = parseInt(row.totalItem) + 1;
+                    row.totalItem = 1;
+                else
+                    row.totalItem = parseInt(row.totalItem) + 1;
+            }
             $("#lkItemList").jqGrid("setRowData", lkrows[i], row);
             break;
         }
     }
 }
 
-function addRow(){
+function addRow() {
     var jjinfo = "";
     var ids = $("#new1").jqGrid('getDataIDs');
     var reqDoctorId = $("#reqDoctorId").val();
     var reqDoctor = $("#reqDoctor").val();
-    if(reqDoctorId == "" || reqDoctor == "") {
+    if (reqDoctorId == "" || reqDoctor == "") {
         layer.alert("请先选择申请医生");
         return;
     }
     var maxId = 1;
-    if(ids == null || ids == ""){
-        $.get("../order/getmaxpieceno", {sampleId:$("#sampleid").val()}, function(data){
+    if (ids == null || ids == "") {
+        $.get("../order/getmaxpieceno", {sampleId: $("#sampleid").val()}, function (data) {
             var pno = data.userdata.maxPieceNo;
-            if(pno !=null && pno != "") {
-                maxId = parseInt(pno)+1;
+            if (pno != null && pno != "") {
+                maxId = parseInt(pno) + 1;
             }
-            doAddRow(maxId,jjinfo);
+            doAddRow(maxId, jjinfo);
         })
-    }else{
-        var rowData = $("#new1").jqGrid('getRowData',Math.max.apply(Math,ids));
+    } else {
+        var rowData = $("#new1").jqGrid('getRowData', Math.max.apply(Math, ids));
         jjinfo = rowData.pieparts;
-        maxId = parseInt(rowData.piesamplingno)+1;
-        doAddRow(maxId,jjinfo);
+        maxId = parseInt(rowData.piesamplingno) + 1;
+        doAddRow(maxId, jjinfo);
     }
 }
 
-function doAddRow(maxId,jjinfo) {
-    var  sampathologycode = $('#yblNo').val();
+function doAddRow(maxId, jjinfo) {
+    var sampathologycode = $('#yblNo').val();
     var reqDoctorId = $("#reqDoctorId").val();
     var reqDoctor = $("#reqDoctor").val();
     var dataRow = {
-        piecode:sampathologycode+"-"+maxId,
-        piesampleid:$("#sampleid").val(),
-        pieunit:"1",
+        piecode: sampathologycode + "-" + maxId,
+        piesampleid: $("#sampleid").val(),
+        pieunit: "1",
         piepathologycode: sampathologycode,
         piesamplingno: maxId,
         piecounts: 1,
-        pienullslidenum:0,
-        pieparts:jjinfo,
-        piedoctorid:reqDoctorId ,
+        pienullslidenum: 0,
+        pieparts: jjinfo,
+        piedoctorid: reqDoctorId,
         pierecorderid: reqDoctorId,
-        piedoctorname:reqDoctor,
+        piedoctorname: reqDoctor,
         pierecordername: reqDoctor,
-        piesamplingtime:new Date(),
+        piesamplingtime: new Date(),
         piespecial: "",
-        piestate:0,
-        pieisembed:0//是否包埋
+        piestate: 0,
+        pieisembed: 0//是否包埋
     };
-    $("#new1").jqGrid("addRowData", parseInt(reqDoctorId)+maxId, dataRow, "last");
+    $("#new1").jqGrid("addRowData", parseInt(reqDoctorId) + maxId, dataRow, "last");
 }
 
-function delRow(){
-    var selectedIds = $("#new1").jqGrid("getGridParam","selarrrow");
+function delRow() {
+    var selectedIds = $("#new1").jqGrid("getGridParam", "selarrrow");
     var ids = $("#new1").jqGrid('getDataIDs');
-    var maxId = Math.max.apply(Math,ids);
-    if(selectedIds == null || selectedIds.length == 0){
-            layer.alert("请先选择要删除的数据!");
-            return;
-    }else{
-        var maxSelectId = Math.max.apply(Math,selectedIds);
-        if(maxId > maxSelectId){
+    var maxId = Math.max.apply(Math, ids);
+    if (selectedIds == null || selectedIds.length == 0) {
+        layer.alert("请先选择要删除的数据!");
+        return;
+    } else {
+        var maxSelectId = Math.max.apply(Math, selectedIds);
+        if (maxId > maxSelectId) {
             layer.alert("请从最后一条数据开始删除");
             return;
-        }else{
+        } else {
             $(selectedIds).each(function () {
                     var delrow = this.toString();
                     $("#new1").jqGrid("delRowData", delrow);
@@ -1139,6 +1132,261 @@ function delRow(){
         }
 
     }
+}
+
+/**
+ * 增加行
+ */
+function addChargeRow(){
+    var selectedId = $("#chargeAdjustList").jqGrid("getGridParam", "selrow");
+    var dataRow = {
+        feeid:"",//收费id
+        feeitemid:"",//收费项目
+        feeprince:"",//单价
+        feeamount:"",//数量
+        feecost:"",//金额
+        feestate:"0",//状态
+        feeusername:$("#local_username").val(),//记录人
+        feetime:new Date(),//记录时间
+        feesendusername:"",//发送人
+        feesendtime:"",//发送时间
+        feecustomerid:$("#customerId").val(),//客户id
+        feesampleid:$("#sampleid").val(),//标本号
+        feepathologyid:$("#pathologyCode").val(),//病种id
+        feepathologycode:$("#sampathologycode").val(),//病理编号
+        feesource:"2",//费用来源
+        feestate:"0",//费用状态
+        feecategory:"",//统计类别
+        feenamech:"",//中文名称
+        feenameen:"",//英文名称
+        feehisitemid:"",//his项目id
+        feehisname:"",//his项目名称
+        feehisprice:"",//his单价
+        feeuserid:$("#local_userid").val(),//计费人员id
+        feesenduserid:""//发送人员id
+    };
+    var ids = $("#chargeAdjustList").jqGrid('getDataIDs');
+    var rowid = 1;
+    if(Math.max.apply(Math,ids) > ids.length ){
+        rowid = Math.max.apply(Math,ids) + 1;
+    }else{
+        rowid = ids.length + 1;
+    }
+    if (selectedId) {
+        $("#chargeAdjustList").jqGrid("addRowData", rowid, dataRow, "after", selectedId);
+    } else {
+        $("#chargeAdjustList").jqGrid("addRowData", rowid, dataRow, "last");
+    }
+    //$('#plsfList').jqGrid('editRow', rowid, false);
+}
+/**
+ * 删除行
+ */
+function delChargeRow(){
+    var selectedIds = $("#chargeAdjustList").jqGrid("getGridParam","selarrrow");
+    if(selectedIds == null || selectedIds == ""){
+        layer.msg("请选择要删除的行!", {icon:2, time: 1000});
+        return;
+    }else{
+        $(selectedIds).each(function () {
+                var delrow = this.toString();
+                var rowData = $("#chargeAdjustList").jqGrid('getRowData',delrow);
+                if(rowData.feestate == "0" || rowData.feestate == "3"){
+                    $("#chargeAdjustList").jqGrid("delRowData", delrow);
+                }else if(rowData.feestate == "1" || rowData.feestate == "2") {
+                    layer.msg("已计费或已发送数据无法删除!", {icon:2, time: 1000});
+                    return;
+                }
+            }
+        );
+    }
+}
+/**
+ * 保存计费信息
+ */
+function savefeeRow(states) {
+    var rowdatas = $('#chargeAdjustList').jqGrid('getRowData');
+    $.post("../pathologysample/sample/savefee", {
+            fees:JSON.stringify(rowdatas),
+            states:states
+        },
+        function(data) {
+            if(data.success) {
+                layer.msg(data.message, {icon: 1, time: 1000});
+                location.reload();
+            } else {
+                layer.msg(data.message, {icon:2, time: 1000});
+            }
+        });
+
+}
+
+/**
+ * 计费调整界面模糊匹配功能
+ * @param elem
+ */
+function myAutocomplete(elem) {
+    //收费项目
+    $(elem).autocomplete({
+        source: function( request, response ) {
+            $.ajax({
+                url: "../chargeitem/info",
+                dataType: "json",
+                data: {
+                    // name : request.term,//名称
+                    // bddatatype:4,//送检医院
+                    // bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+                },
+                success: function( data ) {
+                    response( $.map( data, function( result ) {
+                        return {
+                            label: result.feenamech + " : " + result.feenameen,
+                            value: result.feenamech,//中文名称
+                            id : result.feeitemid,//收费项目ID
+                            feenameen : result.feenameen,//英文名称
+                            feeprince : result.feeprince,//单价
+                            feecategory : result.feecategory,//所属统计类
+                            feehisitemid : result.feehisitemid,//his项目id
+                            feehisname : result.feehisname,//his项目名称
+                            feehisprice : result.feehisprice//his单价
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 0,
+        select: function( event, ui ) {
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeitemid:ui.item.id});//收费项目ID
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feenamech:ui.item.name});//中文名称
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feenameen:ui.item.feenameen});//英文名称
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeprince:ui.item.feeprince});//单价
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feecategory:ui.item.feecategory});//所属统计类
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisitemid:ui.item.feehisitemid});//his项目id
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisname:ui.item.feehisname});//his项目名称
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisprice:ui.item.feehisprice});//his单价
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeamount:""});//数量
+            jQuery("#chargeAdjustList").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feecost:""});//金额
+        }
+    })
+        .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+            .append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+            .appendTo( ul );
+    };
+}
+
+function adjustCharge() {
+    var sampleid = $("#sampleid").val();
+    if(sampleid == null || sampleid == ""){
+        layer.msg("该病理标本未登记，无法进行计费调整!", {icon:2, time: 1000});
+        return;
+    }else{
+        jQuery("#chargeAdjustList").jqGrid('setGridParam',{
+            url: "../pathologysample/sample/ajax/fee",
+            //发送数据
+            postData:{"feesampleid":sampleid,"feesource":"0"}
+        }).trigger('reloadGrid');//重新载入
+        layer.open({
+            type: 1,
+            area: ['900px','600px'],
+            fix: false, //不固定
+            maxmin: true,
+            multiselect: true,
+            rownumbers : true,
+            shade:0.5,
+            title: "计费",
+            content: $('#chargeAdjustGrid')
+        })
+    }
+}
+
+/**
+ * 初始化计费调整
+ */
+function createNew2() {
+    var sampleid = $("#sampleid").val();
+    $("#chargeAdjustList").jqGrid({
+        caption: "&nbsp;&nbsp;计费管理",
+        url: "../pathologysample/sample/ajax/fee",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"feesampleid":sampleid,"feesource":"0"},
+        width:900,
+        height:600,
+        colNames: ['id','收费项目', '单价','数量','金额','状态','记录人','记录时间','发送人','发送时间','客户id','标本号','病种id','病理编号','费用来源',
+            '费用状态','统计类别','中文名称','英文名称','his项目id','his项目名称','his单价','计费人员id','发送人员id'],
+        colModel: [
+            { name: 'feeid', index: 'feeid',hidden: true },//收费id
+            { name: 'feenamech', index: 'feenamech',editable:true,editoptions: {dataInit: function (elem) {myAutocomplete(elem);}, align: "center"},
+                width: 80},//收费项目
+            { name: 'feeprince', index: 'feeprince', width: 60, align: "center"},//单价
+            { name: 'feeamount', index: 'feeamount',editable:true, width: 60,editoptions: {
+                dataEvents: [
+                    {type: 'change',fn: function(e) {
+                        var rowdata = jQuery("#chargeAdjustList").jqGrid('getRowData', $(this).parent().parent().attr('id'));
+                        jQuery("#chargeAdjustList").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feecost:$(this).val()*rowdata.feeprince});
+                    }}]
+            }, align: "center"},//数量
+            { name: 'feecost', index: 'feecost', width: 60, align: "center"},//金额
+            { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已计费;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
+            { name: 'feeusername', index: 'feeusername', width: 60, align: "center"},//记录人
+            { name: 'feetime', index: 'feetime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
+                return "";
+                return CurentTime(new Date(cellvalue));}},//记录时间
+            { name: 'feesendusername', index: 'feesendusername', width: 60},//发送人
+            { name: 'feesendtime', index: 'feesendtime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
+                return "";
+                return CurentTime(new Date(cellvalue));}, align: "center"},//发送时间
+            { name: 'feecustomerid', index: 'feecustomerid',hidden: true },//客户id
+            { name: 'feesampleid', index: 'feesampleid',hidden: true },//标本号
+            { name: 'feepathologyid', index: 'feepathologyid',hidden: true },//病种id
+            { name: 'feepathologycode', index: 'feepathologycode',hidden: true },//病理编号
+            { name: 'feesource', index: 'feesource',hidden: true },//费用来源
+            { name: 'feestate', index: 'feestate',hidden: true },//费用状态
+            { name: 'feecategory', index: 'feecategory',hidden: true },//统计类别
+            { name: 'feeitemid', index: 'feeitemid',hidden: true },//中文名称
+            { name: 'feenameen', index: 'feenameen',hidden: true },//英文名称
+            { name: 'feehisitemid', index: 'feehisitemid',hidden: true },//his项目id
+            { name: 'feehisname', index: 'feehisname',hidden: true },//his项目名称
+            { name: 'feehisprice', index: 'feehisprice',hidden: true },//his单价
+            { name: 'feeuserid', index: 'feeuserid',hidden: true },//计费人员id
+            { name: 'feesenduserid', index: 'feesenduserid',hidden: true }//发送人员id
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        beforeEditCell: function (rowid, cellname, value, iRow, iCol) {
+            var rec = jQuery("#chargeAdjustList").jqGrid('getRowData', rowid);
+            if (rec.feestate == "1" || rec.feestate == "2") {
+                setTimeout(function () {
+                    jQuery("#chargeAdjustList").jqGrid('restoreCell', iRow, iCol);
+                    //===>或者设置为只读
+                    //$('#' + rowid + '_amount').attr('readonly', true);
+                }, 1);
+            }
+        },
+        ondblClickRow: function (id) {
+        },
+        multiselect: true,
+        viewrecords: true,
+        cellsubmit: "clientArray",
+        cellEdit:true,
+        shrinkToFit: true,
+        rownumbers : true,
+        // altRows:true,
+        // height: 'auto',
+        // rowNum: 10,
+        // rowList:[10,20,30],
+        // rownumbers: true, // 显示行号
+        // rownumWidth: 35, // the width of the row numbers columns
+        // pager: "#pager3",
+        onSelectRow: function(id){
+
+        }
+    });
 }
 
 $(function () {
@@ -1208,28 +1456,53 @@ $(function () {
 
     $("#new1").jqGrid({
         datatype: "json",
-        mtype:"GET",
-        height:130,
+        mtype: "GET",
+        height: 130,
         width: 700,
-        colNames: ['材块条码编号','客户ID','取材单位','病理号', '取材序号','材块数','白片数', '取材部位','取材医生ID','取材医生','录入员ID',
-            '录入员', '取材时间','特殊要求', '取材状态','pieisembed'],
+        colNames: ['材块条码编号', '客户ID', '取材单位', '病理号', '取材序号', '材块数', '白片数', '取材部位', '取材医生ID', '取材医生', '录入员ID',
+            '录入员', '取材时间', '特殊要求', '取材状态', 'pieisembed'],
         colModel: [
-            {name:'piecode',hidden:true},//材块条码编号
-            {name:'piesampleid',hidden:true},//客户ID
-            {name:'pieunit',hidden:true},//取材单位
-            { name: 'piepathologycode', index: 'piepathologycode', width:75},//病理号
-            { name: 'piesamplingno', index: 'piesamplingno', width:65},//取材序号
-            { name: 'piecounts', index: 'piecounts',editable:true, width:60,editrules: {edithidden:true,required:true,number:true,minValue:1,maxValue:100}},//材块数
-            { name: 'pienullslidenum', index: 'pienullslidenum', width:60,editable:true,editrules: {edithidden:true,required:true,number:true,minValue:0,maxValue:100}},//白片数
-            { name: 'pieparts', index: 'pieparts', width:65,editable:true},//取材部位
-            { name: 'piedoctorid', hidden:true},//取材医生ID
-            { name: 'piedoctorname', index: 'piedoctorname', width:65},//取材医生
-            { name: 'pierecorderid', hidden:true},//录入员ID
-            { name: 'pierecordername', index: 'pierecordername', width:60},//录入员
-            { name: 'piesamplingtime', index: 'piesamplingtime', width:90,formatter:function(cellvalue, options, row){return new Date().Format("yyyy-MM-dd hh:mm:ss")}},//取材时间
-            { name: 'piespecial', index: 'piespecial', width:65,editable:true},//特殊要求
-            { name: 'piestate', index: 'piestate', width:65,formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}},//取材状态
-            { name: 'pieisembed', index: 'pieisembed', hidden:true}
+            {name: 'piecode', hidden: true},//材块条码编号
+            {name: 'piesampleid', hidden: true},//客户ID
+            {name: 'pieunit', hidden: true},//取材单位
+            {name: 'piepathologycode', index: 'piepathologycode', width: 75},//病理号
+            {name: 'piesamplingno', index: 'piesamplingno', width: 65},//取材序号
+            {
+                name: 'piecounts',
+                index: 'piecounts',
+                editable: true,
+                width: 60,
+                editrules: {edithidden: true, required: true, number: true, minValue: 1, maxValue: 100}
+            },//材块数
+            {
+                name: 'pienullslidenum',
+                index: 'pienullslidenum',
+                width: 60,
+                editable: true,
+                editrules: {edithidden: true, required: true, number: true, minValue: 0, maxValue: 100}
+            },//白片数
+            {name: 'pieparts', index: 'pieparts', width: 65, editable: true},//取材部位
+            {name: 'piedoctorid', hidden: true},//取材医生ID
+            {name: 'piedoctorname', index: 'piedoctorname', width: 65},//取材医生
+            {name: 'pierecorderid', hidden: true},//录入员ID
+            {name: 'pierecordername', index: 'pierecordername', width: 60},//录入员
+            {
+                name: 'piesamplingtime',
+                index: 'piesamplingtime',
+                width: 90,
+                formatter: function (cellvalue, options, row) {
+                    return new Date().Format("yyyy-MM-dd hh:mm:ss")
+                }
+            },//取材时间
+            {name: 'piespecial', index: 'piespecial', width: 65, editable: true},//特殊要求
+            {
+                name: 'piestate',
+                index: 'piestate',
+                width: 65,
+                formatter: "select",
+                editoptions: {value: "0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}
+            },//取材状态
+            {name: 'pieisembed', index: 'pieisembed', hidden: true}
         ],
         viewrecords: true,
         multiselect: true,
@@ -1237,8 +1510,8 @@ $(function () {
         //autowidth: true,
         //shrinkToFit:false,
         //autoScroll: true,
-        cellEdit:true,
-        rownumbers : true
+        cellEdit: true,
+        rownumbers: true
     });
 
     $("#lkItemList").jqGrid({
@@ -1586,4 +1859,6 @@ $(function () {
             .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
             .appendTo(ul);
     };
+
+    createNew2();
 })
