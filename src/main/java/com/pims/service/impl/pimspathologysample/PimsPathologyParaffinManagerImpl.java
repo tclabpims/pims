@@ -92,8 +92,8 @@ public class PimsPathologyParaffinManagerImpl extends GenericManagerImpl<PimsPat
     }
 
     @Override
-    public List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId) {
-        return pimsPathologyParaffinDao.getParaffinBySampleId(sampleId);
+    public List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId, Long orderId) {
+        return pimsPathologyParaffinDao.getParaffinBySampleId(sampleId, orderId);
     }
 
     /**

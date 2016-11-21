@@ -87,7 +87,9 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     public DataResponse getParaffin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dr = new DataResponse();
         String sampleId = request.getParameter("sampleId");
-        List<PimsPathologyParaffin> lis = pimsPathologyParaffinManager.getParaffinBySampleId(Long.valueOf(sampleId));
+        String orderIdStr = request.getParameter("orderId");
+        Long orderId = orderIdStr== null?null:Long.valueOf(orderIdStr);
+        List<PimsPathologyParaffin> lis = pimsPathologyParaffinManager.getParaffinBySampleId(Long.valueOf(sampleId), orderId);
         dr.setRows(getResultMap(lis));
         return dr;
     }

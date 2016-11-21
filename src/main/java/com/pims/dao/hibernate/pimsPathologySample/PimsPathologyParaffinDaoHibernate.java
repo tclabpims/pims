@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -362,11 +363,30 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
     }
 
     @Override
-    public List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId) {
-        String hql = " from PimsPathologyParaffin where parsampleid=:sampleId";
-        Query query = getSession().createQuery(hql);
+    public List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId, Long orderId) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select paraffinid,parparaffincode,(select count(1) from Pims_Pathology_Slide s where s.slisampleid=:sampleId and s.SliUseFlag=0 and parparaffincode=s.SliParaffinCode) ");
+        builder.append("as parnullslidenum from pims_pathology_paraffin where parsampleid=:sampleId ");
+        if(orderId != null) {
+            builder.append("and paraffinid in(select chiparaffinid from pims_pathology_order_child where chiorderid=:orderId )");
+        }
+        builder.append("group by paraffinid,parparaffincode order by paraffinid ");
+        SQLQuery query = getSession().createSQLQuery(builder.toString());
         query.setParameter("sampleId", sampleId);
-        return query.list();
+        if(orderId != null)
+            query.setParameter("orderId", orderId);
+        List list = query.list();
+        List<PimsPathologyParaffin> ret = new ArrayList<>();
+        if(list.size() > 0) {
+            for(Object obj : list) {
+                PimsPathologyParaffin paraffin = new PimsPathologyParaffin();
+                paraffin.setParaffinid(((BigDecimal)((Object[])obj)[0]).longValue());
+                paraffin.setParparaffincode((String)((Object[])obj)[1]);
+                paraffin.setParnullslidenum(((BigDecimal)((Object[])obj)[2]).longValue());
+                ret.add(paraffin);
+            }
+        }
+        return ret;
     }
 
     @Override

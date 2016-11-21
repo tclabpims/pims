@@ -235,7 +235,6 @@
 					<table id="new1" class="table-striped">
 					</table>
 				</div>
-
 			</form>
 		</div>
 		<div class="col-sm-2 rightContent">

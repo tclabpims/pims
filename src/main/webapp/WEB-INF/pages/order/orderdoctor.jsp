@@ -264,8 +264,24 @@
         </div>
         <div>
             <div style="float: left">
-                <div style="height:26px">
-                    <div><h6>项目一览</h6></div>
+                <div id="tabs99">
+                    <ul class="tabs">
+                        <li class="tab-link"><a href="#T1">项目一览</a></li>
+                        <li class="tab-link"><a href="#T2">医嘱开单费用列表</a></li>
+                        <div id="T1">
+                            <div style="height:240px" id="checkItemListContainer">
+                                <div><table id="checkItemList"></table></div>
+                            </div>
+                            <div id="checkItemCalContainer" style="height: 26px">
+                                <div>检测项目合计：<span id="itemCal"></span></div>
+                            </div>
+                        </div>
+                        <div  id="T2">
+                            <div style="float: left"  id="chargeItemListContainer">
+                                <div style="height:240px"><table id="childChargeList"></table></div>
+                            </div>
+                        </div>
+                    </ul>
                 </div>
                 <div style="height:200px;display: none;" id="materialPieceListContainer">
                     <div><table id="materialPieceList"></table></div>
@@ -273,19 +289,6 @@
                 <div style="height:200px;display: none;" id="pieceListContainer">
                     <div><table id="new1"></table></div>
                 </div>
-                <div style="height:200px" id="checkItemListContainer">
-                    <div><table id="checkItemList"></table></div>
-                </div>
-
-                <div style="height:26px"  id="checkItemCalContainer">
-                    <div>检测项目合计：<span id="itemCal"></span></div>
-                </div>
-            </div>
-            <div style="float: left"  id="chargeItemListContainer">
-                <div style="height:26px">
-                    <div><h6>医嘱开单费用列表</h6></div>
-                </div>
-                <div style="height:200px"><table id="childChargeList"></table></div>
             </div>
         </div>
     </div>
