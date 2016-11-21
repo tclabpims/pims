@@ -108,7 +108,7 @@ function hisChange() {
 			rownumbers : true,
 			shade:0.5,
 			title: "计费",
-			content: $('#userGrid')
+			content: $('#feeGrid')
 		})
 	}
 

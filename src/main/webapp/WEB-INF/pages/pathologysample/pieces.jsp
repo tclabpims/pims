@@ -41,7 +41,7 @@
 		<div class="div_div"><img src="/styles/imagepims/imgget.png" class="div_img" onclick="takingPicture()">图像采集</div>
 		<div class="div_div"><img src="/styles/imagepims/listprint.png" class="div_img" onclick="printCode()">列表打印</div>
 	</div>
-	<div  class="row" id="userGrid" style="display: none;">
+	<div  class="row" id="feeGrid" style="display: none;">
 		<h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
 			<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="addfeeRow()">
 				<span style="color: white">追加行</span>
