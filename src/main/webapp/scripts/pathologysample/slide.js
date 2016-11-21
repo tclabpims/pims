@@ -240,7 +240,7 @@ function createNew1(reqid,width1){
 		width:width1,
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','蜡块ID','材块编号','玻片类型','玻片序号','取材医生','取材时间','包埋医生', '包埋时间','切片医生', '切片时间','切片状态','印刷状态','分类', '特检项目',
-		'玻片id','客户代码','客户代码','玻片条码号','病理编号','玻片来源','玻片使用状态','玻片号','蜡块序号','取材部位'],
+		'玻片id','客户代码','客户代码','玻片条码号','病理编号','玻片来源','玻片使用状态','玻片号','蜡块序号','取材部位','是否内部医嘱'],
 		colModel: [
 			{name:'slisampleid',hidden:true},//样本ID
 			{name:'pieceid',hidden:true},//材块ID
@@ -268,7 +268,8 @@ function createNew1(reqid,width1){
 			{name:'sliuseflag',hidden:true},//玻片使用状态
 			{name:'slislidecode',hidden:true},//玻片号
 			{name:'sliparaffinno',hidden:true},//蜡块序号
-			{name:'slisamplingparts',hidden:true}//取材部位
+			{name:'slisamplingparts',hidden:true},//取材部位
+			{name:'slifirstn',hidden:true}//是否内部医嘱
 			],
 		loadComplete : function() {
 			var table = this;
@@ -478,7 +479,8 @@ function addRow(data){
 		sliuseflag:0,//玻片使用状态
 		slislidecode: data.paraffinid+"-1",//玻片号
 		sliparaffinno:data.parparaffinno,//蜡块序号
-		slisamplingparts: data.parpieceparts//取材部位
+		slisamplingparts: data.parpieceparts,//取材部位
+		slifirstn:""//补取医嘱
 	};
 	$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
 	if(bpnum > 0){
@@ -512,7 +514,8 @@ function addRow(data){
 				sliuseflag:0,//玻片使用状态
 				slislidecode: data.paraffinid+"-"+ xh,//玻片号
 				sliparaffinno:data.parparaffinno,//蜡块序号
-				slisamplingparts: data.parpieceparts//取材部位
+				slisamplingparts: data.parpieceparts,//取材部位
+				slifirstn:""//补取医嘱
 			};
 			$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
 		}
