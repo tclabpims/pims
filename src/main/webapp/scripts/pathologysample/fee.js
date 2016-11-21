@@ -1,3 +1,5 @@
+var LASTEDITROW = "";
+var LASTEDITCELL = "";
 /**
  * 计费调整
  */
@@ -149,7 +151,17 @@ function createNew2() {
                     {type: 'change',fn: function(e) {
                         var rowdata = jQuery("#feediv").jqGrid('getRowData', $(this).parent().parent().attr('id'));
                         jQuery("#feediv").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feecost:$(this).val()*rowdata.feeprince});
-                    }}]
+                    }},
+                    {type: "keydown",fn : function(e) {
+                        var key = e.charCode || e.keyCode || 0;
+                        if(key === 13){
+                            var rowdata = jQuery("#feediv").jqGrid('getRowData', $(this).parent().parent().attr('id'));
+                            jQuery("#feediv").jqGrid('setRowData', $(this).parent().parent().attr('id'), {feecost:$(this).val()*rowdata.feeprince});
+                            return false;
+                        }
+                        return this;
+                        }
+                    }]
             }, align: "center"},//数量
             { name: 'feecost', index: 'feecost', width: 60, align: "center"},//金额
             { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已计费;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
@@ -183,6 +195,8 @@ function createNew2() {
             }, 0);
         },
         beforeEditCell: function (rowid, cellname, value, iRow, iCol) {
+            LASTEDITROW = iRow;
+            LASTEDITCELL = iCol;
             var rec = jQuery("#feediv").jqGrid('getRowData', rowid);
             if (rec.feestate == "1" || rec.feestate == "2") {
                 setTimeout(function () {
@@ -255,8 +269,8 @@ function myAutocomplete(elem) {
 			jQuery("#feediv").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisitemid:ui.item.feehisitemid});//his项目id
 			jQuery("#feediv").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisname:ui.item.feehisname});//his项目名称
 			jQuery("#feediv").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feehisprice:ui.item.feehisprice});//his单价
-            jQuery("#feediv").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeamount:""});//数量
-            jQuery("#feediv").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feecost:""});//金额
+            jQuery("#feediv").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feeamount:1});//数量
+            jQuery("#feediv").jqGrid('setRowData', $(elem).parent().parent().attr("id"), {feecost:ui.item.feeprince});//金额
 		}
 	})
 		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
@@ -344,18 +358,28 @@ function delfeeRow(){
  * 保存计费信息
  */
 function savefeeRow(states) {
+    $("#feediv").jqGrid("saveCell",LASTEDITROW,LASTEDITCELL);
     var rowdatas = $('#feediv').jqGrid('getRowData');
-    $.post("../pathologysample/sample/savefee", {
-            fees:JSON.stringify(rowdatas),
-            states:states
-        },
-        function(data) {
-            if(data.success) {
-                layer.msg(data.message, {icon: 1, time: 1000});
-                location.reload();
-            } else {
-                layer.msg(data.message, {icon:2, time: 1000});
-            }
-        });
-
+    var result = true;
+    jQuery(rowdatas).each(function(){
+        if(this.feenamech == null || this.feenamech == ""){
+            result = false;
+            layer.msg("请补充数据完整后再提交单据！", {icon: 2, time: 1000});
+            return false;
+        }
+    });
+    if(result){
+        $.post("../pathologysample/sample/savefee", {
+                fees:JSON.stringify(rowdatas),
+                states:states
+            },
+            function(data) {
+                if(data.success) {
+                    layer.msg(data.message, {icon: 1, time: 1000});
+                    location.reload();
+                } else {
+                    layer.msg(data.message, {icon:2, time: 1000});
+                }
+            });
+    }
 }
