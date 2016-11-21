@@ -76,4 +76,6 @@ public interface PimsPathologyPiecesManager extends GenericManager<PimsPathology
     void saveOrderMaterial(JSONArray array);
 
     List<PimsPathologyPieces> getPiecesByOrderId(long orderId);
+
+    PimsPathologyPieces getPieceBySampleId(long ordsampleid);
 }

@@ -282,9 +282,9 @@ function addfeeRow(){
 		feetime:new Date(),//记录时间
 		feesendusername:"",//发送人
 		feesendtime:"",//发送时间
-		feecustomerid:$("#samcustomerid").val(),//客户id
+		feecustomerid:$("#samcustomerid")==null?$("#customerId").val():$("#samcustomerid").val(),//客户id
 		feesampleid:$("#sampleid").val(),//标本号
-		feepathologyid:$("#sampathologyid").val(),//病种id
+		feepathologyid:$("#pathologyCode") == null?$("#sampathologyid").val():$("#pathologyCode").val(),//病种id
 		feepathologycode:$("#sampathologycode").val(),//病理编号
 		feesource:"2",//费用来源
 		feestate:"0",//费用状态

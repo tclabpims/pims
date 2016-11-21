@@ -24,6 +24,7 @@
     <script type="text/javascript" src="<c:url value='/scripts/pspathology/diagnosis.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/consultation/cons1.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/task/task1.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/pathologysample/fee.js'/>"></script>
 </head>
 <style>
     .ui-jqgrid {
@@ -108,7 +109,26 @@
     var OsObject = navigator.userAgent;
 
 </SCRIPT>
-<body>
+<body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
+<div  class="row" id="feeGrid" style="display: none;">
+    <h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="addfeeRow()">
+            <span style="color: white">追加行</span>
+        </button>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="delfeeRow()">
+            <span style="color: white">删除行</span>
+        </button>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('0')">
+            <span style="color: white">保存</span>
+        </button>
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('1')">
+            <span style="color: white">保存并发送</span>
+        </button>
+    </h5>
+    <div class="col-xs-12">
+        <table id="feediv"></table>
+    </div>
+</div>
 <div class="row" id="toolbar">
     <div class="row" id="userGrid" style="display: none;">
         <div class="col-xs-12">
@@ -134,7 +154,7 @@
                 <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="计费调整" onclick="adjustCharge()">
+                <button type="button" class="btn btn-sm btn-primary" title="计费调整" onclick="hisChange()">
                     计费调整
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="图像采集" onclick="takingPicture()">
@@ -169,25 +189,7 @@
         </div>
     </div>
 </div>
-<div  class="row" id="chargeAdjustGrid" style="display: none;">
-    <h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="addChargeRow()">
-            <span style="color: white">追加行</span>
-        </button>
-        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="delChargeRow()">
-            <span style="color: white">删除行</span>
-        </button>
-        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('0')">
-            <span style="color: white">保存</span>
-        </button>
-        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px;"  onclick="savefeeRow('1')">
-            <span style="color: white">保存并发送</span>
-        </button>
-    </h5>
-    <div class="col-xs-12">
-        <table id="chargeAdjustList"></table>
-    </div>
-</div>
+
 <div class="row" id="maincontent">
     <div class="col-xs-4">
         <div class="widget-box widget-color-green ui-sortable-handle">
@@ -544,7 +546,8 @@
                     源病理号：<input id="yblNo" readonly style="width: 120px;border-width: 0px 0px 1px 0px">
                     申请医生：
                     <input id="reqDoctor" style="width: 120px;border-width: 0px 0px 1px 0px">
-                    <input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
+                    <input type="hidden" id="local_userid" value="${local_userid}"/><!--当前登录用户id-->
+                    <input type="hidden" id="local_username" value="${local_username}"/><!--当前登录用户名称-->
                     <input type="hidden" id="reqDoctorId" value=""/>
                 </div>
                 <div style="padding-top:5px;">

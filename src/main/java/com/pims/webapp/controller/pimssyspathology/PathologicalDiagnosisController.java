@@ -493,7 +493,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView diagnosis(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String options = getPathologySelectOption(request);
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = getmodelView(request);
         mv.addObject("options", options);
         User user = WebControllerUtil.getAuthUser();
         Long hospitalId = user.getHospitalId();

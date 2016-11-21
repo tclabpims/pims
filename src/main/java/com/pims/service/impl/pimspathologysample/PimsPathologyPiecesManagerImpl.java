@@ -153,4 +153,10 @@ public class PimsPathologyPiecesManagerImpl extends GenericManagerImpl<PimsPatho
     public List<PimsPathologyPieces> getPiecesByOrderId(long orderId) {
         return pimsPathologyPiecesDao.getPiecesByOrderId(orderId);
     }
+
+    @Override
+    public PimsPathologyPieces getPieceBySampleId(long ordsampleid) {
+
+        return pimsPathologyPiecesDao.getPieceBySampleId(ordsampleid);
+    }
 }

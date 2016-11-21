@@ -74,4 +74,6 @@ public interface PimsPathologyPiecesDao extends GenericDao<PimsPathologyPieces,L
     public boolean updateSampleSts(JSONArray piecesList, PimsPathologySample sample, int sts, int state);
 
     List<PimsPathologyPieces> getPiecesByOrderId(long orderId);
+
+    PimsPathologyPieces getPieceBySampleId(long ordsampleid);
 }

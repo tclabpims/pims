@@ -21,5 +21,5 @@ public interface PimsPathologyOrderChildDao extends GenericDao<PimsPathologyOrde
 
     void updateChildItemStatus(Set<Long> s);
 
-    String getMaxPieceNo(long sampleId);
+    Integer getMaxPieceNo(long sampleId);
 }

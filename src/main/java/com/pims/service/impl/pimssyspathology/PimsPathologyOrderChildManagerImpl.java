@@ -63,7 +63,7 @@ public class PimsPathologyOrderChildManagerImpl extends GenericManagerImpl<PimsP
     }
 
     @Override
-    public String getMaxPieceNo(long sampleId) {
+    public Integer getMaxPieceNo(long sampleId) {
         return pathologyOrderChildDao.getMaxPieceNo(sampleId);
     }
 }

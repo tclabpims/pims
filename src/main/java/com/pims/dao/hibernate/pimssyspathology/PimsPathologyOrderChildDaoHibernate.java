@@ -2,7 +2,6 @@ package com.pims.dao.hibernate.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsPathologyOrderChildDao;
 import com.pims.model.PimsPathologyOrderChild;
-import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -84,9 +83,9 @@ public class PimsPathologyOrderChildDaoHibernate extends GenericDaoHibernate<Pim
     }
 
     @Override
-    public String getMaxPieceNo(long sampleId) {
-        SQLQuery query = getSession().createSQLQuery("select max(piesamplingno) from PIMS_PATHOLOGY_PIECES where piesampleid=:sampleId");
+    public Integer getMaxPieceNo(long sampleId) {
+        SQLQuery query = getSession().createSQLQuery("select max(to_number(piesamplingno)) from PIMS_PATHOLOGY_PIECES where piesampleid=:sampleId");
         query.setParameter("sampleId", sampleId);
-        return (String) query.uniqueResult();
+        return ((BigDecimal) query.uniqueResult()).intValue();
     }
 }

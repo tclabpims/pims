@@ -281,4 +281,11 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         query.setParameter("orderId", orderId);
         return query.list();
     }
+
+    @Override
+    public PimsPathologyPieces getPieceBySampleId(long ordsampleid) {
+        Query query = getSession().createQuery("from PimsPathologyPieces where piesampleid=:ordsampleid and rownum=1 and PieDoctorId is not null");
+        query.setParameter("ordsampleid", ordsampleid);
+        return (PimsPathologyPieces) query.uniqueResult();
+    }
 }
