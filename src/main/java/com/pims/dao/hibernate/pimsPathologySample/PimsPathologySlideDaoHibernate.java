@@ -135,16 +135,11 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
      */
     @Override
     public PimsPathologySample getBySampleNo(Long id) {
-        if(id == null){
-            return null;
-        }else{
-            Query query = getSession().createQuery("from PimsPathologySample where sampleid = "+ id);
-            if(query.list() == null || query.list().size() != 1){
-                return null;
-            }else{
-                return (PimsPathologySample)query.list().get(0);
-            }
-        }
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologySample where sampleid = " + id);
+        Object o = getSession().createQuery(sb.toString()).uniqueResult();
+        if (o == null) return null;
+        return (PimsPathologySample)o;
     }
 
     /**
@@ -325,8 +320,9 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
      */
     @Override
     public List<PimsPathologySlide> getWhitePiece(String paraffincode, Long sampleId) {
-        String sql = " from PimsPathologySlide where slisampleid=:sampleId and sliparaffincode=:paraffincode and slislidetype=1 and sliuseflag=0";
-        Query query = getSession().createQuery(sql);
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologySlide where slisampleid=:sampleId and sliparaffincode=:paraffincode and slislidetype=1 and sliuseflag=0");
+        Query query = getSession().createQuery(sb.toString());
         query.setParameter("sampleId", sampleId);
         query.setParameter("paraffincode", paraffincode);
         return query.list();
@@ -334,8 +330,9 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
 
     @Override
     public void updateWhitePieceUsedFlag(String paraffincode, Long sampleId, Long num) {
-        String hql = " update PimsPathologySlide set sliuseflag=1 where slisampleid=:sampleId and sliparaffincode=:paraffincode and rownum<=:num";
-        Query query = getSession().createQuery(hql);
+        StringBuffer sb = new StringBuffer();
+        sb.append(" update PimsPathologySlide set sliuseflag=1 where slisampleid=:sampleId and sliparaffincode=:paraffincode and rownum<=:num");
+        Query query = getSession().createQuery(sb.toString());
         query.setParameter("sampleId", sampleId);
         query.setParameter("paraffincode", paraffincode);
         query.setParameter("num", num);
@@ -344,7 +341,9 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
 
     @Override
     public PimsPathologySlide getSlideByParaffinId(long chiparaffinid) {
-        Query query = getSession().createQuery("from PimsPathologySlide where sliparaffinid=:chiparaffinid and rownum=1 order by slideid desc");
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologySlide where sliparaffinid=:chiparaffinid and rownum=1 order by slideid desc");
+        Query query = getSession().createQuery(sb.toString());
         query.setParameter("chiparaffinid", chiparaffinid);
         return (PimsPathologySlide) query.uniqueResult();
     }

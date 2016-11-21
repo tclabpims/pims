@@ -108,15 +108,13 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
      */
     @Override
     public PimsPathologySample getBySampleNo(Long id) {
-        if(id == null){
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologySample where sampleid = "+ id);
+        Query query = getSession().createQuery(sb.toString());
+        if(query.list() == null || query.list().size() != 1){
             return null;
         }else{
-            Query query = getSession().createQuery("from PimsPathologySample where sampleid = "+ id);
-            if(query.list() == null || query.list().size() != 1){
-                return null;
-            }else{
-                return (PimsPathologySample)query.list().get(0);
-            }
+            return (PimsPathologySample)query.list().get(0);
         }
     }
     /**
@@ -391,8 +389,9 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
 
     @Override
     public PimsPathologyParaffin getPimsPathologyParaffin(long sampleId, String paraffinCode) {
-        String hql = " from PimsPathologyParaffin where parsampleid=:sampleId and parparaffincode=:paraffinCode";
-        Query query = getSession().createQuery(hql);
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyParaffin where parsampleid=:sampleId and parparaffincode=:paraffinCode");
+        Query query = getSession().createQuery(sb.toString());
         query.setParameter("sampleId", sampleId);
         query.setParameter("paraffinCode", paraffinCode);
         return (PimsPathologyParaffin) query.list().get(0);

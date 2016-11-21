@@ -1,4 +1,6 @@
 var NOW_LOGYID = $("#logylibid").val();
+var LASTEDITROW = "";
+var LASTEDITCELL = "";
 /**
  * 回车事件
  * @param obj
@@ -165,8 +167,16 @@ function saveInfo1(post,arrs,rowdatas) {
 
 }
 function saveInfo() {
+	$("#new1").jqGrid("saveCell",LASTEDITROW,LASTEDITCELL);
 	var rowdatas = $('#new1').jqGrid('getRowData');
 	var post = true;
+	jQuery(rowdatas).each(function(){
+		if(this.reqmsamplingparts == null || this.reqmsamplingparts == "" || this.reqmmaterialtype == null || this.reqmmaterialtype == ""){
+			post = false;
+			layer.msg("请补充完整组织信息！", {icon: 2, time: 1000});
+			return false;
+		}
+	});
 	var arrs = new Array();
 	$.ajax({
 		type:'get',
@@ -220,6 +230,10 @@ function createNew1(reqid){
 			{name:'reqmcreateuser',hidden:true},//录入人员
 			{name:'reqmcreatetime',hidden:true}//录入时间
         ],
+		beforeEditCell: function (rowid, cellname, value, iRow, iCol) {
+			LASTEDITROW = iRow;
+			LASTEDITCELL = iCol;
+		},
         loadComplete : function() {
             var table = this;
             setTimeout(function(){

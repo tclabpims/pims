@@ -17,26 +17,34 @@ function changeimgclick(num) {//1切片 取消包埋
 			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
 			document.getElementById("saveButton").attachEvent("onclick",saveInfo);
 			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
+			document.getElementById("printslide").detachEvent("onclick",printCode);
 		} else {
 			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
 			document.getElementById("saveButton").addEventListener("click",saveInfo,false);
 			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
+			document.getElementById("printslide").removeEventListener("onclick",printCode,false);
 		}
 		$("#saveButton").css("cursor","pointer");
 		$("#resetbutton").css("cursor","default");
+		$("#printslide").css("cursor","default");
 	}else{
 		nowrow = 2;
 		if (typeof document.addEventListener == "undefined") {
 			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
 			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
 			document.getElementById("resetbutton").attachEvent("onclick",saveInfo);
+			document.getElementById("printslide").detachEvent("onclick",printCode);
+			document.getElementById("printslide").attachEvent("onclick",printCode);
 		} else {
 			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
 			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
 			document.getElementById("resetbutton").addEventListener("click",saveInfo,false);
+			document.getElementById("printslide").removeEventListener("click",printCode,false);
+			document.getElementById("printslide").addEventListener("click",printCode,false);
 		}
 		$("#saveButton").css("cursor","default");
 		$("#resetbutton").css("cursor","pointer");
+		$("#printslide").css("cursor","pointer");
 	}
 }
 /**
@@ -637,56 +645,23 @@ function Setup() {//打印维护
 }
 function CreateDataBill(data) {
 	if(data && data!=null){
-		var sex = "";
-		if(data.sampatientsex == '0'){sex = '男'}else if(data.sampatientsex == '1'){sex = '女'}else{sex = '未知'}
-		var ageUnit = "";
-		if(data.sampatientagetype == '1'){
-			ageUnit = "岁";
-		}else if(data.sampatientagetype == '2'){
-			ageUnit = "月";
-		}else if(data.sampatientagetype == '4'){
-			ageUnit = "周";
-		}else if(data.sampatientagetype == '5'){
-			ageUnit = "日";
-		}else if(data.sampatientagetype == '6'){
-			ageUnit = "小时";
-		}
 		LODOP = getLodop();
 		LODOP.PRINT_INIT("");
-		LODOP.SET_PRINT_PAGESIZE(0,520,400,"A4");
-		// LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
-		LODOP.ADD_PRINT_TEXT(10,100,230,35,"树兰（杭州）医院");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
-		LODOP.ADD_PRINT_TEXT(45,100,230,35,"浙江大学国际医院");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
-		LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
-		LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXTA("nameText","33.00mm","12.46mm",45,20,"姓名：");
-		LODOP.ADD_PRINT_TEXTA("name","33.00mm","23.31mm",90,20,data.sampatientname);
+		LODOP.SET_PRINT_PAGESIZE(0,250,150,"CreateCustomPage");
+		LODOP.ADD_PRINT_TEXT("2mm","0.5mm","235mm","10mm","树兰（杭州）医院");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("sexText","33.00mm","46.86mm",45,20,"性别：");
-		LODOP.ADD_PRINT_TEXTA("sex","33.00mm","58.5mm",30,20,sex);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("ageText","33.00mm","65.91mm",45,20,"年龄：");
-		LODOP.ADD_PRINT_TEXTA("age","33.00mm","77.55mm",40,20,data.sampatientage + ageUnit);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("examText","38.00mm","5.85mm",70,20,"临床诊断：");
-		LODOP.ADD_PRINT_TEXTA("exam","38.00mm","23.31mm",300,20,data.sampatientdignoses);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("requestTimeText","43.00mm","5.85mm",70,20,"申请时间：");
-		LODOP.ADD_PRINT_TEXTA("requestTime","43.00mm","23.31mm",300,20,data.samreqtime);
-		LODOP.ADD_PRINT_TEXTA("requesterText","48.00mm","5.85mm",70,20,"送检时间：");
-		LODOP.ADD_PRINT_TEXTA("requester","48.00mm","23.31mm",300,20,data.samsendtime);
-		LODOP.ADD_PRINT_TEXTA("executeTimeText","53.00mm","5.85mm",70,20,"登记时间：");
-		LODOP.ADD_PRINT_TEXTA("executeTime","53.00mm","23.31mm",300,20,data.samregisttime);
-
+		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
+		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
+		LODOP.ADD_PRINT_TEXTA("nameText","6mm","0.5mm","235mm","10mm","201600000001-1/1");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
 	}
 }
 function startPrint(data) {
 	CreateDataBill(data);
 	//开始打印
-	LODOP.PRINT();
-//LODOP.PREVIEW();
+	//LODOP.PRINT();
+LODOP.PREVIEW();
 }
 
 

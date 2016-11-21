@@ -34,7 +34,7 @@
 	<div class="div_1" id="div_1">
 		<div class="div_div"><img src="/styles/imagepims/slide.png" class="div_img"   id="saveButton">切片</div>
 		<div class="div_div"><img src="/styles/imagepims/cancleslide.png" class="div_img"  id="resetbutton">取消切片</div>
-		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()" >打印</div>
+		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" id="printslide" >打印</div>
 	</div>
 	<h5 style="float: left;font-size: 14px;width: 34%"><strong>&nbsp;<img src="/styles/imagepims/worklist.png">&nbsp;&nbsp;工作列表</strong></h5>
 	<h5 style="font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/slidemarage.png">&nbsp;&nbsp;切片管理</strong></h5>

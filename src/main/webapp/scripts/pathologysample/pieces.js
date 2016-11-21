@@ -3,6 +3,8 @@ var nowrow = "";
 var GRID_SELECTED_ROW_SAMPLEID = "";
 var GRID_SELECTED_ROW_SAMPCUSTOMERID = "";
 var PIC_TAKING_FROM = 1;
+var LASTEDITROW1 = "";
+var LASTEDITCELL1 = "";
 /**
  * 设置颜色
  * @param id
@@ -54,6 +56,7 @@ function downSample() {
  * 取材
  */
 function saveInfo(num) {
+	$("#new1").jqGrid("saveCell",LASTEDITROW1,LASTEDITCELL1);
 	var rowdatas = $('#new1').jqGrid('getRowData');
 	if(rowdatas == null || rowdatas == ""){
 		alert("请录入材块信息！！");
@@ -283,8 +286,10 @@ function createNew1(reqid,width1){
 		},
 		beforeEditCell:function(rowid,cellname,v,iRow,iCol){
 			//canChange(rowid,1);
+			LASTEDITROW1 = iRow;
+			LASTEDITCELL1 = iCol;
 			var rec = jQuery("#new1").jqGrid('getRowData', rowid);
-			if (rec.piestate > "0") {
+			if (rec.piestate > "0" || rec.piefirstn != "") {
 				setTimeout(function () {
 					jQuery("#new1").jqGrid('restoreCell', iRow, iCol);
 					//===>或者设置为只读
@@ -461,7 +466,7 @@ function delRow(){
 		}else{
 			var rowData = $("#new1").jqGrid('getRowData',maxId);
 			if(rowData.pieceid == null || rowData.pieceid == ""){
-				return false;
+				$("#new1").jqGrid("delRowData", maxId);
 			}else {
 				$.get("../pathologysample/pieces/canchange", {
 						id: rowData.pieceid,
@@ -487,7 +492,7 @@ function delRow(){
 				var delrow = this.toString();
 				var rowData = $("#new1").jqGrid('getRowData',delrow);
 				if(rowData.pieceid == null || rowData.pieceid == ""){
-					return false;
+					$("#new1").jqGrid("delRowData", delrow);
 				}else {
 					$.get("../pathologysample/pieces/canchange", {
 							id: rowData.pieceid,
@@ -750,7 +755,7 @@ function CreateDataBill(data) {
 		}
 		LODOP = getLodop();
 		LODOP.PRINT_INIT("");
-		LODOP.SET_PRINT_PAGESIZE(0,520,400,"A4");
+		LODOP.SET_PRINT_PAGESIZE(0,250,150,"CreateCustomPage");
 		// LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
 		LODOP.ADD_PRINT_TEXT(10,100,230,35,"树兰（杭州）医院");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);

@@ -120,7 +120,9 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         if(id == null){
             return null;
         }else{
-            Query query = getSession().createQuery("from PimsPathologySample where sampleid = "+ id);
+            StringBuffer sb = new StringBuffer();
+            sb.append("from PimsPathologySample where sampleid = "+ id);
+            Query query = getSession().createQuery(sb.toString());
             if(query.list() == null || query.list().size() != 1){
                 return null;
             }else{
@@ -197,7 +199,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
             }
         }else if(sts.equals("2")){
             String sql =  "select count(1) from pims_pathology_pieces a,pims_pathology_sample b where b.sampleid = a.piesampleid and " +
-                    " a.pieisembed = 0 and a.pieceid = "+ id;
+                    " a.pieisembed = 0 and a.piefirstn is null and  a.pieceid = "+ id;
             if(countTotal(sql).intValue() == 1){
                 return true;
             }
@@ -277,14 +279,18 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
 
     @Override
     public List<PimsPathologyPieces> getPiecesByOrderId(long orderId) {
-        Query query = getSession().createQuery("from PimsPathologyPieces where piefirstn=:orderId");
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologyPieces where piefirstn=:orderId");
+        Query query = getSession().createQuery(sb.toString());
         query.setParameter("orderId", orderId);
         return query.list();
     }
 
     @Override
     public PimsPathologyPieces getPieceBySampleId(long ordsampleid) {
-        Query query = getSession().createQuery("from PimsPathologyPieces where piesampleid=:ordsampleid and rownum=1 and PieDoctorId is not null");
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologyPieces where piesampleid=:ordsampleid and rownum=1 and PieDoctorId is not null");
+        Query query = getSession().createQuery(sb.toString());
         query.setParameter("ordsampleid", ordsampleid);
         return (PimsPathologyPieces) query.uniqueResult();
     }

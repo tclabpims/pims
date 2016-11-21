@@ -102,16 +102,11 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
      */
     @Override
     public PimsPathologySample getBySampleNo(Long id) {
-        if (id == null) {
-            return null;
-        } else {
-            Query query = getSession().createQuery("from PimsPathologySample where sampleid = " + id);
-            if (query.list() == null || query.list().size() != 1) {
-                return null;
-            } else {
-                return (PimsPathologySample) query.list().get(0);
-            }
-        }
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologySample where sampleid = " + id);
+        Object o = getSession().createQuery(sb.toString()).uniqueResult();
+        if (o == null) return null;
+        return (PimsPathologySample)o;
     }
 
     /**

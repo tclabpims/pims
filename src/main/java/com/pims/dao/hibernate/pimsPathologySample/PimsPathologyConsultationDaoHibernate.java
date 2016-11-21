@@ -81,8 +81,10 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
      */
     @Override
     public List<PimsSampleResult> getSampleResultList(Long id) {
-        String sql = " from PimsSampleResult where  ressampleid = "+ id;
-        return getSession().createQuery(sql).list();
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(" from PimsSampleResult where  ressampleid = "+ id);
+        return getSession().createQuery(sb.toString()).list();
     }
 
     /**
@@ -102,8 +104,9 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
      */
     @Override
     public List<PimsConsultationDetail> getConDets(Long id) {
-        String sql = " from PimsConsultationDetail where detconsultationid ="+ id+" order by detadvice asc,detconsultationtime desc";
-        return getSession().createQuery(sql).list();
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsConsultationDetail where detconsultationid ="+ id+" order by detadvice asc,detconsultationtime desc");
+        return getSession().createQuery(sb.toString()).list();
     }
 
     /**
@@ -113,8 +116,9 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
      */
     @Override
     public PimsPathologyConsultation getConsInfo(Long id) {
-        String sql = " from  PimsPathologyConsultation where consampleid = "+ id;
-        Object o = getSession().createQuery(sql).uniqueResult();
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from  PimsPathologyConsultation where consampleid = "+ id);
+        Object o = getSession().createQuery(sb.toString()).uniqueResult();
         if(o==null) return null;
         return (PimsPathologyConsultation)o;
     }
