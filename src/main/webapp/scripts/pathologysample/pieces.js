@@ -696,34 +696,15 @@ function printCode() {
 	$.each(ids, function (key, val) {
 		var rowData = $("#new").jqGrid("getRowData", ids[key]);
 		saveDatas.push(rowData);
-		startPrint(rowData);
+		//startPrint(rowData);
 	});
-	// $.ajax({
-	// 	type: "POST",
-	// 	async: false,
-	// 	url: "../nursestation/inexecute/printRequestList",
-	// 	dataType: "json",
-	// 	contentType: "application/json",
-	// 	data: JSON.stringify(saveDatas),
-	// 	success: function (data) {
-	// 		var printDatas = data.printOrders
-	// 		var noPrintDatas = data.noPrintOrders;
-	// 		for (i = 0; i < printDatas.length; i++) {
-	// 			startPrint(printDatas[i]);
-	// 		}
-	// 		for (i = 0; i < noPrintDatas.length; i++) {
-	//
-	// 		}
-	// 	}
-	//
-	// });
-	//刷新当前节点数据
-	// var zTree = $.fn.zTree.getZTreeObj("tree");
-	// var nodes = zTree.getSelectedNodes();
-	// if (nodes.length > 0) {
-	// 	zTree.selectNode(nodes[0]);
-	// 	zTree.setting.callback.onClick(null, zTree.setting.treeId, nodes[0]);//调用事件
-	// }
+	$.post("../pathologysample/pieces/printcode",{samples:JSON.stringify(saveDatas)},function(data){
+		data = jQuery.parseJSON(data);
+		startPrint(data);
+		// for(i=0;i<data.labOrders.length;i++){
+		// 	startPrint(data.labOrders[i]);
+		// }
+	});
 }
 
 var LODOP; //声明为全局变量
@@ -739,56 +720,55 @@ function Setup() {//打印维护
 }
 function CreateDataBill(data) {
 	if(data && data!=null){
-		var sex = "";
-		if(data.sampatientsex == '0'){sex = '男'}else if(data.sampatientsex == '1'){sex = '女'}else{sex = '未知'}
-		var ageUnit = "";
-		if(data.sampatientagetype == '1'){
-			ageUnit = "岁";
-		}else if(data.sampatientagetype == '2'){
-			ageUnit = "月";
-		}else if(data.sampatientagetype == '4'){
-			ageUnit = "周";
-		}else if(data.sampatientagetype == '5'){
-			ageUnit = "日";
-		}else if(data.sampatientagetype == '6'){
-			ageUnit = "小时";
+		var divhtml = "<table border=\"1\" style=\"font-size:14px;border-collapse:collapse;border:solid 1px\" bordercolor=\"#000000\">";
+		divhtml +="<tr>" +
+					"<td>病理编号</td>" +
+					"<td>是否全取</td>" +
+					"<td>是否脱钙</td>" +
+					"<td>巨检所见</td>" +
+					"<td>取材序号</td>" +
+					// "<td>材块数</td>" +
+					"<td>白片数</td>" +
+					"<td>取材部位</td>" +
+					"<td>取材医生</td>" +
+					// "<td>录入员</td>" +
+					"<td>取材时间</td>" +
+					"<td>特殊要求</td>" +
+				"</tr>";
+		for(i=0;i<data.labOrders.length;i++){
+			var datas = data.labOrders[i];
+			var samjjsj =  datas.samjjsj==undefined?"":datas.piespecial;
+			var piespecial =  datas.piespecial==undefined?"":datas.piespecial;
+			var pieparts = datas.pieparts==undefined?"":datas.pieparts;
+			divhtml +="<tr>" +
+						"<td>"+datas.piepathologycode+"</td>" +
+						"<td>"+datas.samissamplingall+"</td>" +
+						"<td>"+datas.samisdecacified+"</td>" +
+						"<td>"+samjjsj+"</td>" +
+						"<td>"+datas.piesamplingno+"</td>" +
+						// "<td>"+datas.piecounts+"</td>" +
+						"<td>"+datas.pienullslidenum+"</td>" +
+						"<td>"+pieparts+"</td>" +
+						"<td>"+datas.piedoctorname+"</td>" +
+						// "<td>"+datas.pierecordername+"</td>" +
+						"<td>"+datas.piesamplingtime+"</td>" +
+						"<td>"+piespecial+"</td>" +
+				     "</tr>";
 		}
+		divhtml += "</table>";
 		LODOP = getLodop();
 		LODOP.PRINT_INIT("");
-		LODOP.SET_PRINT_PAGESIZE(0,250,150,"CreateCustomPage");
-		// LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
-		LODOP.ADD_PRINT_TEXT(10,100,230,35,"树兰（杭州）医院");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
-		LODOP.ADD_PRINT_TEXT(45,100,230,35,"浙江大学国际医院");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",20);
-		LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
-		LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXTA("nameText","33.00mm","12.46mm",45,20,"姓名：");
-		LODOP.ADD_PRINT_TEXTA("name","33.00mm","23.31mm",90,20,data.sampatientname);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("sexText","33.00mm","46.86mm",45,20,"性别：");
-		LODOP.ADD_PRINT_TEXTA("sex","33.00mm","58.5mm",30,20,sex);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("ageText","33.00mm","65.91mm",45,20,"年龄：");
-		LODOP.ADD_PRINT_TEXTA("age","33.00mm","77.55mm",40,20,data.sampatientage + ageUnit);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("examText","38.00mm","5.85mm",70,20,"临床诊断：");
-		LODOP.ADD_PRINT_TEXTA("exam","38.00mm","23.31mm",300,20,data.sampatientdignoses);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		LODOP.ADD_PRINT_TEXTA("requestTimeText","43.00mm","5.85mm",70,20,"申请时间：");
-		LODOP.ADD_PRINT_TEXTA("requestTime","43.00mm","23.31mm",300,20,data.samreqtime);
-		LODOP.ADD_PRINT_TEXTA("requesterText","48.00mm","5.85mm",70,20,"送检时间：");
-		LODOP.ADD_PRINT_TEXTA("requester","48.00mm","23.31mm",300,20,data.samsendtime);
-		LODOP.ADD_PRINT_TEXTA("executeTimeText","53.00mm","5.85mm",70,20,"登记时间：");
-		LODOP.ADD_PRINT_TEXTA("executeTime","53.00mm","23.31mm",300,20,data.samregisttime);
+		LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4") ; //A4纸张纵向打印
+		LODOP.SET_PRINT_STYLE("FontSize", 9);
+		LODOP.ADD_PRINT_HTM(10,55,"100%","100%",divhtml);
 
 	}
 }
 function startPrint(data) {
 	CreateDataBill(data);
 	//开始打印
-	LODOP.PRINT();
-//LODOP.PREVIEW();
+	// LODOP.PRINT();
+	LODOP.PREVIEW();
 }
 
 

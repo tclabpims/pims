@@ -93,4 +93,9 @@ public class PimsPathologySlideManagerImpl extends GenericManagerImpl<PimsPathol
     public PimsPathologySlide getSlideByParaffinId(long chiparaffinid) {
         return pimsPathologySlideDao.getSlideByParaffinId(chiparaffinid);
     }
+
+    @Override
+    public JSONArray getSlideCode(JSONArray samplesList) {
+        return pimsPathologySlideDao.getSlideCode(samplesList);
+    }
 }

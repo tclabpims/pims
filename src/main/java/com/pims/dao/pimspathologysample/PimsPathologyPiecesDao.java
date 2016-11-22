@@ -76,4 +76,10 @@ public interface PimsPathologyPiecesDao extends GenericDao<PimsPathologyPieces,L
     List<PimsPathologyPieces> getPiecesByOrderId(long orderId);
 
     PimsPathologyPieces getPieceBySampleId(long ordsampleid);
+    /**
+     * 获取打印列表
+     * @param samplesList
+     * @return
+     */
+    JSONArray getSlideCode(JSONArray samplesList);
 }

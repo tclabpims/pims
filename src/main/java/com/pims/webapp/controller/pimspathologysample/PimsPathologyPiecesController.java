@@ -201,4 +201,17 @@ public class PimsPathologyPiecesController extends PIMSBaseController{
         PrintwriterUtil.print(response, o.toString());
     }
 
+    @RequestMapping(value = "/printcode*", method = RequestMethod.POST)
+    public String getPatient(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        org.codehaus.jettison.json.JSONObject o = new org.codehaus.jettison.json.JSONObject();
+        String samples = request.getParameter("samples");
+        JSONArray samplesList = JSON.parseArray(samples);
+
+        JSONArray array = pimsPathologyPiecesManager.getSlideCode(samplesList);
+        o.put("labOrders", array);
+        response.setContentType("name/html; charset=UTF-8");
+        response.getWriter().write(o.toString());
+        return null;
+    }
+
 }

@@ -7,6 +7,7 @@ import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jettison.json.JSONException;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -152,24 +153,45 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         StringBuffer sb = new StringBuffer();
         if(sts == 3){//切片
+            long sampleid = 0;//标本ID
+            int peicenums = 0;//正常取材数量
+            String slideCode = "";//玻片条码
             for(int i=0;i<paraList.size();i++){//更新蜡块为已切片
                 Map map = (Map) paraList.get(i);
                 PimsPathologyParaffin para = (PimsPathologyParaffin) setBeanProperty(map,PimsPathologyParaffin.class);
                 sb = new StringBuffer();
                 sb.append(" from PimsPathologyParaffin where paraffinid = " + para.getParaffinid());
                 para = (PimsPathologyParaffin)getSession().createQuery(sb.toString()).uniqueResult();
+                //查询材块数量
+                if(sampleid != para.getParsampleid()){
+                    sampleid = para.getParsampleid();
+                    sb = new StringBuffer();
+                    sb.append("select count(1) from pims_pathology_pieces where piefirstn is null and piesampleid = "+ para.getParsampleid());
+                    peicenums = countTotal(sb.toString());
+                }
+                //查询材块是不是补取
+                sb = new StringBuffer();
+                sb.append(" from PimsPathologyPieces where piefirstn is not null and pieceid =" + para.getParpieceids());
+                Object o = getSession().createQuery(sb.toString()).uniqueResult();
+                if(o == null){//不是补取
+                    slideCode = para.getParparaffincode()+"/"+ peicenums;
+                }else{//是补取
+                    PimsPathologyPieces piece = (PimsPathologyPieces)o;
+                    int num = Integer.valueOf(piece.getPiesamplingno()) - peicenums;
+                    slideCode = para.getParparaffincode()+"补取"+ num;
+                }
                 //切片
                 //先切正常片
                 PimsPathologySlide slide = new PimsPathologySlide();
                 slide.setSlisampleid(para.getParsampleid());//样本号
                 slide.setSlicustomerid(user.getHospitalId());//客户代码
-                slide.setSlislidebarcode("");//玻片条码号
+                slide.setSlislidebarcode(slideCode);//玻片条码号
                 slide.setSlipathologycode(para.getParpathologycode());//病理编号
                 slide.setSlislidetype(0);//玻片类型(0常规 1白片)
                 slide.setSlislidesource(new Long(0));//玻片类型(0来自正常取材 1来自内部医嘱,3直接登记（如Tct）)
                 slide.setSliuseflag(new Long(0));//玻片使用状态(0未使用,1已使用)
                 slide.setSlislideno("1");//玻片序号
-                slide.setSlislidecode(para.getParparaffincode()+"-1");//玻片号
+                slide.setSlislidecode(slideCode);//玻片号
                 slide.setSliparaffinid(para.getParaffinid());//蜡块Id
                 slide.setSliparaffinno(para.getParparaffinno());//蜡块序号
                 slide.setSliparaffincode(para.getParparaffincode());//蜡块编号
@@ -348,11 +370,7 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         return (PimsPathologySlide) query.uniqueResult();
     }
 
-    /**
-     * 切片或取消片，更新蜡块信息，并更新标本信息
-     * @param slideList 切片列表,paraList 蜡块列表,sts 状态,state 逻辑更新标志,sampleList 标本列表
-     * @return
-     */
+
 //    @Override
 //    public boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state) {
 //        StringBuffer sb = new StringBuffer();
@@ -455,4 +473,41 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
 //        }
 //        return false;
 //    }
+
+    @Override
+    public JSONArray getSlideCode(JSONArray samplesList) {
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JSONArray  array = new JSONArray();
+        if(samplesList == null || samplesList.size() == 0){
+            return array;
+        }else{
+            StringBuffer sb = new StringBuffer();
+            sb.append(" from PimsPathologySlide where slislidetype = 0 and sliparaffinid = :sliparaffinid");
+            Query query = getSession().createQuery(sb.toString());
+            for(int i=0;i<samplesList.size();i++){
+                Map map = (Map) samplesList.get(i);
+                PimsPathologyParaffin para = (PimsPathologyParaffin) setBeanProperty(map,PimsPathologyParaffin.class);
+                query.setLong("sliparaffinid",para.getParaffinid());
+                PimsPathologySlide slide = (PimsPathologySlide) query.uniqueResult();
+                org.codehaus.jettison.json.JSONObject object = new org.codehaus.jettison.json.JSONObject();
+                try {
+                    object.put("barcode",slide.getSlislidebarcode());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(slide.getSliifprint() == 1){
+                    slide.setSliprinttimes(String.valueOf(Integer.valueOf(slide.getSliprinttimes())+1));
+                }else{
+                    slide.setSliprinttimes("1");
+                    slide.setSliifprint(1);
+                    slide.setSliprinttime(new Date());
+                    slide.setSliprintuser(String.valueOf(user.getId()));
+                }
+                pimsPathologySlideManager.save(slide);
+                array.add(object);
+            }
+        }
+
+        return array;
+    }
 }

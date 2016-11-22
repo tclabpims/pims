@@ -6,15 +6,18 @@ import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.*;
 import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
+import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jettison.json.JSONException;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -293,5 +296,52 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         Query query = getSession().createQuery(sb.toString());
         query.setParameter("ordsampleid", ordsampleid);
         return (PimsPathologyPieces) query.uniqueResult();
+    }
+
+    @Override
+    public JSONArray getSlideCode(JSONArray samplesList) {
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JSONArray  array = new JSONArray();
+        if(samplesList == null || samplesList.size() == 0){
+            return array;
+        }else{
+            StringBuffer sb = new StringBuffer();
+            sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid and piesampleid in (");
+            for(int i=0;i<samplesList.size();i++){
+                Map map = (Map) samplesList.get(i);
+                PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                sb.append(sample.getSampleid());
+                if(i<samplesList.size()-1){
+                    sb.append(",");
+                }
+            }
+            sb.append(") order by piecode");
+            List list = getSession().createQuery(sb.toString()).list();
+            for(Object o : list){
+                org.codehaus.jettison.json.JSONObject object = new org.codehaus.jettison.json.JSONObject();
+                Object[] oo = (Object[]) o;
+                PimsPathologyPieces piece = (PimsPathologyPieces) oo[0];
+                PimsPathologySample sam = (PimsPathologySample) oo[1];
+                try {
+                    object.put("piepathologycode",piece.getPiepathologycode());//病理编号
+                    object.put("samissamplingall",sam.getSamissamplingall()==0?"否":"是");//是否全取
+                    object.put("samisdecacified",sam.getSamisdecacified()==0?"否":"是");//是否脱钙
+                    object.put("samjjsj",sam.getSamjjsj());//巨检所见
+                    object.put("piesamplingno",piece.getPiesamplingno());//取材序号
+                    object.put("piecounts",piece.getPiecounts());//材块数
+                    object.put("pienullslidenum",piece.getPienullslidenum());//白片数
+                    object.put("pieparts",piece.getPieparts());//取材部位
+                    object.put("piedoctorname",piece.getPiedoctorname());//取材医生
+                    object.put("pierecordername",piece.getPierecordername());//录入员
+                    object.put("piesamplingtime", Constants.SDF.format(piece.getPiesamplingtime()));//取材时间
+                    object.put("piespecial",piece.getPiespecial());//特殊要求
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                array.add(object);
+            }
+        }
+
+        return array;
     }
 }

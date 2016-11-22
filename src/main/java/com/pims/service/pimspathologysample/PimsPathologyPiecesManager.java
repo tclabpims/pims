@@ -78,4 +78,10 @@ public interface PimsPathologyPiecesManager extends GenericManager<PimsPathology
     List<PimsPathologyPieces> getPiecesByOrderId(long orderId);
 
     PimsPathologyPieces getPieceBySampleId(long ordsampleid);
+    /**
+     * 获取打印列表
+     * @param samplesList
+     * @return
+     */
+    JSONArray getSlideCode(JSONArray samplesList);
 }

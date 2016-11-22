@@ -159,4 +159,9 @@ public class PimsPathologyPiecesManagerImpl extends GenericManagerImpl<PimsPatho
 
         return pimsPathologyPiecesDao.getPieceBySampleId(ordsampleid);
     }
+
+    @Override
+    public JSONArray getSlideCode(JSONArray samplesList) {
+        return pimsPathologyPiecesDao.getSlideCode(samplesList);
+    }
 }
