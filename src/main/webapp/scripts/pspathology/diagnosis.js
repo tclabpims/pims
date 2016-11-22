@@ -989,12 +989,7 @@ function setSelect(c) {
     var o = jQuery("#sectionList");
     var total = o.jqGrid('getGridParam', 'reccount'); //获取当前页面的总记录数量
     if (total == 0) return false;
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
     c = parseInt(c);
-    if (id == null || id.length == 0) {
-        $("#sectionList").jqGrid('setSelection', crno);
-        return;
-    }
     if (c == 0) {
         if (crno > 1) {
             crno = crno - 1;
@@ -1003,7 +998,7 @@ function setSelect(c) {
         if (crno + 1 > total) crno = total;
         else crno = crno + 1;
     }
-    $("#sectionList").jqGrid('setSelection', crno);
+    onRowSelect(crno);
 }
 
 function buttonFormat(cellval, options, pos, cnt) {
@@ -1181,6 +1176,24 @@ function delRow() {
     }
 }
 
+function setcolor(id){
+    var ids = $("#sectionList").getDataIDs();
+    $.each(ids, function (key, val) {
+        $("#sectionList").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+    });
+    $("#sectionList").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
+
+function onRowSelect(id) {
+    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    if (rowData != null && rowData.sampleid != null && rowData.sampleid != "")
+        GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
+    GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
+    getOrderTabs(rowData.sampleid);
+    setcolor(id);
+    crno = id;
+}
+
 $(function () {
     $(window).on('resize.jqGrid', function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
@@ -1194,12 +1207,8 @@ $(function () {
         mtype: "GET",
         datatype: "json",
         width: $('.leftContent').width(),
-        colNames: ['选择', '病理状态', '病理号', '送检医生', 'id', 'samcustomerid', 'sampathologyid'],
+        colNames: [ '病理状态', '病理号', '送检医生', 'id', 'samcustomerid', 'sampathologyid'],
         colModel: [
-            {
-                name: 'matsort', index: 'matsort', width: 20, align: "center",
-                formatter: "checkbox", formatoptions: {disabled: false}
-            },
             {
                 name: 'sampathologystatus',
                 index: 'sampathologystatus',
@@ -1221,6 +1230,10 @@ $(function () {
         },
         ondblClickRow: function (id) {
         },
+        beforeSelectRow: function (rowid, e) {
+            return $(e.target).is('input[type=checkbox]');
+        },
+        multiselect:true,
         viewrecords: true,
         shrinkToFit: true,
         altRows: true,
@@ -1231,11 +1244,10 @@ $(function () {
         rownumWidth: 35, // the width of the row numbers columns
         pager: "#pager",
         onSelectRow: function (id) {
-            var rowData = $("#sectionList").jqGrid('getRowData', id);
-            if (rowData != null && rowData.sampleid != null && rowData.sampleid != "")
-                GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
-            GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
-            getOrderTabs(rowData.sampleid);
+
+        },
+        onCellSelect:function(id){
+            onRowSelect(id);
         }
     });
 

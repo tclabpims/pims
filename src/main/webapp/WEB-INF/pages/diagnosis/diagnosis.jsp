@@ -253,10 +253,6 @@
                                 <button onclick="query()"> 查询</button>
                             </div>
                             <div style="display:inline;">
-                                <div style="text-align: left">
-                                    <label for="selectAll">全选</label>
-                                    <input type="checkbox" name="selectAll" id="selectAll">
-                                </div>
                                 <div style="text-align: right">
                                     <div style="display:inline;text-align: right;">
                                         <button>抄送接收</button>
