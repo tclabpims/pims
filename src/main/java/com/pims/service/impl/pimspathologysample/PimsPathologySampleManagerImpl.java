@@ -5,8 +5,11 @@ import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.model.user.User;
 import com.smart.service.impl.GenericManagerImpl;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -34,6 +37,7 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     }
 
     private void setParameter(StringBuffer sql, PimsPathologySample sample) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long pathologyId = sample.getSampathologyid();
         long sampleStatus = sample.getSamsamplestatus();
         Date from = sample.getSamplesectionfrom();
@@ -41,6 +45,15 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
         String inspectionId = sample.getSaminspectionid();
         String pathologyCode = sample.getSampathologycode();
         String patientName = sample.getSampatientname();
+        String samfirstv = sample.getSamfirstv();
+        if(!StringUtils.isEmpty(samfirstv)){
+            if(samfirstv.equals("0")){
+                sql.append(" and p.sampleid in (select tassampleid from PimsPathologyTask where tastasktype = 0 and taspromoterid ='"+user.getId()+"')");
+            }else{
+                samfirstv = String.valueOf(Integer.valueOf(samfirstv)-1);
+                sql.append("and p.sampleid in (select tassampleid from PimsPathologyTask where tastasktype = 0 and tastaskstate = "+samfirstv+" and tasreciverid ='"+user.getId()+"')");
+            }
+        }
         if (sampleStatus > 0) {
             sql.append("and p.samsamplestatus=:SamSampleStatus ");
         }

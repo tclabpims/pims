@@ -47,4 +47,9 @@ public class PimsPathologyTaskManagerImpl extends GenericManagerImpl<PimsPatholo
     public boolean isExistsTask(int states, Long id) {
         return pimsPathologyTaskDao.isExistsTask(states,id);
     }
+
+    @Override
+    public JSONObject changeTask(String states, String taskstates, JSONArray taskList) {
+        return pimsPathologyTaskDao.changeTask(states,taskstates,taskList);
+    }
 }

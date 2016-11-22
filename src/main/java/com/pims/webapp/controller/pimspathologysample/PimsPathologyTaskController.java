@@ -146,6 +146,8 @@ public class PimsPathologyTaskController extends PIMSBaseController{
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String states = request.getParameter("states");
         String tasks = request.getParameter("tasks");
+        String userId = request.getParameter("userid");
+        String userName = request.getParameter("username");
         com.alibaba.fastjson.JSONArray taskList = JSON.parseArray(tasks);
         for(int i=0;i<taskList.size();i++){
             Map map = (Map) taskList.get(i);
@@ -158,10 +160,12 @@ public class PimsPathologyTaskController extends PIMSBaseController{
                 task.setTaspathologycode(sample.getSampathologycode());//病理编号
                 task.setTastaskname("病理抄送");//任务名称
                 task.setTastasktype(Integer.parseInt(states));//任务类型(0初诊抄送,1初诊转发)
-                task.setTastaskstate(0);//任务状态
+                task.setTastaskstate(0);//任务状态(0已发送待接收1已接收待审核2已审核)
                 task.setTaspromoterid(String.valueOf(user.getId()));//发起人Id
                 task.setTaspromotername(user.getName());//发起人姓名
                 task.setTasfirstd(new Date());//发起时间
+                task.setTasreciverid(userId);//接收人ID
+                task.setTasrecivername(userName);//接收人姓名
                 pimsPathologyTaskManager.save(task);
             }else{
                 o.put("message", "标本不允许发起多次抄送！");
@@ -172,6 +176,26 @@ public class PimsPathologyTaskController extends PIMSBaseController{
         }
         o.put("message", "发起抄送成功！");
         o.put("success", true);
+        PrintwriterUtil.print(response, o.toString());
+        return  null;
+    }
+
+
+    /**
+     * 发起抄送
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/changetaskstates*", method = RequestMethod.POST)
+    public String changeTasks(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String states = request.getParameter("states");
+        String tasks = request.getParameter("tasks");
+        String taskstates = request.getParameter("taskstates");
+        com.alibaba.fastjson.JSONArray taskList = JSON.parseArray(tasks);
+        JSONObject o = pimsPathologyTaskManager.changeTask(states,taskstates,taskList);
         PrintwriterUtil.print(response, o.toString());
         return  null;
     }

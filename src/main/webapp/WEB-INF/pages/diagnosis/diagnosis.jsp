@@ -254,10 +254,10 @@
                             <div style="display:inline;">
                                 <div style="text-align: right">
                                     <div style="display:inline;text-align: right;">
-                                        <button>抄送接收</button>
+                                        <button onclick="receivecs(1)">抄送接收</button>
                                     </div>
                                     <div style="display:inline;text-align: right;">
-                                        <button>抄送取消</button>
+                                        <button onclick="receivecs(0)">抄送取消</button>
                                     </div>
                                 </div>
                             </div>
@@ -268,9 +268,9 @@
                                 <div style="display:inline;padding-right: 5px">
                                     <a href="#">全部</a>
                                 </div>
-                                <div style="display:inline;padding-right: 5px"><a href="#">已发抄送</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#">待收抄送</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#">待审抄送</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="queryList(0)">已发抄送</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="queryList(1)">待收抄送</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="queryList(2)">待审抄送</a></div>
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,7 @@ import org.hibernate.Query;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -164,5 +165,48 @@ public class PimsPathologyTaskDaoHibernate extends GenericDaoHibernate<PimsPatho
             return  true;
         }
         return false;
+    }
+
+    @Override
+    public JSONObject changeTask(String states, String taskstates, JSONArray taskList) {
+        JSONObject o = new JSONObject();
+        for(int i=0;i<taskList.size();i++) {
+            Map map = (Map) taskList.get(i);
+            PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map, PimsPathologySample.class);
+            StringBuffer sb = new StringBuffer();
+            sb.append("from PimsPathologyTask where tastasktype="+taskstates + " and tassampleid = "+sample.getSampleid());
+            Object obj = getSession().createQuery(sb.toString()).uniqueResult();
+            if(obj == null){
+                o.put("message", "查不到标本有抄送记录！");
+                o.put("success", false);
+                return o;
+            }else{
+                PimsPathologyTask task = (PimsPathologyTask) obj;
+                if(states.equals("1")){//抄送接收
+                    if(task.getTastaskstate() > 0){
+                        o.put("message", "该抄送已接收,无法重复接收！");
+                        o.put("success", false);
+                        return o;
+                    }else{
+                        sb = new StringBuffer();
+                        sb.append("update pims_pathology_task set tastaskstate = 1 where taskid ="+task.getTaskid());
+                        getSession().createSQLQuery(sb.toString()).executeUpdate();
+                    }
+                }else if(states.equals("0")){//取消抄送
+                    if(task.getTastaskstate() > 0){
+                        o.put("message", "该抄送已接收，无法取消抄送！");
+                        o.put("success", false);
+                        return o;
+                    }else{
+                        sb = new StringBuffer();
+                        sb.append("delete from  pims_pathology_task where taskid ="+task.getTaskid());
+                        getSession().createSQLQuery(sb.toString()).executeUpdate();
+                    }
+                }
+            }
+        }
+        o.put("message", "操作成功！");
+        o.put("success", true);
+        return o;
     }
 }

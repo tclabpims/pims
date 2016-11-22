@@ -838,6 +838,58 @@ function removePicture(pictureName) {
     });
 }
 
+function receivecs(num) {
+    var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    // var sampleid = $("#sampleid").val();
+    var arr = new Array();
+    if(selectedIds.length > 0){
+        $(selectedIds).each(function () {
+                var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+                arr.push(rowData1);
+            }
+        );
+    }else{
+        alert("请选择病理标本再发起抄送!");
+        return;
+    }
+    $.post("../task/task/changetaskstates", {
+            tasks:JSON.stringify(arr),
+            states:num,
+            taskstates:0
+        },
+        function(data) {
+            if(data.success) {
+                layer.msg(data.message, {icon: 1, time: 1000});
+                location.reload();
+            }else{
+                layer.msg(data.message, {icon: 2, time: 1000});
+                location.reload();
+            }
+        });
+}
+
+function queryList(num) {
+    var sampathologyid = $("#sampathologyid").val();
+    var samplesectionfrom = $("#samplesectionfrom").val();
+    var samplesectionto = $("#samplesectionto").val();
+    var saminspectionid = $("#saminspectionidq").val();
+    var sampathologycode = $("#sampathologycodeq").val();
+    var sampatientname = $("#sampatientnameq").val();
+    jQuery("#sectionList").jqGrid('setGridParam', {
+        datatype: 'json',
+        postData: {
+            "sampathologyid": sampathologyid,
+            "samplesectionfrom": samplesectionfrom,
+            "samplesectionto": samplesectionto,
+            "saminspectionid": saminspectionid,
+            "sampathologycode": sampathologycode,
+            "sampatientname": sampatientname,
+            "samfirstv":num
+        },
+        page: 1
+    }).trigger('reloadGrid');//重新载入
+}
+
 function query() {
     var sampathologyid = $("#sampathologyid").val();
     var samplesectionfrom = $("#samplesectionfrom").val();

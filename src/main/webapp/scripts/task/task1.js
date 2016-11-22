@@ -3,18 +3,30 @@
  */
 function csMarage() {
 	//判断该病理是否已经发起了抄送
-	var sampleid = $("#sampleid").val();
-	var states = "0";
-	if(sampleid == null || sampleid == ""){
+	var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+	// var sampleid = $("#sampleid").val();
+	var arr = new Array();
+	if(selectedIds.length > 0){
+		$(selectedIds).each(function () {
+				var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+				arr.push(rowData1);
+			}
+		);
+	}else{
 		alert("请选择病理标本再发起抄送!");
 		return;
 	}
+	var states = "0";
+	// if(sampleid == null || sampleid == ""){
+	// 	alert("请选择病理标本再发起抄送!");
+	// 	return;
+	// }
 	$.post("../task/task/isExistsTask", {
-			tasks:sampleid,
+			tasks:JSON.stringify(arr),
 			states:states
 		},
 		function(data) {
-			if(!data.success) {//已发起过抄送
+			if(data.success) {//已发起过抄送
 				layer.msg(data.message, {icon: 2,time: 1000});
 				return false;
 				//location.href='../consultation/cons.jsp?id='+ sampleid;
@@ -48,9 +60,9 @@ function csMarage() {
 									userid:rowData.id,
 									username:rowData.name,
 									// userlist:JSON.stringify(arr),
-									tasks:sampleid,
-									samcustomerid:$("#samcustomerid").val(),
-									sampathologycode:$("#sampathologycode").val()
+									tasks:JSON.stringify(arr)
+									// samcustomerid:$("#samcustomerid").val(),
+									// sampathologycode:$("#sampathologycode").val()
 								},
 								function(data) {
 									if(data.success) {

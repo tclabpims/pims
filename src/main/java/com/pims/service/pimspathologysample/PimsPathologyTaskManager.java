@@ -41,4 +41,11 @@ public interface PimsPathologyTaskManager extends GenericManager<PimsPathologyTa
      */
     boolean isExistsTask(int states,Long id);
 
+    /**
+     * 更改任务状态
+     * @param taskList
+     * @return
+     */
+    JSONObject changeTask(String states,String taskstates,com.alibaba.fastjson.JSONArray taskList);
+
 }
