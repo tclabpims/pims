@@ -18,7 +18,6 @@
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-datetimepicker.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/i18n/grid.locale-cn.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/jquery.jqGrid.js"/>"></script>
-    <script src="<c:url value='/scripts/ajaxfileupload.js'/>"></script>
     <script src="<c:url value='/scripts/LodopFuncs.js'/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/validform/Validform.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/layer/layer.js"/>"></script>
@@ -145,12 +144,6 @@
                                                                                     style="width: 120px"></div>
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 120px">
                                 <button onclick="query(-1)"> 查询</button></div>
-                            <div style="display:inline;">
-                                <div style="text-align: left">
-                                    <label for="selectAll">全选</label>
-                                    <input type="checkbox" name="selectAll" id="selectAll">
-                                </div>
-                            </div>
                             <div style="display:inline;">
                                 <div style="display:inline;padding-right: 5px">
                                     <a href="#" onclick="query(-1)">全部</a>

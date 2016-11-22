@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -364,8 +365,8 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 
     @RequestMapping(method = {RequestMethod.POST}, value = "/uploadimg")
     @ResponseBody
-    public Map<String, Object> multiFileUpload(HttpServletRequest request, @RequestParam MultipartFile[] imgFile, HttpServletResponse response) throws Exception {
-        Map<String, Object> map = new HashMap<>();
+    public DataResponse multiFileUpload(HttpServletRequest request, @RequestParam MultipartFile[] imgFile, HttpServletResponse response) throws Exception {
+        List<Map<String, Object>> lis = new ArrayList<>();
         String sampleId = request.getParameter("sampleid");
         String samCustomerId = request.getParameter("samcustomerid");
         Long picPictureClass = Long.valueOf(request.getParameter("picpictureclass"));
@@ -380,12 +381,16 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         if (uploadFiles.size() > 0) {
             for (File file : uploadFiles) {
                 PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), file, (filePath.list().length + 1), request, picPictureClass);
+                Map<String, Object> map = new HashMap<>();
                 map.put("name", pp.getPicpicturename());
                 map.put("src", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+"/"+customerFileDir + "/" + file.getName());
+                lis.add(map);
             }
         }
         response.setContentType(contentType);
-        return map;
+        DataResponse dr = new DataResponse();
+        dr.setRows(lis);
+        return dr;
     }
 
     @RequestMapping(method = {RequestMethod.POST}, value = "/saveSign")

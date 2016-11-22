@@ -132,21 +132,16 @@ function hideOrShow(orderType) {
 }
 
 function updateState(state) {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
+    if (crno == 0) {
         layer.msg('请先选择医嘱', {icon: 2, time: 1000});
         return false;
     }
-    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
     doUpdate(rowData, state);
 }
 
 function  saveOrder() {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择医嘱', {icon: 2, time: 1000});
-        return false;
-    }
+    var id = crno;
     var rowData = $("#sectionList").jqGrid('getRowData', id);
     var orderType = rowData.tesenglishname;
     if(orderType == "BUQU") return;
@@ -171,6 +166,7 @@ function  saveOrder() {
             jsonParam = JSON.stringify(array);
             $.get("../order/updatetestresult", {result:jsonParam}, function (data) {
                 layer.alert("保存成功！");
+                onRowSelect(crno);
             })
         }
         //如果医嘱状态是已申请 那么就保存修改后的检验项目
@@ -208,6 +204,7 @@ function  saveOrder() {
 
             $.get("../order/updatecheckitem", {testItems:jsonParam,pathologyId:rowData.samPathologyId,paraffinItems:JSON.stringify(paraffinItems),orderType:orderType,orderChildId:$("#childItemId").val(), orderId:orderId}, function (data1) {
                 layer.alert("保存成功！");
+                onRowSelect(crno);
             })
         }
     }
@@ -226,6 +223,7 @@ function doUpdate(rowData, state) {
     $.get("../order/updateorderstate", {orderState:state, orderId:rowData.orderId}, function(data){
         rowData.chiOrderState = state;
         layer.alert("操作成功！");
+        onRowSelect(crno);
     });
 }
 
@@ -287,27 +285,23 @@ function query(state) {
     }).trigger('reloadGrid');//重新载入
 }
 
-var crno = 1;
+var crno = 0;
 
 function setSelect(c) {
     var o = jQuery("#sectionList");
     var total = o.jqGrid('getGridParam', 'reccount'); //获取当前页面的总记录数量
-    if (total == 0) return false;
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
+    if (total == 0) return ;
     c = parseInt(c);
-    if (id == null || id.length == 0) {
-        $("#sectionList").jqGrid('setSelection', crno);
-        return;
-    }
     if (c == 0) {
+        if(crno == 1) return ;
         if (crno > 1) {
             crno = crno - 1;
         }
     } else {
-        if (crno + 1 > total) crno = total;
-        else crno = crno + 1;
+        if (parseInt(crno) + 1 > total) crno = total;
+        else crno = parseInt(crno) + 1;
     }
-    $("#sectionList").jqGrid('setSelection', crno);
+    onRowSelect(crno);
 }
 
 function CurentTime(now) {
@@ -378,8 +372,8 @@ function getItemInfo(v){
 }
 
 function checkState() {
-    var id = $("#sectionList").jqGrid('getGridParam', 'selrow');
-    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    //var id = $("#sectionList").jqGrid('getGridParam', 'selrow');
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
     var orderState = rowData.chiOrderState;
     if(orderState != 0)
         return layer.alert("该遗嘱项目的状态不是'已申请'，不允许追加项目了！");
@@ -467,6 +461,47 @@ function appendAll() {
     }
 }
 
+function onRowSelect(id) {
+    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    var orderType = (rowData.tesenglishname);
+    getSampleData1(rowData.ordSampleId);
+    getOrderInfo(rowData.orderId, orderType);
+    $("#lkItemList").jqGrid('clearGridData');
+    $("#ckItemList").jqGrid('clearGridData');
+    $("#itemPackage").empty();
+    $("#itemName").attr("readonly", "readonly");
+    if(rowData.chiOrderState == 0 && (orderType == "MYZH" || orderType == "FZBL"
+        || orderType == "TSRS" || orderType == "CHONGQIE" || orderType == "SHENQIE")) {
+        if(orderType == "MYZH" || orderType == "FZBL"
+            || orderType == "TSRS") {
+            getPackageItems(rowData.samPathologyId);
+            $("#itemName").removeAttr("readonly");
+        }
+        getWhitePiece(rowData.ordSampleId,rowData.orderId);
+    }
+    var state = rowData.chiOrderState;
+    if(state == 1 || state == 3) {
+        $("#btFinish").attr("disabled", "disabled");
+    } else if(state == 0 || state == 2) {
+        $("#btFinish").removeAttr("disabled");
+    }
+    if(state == 0 || state == 1) {
+        $("#btCancel").removeAttr("disabled");
+    } else {
+        $("#btCancel").attr("disabled","disabled");
+    }
+    setcolor(id);
+    crno = id;
+}
+
+function setcolor(id){
+    var ids = $("#sectionList").getDataIDs();
+    $.each(ids, function (key, val) {
+        $("#sectionList").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+    });
+    $("#sectionList").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
+
 $(function () {
     $(window).on('resize.jqGrid', function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
@@ -514,47 +549,29 @@ $(function () {
             setTimeout(function () {
                 updatePagerIcons(table);
             }, 0);
+            var ids = $("#sectionList").jqGrid('getDataIDs');
+            if(ids != null && ids != ""){
+                crno = 1;
+                onRowSelect(1);
+            }
         },
         ondblClickRow: function (id) {
         },
         viewrecords: true,
         shrinkToFit: true,
         altRows: true,
+        multiselect:true,
         height: height,
         rowNum: 10,
         rowList: [10, 20, 30],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // the width of the row numbers columns
         pager: "#pager",
-        onSelectRow: function (id) {
-            var rowData = $("#sectionList").jqGrid('getRowData', id);
-            var orderType = (rowData.tesenglishname);
-            getSampleData1(rowData.ordSampleId);
-            getOrderInfo(rowData.orderId, orderType);
-            $("#lkItemList").jqGrid('clearGridData');
-            $("#ckItemList").jqGrid('clearGridData');
-            $("#itemPackage").empty();
-            $("#itemName").attr("readonly", "readonly");
-            if(rowData.chiOrderState == 0 && (orderType == "MYZH" || orderType == "FZBL"
-                || orderType == "TSRS" || orderType == "CHONGQIE" || orderType == "SHENQIE")) {
-                if(orderType == "MYZH" || orderType == "FZBL"
-                || orderType == "TSRS") {
-                    getPackageItems(rowData.samPathologyId);
-                    $("#itemName").removeAttr("readonly");
-                }
-                getWhitePiece(rowData.ordSampleId,rowData.orderId);
-            }
-            var state = rowData.chiOrderState;
-            if(state == 1 || state == 3) {
-                $("#btFinish").attr("disabled", "disabled");
-            } else if(state == 0 || state == 2) {
-                $("#btFinish").removeAttr("disabled");
-            }
-            if(state == 0 || state == 1) {
-                $("#btCancel").removeAttr("disabled");
-            } else {
-                $("#btCancel").attr("disabled","disabled");
-            }
+        beforeSelectRow: function (rowid, e) {
+            return $(e.target).is('input[type=checkbox]');
+        },
+        onCellSelect: function (id) {
+            onRowSelect(id);
         }
     });
 
@@ -590,7 +607,7 @@ $(function () {
 
     jQuery("#sectionList").jqGrid('bindKeys', {
             "onEnter": function (rowid) {
-                $("#sectionList").jqGrid('setSelection', rowid);
+                onRowSelect(rowid);
             }
         }
     );

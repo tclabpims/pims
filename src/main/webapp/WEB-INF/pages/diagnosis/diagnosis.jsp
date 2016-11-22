@@ -17,7 +17,7 @@
     <script type="text/javascript" src="<c:url value='/scripts/bootstrap-datetimepicker.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/i18n/grid.locale-cn.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/jquery.jqGrid.js'/>"></script>
-    <script src="<c:url value='/scripts/ajaxfileupload.js'/>"></script>
+    <script src="<c:url value='/scripts/ajaxfileupload-new.js'/>"></script>
     <script src="<c:url value='/scripts/LodopFuncs.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/validform/Validform.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/layer/layer.js'/>"></script>
@@ -104,8 +104,7 @@
     object:focus { outline:none; }
 </style>
 <SCRIPT LANGUAGE="JavaScript">
-    var GRID_SELECTED_ROW_SAMPLEID;
-    var GRID_SELECTED_ROW_SAMPCUSTOMERID;
+
     var OsObject = navigator.userAgent;
 
 </SCRIPT>

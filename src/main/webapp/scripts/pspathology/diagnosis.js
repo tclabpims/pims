@@ -15,6 +15,9 @@ Date.prototype.Format = function (fmt) { //author: meizz
 }
 var PIC_TAKING_FROM = 2;
 var targetTextareaId;
+var GRID_SELECTED_ROW_SAMPLEID;
+var GRID_SELECTED_ROW_SAMPCUSTOMERID;
+
 function showTemplate(v, target) {
     targetTextareaId = target;
     var a = $(function () {
@@ -78,12 +81,7 @@ function saveAsTemplate(v, obj) {
 
 function saveDiagnosisInfo() {
     var x = document.getElementById("diagnosisInfoForm");
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
-    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
     var result = [];
     var j = 0;
     for (var i = 0; i < x.length; i++) {
@@ -117,11 +115,6 @@ function saveDiagnosisInfo() {
 }
 
 function takingPicture() {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
     layer.open({
         type: 2,
         title: '病理诊断>图像采集',
@@ -141,11 +134,6 @@ function takingPicture() {
 }
 
 function importImg() {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
     layer.open({
         type: 1,
         title: '病理诊断>图像导入',
@@ -169,8 +157,6 @@ function importImg() {
 }
 
 function delayReport(){
-    var rowId = $("#sectionList").jqGrid("getGridParam", "selrow");
-    if(rowId == null || rowId.length == 0) return layer.alert("请先选择病例");
     $("#chipathologycode").val($("#sampathologycode").val());
     $("#testItemChName").val($("#saminspectionid").val());
     $("#chireqtime").val($("#samsenddoctorid").val());
@@ -202,7 +188,7 @@ function delayReport(){
             if(jQuery.trim(deldiagnosis) == "") return layer.alert("请填写初步诊断");
             if(jQuery.trim(delreason) == "") return layer.alert("请填写延迟原因");
             if(jQuery.trim(deldays) == "" || (/\d/.test(jQuery.trim(deldays))) == false) return layer.alert("请填写正确的延迟天数");
-            var rowData = $("#sectionList").jqGrid("getRowData", rowId);
+            var rowData = $("#sectionList").jqGrid("getRowData", crno);
             $.get("../reportdelay/save", {delreasonid:delreasonid, deldays:deldays, delreporttime:delreporttime,
                 deldiagnosis:deldiagnosis,delreason:delreason, delsampleid:GRID_SELECTED_ROW_SAMPLEID,
                 delcustomerid:GRID_SELECTED_ROW_SAMPCUSTOMERID, delpathologycode:rowData.sampathologycode }, function(data){
@@ -219,15 +205,13 @@ function ajaxFileUpload() {
         secureuri: false,
         fileElementId: ["imgFile"],
         dataType: 'json',
-        data: {sampleid: GRID_SELECTED_ROW_SAMPLEID, samcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID},
+        data: {sampleid: GRID_SELECTED_ROW_SAMPLEID, samcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID,picpictureclass: PIC_TAKING_FROM},
         success: function (data, status) {
-
+            layer.alert('上传成功！');
+            onRowSelect(crno);
         },
         error: function (data, status, e) {
-            var container = $("#imgContainer");
-            var objNewDiv = "<div id='mydiv' style='padding-bottom:5px'><img src='" + data.src + "' width='220' onclick='removePicture(\"" + data.name + "\")' height='150'></div>";
-            container.append(objNewDiv);
-            layer.msg('上传成功！', {icon: 2, time: 1000});
+
         }
     });
     return false;
@@ -296,12 +280,7 @@ function doctorSign(f) {
 }
 
 function saveSign() {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
-    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
     $.post('../diagnosis/saveSign', {
         sampleid: rowData.sampleid,
         saminitiallytime: $("#saminitiallytime").val(),
@@ -340,8 +319,7 @@ function reqyizhu() {
         layer.msg("请先选择医嘱类型！", {icon: 0, time: 1000});
         return false;
     }
-    var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
-    var rowData = $("#sectionList").jqGrid('getRowData', selrow);
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
     layer.open({
         type: 1,
         title: '病理诊断>病理医嘱申请',
@@ -535,8 +513,7 @@ function requestOrder(lindex) {
         }
     }
 
-    var rowId = $("#sectionList").jqGrid("getGridParam", "selrow");
-    var dataRow = $("#sectionList").jqGrid("getRowData", rowId);
+    var dataRow = $("#sectionList").jqGrid("getRowData", crno);
 
     //alert("JSON.stringify(items):" + JSON.stringify(items));
     /*alert("JSON.stringify(paraffinItems):" + JSON.stringify(paraffinItems));
@@ -587,7 +564,6 @@ function getWhitePiece() {
     if (paraffinId == "") return;
     var v = $("#lkxz").find("option:selected").text();
     var parnullslidenum = $("#lkxz").find("option:selected").attr("parnullslidenum");
-    var selrow = $("#sectionList").jqGrid('getGridParam', 'selrow');
     var dataId = $("#lkItemList").jqGrid("getDataIDs");
     var rowId = 1;
     var d1 = {lkno: v, kucun: parnullslidenum, yuliu: 0, lkid: paraffinId};
@@ -983,20 +959,21 @@ function reportOperate(v) {
     })
 }
 
-var crno = 1;
+var crno = 0;
 
 function setSelect(c) {
     var o = jQuery("#sectionList");
     var total = o.jqGrid('getGridParam', 'reccount'); //获取当前页面的总记录数量
-    if (total == 0) return false;
+    if (total == 0) return ;
     c = parseInt(c);
     if (c == 0) {
+        if(crno == 1) return ;
         if (crno > 1) {
             crno = crno - 1;
         }
     } else {
-        if (crno + 1 > total) crno = total;
-        else crno = crno + 1;
+        if (parseInt(crno) + 1 > total) crno = total;
+        else crno = parseInt(crno) + 1;
     }
     onRowSelect(crno);
 }
@@ -1188,7 +1165,7 @@ function onRowSelect(id) {
     var rowData = $("#sectionList").jqGrid('getRowData', id);
     if (rowData != null && rowData.sampleid != null && rowData.sampleid != "")
         GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
-    GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
+        GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
     getOrderTabs(rowData.sampleid);
     setcolor(id);
     crno = id;
@@ -1227,6 +1204,11 @@ $(function () {
             setTimeout(function () {
                 updatePagerIcons(table);
             }, 0);
+            var ids = $("#sectionList").jqGrid('getDataIDs');
+            if(ids != null && ids != ""){
+                crno = 1;
+                onRowSelect(1);
+            }
         },
         ondblClickRow: function (id) {
         },
@@ -1253,7 +1235,7 @@ $(function () {
 
     jQuery("#sectionList").jqGrid('bindKeys', {
             "onEnter": function (rowid) {
-                $("#sectionList").jqGrid('setSelection', rowid);
+                onRowSelect(rowid);
             }
         }
     );
