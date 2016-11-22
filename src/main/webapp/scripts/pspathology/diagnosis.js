@@ -168,6 +168,51 @@ function importImg() {
     });
 }
 
+function delayReport(){
+    var rowId = $("#sectionList").jqGrid("getGridParam", "selrow");
+    if(rowId == null || rowId.length == 0) return layer.alert("请先选择病例");
+    $("#chipathologycode").val($("#sampathologycode").val());
+    $("#testItemChName").val($("#saminspectionid").val());
+    $("#chireqtime").val($("#samsenddoctorid").val());
+    $("#chiordercode").val($("#sampatientname").val());
+    $("#chirequsername").val($("#samdeptname").val());
+    $("#chinullslidenum").val($("#samsendhospital").val());
+    $("#patientAgent").val($("#sampatientgender").val());
+    $("#patientAge1").val($("#sampatientage").val());
+    layer.open({
+        type: 1,
+        title: '病理诊断>延迟报告申请',
+        shadeClose: false,
+        shade: 0.5,
+        maxmin: false, //开启最大化最小化按钮
+        area: ['800px', '300px'],
+        content: $('#delayReportForm'),
+        btn: ["保存并发送","取消"],
+        success: function () {
+
+        },
+        yes: function (index, layero) {
+            var delreasonid = $("#delreasonid").val();
+            var deldays = $("#deldays").val();
+            var delreporttime = $("#delreporttime").val();
+            var deldiagnosis = $("#deldiagnosis").val();
+            var delreason = $("#delreason").val();
+            if(delreasonid == "") return layer.alert("请选择一个延迟原因");
+            if(delreporttime == "") return layer.alert("请选择报告日期");
+            if(jQuery.trim(deldiagnosis) == "") return layer.alert("请填写初步诊断");
+            if(jQuery.trim(delreason) == "") return layer.alert("请填写延迟原因");
+            if(jQuery.trim(deldays) == "" || (/\d/.test(jQuery.trim(deldays))) == false) return layer.alert("请填写正确的延迟天数");
+            var rowData = $("#sectionList").jqGrid("getRowData", rowId);
+            $.get("../reportdelay/save", {delreasonid:delreasonid, deldays:deldays, delreporttime:delreporttime,
+                deldiagnosis:deldiagnosis,delreason:delreason, delsampleid:GRID_SELECTED_ROW_SAMPLEID,
+                delcustomerid:GRID_SELECTED_ROW_SAMPCUSTOMERID, delpathologycode:rowData.sampathologycode }, function(data){
+                layer.alert("延迟报告申请已发送！");
+                layer.close(index);
+            });
+        }
+    });
+}
+
 function ajaxFileUpload() {
     $.ajaxFileUpload({
         url: '../diagnosis/uploadimg',
@@ -490,12 +535,15 @@ function requestOrder(lindex) {
         }
     }
 
+    var rowId = $("#sectionList").jqGrid("getGridParam", "selrow");
+    var dataRow = $("#sectionList").jqGrid("getRowData", rowId);
+
     //alert("JSON.stringify(items):" + JSON.stringify(items));
     /*alert("JSON.stringify(paraffinItems):" + JSON.stringify(paraffinItems));
      return;*/
     $.get("../order/save", {
         reqDoctor: reqDoctor, reqDoctorId: reqDoctorId,
-        reqDate: reqDate,
+        reqDate: reqDate,pathologyId:dataRow.sampathologyid,
         paraffinCode: paraffinCode, sampleId: sampleId,
         customerId: customerId, pathologyCode: pathologyCode,
         orderCode: ordercode, testItemId: testItemId,
@@ -1529,6 +1577,13 @@ $(function () {
         autoclose: true //选择日期后自动关闭
     });
 
+    $('#delreporttime').datepicker({
+        changeMonth: true,
+        dateFormat: "yy-mm-dd",
+        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+        autoclose: true //选择日期后自动关闭
+    });
     //送检医生
     $("#reqDoctor").autocomplete({
         source: function (request, response) {
@@ -1603,6 +1658,4 @@ $(function () {
             .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
             .appendTo(ul);
     };
-
-    createNew2();
 })

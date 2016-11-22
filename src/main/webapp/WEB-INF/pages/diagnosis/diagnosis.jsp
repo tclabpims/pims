@@ -129,6 +129,35 @@
         <table id="feediv"></table>
     </div>
 </div>
+<div id="delayReportForm" style="display: none">
+    <div style="padding-left:10px">
+        <div style="display: inline;float: left">病理号：<input id="chipathologycode" style="border-width: 0px 0px 1px 0px"></div>
+        <div style="display: inline;">条形码：<input id="testItemChName" style="border-width: 0px 0px 1px 0px"></div>
+        <div style="display: inline;float: right">送检医生：<input id="chireqtime" style="border-width: 0px 0px 1px 0px"></div>
+    </div>
+    <div style="padding-left:10px">
+        <div style="display: inline;float: left">病人姓名：<input id="chiordercode" style="border-width: 0px 0px 1px 0px"></div>
+        <div style="display: inline;">送检科室：<input id="chirequsername" style="border-width: 0px 0px 1px 0px"></div>
+        <div style="display: inline;float: right">送检医院：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
+    </div>
+    <div style="padding-left:10px">
+        <div style="display: inline;float: left">性别：<input id="patientAgent" style="border-width: 0px 0px 1px 0px"></div>
+        <div style="display: inline;">年龄：<input id="patientAge1" style="border-width: 0px 0px 1px 0px"></div>
+    </div>
+    <div style="border:0px solid black;width:100%;border-width:0px 0px 1px 0px;"></div>
+    <div style="border:0px solid black;width:100%;padding-top:5px;padding-left:10px">
+        <div style="display: inline;float: left">
+            患者的病例诊断因：<select onchange="" id="delreasonid">
+            <option value="">--请选择--</option>
+            <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("options"))%>
+        </select>延迟<input id="deldays"> 天发送</div>
+        <div style="display: inline;padding-left: 10px">预计报告日期：<input id="delreporttime"></div>
+    </div>
+    <div style="border:0px solid black;width:100%;padding-top:5px;padding-left:10px">
+        <div style="display: inline;border:0px solid black;width:50%;float: left">初步诊断：<textarea id="deldiagnosis"></textarea></div>
+        <div style="display: inline;border:0px solid black;width:50%;">延迟原因：<textarea id="delreason"></textarea></div>
+    </div>
+</div>
 <div class="row" id="toolbar">
     <div class="row" id="userGrid" style="display: none;">
         <div class="col-xs-12">
@@ -388,7 +417,7 @@
             <div>
                 <div>报告日期：<input type="text" class="form_datetime1" id="samreportedtime" onchange="doctorSign(0)"
                                  name="samreportedtime">
-                    <button>延迟报告</button>
+                    <button onclick="delayReport()">延迟报告</button>
                 </div>
                 <div>初查医生：<input type="text" readonly id="saminitiallyusername" name="saminitiallyusername">
                     <button onclick="doctorSign(1)">初查签名</button>

@@ -2,12 +2,13 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_REPORT_DELAY", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_REPORT_DELAY")
 public class PimsPathologyReportDelay {
     private long delayid;
     private long delsampleid;
@@ -15,17 +16,29 @@ public class PimsPathologyReportDelay {
     private long delreasonid;
     private String delreason;
     private long deldays;
-    private Time delreporttime;
+    private Date delreporttime;
     private String deldiagnosis;
     private String deldoctor;
     private String delfirstv;
     private Long delfirstn;
-    private Time delfirstd;
-    private Time delcreatetime;
+    private Date delfirstd;
+    private Date delcreatetime;
     private String delcreateuser;
+    private long delcustomerid;
+
+    @Column(name="delcustomerid")
+    public long getDelcustomerid() {
+        return delcustomerid;
+    }
+
+    public void setDelcustomerid(long delcustomerid) {
+        this.delcustomerid = delcustomerid;
+    }
 
     @Id
     @Column(name = "DELAYID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_DELAYID")
+    @SequenceGenerator(name = "SEQ_DELAYID", sequenceName = "SEQ_DELAYID", allocationSize=1)
     public long getDelayid() {
         return delayid;
     }
@@ -86,11 +99,11 @@ public class PimsPathologyReportDelay {
 
     @Basic
     @Column(name = "DELREPORTTIME")
-    public Time getDelreporttime() {
+    public Date getDelreporttime() {
         return delreporttime;
     }
 
-    public void setDelreporttime(Time delreporttime) {
+    public void setDelreporttime(Date delreporttime) {
         this.delreporttime = delreporttime;
     }
 
@@ -136,7 +149,7 @@ public class PimsPathologyReportDelay {
 
     @Basic
     @Column(name = "DELFIRSTD")
-    public Time getDelfirstd() {
+    public Date getDelfirstd() {
         return delfirstd;
     }
 
@@ -146,11 +159,11 @@ public class PimsPathologyReportDelay {
 
     @Basic
     @Column(name = "DELCREATETIME")
-    public Time getDelcreatetime() {
+    public Date getDelcreatetime() {
         return delcreatetime;
     }
 
-    public void setDelcreatetime(Time delcreatetime) {
+    public void setDelcreatetime(Date delcreatetime) {
         this.delcreatetime = delcreatetime;
     }
 

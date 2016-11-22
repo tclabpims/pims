@@ -23,6 +23,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,6 +56,8 @@ public class PIMSBaseController {
     private PimsPathologySampleManager pimsPathologySampleManager;
 
     protected final String contentType = "application/json; charset=UTF-8";
+
+    private static Log log = LogFactory.getLog(PIMSBaseController.class);
 
     private Date start;
 
@@ -322,6 +326,7 @@ public class PIMSBaseController {
                                         try {
                                             pd.getWriteMethod().invoke(ins, sdf.parse(value));
                                         } catch (ParseException e) {
+                                            log.error(e.getCause().getMessage());
                                             e.printStackTrace();
                                         }
                                     }
@@ -332,9 +337,11 @@ public class PIMSBaseController {
                     }
                 }
             } catch (InvocationTargetException | NoSuchMethodException e) {
+                log.error(e.getCause().getMessage());
                 e.printStackTrace();
             }
         } catch (InstantiationException | IllegalAccessException e) {
+            log.error(e.getCause().getMessage());
             e.printStackTrace();
         }
         return ins;

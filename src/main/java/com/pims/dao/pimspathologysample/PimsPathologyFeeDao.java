@@ -3,6 +3,7 @@ package com.pims.dao.pimspathologysample;
 import com.pims.model.PimsPathologyFee;
 import com.smart.dao.GenericDao;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by king on 2016/10/10.
@@ -16,4 +17,5 @@ public interface PimsPathologyFeeDao extends GenericDao<PimsPathologyFee,Long> {
      */
     List<PimsPathologyFee> getSampleList(PimsPathologyFee map);
 
+    List getChargeItems(long ordcustomercode, Set<Long> testItem);
 }

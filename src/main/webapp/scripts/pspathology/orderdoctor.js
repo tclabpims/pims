@@ -156,6 +156,7 @@ function  saveOrder() {
     var orderId = rowData.orderId;
     var array = [];
     var jsonParam;
+    var paraffinItems = [];
     if(getOrderType(orderType) == 1) {
         //如果遗嘱状态是已完成 就可以保存检验结果了
         if(orderState == 2) {
@@ -198,14 +199,14 @@ function  saveOrder() {
             }
             jsonParam = JSON.stringify(array);
 
-            var paraffin = [];
+            if (orderType != "BUQU") {
+                var lkrows = $("#lkItemList").jqGrid("getDataIDs");
+                for (var i = 0; i < lkrows.length; i++) {
+                    paraffinItems[i] = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
+                }
+            }
 
-            var d = $("#lkItemList").jqGrid('getRowData',0);
-            var inventory = 0;
-            var need = array.length + parseInt(d.yuliu);
-            if(need > d.kucun) inventory = need - d.kucun;
-
-            $.get("../order/updatecheckitem", {testItems:jsonParam,inventory:inventory,orderType:orderType,orderChildId:$("#childItemId").val(), orderId:orderId}, function (data1) {
+            $.get("../order/updatecheckitem", {testItems:jsonParam,pathologyId:rowData.samPathologyId,paraffinItems:JSON.stringify(paraffinItems),orderType:orderType,orderChildId:$("#childItemId").val(), orderId:orderId}, function (data1) {
                 layer.alert("保存成功！");
             })
         }
@@ -411,6 +412,26 @@ function appendItem(v) {
         d.finishStatus  = 0;
         d.chirequsername  = $("#chirequsername").val();
         $("#checkItemList").jqGrid("addRowData", (itemNo+1), d);
+        setTotalNumValue(d);
+    }
+}
+
+function setTotalNumValue(pcode) {
+    var lkrows = $("#lkItemList").jqGrid("getDataIDs");
+    var orderType_ = $("#yizhugl").val();
+    for (var i = 0; i < lkrows.length; i++) {
+        var row = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
+        if (pcode == row.lkno) {
+            if(orderType_ == "CHONGQIE" ||orderType_ == "SHENQIE")row.totalItem=0;
+            else {
+                if (row.totalItem == "")
+                    row.totalItem = 1;
+                else
+                    row.totalItem = parseInt(row.totalItem) + 1;
+            }
+            $("#lkItemList").jqGrid("setRowData", lkrows[i], row);
+            break;
+        }
     }
 }
 
@@ -440,6 +461,7 @@ function appendAll() {
                 d.finishStatus  = 0;
                 d.chirequsername  = $("#chirequsername").val();
                 $("#checkItemList").jqGrid("addRowData", (itemNo+1), d);
+                setTotalNumValue(d);
             }
         }
     }
