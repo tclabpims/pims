@@ -88,4 +88,14 @@ public class PimsPathologyOrderChildDaoHibernate extends GenericDaoHibernate<Pim
         query.setParameter("sampleId", sampleId);
         return ((BigDecimal) query.uniqueResult()).intValue();
     }
+
+    @Override
+    public List getTestItemResult(long sampleId) {
+        StringBuilder builder = new StringBuilder("select c.chenamech,c.chenameen,c.chetestresult,ti.teschinesename,ti.testitemid ");
+        builder.append("from pims_pathology_order,pims_pathology_order_check c, pims_pathology_order_child cd,pims_sys_req_testitem ti ");
+        builder.append("where orderid=c.CheOrderId and orderid=cd.chiorderid and cd.testitemid=ti.testitemid and ordsampleid=:sampleId order by ti.testitemid");
+        SQLQuery query = getSession().createSQLQuery(builder.toString());
+        query.setParameter("sampleId", sampleId);
+        return query.list();
+    }
 }

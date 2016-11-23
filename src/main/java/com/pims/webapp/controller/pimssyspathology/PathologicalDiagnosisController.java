@@ -84,6 +84,9 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @Autowired
     private PimsPathologyParaffinManager pimsPathologyParaffinManager;
 
+    @Autowired
+    private PimsPathologyOrderChildManager pimsPathologyOrderChildManager;
+
     @RequestMapping(value = "/report/paraffin", method = RequestMethod.GET)
     @ResponseBody
     public DataResponse getParaffin(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -245,6 +248,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         context.put("samdeptname", sample.getSamdeptname());
         context.put("samsenddoctorname", sample.getSamsenddoctorname());
         context.put("samsamplename", sample.getSamsamplename());
+        context.put("samtestresult", pimsPathologyOrderChildManager.getTestItemResult(sample.getSampleid()));
         if(sample.getSamsendtime() != null)
         context.put("samsendtime", Constants.DF2.format(sample.getSamsendtime()));
         else

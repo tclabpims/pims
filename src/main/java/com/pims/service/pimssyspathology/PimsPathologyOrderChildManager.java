@@ -23,4 +23,6 @@ public interface PimsPathologyOrderChildManager extends GenericManager<PimsPatho
     void updateChildItemStatus(Set<Long> s);
 
     Integer getMaxPieceNo(long sampleId);
+
+    String getTestItemResult(long sampleId);
 }
