@@ -392,9 +392,11 @@ $(function() {
 	//表单校验
 	$("#sampleForm").Validform({
 		// btnSubmit:"#saveButton",
-		tiptype:3,
+		tiptype:4,
 		// tiptype:function(msg,o){
-		// 	layer.msg(msg);
+		// 	if(msg != ""){
+		// 		layer.msg(msg);
+		// 	}
 		// },
 		showAllError:true,
 		ajaxPost:true,
