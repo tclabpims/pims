@@ -95,6 +95,17 @@ public class PimsPathologySample {
     //病理状态 1:未报告 2：已签发 3：已审核 4：已打印
     private int sampathologystatus;
 
+    private String samjcxm;
+    @Basic
+    @Column(name = "SAMJCXM")
+    public String getSamjcxm() {
+        return samjcxm;
+    }
+
+    public void setSamjcxm(String samjcxm) {
+        this.samjcxm = samjcxm;
+    }
+
     @Transient
     public int getSampathologystatus() {
         return sampathologystatus;
@@ -1018,6 +1029,8 @@ public class PimsPathologySample {
             return false;
         if (samjjsj != null ? !samjjsj.equals(that.samjjsj) : that.samjjsj != null)
             return false;
+        if (samjcxm != null ? !samjcxm.equals(that.samjcxm) : that.samjcxm != null)
+            return false;
         return true;
     }
 
@@ -1099,6 +1112,7 @@ public class PimsPathologySample {
         result = 31 * result + (samcreatetime != null ? samcreatetime.hashCode() : 0);
         result = 31 * result + (samcreateuser != null ? samcreateuser.hashCode() : 0);
         result = 31 * result + (samjjsj != null ? samjjsj.hashCode() : 0);
+        result = 31 * result + (samjcxm != null ? samjcxm.hashCode() : 0);
         return result;
     }
 }

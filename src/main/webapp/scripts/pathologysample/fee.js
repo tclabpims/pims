@@ -164,7 +164,7 @@ function createNew2() {
                     }]
             }, align: "center"},//数量
             { name: 'feecost', index: 'feecost', width: 60, align: "center"},//金额
-            { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已计费;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
+            { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已审核;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
             { name: 'feeusername', index: 'feeusername', width: 60, align: "center"},//记录人
             { name: 'feetime', index: 'feetime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
                 return "";
@@ -198,7 +198,7 @@ function createNew2() {
             LASTEDITROW = iRow;
             LASTEDITCELL = iCol;
             var rec = jQuery("#feediv").jqGrid('getRowData', rowid);
-            if (rec.feestate == "1" || rec.feestate == "2") {
+            if (rec.feestate == "2") {
                 setTimeout(function () {
                     jQuery("#feediv").jqGrid('restoreCell', iRow, iCol);
                     //===>或者设置为只读

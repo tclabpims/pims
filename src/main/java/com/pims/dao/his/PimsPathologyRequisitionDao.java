@@ -88,5 +88,11 @@ public interface PimsPathologyRequisitionDao extends GenericDao<PimsPathologyReq
      * @return
      */
     List searchViews(long id);
+    /**
+     * 查询单据是否存在
+     * @param code
+     * @return
+     */
+    String codeIsExist(String code);
 }
 

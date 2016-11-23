@@ -171,6 +171,26 @@ public class PIMSBaseController {
         return StringEscapeUtils.escapeHtml4(result.toString());
     }
 
+
+    public String getPathologyOption(HttpServletRequest request) {
+        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+        PimsSysPathologyManager pimsSysPathologyManager = (PimsSysPathologyManager) ctx.getBean("pimsSysPathologyManager");
+        JSONArray items = pimsSysPathologyManager.getPathologyType();
+        StringBuilder result = new StringBuilder();
+        for (Object obj : items) {
+            JSONObject o = (JSONObject) obj;
+            StringBuilder builder = new StringBuilder();
+            builder.append("<option value=\"")
+                    .append(o.get("pathologyLibId"))
+                    .append("\" ");
+            builder.append(">")
+                    .append(o.get("pathologyLib"))
+                    .append("</option>\n");
+            result.append(builder);
+        }
+        return StringEscapeUtils.escapeHtml4(result.toString());
+    }
+
     protected List<Map<String, Object>> getResultMap(List<?> result) throws Exception {
         List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
         if(result == null || result.size() == 0) return mapList;

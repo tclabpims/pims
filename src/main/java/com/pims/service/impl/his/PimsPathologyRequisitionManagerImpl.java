@@ -124,4 +124,14 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
     public List searchViews(long id) {
         return pimsPathologyRequisitionDao.searchViews(id);
     }
+
+    /**
+     * 查询单据是否存在
+     * @param code
+     * @return
+     */
+    @Override
+    public String codeIsExist(String code) {
+        return pimsPathologyRequisitionDao.codeIsExist(code);
+    }
 }

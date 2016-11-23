@@ -17,6 +17,7 @@ import com.smart.model.lis.Hospital;
 import com.smart.model.user.User;
 import com.smart.service.lis.HospitalManager;
 import com.smart.webapp.util.DataResponse;
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -507,6 +508,15 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         List<PimsSysReqField> reqFields = psrm.getReqFieldList(hospitalId, pathologyId);
         List<PimsSysCustomerBasedata> customerData = pimsSysCustomerBasedataManager.getCustomerDataList(hospitalId, pathologyId);
         mv.addObject("diagnosisItems", HtmlGenerator.generate(reqFields, reportItemsList, customerData));
+        //首页跳转
+        String id = request.getParameter("id");
+        if(!StringUtils.isEmpty(id)){
+            PimsPathologySample pathology = pimsPathologySampleManager.get(Long.parseLong(id));
+            mv.addObject("code", pathology.getSampathologycode());//病理号
+            options = getPathologyOption(request);
+            mv.addObject("options", options);
+
+        }
         return mv;
     }
 

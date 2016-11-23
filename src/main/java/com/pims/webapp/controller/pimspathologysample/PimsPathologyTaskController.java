@@ -66,7 +66,7 @@ public class PimsPathologyTaskController extends PIMSBaseController{
             Map<String, Object> map = new HashMap<String, Object>();
             Object[] pd = (Object[]) bean;
             String[] st = {"sampleid","saminspectionid","sampathologycode","samregisttime","samregistername",
-                    "saminitiallyusername","sampathologyid","tasrecivername","piedoctorname","pieembeddoctorname","parsectioneddoctor"};
+                    "saminitiallyusername","sampathologyid","tasrecivername","piedoctorname","pieembeddoctorname","parsectioneddoctor","taspromotername","tastaskstate"};
             for(int i=0;i<pd.length;i++){
                 Object o = pd[i];
                 map.put(st[i],o);

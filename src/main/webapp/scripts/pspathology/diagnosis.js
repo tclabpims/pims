@@ -1230,11 +1230,25 @@ $(function () {
     var clientHeight = $(window).innerHeight();
     var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
 
+    var sampathologyid = $("#sampathologyid").val();
+    var samplesectionfrom = $("#samplesectionfrom").val();
+    var samplesectionto = $("#samplesectionto").val();
+    var saminspectionid = $("#saminspectionidq").val();
+    var sampathologycode = $("#sampathologycodeq").val();
+    var sampatientname = $("#sampatientnameq").val();
     $("#sectionList").jqGrid({
         caption: "",
         url: "../diagnosis/query",
         mtype: "GET",
         datatype: "json",
+        postData: {
+            "sampathologyid": sampathologyid,
+            "samplesectionfrom": samplesectionfrom,
+            "samplesectionto": samplesectionto,
+            "saminspectionid": saminspectionid,
+            "sampathologycode": sampathologycode,
+            "sampatientname": sampatientname
+        },
         width: $('.leftContent').width(),
         colNames: [ '病理状态', '病理号', '送检医生', 'id', 'samcustomerid', 'sampathologyid'],
         colModel: [

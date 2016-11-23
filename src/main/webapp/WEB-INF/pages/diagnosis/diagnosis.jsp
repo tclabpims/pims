@@ -236,7 +236,7 @@
                         <div class="content">
                             <div style="display:inline;"><label>病种类别：</label>
                                 <select onchange="" id="sampathologyid">
-                                    <option value="">--请选择--</option>
+                                    <option value="" <c:if test="${code != ''}"> selected</c:if>>--请选择--</option>
                                     <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("options"))%>
                                 </select>
                             </div>
@@ -246,7 +246,7 @@
                                                                                          id="samplesectionto"></div>
                             <div style="display:inline;"><label>条形码：</label><input type="text" id="saminspectionidq"
                                                                                    style="width: 120px"></div>
-                            <div style="display:inline;"><label>病理号：</label><input type="text" id="sampathologycodeq"
+                            <div style="display:inline;"><label>病理号：</label><input type="text" id="sampathologycodeq" value="${code}"
                                                                                    style="width: 120px"></div>
                             <div><label>病人名称：</label><input type="text" id="sampatientnameq" style="width: 120px">
                                 <button onclick="query()"> 查询</button>

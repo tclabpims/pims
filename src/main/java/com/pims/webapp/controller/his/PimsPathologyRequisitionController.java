@@ -256,4 +256,26 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		}
 		PrintwriterUtil.print(response, o.toString());
 	}
+
+	/**
+	 * 查看单据是否可存在
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/codeisexist*", method = RequestMethod.GET)
+	public void codeIsExist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String code = request.getParameter("code");
+		JSONObject o = new JSONObject();
+		String result = pimsPathologyRequisitionManager.codeIsExist(code);
+		if(result == null){
+			o.put("success", false);
+			o.put("message","无法进行该操作！");
+		}else{
+			o.put("success", true);
+			o.put("message",result);
+		}
+		PrintwriterUtil.print(response, o.toString());
+	}
 }

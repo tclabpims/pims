@@ -104,30 +104,30 @@ function saveInfo() {
 }
 
 
-function gettypes(){
-	//动态生成select内容
-	var str="";
-	$.ajax({
-		type:"post",
-		async:false,
-		url:"../reqmaterial/info",
-		dataType: "json",
-		success:function(data){
-			if (data != null) {
-				//alert(data.length);
-				///var jsonobj=eval(data);var length=data.length;
-				for(var i=0;i<data.length;i++){
-					if(i!=data.length-1){
-						str+=data[i].id+":"+data[i].name+";";
-					}else{
-						str+=data[i].id+":"+data[i].name;
-					}
-				}
-			}
-		}
-	});
-	return str;
-}
+// function gettypes(){
+// 	//动态生成select内容
+// 	var str="";
+// 	$.ajax({
+// 		type:"post",
+// 		async:false,
+// 		url:"../reqmaterial/info",
+// 		dataType: "json",
+// 		success:function(data){
+// 			if (data != null) {
+// 				//alert(data.length);
+// 				///var jsonobj=eval(data);var length=data.length;
+// 				for(var i=0;i<data.length;i++){
+// 					if(i!=data.length-1){
+// 						str+=data[i].id+":"+data[i].name+";";
+// 					}else{
+// 						str+=data[i].id+":"+data[i].name;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	});
+// 	return str;
+// }
 /**
  * 查看数据
  * @returns {boolean}
@@ -179,17 +179,17 @@ $(function() {
 		postData:{"req_code":req_code,"req_bf_time":req_bf_time,"req_af_time":req_af_time,"logyid":logyid},
 		colNames: ['ID','病种类别', '申请年月','病理号','登记技师','取材医师','包埋技师','制片技师','诊断医师','抄送医师','状态'],
 		colModel: [
-			{name:'sampleid',hidden:true},
-			{ name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes()}},
-			{ name: 'samregisttime', index: 'samregisttime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
-			{ name: 'sampathologycode', index: 'sampathologycode'},
-			{ name: 'samregistername', index: 'samregistername'},
-			{ name: 'piedoctorname', index: 'piedoctorname'},
-			{ name: 'pieembeddoctorname', index: 'pieembeddoctorname'},
-			{ name: 'parsectioneddoctor', index: 'parsectioneddoctor'},
-			{ name: 'saminitiallyusername', index: 'saminitiallyusername'},
-			{ name: 'saminitiallyusername', index: 'saminitiallyusername'},
-			{ name: 'saminitiallyusername', index: 'saminitiallyusername'}
+			{name:'sampleid',hidden:true},//ID
+			{ name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes()}},//病种类别
+			{ name: 'samregisttime', index: 'samregisttime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//申请年月
+			{ name: 'sampathologycode', index: 'sampathologycode'},//病理号
+			{ name: 'samregistername', index: 'samregistername'},//登记技师
+			{ name: 'piedoctorname', index: 'piedoctorname'},//取材医师
+			{ name: 'pieembeddoctorname', index: 'pieembeddoctorname'},//包埋技师
+			{ name: 'parsectioneddoctor', index: 'parsectioneddoctor'},//制片技师
+			{ name: 'taspromotername', index: 'taspromotername'},//诊断医师
+			{ name: 'tasrecivername', index: 'tasrecivername'},//抄送医师
+			{ name: 'tastaskstate', index: 'tastaskstate',formatter: "select", editoptions:{value:"0:待接收;1:待审核;2:已审核"}},//状态
 		],
 		beforeSelectRow: function (rowid, e) {
 			return $(e.target).is('input[type=checkbox]');
@@ -201,10 +201,12 @@ $(function() {
 			}, 0);
 		},
 		ondblClickRow: function (id) {
-			viewSample(id);
+			var rowData = $("#new").jqGrid('getRowData',id);
+			location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
 		},
 		onCellSelect:function(id){
-			viewSample(id);
+			var rowData = $("#new").jqGrid('getRowData',id);
+			location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
 		},
 		multiselect: true,
 		viewrecords: true,
@@ -251,7 +253,7 @@ function gettypes(){
 	//动态生成select内容
 	var str="";
 	$.ajax({
-		type:"post",
+		type:"get",
 		async:false,
 		url:"../hpinfo/userid",
 		dataType: "json",

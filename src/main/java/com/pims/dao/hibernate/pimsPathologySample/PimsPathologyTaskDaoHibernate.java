@@ -60,14 +60,19 @@ public class PimsPathologyTaskDaoHibernate extends GenericDaoHibernate<PimsPatho
     @Override
     public List getTaskList(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select a.sampleid,a.saminspectionid,a.sampathologycode,a.samregisttime,a.samregistername," +
-                "a.saminitiallyusername,a.sampathologyid,tasrecivername,max(piedoctorname) as piedoctorname,max(pieembeddoctorname) " +
-                "as pieembeddoctorname,max(parsectioneddoctor) as parsectioneddoctor from pims_pathology_sample a," +
+        sb.append(" select sampleid,saminspectionid,sampathologycode,samregisttime,samregistername," +
+                "saminitiallyusername,sampathologyid,tasrecivername,piedoctorname," +
+                "pieembeddoctorname,parsectioneddoctor,taspromotername,tastaskstate from " +
+                "(" +
+                "select a.sampleid,a.saminspectionid,a.sampathologycode,a.samregisttime,a.samregistername," +
+                "a.saminitiallyusername,a.sampathologyid,tasrecivername,piedoctorname," +
+                "pieembeddoctorname,parsectioneddoctor,taspromotername,tastaskstate," +
+                "rank() over (partition by a.sampleid order by b.piesamplingtime,b.pieceid) as tk " +
+                "from pims_pathology_sample a," +
                 "pims_pathology_pieces b,pims_pathology_paraffin c,pims_pathology_task d  where a.sampleid = b.piesampleid and " +
-                "a.sampleid = c.parsampleid and a.sampleid = d.tassampleid and tastasktype = 0  ");
+                "b.pieparaffinid = c.parpieceids and a.sampleid = d.tassampleid and tastasktype = 0 ");
         getsql(sb, map);
-        sb.append(" group by a.sampleid,a.saminspectionid,a.sampathologycode," +
-                "a.samregisttime,a.samregistername,a.saminitiallyusername,a.sampathologyid,tasrecivername ");
+        sb.append(" ) where tk = 1 ");
         Query query = getSession().createSQLQuery(sb.toString());
         if(map.getReq_bf_time() != null){
             query.setDate("req_bf_time",map.getReq_bf_time());
@@ -90,12 +95,17 @@ public class PimsPathologyTaskDaoHibernate extends GenericDaoHibernate<PimsPatho
     @Override
     public int getTaskListNum(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select count(1) from pims_pathology_sample a," +
-                "pims_pathology_pieces b,pims_pathology_paraffin c,pims_pathology_task d where a.sampleid = b.piesampleid and " +
-                "a.sampleid = c.parsampleid and a.sampleid = d.tassampleid and  tastasktype = 0  ");
+        sb.append(" select count(1) from " +
+                "(" +
+                "select a.sampleid,a.saminspectionid,a.sampathologycode,a.samregisttime,a.samregistername," +
+                "a.saminitiallyusername,a.sampathologyid,tasrecivername,piedoctorname," +
+                "pieembeddoctorname,parsectioneddoctor,taspromotername," +
+                "rank() over (partition by a.sampleid order by b.piesamplingtime,b.pieceid) as tk " +
+                "from pims_pathology_sample a," +
+                "pims_pathology_pieces b,pims_pathology_paraffin c,pims_pathology_task d  where a.sampleid = b.piesampleid and " +
+                "b.pieparaffinid = c.parpieceids and a.sampleid = d.tassampleid and tastasktype = 0 ");
         getsql(sb, map);
-        sb.append(" group by a.sampleid,a.saminspectionid,a.sampathologycode," +
-                "a.samregisttime,a.samregistername,a.saminitiallyusername,a.sampathologyid,tasrecivername ");
+        sb.append(" ) where tk = 1 ");
         return countTotal(sb.toString(), map.getReq_bf_time(), map.getReq_af_time());
     }
 

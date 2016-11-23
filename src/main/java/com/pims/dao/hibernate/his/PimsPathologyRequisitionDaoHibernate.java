@@ -108,7 +108,9 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
      */
     @Override
     public PimsPathologyRequisition getBySampleNo(Long id) {
-        return (PimsPathologyRequisition)getSession().createQuery("from PimsPathologyRequisition where requisitionid = "+ id).uniqueResult();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologyRequisition where requisitionid = "+ id);
+        return (PimsPathologyRequisition)getSession().createQuery(sb.toString()).uniqueResult();
     }
     /**
      * 根据病种类别查询最大单据号
@@ -261,5 +263,21 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         StringBuffer sb = new StringBuffer();
         sb.append(" from PimsRequisitionField a ,PimsSysReqField b where a.fieldid = b.fieldid and b.fieuseflag = 1 and a.requisitionid = "+ id + " order by b.fieshoworder");
         return getSession().createQuery(sb.toString()).list();
+    }
+    /**
+     * 查询单据是否存在
+     * @param code
+     * @return
+     */
+    @Override
+    public String codeIsExist(String code) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsPathologyRequisition where requisitionno ="+ code);
+        Object o = getSession().createQuery(sb.toString()).uniqueResult();
+        if(o == null){
+           return null;
+        }
+        PimsPathologyRequisition ppr = (PimsPathologyRequisition) o;
+        return String.valueOf(ppr.getRequisitionid());
     }
 }

@@ -305,7 +305,7 @@
 	</ul>
 	<div id="div_main">
 		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">
-			<div id = "search_div_1" style="background-color: #F9F9F9;height: 254px;border:1px solid #E0E0E0;">
+			<div id = "search_div_1" style="background-color: #F9F9F9;height: 220px;border:1px solid #E0E0E0;">
 				<div style="margin-top: 10px">
 					<table style="margin-bottom: 5px;">
 						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
@@ -383,8 +383,18 @@
 			</table>
 		</div>
 		<div id="formDialog" style="float: right;margin-top: 0px" class="col-sm-8 rightContent" >
-			<form class="form-horizontal" style="background-color: #F9F9F9;height: 299px;border:1px solid #E0E0E0;"  action="#" method="post" id="sampleForm" >
+			<form class="form-horizontal" style="background-color: #F9F9F9;height: 334px;border:1px solid #E0E0E0;"  action="#" method="post" id="sampleForm" >
 				<button type="submit"id="saveButton1" style="display:none;">保存</button>
+				<%--<div class="form-group" style="margin-top: 10px;margin-bottom: 5px">--%>
+					<%--<label  class="label_style col-sm-1" for="saminspectionid"></label>--%>
+					<%--<div class="col-sm-3">--%>
+					<%--</div>--%>
+					<%--<label class="label_style col-sm-1" for="samrequistionid">临床申请:</label>--%>
+					<%--<div class="col-sm-3 ">--%>
+						<%--<input class="input_style" type="text" id="samrequistionid" name="samrequistionid" onkeypress="getreqData(this,event)"/>--%>
+					<%--</div>--%>
+					<%----%>
+				<%--</div>--%>
 				<div class="form-group" style="margin-top: 10px;margin-bottom: 5px">
 					<label  class="label_style col-sm-1" for="saminspectionid">条形码:</label>
 					<div class="col-sm-3">
@@ -399,7 +409,7 @@
 						<input type="hidden" id="saminpatientno" /><!--住院序号(住院次数)-->
 						<input type="hidden" id="sampatienttype"/><!--患者类型-->
 						<input type="hidden" id="samsampleclass"/><!--标本种类-->
-						<input type="hidden" id="sampopuser"/><!--标本检查项目id-->
+
 						<input type="hidden" id="samisemergency"/><!--是否加急-->
 						<input type="hidden" id="samisdecacified"/><!--是否脱钙-->
 						<input type="hidden" id="samissamplingall"/><!--是否全取-->
@@ -428,9 +438,10 @@
 						<input type="hidden" id="samregistername"/><!--登记人员姓名-->
 						<input type="text" class="input_style" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}" readonly/>
 					</div>
-					<label class="label_style col-sm-1" for="samrequistionid">临床申请:</label>
+					<label class="label_style col-sm-1">检查项目:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="samrequistionid" name="samrequistionid" onkeypress="getData(this,event)"/>
+						<input type="hidden" id="sampopuser"/><!--标本检查项目id-->
+						<input class="input_style" type="text" id="samjcxm" name="samjcxm" datatype="*"/>
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">

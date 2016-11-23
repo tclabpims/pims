@@ -1,5 +1,33 @@
 var nowrow = "";//当前显示数据所在的行
 var addstates = "";//当前页面状态
+function getreqData(obj,event) {//查询申请单
+
+	var e=e||event;
+	var key = event.keyCode;
+	if(navigator.appName=="Netscape"){
+		key=e.which;
+	}else{
+		key=event.keyCode;
+	}
+	switch(key){
+		case 13 :
+			//根据申请单号查询申请数据
+			$.get("../pimspathology/codeisexist",{code:obj.value},function (data) {
+				if(data.success) {
+					clearData();
+					getSampleData(data.message);
+					changeimgclick(1);
+					addstates="0";
+					$('#sampleForm').find('input,textarea,select').removeAttr('disabled') ;
+					$("#sampathologyid").attr({"disabled":"disabled"});
+				} else {
+					layer.msg(data.message, {icon:2, time: 1000});
+				}
+				}
+			);
+			break;
+	}
+}
 function getData(obj,event) {//获取数据
 	var e=e||event;
     var key = event.keyCode;
@@ -82,6 +110,7 @@ function getSampleData(id) {//根据申请单据补充登记单信息
 			$("#samcreatetime").val(CurentTime(new Date()));//创建时间
 			$("#samcreateuser").val($("#local_userid").val());//创建人
 			$("#samthirdv").val(data.reqremark);//手术所见
+			$("#samjcxm").val(data.reqitemnames);//检查项目
 			if(data.reqfirstv == "1"){
 				$("input[name='samfirstv'][value='1']").attr("checked",true);
 			}else{
@@ -204,7 +233,8 @@ function saveInfo() {
 			samthirdv:$("#samthirdv").val(),//手术所见
 			samfirstn:$("#samfirstn").val(),//组织袋数
 			samcreatetime:$("#samcreatetime").val(),//创建时间
-			samcreateuser:$("#samcreateuser").val()//创建人
+			samcreateuser:$("#samcreateuser").val(),//创建人
+			samjcxm:$("#samjcxm").val()//检查项目
 		},
 		function(data) {
 			if(data.success) {
@@ -243,7 +273,7 @@ function addSample() {
 	$("#sampatientid").val("1");//患者唯一号(病案号)
 	$("#saminpatientid").val("1");//就诊id(患者每一次来院的id)
 	$("#saminpatientno").val(0);//住院序号(住院次数)
-	$("#sampatientnumber").val("1");//住院卡号/门诊卡号
+	$("#sampatientnumber").val();//住院卡号/门诊卡号
 	$("#sampatienttype").val("");//患者类型(病人类型： 1门诊,2住院,3体检,4婚检,5科研,6特勤,7其他)
 	$("#sampatientname").val("");//姓名
 	$("#sampatientsex").val("0");//患者性别(1男,2女,3未知)
@@ -251,8 +281,8 @@ function addSample() {
 	$("#sampatientagetype").val("1");//年龄类型(1年、2岁、3月、4周、5日、6小时)
 	$("#sampatientbed").val("");//患者床号
 	$("#samsampleclass").val("1");//标本种类
-	$("#samsamplename").val("1");//标本名称(,多个检查项目名称之间用逗号隔开)
-	$("#sampopuser").val("1");//标本检查项目id(多个检验目的之间用逗号隔开)
+	$("#samsamplename").val();//标本名称(,多个检查项目名称之间用逗号隔开)
+	$("#sampopuser").val();//标本检查项目id(多个检验目的之间用逗号隔开)
 	$("#samisemergency").val("");//是否加急(0不加急,1加急)
 	$("#samisdecacified").val("");//是否脱钙(0没有脱钙,1已脱钙)
 	$("#samissamplingall").val("");//是否全取(0,未全取,1全取)
@@ -290,6 +320,7 @@ function addSample() {
 	$("#samisdeleted").val("0");//删除标志（0正常，1已删除）
 	$("#samcreatetime").val(CurentTime(new Date()));//创建时间
 	$("#samcreateuser").val($("#local_userid").val());//创建人
+	$("#samjcxm").val("");//检查项目
 }
 /**
  *修改标本
@@ -305,6 +336,7 @@ function editSample(){
 			if(data.success) {
 				$('#sampleForm').find('input,textarea,select').removeAttr('disabled');
 				$("#sampathologyid").attr({"disabled":"disabled"});
+				$("#samjcxm").attr({"disabled":"disabled"});
 				$("#saveButton").removeAttr("disabled");//将按钮可用
 				$("#addButton").removeAttr("disabled");//将按钮可用
 				$("#editButton").removeAttr("disabled");//将按钮可用
@@ -359,11 +391,11 @@ function clearData() {
 $(function() {
 	//表单校验
 	$("#sampleForm").Validform({
-		btnSubmit:"#saveButton",
-		//tiptype:3,
-		tiptype:function(msg,o){
-			layer.msg(msg);
-		},
+		// btnSubmit:"#saveButton",
+		tiptype:3,
+		// tiptype:function(msg,o){
+		// 	layer.msg(msg);
+		// },
 		showAllError:true,
 		ajaxPost:true,
 		beforeSubmit:function(curform){
@@ -401,6 +433,41 @@ $(function() {
 		autoclose:true //选择日期后自动关闭
 	});
     $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
+	//检查项目
+	$("#samjcxm").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../estitem/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,
+					tesitemtype: 1
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id,
+							tespathologyid:result.tespathologyid
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			$( "#sampopuser" ).val(ui.item.id);
+			$( "#samjcxm" ).val(ui.item.value);
+			$("#sampathologyid").val(ui.item.tespathologyid);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
 	//送检医院
 	$("#samsendhospital").autocomplete({
 		source: function( request, response ) {
@@ -588,7 +655,7 @@ $(function() {
 		// },
 		multiselect: true,
 		viewrecords: true,
-		height:200,
+		height:269,
         width:width,
         shrinkToFit:false,
         autoScroll: true,
@@ -640,7 +707,7 @@ $(function() {
 		// 	fillInfo(id);
 		// },
 		viewrecords: true,
-		height:454,
+		height:489,
         width:width,
 		//autowidth: true,
 		// rowNum: 20,
@@ -865,6 +932,7 @@ function getSampleData1(id) {
 			$("#samfirstn").val(data.samfirstn);//组织袋数
             $("#samcreatetime").val(CurentTime(new Date(data.samcreatetime)));//创建时间
             $("#samcreateuser").val(data.samcreateuser);//创建人员
+			$("#samjcxm").val(data.samjcxm);//检查项目
 			var samfirstv = data.samfirstv;
 			var samsecondv = data.samsecondv;
 			if(samfirstv == 1){
