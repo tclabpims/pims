@@ -113,7 +113,7 @@ public class HomeController extends PIMSBaseController{
         int mysendmessage = pimsPathologyMessageManager.getTaskListNum(map);//发起的留言
         map = new PimsBaseModel();
         map.setReq_code("0");
-        int nosyscq = pimsPathologyPiecesManager.getReqListNum(map);//系统未取材
+        int nosyscq = pimsPathologySampleManager.getReqListNum(map);//系统未取材
         map = new PimsBaseModel();
         map.setReq_sts("0");
         int nosysbm = pimsPathologyParaffinManager.getReqListNum(map);;//系统未包埋

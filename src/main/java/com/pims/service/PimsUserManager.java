@@ -14,9 +14,9 @@ import java.util.Map;
 public interface PimsUserManager extends GenericManager<User,Long> {
 
 
-    List getUserList(GridQuery gridQuery);
+    List getUserList(GridQuery gridQuery,String states);
 
-    Integer countUser(String query);
+    Integer countUser(String query,String states);
 
     List<User> getDataList(Map map);
 }
