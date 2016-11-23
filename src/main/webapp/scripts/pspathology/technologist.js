@@ -139,6 +139,21 @@ function doUpdate(rowData, state) {
     });
 }
 
+function getWhitePiece(ordSampleId, orderId) {
+    $.get("../diagnosis/report/paraffin", {sampleId: ordSampleId, orderId:orderId}, function (data) {
+        var ret = data.rows;
+        if (ret != null && ret.length > 0) {
+            for(var i = 0; i < ret.length; i++) {
+                var lkno = ret[i].parparaffincode;
+                var chinullslidenum = ret[i].parnullslidenum;
+                var chiparaffinid = ret[i].paraffinid;
+                var slideNum = ret[i].slidenum;
+                $("#lkItemList").jqGrid('addRowData',new Date().getTime(), {slideNum:slideNum,lkno:lkno,kucun:chinullslidenum,yuliu:ret[i].obligateslidenum, childorderid:orderId,chiparaffinid:chiparaffinid});
+            }
+        }
+    });
+}
+
 function getSampleData1(id) {
     $.get("../pathologysample/sample/get", {id: id}, function (data) {
         if (data != "") {
@@ -189,7 +204,9 @@ function query(state) {
         "pathologyCode": pathologyCode,
         "patientName": patientName
     };
-    if(state != -1) param.orderState = state;
+    if(state != -1)
+        param.orderState = state;
+    else param.orderState = "";
     jQuery("#sectionList").jqGrid('setGridParam', {
         datatype: 'json',
         postData: param,
@@ -282,6 +299,7 @@ function finishItem() {
     $.get("../order/updateitemstatus", {items:items.join(","), orderType:orderType, orderId:orderId}, function (data)
         {
             layer.alert("设置成功！");
+            onRowSelect(crno);
         }
     )
 }
@@ -297,6 +315,8 @@ function onRowSelect(id) {
     var rowData = $("#sectionList").jqGrid('getRowData', id);
     getSampleData1(rowData.ordSampleId);
     getOrderInfo(rowData.orderId, rowData.tesenglishname);
+    $("#lkItemList").jqGrid('clearGridData');
+    getWhitePiece(rowData.ordSampleId,rowData.orderId);
     var state = rowData.chiOrderState;
     if(state >= 1 ) {
         $("#btAccept").attr("disabled", "disabled");
@@ -461,6 +481,54 @@ $(function () {
         rownumbers: true // 显示行号
     });
 
+    $("#lkItemList").jqGrid({
+        datatype: "json",
+        width: 210,
+        cellEdit: true,
+        cellsubmit:'clientArray',
+        colNames: ['蜡块编号','库存', '预留','切片数','childorderid','chiparaffinid'],
+        afterEditCell:function(rowid,name,val,iRow,iCol){
+            //$("#lkItemList").jqGrid('setSelection',rowid);
+            $('#lkItemList').jqGrid('saveCell',$("#lkItemList").jqGrid.editrow,$("#lkItemList").jqGrid.editcol);
+
+        },
+        colModel: [
+            {
+                name: 'lkno',
+                index: 'lkno',
+                width: 55
+            },
+            {
+                name: 'kucun',
+                index: 'kucun',
+                width: 40
+            },
+            {
+                name: 'yuliu', index: 'yuliu', width: 45,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
+            }
+            ,
+            {
+                name: 'slideNum',
+                index: 'slideNum',
+                width: 50
+            },
+            {
+                name: 'childorderid',
+                index: 'childorderid',
+                hidden: true
+            },
+            {
+                name: 'chiparaffinid',
+                index: 'chiparaffinid',
+                hidden: true
+            }
+        ],
+        shrinkToFit: true,
+        altRows: true,
+        height: 100,
+        rowNum: 5
+    });
+
     $("#materialList").jqGrid({
         datatype: "json",
         mtype: "GET",
@@ -552,6 +620,27 @@ $(function () {
             $("#datepickerf").datepicker("option", "maxDate", selectedDate);
         }
     });
+
+    $("#q_startDate").datepicker({
+        changeMonth: true,
+        dateFormat: "yy-mm-dd",
+        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+        onClose: function (selectedDate) {
+            $("#samplesectionfrom").datepicker("option", "minDate", selectedDate);
+        }
+    });
+
+    $("#q_endDate").datepicker({
+        changeMonth: true,
+        dateFormat: "yy-mm-dd",
+        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+        onClose: function (selectedDate) {
+            $("#samplesectionfrom").datepicker("option", "minDate", selectedDate);
+        }
+    });
+
     $(".form_datetime1").datetimepicker({
         //minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式

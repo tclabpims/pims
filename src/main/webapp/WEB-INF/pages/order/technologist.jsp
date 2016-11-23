@@ -247,7 +247,7 @@
         <div>
             <div style="display: inline;float: left">医嘱号：<input id="chiordercode" style="border-width: 0px 0px 1px 0px"></div>
             <div style="display: inline;">申请医生：<input id="chirequsername" style="border-width: 0px 0px 1px 0px"></div>
-            <div style="display: inline;float: right"><font color="red">白片数</font>：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
         </div>
         <div>
             <div style="float: left">
@@ -286,7 +286,12 @@
                 </div>
             </div>
         </div>
-        <div id="imgContainer"></div>
+        <div style="float:left;width: 40%;height: 100%;padding-left:5px;padding-right: 5px;display: inline">
+            <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
+            <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
+                <table id="lkItemList"></table>
+            </div>
+        </div>
     </div>
     <div style="width: 780px;height: 500px;display: none;" id="specialCheckDialog">
         <div style="float:left;width: 60%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
@@ -325,17 +330,6 @@
             </div>
             <div style="width: 100%;" id="itemSummary">
                 <%--癌基因蛋白：3 项，199元；单克隆抗体：3 项，199元；合计：398元--%>
-            </div>
-        </div>
-        <div style="float:right;width: 40%;height: 100%;padding-left:10px;padding-right: 10px;display: inline">
-            <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
-            <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
-                <table id="lkItemList"></table>
-            </div>
-            <div style="width: 100%;height: 25px;">项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)"></select><button onclick="appendAll()">全部追加</button></div>
-            <div style="width: 100%;height: 25px;">项目名称：<input id="itemName"></div>
-            <div style="width: 100%;height: 35%;">
-                <table id="ckItemList"></table>
             </div>
         </div>
     </div>

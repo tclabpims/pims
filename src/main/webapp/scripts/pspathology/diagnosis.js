@@ -156,6 +156,10 @@ function importImg() {
     });
 }
 
+function viewDetail(){
+    
+}
+
 function delayReport(){
     $("#chipathologycode").val($("#sampathologycode").val());
     $("#testItemChName").val($("#saminspectionid").val());
@@ -947,11 +951,6 @@ function print(url) {
 }
 
 function reportOperate(v) {
-    var id = $('#sectionList').jqGrid('getGridParam', 'selrow');
-    if (id == null || id.length == 0) {
-        layer.msg('请先选择标本', {icon: 2, time: 1000});
-        return false;
-    }
     layer.open({
         type: 1,
         area: ['300px', '150px'],

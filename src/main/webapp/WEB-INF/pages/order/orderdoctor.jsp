@@ -171,12 +171,6 @@
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 120px">
                                 <button onclick="query(-1)"> 查询</button></div>
                             <div style="display:inline;">
-                                <div style="text-align: left">
-                                    <label for="selectAll">全选</label>
-                                    <input type="checkbox" name="selectAll" id="selectAll">
-                                </div>
-                            </div>
-                            <div style="display:inline;">
                                 <div style="display:inline;padding-right: 5px">
                                     <a href="#" onclick="query(-1)">全部</a>
                                 </div>
@@ -279,7 +273,7 @@
         <div>
             <div style="display: inline;float: left">医嘱号：<input id="chiordercode" style="border-width: 0px 0px 1px 0px"></div>
             <div style="display: inline;">申请医生：<input id="chirequsername" style="border-width: 0px 0px 1px 0px"></div>
-            <div style="display: inline;float: right"><font color="red">白片数</font>：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
         </div>
         <div>
             <div style="float: left">

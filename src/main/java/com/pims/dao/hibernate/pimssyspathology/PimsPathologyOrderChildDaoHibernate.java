@@ -29,7 +29,7 @@ public class PimsPathologyOrderChildDaoHibernate extends GenericDaoHibernate<Pim
     @Override
     public PimsPathologyOrderChild getChildByOrderId(long orderId) {
         PimsPathologyOrderChild child = new PimsPathologyOrderChild();
-        SQLQuery query = getSession().createSQLQuery("select C.Childorderid,c.chiorderid,c.chiordercode,c.chipathologycode,c.chicustomerid,c.chisampleid,c.chiparaffinid,c.chiparaffinno,c.chiparaffincode,c.chireqtime,c.chirequserid,c.chirequsername,c.chiordertype,c.chicreatetime,c.chicreateuser,c.testitemid, (select sum(Oc.Chinullslidenum) from Pims_Pathology_Order_Child oc where oc.Chiorderid=:orderId) as totalnullslidenum from Pims_Pathology_Order_Child c where C.Chiorderid=:orderId and rownum=1");
+        SQLQuery query = getSession().createSQLQuery("select C.Childorderid,c.chiorderid,c.chiordercode,c.chipathologycode,c.chicustomerid,c.chisampleid,c.chiparaffinid,c.chiparaffinno,c.chiparaffincode,c.chireqtime,c.chirequserid,c.chirequsername,c.chiordertype,c.chicreatetime,c.chicreateuser,c.testitemid, (select sum(Oc.Chinullslidenum)+sum(Oc.Chislidenum) from Pims_Pathology_Order_Child oc where oc.Chiorderid=:orderId) as totalnullslidenum from Pims_Pathology_Order_Child c where C.Chiorderid=:orderId and rownum=1");
         query.setParameter("orderId", orderId);
         Object[] data = (Object[])query.uniqueResult();
         child.setChildorderid(((BigDecimal)data[0]).longValue());
