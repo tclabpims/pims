@@ -34,6 +34,50 @@ public class PimsPathologyParaffin {
     private Date parcreatetime;
     private String parcreateuse;
 
+    private Long slidenum;
+
+    private Long obligateslidenum;
+
+    private Long childorderid;
+
+    private Long totalitem;
+
+    @Transient
+    public Long getTotalitem() {
+        return totalitem;
+    }
+
+    public void setTotalitem(Long totalitem) {
+        this.totalitem = totalitem;
+    }
+
+    @Transient
+    public Long getChildorderid() {
+        return childorderid;
+    }
+
+    public void setChildorderid(Long childorderid) {
+        this.childorderid = childorderid;
+    }
+
+    @Transient
+    public Long getObligateslidenum() {
+        return obligateslidenum;
+    }
+
+    public void setObligateslidenum(Long obligateslidenum) {
+        this.obligateslidenum = obligateslidenum;
+    }
+
+    @Transient
+    public Long getSlidenum() {
+        return slidenum;
+    }
+
+    public void setSlidenum(Long slidenum) {
+        this.slidenum = slidenum;
+    }
+
     @Id
     @Column(name = "PARAFFINID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_PARAFFINID")

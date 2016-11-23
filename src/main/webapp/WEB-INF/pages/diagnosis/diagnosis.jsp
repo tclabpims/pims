@@ -326,7 +326,7 @@
                         <div>
                             <div style="display: inline">病人姓名：<input type="text"
                                                                      style="width:120px;border-width: 0px 0px 1px 0px"
-                                                                     id="sampatientname">详细
+                                                                     id="sampatientname"><a href="#" onclick="viewDetail()">详细</a>
                             </div>
                             <div style="display: inline">性别：<input type="text"
                                                                    style="width:120px;border-width: 0px 0px 1px 0px"

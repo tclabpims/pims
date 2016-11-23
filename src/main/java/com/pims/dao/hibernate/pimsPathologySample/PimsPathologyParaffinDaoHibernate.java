@@ -363,8 +363,20 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
     @Override
     public List<PimsPathologyParaffin> getParaffinBySampleId(long sampleId, Long orderId) {
         StringBuilder builder = new StringBuilder();
-        builder.append("select paraffinid,parparaffincode,(select count(1) from Pims_Pathology_Slide s where s.slisampleid=:sampleId and s.SliUseFlag=0 and parparaffincode=s.SliParaffinCode) ");
-        builder.append("as parnullslidenum from pims_pathology_paraffin where parsampleid=:sampleId ");
+        builder.append("select paraffinid,parparaffincode, ");
+        if(orderId != null) {
+            builder.append("(select NVL(ChiNullSlideNum,0)+NVL(ChiSlideNum,0) from pims_pathology_order_child where chiorderid=:orderId and paraffinid=ChiParaffinId and finishstatus=0) as slidenum, ");
+            builder.append("(select NVL(ChiNullSlideNum,0) from pims_pathology_order_child where chiorderid=:orderId and paraffinid=ChiParaffinId and finishstatus=0) as obligateslidenum, ");
+            builder.append("(select childorderid from pims_pathology_order_child where chiorderid=:orderId and paraffinid=ChiParaffinId and finishstatus=0) as childorderid, ");
+            builder.append("(select count(1) from pims_pathology_order_check where cheorderid=:orderId and paraffincode=parparaffincode and finishstatus=0) as totalitem, ");
+        } else{
+            builder.append("0 as slidenum, ");
+            builder.append("0 as obligateslidenum, ");
+            builder.append("0 as childorderid, ");
+            builder.append("0 as totalitem, ");
+        }
+        builder.append("(select count(1) from Pims_Pathology_Slide s where s.slisampleid=:sampleId and s.SliUseFlag=0 and parparaffincode=s.SliParaffinCode) as parnullslidenum ");
+        builder.append("from pims_pathology_paraffin where parsampleid=:sampleId ");
         if(orderId != null) {
             builder.append("and paraffinid in(select chiparaffinid from pims_pathology_order_child where chiorderid=:orderId )");
         }
@@ -380,7 +392,11 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
                 PimsPathologyParaffin paraffin = new PimsPathologyParaffin();
                 paraffin.setParaffinid(((BigDecimal)((Object[])obj)[0]).longValue());
                 paraffin.setParparaffincode((String)((Object[])obj)[1]);
-                paraffin.setParnullslidenum(((BigDecimal)((Object[])obj)[2]).longValue());
+                paraffin.setSlidenum(((BigDecimal)((Object[])obj)[2]).longValue());
+                paraffin.setObligateslidenum(((BigDecimal)((Object[])obj)[3]).longValue());
+                paraffin.setChildorderid(((BigDecimal)((Object[])obj)[4]).longValue());
+                paraffin.setTotalitem(((BigDecimal)((Object[])obj)[5]).longValue());
+                paraffin.setParnullslidenum(((BigDecimal)((Object[])obj)[6]).longValue());
                 ret.add(paraffin);
             }
         }

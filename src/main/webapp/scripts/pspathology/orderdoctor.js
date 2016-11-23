@@ -53,7 +53,10 @@ function getWhitePiece(ordSampleId, orderId) {
                 var lkno = ret[i].parparaffincode;
                 var chinullslidenum = ret[i].parnullslidenum;
                 var chiparaffinid = ret[i].paraffinid;
-                $("#lkItemList").jqGrid('addRowData',new Date().getTime(), {lkno:lkno,kucun:chinullslidenum,yuliu:0, childorderid:orderId,chiparaffinid:chiparaffinid});
+                var slideNum = ret[i].slidenum;
+                var totalitem = ret[i].totalitem;
+                var childorderid = ret[i].childorderid;
+                $("#lkItemList").jqGrid('addRowData',new Date().getTime(), {totalitem:totalitem,slideNum:slideNum,lkno:lkno,kucun:chinullslidenum,yuliu:ret[i].obligateslidenum, childorderid:childorderid,chiparaffinid:chiparaffinid});
             }
         }
     });
@@ -141,11 +144,9 @@ function updateState(state) {
 }
 
 function  saveOrder() {
-    var id = crno;
-    var rowData = $("#sectionList").jqGrid('getRowData', id);
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
     var orderType = rowData.tesenglishname;
     if(orderType == "BUQU") return;
-
     var itemNo = $("#checkItemList").jqGrid("getDataIDs");
     var orderState = rowData.chiOrderState;
     var orderId = rowData.orderId;
@@ -183,26 +184,21 @@ function  saveOrder() {
                     row.newAppend = false;
                 }
                 row.orderType = $("#orderType").val();
-                row.childItemId = $("#childItemId").val();
                 row.ordSampleId = rowData.ordSampleId;
                 row.ordCustomerId = rowData.ordCustomerId;
                 row.ordPathologyCode = rowData.ordPathologyCode;
                 row.samPathologyId = rowData.samPathologyId;
-                row.chiParaffinCode = rowData.chiParaffinCode;
+                row.childorderid = rowData.chechildorderid;
                 row.checreateuser = $("#reqDoctor").val();
                 row.orderId = orderId;
                 array[j] = row;
             }
             jsonParam = JSON.stringify(array);
-
-            if (orderType != "BUQU") {
-                var lkrows = $("#lkItemList").jqGrid("getDataIDs");
-                for (var i = 0; i < lkrows.length; i++) {
-                    paraffinItems[i] = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
-                }
+            var lkrows = $("#lkItemList").jqGrid("getDataIDs");
+            for (var i = 0; i < lkrows.length; i++) {
+                paraffinItems[i] = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
             }
-
-            $.get("../order/updatecheckitem", {testItems:jsonParam,pathologyId:rowData.samPathologyId,paraffinItems:JSON.stringify(paraffinItems),orderType:orderType,orderChildId:$("#childItemId").val(), orderId:orderId}, function (data1) {
+            $.get("../order/updatecheckitem", {testItems:jsonParam,pathologyId:rowData.samPathologyId,paraffinItems:JSON.stringify(paraffinItems),orderType:orderType,orderId:orderId}, function (data1) {
                 layer.alert("保存成功！");
                 onRowSelect(crno);
             })
@@ -222,6 +218,7 @@ function chargeAdjust() {
 function doUpdate(rowData, state) {
     $.get("../order/updateorderstate", {orderState:state, orderId:rowData.orderId}, function(data){
         rowData.chiOrderState = state;
+        $("#sectionList").jqGrid("setRowData", crno, rowData);
         layer.alert("操作成功！");
         onRowSelect(crno);
     });
@@ -277,7 +274,9 @@ function query(state) {
         "pathologyCode": pathologyCode,
         "patientName": patientName
     };
-    if(state != -1) param.orderState = state;
+    if(state != -1)
+        param.orderState = state;
+    else param.orderState = "";
     jQuery("#sectionList").jqGrid('setGridParam', {
         datatype: 'json',
         postData: param,
@@ -331,17 +330,33 @@ function CurentTime(now) {
 
 function buttonFormat(cellval,options,pos,cnt) {
 
-    return "<button onclick=appendItem('" + cellval + "')>追加</button>";
+    return "<<追加";
 }
 
 function removeBt(cellval,options,pos,cnt) {
     if(cellval == 0)
-        return "<button onclick=removeItem('" + cellval + "')>移除</button>";
+        return "移除>>";
     return "";
 }
 
-function removeItem(v) {
+function removeItem() {
     var id = $('#checkItemList').jqGrid('getGridParam', 'selrow');
+    var row = $('#checkItemList').jqGrid("getRowData", id);
+    var paraffinCode = row.paraffincode;
+    var dataIDs = $("#lkItemList").jqGrid("getDataIDs");
+    var totalCut = 0;
+    for(var i = 0; i < dataIDs.length; i++) {
+        var lkrow = $('#lkItemList').jqGrid("getRowData", dataIDs[i]);
+        if(paraffinCode == lkrow.lkno) {
+            var nn =  parseInt(lkrow.totalitem)-1;
+            lkrow.totalitem = nn;
+            lkrow.slideNum = nn + parseInt(lkrow.yuliu);
+            $("#lkItemList").jqGrid("setRowData", dataIDs[i], lkrow);
+            totalCut += parseInt(lkrow.slideNum);
+        } else
+            totalCut += parseInt(lkrow.slideNum);
+    }
+    $("#chinullslidenum").val(totalCut);
     $("#checkItemList").jqGrid("delRowData", id);
 }
 
@@ -383,7 +398,9 @@ function appendItem(v) {
     checkState();
     var paraffin = $("#lkItemList").jqGrid('getGridParam', 'selrow');
     if(paraffin == null || paraffin.length == 0) return layer.alert("请先选择蜡块");
-    var lakuai = $("#lkItemList").jqGrid('getRowData', paraffin).lkno;
+    var lkcrow = $("#lkItemList").jqGrid('getRowData', paraffin);
+    var lakuai = lkcrow.lkno;
+    var childorderid = lkcrow.childorderid;
     var selrow = $("#ckItemList").jqGrid('getGridParam', 'selrow');
     if ((selrow == null || selrow.length == 0) && v == null) return;
     var row;
@@ -402,31 +419,32 @@ function appendItem(v) {
         d.chenamech = row.teschinesename;
         d.chenameen = row.tesenglishname;
         d.cheischarge = row.tesischarge;
+        d.chechildorderid = childorderid;
         d.chiorderstate  = 0;
         d.finishStatus  = 0;
         d.chirequsername  = $("#chirequsername").val();
         $("#checkItemList").jqGrid("addRowData", (itemNo+1), d);
-        setTotalNumValue(d);
+        setTotalNumValue(1);
     }
 }
 
-function setTotalNumValue(pcode) {
-    var lkrows = $("#lkItemList").jqGrid("getDataIDs");
-    var orderType_ = $("#yizhugl").val();
-    for (var i = 0; i < lkrows.length; i++) {
-        var row = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
-        if (pcode == row.lkno) {
-            if(orderType_ == "CHONGQIE" ||orderType_ == "SHENQIE")row.totalItem=0;
-            else {
-                if (row.totalItem == "")
-                    row.totalItem = 1;
-                else
-                    row.totalItem = parseInt(row.totalItem) + 1;
-            }
-            $("#lkItemList").jqGrid("setRowData", lkrows[i], row);
-            break;
-        }
+function setTotalNumValue(newItem) {
+    var id = $("#lkItemList").jqGrid("getGridParam", "selrow");
+    var row = $("#lkItemList").jqGrid("getRowData", id);
+    var totalItem = row.totalitem;
+    if (totalItem == "")
+        totalItem = newItem;
+    else
+        totalItem = parseInt(totalItem) + newItem;
+    jQuery("#lkItemList").jqGrid('setCell', id, 'totalitem', totalItem);
+    jQuery("#lkItemList").jqGrid('setCell', id, 'slideNum', totalItem + parseInt(row.yuliu));
+
+    var dataIDs = $("#lkItemList").jqGrid("getDataIDs");
+    var totalCut = 0;
+    for(var i = 0; i < dataIDs.length; i++) {
+        totalCut += parseInt($("#lkItemList").jqGrid("getRowData", dataIDs[i]).slideNum);
     }
+    $("#chinullslidenum").val(totalCut);
 }
 
 function appendAll() {
@@ -434,8 +452,11 @@ function appendAll() {
     var rows = $("#ckItemList").jqGrid("getDataIDs");
     var paraffin = $("#lkItemList").jqGrid('getGridParam', 'selrow');
     if(paraffin == null || paraffin.length == 0) return layer.alert("请先选择蜡块");
-    var lakuai = $("#lkItemList").jqGrid('getRowData', paraffin).lkno;
+    var lkcrow = $("#lkItemList").jqGrid('getRowData', paraffin);
+    var lakuai = lkcrow.lkno;
+    var childorderid = lkcrow.childorderid;
     if(rows.length > 0) {
+        var newItem = 0;
         for(var i = 0; i < rows.length; i++) {
             var row = $("#ckItemList").jqGrid("getRowData", rows[i]);
             var itemNo = $("#checkItemList").jqGrid("getDataIDs").length;
@@ -451,13 +472,15 @@ function appendAll() {
                 d.chenamech = row.teschinesename;
                 d.chenameen = row.tesenglishname;
                 d.cheischarge = row.tesischarge;
+                d.chechildorderid = childorderid;
                 d.chiorderstate  = 0;
                 d.finishStatus  = 0;
                 d.chirequsername  = $("#chirequsername").val();
                 $("#checkItemList").jqGrid("addRowData", (itemNo+1), d);
-                setTotalNumValue(d);
+                newItem++;
             }
         }
+        setTotalNumValue(newItem);
     }
 }
 
@@ -644,7 +667,7 @@ $(function () {
             $('#checkItemList').jqGrid('saveCell',$("#checkItemList").jqGrid.editrow,$("#checkItemList").jqGrid.editcol);
 
         },
-        colNames: ['cheorderitemid','蜡块编号', '项目名称','结果', '申请医生', '状态','操作','checreatetime','chenameen','cheischarge'],
+        colNames: ['cheorderitemid','蜡块编号', '项目名称','结果', '申请医生', '状态','操作','checreatetime','chenameen','chechildorderid','cheischarge'],
         colModel: [
             {name: 'cheorderitemid', index: 'cheorderitemid', hidden:true},
             {name: 'paraffincode', index: 'paraffincode', width: 100},
@@ -655,6 +678,7 @@ $(function () {
             {name: 'chiorderstate', index: 'chiorderstate', formatter:removeBt,width:60},
             {name: 'checreatetime', index: 'checreatetime', hidden:true},
             {name: 'chenameen', index: 'chenameen', hidden:true},
+            {name: 'chechildorderid', index: 'chechildorderid', hidden:true},
             {name: 'cheischarge', index: 'cheischarge', hidden:true}
         ],
         loadComplete: function () {
@@ -663,7 +687,11 @@ $(function () {
              updatePagerIcons(table);
              }, 0);*/
         },
-        multiselect:true,
+        ondblClickRow:function(id) {
+            var row = $("#checkItemList").jqGrid("getRowData", id);
+            if(row.checreatetime == "")
+                removeItem();
+        },
         shrinkToFit: true,
         scrollOffset: 2,
         rowNum: 10,
@@ -698,27 +726,34 @@ $(function () {
         width: 210,
         cellEdit: true,
         cellsubmit:'clientArray',
-        colNames: ['蜡块编号','库存', '预留','childorderid','chiparaffinid'],
+        colNames: ['蜡块编号','库存', '预留','切片数','childorderid','chiparaffinid','totalitem'],
         afterEditCell:function(rowid,name,val,iRow,iCol){
             //$("#lkItemList").jqGrid('setSelection',rowid);
             $('#lkItemList').jqGrid('saveCell',$("#lkItemList").jqGrid.editrow,$("#lkItemList").jqGrid.editcol);
+
+
 
         },
         colModel: [
             {
                 name: 'lkno',
                 index: 'lkno',
-                width: 30
+                width: 55
             },
             {
                 name: 'kucun',
                 index: 'kucun',
-                width: 30
+                width: 40
             },
             {
-                name: 'yuliu', index: 'yuliu', width: 40,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
+                name: 'yuliu', index: 'yuliu', width: 45,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
             }
             ,
+            {
+                name: 'slideNum',
+                index: 'slideNum',
+                width: 50
+            },
             {
                 name: 'childorderid',
                 index: 'childorderid',
@@ -727,6 +762,11 @@ $(function () {
             {
                 name: 'chiparaffinid',
                 index: 'chiparaffinid',
+                hidden: true
+            },
+            {
+                name: 'totalitem',
+                index: 'totalitem',
                 hidden: true
             }
         ],
@@ -755,6 +795,7 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
+            appendItem();
         },
         viewrecords: true,
         shrinkToFit: true,
@@ -840,6 +881,26 @@ $(function () {
     $("#ctabs").tabs();
 
     $("#samplesectionfrom").datepicker({
+        changeMonth: true,
+        dateFormat: "yy-mm-dd",
+        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+        onClose: function (selectedDate) {
+            $("#samplesectionfrom").datepicker("option", "minDate", selectedDate);
+        }
+    });
+
+    $("#q_startDate").datepicker({
+        changeMonth: true,
+        dateFormat: "yy-mm-dd",
+        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+        onClose: function (selectedDate) {
+            $("#samplesectionfrom").datepicker("option", "minDate", selectedDate);
+        }
+    });
+
+    $("#q_endDate").datepicker({
         changeMonth: true,
         dateFormat: "yy-mm-dd",
         monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],

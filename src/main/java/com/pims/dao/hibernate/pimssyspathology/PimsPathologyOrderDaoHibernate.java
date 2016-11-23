@@ -37,46 +37,46 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         if(ingore != null ) {
             builder.append("and t.tesenglishname !='").append(ingore).append("' ");
         }
-        if(specialCheck != null && !"".equals(specialCheck.trim())) {
+        if(StringUtils.isNotEmpty(specialCheck)) {
             builder.append(" and c.ChiOrderType=:specialCheck");
         }
-        if(pathologyCode != null && !"".equals(pathologyCode.trim())) {
+        if(StringUtils.isNotEmpty(pathologyCode)) {
             builder.append(" and c.ChiPathologyCode=:pathologyCode");
         }
 
-        if(startDate == null || "".equals(startDate.trim())) {
+        if(StringUtils.isEmpty(startDate)) {
             startDate = "1980-01-01";
         }
 
-        if(endDate == null || "".equals(endDate.trim())) {
+        if(StringUtils.isEmpty(endDate)) {
             endDate = Constants.DF2.format(new Date());
         }
         builder.append(" and c.ChiReqTime  between to_date(:startDate,'yyyy-mm-dd') and to_date(:endDate,'yyyy-mm-dd') ");
 
-        if(patientName != null && !"".equals(patientName.trim())) {
-            builder.append(" and s.SamPatientName like '%:patientName%' ");
+        if(StringUtils.isNotEmpty(patientName)) {
+            builder.append(" and s.SamPatientName like :patientName ");
         }
-        if(orderState != null && !"".equals(orderState.trim())) {
+        if(StringUtils.isNotEmpty(orderState)) {
             builder.append(" and c.ChiOrderState =:orderState ");
         }
         builder.append(" group by o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,t.tesenglishname");
         builder.append(" order by o.orderid desc");
 
         SQLQuery query = getSession().createSQLQuery(builder.toString());
-        if(specialCheck != null && !"".equals(specialCheck.trim())) {
-            query.setParameter("specialCheck", Long.valueOf(specialCheck));
+        if(StringUtils.isNotEmpty(specialCheck)) {
+            query.setParameter("specialCheck", Long.valueOf(specialCheck.trim()));
         }
-        if(pathologyCode != null && !"".equals(pathologyCode.trim())) {
-            query.setParameter("pathologyCode", pathologyCode);
+        if(StringUtils.isNotEmpty(pathologyCode)) {
+            query.setParameter("pathologyCode", pathologyCode.trim());
         }
-        if(patientName != null && !"".equals(patientName.trim())) {
-            query.setParameter("patientName", patientName);
+        if(StringUtils.isNotEmpty(patientName)) {
+            query.setParameter("patientName", "%"+patientName.trim()+"%");
         }
-        if(orderState != null && !"".equals(orderState.trim())) {
-            query.setParameter("orderState", Long.valueOf(orderState));
+        if(StringUtils.isNotEmpty(orderState)) {
+            query.setParameter("orderState", Long.valueOf(orderState.trim()));
         }
-        query.setParameter("startDate", startDate);
-        query.setParameter("endDate", endDate);
+        query.setParameter("startDate", startDate.trim());
+        query.setParameter("endDate", endDate.trim());
         query.setFirstResult(gridQuery.getStart());
         query.setMaxResults(gridQuery.getEnd());
         return query.list();
@@ -90,45 +90,45 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         if(ingore != null ) {
             builder.append("and t.tesenglishname !='").append(ingore).append("' ");
         }
-        if(specialCheck != null && !"".equals(specialCheck.trim())) {
+        if(StringUtils.isNotEmpty(specialCheck)) {
             builder.append(" and c.ChiOrderType=:specialCheck");
         }
-        if(pathologyCode != null && !"".equals(pathologyCode.trim())) {
+        if(StringUtils.isNotEmpty(pathologyCode)) {
             builder.append(" and c.ChiPathologyCode=:pathologyCode");
         }
 
-        if(startDate == null || "".equals(startDate.trim())) {
+        if((StringUtils.isEmpty(startDate))) {
             startDate = "1980-01-01";
         }
 
-        if(endDate == null || "".equals(endDate.trim())) {
+        if((StringUtils.isEmpty(endDate))) {
             endDate = Constants.DF2.format(new Date());
         }
         builder.append(" and c.ChiReqTime  between to_date(:startDate,'yyyy-mm-dd') and to_date(:endDate,'yyyy-mm-dd') ");
 
-        if(patientName != null && !"".equals(patientName.trim())) {
-            builder.append(" and s.SamPatientName like '%:patientName%' ");
+        if((StringUtils.isNotEmpty(patientName))) {
+            builder.append(" and s.SamPatientName like :patientName ");
         }
 
-        if(orderState != null && !"".equals(orderState.trim())) {
+        if((StringUtils.isNotEmpty(orderState))) {
             builder.append(" and c.ChiOrderState =:orderState ");
         }
 
         SQLQuery query = getSession().createSQLQuery(builder.toString());
-        if(specialCheck != null && !"".equals(specialCheck.trim())) {
-            query.setParameter("specialCheck", Long.valueOf(specialCheck));
+        if(StringUtils.isNotEmpty(specialCheck)) {
+            query.setParameter("specialCheck", Long.valueOf(specialCheck.trim()));
         }
-        if(orderState != null && !"".equals(orderState.trim())) {
-            query.setParameter("orderState", Long.valueOf(orderState));
+        if(StringUtils.isNotEmpty(orderState)) {
+            query.setParameter("orderState", Long.valueOf(orderState.trim()));
         }
-        if(pathologyCode != null && !"".equals(pathologyCode.trim())) {
-            query.setParameter("pathologyCode", pathologyCode);
+        if(StringUtils.isNotEmpty(pathologyCode)) {
+            query.setParameter("pathologyCode", pathologyCode.trim());
         }
-        if(patientName != null && !"".equals(patientName.trim())) {
-            query.setParameter("patientName", patientName);
+        if(StringUtils.isNotEmpty(patientName)) {
+            query.setParameter("patientName", "%"+patientName.trim()+"%");
         }
-        query.setParameter("startDate", startDate);
-        query.setParameter("endDate", endDate);
+        query.setParameter("startDate", startDate.trim());
+        query.setParameter("endDate", endDate.trim());
         return ((BigDecimal)query.uniqueResult()).intValue();
     }
 
