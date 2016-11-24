@@ -191,10 +191,10 @@
                 <button type="button" class="btn btn-sm btn-primary" title="图像导入" onclick="importImg()">
                     图像导入
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="预览" onclick="reportOperate(1)">
+                <button type="button" class="btn btn-sm btn-primary" title="预览" onclick="reportView(1, null, null)">
                     预览
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="打印" onclick="reportOperate(2)">
+                <button type="button" class="btn btn-sm btn-primary" title="打印" onclick="reportView(2, null, null)">
                     打印
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="发送" onclick="">

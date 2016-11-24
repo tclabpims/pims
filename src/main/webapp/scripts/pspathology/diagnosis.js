@@ -156,11 +156,11 @@ function importImg() {
     });
 }
 
-function viewDetail(){
-    
+function viewDetail() {
+
 }
 
-function delayReport(){
+function delayReport() {
     $("#chipathologycode").val($("#sampathologycode").val());
     $("#testItemChName").val($("#saminspectionid").val());
     $("#chireqtime").val($("#samsenddoctorid").val());
@@ -177,7 +177,7 @@ function delayReport(){
         maxmin: false, //开启最大化最小化按钮
         area: ['800px', '300px'],
         content: $('#delayReportForm'),
-        btn: ["保存并发送","取消"],
+        btn: ["保存并发送", "取消"],
         success: function () {
 
         },
@@ -187,15 +187,17 @@ function delayReport(){
             var delreporttime = $("#delreporttime").val();
             var deldiagnosis = $("#deldiagnosis").val();
             var delreason = $("#delreason").val();
-            if(delreasonid == "") return layer.alert("请选择一个延迟原因");
-            if(delreporttime == "") return layer.alert("请选择报告日期");
-            if(jQuery.trim(deldiagnosis) == "") return layer.alert("请填写初步诊断");
-            if(jQuery.trim(delreason) == "") return layer.alert("请填写延迟原因");
-            if(jQuery.trim(deldays) == "" || (/\d/.test(jQuery.trim(deldays))) == false) return layer.alert("请填写正确的延迟天数");
+            if (delreasonid == "") return layer.alert("请选择一个延迟原因");
+            if (delreporttime == "") return layer.alert("请选择报告日期");
+            if (jQuery.trim(deldiagnosis) == "") return layer.alert("请填写初步诊断");
+            if (jQuery.trim(delreason) == "") return layer.alert("请填写延迟原因");
+            if (jQuery.trim(deldays) == "" || (/\d/.test(jQuery.trim(deldays))) == false) return layer.alert("请填写正确的延迟天数");
             var rowData = $("#sectionList").jqGrid("getRowData", crno);
-            $.get("../reportdelay/save", {delreasonid:delreasonid, deldays:deldays, delreporttime:delreporttime,
-                deldiagnosis:deldiagnosis,delreason:delreason, delsampleid:GRID_SELECTED_ROW_SAMPLEID,
-                delcustomerid:GRID_SELECTED_ROW_SAMPCUSTOMERID, delpathologycode:rowData.sampathologycode }, function(data){
+            $.get("../reportdelay/save", {
+                delreasonid: delreasonid, deldays: deldays, delreporttime: delreporttime,
+                deldiagnosis: deldiagnosis, delreason: delreason, delsampleid: GRID_SELECTED_ROW_SAMPLEID,
+                delcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID, delpathologycode: rowData.sampathologycode
+            }, function (data) {
                 layer.alert("延迟报告申请已发送！");
                 layer.close(index);
             });
@@ -209,7 +211,11 @@ function ajaxFileUpload() {
         secureuri: false,
         fileElementId: ["imgFile"],
         dataType: 'json',
-        data: {sampleid: GRID_SELECTED_ROW_SAMPLEID, samcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID,picpictureclass: PIC_TAKING_FROM},
+        data: {
+            sampleid: GRID_SELECTED_ROW_SAMPLEID,
+            samcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID,
+            picpictureclass: PIC_TAKING_FROM
+        },
         success: function (data, status) {
             layer.alert('上传成功！');
             onRowSelect(crno);
@@ -524,7 +530,7 @@ function requestOrder(lindex) {
      return;*/
     $.get("../order/save", {
         reqDoctor: reqDoctor, reqDoctorId: reqDoctorId,
-        reqDate: reqDate,pathologyId:dataRow.sampathologyid,
+        reqDate: reqDate, pathologyId: dataRow.sampathologyid,
         paraffinCode: paraffinCode, sampleId: sampleId,
         customerId: customerId, pathologyCode: pathologyCode,
         orderCode: ordercode, testItemId: testItemId,
@@ -843,29 +849,29 @@ function removePicture(pictureName) {
 }
 
 function receivecs(num) {
-    var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    var selectedIds = $("#sectionList").jqGrid("getGridParam", "selarrrow");
     // var sampleid = $("#sampleid").val();
     var arr = new Array();
-    if(selectedIds.length > 0){
+    if (selectedIds.length > 0) {
         $(selectedIds).each(function () {
-                var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+                var rowData1 = $("#sectionList").jqGrid('getRowData', this.toString());
                 arr.push(rowData1);
             }
         );
-    }else{
+    } else {
         alert("请选择病理标本再发起抄送!");
         return;
     }
     $.post("../task/task/changetaskstates", {
-            tasks:JSON.stringify(arr),
-            states:num,
-            taskstates:0
+            tasks: JSON.stringify(arr),
+            states: num,
+            taskstates: 0
         },
-        function(data) {
-            if(data.success) {
+        function (data) {
+            if (data.success) {
                 layer.msg(data.message, {icon: 1, time: 1000});
                 location.reload();
-            }else{
+            } else {
                 layer.msg(data.message, {icon: 2, time: 1000});
                 location.reload();
             }
@@ -888,7 +894,7 @@ function queryList(num) {
             "saminspectionid": saminspectionid,
             "sampathologycode": sampathologycode,
             "sampatientname": sampatientname,
-            "samfirstv":num
+            "samfirstv": num
         },
         page: 1
     }).trigger('reloadGrid');//重新载入
@@ -950,23 +956,16 @@ function print(url) {
     LODOP.PRINT();
 }
 
-function reportOperate(v) {
-    layer.open({
-        type: 1,
-        area: ['300px', '150px'],
-        fix: false, //不固定
-        maxmin: true,
-        shade: 0.5,
-        title: "选择报告打印模板",
-        content: $('#reportTemplateList'),
-        btn: ["确定", "取消"],
-        yes: function (index, layero) {
-            var template = $("#reportTemplateSelect").val();
-            if (template == null || template == "") {
-                layer.msg("报告模板不存在，请先配置", {icon: 0, time: 3000});
-                layer.close(index);
-            } else {
-                var picNum = $("#reportTemplateSelect").find("option:selected").attr("picNum");
+function reportView(v, showPicNum, templateUrl) {
+    $.get("../diagnosis/report/getTemplate", {"sampleid": GRID_SELECTED_ROW_SAMPLEID}, function (data) {
+            var rows = data.rows;
+            if (rows.length > 0) {
+                $("#reportTemplateSelect").empty();
+                for (var i = 0; i < rows.length; i++) {
+                    $("#reportTemplateSelect").append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
+                }
+                var picNum = showPicNum == null?$("#reportTemplateSelect").find("option:first").attr("picNum"):showPicNum;
+                var template = templateUrl== null?$("#reportTemplateSelect").find("option:first").val():templateUrl;
                 $.get("../diagnosis/report/print", {
                     "sampleid": GRID_SELECTED_ROW_SAMPLEID,
                     "templateUrl": template,
@@ -975,39 +974,53 @@ function reportOperate(v) {
                     "picNum": picNum
                 }, function (data) {
                     if (v == 1) {
-                        layer.open({
+                        var rptView = layer.open({
                             type: 2,
                             title: "报告单预览",
                             area: ['854px', '600px'],
-                            btn: ["打印", "关闭"],
+                            btn: ["打印", "切换模板", "关闭"],
                             maxmin: true,
                             shade: 0.5,
                             content: data.url,
                             yes: function (index1, layero1) {
                                 print(data.url);
                                 layer.close(index1);
+                            },
+                            btn2: function (index1, layero1) {
+                                layer.open(
+                                    {
+                                        type: 1,
+                                        area: ['300px', '150px'],
+                                        fix: false, //不固定
+                                        maxmin: true,
+                                        shade: 0.5,
+                                        title: "选择报告打印模板",
+                                        content: $('#reportTemplateList'),
+                                        btn: ["确定", "取消"],
+                                        yes:function(index2, layero2) {
+                                            var selectedPicNum = $("#reportTemplateSelect").find("option:selected").attr("picNum");
+                                            var template = $("#reportTemplateSelect").find("option:selected").val();
+                                            layer.close(index2);
+                                            layer.close(rptView);
+                                            reportView(1, selectedPicNum, template);
+                                        }
+                                    });
+                                return false;
+                            },
+                            btn3: function (index1, layero1) {
+                                layer.close(index1);
                             }
                         });
+                        layer.full(rptView);
                     } else {
                         print(data.url);
                     }
-                });//重新载入
+                });
+            } else {
+                layer.alert("该病例关联的病种还没有设置报告模板，请设置后再操作！");
             }
-            layer.close(index);
-        },
-        success: function () {
-            $.get("../diagnosis/report/getTemplate", {"sampleid": GRID_SELECTED_ROW_SAMPLEID}, function (data) {
-                    var rows = data.rows;
-                    $("#reportTemplateSelect").empty();
-                    if (rows.length > 0) {
-                        for (var i = 0; i < rows.length; i++) {
-                            $("#reportTemplateSelect").append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
-                        }
-                    }
-                }
-            );//重新载入
         }
-    })
+    );
 }
 
 var crno = 0;
@@ -1015,10 +1028,10 @@ var crno = 0;
 function setSelect(c) {
     var o = jQuery("#sectionList");
     var total = o.jqGrid('getGridParam', 'reccount'); //获取当前页面的总记录数量
-    if (total == 0) return ;
+    if (total == 0) return;
     c = parseInt(c);
     if (c == 0) {
-        if(crno == 1) return ;
+        if (crno == 1) return;
         if (crno > 1) {
             crno = crno - 1;
         }
@@ -1117,9 +1130,9 @@ function setTotalNumValue(pcode) {
     for (var i = 0; i < lkrows.length; i++) {
         var row = $("#lkItemList").jqGrid("getRowData", lkrows[i]);
         if (pcode == row.lkno) {
-            if(orderType_ == "CHONGQIE" ||orderType_ == "SHENQIE")row.totalItem=0;
+            if (orderType_ == "CHONGQIE" || orderType_ == "SHENQIE")row.totalItem = 0;
             else {
-            if (row.totalItem == "")
+                if (row.totalItem == "")
                     row.totalItem = 1;
                 else
                     row.totalItem = parseInt(row.totalItem) + 1;
@@ -1182,18 +1195,18 @@ function doAddRow(maxId, jjinfo) {
 }
 
 function addFavorite() {
-    var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    var selectedIds = $("#sectionList").jqGrid("getGridParam", "selarrrow");
     // var sampleid = $("#sampleid").val();
     var arr = [];
     var pathologyCode = [];
-    if(selectedIds.length > 0){
+    if (selectedIds.length > 0) {
         $(selectedIds).each(function () {
-                var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+                var rowData1 = $("#sectionList").jqGrid('getRowData', this.toString());
                 arr.push(rowData1);
                 pathologyCode.push(rowData1.sampathologycode);
             }
         );
-    }else{
+    } else {
         alert("请选择病理标本再加入收藏!");
         return;
     }
@@ -1207,15 +1220,19 @@ function addFavorite() {
         content: $('#myFavorite'),
         btn: ["确定", "取消"],
         yes: function (index, layero) {
-            $.get("../diagnosis/addFavorite", {favtitle:$("#favtitle").val(), favdescription:$("#favdescription").val(), pathologyItems:JSON.stringify(arr)}, function(data){
-               layer.alert("收藏成功!");
+            $.get("../diagnosis/addFavorite", {
+                favtitle: $("#favtitle").val(),
+                favdescription: $("#favdescription").val(),
+                pathologyItems: JSON.stringify(arr)
+            }, function (data) {
+                layer.alert("收藏成功!");
                 layer.close(index);
             });
         },
         success: function () {
-            var title = new Date().Format("yyyy/MM/dd hh:mm:ss")+"-"+$("#local_username").val()+"的收藏";
+            var title = new Date().Format("yyyy/MM/dd hh:mm:ss") + "-" + $("#local_username").val() + "的收藏";
             $("#favtitle").val(title);
-            var remark = "本次收藏您选择了："+arr.length + " 个标本，病理号是：" + pathologyCode.join("、");
+            var remark = "本次收藏您选择了：" + arr.length + " 个标本，病理号是：" + pathologyCode.join("、");
             $("#favdescription").val(remark);
         }
     })
@@ -1244,19 +1261,19 @@ function delRow() {
     }
 }
 
-function setcolor(id){
+function setcolor(id) {
     var ids = $("#sectionList").getDataIDs();
     $.each(ids, function (key, val) {
-        $("#sectionList").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+        $("#sectionList").children().children("tr[id='" + ids[key] + "']").removeClass("ui-state-highlight");
     });
-    $("#sectionList").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+    $("#sectionList").children().children("tr[id='" + id + "']").addClass("ui-state-highlight");
 }
 
 function onRowSelect(id) {
     var rowData = $("#sectionList").jqGrid('getRowData', id);
     if (rowData != null && rowData.sampleid != null && rowData.sampleid != "")
         GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
-        GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
+    GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
     getOrderTabs(rowData.sampleid);
     setcolor(id);
     crno = id;
@@ -1289,7 +1306,7 @@ $(function () {
             "sampatientname": sampatientname
         },
         width: $('.leftContent').width(),
-        colNames: [ '病理状态', '病理号', '送检医生', 'id', 'samcustomerid', 'sampathologyid'],
+        colNames: ['病理状态', '病理号', '送检医生', 'id', 'samcustomerid', 'sampathologyid'],
         colModel: [
             {
                 name: 'sampathologystatus',
@@ -1310,7 +1327,7 @@ $(function () {
                 updatePagerIcons(table);
             }, 0);
             var ids = $("#sectionList").jqGrid('getDataIDs');
-            if(ids != null && ids != ""){
+            if (ids != null && ids != "") {
                 crno = 1;
                 onRowSelect(1);
             }
@@ -1320,7 +1337,7 @@ $(function () {
         beforeSelectRow: function (rowid, e) {
             return $(e.target).is('input[type=checkbox]');
         },
-        multiselect:true,
+        multiselect: true,
         viewrecords: true,
         shrinkToFit: true,
         altRows: true,
@@ -1333,7 +1350,7 @@ $(function () {
         onSelectRow: function (id) {
 
         },
-        onCellSelect:function(id){
+        onCellSelect: function (id) {
             onRowSelect(id);
         }
     });
