@@ -54,14 +54,14 @@
             </label>
             <label class="label_style1">
                 <a href="4" style="color: #323232;cursor:pointer;text-decoration: none;outline:none;">
-                    我的收藏(10)
+                    我的收藏(${myFavorite})
                 </a>
             </label>
-            <label class="label_style1">
+            <%--<label class="label_style1">
                 <a href="5" style="color: #323232;cursor:pointer;text-decoration: none;outline:none;">
                     随访病例(10)
                 </a>
-            </label>
+            </label>--%>
         </div>
         <div style="width: 50%;float: left;margin-bottom: 12px">
             <label class="label_style1">

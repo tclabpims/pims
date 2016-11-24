@@ -3,10 +3,7 @@ package com.pims.webapp.controller;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsSysPathology;
 import com.pims.service.pimspathologysample.*;
-import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
-import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
-import com.pims.service.pimssyspathology.PimsSysPathologyManager;
-import com.pims.service.pimssyspathology.PimsSysTestFeeManager;
+import com.pims.service.pimssyspathology.*;
 import com.smart.Constants;
 import com.smart.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,8 @@ public class HomeController extends PIMSBaseController{
     private PimsPathologySlideManager pimsPathologySlideManager;//切片
     @Autowired
     private PimsPathologyOrderManager pimsPathologyOrderManager;//医嘱
+    @Autowired
+    private PimsPathologyFavoriteManager pimsPathologyFavoriteManager;//收藏
     /**
      * 渲染视图
      * @param request
@@ -171,6 +170,8 @@ public class HomeController extends PIMSBaseController{
         view.addObject("nosysqs",nosysqs); //系统未签收
         view.addObject("nosysjs",nosysjs); //系统未接收
         view.addObject("nosysbq",nosysbq); //系统未补取
+
+        view.addObject("myFavorite", pimsPathologyFavoriteManager.myFavorite());
         return view;
     }
 

@@ -10,22 +10,18 @@
     var baseUrl = "<%=request.getContextPath()%>";
 
     $(document).ready(function () {
-        var url = "../hpinfo/userrelatepathology";
-        $.ajax({
-            type: "GET",
-            url: url,
-            success: function (data) {
-                var rows = data.rows;
-                if (rows.length > 0) {
-                    for (var i = 0; i < rows.length; i++) {
-                        var obj = rows[i];
-                        $("#pathologyList").append("<option value='" + obj.pathologyid + "'>" + obj.patnamech + "</option>\n");
-                        $("#pathologyType").append("<option value='" + obj.pathologyid + "'>" + obj.patnamech + "</option>\n");
-                    }
-                    var currentPathology = data.userdata;
-                    if(currentPathology.pathologyLibId != null && jQuery.trim(currentPathology.pathologyLibId) != "") {
-                        $("#pathologyType").val(currentPathology.pathologyLibId);
-                    } else {
+        $.get("../hpinfo/userrelatepathology", {}, function(data){
+            var rows = data.rows;
+            if (rows.length > 0) {
+                for (var i = 0; i < rows.length; i++) {
+                    var obj = rows[i];
+                    $("#pathologyList").append("<option value='" + obj.pathologyid + "'>" + obj.patnamech + "</option>\n");
+                    $("#pathologyType").append("<option value='" + obj.pathologyid + "'>" + obj.patnamech + "</option>\n");
+                }
+                var currentPathology = data.userdata;
+                if(currentPathology.pathologyLibId != null && jQuery.trim(currentPathology.pathologyLibId) != "") {
+                    $("#pathologyType").val(currentPathology.pathologyLibId);
+                } else {
                     layer.open({
                         type: 1,
                         area: ['200px', '125px'],
@@ -50,11 +46,10 @@
                             }
                         }
                     });
-                    }
-                } else {
-                    layer.alert("请先添加病种",{icon:1,title:"提示"});
-                    return false;
                 }
+            } else {
+                layer.alert("请先添加病种",{icon:1,title:"提示"});
+                return false;
             }
         });
     });

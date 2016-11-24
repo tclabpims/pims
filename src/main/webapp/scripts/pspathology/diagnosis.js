@@ -631,7 +631,7 @@ function getOrderTabs(sampleId) {
         if (myzh != null)myzh.parentNode.removeChild(myzh);
         if (fzbl != null)fzbl.parentNode.removeChild(fzbl);
         if (tsrs != null)tsrs.parentNode.removeChild(tsrs);
-        if (ret.length > 0) {
+        if (ret != null && ret.length > 0) {
             for (var i = 0; i < ret.length; i++) {
                 if (ret[i].tesenglishname == "MYZH" || ret[i].tesenglishname == "FZBL" || ret[i].tesenglishname == "TSRS") {
                     var li_ = "<li itemId=\"order_" + ret[i].testitemid + "\" id=\"order_" + ret[i].tesenglishname + "\" tesischarge=\"" + ret[i].tesischarge + "\"><a href=\"#tabs-" + ret[i].tesenglishname + "\">" + ret[i].teschinesename + "</a></li>";
