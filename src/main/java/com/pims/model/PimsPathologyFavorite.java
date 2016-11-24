@@ -1,35 +1,40 @@
 package com.pims.model;
 
+import com.smart.model.BaseObject;
+
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_FAVORITE", schema = "KFTEST", catalog = "")
-public class PimsPathologyFavorite {
+@Table(name = "PIMS_PATHOLOGY_FAVORITE")
+public class PimsPathologyFavorite extends BaseObject {
     private long favoriteid;
     private long favsampleid;
     private String favpathologycode;
-    private String favcustomercode;
+    private long favcustomercode;
     private long favtype;
     private String favowner;
     private String favtitle;
     private String favdescription;
-    private Time favpreviewtime;
+    private Date favpreviewtime;
     private Long favstate;
     private String favbrowsetimes;
     private String favnum;
-    private Time favtime;
+    private Date favtime;
     private String favfirstv;
     private String favsecondv;
     private String favthirdv;
     private Long favfirstn;
-    private Time favfirstd;
+    private Date favfirstd;
 
     @Id
     @Column(name = "FAVORITEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="Seq_FavoriteId")
+    @SequenceGenerator(name = "Seq_FavoriteId", sequenceName = "Seq_FavoriteId", allocationSize=1)
     public long getFavoriteid() {
         return favoriteid;
     }
@@ -59,12 +64,12 @@ public class PimsPathologyFavorite {
     }
 
     @Basic
-    @Column(name = "FAVCUSTOMERCODE")
-    public String getFavcustomercode() {
+    @Column(name = "FAVCUSTOMERID")
+    public long getFavcustomercode() {
         return favcustomercode;
     }
 
-    public void setFavcustomercode(String favcustomercode) {
+    public void setFavcustomercode(long favcustomercode) {
         this.favcustomercode = favcustomercode;
     }
 
@@ -110,11 +115,11 @@ public class PimsPathologyFavorite {
 
     @Basic
     @Column(name = "FAVPREVIEWTIME")
-    public Time getFavpreviewtime() {
+    public Date getFavpreviewtime() {
         return favpreviewtime;
     }
 
-    public void setFavpreviewtime(Time favpreviewtime) {
+    public void setFavpreviewtime(Date favpreviewtime) {
         this.favpreviewtime = favpreviewtime;
     }
 
@@ -150,11 +155,11 @@ public class PimsPathologyFavorite {
 
     @Basic
     @Column(name = "FAVTIME")
-    public Time getFavtime() {
+    public Date getFavtime() {
         return favtime;
     }
 
-    public void setFavtime(Time favtime) {
+    public void setFavtime(Date favtime) {
         this.favtime = favtime;
     }
 
@@ -200,12 +205,22 @@ public class PimsPathologyFavorite {
 
     @Basic
     @Column(name = "FAVFIRSTD")
-    public Time getFavfirstd() {
+    public Date getFavfirstd() {
         return favfirstd;
     }
 
-    public void setFavfirstd(Time favfirstd) {
+    public void setFavfirstd(Date favfirstd) {
         this.favfirstd = favfirstd;
+    }
+
+    /**
+     * Returns a multi-line String with key=value pairs.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return null;
     }
 
     @Override
@@ -213,33 +228,31 @@ public class PimsPathologyFavorite {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PimsPathologyFavorite that = (PimsPathologyFavorite) o;
+        PimsPathologyFavorite favorite = (PimsPathologyFavorite) o;
 
-        if (favoriteid != that.favoriteid) return false;
-        if (favsampleid != that.favsampleid) return false;
-        if (favtype != that.favtype) return false;
-        if (favpathologycode != null ? !favpathologycode.equals(that.favpathologycode) : that.favpathologycode != null)
+        if (favoriteid != favorite.favoriteid) return false;
+        if (favsampleid != favorite.favsampleid) return false;
+        if (favcustomercode != favorite.favcustomercode) return false;
+        if (favtype != favorite.favtype) return false;
+        if (favpathologycode != null ? !favpathologycode.equals(favorite.favpathologycode) : favorite.favpathologycode != null)
             return false;
-        if (favcustomercode != null ? !favcustomercode.equals(that.favcustomercode) : that.favcustomercode != null)
+        if (favowner != null ? !favowner.equals(favorite.favowner) : favorite.favowner != null) return false;
+        if (favtitle != null ? !favtitle.equals(favorite.favtitle) : favorite.favtitle != null) return false;
+        if (favdescription != null ? !favdescription.equals(favorite.favdescription) : favorite.favdescription != null)
             return false;
-        if (favowner != null ? !favowner.equals(that.favowner) : that.favowner != null) return false;
-        if (favtitle != null ? !favtitle.equals(that.favtitle) : that.favtitle != null) return false;
-        if (favdescription != null ? !favdescription.equals(that.favdescription) : that.favdescription != null)
+        if (favpreviewtime != null ? !favpreviewtime.equals(favorite.favpreviewtime) : favorite.favpreviewtime != null)
             return false;
-        if (favpreviewtime != null ? !favpreviewtime.equals(that.favpreviewtime) : that.favpreviewtime != null)
+        if (favstate != null ? !favstate.equals(favorite.favstate) : favorite.favstate != null) return false;
+        if (favbrowsetimes != null ? !favbrowsetimes.equals(favorite.favbrowsetimes) : favorite.favbrowsetimes != null)
             return false;
-        if (favstate != null ? !favstate.equals(that.favstate) : that.favstate != null) return false;
-        if (favbrowsetimes != null ? !favbrowsetimes.equals(that.favbrowsetimes) : that.favbrowsetimes != null)
-            return false;
-        if (favnum != null ? !favnum.equals(that.favnum) : that.favnum != null) return false;
-        if (favtime != null ? !favtime.equals(that.favtime) : that.favtime != null) return false;
-        if (favfirstv != null ? !favfirstv.equals(that.favfirstv) : that.favfirstv != null) return false;
-        if (favsecondv != null ? !favsecondv.equals(that.favsecondv) : that.favsecondv != null) return false;
-        if (favthirdv != null ? !favthirdv.equals(that.favthirdv) : that.favthirdv != null) return false;
-        if (favfirstn != null ? !favfirstn.equals(that.favfirstn) : that.favfirstn != null) return false;
-        if (favfirstd != null ? !favfirstd.equals(that.favfirstd) : that.favfirstd != null) return false;
+        if (favnum != null ? !favnum.equals(favorite.favnum) : favorite.favnum != null) return false;
+        if (favtime != null ? !favtime.equals(favorite.favtime) : favorite.favtime != null) return false;
+        if (favfirstv != null ? !favfirstv.equals(favorite.favfirstv) : favorite.favfirstv != null) return false;
+        if (favsecondv != null ? !favsecondv.equals(favorite.favsecondv) : favorite.favsecondv != null) return false;
+        if (favthirdv != null ? !favthirdv.equals(favorite.favthirdv) : favorite.favthirdv != null) return false;
+        if (favfirstn != null ? !favfirstn.equals(favorite.favfirstn) : favorite.favfirstn != null) return false;
+        return favfirstd != null ? favfirstd.equals(favorite.favfirstd) : favorite.favfirstd == null;
 
-        return true;
     }
 
     @Override
@@ -247,7 +260,7 @@ public class PimsPathologyFavorite {
         int result = (int) (favoriteid ^ (favoriteid >>> 32));
         result = 31 * result + (int) (favsampleid ^ (favsampleid >>> 32));
         result = 31 * result + (favpathologycode != null ? favpathologycode.hashCode() : 0);
-        result = 31 * result + (favcustomercode != null ? favcustomercode.hashCode() : 0);
+        result = 31 * result + (int) (favcustomercode ^ (favcustomercode >>> 32));
         result = 31 * result + (int) (favtype ^ (favtype >>> 32));
         result = 31 * result + (favowner != null ? favowner.hashCode() : 0);
         result = 31 * result + (favtitle != null ? favtitle.hashCode() : 0);

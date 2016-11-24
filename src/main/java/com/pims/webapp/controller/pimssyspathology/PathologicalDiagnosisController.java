@@ -87,6 +87,18 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @Autowired
     private PimsPathologyOrderChildManager pimsPathologyOrderChildManager;
 
+    @Autowired
+    private PimsPathologyFavoriteManager pimsPathologyFavoriteManager;
+
+    @Autowired
+    private PimsPathologyFollowupManager pimsPathologyFollowupManager;
+
+    @RequestMapping(value = "/addFollowup", method = RequestMethod.GET)
+    @ResponseBody
+    public void addFollowup(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    }
+
     @RequestMapping(value = "/report/paraffin", method = RequestMethod.GET)
     @ResponseBody
     public DataResponse getParaffin(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -97,6 +109,30 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         List<PimsPathologyParaffin> lis = pimsPathologyParaffinManager.getParaffinBySampleId(Long.valueOf(sampleId), orderId);
         dr.setRows(getResultMap(lis));
         return dr;
+    }
+
+    @RequestMapping(value = "/addFavorite", method = RequestMethod.GET)
+    @ResponseBody
+    public void addFavorite(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String favtitle = request.getParameter("favtitle");
+        String favdescription = request.getParameter("favdescription");
+        String pathologyItems = request.getParameter("pathologyItems");
+        JSONArray array = JSONArray.parseArray(pathologyItems);
+        User user = WebControllerUtil.getAuthUser();
+        for(Object obj : array) {
+            JSONObject jsonObject = (JSONObject)obj;
+            PimsPathologyFavorite favorite = new PimsPathologyFavorite();
+            favorite.setFavowner(user.getUsername());
+            favorite.setFavsampleid(jsonObject.getLongValue("sampleid"));
+            favorite.setFavpathologycode(jsonObject.getString("sampathologycode"));
+            favorite.setFavcustomercode(jsonObject.getLongValue("samcustomerid"));
+            favorite.setFavtype(0);
+            favorite.setFavtitle(favtitle);
+            favorite.setFavdescription(favdescription);
+            favorite.setFavstate(0L);
+            favorite.setFavtime(new Date());
+            pimsPathologyFavoriteManager.save(favorite);
+        }
     }
 
     @RequestMapping(value = "/camera", method = RequestMethod.GET)

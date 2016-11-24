@@ -2,37 +2,40 @@ package com.pims.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_FOLLOWUP", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_FOLLOWUP")
 public class PimsPathologyFollowup {
     private long followupid;
     private long folsampleid;
     private String folpathologycode;
-    private String folcustomercode;
+    private long folcustomercode;
     private long folstate;
     private String foluserid;
     private String folusername;
-    private Time folplantime;
-    private Time folstarttime;
-    private Time folendtime;
+    private Date folplantime;
+    private Date folstarttime;
+    private Date folendtime;
     private String folcontent;
     private String folfirstv;
     private String folsecondv;
     private String folthirdv;
-    private Time folfirstd;
-    private Time folsecondd;
+    private Date folfirstd;
+    private Date folsecondd;
     private Long folfirstn;
     private Long folsecondn;
     private String folremark;
     private String folcreateuser;
-    private Time folcreatetime;
+    private Date folcreatetime;
 
     @Id
     @Column(name = "FOLLOWUPID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="Seq_FollowUpId")
+    @SequenceGenerator(name = "Seq_FollowUpId", sequenceName = "Seq_FollowUpId", allocationSize=1)
     public long getFollowupid() {
         return followupid;
     }
@@ -62,12 +65,12 @@ public class PimsPathologyFollowup {
     }
 
     @Basic
-    @Column(name = "FOLCUSTOMERCODE")
-    public String getFolcustomercode() {
+    @Column(name = "FOLCUSTOMERID")
+    public long getFolcustomercode() {
         return folcustomercode;
     }
 
-    public void setFolcustomercode(String folcustomercode) {
+    public void setFolcustomercode(long folcustomercode) {
         this.folcustomercode = folcustomercode;
     }
 
@@ -103,31 +106,31 @@ public class PimsPathologyFollowup {
 
     @Basic
     @Column(name = "FOLPLANTIME")
-    public Time getFolplantime() {
+    public Date getFolplantime() {
         return folplantime;
     }
 
-    public void setFolplantime(Time folplantime) {
+    public void setFolplantime(Date folplantime) {
         this.folplantime = folplantime;
     }
 
     @Basic
     @Column(name = "FOLSTARTTIME")
-    public Time getFolstarttime() {
+    public Date getFolstarttime() {
         return folstarttime;
     }
 
-    public void setFolstarttime(Time folstarttime) {
+    public void setFolstarttime(Date folstarttime) {
         this.folstarttime = folstarttime;
     }
 
     @Basic
     @Column(name = "FOLENDTIME")
-    public Time getFolendtime() {
+    public Date getFolendtime() {
         return folendtime;
     }
 
-    public void setFolendtime(Time folendtime) {
+    public void setFolendtime(Date folendtime) {
         this.folendtime = folendtime;
     }
 
@@ -173,21 +176,21 @@ public class PimsPathologyFollowup {
 
     @Basic
     @Column(name = "FOLFIRSTD")
-    public Time getFolfirstd() {
+    public Date getFolfirstd() {
         return folfirstd;
     }
 
-    public void setFolfirstd(Time folfirstd) {
+    public void setFolfirstd(Date folfirstd) {
         this.folfirstd = folfirstd;
     }
 
     @Basic
     @Column(name = "FOLSECONDD")
-    public Time getFolsecondd() {
+    public Date getFolsecondd() {
         return folsecondd;
     }
 
-    public void setFolsecondd(Time folsecondd) {
+    public void setFolsecondd(Date folsecondd) {
         this.folsecondd = folsecondd;
     }
 
@@ -233,11 +236,11 @@ public class PimsPathologyFollowup {
 
     @Basic
     @Column(name = "FOLCREATETIME")
-    public Time getFolcreatetime() {
+    public Date getFolcreatetime() {
         return folcreatetime;
     }
 
-    public void setFolcreatetime(Time folcreatetime) {
+    public void setFolcreatetime(Date folcreatetime) {
         this.folcreatetime = folcreatetime;
     }
 
@@ -250,10 +253,9 @@ public class PimsPathologyFollowup {
 
         if (followupid != that.followupid) return false;
         if (folsampleid != that.folsampleid) return false;
+        if (folcustomercode != that.folcustomercode) return false;
         if (folstate != that.folstate) return false;
         if (folpathologycode != null ? !folpathologycode.equals(that.folpathologycode) : that.folpathologycode != null)
-            return false;
-        if (folcustomercode != null ? !folcustomercode.equals(that.folcustomercode) : that.folcustomercode != null)
             return false;
         if (foluserid != null ? !foluserid.equals(that.foluserid) : that.foluserid != null) return false;
         if (folusername != null ? !folusername.equals(that.folusername) : that.folusername != null) return false;
@@ -271,10 +273,8 @@ public class PimsPathologyFollowup {
         if (folremark != null ? !folremark.equals(that.folremark) : that.folremark != null) return false;
         if (folcreateuser != null ? !folcreateuser.equals(that.folcreateuser) : that.folcreateuser != null)
             return false;
-        if (folcreatetime != null ? !folcreatetime.equals(that.folcreatetime) : that.folcreatetime != null)
-            return false;
+        return folcreatetime != null ? folcreatetime.equals(that.folcreatetime) : that.folcreatetime == null;
 
-        return true;
     }
 
     @Override
@@ -282,7 +282,7 @@ public class PimsPathologyFollowup {
         int result = (int) (followupid ^ (followupid >>> 32));
         result = 31 * result + (int) (folsampleid ^ (folsampleid >>> 32));
         result = 31 * result + (folpathologycode != null ? folpathologycode.hashCode() : 0);
-        result = 31 * result + (folcustomercode != null ? folcustomercode.hashCode() : 0);
+        result = 31 * result + (int) (folcustomercode ^ (folcustomercode >>> 32));
         result = 31 * result + (int) (folstate ^ (folstate >>> 32));
         result = 31 * result + (foluserid != null ? foluserid.hashCode() : 0);
         result = 31 * result + (folusername != null ? folusername.hashCode() : 0);

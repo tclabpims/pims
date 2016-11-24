@@ -1,7 +1,7 @@
 /**
  * 抄送管理
  */
-function csMarage() {
+function csMarage(states) {
 	//判断该病理是否已经发起了抄送
 	var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
 	// var sampleid = $("#sampleid").val();
@@ -16,7 +16,7 @@ function csMarage() {
 		alert("请选择病理标本再发起抄送!");
 		return;
 	}
-	var states = "0";
+	var states = states;
 	// if(sampleid == null || sampleid == ""){
 	// 	alert("请选择病理标本再发起抄送!");
 	// 	return;

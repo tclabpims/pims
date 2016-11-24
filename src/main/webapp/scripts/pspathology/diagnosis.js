@@ -1181,6 +1181,46 @@ function doAddRow(maxId, jjinfo) {
     $("#new1").jqGrid("addRowData", parseInt(reqDoctorId) + maxId, dataRow, "last");
 }
 
+function addFavorite() {
+    var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    // var sampleid = $("#sampleid").val();
+    var arr = [];
+    var pathologyCode = [];
+    if(selectedIds.length > 0){
+        $(selectedIds).each(function () {
+                var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+                arr.push(rowData1);
+                pathologyCode.push(rowData1.sampathologycode);
+            }
+        );
+    }else{
+        alert("请选择病理标本再加入收藏!");
+        return;
+    }
+    layer.open({
+        type: 1,
+        area: ['400px', '300px'],
+        fix: false, //不固定
+        maxmin: true,
+        shade: 0.5,
+        title: "添加收藏",
+        content: $('#myFavorite'),
+        btn: ["确定", "取消"],
+        yes: function (index, layero) {
+            $.get("../diagnosis/addFavorite", {favtitle:$("#favtitle").val(), favdescription:$("#favdescription").val(), pathologyItems:JSON.stringify(arr)}, function(data){
+               layer.alert("收藏成功!");
+                layer.close(index);
+            });
+        },
+        success: function () {
+            var title = new Date().Format("yyyy/MM/dd hh:mm:ss")+"-"+$("#local_username").val()+"的收藏";
+            $("#favtitle").val(title);
+            var remark = "本次收藏您选择了："+arr.length + " 个标本，病理号是：" + pathologyCode.join("、");
+            $("#favdescription").val(remark);
+        }
+    })
+}
+
 function delRow() {
     var selectedIds = $("#new1").jqGrid("getGridParam", "selarrrow");
     var ids = $("#new1").jqGrid('getDataIDs');

@@ -200,8 +200,8 @@
                 <button type="button" class="btn btn-sm btn-primary" title="发送" onclick="">
                     发送
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="转送">转送</button>
-                <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="csMarage()">
+                <button type="button" class="btn btn-sm btn-primary" title="转送" onclick="csMarage(1)">转送</button>
+                <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="csMarage(0)">
                     抄送管理
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="发起会诊" onclick="consMarage()">
@@ -210,7 +210,7 @@
                 <button type="button" class="btn btn-sm btn-primary" title="加入随访病例" onclick="deleteSection()">
                     加入随访病例
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="加入我的收藏" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="加入我的收藏" onclick="addFavorite()">
                     加入我的收藏
                 </button>
             </div>
@@ -628,5 +628,14 @@
             </div>
         </div>
     </div>
+
+    <div id="myFavorite" style="display: none">
+        <div style="padding-left: 5px;padding-top:5px"><label for="favtitle">收藏标题：</label><input type="text" size="35" id="favtitle"></div>
+        <div style="padding-left: 5px;padding-top:5px">
+            <label for="favdescription">收藏描述：</label>
+            <textarea type="text" cols="40" rows="6" id="favdescription"></textarea>
+        </div>
+    </div>
+
 </body>
 </html>
