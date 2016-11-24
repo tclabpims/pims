@@ -35,7 +35,7 @@ public class PimsPathologyFavoriteDaoHibernate extends GenericDaoHibernate<PimsP
 
     @Override
     public List<PimsPathologyFavorite> queryMyFavorite(GridQuery query, String userName) {
-        Query q = getSession().createQuery("from PimsPathologyFavorite where favowner=:username");
+        Query q = getSession().createQuery("from PimsPathologyFavorite where favowner=:username order by favoriteid desc");
         q.setParameter("username", userName);
         q.setFirstResult(query.getStart());
         q.setMaxResults(query.getEnd());

@@ -535,6 +535,43 @@ $(function () {
         pager: "#pager3"
     });
     /**
+     * 我的收藏
+     */
+    $("#new4").jqGrid({
+        url: "../favorite/query",
+        mtype: "GET",
+        datatype: "json",
+        postData:{},
+        colNames: ['favoriteid','favsampleid','favcustomerid','病理编号', '收藏标题', '收藏时间','类型'],
+        colModel: [
+            {name:'favoriteid',hidden:true},
+            {name:'favsampleid',hidden:true},
+            {name:'favcustomerid',hidden:true},
+            { name: 'favpathologycode', index: 'favpathologycode'},
+            { name: 'favtitle', index: 'favtitle'},
+            { name: 'favtime', index: 'favtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
+            { name: 'favtype', index: 'favtype',formatter: "select", editoptions:{value:"0:自己收藏的;1:别人共享的"}}
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        ondblClickRow: function (id) {
+            //viewSample(3,id);
+        },
+        viewrecords: true,
+        height:320,
+        width:width,
+        //autowidth: true,
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // 行号宽度
+        pager: "#pager4"
+    });
+    /**
      * 我发起的会诊
      */
     $("#new6").jqGrid({

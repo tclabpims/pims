@@ -197,6 +197,17 @@
             </div>
         </div>
     </div>
+    <div class="row" id="show_div_4" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="new4" class="table">
+                    </table>
+                    <div id="pager4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row" id="show_div_6" style="display: none">
         <div>
             <div style="margin-top: 5px">
