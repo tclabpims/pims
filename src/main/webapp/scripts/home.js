@@ -171,8 +171,8 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            var rowData = $("#sysnew0").jqGrid('getRowData',id);
-            location.href='../pathologysample/pieces.jsp?m=取材管理&id='+ rowData.sampleid;
+            // var rowData = $("#sysnew0").jqGrid('getRowData',id);
+            // location.href='../pathologysample/pieces.jsp?m=取材管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
         height:320,
@@ -224,8 +224,8 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            var rowData = $("#sysnew1").jqGrid('getRowData',id);
-            location.href='../pathologysample/paraffin?m=包埋管理&id='+ rowData.sampleid;
+            // var rowData = $("#sysnew1").jqGrid('getRowData',id);
+            // location.href='../pathologysample/paraffin?m=包埋管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
         height:320,
@@ -281,8 +281,8 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            var rowData = $("#sysnew2").jqGrid('getRowData',id);
-            location.href='../pathologysample/slide?m=切片管理&id='+ rowData.sampleid;
+            // var rowData = $("#sysnew2").jqGrid('getRowData',id);
+            // location.href='../pathologysample/slide?m=切片管理&id='+ rowData.sampleid;
         },
         viewrecords: true,
         height:320,
@@ -322,8 +322,8 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            var rowData = $("#sysnew2").jqGrid('getRowData',id);
-            location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
+            // var rowData = $("#sysnew2").jqGrid('getRowData',id);
+            // location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
         },
         viewrecords: true,
         height:320,
@@ -364,8 +364,8 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            var rowData = $("#sysnew4").jqGrid('getRowData',id);
-            location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
+            // var rowData = $("#sysnew4").jqGrid('getRowData',id);
+            // location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.sampleid;
         },
         viewrecords: true,
         height:320,
@@ -559,8 +559,9 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
+            //viewSample(3,id);
             var rowData = $("#new4").jqGrid('getRowData',id);
-            location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.favsampleid;
+            reportView(1, null, null,rowData.favsampleid);
         },
         viewrecords: true,
         height:320,
@@ -647,6 +648,73 @@ $(function () {
         pager: "#pager7"
     });
 });
+
+function reportView(v, showPicNum, templateUrl,samid) {
+    $.get("../diagnosis/report/getTemplate", {"sampleid": samid}, function (data) {
+            var rows = data.rows;
+            if (rows.length > 0) {
+                $("#reportTemplateSelect").empty();
+                for (var i = 0; i < rows.length; i++) {
+                    $("#reportTemplateSelect").append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
+                }
+                var picNum = showPicNum == null?$("#reportTemplateSelect").find("option:first").attr("picNum"):showPicNum;
+                var template = templateUrl== null?$("#reportTemplateSelect").find("option:first").val():templateUrl;
+                $.get("../diagnosis/report/print", {
+                    "sampleid": samid,
+                    "templateUrl": template,
+                    "type": v,
+                    "picpictureclass": 2,
+                    "picNum": picNum
+                }, function (data) {
+                    if (v == 1) {
+                        var rptView = layer.open({
+                            type: 2,
+                            title: "报告单预览",
+                            area: ['854px', '600px'],
+                            btn: ["打印", "切换模板", "关闭"],
+                            maxmin: true,
+                            shade: 0.5,
+                            content: data.url,
+                            yes: function (index1, layero1) {
+                                print(data.url);
+                                layer.close(index1);
+                            },
+                            btn2: function (index1, layero1) {
+                                layer.open(
+                                    {
+                                        type: 1,
+                                        area: ['300px', '150px'],
+                                        fix: false, //不固定
+                                        maxmin: true,
+                                        shade: 0.5,
+                                        title: "选择报告打印模板",
+                                        content: $('#reportTemplateList'),
+                                        btn: ["确定", "取消"],
+                                        yes:function(index2, layero2) {
+                                            var selectedPicNum = $("#reportTemplateSelect").find("option:selected").attr("picNum");
+                                            var template = $("#reportTemplateSelect").find("option:selected").val();
+                                            layer.close(index2);
+                                            layer.close(rptView);
+                                            reportView(1, selectedPicNum, template,samid);
+                                        }
+                                    });
+                                return false;
+                            },
+                            btn3: function (index1, layero1) {
+                                layer.close(index1);
+                            }
+                        });
+                        layer.full(rptView);
+                    } else {
+                        print(data.url);
+                    }
+                });
+            } else {
+                layer.alert("该病例关联的病种还没有设置报告模板，请设置后再操作！");
+            }
+        }
+    );
+}
 
 /**
  * 查看消息

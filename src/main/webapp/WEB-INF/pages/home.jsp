@@ -27,6 +27,12 @@
 </style>
 </head>
 <body class="home"  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
+    <div id="reportTemplateList" style="display:none;alignment: center">
+        <div class="mainContent" style="text-align:center;">
+            <select id="reportTemplateSelect">
+            </select>
+        </div>
+    </div>
     <input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
     <input type="hidden" id="local_logyid" value="${logyid}"/>
     <input type="hidden" id="local_userid" value="${local_userid}"/>
@@ -405,3 +411,4 @@
         </form>
     </div>
 </body>
+

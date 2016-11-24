@@ -569,7 +569,7 @@ $(function() {
 				dataType: "json",
 				data: {
 					name : request.term,
-					tesitemtype: 1
+					tesitemtype: 4
 				},
 				success: function( data ) {
 					response( $.map( data, function( result ) {
