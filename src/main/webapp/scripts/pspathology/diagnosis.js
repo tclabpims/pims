@@ -1207,7 +1207,7 @@ function addFavorite() {
             }
         );
     } else {
-        alert("请选择病理标本再加入收藏!");
+        layer.alert("请先勾选病例!");
         return;
     }
     layer.open({
@@ -1709,7 +1709,7 @@ $(function () {
                 data: {
                     name: request.term,//名称
                     bddatatype: 3,//送检医生
-                    bdcustomerid: $("#customerId").val()//账号所属医院
+                    bdcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID//账号所属医院
                 },
                 success: function (data) {
                     response($.map(data, function (result) {
