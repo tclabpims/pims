@@ -209,7 +209,7 @@ $(function () {
             {name:'pienullslidenum',hidden:true},//白片数
             {name:'pieparts',hidden:true},//取材部位
             {name:'piespecial',hidden:true},//特殊要求
-            {name:'piesamplingtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
+            {name:'piesamplingtime',hidden:true,formatter:function(cellvalue, options, row){if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))}},//取材时间
             {name:'piedoctorid',hidden:true},//取材医生ID
             {name:'piedoctorname',hidden:true},//取材医生
             {name:'piesamplingno',hidden:true},//序号
@@ -257,15 +257,15 @@ $(function () {
             { name: 'samsenddoctorname', index: 'samsenddoctorname',width:100},
             {name:'samdeptname',index:'samdeptname',width:100},
             {name:'pieembeddoctorname',index:'pieembeddoctorname',width:100},
-            {name:'pieembedtime',index:'pieembedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},
+            {name:'pieembedtime',index:'pieembedtime',formatter:function(cellvalue, options, row){if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))},width:100},
             {name:'parsectioneddoctor',index:'parsectioneddoctor',width:100},
-            {name:'parsectionedtime',index:'parsectionedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},width:100},
+            {name:'parsectionedtime',index:'parsectionedtime',formatter:function(cellvalue, options, row){if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))},width:100},
             {name:'parisprintlabel',index:'parisprintlabel',width:100},
             {name:'parnullslidenum',hidden:true},
             {name:'pieceid',hidden:true},//材块ID
             {name:'piecode',hidden:true},//材块编号
             {name:'piedoctorname',hidden:true},//取材医生
-            {name:'piesamplingtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
+            {name:'piesamplingtime',hidden:true,formatter:function(cellvalue, options, row){if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))}},//取材时间
             {name:'samcustomerid',hidden:true},//客户代码
             {name:'samcustomercode',hidden:true},//客户代码
             {name:'parparaffinno',hidden:true},//蜡块序号
@@ -311,7 +311,7 @@ $(function () {
             { name: 'samsendhospital', index: 'samsendhospital',width:'100px', align: "center"},//送检医院
             { name: 'sampatientname', index: 'sampatientname',width:'100px', align: "center"},//病人姓名
             { name: 'piedoctorname', index: 'piedoctorname',width:'100px', align: "center"},//取材医生
-            { name: 'piesamplingtime', index: 'piesamplingtime',width:'100px', align: "center",formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}}//取材时间
+            { name: 'piesamplingtime', index: 'piesamplingtime',width:'100px', align: "center",formatter:function(cellvalue, options, row){if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))}}//取材时间
         ],
         gridComplete: function () {
         },
@@ -394,7 +394,7 @@ $(function () {
             { name: 'samsendhospital', index: 'samsendhospital',width:'100px', align: "center"},//送检医院
             { name: 'sampatientname', index: 'sampatientname',width:'100px', align: "center"},//病人姓名
             { name: 'piedoctorname', index: 'piedoctorname',width:'100px', align: "center"},//取材医生
-            { name: 'piesamplingtime', index: 'piesamplingtime',width:'100px', align: "center",formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}}//取材时间
+            { name: 'piesamplingtime', index: 'piesamplingtime',width:'100px', align: "center",formatter:function(cellvalue, options, row){if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))}}//取材时间
         ],
         gridComplete: function () {
         },

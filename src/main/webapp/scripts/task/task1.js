@@ -89,6 +89,7 @@ $(function () {
 		url: "../pimsuser/userlist",
 		mtype: "GET",
 		datatype: "json",
+		postData:{"states":0},
 		width:800,
 		height:550,
 		colNames: ['id','姓名', '登录账号'],
