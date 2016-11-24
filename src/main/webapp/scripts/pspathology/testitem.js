@@ -269,7 +269,7 @@ $(function(){
             { name: 'tesenglishname', index: 'tesenglishname', width: 30},
             { name: 'tespathologyid', index: 'tespathologyid', width: 30, hidden: true },
             { name: 'tespathologyname', index: 'tespathologyname', width: 30},
-            { name: 'tesitemtype', index: 'tesitemtype', width: 30,formatter: "select", editoptions:{value:"1:申请开单项目;2:内部医嘱检测项目;3:内部医嘱技术处理项目"}},
+            { name: 'tesitemtype', index: 'tesitemtype', width: 30,formatter: "select", editoptions:{value:"1:申请开单项目;2:内部医嘱检测项目;3:内部医嘱技术处理项目;4:标本登记/电子申请检查项目;"}},
             { name: 'tesitemproperty', index: 'tesitemproperty', width: 30,formatter: "select", editoptions:{value:"0:癌基因蛋白;1:单克隆抗体;"}},
             { name: 'tesisorder', index: 'tesisorder', width: 30,formatter: "select", editoptions:{value:"1:是;0:否"}},
             { name: 'tesitemhandle', index: 'tesitemhandle', width: 50,formatter: "select", editoptions:{value:"1:取材处理;2:切片处理"}},

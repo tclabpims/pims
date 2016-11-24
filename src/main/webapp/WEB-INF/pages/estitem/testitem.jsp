@@ -155,9 +155,10 @@
                     <label class="col-xs-3 control-label no-padding-right" for="tesitemtype">项目类型</label>
                     <div class="col-xs-8">
                         <select type="text" id="tesitemtype" name="tesitemtype" onchange="controlItemHandle()" class="col-xs-3">
-                            <option value="1">申请开单项目</option>
+                            <option value="1">医嘱开单项目</option>
                             <option value="2">内部医嘱检测项目</option>
                             <option value="3">内部医嘱技术处理项目</option>
+                            <option value="4">标本登记/电子申请检查项目</option>
                         </select>
                     </div>
                 </div>

@@ -559,7 +559,8 @@ $(function () {
             }, 0);
         },
         ondblClickRow: function (id) {
-            //viewSample(3,id);
+            var rowData = $("#new4").jqGrid('getRowData',id);
+            location.href='../diagnosis/diagnosis.jsp?m=病理诊断&id='+ rowData.favsampleid;
         },
         viewrecords: true,
         height:320,
