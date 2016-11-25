@@ -35,7 +35,7 @@
 			<div class="div_div"><img src="/styles/imagepims/add.png" class="div_img" onclick="addSample()">新增</div>
 			<div class="div_div"><img src="/styles/imagepims/edit.png" class="div_img" id="editButton">修改</div>
 			<div class="div_div"><img src="/styles/imagepims/delete.png" class="div_img" id="deleteButton">删除</div>
-			<div class="div_div"><img src="/styles/imagepims/save.png" class="div_img" id="saveButton" onclick="saveInfo()">保存</div>
+			<div class="div_div"><img src="/styles/imagepims/save.png" class="div_img" id="saveButton" onclick="clickOther()">保存</div>
 			<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
 			<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
 			<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
@@ -302,6 +302,12 @@
 				电子申请单
 			</a>
 		</li>
+		<div class="form-group" style="margin-top: 10px;margin-bottom: 5px;">
+			<label class="label_style col-sm-1" for="samrequistionid">临床申请:</label>
+			<div class="col-sm-3 ">
+				<input class="input_style" type="text" id="samrequistionid" name="samrequistionid" onkeypress="getreqData(this,event)"/>
+			</div>
+		</div>
 	</ul>
 	<div id="div_main">
 		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">
