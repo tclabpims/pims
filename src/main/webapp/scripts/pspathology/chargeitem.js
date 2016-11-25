@@ -62,6 +62,10 @@ function search(){
     }).trigger('reloadGrid');//重新载入
 }
 
+function clickOther() {//实现表单验证
+    $("#saveButton1").click();
+}
+
 /**
  * 编辑病种
  */

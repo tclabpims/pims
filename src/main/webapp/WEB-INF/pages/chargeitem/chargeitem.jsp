@@ -85,6 +85,7 @@
 
 <div id="addDialog" style="display: none;" class="col-xs-12">
     <form class="form-horizontal" id="addSectionForm" action="#" method="post">
+        <button type="submit"id="saveButton1" style="display:none;">保存</button>
         <input type="hidden" name="chargeitemid" id="chargeitemid">
         <div style="padding-top: 5px;">
             <div style="">
