@@ -541,6 +541,24 @@ function requestOrder(lindex) {
     })
 }
 
+function yjfullScreen(){
+    var yjwindow = layer.open(
+        {
+            type: 1,
+            fix: false, //不固定
+            maxmin: true,
+            area: ['854px', '600px'],
+            shade: 0.5,
+            title: "液基细胞学报告诊断",
+            content: $('#yjcell'),
+            btn: ["确定", "取消"],
+            yes:function(index2, layero2) {
+
+            }
+        });
+    layer.full(yjwindow);
+}
+
 function getItemInfo(v) {
     $("#ckItemList").jqGrid('clearGridData');
     if (v == null || v == "") return;

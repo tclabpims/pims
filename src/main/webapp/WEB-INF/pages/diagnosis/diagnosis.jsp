@@ -101,6 +101,10 @@
     .ui-timepicker-div td {
         font-size: 90%;
     }
+    .tabs-3 table tr td {
+        padding-top:2px;
+        padding-bottom:2px;
+    }
     object:focus { outline:none; }
 </style>
 <SCRIPT LANGUAGE="JavaScript">
@@ -361,11 +365,11 @@
                         </div>
                         <div>
                             <div style="display: inline">绝经：<input type="checkbox"></div>
-                            <div style="display: inline">送检材料：<textarea type="text" id="samsamplename"
-                                                                        style="border-width: 0px 0px 1px 0px"></textarea>
+                            <div style="display: inline">送检材料：<input type="text" id="samsamplename"
+                                                                        style="border-width: 0px 0px 1px 0px">
                             </div>
-                            <div style="display: inline">临床诊断：<textarea type="text" id="sampatientdignoses"
-                                                                        style="border-width: 0px 0px 1px 0px"></textarea>
+                            <div style="display: inline">临床诊断：<input type="text" id="sampatientdignoses"
+                                                                        style="border-width: 0px 0px 1px 0px">
                             </div>
                         </div>
 
@@ -388,10 +392,275 @@
                 <li><a href="#tabs-5">特殊染色</a></li>
                 <li><a href="#tabs-6">分子病理</a></li>--%>
             </ul>
-            <div id="tabs-3">
-                <form id="diagnosisInfoForm" onsubmit="return false;">
+            <div id="tabs-3" style="overflow: auto;">
+                <form id="diagnosisInfoForm" style="" onsubmit="return false;">
                     <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("diagnosisItems")) == null ? "请先配置当前病种相关的病理诊断字段、报告项目以及客户相关数据" : StringEscapeUtils.unescapeHtml4((String) request.getAttribute("diagnosisItems"))%>
                 </form>
+                <div style="display: none;"><button onclick="yjfullScreen()">全屏模式</button></div>
+                <div id="yjcell" style="display: none;font-size:12px;width:1300px;overflow: auto;padding-left:10px">
+                    <table border="0" cellspacing="0">
+                        <tr>
+                            <td height="16" colspan="2" align="left">标本质量：
+                                <input type="checkbox" name="sampleok" id="sampleok" />
+                                <label for="sampleok">满意</label>
+                            </td>
+                            <td height="16" colspan="2" align="left">&nbsp;</td>
+                            <td height="16" colspan="2" align="right"><input type="checkbox" name="sampleNotSatisfied" id="sampleNotSatisfied" />
+                                <label for="sampleNotSatisfied">不满意</label></td>
+                            <td width="22%" height="16">&nbsp;</td>
+                            <td width="12%" height="16">生物性病原体：</td>
+                            <td width="26%" height="16"><input type="checkbox" name="notSee1" id="notSee1" />
+                                <label for="notSee1">未见</label></td>
+                        </tr>
+                        <tr>
+                            <td width="10%" align="center">&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c4" id="c4" />
+                                <label for="c4">见宫颈管/移行区成份</label></td>
+                            <td width="5%" align="left">&nbsp;</td>
+                            <td colspan="2" align="left"><input type="checkbox" name="c6" id="c6" />
+                                <label for="c6">上皮细胞数量偏低</label></td>
+                            <td>&nbsp;</td>
+                            <td><input type="checkbox" name="c9" id="c9" />
+                                <label for="c9">提示HPV感染</label></td>
+                        </tr>
+                        <tr>
+                            <td align="center">&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c5" id="c5" />
+                                <label for="c5">未见宫颈管/移行区成份</label></td>
+                            <td align="left">&nbsp;</td>
+                            <td colspan="3" align="left"><input type="checkbox" name="c7" id="c7" />
+                                <label for="c7">炎性渗出物遮盖超过75%的鳞状细胞</label></td>
+                            <td><input type="checkbox" name="c10" id="c10" />
+                                <label for="c10">提示疱疹病毒感染</label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td width="8%">&nbsp;</td>
+                            <td width="7%">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c8" id="c8" />
+                                <label for="c8">血液遮盖超过75%的鳞状细胞</label></td>
+                            <td><input type="checkbox" name="c11" id="c11" />
+                                <label for="c11">滴虫</label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" rowspan="3" align="left">&nbsp;</td>
+                            <td rowspan="3" align="left">&nbsp;</td>
+                            <td colspan="2" rowspan="3">&nbsp;</td>
+                            <td rowspan="3">&nbsp;</td>
+                            <td rowspan="3">&nbsp;</td>
+                            <td><input type="checkbox" name="c12" id="c12" />
+                                <label for="c12">真菌(念珠菌等)</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="c13" id="c13" />
+                                <label for="c13">线索细胞</label></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" name="c14" id="c14" />
+                                <label for="c14">放线菌</label></td>
+                        </tr>
+                    </table>
+                    <table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="6%">上皮细胞异常：</td>
+                            <td colspan="2"><input type="checkbox" name="c15" id="c15" />
+                                <label for="c15">未见</label></td>
+                            <td colspan="2">&nbsp;</td>
+                            <td width="7%">鳞状细胞：</td>
+                            <td colspan="2"><input type="checkbox" name="c28" id="c28" />
+                                <label for="c28">不典型鳞状上皮细胞(ASC)</label></td>
+                            <td width="10%">&nbsp;</td>
+                            <td colspan="2">非肿瘤性所见：</td>
+                            <td colspan="2"><input type="checkbox" name="c34" id="c34" />
+                                <label for="c34">反应性的细胞变化</label></td>
+                        </tr>
+                        <tr>
+                            <td>腺细胞：</td>
+                            <td colspan="2"><input type="checkbox" name="c16" id="c16" />
+                                <label for="c16">不典型的</label></td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td width="7%">&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c29" id="c29" />
+                                <label for="c29">属意义不明者(ASC-US)</label></td>
+                            <td width="5%">&nbsp;</td>
+                            <td width="2%">&nbsp;</td>
+                            <td width="5%">&nbsp;</td>
+                            <td width="22%"><input type="checkbox" name="c35" id="c35" />
+                                <label for="c35">与炎症有关</label>
+                                <label for="s1"></label>
+                                <select name="s1" id="s1">
+                                    <option value="轻度">轻度</option>
+                                    <option value="中度">中度</option>
+                                    <option value="重度">重度</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td width="5%">&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c17" id="c17" />
+                                <label for="c17">子宫颈内膜细胞，非特异</label></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c30" id="c30" />
+                                <label for="c30">不能排除高级别鳞状上皮内病变(ASC-H)</label></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td><input type="checkbox" name="c36" id="c36" />
+                                <label for="c36">与放射有关</label></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c18" id="c18" />
+                                <label for="c18">子宫内膜细胞，非特异</label></td>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c31" id="c31" />
+                                <label for="c31">低级别鳞状上皮内病变(L-SIL)</label></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td><input type="checkbox" name="c37" id="c37" />
+                                <label for="c37">与宫内节育器（IUD）有关</label></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c19" id="c19" />
+                                <label for="c19">腺细胞，非特异</label></td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">（包括HPV/轻度异型性CIN I）</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c38" id="c38" />
+                                <label for="c38">萎缩</label></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c20" id="c20" />
+                                <label for="c20">不典型的</label></td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c32" id="c32" />
+                                <label for="c32">高级别鳞状上皮内病变(H-SIL)</label></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">其它：
+                                <input type="checkbox" name="c39" id="c39" />
+                                <label for="c39">子宫内膜细胞出现在≥40岁妇女中（见注释）</label></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c21" id="c21" />
+                                <label for="c21">子宫颈内膜细胞,偏向肿瘤性</label></td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">（包括中度和重度异型性/CIS/CINⅡ和CIN III）</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c22" id="c22" />
+                                <label for="c22">腺细胞,偏向肿瘤性</label></td>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c33" id="c33" />
+                                <label for="c33">鳞状细胞癌</label></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td colspan="4">
+                                <input type="checkbox" name="c23" id="c23" />
+                                <label for="c23">子宫颈管原位癌</label>
+                            </td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><input type="checkbox" name="c24" id="c24" />
+                                <label for="c24">腺癌</label></td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c25" id="c25" />
+                                <label for="c25">子宫内膜腺癌</label></td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c26" id="c26" />
+                                <label for="c26">子宫颈内膜腺癌</label></td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><input type="checkbox" name="c27" id="c27" />
+                                <label for="c27">子宫外腺癌</label></td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                    </table>
+                    <div> <label for="textarea1">判读意见/结</label>果：</div>
+                    <div>
+                        <textarea name="textarea1" id="textarea1" cols="80" rows="2"></textarea>
+                        <div>
+                            <input type="checkbox" name="c40" id="c40" />
+                            <label for="c40">Cervista高危型HPV DNA检测结果</label>
+                            <input type="button" name="bt1" id="bt1" value="阴性" />
+                            <input type="button" name="bt2" id="bt2" value="A5/A6阳性" />
+                            <input type="button" name="bt3" id="bt3" value="A7阳性" />
+                            <input type="button" name="bt4" id="bt4" value="A9阳性" />
+                        </div>
+                        <div>
+                            <textarea name="textarea2" id="textarea2" cols="80" rows="2"></textarea>
+                        </div>
+                        <div><label for="textarea3">附注/建议：</label></div>
+                        <div>
+                            <textarea name="textarea3" id="textarea3" cols="80" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div style="alignment: center">
                     <button onclick="saveDiagnosisInfo()">保存</button>
                 </div>
