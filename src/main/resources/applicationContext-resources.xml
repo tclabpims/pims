@@ -55,9 +55,12 @@
     <bean id="dataSource-z1" class="org.apache.commons.dbcp.BasicDataSource"
         destroy-method="close">
         <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-        <property name="url" value="jdbc:oracle:thin:@www.hisdbatj.com:1521:orcl" />
-        <property name="username" value="hisinterface" />
-        <property name="password" value="hisinterface" />
+        <!--<property name="url" value="jdbc:oracle:thin:@www.hisdbatj.com:1521:orcl" />-->
+        <!--<property name="username" value="hisinterface" />-->
+        <!--<property name="password" value="hisinterface" />-->
+        <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:kftest" />
+        <property name="username" value="his" />
+        <property name="password" value="his#12" />
     </bean>
     
     <!-- <bean id="dataSource-z1" class="org.apache.commons.dbcp.BasicDataSource"

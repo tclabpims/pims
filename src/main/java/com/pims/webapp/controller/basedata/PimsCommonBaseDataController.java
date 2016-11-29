@@ -49,6 +49,7 @@ public class PimsCommonBaseDataController extends PIMSBaseController{
 				JSONObject o = new JSONObject();
 				o.put("id", s.getDataid());
 				o.put("name", s.getBddatanamech());
+				o.put("is_self",s.getIsself());
 				array.put(o);
 			}
 		}

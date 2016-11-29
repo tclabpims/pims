@@ -96,6 +96,30 @@ public class PimsPathologySample {
     private int sampathologystatus;
 
     private String samjcxm;
+
+    private String sampiecedoctorid;
+
+    private String sampiecedoctorname;
+
+    @Basic
+    @Column(name = "SAMPIECEDOCTORID")
+    public String getSampiecedoctorid() {
+        return sampiecedoctorid;
+    }
+
+    public void setSampiecedoctorid(String sampiecedoctorid) {
+        this.sampiecedoctorid = sampiecedoctorid;
+    }
+    @Basic
+    @Column(name = "SAMPIECEDOCTORNAME")
+    public String getSampiecedoctorname() {
+        return sampiecedoctorname;
+    }
+
+    public void setSampiecedoctorname(String sampiecedoctorname) {
+        this.sampiecedoctorname = sampiecedoctorname;
+    }
+
     @Basic
     @Column(name = "SAMJCXM")
     public String getSamjcxm() {
@@ -1031,6 +1055,10 @@ public class PimsPathologySample {
             return false;
         if (samjcxm != null ? !samjcxm.equals(that.samjcxm) : that.samjcxm != null)
             return false;
+        if (sampiecedoctorid != null ? !sampiecedoctorid.equals(that.sampiecedoctorid) : that.sampiecedoctorid != null)
+            return false;
+        if (sampiecedoctorname != null ? !sampiecedoctorname.equals(that.sampiecedoctorname) : that.sampiecedoctorname != null)
+            return false;
         return true;
     }
 
@@ -1113,6 +1141,8 @@ public class PimsPathologySample {
         result = 31 * result + (samcreateuser != null ? samcreateuser.hashCode() : 0);
         result = 31 * result + (samjjsj != null ? samjjsj.hashCode() : 0);
         result = 31 * result + (samjcxm != null ? samjcxm.hashCode() : 0);
+        result = 31 * result + (sampiecedoctorid != null ? sampiecedoctorid.hashCode() : 0);
+        result = 31 * result + (sampiecedoctorname != null ? sampiecedoctorname.hashCode() : 0);
         return result;
     }
 }

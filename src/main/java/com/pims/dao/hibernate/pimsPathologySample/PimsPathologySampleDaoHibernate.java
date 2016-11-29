@@ -289,4 +289,152 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         getSSql(sb,map);
         return countTotal(sb.toString());
     }
+
+    public StringBuffer getReportSql(PimsBaseModel map,StringBuffer sb){
+        if(map.getReq_bf_time() != null){
+            sb.append(" and samsendtime >= :req_bf_time ");//送检开始时间
+        }
+        if(map.getReq_af_time() != null){
+            sb.append(" and samsendtime < :req_af_time ");//送检结束时间
+        }
+        if(!StringUtils.isEmpty(map.getLogyid())){
+            sb.append(" and sampathologyid = " + map.getLogyid());//病种类别
+        }
+        if(!StringUtils.isEmpty(map.getReq_code())){
+            String[] strings = map.getReq_code().split(",");
+            String code = "(";
+            for(int i=0;i<strings.length;i++){
+                if(i == strings.length-1){
+                    code += "'"+ strings[i]+"'";
+                }else{
+                    code += "'"+ strings[i]+"',";
+                }
+            }
+            code +=")";
+            sb.append(" and sampathologycode in "+ code);//病理编号
+        }
+        if(!StringUtils.isEmpty(map.getPatient_name())){
+            sb.append(" and upper(sampatientname) like '%"+map.getPatient_name().toUpperCase()+"%'");//病人姓名
+        }
+        if(!StringUtils.isEmpty(map.getSampatientnumber())){
+            sb.append(" and sampatientnumber ="+ map.getSampatientnumber());//住院号
+        }
+        if(!StringUtils.isEmpty(map.getSampatientbed())){
+            sb.append(" and sampatientbed ="+ map.getSampatientbed());//床号
+        }
+        if(!StringUtils.isEmpty(map.getSampatientsex())){
+            sb.append(" and sampatientsex ="+map.getSampatientsex());//性别
+        }
+        if(!StringUtils.isEmpty(map.getSend_doctor())){
+            sb.append(" and samsenddoctorname ='"+ map.getSend_doctor()+"'");//送检医生
+        }
+        if(!StringUtils.isEmpty(map.getSend_dept())){
+            sb.append(" and samdeptname ='"+ map.getSend_dept()+"'");//送检科室
+        }
+        if(!StringUtils.isEmpty(map.getSend_hosptail())){
+            sb.append(" and samsendhospital = '"+map.getSend_hosptail()+"'");//送检医院
+        }
+        if(!StringUtils.isEmpty(map.getPiedoctorname())){
+            sb.append(" and piedoctorname ='"+map.getPiedoctorname()+"'");//取材医生
+        }
+        if(!StringUtils.isEmpty(map.getParsectioneddoctor())){
+            sb.append(" and parsectioneddoctor='"+map.getParsectioneddoctor()+"'");//切片医生
+        }
+        if(!StringUtils.isEmpty(map.getSaminitiallyusername())){
+            sb.append(" and saminitiallyusername='"+map.getSaminitiallyusername()+"'");//诊断医生
+        }
+        if(!StringUtils.isEmpty(map.getMyzh())){
+            String myzh = map.getMyzh();
+            if(myzh.equals("0")){
+                sb.append(" and myzhnum = 0 ");//免疫组化
+            }else{
+                sb.append(" and myzhnum > 0");//免疫组化
+            }
+        }
+        if(!StringUtils.isEmpty(map.getTsrs())){
+            String tsrs = map.getTsrs();
+            if(tsrs.equals("0")){
+                sb.append(" and tsrsnum = 0 ");//特殊染色
+            }else{
+                sb.append(" and tsrsnum > 0 ");//特殊染色
+            }
+        }
+        if(!StringUtils.isEmpty(map.getFzbl())){
+            String fzbl = map.getFzbl();
+            if(fzbl.equals("0")){
+                sb.append(" and fzblnum = 0 ");//分子病理
+            }else{
+                sb.append(" and fzblnum > 0");//分子病理
+            }
+        }
+        if(!StringUtils.isEmpty(map.getBlzd())){
+            sb.append(" and upper(restestresult) like '"+map.getBlzd().toUpperCase() +"'");//病理诊断
+        }
+        if(!StringUtils.isEmpty(map.getQcbw())){
+            sb.append(" and sampleid in (select piesampleid from  pims_pathology_pieces s where upper(s.pieparts) like '"+map.getQcbw().toUpperCase()+"') ");//取材部位
+        }
+        return sb;
+    }
+
+    /**
+     * 查询报告列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List getReportList(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select sampleid,saminspectionid,sampathologyid,sampathologycode,sampatientname,sampatientage," +
+                " sampatientnumber,sampatientbed,sampatientsex,samsamplestatus,samsendtime,saminitiallytime," +
+                " samsenddoctorname,samdeptname,samsendhospital,piedoctorname,parsectioneddoctor,saminitiallyusername," +
+                " restestresult,myzhnum,tsrsnum,fzblnum " +
+                " from ( select sampleid,saminspectionid,sampathologyid,sampathologycode,sampatientname,sampatientage || sampatientagetype as sampatientage," +
+                " sampatientnumber,sampatientbed,sampatientsex,samsamplestatus,samsendtime,saminitiallytime,samsenddoctorname,samdeptname," +
+                " samsenddoctorid,samdeptcode,samsendhospital,piedoctorname,parsectioneddoctor,saminitiallyusername," +
+                " restestresult,(select count(1) from PIMS_PATHOLOGY_ORDER_CHILD m,PIMS_SYS_REQ_TESTITEM n " +
+                " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'MYZH' and m.chisampleid = sampleid) as myzhnum," +
+                " (select count(1) from PIMS_PATHOLOGY_ORDER_CHILD m,PIMS_SYS_REQ_TESTITEM n " +
+                " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'TSRS' and m.chisampleid = sampleid) as tsrsnum," +
+                " (select count(1) from PIMS_PATHOLOGY_ORDER_CHILD m,PIMS_SYS_REQ_TESTITEM n" +
+                " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'FZBL' and m.chisampleid = sampleid) as fzblnum," +
+                " rank() over (partition by a.sampleid order by b.piesamplingtime,b.pieceid) as tk " +
+                " from pims_pathology_sample a, pims_pathology_pieces b,pims_pathology_paraffin c,pims_sample_result d  " +
+                " where a.sampleid = b.piesampleid and a.sampleid = b.piesampleid and a.sampleid = c.parsampleid and b.pieparaffinid = c.paraffinid and a.sampleid = d.ressampleid ) where tk = 1 ");
+        getReportSql(map,sb);
+        Query query = getSession().createSQLQuery(sb.toString());
+        if(map.getReq_bf_time() != null){
+            query.setDate("req_bf_time",map.getReq_bf_time());//送检开始时间
+        }
+        if(map.getReq_af_time() != null){
+            query.setDate("req_af_time",map.getReq_af_time());//送检结束时间
+        }
+        query.setFirstResult(map.getStart());
+        query.setMaxResults(map.getEnd());
+        return query.list();
+    }
+
+    /**
+     * 查询报表数量
+     * @param map
+     * @return
+     */
+    @Override
+    public int getReportNum(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select count(1) " +
+                " from ( select sampleid,saminspectionid,sampathologyid,sampathologycode,sampatientname,sampatientage, " +
+                " sampatientnumber,sampatientbed,sampatientsex,samsamplestatus,samsendtime,saminitiallytime, " +
+                " samsenddoctorid,samdeptcode,samsendhospital,piedoctorname,parsectioneddoctor,saminitiallyusername, " +
+                " restestresult,(select count(1) from PIMS_PATHOLOGY_ORDER_CHILD m,PIMS_SYS_REQ_TESTITEM n " +
+                " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'MYZH' and m.chisampleid = sampleid) as myzhnum, " +
+                " (select count(1) from PIMS_PATHOLOGY_ORDER_CHILD m,PIMS_SYS_REQ_TESTITEM n " +
+                " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'TSRS' and m.chisampleid = sampleid) as tsrsnum, " +
+                " (select count(1) from PIMS_PATHOLOGY_ORDER_CHILD m,PIMS_SYS_REQ_TESTITEM n " +
+                " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'FZBL' and m.chisampleid = sampleid) as fzblnum, " +
+                " rank() over (partition by a.sampleid order by b.piesamplingtime,b.pieceid) as tk " +
+                " from pims_pathology_sample a, pims_pathology_pieces b,pims_pathology_paraffin c,pims_sample_result d " +
+                " where a.sampleid = b.piesampleid  and a.sampleid = b.piesampleid and a.sampleid = c.parsampleid and b.pieparaffinid = c.paraffinid and a.sampleid = d.ressampleid  ) where tk = 1 ");
+        getReportSql(map,sb);
+        return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
 }

@@ -302,12 +302,6 @@
 				电子申请单
 			</a>
 		</li>
-		<div class="form-group" style="margin-top: 10px;margin-bottom: 5px;">
-			<label class="label_style col-sm-1" for="samrequistionid">临床申请:</label>
-			<div class="col-sm-3 ">
-				<input class="input_style" type="text" id="samrequistionid" name="samrequistionid" onkeypress="getreqData(this,event)"/>
-			</div>
-		</div>
 	</ul>
 	<div id="div_main">
 		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">

@@ -72,4 +72,17 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
     String sampleCode();
 
     int getSamStaNum();
+    /**
+     * 查询报告列表
+     * @param map
+     * @return
+     */
+    List getReportList(PimsBaseModel map);
+
+    /**
+     * 查询报告数量
+     * @param map
+     * @return
+     */
+    int getReportNum(PimsBaseModel map);
 }

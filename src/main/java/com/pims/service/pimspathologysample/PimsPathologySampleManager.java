@@ -73,4 +73,19 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
      * @return
      */
     int getSNum(PimsBaseModel map);
+
+
+    /**
+     * 查询报告列表
+     * @param map
+     * @return
+     */
+    List getReportList(PimsBaseModel map);
+
+    /**
+     * 查询报告数量
+     * @param map
+     * @return
+     */
+    int getReportNum(PimsBaseModel map);
 }

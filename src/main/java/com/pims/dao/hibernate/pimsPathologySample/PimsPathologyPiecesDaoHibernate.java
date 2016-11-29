@@ -170,6 +170,19 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
             return true;
         }
     }
+
+    /**
+     * 更新标本诊断医师信息
+     * @param map,sts
+     * @return
+     */
+    public boolean updateSampleDoctor(PimsPathologySample map,PimsPathologyPieces pieces) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("update pims_pathology_sample set sampiecedoctorid = '"+pieces.getPiedoctorid()+"',sampiecedoctorname='"+pieces.getPiedoctorname()+
+                    ", where sampleid = "+map.getSampleid());
+            getSession().createSQLQuery(sb.toString()).executeUpdate();
+            return true;
+    }
     /**
      * 删除材块单
      * @param id
@@ -229,6 +242,12 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 Map map = (Map) piecesList.get(i);
                 PimsPathologyPieces piece = (PimsPathologyPieces) setBeanProperty(map,PimsPathologyPieces.class);
                 if(piece.getPiestate().longValue() == 0){//未取材
+                    if(i==0){//第一个材块
+                        sample = pimsPathologyPiecesManager.getBySampleNo(sample.getSampleid());
+                        if(StringUtils.isEmpty(sample.getSampiecedoctorid())){
+                            updateSampleDoctor(sample,piece);//增加初诊医师ID信息
+                        }
+                    }
                     piece.setPiestate((long) 1);
                     piece = pimsPathologyPiecesManager.save(piece);
                     //判断材块是不是补取

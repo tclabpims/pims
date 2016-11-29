@@ -13,21 +13,32 @@ import java.sql.Date;
 public class PimsBaseModel {
 
     private HttpServletRequest request;
-    private String logyid;
-    private String req_code;
-    private String patient_name;
-    private String send_hosptail;
-    private Date req_bf_time;
-    private Date req_af_time;
-    private String send_dept;
-    private String send_doctor;
-    private String req_sts;
+    private String logyid;//病种类别
+    private String req_code;//病理号
+    private String patient_name;//病人
+    private String send_hosptail;//送检医院
+    private Date req_bf_time;//起始时间
+    private Date req_af_time;//结束时间
+    private String send_dept;//送检科室
+    private String send_doctor;//送检医生
+    private String req_sts;//状态
     private int page;
     private int row;
     private int start;
     private int end;
     private String sidx;
     private String sord;
+    private String sampatientnumber;//住院号
+    private String sampatientbed;//床号
+    private String sampatientsex;//性别
+    private String piedoctorname;//取材医生
+    private String parsectioneddoctor;//切片医生
+    private String saminitiallyusername;//诊断医生
+    private String myzh;//免疫组化
+    private String tsrs;//特殊染色
+    private String fzbl;//分子病理
+    private String blzd;//病理诊断
+    private String qcbw;//取材部位
     public PimsBaseModel(){
 
     }
@@ -35,8 +46,8 @@ public class PimsBaseModel {
         Calendar cal = Calendar.getInstance();
         request.setCharacterEncoding("UTF-8");
         this.request = request;
-        String pages = request.getParameter("page");
-        String rows = request.getParameter("rows");
+        String pages = request.getParameter("page")==null?"0":request.getParameter("page");
+        String rows = request.getParameter("rows")==null?"0":request.getParameter("rows");
         this.req_code = request.getParameter("req_code");
         this.patient_name = request.getParameter("patient_name");
         this.send_hosptail = request.getParameter("send_hosptail");
@@ -50,6 +61,17 @@ public class PimsBaseModel {
         this.send_dept = request.getParameter("send_dept");
         this.send_doctor = request.getParameter("send_doctor");
         this.req_sts = request.getParameter("req_sts");
+        this.sampatientnumber = request.getParameter("sampatientnumber");//住院号
+        this.sampatientbed = request.getParameter("sampatientbed");//床号
+        this.sampatientsex = request.getParameter("sampatientsex");//性别
+        this.piedoctorname = request.getParameter("piedoctorname");//取材医生
+        this.parsectioneddoctor = request.getParameter("parsectioneddoctor");//切片医生
+        this.saminitiallyusername = request.getParameter("saminitiallyusername");//诊断医生
+        this.myzh = request.getParameter("myzh");//免疫组化
+        this.tsrs = request.getParameter("tsrs");//特殊染色
+        this.fzbl = request.getParameter("fzbl");//分子病理
+        this.blzd = request.getParameter("blzd");//病理诊断
+        this.qcbw = request.getParameter("qcbw");//取材部位
         this.sidx = request.getParameter("sidx");
         this.sord = request.getParameter("sord");
         this.logyid = request.getParameter("logyid");
@@ -185,5 +207,93 @@ public class PimsBaseModel {
 
     public void setLogyid(String logyid) {
         this.logyid = logyid;
+    }
+
+    public String getSampatientnumber() {
+        return sampatientnumber;
+    }
+
+    public void setSampatientnumber(String sampatientnumber) {
+        this.sampatientnumber = sampatientnumber;
+    }
+
+    public String getSampatientbed() {
+        return sampatientbed;
+    }
+
+    public void setSampatientbed(String sampatientbed) {
+        this.sampatientbed = sampatientbed;
+    }
+
+    public String getSampatientsex() {
+        return sampatientsex;
+    }
+
+    public void setSampatientsex(String sampatientsex) {
+        this.sampatientsex = sampatientsex;
+    }
+
+    public String getPiedoctorname() {
+        return piedoctorname;
+    }
+
+    public void setPiedoctorname(String piedoctorname) {
+        this.piedoctorname = piedoctorname;
+    }
+
+    public String getParsectioneddoctor() {
+        return parsectioneddoctor;
+    }
+
+    public void setParsectioneddoctor(String parsectioneddoctor) {
+        this.parsectioneddoctor = parsectioneddoctor;
+    }
+
+    public String getSaminitiallyusername() {
+        return saminitiallyusername;
+    }
+
+    public void setSaminitiallyusername(String saminitiallyusername) {
+        this.saminitiallyusername = saminitiallyusername;
+    }
+
+    public String getMyzh() {
+        return myzh;
+    }
+
+    public void setMyzh(String myzh) {
+        this.myzh = myzh;
+    }
+
+    public String getTsrs() {
+        return tsrs;
+    }
+
+    public void setTsrs(String tsrs) {
+        this.tsrs = tsrs;
+    }
+
+    public String getFzbl() {
+        return fzbl;
+    }
+
+    public void setFzbl(String fzbl) {
+        this.fzbl = fzbl;
+    }
+
+    public String getBlzd() {
+        return blzd;
+    }
+
+    public void setBlzd(String blzd) {
+        this.blzd = blzd;
+    }
+
+    public String getQcbw() {
+        return qcbw;
+    }
+
+    public void setQcbw(String qcbw) {
+        this.qcbw = qcbw;
     }
 }

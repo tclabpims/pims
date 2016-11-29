@@ -75,7 +75,7 @@
                         num = data.nonum;
                         //消息总数最大只显示 99
                         $("#span_id2").text("("+Math.min(99, num)+")");
-                        time1 = setInterval(function(){ $("#span_id1").fadeOut(500).fadeIn(500); },1000);
+                        time1 = setInterval(function(){ $("#span_id1").fadeOut(5000).fadeIn(5000); },10000);
                     }
                 }
             }
@@ -85,7 +85,7 @@
         clearInterval(time1);
     }
     function spanblur() {
-        time1 = setInterval(function(){ $("#span_id1").fadeOut(500).fadeIn(500); },1000);
+        time1 = setInterval(function(){ $("#span_id1").fadeOut(5000).fadeIn(5000); },10000);
     }
 
 

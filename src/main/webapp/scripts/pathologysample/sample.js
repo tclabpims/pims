@@ -486,7 +486,8 @@ $(function() {
 						return {
 							label: result.id + " : " + result.name,
 							value: result.name,
-							id : result.id
+							id : result.id,
+                            is_self:result.is_self
 						}
 					}));
 				}
@@ -496,6 +497,7 @@ $(function() {
 		select: function( event, ui ) {
 			//$( "#reqwardcode" ).val(ui.item.id);
 			$( "#samsendhospital" ).val(ui.item.value);
+            $("#samsource").val(ui.item.is_self);
 			//return false;
 		}
 	})

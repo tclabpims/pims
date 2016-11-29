@@ -1,21 +1,21 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Time;
 
 /**
- * Created by king on 2016/10/21.
+ * Created by king on 2016/11/25.
  */
 @Entity
 @Table(name = "PIMS_COMMON_BASE_DATA")
 public class PimsCommonBaseData {
     private long dataid;
     private long bdcustomerid;
-    private boolean bddatatype;
+    private int bddatatype;
     private String bddatanamech;
     private String bddatanameen;
     private String bddatasort;
-    private boolean bduseflag;
+    private int bduseflag;
     private String bdpinyincode;
     private String bdfivestroke;
     private String bdhisid;
@@ -23,7 +23,9 @@ public class PimsCommonBaseData {
     private String bdsecondv;
     private Long bdfirstn;
     private String bdcreateuser;
-    private Date bdcreatetime;
+    private Time bdcreatetime;
+    private Long bdpathologyid;
+    private int isself;
 
     @Id
     @Column(name = "DATAID")
@@ -47,11 +49,11 @@ public class PimsCommonBaseData {
 
     @Basic
     @Column(name = "BDDATATYPE")
-    public boolean isBddatatype() {
+    public int getBddatatype() {
         return bddatatype;
     }
 
-    public void setBddatatype(boolean bddatatype) {
+    public void setBddatatype(int bddatatype) {
         this.bddatatype = bddatatype;
     }
 
@@ -87,11 +89,11 @@ public class PimsCommonBaseData {
 
     @Basic
     @Column(name = "BDUSEFLAG")
-    public boolean isBduseflag() {
+    public int getBduseflag() {
         return bduseflag;
     }
 
-    public void setBduseflag(boolean bduseflag) {
+    public void setBduseflag(int bduseflag) {
         this.bduseflag = bduseflag;
     }
 
@@ -167,12 +169,32 @@ public class PimsCommonBaseData {
 
     @Basic
     @Column(name = "BDCREATETIME")
-    public Date getBdcreatetime() {
+    public Time getBdcreatetime() {
         return bdcreatetime;
     }
 
-    public void setBdcreatetime(Date bdcreatetime) {
+    public void setBdcreatetime(Time bdcreatetime) {
         this.bdcreatetime = bdcreatetime;
+    }
+
+    @Basic
+    @Column(name = "BDPATHOLOGYID")
+    public Long getBdpathologyid() {
+        return bdpathologyid;
+    }
+
+    public void setBdpathologyid(Long bdpathologyid) {
+        this.bdpathologyid = bdpathologyid;
+    }
+
+    @Basic
+    @Column(name = "ISSELF")
+    public int getIsself() {
+        return isself;
+    }
+
+    public void setIsself(int isself) {
+        this.isself = isself;
     }
 
     @Override
@@ -197,7 +219,9 @@ public class PimsCommonBaseData {
         if (bdfirstn != null ? !bdfirstn.equals(that.bdfirstn) : that.bdfirstn != null) return false;
         if (bdcreateuser != null ? !bdcreateuser.equals(that.bdcreateuser) : that.bdcreateuser != null) return false;
         if (bdcreatetime != null ? !bdcreatetime.equals(that.bdcreatetime) : that.bdcreatetime != null) return false;
-
+        if (bdpathologyid != null ? !bdpathologyid.equals(that.bdpathologyid) : that.bdpathologyid != null)
+            return false;
+        if (isself != that.isself) return false;
         return true;
     }
 
@@ -205,11 +229,11 @@ public class PimsCommonBaseData {
     public int hashCode() {
         int result = (int) (dataid ^ (dataid >>> 32));
         result = 31 * result + (int) (bdcustomerid ^ (bdcustomerid >>> 32));
-        result = 31 * result + (bddatatype ? 1 : 0);
+        result = 31 * result + (bddatatype ^ (bddatatype >>> 32));
         result = 31 * result + (bddatanamech != null ? bddatanamech.hashCode() : 0);
         result = 31 * result + (bddatanameen != null ? bddatanameen.hashCode() : 0);
         result = 31 * result + (bddatasort != null ? bddatasort.hashCode() : 0);
-        result = 31 * result + (bduseflag ? 1 : 0);
+        result = 31 * result + (bduseflag ^ (bduseflag >>> 32));
         result = 31 * result + (bdpinyincode != null ? bdpinyincode.hashCode() : 0);
         result = 31 * result + (bdfivestroke != null ? bdfivestroke.hashCode() : 0);
         result = 31 * result + (bdhisid != null ? bdhisid.hashCode() : 0);
@@ -218,6 +242,8 @@ public class PimsCommonBaseData {
         result = 31 * result + (bdfirstn != null ? bdfirstn.hashCode() : 0);
         result = 31 * result + (bdcreateuser != null ? bdcreateuser.hashCode() : 0);
         result = 31 * result + (bdcreatetime != null ? bdcreatetime.hashCode() : 0);
+        result = 31 * result + (bdpathologyid != null ? bdpathologyid.hashCode() : 0);
+        result = 31 * result + (isself ^ (isself >>> 32));
         return result;
     }
 }
