@@ -1,6 +1,76 @@
 var NOW_LOGYID = $("#logylibid").val();
 var LASTEDITROW = "";
 var LASTEDITCELL = "";
+function NoSubmit(ev){
+	if( ev.keyCode == 13 ){
+		return false;
+	}
+	return true;
+}
+/**
+ * 回车事件
+ * @param obj
+ * @param event
+ */
+function getPatient(obj,event) {
+	var e=e||event;
+	var key = event.keyCode;
+	if(navigator.appName=="Netscape"){
+		key=e.which;
+	}else{
+		key=event.keyCode;
+	}
+	switch(key){
+		case 13 :
+			$.get("../pimspathology/getpatientlist", {"brjzxh": obj.value}, function (data) {
+				var records = data.records;
+				if(records == undefined){
+
+				}else if (records == 1) {
+						var rows = data.rows;
+						$("#reqpatientname").val(rows[0].patient_name);//姓名
+						// $("#reqpatientsex").val(rows[0].patient_sex);//性别
+						$("#reqpatientsex option").each(function () {
+							if($(this).text() == rows[0].patient_sex-1){
+								$(this).attr("selected", "selected");
+							}
+						});
+						$("#reqpatientage").val(rows[0].patient_age);//年龄
+						// $("#reqpatagetype").val(rows[0].patient_age_type);//年龄类型
+						$("#reqpatagetype option").each(function () {
+							if($(this).text() == rows[0].patient_age_type){
+								$(this).attr("selected", "selected");
+							}
+						});
+						$("#reqpattelephone").val(rows[0].phone_no);//电话
+						$("#reqpatienttype").val(rows[0].patient_type);//患者类型
+						$("#reqpatientwardcode").val(rows[0].patient_ward_name);//病区
+						$("#reqpatientdeptcode").val(rows[0].patient_dept_name);//科室
+						$("#reqfirstn").val(rows[0].patient_bed);//床号
+						$("#reqpataddress").val(rows[0].patient_address);//联系地址
+						$("#reqpatdiagnosis").val(rows[0].lczd);//临床诊断
+				}else{
+					jQuery("#new2").jqGrid("clearGridData");
+					jQuery("#new2").jqGrid('setGridParam',{
+						url: "../pimspathology/getpatientlist",
+						//发送数据
+						postData : {"brjzxh":obj.value}
+					}).trigger('reloadGrid');//重新载入
+					layer.open({
+						type: 1,
+						area: ['1000px','600px'],
+						skin: 'layui-layer-molv',
+						fix: false, //不固定
+						maxmin: false,
+						shade:0.6,
+						title: "申请信息录入",
+						content: $("#formDialog1")
+					});
+				}
+			});
+			break;
+	}
+}
 /**
  * 回车事件
  * @param obj
@@ -84,6 +154,13 @@ function getSampleData(id) {
 			$("#reqfirstn").val(data.reqfirstn);//预留字段6(第一个numberic预留字段)
 			$("#reqcreateuser").val(data.reqcreateuser);//创建人员
 			$("#reqcreatetime").val(CurentTime(new Date(data.reqcreatetime)));//创建时间
+			if($("#reqtype").val() == "1"){
+				$("#reqtype1").attr("checked",true);
+				$("[name='ssxx']").css("display","block");
+			}else{
+				$("#reqtype1").attr("checked",false);
+				$("[name='ssxx']").css("display","none");
+			}
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -177,28 +254,39 @@ function saveInfo() {
 			return false;
 		}
 	});
-	var arrs = new Array();
-	$.ajax({
-		type:'get',
-		url: '../pimspathology/ajax/item',
-		data:{"logyid":$("#reqpathologyid").val(),"req_code":$("#lcal_hosptail").val()},
-		dataType:"json",
-		error:function(value){
-			saveInfo1(post,arrs,rowdatas);
-		},
-		success: function(obj){
-			$.each(obj,function(n,value) {
-				var arr = {};
-				arr["id"] = value.fieelementid;
-				arr["value"] = $("#"+ value.fieelementid).val();
-				// alert(arr);
-				arrs.push(arr);
-			});
-			saveInfo1(post,arrs,rowdatas);
+	if($("#reqtype1").is(":checked")){
+		if($("#reqfirstd").val() == null || $("#reqfirstd").val() == ""
+			|| $("#reqsecondv").val() == null || $("#reqsecondv").val() == ""
+			|| $("#reqthirdv").val() == null || $("#reqthirdv").val() == ""
+			|| $("#reqremark").val() == null || $("#reqremark").val() == ""){
+			post = false;
+			layer.msg("勾选做手术时，请将手术信息填写完整!", {icon: 2, time: 2000});
+			return false;
 		}
-	});
+	}
+	var arrs = new Array();
 
-
+	if(post){
+		$.ajax({
+			type:'get',
+			url: '../pimspathology/ajax/item',
+			data:{"logyid":$("#reqpathologyid").val(),"req_code":$("#lcal_hosptail").val()},
+			dataType:"json",
+			error:function(value){
+				saveInfo1(post,arrs,rowdatas);
+			},
+			success: function(obj){
+				$.each(obj,function(n,value) {
+					var arr = {};
+					arr["id"] = value.fieelementid;
+					arr["value"] = $("#"+ value.fieelementid).val();
+					// alert(arr);
+					arrs.push(arr);
+				});
+				saveInfo1(post,arrs,rowdatas);
+			}
+		});
+	}
 }
 /**
  * 创建取材材料单据
@@ -260,6 +348,72 @@ function createNew1(reqid){
     });
 }
 
+/**
+ * 创建病人信息列表
+ * @param reqid
+ */
+function createNew2(brjzxh){
+	$("#new2").jqGrid({
+		url:"../pimspathology/getpatientlist",
+		datatype: "json",
+		mtype:"GET",
+		height: 500,
+		width: 1000,
+		postData:{"brjzxh":brjzxh},
+		colNames: ['ID','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址'],
+		colModel: [
+			{name:'key_no',index:'key_no'},//ID
+			{name:'patient_id',index:'patient_id'},//住院号
+			{name:'patient_name',index:'patient_name'},//病人姓名
+			{ name: 'patient_sex', index: 'patient_sex',formatter:'select',editoptions:{value:"1:男;2:女;3:未知"}},//性别
+			{ name: 'patient_age', index: 'patient_age'},//年龄
+			{ name: 'patient_age_type', index: 'patient_age_type'},//年龄
+			{name:'patient_dept_name',index:'patient_dept_name'},//住院科室名称
+			{name:'patient_ward_name',index:'patient_ward_name'},//住院病区名称
+			{name:'patient_bed',index:'patient_bed'},//床号
+			{name:'lczd',index:'lczd'},//临床诊断
+			{name:'phone_no',hidden:true},//电话
+			{name:'patient_type',hidden:true},//患者类型
+			{name:'patient_address',hidden:true}//联系地址
+		],
+		loadComplete : function() {
+			var table = this;
+			setTimeout(function(){
+				updatePagerIcons(table);
+			}, 0);
+		},
+		viewrecords: true,
+		rownumbers : true,
+		ondblClickRow: function (id) {
+			var rowData = $("#new2").jqGrid('getRowData',id);
+			$("#reqpatientname").val(rowData.patient_name);//姓名
+			// $("#reqpatientsex").val(rowData.patient_sex);//性别
+			$("#reqpatientsex option").each(function () {
+				if($(this).text() == rowData.patient_sex-1){
+					$(this).attr("selected", "selected");
+				}
+			});
+			$("#reqpatientage").val(rowData.patient_age);//年龄
+			// $("#reqpatagetype").val(rowData.patient_age_type);//年龄类型
+			$("#reqpatagetype option").each(function () {
+				if($(this).text() == rowData.patient_age_type){
+					$(this).attr("selected", "selected");
+				}
+			});
+			$("#reqpattelephone").val(rowData.phone_no);//电话
+			$("#reqpatienttype").val(rowData.patient_type);//患者类型
+			$("#reqpatientwardcode").val(rowData.patient_ward_name);//病区
+			$("#reqpatientdeptcode").val(rowData.patient_dept_name);//科室
+			$("#reqfirstn").val(rowData.patient_bed);//床号
+			$("#reqpataddress").val(rowData.patient_address);//联系地址
+			$("#reqpatdiagnosis").val(rowData.lczd);//临床诊断
+			var index = layer.index; //获取窗口索引
+			layer.close(index);
+			//layer.close();
+		},
+	});
+}
+
 function gettypes(){
 	//动态生成select内容
 	var str="";
@@ -305,7 +459,7 @@ function addSample() {
 	//$("#reqpathologyid").val($("#local_logyid").val());//病种类别id
 	//$("#requisitionno").val("");//申请单号
 	$("#reqsource").val("0");//申请单来源(0手工登记 1第三方系统接收)
-	//$("#reqtype").val("");//申请类型(1住院，2门诊，3手术室)
+	$("#reqtype").val("1");//申请类型(1住院，2门诊，3手术室)
 	$("#reqdate").val(CurentTime(new Date()));//申请日期
 	$("#reqinspectionid").val("");//标本条码号
 	$("#reqdatechar").val(CurentTime1(new Date()));//申请日期（8位日期字符）
@@ -357,6 +511,8 @@ function addSample() {
 	$("#reqfirstn").val("");//预留字段6(第一个numberic预留字段)
 	$("#reqcreateuser").val($("#local_userid").val());//创建人员
 	$("#reqcreatetime").val(CurentTime(new Date()));//创建时间
+	$("#reqtype1").attr("checked",true);
+	$("[name='ssxx']").css("display","block");
 	getdynamicdiv($("#logylibid").val(),0);
 	layer.open({
 		type: 1,
@@ -520,6 +676,7 @@ function deleteSample() {
  * 清除数据
  */
 function clearData() {
+	// $("#sampleForm").Validform.resetForm();
     $('#sampleForm')[0].reset();
     jQuery("#new1").jqGrid("clearGridData");
 }
@@ -817,6 +974,7 @@ $(function() {
 		pager: "#pager"
 	});
     createNew1("");
+	createNew2("");
 });
 
 function gettypes1(){
@@ -981,4 +1139,14 @@ function CurentTime1(now) {
 		clock += "0";
 	clock += day;
 	return(clock);
+}
+
+function isshoushu(){
+	if(!$("#reqtype1").is(':checked')){
+		$("#reqtype").val("0");
+		$("[name='ssxx']").css("display","none");
+	}else{
+		$("#reqtype").val("1");
+		$("[name='ssxx']").css("display","block");
+	}
 }

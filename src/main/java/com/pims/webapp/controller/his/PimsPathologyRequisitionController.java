@@ -8,6 +8,7 @@ import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyRequisition;
 import com.pims.model.PimsRequisitionMaterial;
 import com.pims.model.PimsSysReqTestitem;
+import com.pims.service.QueryHisDataService;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.his.PimsRequisitionMaterialManager;
 import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
@@ -37,6 +38,8 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	private PimsRequisitionMaterialManager pimsRequisitionMaterialManager;
 	@Autowired
 	private PimsSysReqTestitemManager pimsSysReqTestitemManager;
+	@Autowired
+	private QueryHisDataService dataService;
 
 	/**
 	 * 渲染视图
@@ -277,5 +280,30 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 			o.put("message",result);
 		}
 		PrintwriterUtil.print(response, o.toString());
+	}
+
+	/**
+	 * 获取病人住院记录
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getpatientlist*", method = RequestMethod.GET)
+	@ResponseBody
+	public DataResponse getPatientList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		DataResponse dataResponse = new DataResponse();
+		String brjzxh = request.getParameter("brjzxh");
+		if(StringUtils.isEmpty(brjzxh)){
+			return null;
+		}
+		List list = dataService.queryPatientList(brjzxh);
+		if(list == null || list.size() == 0) {
+			return null;
+		}
+		dataResponse.setRecords(list.size());
+		dataResponse.setRows(getResultMap(list));
+		response.setContentType("text/html; charset=UTF-8");
+		return dataResponse;
 	}
 }

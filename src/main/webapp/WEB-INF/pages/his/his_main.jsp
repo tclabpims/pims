@@ -136,8 +136,18 @@
 			</div>
 		</div>
 	</div>
+	<div id="formDialog1" style="display:none;" class="col-sm-12">
+		<div>
+			<div class="widget-body" style="overflow:auto;">
+				<div class="widget-main no-padding">
+					<table id="new2" class="table">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="formDialog" style="display:none;" class="col-sm-12">
-		<form class="form-horizontal" action="#" method="post" id="sampleForm" >
+		<form class="form-horizontal" action="#" method="post" id="sampleForm" onkeypress="JavaScript:return NoSubmit(event);">
 			<div class="form-group" style="margin-top: 10px;margin-bottom: 5px">
 				<label class="col-sm-1 label_style">住院/门诊号:</label>
 				<div class="col-sm-2">
@@ -158,9 +168,9 @@
 					<input type="hidden" id="reqisdeleted"/><!--是否删除(0正常，1已删除) -->
 					<input type="hidden" id="reqcreateuser"/><!--创建人员-->
 					<input type="hidden" id="reqcreatetime"/><!-- 创建时间-->
-					<input type="hidden" id="reqtype"/><!--申请类型(是否手术)-->
+					<input type="hidden" id="reqtype" value="1"/><!--申请类型(是否手术)-->
 					<input type="hidden" id="reqinspectionid"/><!--病理编号-->
-					<input type="text" class=" input_style" id="reqpatientnumber"  name="reqpatientnumber"  datatype="*"/>
+					<input type="text" class=" input_style" id="reqpatientnumber"  name="reqpatientnumber"  datatype="*" onkeypress="getPatient(this,event)"/>
 				</div>
 				<label class=" col-sm-1 label_style" for="reqitemnames">姓名:</label>
 				<div class="col-sm-2">
@@ -217,7 +227,7 @@
 			<div class="form-group" style="margin-bottom: 5px;">
 				<label class="col-sm-1 label_style">床号:</label>
 				<div class="col-sm-2">
-					<input type="text" class="input_style" id="reqfirstn" name="reqfirstn" datatype="n"/>
+					<input type="text" class="input_style" id="reqfirstn" name="reqfirstn"/>
 				</div>
 				<label class="col-sm-1 label_style">联系地址:</label>
 				<div class="col-sm-8">
@@ -233,22 +243,22 @@
 			<div class="form-group" style="margin-bottom: 5px;">
 				<label class="col-sm-1 label_style">是否手术:</label>
 				<div class="col-sm-1">
-					<input type="checkbox">
+					<input type="checkbox" id="reqtype1" value="1" onclick="isshoushu()" checked>
 				</div>
-				<label class="col-sm-1 label_style">手术时间:</label>
+				<label class="col-sm-1 label_style" name="ssxx">手术时间:</label>
 				<div class="col-sm-2">
-					<input type="text" class="form_datetime1 input_style"  id="reqfirstd" name="reqfirstd"/>
+					<input type="text" class="form_datetime1 input_style"  id="reqfirstd" name="ssxx"/>
 				</div>
-				<label class="col-sm-1 label_style">手术医生:</label>
+				<label class="col-sm-1 label_style" name="ssxx">手术医生:</label>
 				<div class="col-sm-2">
-					<input type="text" class="input_style" id="reqsecondv"/><!--手术医生 -->
+					<input type="text" class="input_style" id="reqsecondv" name="ssxx"/><!--手术医生 -->
 				</div>
-				<label class="col-sm-1 label_style">手术电话:</label>
+				<label class="col-sm-1 label_style" name="ssxx">手术电话:</label>
 				<div class="col-sm-2">
-					<input type="text" class="input_style"  id="reqthirdv" name="reqthirdv"/>
+					<input type="text" class="input_style"  id="reqthirdv" name="ssxx"/>
 				</div>
 			</div>
-			<div class="form-group" style="margin-bottom: 5px;">
+			<div class="form-group" style="margin-bottom: 5px;" name="ssxx">
 				<label class="col-sm-2 label_style"></label>
 				<label class="col-sm-1 label_style">手术所见:</label>
 				<div class="col-sm-8">
