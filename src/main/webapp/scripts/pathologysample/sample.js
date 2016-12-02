@@ -321,6 +321,8 @@ function addSample() {
 	$("#samcreatetime").val(CurentTime(new Date()));//创建时间
 	$("#samcreateuser").val($("#local_userid").val());//创建人
 	$("#samjcxm").val("");//检查项目
+	$("input[name='samfirstv'][value='1']").attr("checked",true);//知情书
+	$("input[name='samsecondv'][value='1']").attr("checked",true);合格状态
 }
 /**
  *修改标本
@@ -385,6 +387,18 @@ function clearData() {
 	jQuery("#new2").jqGrid("clearGridData");
     //$("input").val("");
 }
+
+function fillval(id,name,anotherid,obj) {
+	var optiontext = $("#"+obj).find("option:selected").text();
+	var string1 = optiontext.substring(0,optiontext.indexOf(':'));
+	var string2 = optiontext.substr(optiontext.indexOf(':')+1);
+	$("#"+id).val($("#"+obj).val());
+	$("#"+name).val(string2);
+	if(anotherid != null){
+		$("#"+anotherid).val(string1);
+	}
+	$("#"+name).focus();
+}
 /**
  * 初始化
  */
@@ -433,9 +447,12 @@ $(function() {
 		language: 'zh-CN', //汉化
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
+	}).on('changeDate',function(ev){
+		this.focus();
 	});
     $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
 	//检查项目
+	// $(".js-example-basic-single").select2();
 	$("#samjcxm").autocomplete({
 		source: function( request, response ) {
 			$.ajax({

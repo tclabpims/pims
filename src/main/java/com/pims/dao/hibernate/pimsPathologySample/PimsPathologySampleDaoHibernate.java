@@ -437,4 +437,79 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         getReportSql(map,sb);
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time());
     }
+
+    @Override
+    public List getReportDelayList(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT sampleid,sampathologyid,sampathologycode,sampatientname,sampatientage,sampatientsex, " +
+                "samsendtime,delreporttime,deldoctor,delreason,samsamplestatus,samdeptname,samsenddoctorname,samsendhospital,deldiagnosis,restestresult,delcreatetime,deldays FROM " +
+                "(SELECT sampleid,sampathologyid,sampathologycode,sampatientname,sampatientage||sampatientagetype as sampatientage,sampatientsex, " +
+                "samsendtime,delreporttime,deldoctor,delreason,samsamplestatus,samdeptname,samsenddoctorname,samsendhospital,deldiagnosis,delcreatetime,deldays, " +
+                "(select restestresult from pims_sample_result where ressampleid=sampleid and rownum=1 ) as restestresult," +
+                "RANK() OVER (PARTITION BY SAMPLEID ORDER BY DELREPORTTIME DESC) AS TK " +
+                " FROM PIMS_PATHOLOGY_SAMPLE,PIMS_PATHOLOGY_REPORT_DELAY " +
+                "WHERE SAMPLEID = DELSAMPLEID) WHERE TK = 1");
+        getReportDelaySql(sb,map);
+        Query query = getSession().createSQLQuery(sb.toString());
+        if(map.getReq_bf_time() != null){
+            query.setDate("req_bf_time",map.getReq_bf_time());//送检开始时间
+        }
+        if(map.getReq_af_time() != null){
+            query.setDate("req_af_time",map.getReq_af_time());//送检结束时间
+        }
+        query.setFirstResult(map.getStart());
+        query.setMaxResults(map.getEnd());
+        return query.list();
+    }
+
+    @Override
+    public int getReportDelayNum(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT count(1) FROM " +
+                "(SELECT sampleid,sampathologyid,sampathologycode,sampatientname,sampatientage||sampatientagetype as sampatientage,sampatientsex, " +
+                "samsendtime,delreporttime,deldoctor,delreason,samsamplestatus,samdeptname,samsenddoctorname,samsendhospital, " +
+                "RANK() OVER (PARTITION BY SAMPLEID ORDER BY DELREPORTTIME DESC) AS TK " +
+                " FROM PIMS_PATHOLOGY_SAMPLE,PIMS_PATHOLOGY_REPORT_DELAY " +
+                "WHERE SAMPLEID = DELSAMPLEID) WHERE TK = 1");
+        getReportDelaySql(sb,map);
+        return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    private StringBuffer getReportDelaySql(StringBuffer sb,PimsBaseModel map){
+        if(map.getReq_bf_time() != null){
+            sb.append(" and samsendtime >= :req_bf_time ");//送检开始时间
+        }
+        if(map.getReq_af_time() != null){
+            sb.append(" and samsendtime < :req_af_time ");//送检结束时间
+        }
+        if(!StringUtils.isEmpty(map.getReq_code())){
+            String[] strings = map.getReq_code().split(",");
+            String code = "(";
+            for(int i=0;i<strings.length;i++){
+                if(i == strings.length-1){
+                    code += "'"+ strings[i]+"'";
+                }else{
+                    code += "'"+ strings[i]+"',";
+                }
+            }
+            code +=")";
+            sb.append(" and sampathologycode in "+ code);//病理编号
+        }
+        if(!StringUtils.isEmpty(map.getPatient_name())){
+            sb.append(" and upper(sampatientname) like '%"+map.getPatient_name().toUpperCase()+"%'");//病人姓名
+        }
+        if(!StringUtils.isEmpty(map.getSend_doctor())){
+            sb.append(" and samsenddoctorname ='"+ map.getSend_doctor()+"'");//送检医生
+        }
+        if(!StringUtils.isEmpty(map.getSend_dept())){
+            sb.append(" and samdeptname ='"+ map.getSend_dept()+"'");//送检科室
+        }
+        if(!StringUtils.isEmpty(map.getSend_hosptail())){
+            sb.append(" and samsendhospital = '"+map.getSend_hosptail()+"'");//送检医院
+        }
+        if(!StringUtils.isEmpty(map.getPiedoctorname())){
+            sb.append(" and deldoctor ='"+map.getPiedoctorname()+"'");//申请医生
+        }
+        return sb;
+    }
 }

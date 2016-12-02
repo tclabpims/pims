@@ -77,7 +77,7 @@
         <Menu name="InquiryStatistics" title="InquiryStatistics.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
             <Item name="PathologicalReportQuery" title="menu.pathologicalReportQuery" page="/report/diagnosisreport" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="PathologicalStatisticalManagement" title="menu.PathologicalStatisticalManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
-            <Item name="DelayReportManagement" title="menu.DelayReportManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="DelayReportManagement" title="menu.DelayReportManagement" page="/report/reportdelay" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
 

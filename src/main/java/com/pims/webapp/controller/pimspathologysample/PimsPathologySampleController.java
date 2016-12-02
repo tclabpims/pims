@@ -9,12 +9,14 @@ import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysPathology;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.pims.model.*;
+import com.pims.service.basedata.PimsCommonBaseDataManager;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimspathologysample.PimsPathologyFeeManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysTestFeeManager;
+import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
 import com.smart.lisservice.WebService;
@@ -54,6 +56,10 @@ public class PimsPathologySampleController extends PIMSBaseController{
     private PimsPathologyFeeManager pimsPathologyFeeManager;
     @Autowired
     private PimsSysTestFeeManager pimsSysTestFeeManager;
+    @Autowired
+    private PimsSysReqTestitemManager pimsSysReqTestitemManager;//检查项目
+    @Autowired
+    private PimsCommonBaseDataManager pimsCommonBaseDataManager;//基础资料
     /**
      * 渲染视图
      * @param request
@@ -62,22 +68,45 @@ public class PimsPathologySampleController extends PIMSBaseController{
      */
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
-//        Calendar c = Calendar.getInstance();
-//        c.add(Calendar.DATE, - 7);
-//        Date monday = c.getTime();
-//        String sevenDay = Constants.DF2.format(monday);
-//        String today = Constants.DF2.format(new Date());
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
-//        ModelAndView view = new ModelAndView();
-//        view.addObject("logyid",logylibid);//当前用户选择的病例库
-//        view.addObject("sevenday", sevenDay);//7天前
-//        view.addObject("receivetime", today);//当前时间
-//        view.addObject("send_hosptail",user.getHospitalId());//账号所属医院
-//        view.addObject("local_userid",user.getId());//用户id
-//        view.addObject("local_username",user.getName());//用户姓名
-//        return view;
-        return getmodelView(request);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long hosptail = user.getHospitalId();
+        ModelAndView view = getmodelView(request);
+        //检查项目
+        Map map = new HashMap();
+        map.put("tesitemtype","4");
+        List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(map);
+        StringBuilder builder = new StringBuilder();
+        builder.append("<option value=''></option>");
+        for(PimsSysReqTestitem obj : list) {
+            builder.append("<option value='").append(obj.getTestitemid()).append("' ");
+            builder.append(">").append(obj.getTespathologyid()+":"+obj.getTeschinesename()).append("</option>");
+        }
+        view.addObject("samjcxm",builder.toString());
+        //送检医院
+        map = new HashMap();
+        map.put("bdcustomerid",hosptail);
+        map.put("bddatatype",4);
+        List<PimsCommonBaseData> listbase = pimsCommonBaseDataManager.getDataList(map);
+        view.addObject("samsendhospital",getOptions(listbase).toString());
+        //送检科室
+        map.put("bddatatype",2);
+        listbase = pimsCommonBaseDataManager.getDataList(map);
+        view.addObject("samdeptname",getOptions(listbase).toString());
+        //送检医生
+        map.put("bddatatype",3);
+        listbase = pimsCommonBaseDataManager.getDataList(map);
+        view.addObject("samsenddoctorname",getOptions(listbase).toString());
+        return view;
+    }
+
+    private String getOptions(List<PimsCommonBaseData> listbase){
+        StringBuilder builder = new StringBuilder();
+        builder.append("<option value=''></option>");
+        for(PimsCommonBaseData obj : listbase) {
+            builder.append("<option value='").append(obj.getDataid()).append("' ");
+            builder.append(">").append(obj.getIsself()+":"+obj.getBddatanamech()).append("</option>");
+        }
+        return builder.toString();
     }
 
     /**

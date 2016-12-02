@@ -294,5 +294,61 @@ public class ReportController extends PIMSBaseController{
         return true;
     }
 
-
+    /**
+     * 渲染视图(延迟报告管理)
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/reportdelay", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView reportdelay(HttpServletRequest request) throws Exception {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, - 7);
+        Date monday = c.getTime();
+        String sevenDay = Constants.DF2.format(monday);
+        String today = Constants.DF2.format(new Date());
+        ModelAndView view = new ModelAndView();
+        view.addObject("sevenday", sevenDay);//7天前
+        view.addObject("receivetime", today);//当前时间
+        return view;
+    }
+    /**
+     * 获取报告列表
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/reportdelay/list*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getReportDelayList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List list = pimsPathologySampleManager.getReportDelayList(ppr);
+        int num = pimsPathologySampleManager.getReportDelayNum(ppr);
+        List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+        if(list == null || list.size() == 0) {
+            return null;
+        }else{
+            for(Object bean:list){
+                Map<String, Object> map = new HashMap<String, Object>();
+                Object[] pd = (Object[]) bean;
+                String[] st = {"sampleid","sampathologyid","sampathologycode","sampatientname","sampatientage","sampatientsex","samsendtime",
+                        "delreporttime","deldoctor","delreason","samsamplestatus","samdeptname","samsenddoctorname","samsendhospital",
+                        "deldiagnosis","restestresult","delcreatetime","deldays"};
+                for(int i=0;i<pd.length;i++){
+                    Object o = pd[i];
+                    map.put(st[i],o);
+                }
+                mapList.add(map);
+            }
+        }
+        dataResponse.setRecords(num);
+        dataResponse.setPage(ppr.getPage());
+        dataResponse.setTotal(getTotalPage(num, ppr.getRow(), ppr.getPage()));
+        dataResponse.setRows(mapList);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
 }

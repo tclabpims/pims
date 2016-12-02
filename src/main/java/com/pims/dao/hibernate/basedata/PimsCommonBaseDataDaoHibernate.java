@@ -36,7 +36,7 @@ public class PimsCommonBaseDataDaoHibernate extends GenericDaoHibernate<PimsComm
         if(!StringUtils.isEmpty(String.valueOf(map.get("bdcustomerid")))){//客户id
             sb.append(" and bdcustomerid = " + map.get("bdcustomerid"));
         }
-        if(!StringUtils.isEmpty(String.valueOf(map.get("name")))){//名称
+        if(!StringUtils.isEmpty(String.valueOf(map.get("name"))) && !String.valueOf(map.get("name")).toUpperCase().equals("NULL")){//名称
             String name = String.valueOf(map.get("name")).toUpperCase();
             sb.append(" and ( upper(bddatanamech) like '%"+name+"%' or upper(bddatanameen) like '%"+
                    name+ "%' or upper(bdpinyincode) like '%"+name+"%' or upper(bdfivestroke) like '%"+

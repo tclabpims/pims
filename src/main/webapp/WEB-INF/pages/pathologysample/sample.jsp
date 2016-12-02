@@ -18,6 +18,9 @@
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
 	<script type="text/javascript" src="../scripts/pathologysample/fee.js"></script>
+	<%--<link rel="stylesheet" type="text/css"  href="<c:url value='/scripts/select2-4.0.3/dist/css/select2.css'/>" />--%>
+	<%--<script type="text/javascript" src="../scripts/select2-4.0.3/dist/js/select2.full.js"></script>--%>
+
 	<style>
 		.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }
 		.div_img{cursor:pointer;display: block;margin-bottom:11px;}
@@ -25,6 +28,7 @@
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
 		.input_style{height: 24px;font-size: 12px!important;}
+		.ui-autocomplete-input{height: 24px;font-size: 12px!important;border-color:#B5B5B5;border-width: 1px;color: #000000}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
@@ -441,7 +445,12 @@
 					<label class="label_style col-sm-1">检查项目:</label>
 					<div class="col-sm-3 ">
 						<input type="hidden" id="sampopuser"/><!--标本检查项目id-->
-						<input class="input_style" type="text" id="samjcxm" name="samjcxm" datatype="*"/>
+						<%--<input class="input_style" type="text" id="samjcxm" name="samjcxm" datatype="*"/>--%>
+						<span style="overflow:hidden;" class="input_style  col-sm-8">
+						<select class="input_style  col-sm-12" id="samjcxm1" onchange="fillval('sampopuser','samjcxm','sampathologyid','samjcxm1')">
+							<%out.print(request.getAttribute("samjcxm"));%>
+						</select>
+						</span><input id="samjcxm"  name="samjcxm" datatype="*" style="position:absolute;left:0px;" class="input_style col-sm-7">
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">
@@ -510,16 +519,35 @@
 					<label class="col-sm-1 label_style" >送检医生:</label>
 					<div class="col-sm-3 ">
 						<input type="hidden" id="samsenddoctorid"/>
-						<input  class="input_style" type="text" id="samsenddoctorname" name="samsenddoctorname" datatype="*"/>
+						<span style="overflow:hidden;" class="input_style  col-sm-8">
+							<select class="input_style  col-sm-12" id="samsenddoctorid1"
+									onchange="fillval('samsenddoctorid','samsenddoctorname',null,'samsenddoctorid1')">
+								<%out.print(request.getAttribute("samsenddoctorname"));%>
+							</select>
+						</span>
+						<input id="samsenddoctorname"  name="samsenddoctorname" datatype="*" style="position:absolute;left:0px;" class="input_style col-sm-7">
 					</div>
 					<label class="col-sm-1 label_style" for="samdeptcode">送检科室:</label>
 					<div class="col-sm-3">
 						<input type="hidden" id="samdeptcode"/><!--申请科室名称-->
-						<input class="input_style" type="text" id="samdeptname" name="samdeptname" datatype="*"/><!--申请科室名称-->
+						<%--<input class="input_style" type="text" id="samdeptname" name="samdeptname" datatype="*"/><!--申请科室名称-->--%>
+						<span style="overflow:hidden;" class="input_style  col-sm-8">
+							<select class="input_style  col-sm-12" id="samdeptcode1"
+									onchange="fillval('samdeptcode','samdeptname',null,'samdeptcode1')">
+								<%out.print(request.getAttribute("samdeptname"));%>
+							</select>
+						</span>
+						<input id="samdeptname"  name="samdeptname" datatype="*" style="position:absolute;left:0px;" class="input_style col-sm-7">
 					</div>
 					<label class="col-sm-1 label_style" >送检医院:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="samsendhospital" name="samsendhospital" datatype="*"/>
+						<span style="overflow:hidden;" class="input_style  col-sm-8">
+							<select class="input_style  col-sm-12" id="samsendhospitalid" name="samsendhospitalid" datatype="*"
+									onchange="fillval('samsendhospitalid','samsendhospital','samsource','samsendhospitalid')">
+								<%out.print(request.getAttribute("samsendhospital"));%>
+							</select>
+						</span>
+						<input id="samsendhospital"  name="samsendhospital" datatype="*" style="position:absolute;left:0px;" class="input_style col-sm-7">
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">
@@ -537,7 +565,7 @@
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">
-					<label style="font-size: 13px;"  class="col-sm-1 label_style">标本状态:</label>
+					<label style="font-size: 13px;"  class="col-sm-1 label_style">合格状态:</label>
 					<div class="col-sm-3 input_style">
 						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv"/>&nbsp;&nbsp;合格&nbsp;&nbsp;
 						<input type="radio" value="2" name="samsecondv"/>&nbsp;&nbsp;不合格

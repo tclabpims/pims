@@ -85,4 +85,18 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
      * @return
      */
     int getReportNum(PimsBaseModel map);
+
+    /**
+     * 查询报告列表
+     * @param map
+     * @return
+     */
+    List getReportDelayList(PimsBaseModel map);
+
+    /**
+     * 查询报告数量
+     * @param map
+     * @return
+     */
+    int getReportDelayNum(PimsBaseModel map);
 }

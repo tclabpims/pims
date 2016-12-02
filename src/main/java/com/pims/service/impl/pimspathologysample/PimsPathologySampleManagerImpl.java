@@ -173,4 +173,14 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public int getReportNum(PimsBaseModel map) {
         return pimsPathologySampleDao.getReportNum(map);
     }
+
+    @Override
+    public List getReportDelayList(PimsBaseModel map) {
+        return pimsPathologySampleDao.getReportDelayList(map);
+    }
+
+    @Override
+    public int getReportDelayNum(PimsBaseModel map) {
+        return pimsPathologySampleDao.getReportDelayNum(map);
+    }
 }
