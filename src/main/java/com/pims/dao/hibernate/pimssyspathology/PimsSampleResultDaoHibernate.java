@@ -2,6 +2,7 @@ package com.pims.dao.hibernate.pimssyspathology;
 
 import com.pims.dao.pimssyspathology.PimsSampleResultDao;
 import com.pims.model.PimsSampleResult;
+import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,12 +25,17 @@ public class PimsSampleResultDaoHibernate extends GenericDaoHibernate<PimsSample
     }
 
     @Override
-    public Map<String, Long> save(List<PimsSampleResult> set) {
+    public Map<String, Long> save(List<PimsSampleResult> set, int patClass) {
         Session session = getSession();
         Transaction transaction = session.beginTransaction();
         Map<String, Long> result = new HashMap<>();
+        int i = 0;
         for (PimsSampleResult aSet : set) {
             PimsSampleResult sampleResult = (PimsSampleResult) session.merge(aSet);
+            if(patClass == 2) {
+                result.put(Constants.YJXB_INPUT_PREFIX+i, sampleResult.getResultid());
+                i++;
+            } else
             result.put(String.valueOf(aSet.getRestestitemid()), sampleResult.getResultid());
         }
         transaction.commit();

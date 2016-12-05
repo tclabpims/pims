@@ -30,7 +30,7 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
 
     @Override
     public List<PimsPathologySample> querySample(PimsPathologySample sample, GridQuery gridQuery) {
-        StringBuffer sql = new StringBuffer("from PimsPathologySample as p where 1=1 ");
+        StringBuffer sql = new StringBuffer("select p.sampleid,p.sampathologycode,p.samcustomerid,p.sampathologyid,p.samsenddoctorname,p.samreportorid,p.samauditerid,p.saminitiallyuserid,sp.patclass from PIMS_PATHOLOGY_SAMPLE p,Pims_Sys_Pathology sp where p.SamPathologyId=sp.pathologyid ");
         setParameter(sql, sample);
         sql.append(" order by p.sampleid desc");
         return pimsPathologySampleDao.querySample(sample, gridQuery, sql.toString());
@@ -40,18 +40,18 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long pathologyId = sample.getSampathologyid();
         long sampleStatus = sample.getSamsamplestatus();
-        Date from = sample.getSamplesectionfrom();
-        Date to = sample.getSamplesectionto();
         String inspectionId = sample.getSaminspectionid();
         String pathologyCode = sample.getSampathologycode();
         String patientName = sample.getSampatientname();
         String samfirstv = sample.getSamfirstv();
+        Date from = sample.getSamplesectionfrom();
+        Date to = sample.getSamplesectionto();
         if(!StringUtils.isEmpty(samfirstv)){
             if(samfirstv.equals("0")){
-                sql.append(" and p.sampleid in (select tassampleid from PimsPathologyTask where tastasktype = 0 and taspromoterid ='"+user.getId()+"')");
+                sql.append(" and p.sampleid in (select tassampleid from PIMS_PATHOLOGY_TASK where tastasktype = 0 and taspromoterid ='"+user.getId()+"')");
             }else{
                 samfirstv = String.valueOf(Integer.valueOf(samfirstv)-1);
-                sql.append("and p.sampleid in (select tassampleid from PimsPathologyTask where tastasktype = 0 and tastaskstate = "+samfirstv+" and tasreciverid ='"+user.getId()+"')");
+                sql.append("and p.sampleid in (select tassampleid from PIMS_PATHOLOGY_TASK where tastasktype = 0 and tastaskstate = "+samfirstv+" and tasreciverid ='"+user.getId()+"')");
             }
         }
         if (sampleStatus > 0) {
@@ -60,22 +60,22 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
         if (pathologyId > 0) {
             sql.append("and p.sampathologyid=:SamPathologyId ");
         }
-        if (inspectionId != null && !"".equals(inspectionId.trim())) {
+        if (StringUtils.isNotEmpty(inspectionId)) {
             sql.append("and p.saminspectionid=:SamInspectionId ");
         }
-        if (pathologyCode != null && !"".equals(pathologyCode.trim())) {
+        if (StringUtils.isNotEmpty(pathologyCode)) {
             sql.append("and p.sampathologycode=:SamPathologyCode ");
         }
-        if (patientName != null && !"".equals(patientName.trim())) {
+        if (StringUtils.isNotEmpty(patientName)) {
             sql.append("and p.sampatientname=:SamPatientName ");
         }
-        if (from != null && to != null)
-            sql.append("and p.sampleid in (select pp.parsampleid from PimsPathologyParaffin as pp where pp.parsectionedtime between :samplesectionfrom and  :samplesectionto)");
+        if(from != null || to != null)
+            sql.append("and p.sampleid in (select pp.parsampleid from PIMS_PATHOLOGY_PARAFFIN pp where pp.parsectionedtime between :samplesectionfrom and  :samplesectionto)");
     }
 
     @Override
     public Integer querySampleNum(PimsPathologySample sample) {
-        StringBuffer sql = new StringBuffer("select count(*) from PimsPathologySample as p where 1=1 ");
+        StringBuffer sql = new StringBuffer("select count(1) cnt from PIMS_PATHOLOGY_SAMPLE p where 1=1 ");
         setParameter(sql, sample);
         return pimsPathologySampleDao.totalNum(sample, sql.toString());
     }

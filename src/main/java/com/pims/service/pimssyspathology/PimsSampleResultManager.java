@@ -11,9 +11,11 @@ import java.util.Map;
  * Description:
  */
 public interface PimsSampleResultManager extends GenericManager<PimsSampleResult, Long> {
-    Map<String, Long> save(List<PimsSampleResult> set);
+    Map<String, Long> save(List<PimsSampleResult> set, int patClass);
 
-    Map<String,PimsSampleResult> getSampleResult(Long sampleId);
+    Map<String,PimsSampleResult> getSampleResult(Long sampleId, int patClass);
 
     PimsSampleResult getSampleResultForPrint(Long sampleId);
+
+    Map<String,String> getYjxbDiagnosisResult(Long sampleId);
 }

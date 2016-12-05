@@ -11,7 +11,7 @@ import java.util.Map;
  * Description:
  */
 public interface PimsSampleResultDao extends GenericDao<PimsSampleResult, Long> {
-    Map<String, Long> save(List<PimsSampleResult> set);
+    Map<String, Long> save(List<PimsSampleResult> set, int patClass);
 
     List<PimsSampleResult> getSampleResult(Long sampleId);
 

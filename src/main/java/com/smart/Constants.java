@@ -369,4 +369,16 @@ public final class Constants {
 	public static final int PATHOLOGY_STATUS_REPORTED = 2;
 	public static final int PATHOLOGY_STATUS_CHECKED = 3;
 	public static final int PATHOLOGY_STATUS_PRINTED= 4;
+
+	//液基细胞学诊断页面输入框前缀
+	public static final String YJXB_INPUT_PREFIX = "textarea";
+
+	//判读意见/结果
+	public static final String YJXB_RESULT= "textarea1";
+	//附注/建议
+	public static final String YJXB_ADVICE= "textarea3";
+	//勾选项id和炎症程度
+	public static final String YJXB_CHECKED_ITEMS = "textarea0";
+	//Cervista高危型HPV DNA检测结果
+	public static final String YJXB_DNA_RESULT = "textarea2";
 }
