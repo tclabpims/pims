@@ -680,6 +680,20 @@ function clearData() {
     $('#sampleForm')[0].reset();
     jQuery("#new1").jqGrid("clearGridData");
 }
+
+function fillval(id,name,anotherid,obj) {
+	var optiontext = $("#"+obj).find("option:selected").text();
+	var string1 = optiontext.substring(0,optiontext.indexOf(':'));
+	var string2 = optiontext.substr(optiontext.indexOf(':')+1);
+	if(id != null){
+		$("#"+id).val($("#"+obj).val());
+	}
+	$("#"+name).val(string2);
+	if(anotherid != null){
+		$("#"+anotherid).val(string1);
+	}
+	$("#"+name).focus();
+}
 /**
  * 初始化
  */
@@ -717,7 +731,75 @@ $(function() {
 		language: 'zh-CN', //汉化
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
+	}).on('changeDate',function(ev){
+		this.focus();
 	});
+	//病区
+	$("#reqpatientwardcode").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../basadata/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,//名称
+					bddatatype:1,//病区
+					bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			$( "#reqpatientwardcode" ).val(ui.item.value);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
+	//科室
+	$("#reqpatientdeptcode").autocomplete({
+		source: function( request, response ) {
+			$.ajax({
+				url: "../basadata/ajax/item",
+				dataType: "json",
+				data: {
+					name : request.term,//名称
+					bddatatype:2,//送检医院
+					bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
+				},
+				success: function( data ) {
+					response( $.map( data, function( result ) {
+						return {
+							label: result.id + " : " + result.name,
+							value: result.name,
+							id : result.id
+						}
+					}));
+				}
+			});
+		},
+		minLength: 0,
+		select: function( event, ui ) {
+			$( "#reqpatientdeptcode" ).val(ui.item.value);
+			//return false;
+		}
+	})
+		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" )
+			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+			.appendTo( ul );
+	};
 	//检查项目
 	$("#reqitemnames").autocomplete({
 		source: function( request, response ) {

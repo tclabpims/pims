@@ -54,6 +54,9 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         if (!StringUtils.isEmpty(pims.getReq_sts())) {
             buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
         }
+        if (!StringUtils.isEmpty(pims.getLogyid())) {
+            buffer.append(" and  reqpathologyid = " + pims.getLogyid());//病种
+        }
         return buffer;
     }
 

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.DefaultJSONParser;
+import com.pims.model.PimsCommonBaseData;
 import com.pims.model.PimsHospitalPathologyInfo;
 import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysPathology;
@@ -77,6 +78,16 @@ public class PIMSBaseController {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public String getOptions(List<PimsCommonBaseData> listbase){
+        StringBuilder builder = new StringBuilder();
+        builder.append("<option value=''></option>");
+        for(PimsCommonBaseData obj : listbase) {
+            builder.append("<option value='").append(obj.getDataid()).append("' ");
+            builder.append(">").append(obj.getIsself()+":"+obj.getBddatanamech()).append("</option>");
+        }
+        return builder.toString();
     }
 
     protected List<File> multifileUpload(MultipartFile[] imgFile, String path, String sampleId) throws IOException {

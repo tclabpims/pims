@@ -1,7 +1,9 @@
 package com.pims.webapp.controller.his;
 
+import com.pims.model.PimsCommonBaseData;
 import com.pims.model.PimsSysPathology;
 import com.pims.model.PimsSysReqTestitem;
+import com.pims.service.basedata.PimsCommonBaseDataManager;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
@@ -20,9 +22,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by king on 2016/9/28.
@@ -34,9 +34,11 @@ public class HisMainController extends PIMSBaseController {
     @Autowired
     private PimsHospitalPathologyInfoManager pimsHospitalPathologyInfoManager;
     @Autowired
-    private PimsSysReqTestitemManager pimsSysReqTestitemManager;
+    private PimsSysReqTestitemManager pimsSysReqTestitemManager;//检查项目
     @Autowired
     private PimsPathologyRequisitionManager pimsPathologyRequisitionManager;
+    @Autowired
+    private PimsCommonBaseDataManager pimsCommonBaseDataManager;//基础资料
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
         Calendar c = Calendar.getInstance();
@@ -66,6 +68,37 @@ public class HisMainController extends PIMSBaseController {
             builder.append(">").append(obj.getPatnamech()).append("</option>");
         }
         ModelAndView view = new ModelAndView();
+        view.addObject("logyids",builder.toString());
+        long hosptail = user.getHospitalId();
+        //检查项目
+        Map map = new HashMap();
+        map.put("tesitemtype","4");
+        List<PimsSysReqTestitem> list1 = pimsSysReqTestitemManager.getTestitemInfo(map);
+        builder = new StringBuilder();
+        builder.append("<option value=''></option>");
+        for(PimsSysReqTestitem obj : list1) {
+            builder.append("<option value='").append(obj.getTestitemid()).append("' ");
+            builder.append(">").append(obj.getTespathologyid()+":"+obj.getTeschinesename()).append("</option>");
+        }
+        view.addObject("samjcxm",builder.toString());
+        //送检医院
+        map = new HashMap();
+        map.put("bdcustomerid",hosptail);
+        map.put("bddatatype",4);
+        List<PimsCommonBaseData> listbase = pimsCommonBaseDataManager.getDataList(map);
+        view.addObject("samsendhospital",getOptions(listbase).toString());
+        //送检科室
+        map.put("bddatatype",2);
+        listbase = pimsCommonBaseDataManager.getDataList(map);
+        view.addObject("samdeptname",getOptions(listbase).toString());
+        //送检医生
+        map.put("bddatatype",3);
+        listbase = pimsCommonBaseDataManager.getDataList(map);
+        view.addObject("samsenddoctorname",getOptions(listbase).toString());
+        //病区
+        map.put("bddatatype",1);
+        listbase = pimsCommonBaseDataManager.getDataList(map);
+        view.addObject("reqwardname",getOptions(listbase).toString());
         view.addObject("requisitionno",requisitionno);//申请单号
         view.addObject("sevenday", sevenDay);//7天前
         view.addObject("receivetime", today);//当前时间
@@ -76,7 +109,7 @@ public class HisMainController extends PIMSBaseController {
 
         view.addObject("local_user",user.getName());//用户姓名
         view.addObject("local_userid",user.getId());//用户ID
-        view.addObject("logyids",builder.toString());
+
         return view;
     }
 }

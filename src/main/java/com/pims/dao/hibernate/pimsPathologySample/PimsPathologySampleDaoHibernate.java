@@ -512,4 +512,139 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         }
         return sb;
     }
+
+    /**
+     * 组装统计报表sql
+     * @param map
+     * @param sb
+     * @return
+     */
+    private StringBuffer getCountReportSql(PimsBaseModel map,StringBuffer sb){
+        if(map.getReq_bf_time() != null){
+            sb.append(" and samregisttime >= :req_bf_time");
+        }
+        if(map.getReq_af_time() != null){
+            sb.append(" and samregisttime < :req_af_time");
+        }
+        return sb;
+    }
+    /**
+     * 填充query
+     * @param map
+     * @param query
+     * @return
+     */
+    private Query getQueryInfo (PimsBaseModel map,Query query){
+        if(map.getReq_bf_time() != null){
+            query.setDate("req_bf_time",map.getReq_bf_time());
+        }
+        if(map.getReq_af_time() != null){
+            query.setDate("req_af_time",map.getReq_af_time());
+        }
+        return query;
+    }
+
+    /**
+     * 日志统计列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List getRztj(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("select * from (select samsamplestatus  from pims_pathology_sample where samisdeleted =0  ");
+        getCountReportSql(map,sb);
+        sb.append(" )pivot(count(samsamplestatus) for samsamplestatus in(0,1,2,3,4,5,6,7,8))");
+        Query query = getSession().createSQLQuery(sb.toString());
+        getQueryInfo(map,query);
+        return query.list();
+    }
+
+    /**
+     * 日志统计详细信息
+     * @param map
+     * @return
+     */
+    @Override
+    public List getRztjInfo(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("select * from (select samsamplestatus,sampathologyid  from pims_pathology_sample where samisdeleted =0  ");
+        getCountReportSql(map,sb);
+        sb.append(" )pivot(count(samsamplestatus) for samsamplestatus in(0,1,2,3,4,5,6,7,8))");
+        Query query = getSession().createSQLQuery(sb.toString());
+        getQueryInfo(map,query);
+        return query.list();
+    }
+
+    /**
+     * 标本来源统计
+     * @param map
+     * @return
+     */
+    @Override
+    public List getBbly(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        String req_code = map.getReq_code();
+        if(!StringUtils.isEmpty(req_code)){
+            if(req_code.equals("1")){//送检单位
+                sb.append("select samsendhospital as name,count(1) as nums  from pims_pathology_sample where samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by samsendhospital");
+            }else if(req_code.equals("2")){//送检科室
+                sb.append("select samdeptname as name,count(1) as nums  from pims_pathology_sample where samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by samdeptname,samdeptcode");
+            }else if(req_code.equals("3")){//送检医生
+                sb.append("select samsenddoctorname as name,count(1) as nums  from pims_pathology_sample where samisdeleted = 0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by samsenddoctorname,samsenddoctorid");
+            }
+            Query query = getSession().createSQLQuery(sb.toString());
+            getQueryInfo(map,query);
+            return query.list();
+        }
+        return  null;
+    }
+
+    /**
+     * 收费统计报告
+     * @param map
+     * @return
+     */
+    @Override
+    public List getSftj(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        String req_code = map.getReq_code();
+        if(!StringUtils.isEmpty(req_code)){
+            if(req_code.equals("1")){//送检单位
+                sb.append("select samsendhospital as name ,sum(feeprince) prices from pims_pathology_fee,pims_pathology_sample where feesampleid = sampleid and  samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by samsendhospital");
+            }else if(req_code.equals("2")){//送检科室
+                sb.append("select samdeptname as name ,sum(feeprince) prices from pims_pathology_fee,pims_pathology_sample where feesampleid = sampleid and  samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by samdeptname,samdeptcode");
+            }else if(req_code.equals("3")){//送检医生
+                sb.append("select samsenddoctorname as name ,sum(feeprince) prices from pims_pathology_fee,pims_pathology_sample where feesampleid = sampleid and  samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by samsenddoctorname,samsenddoctorid");
+            }else if(req_code.equals("4")){//按费用类别
+                sb.append("select feecategory as name ,sum(feeprince) prices from pims_pathology_fee,pims_pathology_sample where feesampleid = sampleid and  samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by feecategory");
+            }else if(req_code.equals("5")){//收费明细
+                sb.append("select feenamech as name ,sum(feeprince) prices from pims_pathology_fee,pims_pathology_sample where feesampleid = sampleid and  samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by feeitemid,feenamech");
+            }else if(req_code.equals("6")){//报告医生
+                sb.append("select samreportor as name ,sum(feeprince) prices from pims_pathology_fee,pims_pathology_sample where feesampleid = sampleid and  samisdeleted =0 ");
+                getCountReportSql(map,sb);
+                sb.append(" group by samreportorid,samreportor");
+            }
+            Query query = getSession().createSQLQuery(sb.toString());
+            getQueryInfo(map,query);
+            return query.list();
+        }
+        return  null;
+    }
 }

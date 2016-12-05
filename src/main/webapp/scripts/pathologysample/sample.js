@@ -1,5 +1,11 @@
 var nowrow = "";//当前显示数据所在的行
 var addstates = "";//当前页面状态
+function NoSubmit(ev){
+    if( ev.keyCode == 13 ){
+        return false;
+    }
+    return true;
+}
 function getreqData(obj,event) {//查询申请单
 
 	var e=e||event;
@@ -116,6 +122,7 @@ function getSampleData(id) {//根据申请单据补充登记单信息
 			}else{
 				$("input[name='samfirstv'][value='2']").attr("checked",true);
 			}
+			$("input[name='samsecondv'][value='1']").attr("checked",true);
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -167,6 +174,11 @@ function changeimgclick(num) {//1新增 2 修改
 function saveInfo() {
 	var msg = "";
 	var post = true;
+	if($("input[name='samsecondv']:checked").val() == "2"){
+		post = false;
+		layer.msg("标本不合格,请描述原因!", {icon: 2, time: 2000});
+		return false;
+	}
 	if(post) {
 		$.post("../pathologysample/sample/editSample", {
 			samfirstv:$("input[name='samfirstv']:checked").val(),
@@ -451,6 +463,7 @@ $(function() {
 		this.focus();
 	});
     $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
+    $('#samrequistionid').removeAttr("disabled");
 	//检查项目
 	// $(".js-example-basic-single").select2();
 	$("#samjcxm").autocomplete({
@@ -692,7 +705,7 @@ $(function() {
 		url: "../pathologysample/sample/ajax/getreqinfo",
 		mtype: "GET",
 		datatype: "json",
-		postData:{},
+		postData:{"logyid":$("#local_logyid").val()},
 		colNames: ['选择','详情','ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室',"送检医生"],
 		colModel: [
 			{ name: 'selectinfo', index: 'selectinfo', sortable: false, align: "center", width: "70px" },
@@ -851,6 +864,7 @@ function fillInfo(id){
 	addstates="0";
 	$('#sampleForm').find('input,textarea,select').removeAttr('disabled') ;
 	$("#sampathologyid").attr({"disabled":"disabled"});
+	getdynamicdiv(rowData.requisitionid,1);
 	// $("#saveButton").removeAttr("disabled");//将按钮可用
 	// $("#sampathologycode").attr({"disabled":"disabled"});
 	// $("#samrequistionid").attr({"disabled":"disabled"});
@@ -1303,4 +1317,92 @@ function appInfo(){
 		browser.version = RegExp.$2;
 	}
 	return browser;
+}
+
+function getdynamicdiv(logyid,num) {
+	$("#dynamic_div2").empty();
+	var html = "";
+	if(num == 0){//新增
+		$.ajax({
+			type:'get',
+			url: '../pimspathology/ajax/item',
+			data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val()},
+			dataType:"json",
+			// error:function(value){
+			// 	ds.dialog.alert('加载失败');
+			// },
+			success: function(obj){
+				var fieremark = "";
+				var maxnum = 0;
+				$.each(obj,function(n,value) {
+					if(fieremark != value.fieremark){
+						fieremark = value.fieremark;
+						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+					}
+					if(maxnum == 0){
+						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+					}
+					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+					if(value.fieelementtype == "input"){
+						html +=" type= \"text\"";
+					}
+					html +=">";
+					if(value.invokefuncbody != null && value.invokefuncbody != ""){
+						html += value.invokefuncbody;
+					}
+					html +="</"+value.fieelementtype+">"
+					if(maxnum == 12){
+						html +="</div>";
+						maxnum = 0;
+					}
+				});
+				$("#dynamic_div2").html(html);
+			}
+		});
+	}else if(num ==1){//查看
+		$.ajax({
+			type:'get',
+			url: '../pimspathology/ajax/reqdata',
+			data:{"id":logyid},
+			dataType:"json",
+			// error:function(value){
+			// 	ds.dialog.alert('加载失败');
+			// },
+			success: function(obj){
+				var fieremark = "";
+				var maxnum = 0;
+				$.each(obj,function(n,value) {
+					if(fieremark != value.fieremark){
+						fieremark = value.fieremark;
+						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+					}
+					if(maxnum == 0){
+						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+					}
+					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+					if(value.fieelementtype == "input"){
+						html +=" type= \"text\"";
+					}
+					if(value.fieelementtype == "textarea"){
+						html +=">"+value.reqfvalue;
+					}else{
+						html +="value=\""+value.reqfvalue+"\">";
+					}
+					if(value.invokefuncbody != null && value.invokefuncbody != ""){
+						html += value.invokefuncbody;
+					}
+					html +="</"+value.fieelementtype+">"
+					if(maxnum == 12){
+						html +="</div>";
+						maxnum = 0;
+					}
+				});
+				$("#dynamic_div2").html(html);
+			}
+		});
+	}
+
+
 }

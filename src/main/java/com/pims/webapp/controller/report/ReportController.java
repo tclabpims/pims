@@ -303,15 +303,7 @@ public class ReportController extends PIMSBaseController{
     @RequestMapping(value = "/reportdelay", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView reportdelay(HttpServletRequest request) throws Exception {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, - 7);
-        Date monday = c.getTime();
-        String sevenDay = Constants.DF2.format(monday);
-        String today = Constants.DF2.format(new Date());
-        ModelAndView view = new ModelAndView();
-        view.addObject("sevenday", sevenDay);//7天前
-        view.addObject("receivetime", today);//当前时间
-        return view;
+        return getInitializeView();
     }
     /**
      * 获取报告列表
@@ -348,6 +340,101 @@ public class ReportController extends PIMSBaseController{
         dataResponse.setPage(ppr.getPage());
         dataResponse.setTotal(getTotalPage(num, ppr.getRow(), ppr.getPage()));
         dataResponse.setRows(mapList);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 渲染视图(病理统计管理)
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/countreport", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView countreport(HttpServletRequest request) throws Exception {
+        return getInitializeView();
+    }
+
+    private ModelAndView getInitializeView(){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, - 7);
+        Date monday = c.getTime();
+        String sevenDay = Constants.DF2.format(monday);
+        String today = Constants.DF2.format(new Date());
+        ModelAndView view = new ModelAndView();
+        view.addObject("sevenday", sevenDay);//7天前
+        view.addObject("receivetime", today);//当前时间
+        return  view;
+    }
+
+    /**
+     * 日志统计总列表
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/rztj*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getRztj(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getRztj(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+    /**
+     * 日志统计详细列表
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/rztjinfo*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getRztjInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getRztjInfo(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 标本来源统计报告
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/bblytj*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getBblytj(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getBbly(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 收费统计报告
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sftj*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getSftj(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getSftj(ppr);
+        dataResponse.setRows(list);
         response.setContentType("text/html; charset=UTF-8");
         return dataResponse;
     }

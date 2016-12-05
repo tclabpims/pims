@@ -99,16 +99,6 @@ public class PimsPathologySampleController extends PIMSBaseController{
         return view;
     }
 
-    private String getOptions(List<PimsCommonBaseData> listbase){
-        StringBuilder builder = new StringBuilder();
-        builder.append("<option value=''></option>");
-        for(PimsCommonBaseData obj : listbase) {
-            builder.append("<option value='").append(obj.getDataid()).append("' ");
-            builder.append(">").append(obj.getIsself()+":"+obj.getBddatanamech()).append("</option>");
-        }
-        return builder.toString();
-    }
-
     /**
      * 获取单据详细信息
      * @param request
@@ -204,6 +194,7 @@ public class PimsPathologySampleController extends PIMSBaseController{
         PimsBaseModel ppr = new PimsBaseModel();
         int row = Integer.parseInt(request.getParameter("rows"));
         int page = Integer.parseInt(request.getParameter("page"));
+        ppr.setLogyid(request.getParameter("logyid"));
         ppr.setPage(page);
         ppr.setRow(row);
         ppr.setStart( row * (page - 1));
