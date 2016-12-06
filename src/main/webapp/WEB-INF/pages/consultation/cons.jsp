@@ -118,9 +118,9 @@
 						<label class="col-sm-2 label_style">性&nbsp;别:</label>
 						<div class="col-sm-4">
 							<select class="col-sm-8 input_style" id="sampatientsex" disabled>
-								<option value="0">男</option>
-								<option value="1">女</option>
-								<option value="2">未知</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+								<option value="3">未知</option>
 							</select>
 						</div>
 						<label class="col-sm-2 label_style">送检材料:</label>

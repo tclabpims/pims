@@ -288,7 +288,7 @@ function addSample() {
 	$("#sampatientnumber").val();//住院卡号/门诊卡号
 	$("#sampatienttype").val("");//患者类型(病人类型： 1门诊,2住院,3体检,4婚检,5科研,6特勤,7其他)
 	$("#sampatientname").val("");//姓名
-	$("#sampatientsex").val("0");//患者性别(1男,2女,3未知)
+	$("#sampatientsex").val("1");//患者性别(1男,2女,3未知)
 	$("#sampatientage").val("");//年龄
 	$("#sampatientagetype").val("1");//年龄类型(1年、2岁、3月、4周、5日、6小时)
 	$("#sampatientbed").val("");//患者床号
@@ -1265,7 +1265,7 @@ function Setup() {//打印维护
 function CreateDataBill(data) {
 	if(data && data!=null){
 		var sex = "";
-		if(data.sampatientsex == '0'){sex = '男'}else if(data.sampatientsex == '1'){sex = '女'}else{sex = '未知'}
+		if(data.sampatientsex == '1'){sex = '男'}else if(data.sampatientsex == '2'){sex = '女'}else{sex = '未知'}
 		var ageUnit = "";
 		if(data.sampatientagetype == '1'){
 			ageUnit = "岁";

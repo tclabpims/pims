@@ -97,9 +97,9 @@
 				<label class="col-sm-1 label_style" >性别:</label>
 				<div class="col-sm-2">
 					<select class="col-sm-11 input_style" id="reqpatientsex" disabled>
-						<option value="0">男</option>
-						<option value="1">女</option>
-						<option value="2">未知</option>
+						<option value="1">男</option>
+						<option value="2">女</option>
+						<option value="3">未知</option>
 					</select>
 				</div>
 				<label class="col-sm-1 label_style" >年龄:</label>
@@ -457,9 +457,9 @@
 					<label class="col-sm-1 label_style" for="sampatientsex">性&nbsp;别:</label>
 					<div class="col-sm-3">
 						<select class=" input_style col-sm-8" id="sampatientsex">
-							<option value="0">男</option>
-							<option value="1">女</option>
-							<option value="2">未知</option>
+							<option value="1">男</option>
+							<option value="2">女</option>
+							<option value="3">未知</option>
 						</select>
 					</div>
 					<label class="col-sm-1 label_style" for="sampatientage">年&nbsp;龄:</label>

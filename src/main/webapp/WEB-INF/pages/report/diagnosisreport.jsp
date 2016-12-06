@@ -91,9 +91,9 @@
 						<span class="col-sm-4 input_style">&nbsp;性别:&nbsp;</span>
 						<select class="col-sm-6  input_style" id="sampatientsex">
 							<option value="">全部</option>
-							<option value="0">男</option>
-							<option value="1">女</option>
-							<option value="2">未知</option>
+							<option value="1">男</option>
+							<option value="2">女</option>
+							<option value="3">未知</option>
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
