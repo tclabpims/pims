@@ -66,17 +66,29 @@
         }
     </style>
     <script type="text/javascript">
-        var checkedItemsStr = "$!checkedItemsStr";
-        if(checkedItemsStr != "") {
-            var array_ = checkedItemsStr.split(",");
-            for(var i = 0; i < array_.length; i++) {
-                var rc = document.getElementById(array_[i]);
-                if(rc != null) {
-                    rc.setAttribute("checked", true);
+        window.onload = function () {
+            var checkedItemsStr = "$!checkedItemsStr";
+            if(checkedItemsStr != "") {
+                var array_ = checkedItemsStr.split(",");
+                for(var item in array_) {
+                    var rc = document.getElementById(array_[item]);
+                    if(rc != null) {
+                        rc.setAttribute("checked", true);
+                    }
+                }
+            }
+            var degree = "$!degree";
+            var ck = document.getElementById("c35");
+            if(ck.getAttribute("checked")) {
+                var s1 = document.getElementById("s1");
+                for(var it in s1.options){
+                    if(s1.options[it].text==degree) {
+                        s1.options[it].selected = true;
+                        break;
+                    }
                 }
             }
         }
-        var degree = "$!degree";
 
     </script>
 </head>
@@ -93,53 +105,53 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td  height="14px" colspan="3" align="left"><input type="radio" name="sampleEvaluation" id="c1"  onchange="setCheckBoxStatus()"/>
+                <td  height="14px" colspan="3" align="left"><input type="radio" name="sampleEvaluation" id="c1" />
                     <label for="c1">满意</label>
                 </td>
-                <td width="26%" align="left"><input type="radio" name="sampleEvaluation"  onchange="setCheckBoxStatus()" id="c2"/>
+                <td width="26%" align="left"><input type="radio" name="sampleEvaluation"  id="c2"/>
                     <label for="c2">不满意</label></td>
                 <td colspan="2">&nbsp;</td>
-                <td colspan="2"><input type="checkbox" name="notSee1" id="c3" onchange="setCheckboxStatus3()" />
+                <td colspan="2"><input type="checkbox" name="notSee1" id="c3" />
                     <label for="c3">未见</label></td>
             </tr>
             <tr>
-                <td colspan="3" height="14px" align="left"><input type="radio" name="sampleWell" class="c1" onchange="setParentCheckboxStatus1()" id="c4" />
+                <td colspan="3" height="14px" align="left"><input type="radio" name="sampleWell" class="c1" id="c4" />
                     <label for="c4">见宫颈管/移行区成份</label></td>
-                <td colspan="2" align="left"><input type="radio" onchange="setParentCheckboxStatus2()" name="sampleNotGood" id="c6" class="c2" />
+                <td colspan="2" align="left"><input type="radio" name="sampleNotGood" id="c6" class="c2" />
                     <label for="c6">上皮细胞数量偏低</label></td>
                 <td width="4%">&nbsp;</td>
-                <td width="20%"><input type="checkbox" name="c9" id="c9" class="g33" onchange="setCheckboxStatus3()" />
+                <td width="20%"><input type="checkbox" name="c9" id="c9" class="g33" />
                     <label for="c9">提示HPV感染</label></td>
-                <td width="12%"><input type="checkbox" name="c14" id="c14" class="g33" onchange="setCheckboxStatus3()"  />
+                <td width="12%"><input type="checkbox" name="c14" id="c14" class="g33" />
                     <label for="c14">放线菌</label></td>
             </tr>
             <tr>
-                <td colspan="3" height="14px" align="left" width="20%"><input type="radio" name="sampleWell" class="c1" onchange="setParentCheckboxStatus1()" id="c5" />
+                <td colspan="3" height="14px" align="left" width="20%"><input type="radio" name="sampleWell" class="c1" id="c5" />
                     <label for="c5">未见宫颈管/移行区成份</label></td>
-                <td colspan="3" align="left"><input type="radio" name="sampleNotGood" onchange="setParentCheckboxStatus2()" id="c7" class="c2"  />
+                <td colspan="3" align="left"><input type="radio" name="sampleNotGood" id="c7" class="c2"  />
                     <label for="c7">炎性渗出物遮盖超过75%的鳞状细胞</label></td>
-                <td><input type="checkbox" name="c10" id="c10" class="g33" onchange="setCheckboxStatus3()"  />
+                <td><input type="checkbox" name="c10" id="c10" class="g33" />
                     <label for="c10">提示疱疹病毒感染</label></td>
-                <td><input type="checkbox" name="c13" id="c13" class="g33"  onchange="setCheckboxStatus3()" />
+                <td><input type="checkbox" name="c13" id="c13" class="g33" />
                     <label for="c13">线索细胞</label></td>
             </tr>
             <tr>
                 <td width="9%" height="14px">&nbsp;</td>
                 <td width="8%">&nbsp;</td>
                 <td width="12%">&nbsp;</td>
-                <td colspan="3"><input type="radio" name="sampleNotGood" onchange="setParentCheckboxStatus2()" id="c8" class="c2"  />
+                <td colspan="3"><input type="radio" name="sampleNotGood" id="c8" class="c2"  />
                     <label for="c8">血液遮盖超过75%的鳞状细胞</label></td>
                 <td><label for="c11">
-                    <input type="checkbox" name="c12" id="c12" class="g33"  onchange="setCheckboxStatus3()" />
+                    <input type="checkbox" name="c12" id="c12" class="g33" />
                     真菌(念珠菌等)</label></td>
-                <td><input type="checkbox" name="c11" id="c11" class="g33"  onchange="setCheckboxStatus3()" />
+                <td><input type="checkbox" name="c11" id="c11" class="g33" />
                     <label for="c11">滴虫</label></td>
             </tr>
         </table>
         <table width="100%" border="0" cellspacing="0">
             <tr>
                 <td colspan="5" height="14px"><label for="c15"><strong>上皮细胞异常：</strong></label>
-                    <input type="checkbox" name="c15" id="c15"  onchange="changeCellSee()" />
+                    <input type="checkbox" name="c15" id="c15"/>
                     <label for="c15">未见</label></td>
                 <td width="1%">&nbsp;</td>
                 <td colspan="2">&nbsp;</td>
@@ -154,22 +166,22 @@
                 </td>
                 <td width="3%">&nbsp;</td>
                 <td colspan="2">鳞状细胞：</td>
-                <td colspan="5"><input type="radio" name="xcell4" onclick="makeResult();" id="c28" class="g5" />
+                <td colspan="5"><input type="radio" name="xcell4" id="c28" class="g5" />
                     <label for="c28">不典型鳞状上皮细胞(ASC)</label></td>
-                <td colspan="2"><input type="checkbox" name="c34" onclick="makeResult();" id="c34" />
+                <td colspan="2"><input type="checkbox" name="c34" id="c34" />
                     <label for="c34">反应性的细胞变化</label></td>
             </tr>
             <tr>
                 <td height="14px">&nbsp;</td>
                 <td width="2%">&nbsp;</td>
-                <td colspan="4"><input type="radio" name="xcell1" onchange="setStatus1()" id="c17" class="g111" />
+                <td colspan="4"><input type="radio" name="xcell1" id="c17" class="g111" />
                     <label for="c17">子宫颈内膜细胞，非特异</label></td>
                 <td width="2%">&nbsp;</td>
-                <td colspan="3"><input type="radio" onclick="makeResult();" name="xcell5" id="c29" class="g555" />
+                <td colspan="3"><input type="radio" name="xcell5" id="c29" class="g555" />
                     <label for="c29">属意义不明者(ASC-US)</label></td>
                 <td width="2%">&nbsp;</td>
                 <td width="6%">&nbsp;</td>
-                <td width="23%"><input type="checkbox" onclick="makeResult();" name="c35" id="c35" />
+                <td width="23%"><input type="checkbox" name="c35" id="c35" />
                     <label for="c35">与炎症有关</label>
                     <label for="s1"></label>
                     <select name="s1" id="s1">
@@ -181,54 +193,54 @@
             <tr>
                 <td height="14px">&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="3"><input type="radio" name="xcell1" id="c18" onchange="setStatus1()" class="g111" />
+                <td colspan="3"><input type="radio" name="xcell1" id="c18" class="g111" />
                     <label for="c18">子宫内膜细胞，非特异</label></td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="4"><input type="radio"  onclick="makeResult();" name="xcell5" id="c30" class="g555" />
+                <td colspan="4"><input type="radio" name="xcell5" id="c30" class="g555" />
                     <label for="c30">不能排除高级别鳞状上皮内病变(ASC-H)</label></td>
                 <td>&nbsp;</td>
-                <td><input type="checkbox" name="c36"  onclick="makeResult();" id="c36" />
+                <td><input type="checkbox" name="c36" id="c36" />
                     <label for="c36">与放射有关</label></td>
             </tr>
             <tr>
                 <td height="14px">&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="3"><input type="radio" name="xcell1" id="c19" onchange="setStatus1()" class="g111" />
+                <td colspan="3"><input type="radio" name="xcell1" id="c19" class="g111" />
                     <label for="c19">腺细胞，非特异</label></td>
                 <td>&nbsp;</td>
-                <td colspan="5"><input type="radio" onclick="makeResult();" name="xcell4" id="c31" class="g6" />
+                <td colspan="5"><input type="radio" name="xcell4" id="c31" class="g6" />
                     <label for="c31">低级别鳞状上皮内病变(L-SIL)</label></td>
                 <td>&nbsp;</td>
-                <td><input type="checkbox" onclick="makeResult();" name="c37" id="c37" />
+                <td><input type="checkbox" name="c37" id="c37" />
                     <label for="c37">与宫内节育器（IUD）有关</label></td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
-                <td colspan="4"><input type="radio" onclick="makeResult();" name="xcell" id="c20" class="g2" />
+                <td colspan="4"><input type="radio" name="xcell" id="c20" class="g2" />
                     <label for="c20">不典型的</label></td>
                 <td>&nbsp;</td>
                 <td colspan="4">（包括HPV/轻度异型性CIN I）</td>
                 <td>&nbsp;</td>
-                <td colspan="2"><input type="checkbox" onclick="makeResult();" name="c38" id="c38" />
+                <td colspan="2"><input type="checkbox" name="c38" id="c38" />
                     <label for="c38">萎缩</label></td>
             </tr>
             <tr>
                 <td height="14px">&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="4"><input type="radio" name="xcell2" id="c21" onchange="setStatus2()" class="g222" />
+                <td colspan="4"><input type="radio" name="xcell2" id="c21" class="g222" />
                     <label for="c21">子宫颈内膜细胞,偏向肿瘤性</label></td>
-                <td colspan="4"><input type="radio" onclick="makeResult();" name="xcell4" id="c32" class="g7" />
+                <td colspan="4"><input type="radio" name="xcell4" id="c32" class="g7" />
                     <label for="c32">高级别鳞状上皮内病变(H-SIL)</label></td>
                 <td>&nbsp;</td>
                 <td colspan="2">其它：
-                    <input type="checkbox" onclick="makeResult();" name="c39" id="c39" />
+                    <input type="checkbox" name="c39" id="c39" />
                     <label for="c39">子宫内膜细胞出现在≥40岁妇女中（见注释）</label></td>
             </tr>
             <tr>
                 <td height="14px">&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="3"><input type="radio" name="xcell2" id="c22" onchange="setStatus2()" class="g222" />
+                <td colspan="3"><input type="radio" name="xcell2" id="c22" class="g222" />
                     <label for="c22">腺细胞,偏向肿瘤性</label></td>
                 <td>&nbsp;</td>
                 <td colspan="7">（包括中度和重度异型性/CIS/CINⅡ和CIN III）</td>
@@ -236,11 +248,11 @@
             <tr>
                 <td height="14px">&nbsp;</td>
                 <td colspan="4">
-                    <input type="radio" name="xcell" id="c23" onchange="setStatus3()" class="g3" />
+                    <input type="radio" name="xcell" id="c23" class="g3" />
                     <label for="c23">子宫颈管原位癌</label>
                 </td>
                 <td>&nbsp;</td>
-                <td colspan="2"><input type="radio" name="xcell4" onclick="makeResult();" id="c33" class="g8" />
+                <td colspan="2"><input type="radio" name="xcell4" id="c33" class="g8" />
                     <label for="c33">鳞状细胞癌</label></td>
                 <td>&nbsp;</td>
                 <td width="6%">&nbsp;</td>
@@ -249,7 +261,7 @@
             </tr>
             <tr>
                 <td height="14px">&nbsp;</td>
-                <td colspan="4"><input type="radio" onclick="makeResult();" name="xcell" id="c24" class="g4" />
+                <td colspan="4"><input type="radio" name="xcell" id="c24" class="g4" />
                     <label for="c24">腺癌</label></td>
                 <td>&nbsp;</td>
                 <td colspan="2">&nbsp;</td>
@@ -261,7 +273,7 @@
             <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="3"><input type="radio" name="xcell3" id="c25" onchange="setStatus4()" class="g444" />
+                <td colspan="3"><input type="radio" name="xcell3" id="c25" class="g444" />
                     <label for="c25">子宫内膜腺癌</label></td>
                 <td>&nbsp;</td>
                 <td colspan="2">&nbsp;</td>
@@ -273,7 +285,7 @@
             <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="3"><input type="radio" name="xcell3" id="c26" onchange="setStatus4()" class="g444" />
+                <td colspan="3"><input type="radio" name="xcell3" id="c26" class="g444" />
                     <label for="c26">子宫颈内膜腺癌</label></td>
                 <td>&nbsp;</td>
                 <td colspan="2">&nbsp;</td>
@@ -285,7 +297,7 @@
             <tr>
                 <td height="14px">&nbsp;</td>
                 <td>&nbsp;</td>
-                <td colspan="3"><input type="radio" name="xcell3" id="c27" onchange="setStatus4()" class="g444" />
+                <td colspan="3"><input type="radio" name="xcell3" id="c27" class="g444" />
                     <label for="c27">子宫外腺癌</label></td>
                 <td>&nbsp;</td>
                 <td colspan="2">&nbsp;</td>

@@ -109,32 +109,6 @@ public class PimsPathologySample {
         this.patclass = patclass;
     }
 
-
-    private String sampiecedoctorid;
-
-    private String sampiecedoctorname;
-
-    @Basic
-    @Column(name = "SAMPIECEDOCTORID")
-    public String getSampiecedoctorid() {
-        return sampiecedoctorid;
-    }
-
-    public void setSampiecedoctorid(String sampiecedoctorid) {
-        this.sampiecedoctorid = sampiecedoctorid;
-    }
-    @Basic
-    @Column(name = "SAMPIECEDOCTORNAME")
-    public String getSampiecedoctorname() {
-        return sampiecedoctorname;
-    }
-
-    public void setSampiecedoctorname(String sampiecedoctorname) {
-        this.sampiecedoctorname = sampiecedoctorname;
-    }
-
-
-
     private String sampiecedoctorid;
 
     private String sampiecedoctorname;
