@@ -29,12 +29,13 @@ function getPatient(obj,event) {
 				}else if (records == 1) {
 						var rows = data.rows;
 						$("#reqpatientname").val(rows[0].patient_name);//姓名
-						// $("#reqpatientsex").val(rows[0].patient_sex);//性别
-						$("#reqpatientsex option").each(function () {
-							if($(this).text() == rows[0].patient_sex-1){
-								$(this).attr("selected", "selected");
-							}
-						});
+						$("#reqpatientsex").val(rows[0].patient_sex);//性别
+						// $("#reqpatientsex option").each(function () {
+						// 	if($(this).text() == rows[0].patient_sex){
+						// 		$(this).attr("selected", "selected");
+						// 	}
+						// });
+                        changeSexinfo();
 						$("#reqpatientage").val(rows[0].patient_age);//年龄
 						// $("#reqpatagetype").val(rows[0].patient_age_type);//年龄类型
 						$("#reqpatagetype option").each(function () {
@@ -136,7 +137,7 @@ function getSampleData(id) {
 			$("#reqpataddress").val(data.reqpataddress);//联系地址
 			$("#reqpatdiagnosis").val(data.reqpatdiagnosis);//患者临床诊断
 			$("#reqismenopause").val(data.reqismenopause);//是否绝经
-			$("#reqlastmenstruation").val(data.reqlastmenstruation);//末次月经时间
+			$("#reqlastmenstruation").val(CurentTime(new Date(data.reqlastmenstruation)));//末次月经时间
 			$("#reqpatcompany").val(data.reqpatcompany);//工作单位（检查要求）
 			$("#reqsendhisorder").val(data.reqsendhisorder);//是否回写医嘱(0未发送,1已发送)
 			$("#reqsampleid").val(data.reqsampleid);//标本id(申请接收后回写)
@@ -154,13 +155,20 @@ function getSampleData(id) {
 			$("#reqfirstn").val(data.reqfirstn);//预留字段6(第一个numberic预留字段)
 			$("#reqcreateuser").val(data.reqcreateuser);//创建人员
 			$("#reqcreatetime").val(CurentTime(new Date(data.reqcreatetime)));//创建时间
-			if($("#reqtype").val() == "1"){
+			if($("#reqtype").val() == "1"){//是否手术
 				$("#reqtype1").attr("checked",true);
 				$("[name='ssxx']").css("display","block");
 			}else{
 				$("#reqtype1").attr("checked",false);
 				$("[name='ssxx']").css("display","none");
 			}
+			$("#reqprevious").val(data.reqprevious);//婚史
+            $("#reqmenses").val(CurentTime(new Date(data.reqmenses)));//月经初潮
+            $("#reqcycle").val(data.reqcycle);//周期
+            $("#reqcesarean").val(data.reqcesarean);//产史
+            $("#reqpatientdeptcode").val(data.reqpatientdeptcode);//病人所在科室
+            $("#reqpatientwardcode").val(data.reqpatientwardcode);//病人所在病区
+            changeSexinfo();
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -231,6 +239,12 @@ function saveInfo1(post,arrs,rowdatas) {
 				reqfirstn:$("#reqfirstn").val(),//预留字段6(第一个numberic预留字段)
 				reqcreateuser:$("#reqcreateuser").val(),//创建人员
 				reqcreatetime:$("#reqcreatetime").val(),//创建时间
+                reqprevious:$("#reqprevious").val(),//婚史
+                reqmenses:$("#reqmenses").val(),//月经初潮
+                reqcycle:$("#reqcycle").val(),//周期
+                reqcesarean:$("#reqcesarean").val(),//产史
+                reqpatientdeptcode:$("#reqpatientdeptcode").val(),//病人所在科室
+                reqpatientwardcode:$("#reqpatientwardcode").val()//病人所在病区
 			},
 			function(data) {
 				if(data.success) {
@@ -387,12 +401,14 @@ function createNew2(brjzxh){
 		ondblClickRow: function (id) {
 			var rowData = $("#new2").jqGrid('getRowData',id);
 			$("#reqpatientname").val(rowData.patient_name);//姓名
-			// $("#reqpatientsex").val(rowData.patient_sex);//性别
-			$("#reqpatientsex option").each(function () {
-				if($(this).text() == rowData.patient_sex-1){
-					$(this).attr("selected", "selected");
-				}
-			});
+			$("#reqpatientsex").val(rowData.patient_sex);//性别
+            // alert(rowData.patient_sex);
+			// $("#reqpatientsex option").each(function () {
+			// 	if($(this).text() == rowData.patient_sex){
+			// 		$(this).attr("selected", "selected");
+			// 	}
+			// });
+            changeSexinfo();
 			$("#reqpatientage").val(rowData.patient_age);//年龄
 			// $("#reqpatagetype").val(rowData.patient_age_type);//年龄类型
 			$("#reqpatagetype option").each(function () {
@@ -1231,4 +1247,11 @@ function isshoushu(){
 		$("#reqtype").val("1");
 		$("[name='ssxx']").css("display","block");
 	}
+}
+function changeSexinfo() {
+    if($("#reqpatientsex").val() == "2"){
+        $("#sexinfo").css("display","block");
+    }else{
+        $("#sexinfo").css("display","none");
+    }
 }

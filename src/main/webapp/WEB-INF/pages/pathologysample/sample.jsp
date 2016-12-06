@@ -252,7 +252,42 @@
 						</table>
 					</div>
 				</div>
-			<div class="rightContent  col-sm-7" style="margin-top: 5px;" id="dynamic_div2"></div>
+			<div class="rightContent  col-sm-6" style="margin-top: 5px;">
+				<div id="dynamic_div2"></div>
+				<div id="sexinfo" style="display: none">
+					<div class="form-group" style="margin: 0px 0px 0px 0px">
+						<h5 style="float: left;font-size: 14px;">妇产科检查</h5>
+					</div>
+					<div class="form-group" style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style">婚史:</label>
+						<select class="col-sm-2 input_style" id="reqprevious">
+							<option value='0'>未婚</option>
+							<option value='1'>已婚</option>
+						</select>
+						<label class="col-sm-2 label_style">月经初潮:</label>
+						<input type="text" class="col-sm-2 input_style form_datetime" id="reqmenses"/>
+						<label class="col-sm-2 label_style">周期:</label>
+						<input type="text" class="col-sm-2 input_style" id="reqcycle"/>
+					</div>
+					<div class="form-group"  style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style">产史:</label>
+						<select class="col-sm-2 input_style" id="reqcesarean">
+							<option value='0'>无</option>
+							<option value='1'>一胎</option>
+							<option value='2'>二胎</option>
+							<option value='3'>三胎</option>
+							<option value='4'>四胎</option>
+						</select>
+						<label class="col-sm-2 label_style">末次月经:</label>
+						<input type="text" class="col-sm-2 input_style form_datetime" id="reqlastmenstruation1"/>
+						<label class="col-sm-2 label_style">是否绝经:</label>
+						<select class="col-sm-2 input_style" id="reqismenopause">
+							<option value='0'>否</option>
+							<option value='1'>是</option>
+						</select>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div>
@@ -378,7 +413,6 @@
 						<input type="hidden" id="saminpatientno" /><!--住院序号(住院次数)-->
 						<input type="hidden" id="sampatienttype"/><!--患者类型-->
 						<input type="hidden" id="samsampleclass"/><!--标本种类-->
-
 						<input type="hidden" id="samisemergency"/><!--是否加急-->
 						<input type="hidden" id="samisdecacified"/><!--是否脱钙-->
 						<input type="hidden" id="samissamplingall"/><!--是否全取-->
@@ -405,6 +439,8 @@
 						<input type="hidden" id="samregisttime"/><!--登记时间-->
 						<input type="hidden" id="samregisterid"/><!--登记人员-->
 						<input type="hidden" id="samregistername"/><!--登记人员姓名-->
+						<input type="hidden" id="sampiecedoctorid"/><!--首次取材医师既诊断医师ID-->
+						<input type="hidden" id="sampiecedoctorname"/><!--首次取材医师既诊断医师-->
 						<input type="text" class="input_style" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}" readonly/>
 					</div>
 					<label class="label_style col-sm-1">检查项目:</label>

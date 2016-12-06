@@ -67,6 +67,68 @@ public class PimsPathologyRequisition {
     private String reqcreateuser;
     private Date reqcreatetime;
 
+    private String reqpatientdeptcode;
+    private String reqpatientwardcode;
+    private Integer reqprevious;
+    private Date reqmenses;
+    private String reqcycle;
+    private Integer reqcesarean;
+
+    @Basic
+    @Column(name = "REQPATIENTDEPTCODE")
+    public String getReqpatientdeptcode() {
+        return reqpatientdeptcode;
+    }
+
+    public void setReqpatientdeptcode(String reqpatientdeptcode) {
+        this.reqpatientdeptcode = reqpatientdeptcode;
+    }
+    @Basic
+    @Column(name = "REQPATIENTWARDCODE")
+    public String getReqpatientwardcode() {
+        return reqpatientwardcode;
+    }
+
+    public void setReqpatientwardcode(String reqpatientwardcode) {
+        this.reqpatientwardcode = reqpatientwardcode;
+    }
+    @Basic
+    @Column(name = "REQPREVIOUS")
+    public Integer getReqprevious() {
+        return reqprevious;
+    }
+
+    public void setReqprevious(Integer reqprevious) {
+        this.reqprevious = reqprevious;
+    }
+    @Basic
+    @Column(name = "REQMENSES")
+    public Date getReqmenses() {
+        return reqmenses;
+    }
+
+    public void setReqmenses(Date reqmenses) {
+        this.reqmenses = reqmenses;
+    }
+    @Basic
+    @Column(name = "REQCYCLE")
+    public String getReqcycle() {
+        return reqcycle;
+    }
+
+    public void setReqcycle(String reqcycle) {
+        this.reqcycle = reqcycle;
+    }
+    @Basic
+    @Column(name = "REQCESAREAN")
+    public Integer getReqcesarean() {
+        return reqcesarean;
+    }
+
+    public void setReqcesarean(Integer reqcesarean) {
+        this.reqcesarean = reqcesarean;
+    }
+
     @Id
     @Column(name = "REQUISITIONID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_REQUISITIONID")
@@ -728,6 +790,19 @@ public class PimsPathologyRequisition {
         if (reqcreatetime != null ? !reqcreatetime.equals(that.reqcreatetime) : that.reqcreatetime != null)
             return false;
 
+        if (reqpatientdeptcode != null ? !reqpatientdeptcode.equals(that.reqpatientdeptcode) : that.reqpatientdeptcode != null)
+            return false;
+        if (reqpatientwardcode != null ? !reqpatientwardcode.equals(that.reqpatientwardcode) : that.reqpatientwardcode != null)
+            return false;
+        if (reqprevious != null ? !reqprevious.equals(that.reqprevious) : that.reqprevious != null)
+            return false;
+        if (reqmenses != null ? !reqmenses.equals(that.reqmenses) : that.reqmenses != null)
+            return false;
+        if (reqcycle != null ? !reqcycle.equals(that.reqcycle) : that.reqcycle != null)
+            return false;
+        if (reqcesarean != null ? !reqcesarean.equals(that.reqcesarean) : that.reqcesarean != null)
+            return false;
+
         return true;
     }
 
@@ -790,6 +865,13 @@ public class PimsPathologyRequisition {
         result = 31 * result + (reqfirstn != null ? reqfirstn.hashCode() : 0);
         result = 31 * result + (reqcreateuser != null ? reqcreateuser.hashCode() : 0);
         result = 31 * result + (reqcreatetime != null ? reqcreatetime.hashCode() : 0);
+
+        result = 31 * result + (reqpatientdeptcode != null ? reqpatientdeptcode.hashCode() : 0);
+        result = 31 * result + (reqpatientwardcode != null ? reqpatientwardcode.hashCode() : 0);
+        result = 31 * result + (reqprevious != null ? reqprevious.hashCode() : 0);
+        result = 31 * result + (reqmenses != null ? reqmenses.hashCode() : 0);
+        result = 31 * result + (reqcycle != null ? reqcycle.hashCode() : 0);
+        result = 31 * result + (reqcesarean != null ? reqcesarean.hashCode() : 0);
         return result;
     }
 }

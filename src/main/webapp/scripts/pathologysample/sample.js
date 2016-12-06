@@ -246,7 +246,9 @@ function saveInfo() {
 			samfirstn:$("#samfirstn").val(),//组织袋数
 			samcreatetime:$("#samcreatetime").val(),//创建时间
 			samcreateuser:$("#samcreateuser").val(),//创建人
-			samjcxm:$("#samjcxm").val()//检查项目
+			samjcxm:$("#samjcxm").val(),//检查项目
+			sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
+			sampiecedoctorname:$("#sampiecedoctorname").val()//首次取材医师既诊断医师
 		},
 		function(data) {
 			if(data.success) {
@@ -980,6 +982,8 @@ function getSampleData1(id) {
 			}else{
 				$("input[name='samsecondv'][value='2']").attr("checked",true);
 			}
+			$("#sampiecedoctorid").val(data.sampiecedoctorid);//首次取材医师既诊断医师ID
+			$("#sampiecedoctorname").val(data.sampiecedoctorname);//首次取材医师既诊断医师
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -1116,7 +1120,7 @@ function showInfo(id){
 			$("#reqpataddress").val(data.reqpataddress);//联系地址
 			$("#reqpatdiagnosis").val(data.reqpatdiagnosis);//患者临床诊断
 			$("#reqismenopause").val(data.reqismenopause);//是否绝经
-			$("#reqlastmenstruation").val(data.reqlastmenstruation);//末次月经时间
+			$("#reqlastmenstruation1").val(data.reqlastmenstruation);//末次月经时间
 			$("#reqpatcompany").val(data.reqpatcompany);//工作单位（检查要求）
 			$("#reqsendhisorder").val(data.reqsendhisorder);//是否回写医嘱(0未发送,1已发送)
 			$("#reqsampleid").val(data.reqsampleid);//标本id(申请接收后回写)
@@ -1134,6 +1138,20 @@ function showInfo(id){
 			$("#reqfirstn").val(data.reqfirstn);//预留字段6(第一个numberic预留字段)
 			$("#reqcreateuser").val(data.reqcreateuser);//创建人员
 			$("#reqcreatetime").val(CurentTime(new Date(data.reqcreatetime)));//创建时间
+			if($("#reqtype").val() == "1"){//是否手术
+				$("#reqtype1").attr("checked",true);
+				$("[name='ssxx']").css("display","block");
+			}else{
+				$("#reqtype1").attr("checked",false);
+				$("[name='ssxx']").css("display","none");
+			}
+			$("#reqprevious").val(data.reqprevious);//婚史
+			$("#reqmenses").val(CurentTime(new Date(data.reqmenses)));//月经初潮
+			$("#reqcycle").val(data.reqcycle);//周期
+			$("#reqcesarean").val(data.reqcesarean);//产史
+			$("#reqpatientdeptcode").val(data.reqpatientdeptcode);//病人所在科室
+			$("#reqpatientwardcode").val(data.reqpatientwardcode);//病人所在病区
+			changeSexinfo();
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -1168,6 +1186,7 @@ function showInfo(id){
 		viewrecords: true,
 		rownumbers : true
 	});
+	getdynamicdiv(rowData.requisitionid,1);
 	layer.open({
 		type: 1,
 		area: ['1000px','600px'],
@@ -1178,6 +1197,93 @@ function showInfo(id){
 		title: "样本信息编辑",
 		content: $("#formDialog1")
 	});
+
+}
+function getdynamicdiv(logyid,num) {
+	$("#dynamic_div2").empty();
+	var html = "";
+	if(num == 0){//新增
+		$.ajax({
+			type:'get',
+			url: '../pimspathology/ajax/item',
+			data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val()},
+			dataType:"json",
+			// error:function(value){
+			// 	ds.dialog.alert('加载失败');
+			// },
+			success: function(obj){
+				var fieremark = "";
+				var maxnum = 0;
+				$.each(obj,function(n,value) {
+					if(fieremark != value.fieremark){
+						fieremark = value.fieremark;
+						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+					}
+					if(maxnum == 0){
+						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+					}
+					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+					if(value.fieelementtype == "input"){
+						html +=" type= \"text\"";
+					}
+					html +=">";
+					if(value.invokefuncbody != null && value.invokefuncbody != ""){
+						html += value.invokefuncbody;
+					}
+					html +="</"+value.fieelementtype+">"
+					if(maxnum == 12){
+						html +="</div>";
+						maxnum = 0;
+					}
+				});
+				$("#dynamic_div2").html(html);
+			}
+		});
+	}else if(num ==1){//查看
+		$.ajax({
+			type:'get',
+			url: '../pimspathology/ajax/reqdata',
+			data:{"id":logyid},
+			dataType:"json",
+			// error:function(value){
+			// 	ds.dialog.alert('加载失败');
+			// },
+			success: function(obj){
+				var fieremark = "";
+				var maxnum = 0;
+				$.each(obj,function(n,value) {
+					if(fieremark != value.fieremark){
+						fieremark = value.fieremark;
+						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+					}
+					if(maxnum == 0){
+						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+					}
+					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+					if(value.fieelementtype == "input"){
+						html +=" type= \"text\"";
+					}
+					if(value.fieelementtype == "textarea"){
+						html +=">"+value.reqfvalue;
+					}else{
+						html +="value=\""+value.reqfvalue+"\">";
+					}
+					if(value.invokefuncbody != null && value.invokefuncbody != ""){
+						html += value.invokefuncbody;
+					}
+					html +="</"+value.fieelementtype+">"
+					if(maxnum == 12){
+						html +="</div>";
+						maxnum = 0;
+					}
+				});
+				$("#dynamic_div2").html(html);
+			}
+		});
+	}
+
 
 }
 /**
@@ -1403,6 +1509,11 @@ function getdynamicdiv(logyid,num) {
 			}
 		});
 	}
-
-
+}
+function changeSexinfo() {
+	if($("#reqpatientsex").val() == "2"){
+		$("#sexinfo").css("display","block");
+	}else{
+		$("#sexinfo").css("display","none");
+	}
 }

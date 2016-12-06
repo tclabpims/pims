@@ -178,7 +178,7 @@
 				</div>
 				<label class="col-sm-1 label_style" >性别:</label>
 				<div class="col-sm-2">
-					<select class="col-sm-11 input_style" id="reqpatientsex">
+					<select class="col-sm-11 input_style" id="reqpatientsex" onchange="changeSexinfo()">
 						<option value="1">男</option>
 						<option value="2">女</option>
 						<option value="3">未知</option>
@@ -397,7 +397,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="rightContent  col-sm-7" style="margin-top: 5px;">
+			<div class="rightContent  col-sm-6" style="margin-top: 5px;">
 				<div id="dynamic_div2">
 
 				</div>
@@ -416,22 +416,38 @@
 					<%--<label class="col-sm-2 label_style" for="B">B超:</label>--%>
 					<%--<input type="text" class="col-sm-10 input_style" id="B"/>--%>
 				<%--</div>--%>
-				<div class="form-group" style="margin: 0px 0px 0px 0px">
-					<h5 style="float: left;font-size: 14px;">妇产科检查</h5>
-				</div>
-				<div class="form-group" style="margin-bottom: 5px">
-					<label class="col-sm-2 label_style" for="previous">婚史:</label>
-					<input type="text" class="col-sm-2 input_style" id="previous"/>
-					<label class="col-sm-2 label_style" for="menses">月经初潮:</label>
-					<input type="text" class="col-sm-2 input_style" id="menses"/>
-					<label class="col-sm-2 label_style" for="cycle">周期:</label>
-					<input type="text" class="col-sm-2 input_style" id="cycle"/>
-				</div>
-				<div class="form-group"  style="margin-bottom: 5px">
-					<label class="col-sm-2 label_style" for="cesarean">产史:</label>
-					<input type="text" class="col-sm-2 input_style" id="cesarean"/>
-					<label class="col-sm-2 label_style">末次月经</label>
-					<input type="text" class="col-sm-2 input_style" id="reqlastmenstruation"/>
+				<div id="sexinfo" style="display: none">
+					<div class="form-group" style="margin: 0px 0px 0px 0px">
+						<h5 style="float: left;font-size: 14px;">妇产科检查</h5>
+					</div>
+					<div class="form-group" style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style">婚史:</label>
+						<select class="col-sm-2 input_style" id="reqprevious">
+							<option value='0'>未婚</option>
+							<option value='1'>已婚</option>
+						</select>
+						<label class="col-sm-2 label_style">月经初潮:</label>
+						<input type="text" class="col-sm-2 input_style form_datetime" id="reqmenses"/>
+						<label class="col-sm-2 label_style">周期:</label>
+						<input type="text" class="col-sm-2 input_style" id="reqcycle"/>
+					</div>
+					<div class="form-group"  style="margin-bottom: 5px">
+						<label class="col-sm-2 label_style">产史:</label>
+						<select class="col-sm-2 input_style" id="reqcesarean">
+							<option value='0'>无</option>
+							<option value='1'>一胎</option>
+							<option value='2'>二胎</option>
+							<option value='3'>三胎</option>
+							<option value='4'>四胎</option>
+						</select>
+						<label class="col-sm-2 label_style">末次月经:</label>
+						<input type="text" class="col-sm-2 input_style form_datetime" id="reqlastmenstruation"/>
+						<label class="col-sm-2 label_style">是否绝经:</label>
+						<select class="col-sm-2 input_style" id="reqismenopause">
+							<option value='0'>否</option>
+							<option value='1'>是</option>
+						</select>
+					</div>
 				</div>
 			</div>
 		</div>
