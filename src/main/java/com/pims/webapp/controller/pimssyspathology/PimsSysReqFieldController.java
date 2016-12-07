@@ -81,6 +81,7 @@ public class PimsSysReqFieldController extends PIMSBaseController {
         jsonObject.put("fieshowlevel", pimsSysReqField.getFieshowlevel());
         jsonObject.put("invokefunc", pimsSysReqField.getInvokefunc());
         jsonObject.put("invokefuncbody", pimsSysReqField.getInvokefuncbody());
+        jsonObject.put("fieelinputtype", pimsSysReqField.getFieelinputtype());
 
         return jsonObject;
     }

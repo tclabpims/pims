@@ -136,7 +136,7 @@ function saveDiagnosisInfo() {
     var result = [];
     var j = 0;
     for (var i = 0; i < x.length; i++) {
-        if (x.elements[i].type == 'textarea') {
+        if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
             var e = x.elements[i];
             var data = {};
             data.resultid = $("#" + e.id).attr("hiddenValue");
@@ -154,7 +154,7 @@ function saveDiagnosisInfo() {
     }
     $.post('../diagnosis/saveResult', {result: JSON.stringify(result)}, function (data) {
         for (var i = 0; i < x.length; i++) {
-            if (x.elements[i].type == 'textarea') {
+            if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
                 var e = x.elements[i];
                 var restestitemid = $("#" + e.id).attr("rptItemId");
                 if (data[restestitemid]) {
@@ -863,6 +863,9 @@ function getSampleData1(id) {
                             if ($("#" + e.id).attr("rptItemId") == restestitemid) {
                                 $("#" + e.id).val(data[itm].restestresult);
                                 $("#" + e.id).attr("hiddenValue", resultid);
+                                if(patClass == 7 && $("#" + e.id).attr("type") == "hidden") {
+                                    setSelectedValue(data[itm].restestresult);
+                                }
                             }
                         }
                     }
@@ -884,6 +887,26 @@ function getSampleData1(id) {
             layer.msg("该申请单不存在！", {icon: 0, time: 1000});
         }
     });
+}
+
+function setSelectedValue(jsonStr) {
+    var json = JSON.parse(jsonStr);
+    $("#A5A6Result").val(json.A5A6Result);
+    $("#A7Result").val(json.A7Result);
+    $("#A9Result").val(json.A9Result);
+    if($("#A5A6Result").val() == "阳性") {
+        $("#A5A6Result").css("color","red");
+    }
+    if($("#A7Result").val() == "阳性") {
+        $("#A7Result").css("color","red");
+    }
+    if($("#A9Result").val() == "阳性") {
+        $("#A9Result").css("color","red");
+    }
+    if($("#A5A6Result").val() == "阳性" || $("#A7Result").val() == "阳性" || $("#A9Result").val() == "阳性" ) {
+        $("textarea[printOrder=1]").val("阳性");
+        $("textarea[printOrder=1]").css("color", "red");
+    }
 }
 
 function setYJXBDiagnosis(data) {
@@ -1572,10 +1595,84 @@ function onRowSelect(id) {
             $("#diagnosisInfoForm").css('display', 'block');
             $("#fullScreen").css('display', 'none');
             $("#yjcell").css('display', 'none');
+            insertTable(patClass)
         }
         getOrderTabs(rowData.sampleid);
         setcolor(id);
         crno = id;
+    }
+}
+
+function setSelectView(selectId) {
+    var selectObj = document.getElementById (selectId);  //获取select
+    if(selectObj.selectedIndex == 2) {
+        selectObj.style.color = "red";
+    } else {
+        selectObj.style.color = "#000";
+    }
+    if($("#A5A6Result").val() == "阳性" || $("#A7Result").val() == "阳性" || $("#A9Result").val() == "阳性" ) {
+        $("textarea[printOrder=1]").val("阳性");
+        $("textarea[printOrder=1]").css("color", "red");
+    }
+    else {
+        $("textarea[printOrder=1]").val("阴性");
+        $("textarea[printOrder=1]").css("color", "#000");
+    }
+    var result = {"A5A6Result":$("#A5A6Result").val(), "A7Result":$("#A7Result").val(), "A9Result":$("#A9Result").val()};
+    var hiddenInput = $('#diagnosisInfoForm').children('div').children('input[type=hidden]');
+    hiddenInput.val(JSON.stringify(result));
+}
+
+function insertTable(patClass) {
+    if (patClass == 7) {
+        if($('#dnaTestTable').length == 0) {
+        var div1 = $('#diagnosisInfoForm').children('div');
+        if(div1.length > 0) {
+            var lastChild = div1[div1.length-1];
+            var str='<div id="dnaTestTable"><table width="80%" border="1" cellspacing="0" style="font-size: 12px">' +
+                '<tr>' +
+                '<td align="center" height="14px"><strong>HPV型组</strong></td>' +
+                '<td align="center"><strong>亚型</strong></td>' +
+                '<td align="center"><strong>结果</strong></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="left" height="14px">A5/A6</td>' +
+                '<td align="left">51,56,66</td>' +
+                '<td align="left">' +
+                '<Select id="A5A6Result" onchange="setSelectView(\'A5A6Result\')">' +
+                '<option></option>' +
+                '<option value="阴性" style="color:#000">阴性</option>' +
+                '<option value="阳性" style="color:red">阳性</option>' +
+                '</select>' +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="left" height="14px">A7</td>' +
+                '<td align="left">18,39,45,59,68</td>' +
+                '<td align="left">' +
+                '<Select id="A7Result" onchange="setSelectView(\'A7Result\')">' +
+                '<option></option>' +
+                '<option value="阴性" style="color:#000">阴性</option>' +
+                '<option value="阳性" style="color:red">阳性</option>' +
+                '</select>' +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="left" height="14px">A9</td>' +
+                '<td align="left">16,31,33,35,52,58</td>' +
+                '<td align="left">' +
+                '<Select id="A9Result" onchange="setSelectView(\'A9Result\')">' +
+                '<option></option>' +
+                '<option value="阴性" style="color:#000">阴性</option>' +
+                '<option value="阳性" style="color:red">阳性</option>' +
+                '</select>' +
+                '</td>' +
+                '</tr>' +
+                '</table>' +
+                '</div>';
+            $(str).insertBefore(lastChild);
+        }
+        }
     }
 }
 
