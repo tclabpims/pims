@@ -18,4 +18,6 @@ public interface PimsSampleResultManager extends GenericManager<PimsSampleResult
     PimsSampleResult getSampleResultForPrint(Long sampleId);
 
     Map<String,String> getYjxbDiagnosisResult(Long sampleId);
+
+    Map<String, String> getHPVTestResult(Long sampleId);
 }

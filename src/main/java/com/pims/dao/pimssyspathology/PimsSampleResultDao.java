@@ -16,4 +16,6 @@ public interface PimsSampleResultDao extends GenericDao<PimsSampleResult, Long> 
     List<PimsSampleResult> getSampleResult(Long sampleId);
 
     PimsSampleResult getSampleResultForPrint(Long sampleId);
+
+    List<PimsSampleResult> getHPVSampleResult(Long sampleId);
 }

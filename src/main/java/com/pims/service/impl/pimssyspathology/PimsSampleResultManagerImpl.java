@@ -76,4 +76,24 @@ public class PimsSampleResultManagerImpl extends GenericManagerImpl<PimsSampleRe
         }
         return ret;
     }
+
+    @Override
+    public Map<String, String> getHPVTestResult(Long sampleId) {
+        Map<String, String> ret = new HashMap<>();
+        List<PimsSampleResult> list = pimsSampleResultDao.getHPVSampleResult(sampleId);
+        if(list.size() > 0) {
+            for(PimsSampleResult res : list) {
+                if("text".equals(res.getResviewtype())) {
+                    ret.put("sampleAmount", res.getRestestresult());
+                }
+                if("hidden".equals(res.getResviewtype())) {
+                    ret.put("hpvResult", res.getRestestresult());
+                }
+                if("1".equals(res.getResviewsort())) {
+                    ret.put("diagnosisResult", res.getRestestresult());
+                }
+            }
+        }
+        return ret;
+    }
 }

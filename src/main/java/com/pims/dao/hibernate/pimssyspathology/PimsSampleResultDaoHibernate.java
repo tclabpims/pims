@@ -56,4 +56,10 @@ public class PimsSampleResultDaoHibernate extends GenericDaoHibernate<PimsSample
         if(lis.size() > 0 ) return (PimsSampleResult) lis.get(0);
         return null;
     }
+
+    @Override
+    public List<PimsSampleResult> getHPVSampleResult(Long sampleId) {
+        String hql = "from com.pims.model.PimsSampleResult r where r.ressampleid=:sampleId and (r.resviewtype='text' or r.resviewtype='hidden' or r.resviewsort='1')";
+        return getSession().createQuery(hql).setParameter("sampleId", sampleId).list();
+    }
 }

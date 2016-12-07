@@ -183,16 +183,21 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
 
         PimsSampleResult result = null;
-        Map<String, String> yjxbResult = null;
+        Map<String, String> resultMap = null;
         VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
         if (picNumInt > pictures.size()) picNumInt = pictures.size();
         if(patClass == 2) {
-            yjxbResult = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
-            context.put("diagnosisResult", yjxbResult.get("diagnosisResult"));
-            context.put("advice", yjxbResult.get("advice"));
-            context.put("dnaResult", yjxbResult.get("dnaResult"));
-            context.put("checkedItemsStr", yjxbResult.get("checkedItemsStr"));
-            context.put("degree", yjxbResult.get("degree"));
+            resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+            context.put("advice", resultMap.get("advice"));
+            context.put("dnaResult", resultMap.get("dnaResult"));
+            context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
+            context.put("degree", resultMap.get("degree"));
+        } else if(patClass == 7) {
+            resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
+            context.put("sampleAmount", resultMap.get("sampleAmount"));
+            context.put("hpvResult", resultMap.get("hpvResult"));
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
         }
         else {
             result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
