@@ -556,30 +556,33 @@ function getdynamicdiv(logyid,num) {
 			success: function(obj){
 				var fieremark = "";
 				var maxnum = 0;
-				$.each(obj,function(n,value) {
-					if(fieremark != value.fieremark){
-						fieremark = value.fieremark;
-						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
-					}
-					if(maxnum == 0){
-						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
-					}
-					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
-					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
-					if(value.fieelementtype == "input"){
-						html +=" type= \"text\"";
-					}
-					html +=">";
-					if(value.invokefuncbody != null && value.invokefuncbody != ""){
-						html += value.invokefuncbody;
-					}
-					html +="</"+value.fieelementtype+">"
-					if(maxnum == 12){
-						html +="</div>";
-						maxnum = 0;
-					}
-				});
-				$("#dynamic_div2").html(html);
+				if(obj != null && obj != ""){
+					$.each(obj,function(n,value) {
+						if(fieremark != value.fieremark){
+							fieremark = value.fieremark;
+							html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+						}
+						if(maxnum == 0){
+							html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+						}
+						maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+						html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+						if(value.fieelementtype == "input"){
+							html +=" type= \"text\"";
+						}
+						html +=">";
+						if(value.invokefuncbody != null && value.invokefuncbody != ""){
+							html += value.invokefuncbody;
+						}
+						html +="</"+value.fieelementtype+">"
+						if(maxnum == 12){
+							html +="</div>";
+							maxnum = 0;
+						}
+					});
+					$("#dynamic_div2").html(html);
+				}
+
 			}
 		});
 	}else if(num ==1){//查看
@@ -594,34 +597,36 @@ function getdynamicdiv(logyid,num) {
 			success: function(obj){
 				var fieremark = "";
 				var maxnum = 0;
-				$.each(obj,function(n,value) {
-					if(fieremark != value.fieremark){
-						fieremark = value.fieremark;
-						html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
-					}
-					if(maxnum == 0){
-						html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
-					}
-					maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
-					html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
-					if(value.fieelementtype == "input"){
-						html +=" type= \"text\"";
-					}
-					if(value.fieelementtype == "textarea"){
-						html +=">"+value.reqfvalue;
-					}else{
-						html +="value=\""+value.reqfvalue+"\">";
-					}
-					if(value.invokefuncbody != null && value.invokefuncbody != ""){
-						html += value.invokefuncbody;
-					}
-					html +="</"+value.fieelementtype+">"
-					if(maxnum == 12){
-						html +="</div>";
-						maxnum = 0;
-					}
-				});
-				$("#dynamic_div2").html(html);
+				if(obj != null && obj != ""){
+					$.each(obj,function(n,value) {
+						if(fieremark != value.fieremark){
+							fieremark = value.fieremark;
+							html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+						}
+						if(maxnum == 0){
+							html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+						}
+						maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+						html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+						if(value.fieelementtype == "input"){
+							html +=" type= \"text\"";
+						}
+						if(value.fieelementtype == "textarea"){
+							html +=">"+value.reqfvalue;
+						}else{
+							html +="value=\""+value.reqfvalue+"\">";
+						}
+						if(value.invokefuncbody != null && value.invokefuncbody != ""){
+							html += value.invokefuncbody;
+						}
+						html +="</"+value.fieelementtype+">"
+						if(maxnum == 12){
+							html +="</div>";
+							maxnum = 0;
+						}
+					});
+					$("#dynamic_div2").html(html);
+				}
 			}
 		});
 	}
@@ -673,12 +678,12 @@ function deleteSample() {
 	}
 	layer.confirm('确定删除选择数据？', {icon: 2, title:'警告'}, function(index){
 		$.get("../pimspathology/canchange", {
-				id:$("#requisitionid").val(),
+				id:rowData.requisitionid,
 				sts:"2"
 			},
 			function(data) {
 				if(data.success) {
-					$.post('../requisitionid/deleteSample',{requisitionid:rowData.requisitionid},function(data) {
+					$.post('../pimspathology/deleteSample',{requisitionid:rowData.requisitionid},function(data) {
 						layer.close(index);
 						$("#new").trigger('reloadGrid');
 					});

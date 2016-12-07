@@ -472,17 +472,17 @@
 					</div>
 					<label class="label_style col-sm-1" >联系电话:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno"/>
+						<input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno" datatype="n1-15"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">
 					<label class="col-sm-1 label_style" >住院号:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"/>
+						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="n1-11"/>
 					</div>
 					<label class="col-sm-1 label_style" >床号:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"/>
+						<input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="n1-3"/>
 					</div>
 					<label class="col-sm-1 label_style" >联系地址:</label>
 					<div class="col-sm-3">
@@ -555,11 +555,11 @@
 				<div class="form-group" style="margin-bottom: 5px;">
 					<label class="col-sm-1 label_style" >送检时间:</label>
 					<div class="col-sm-3">
-						<input  type="text" class="form_datetime1 input_style" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
+						<input  type="text" class=" input_style" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
 					</div>
 					<label class="col-sm-1 label_style" for="samreceivertime">接收日期:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form_datetime1 input_style" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
+						<input type="text" class=" input_style" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
 					</div>
 					<label class="col-sm-1 label_style" for="samfirstn">组织袋数:</label>
 					<div class="col-sm-3">

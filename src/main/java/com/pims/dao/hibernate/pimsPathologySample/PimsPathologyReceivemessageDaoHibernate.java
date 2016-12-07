@@ -82,9 +82,10 @@ public class PimsPathologyReceivemessageDaoHibernate extends GenericDaoHibernate
      */
     @Override
     public boolean updateConStates(Long id) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         StringBuffer sb = new StringBuffer();
         sb.append(" update  pims_pathology_receivemessage set receivests = 1 ,receivedate=:receivedate " +
-                "where receivemessageid = "+ id);
+                "where receivemessageid = "+ id+" and receiveruserid='"+user.getId()+"'");
         Query query = getSession().createSQLQuery(sb.toString());
         query.setTimestamp("receivedate",new Date());
         query.executeUpdate();

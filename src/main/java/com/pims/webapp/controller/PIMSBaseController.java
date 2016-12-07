@@ -219,7 +219,7 @@ public class PIMSBaseController {
 
     protected String getResultJsons(List<?> result) throws Exception {
         org.codehaus.jettison.json.JSONArray mapList = new org.codehaus.jettison.json.JSONArray();
-        if(result == null || result.size() == 0) return null;
+        if(result == null || result.size() == 0) return "";
         for(Object o : result) {
             org.codehaus.jettison.json.JSONObject map = new org.codehaus.jettison.json.JSONObject();
             Object[] oo = (Object[]) o;
@@ -237,7 +237,7 @@ public class PIMSBaseController {
 
     protected String getResultJson(List<?> result) throws Exception {
         org.codehaus.jettison.json.JSONArray mapList = new org.codehaus.jettison.json.JSONArray();
-        if(result == null || result.size() == 0) return null;
+        if(result == null || result.size() == 0) return "";
         for(Object bean : result) {
             org.codehaus.jettison.json.JSONObject map = new org.codehaus.jettison.json.JSONObject();
             PropertyDescriptor[] pd = PropertyUtils.getPropertyDescriptors(bean);

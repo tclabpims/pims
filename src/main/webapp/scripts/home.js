@@ -36,8 +36,34 @@ $(function () {
         format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
         language: 'zh-CN', //汉化
         todayBtn:  1,
+        endDate : new Date(),
         autoclose:true //选择日期后自动关闭
     });
+    // var myDate = new Date(); //获取今天日期
+    // myDate.setDate(myDate.getDate() - 7);
+    // $("#req_bf_time2").datetimepicker({
+    //     minView: "month", //选择日期后，不会再跳转去选择时分秒
+    //     format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+    //     language: 'zh-CN', //汉化
+    //     todayBtn:  1,
+    //     endDate : new Date(),
+    //     autoclose:true //选择日期后自动关闭
+    // }).on('changeDate',function(e){
+    //     var startTime = $("#req_bf_time2").val();
+    //     $('#req_af_time2').datetimepicker('setStartDate',startTime);
+    // });
+    // $("#req_af_time2").datetimepicker({
+    //     minView: "month", //选择日期后，不会再跳转去选择时分秒
+    //     format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+    //     language: 'zh-CN', //汉化
+    //     todayBtn:  1,
+    //     endDate : new Date(),
+    //     startDate:myDate,
+    //     autoclose:true //选择日期后自动关闭
+    // }).on('changeDate',function(e){
+    //     var endTime = $("#req_af_time2").val();
+    //     $('#req_bf_time2').datetimepicker('setEndDate',endTime);
+    // });
     /**
      * 初始化页面
      */
@@ -729,24 +755,23 @@ function viewSample(num,id) {
         return false;
     }
     $.get("../message/message/get",{id:rowData.messageid},function(data) {
-        if(data != "") {
-            if(num == 3){
+        if (data != "") {
+            $("#mescontent").val(data.mescontent);
+            $("#messendername").val(data.messendername);
+            $("#meshandletime").val(CurentTime(new Date(data.meshandletime)));
+
+            if (num == 3) {
                 $.ajax({
-                    type:"post",
-                    async:false,
-                    url:"../receive/receive/editSample",
+                    type: "post",
+                    async: false,
+                    url: "../receive/receive/editSample",
                     dataType: "json",
-                    data:{id:receid},
-                    success:function(data){
+                    data: {id: data.messageid},
+                    success: function (data) {
                         if (data.success) {
                         }
                     }
                 });
-            }
-            $("#mescontent").val(data.mescontent);
-            $("#messendername").val(data.messendername);
-            $("#meshandletime").val(CurentTime(new Date(data.meshandletime)));
-            if(num == 3){
                 searchList(num);
             }
         } else {

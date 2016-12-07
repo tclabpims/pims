@@ -4,6 +4,7 @@
 <script type="text/javascript" src="../scripts/layer/layer.js"></script>
 <script type="text/javascript">
     var time1;
+    var num = 0;
     function labChange() {
     }
 
@@ -60,7 +61,7 @@
         if (menuName != "") {
             $("#navigationBar").html("当前模块:" + decodeURI(menuName));
         }
-        var num = 0;
+
 
         $.ajax({
             url: '../pathologysample/sample/ajax/num',
@@ -69,8 +70,9 @@
             success: function(data){
                 if(1 == data.success){
                     $("#span_id2").empty();
-                    if(0 == data.num){
-
+                    if(0 == data.nonum){
+                        clearInterval(time1);
+                        $("#span_id2").text("(0)");
                     }else{
                         num = data.nonum;
                         //消息总数最大只显示 99
@@ -82,10 +84,14 @@
         });
     });
     function spanfcus() {
-        clearInterval(time1);
+        if(num > 0){
+            clearInterval(time1);
+        }
     }
     function spanblur() {
-        time1 = setInterval(function(){ $("#span_id1").fadeOut(5000).fadeIn(5000); },10000);
+        if(num > 0){
+            time1 = setInterval(function(){ $("#span_id1").fadeOut(5000).fadeIn(5000); },10000);
+        }
     }
 
 
@@ -166,7 +172,7 @@
         <div id="hospital" class="collapse navbar-collapse" style="float:right;font-size:14px;margin-top:8px;color:white">
             <%--我的未处理工作：<a href="#" style="color: #ffffff">（10）</a>|--%>
             病理库：
-            <select style="appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border: 0;font-size: 14px;color: #ffffff"
+            <select style="appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:rgb(67, 142, 185);border: 0;font-size: 14px;color: #ffffff"
                     onchange="changePathologyType()" id="pathologyType">
                     <%--<%
                         User user = WebControllerUtil.getAuthUser();
