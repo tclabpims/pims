@@ -7,19 +7,44 @@
 <%@ include file="/common/taglibs.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
+    <%--<script type="text/javascript">--%>
+<%--autodivheight();--%>
+<%--function autodivheight(){ //函数：获取尺寸--%>
+    <%--//获取浏览器窗口高度--%>
+    <%--var winHeight=0;--%>
+    <%--if (window.innerHeight)--%>
+        <%--winHeight = window.innerHeight;--%>
+    <%--else if ((document.body) && (document.body.clientHeight))--%>
+        <%--winHeight = document.body.clientHeight;--%>
+    <%--//通过深入Document内部对body进行检测，获取浏览器窗口高度--%>
+    <%--if (document.documentElement && document.documentElement.clientHeight)--%>
+        <%--winHeight = document.documentElement.clientHeight;--%>
+    <%--//DIV高度为浏览器窗口的高度--%>
+    <%--//document.getElementById("mainTop").style.height= winHeight +"px";--%>
+    <%--//DIV高度为浏览器窗口高度的一半--%>
+    <%--document.getElementById("body").style.height= winHeight +"px";--%>
+
+
+
+<%--}--%>
+<%--</script>--%>
     <title><fmt:message key="login.title"/></title>
     <style>
+
         body {
             margin: 0;
             font: 12px/1.8 Tahoma, Geneva, '\5B8B\4F53';
             color: #333;
             background: white;
+
         }
 
         .wrap {
             position: relative;
             z-index: 0;
-            height: 600px;
+            height: 500px;
+            background: url("images/loginbg.jpg");
+            background-size: cover;
         }
 
         .banner-show {
@@ -138,8 +163,8 @@
             position: absolute;
             top: -550px;
             right: 0;
-            width: 396px;
-            height: 420px;
+            width: 353px;
+            height:379px;
             background: white;
             border-radius: 3px;
             background: rgba(255, 255, 255, 0.95);
@@ -161,9 +186,9 @@
         }
 
         .reg-form {
-            width: 328px;
+            /*width: 328px;*/
             height: 280px;
-            margin: auto;
+            padding:0 33px ;
         }
 
         .reg-form .cell {
@@ -178,7 +203,7 @@
             top: 0;
             left: 0;
             z-index: 1;
-            padding: 0 12px;
+            /*padding: 0 12px;*/
             line-height: 40px;
             font-size: 14px;
             color: #999;
@@ -190,7 +215,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 328px;
+            /*width: 328px;*/
             padding: 7px 11px;
             font-size: 16px;
             background: none;
@@ -235,25 +260,83 @@
         .input-icon > .ace-icon {
             line-height: 44px;
         }
+        .grey {
+            font-weight: bold;
+            color:#61a3f5!important;
+            font-size: 20px;
+        }
+        .titlehr{
+            display: inline-block;
+            width: 56px;
+            vertical-align: middle;
+            border: 1px #61a3f5 solid;
+        }
+        #j_username {
+            text-indent: 30px;
+            top: 20px;
+            width: 100%;
+            border: 1px solid #61a3f5;
+
+        }
+        #j_password{
+            text-indent: 30px;
+           top:10px;
+            width: 100%;
+            border: 1px solid #61a3f5;
+        }
+        h2{
+            margin-top:49px;
+        }
+
+        #loginbotton{
+            position: absolute;
+            width: 100%;
+            top:40px;
+            color: #ffffff;
+            font-size: 16px;
+            background: #61a3f5;
+            border-radius: 4px;
+            border:0px;
+        }
+        .infobox-icon{
+            vertical-align: middle!important;
+            width: 20px!important;
+        }
+
+        #toplogo img{
+            width: 13%;
+            margin:1% 0 1% 11%;
+        }
+        .jbtn1{
+            position: absolute;
+            top: 33px;
+            left: 13px;
+        }
+        .jbtn2{
+            position: absolute;
+            top: 23px;
+            left: 13px;
+        }
     </style>
 
 </head>
 <body id="login">
+<div id="toplogo"><img src="images/loginlogo.png"></div>
 <div class="wrap">
-    <div class="banner-show" id="js_ban_content">
-        <div class="cell bns-01" style="display: block;">
-            <div class="con"></div>
-        </div>
-        <div class="cell bns-02" style="display: none;">
-            <div class="con"><a href="#_" target="_blank" class="banner-link"> <i>病理信息系统</i></a></div>
-        </div>
-        <div class="cell bns-03" style="display: none;">
-            <div class="con"><a href="#_" target="_blank" class="banner-link"> <i>病理信息系统</i></a></div>
-        </div>
-    </div>
-    <div class="banner-control" id="js_ban_button_box"><a href="javascript:;" class="left">左</a> <a href="javascript:;"
-                                                                                                    class="right">右</a>
-    </div>
+    <%--<div class="banner-show" id="js_ban_content">--%>
+        <%--<div class="cell bns-01" style="display: block;">--%>
+            <%--<div class="con"></div>--%>
+        <%--</div>--%>
+        <%--<div class="cell bns-02" style="display: none;">--%>
+            <%--<div class="con"><a href="#_" target="_blank" class="banner-link"> <i>病理信息系统</i></a></div>--%>
+        <%--</div>--%>
+        <%--<div class="cell bns-03" style="display: none;">--%>
+            <%--<div class="con"><a href="#_" target="_blank" class="banner-link"> <i>病理信息系统</i></a></div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="banner-control" id="js_ban_button_box"><a href="javascript:;" class="left">左</a> <a href="javascript:;"--%>
+                                                                                                    <%--class="right">右</a>--%>
+    <%--</div>--%>
     <script type="text/javascript">
         (function () {
             var defaultInd = 0;
@@ -323,26 +406,35 @@
     <div class="container">
         <div class="register-box">
             <div class="reg-slogan">
+
                 <h2>
-                    <i class="ace-icon fa fa-leaf green"></i>
-                    <span class="grey"><fmt:message key="webapp.name"/></span>
+                    <%--<i class="ace-icon fa fa-leaf green"></i>--%>
+                        <hr class="titlehr"><span class="grey" id="logintitle">
+                        同烁病理工作平台
+                        <%--<fmt:message key="webapp.name"/>--%>
+                    </span><hr class="titlehr">
                 </h2>
+
             </div>
             <div class="reg-form" id="js-form-mobile">
                 <form method="post" id="loginForm" action="<c:url value='/j_security_check'/>"
                       onsubmit="saveUsername(this);return validateForm(this)" class="form-signin" autocomplete="off">
-                    <div class="cell"><fmt:message key="label.username"/>
+                    <div class="cell">
+                        <%--<fmt:message key="label.username"/>--%>
                         <span class="block input-icon input-icon-right">
                             <input type="text" name="j_username" id="j_username"
                                    placeholder="<fmt:message key="label.username"/>" required tabindex="1">
-                            <i class="ace-icon fa fa-user"></i>
+                            <%--<i class="ace-icon fa fa-user"></i>--%>
+                            <i class="jbtn1"><img src="images/j_namebg.png"></i>
                         </span>
                     </div>
-                    <div class="cell"><fmt:message key="label.password"/>
+                    <div class="cell">
+                        <%--<fmt:message key="label.password"/>--%>
                         <span class="block input-icon input-icon-right">
                         <input type="password" name="j_password" id="j_password" tabindex="2"
                                placeholder="<fmt:message key="label.password"/>" required>
-                        <i class="ace-icon fa fa-lock"></i>
+                        <%--<i class="ace-icon fa fa-lock"></i>--%>
+                             <i class="jbtn2"><img src="images/j_passwordbg.png"></i>
                        </span>
                     </div>
                     <%--<div class="cell"><fmt:message key="label.pathologyLib"/>
@@ -376,14 +468,19 @@
                                 <span class="lbl">&nbsp;&nbsp;<fmt:message key="login.rememberMe"/></span>
                             </c:if>
                         </label>
-                        <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-                            <i class="ace-icon fa fa-key"></i>
+                        <button type="submit"
+                                id="loginbotton"
+                                <%--class="width-35 pull-right btn btn-sm btn-primary"--%>
+                        >
+                            <%--<i class="ace-icon fa fa-key"></i>--%>
                             <span class="bigger-110"><fmt:message key='button.login'/></span>
                         </button>
                     </div>
                 </form>
-                <div class="social-or-login center" style="clear: both">
+                <div  style="clear: both">
+                    <hr class="hr2">
                     <span class="bigger-110"></span>
+
 
                 </div>
                 <style>
@@ -391,17 +488,28 @@
                         width: 130px;
                         border: none;
                         background: none;
+                        padding: 0px;
                     }
 
                     .infobox > .infobox-data {
                         min-width: 60px;
                         padding-left: 2px;
+
                     }
+                    .hr2{
+                        margin-top: 60px;
+                        width: 100%;
+                        opacity: 0.2;
+                        border: 1px solid #61a3f5;
+
+                    }
+
                 </style>
                 <div class="social-login center">
                     <div class="infobox infobox-green">
                         <div class="infobox-icon">
-                            <i class="ace-icon fa fa-comments"></i>
+                            <%--<i class="ace-icon fa fa-comments"></i>--%>
+                            <img src="images/paiban.png">
                         </div>
                         <div class="infobox-data">
                             <a href="<c:url value="/pb/pbcx"/>" data-target="#signup-box" class="user-signup-link">
@@ -411,7 +519,8 @@
                     </div>
                     <div class="infobox infobox-blue">
                         <div class="infobox-icon">
-                            <i class="ace-icon fa fa-cog"></i>
+                            <%--<i class="ace-icon fa fa-cog"></i>--%>
+                                <img src="images/register.png">
                         </div>
                         <div class="infobox-data">
                             <a href="<c:url value="/signup"/>" data-target="#signup-box" class="user-signup-link">
