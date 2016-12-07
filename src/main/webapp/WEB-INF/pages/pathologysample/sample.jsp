@@ -290,7 +290,7 @@
 			</div>
 		</div>
 	</div>
-	<div>
+	<div id="h5_1">
 		<h5 style="float: left;width: 34%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/list.png" class="img_style">&nbsp;已登记标本一览</strong></h5>
 		<h5  style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/main.png" class="img_style">&nbsp;标本登记</strong></h5>
 	</div>
@@ -308,7 +308,7 @@
 	</ul>
 	<div id="div_main">
 		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">
-			<div id = "search_div_1" style="background-color: #F9F9F9;height: 220px;border:1px solid #E0E0E0;">
+			<div id = "search_div_1" style="background-color: #F9F9F9;height: 160px;border:1px solid #E0E0E0;">
 				<div style="margin-top: 10px">
 					<table style="margin-bottom: 5px;">
 						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
@@ -329,19 +329,23 @@
 					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
 						<input type="text" id="send_dept" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>
 						<input type="text" id="send_hosptail" class="input_style"/>
 					</table>
+					<%--<table style="margin-bottom: 5px">--%>
+						<%--<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>--%>
+						<%--<input type="text" id="send_hosptail" class="input_style"/>--%>
+					<%--</table>--%>
 					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>
 						<input type="text" id="send_doctor" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
 					</table>
+					<%--<table style="margin-bottom: 5px">--%>
+						<%--<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>--%>
+						<%--<input type="text" id="patient_name" class="input_style"/>--%>
+					<%--</table>--%>
 					<table style="margin-bottom: 5px">
 						<div class="input_style">
 							<span class="input_style">&nbsp;&nbsp;合格状态:&nbsp;&nbsp;</span>
@@ -472,7 +476,7 @@
 					</div>
 					<label class="label_style col-sm-1" >联系电话:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno" datatype="n1-15"/>
+						<input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno" datatype="*"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">
@@ -482,7 +486,7 @@
 					</div>
 					<label class="col-sm-1 label_style" >床号:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="n1-3"/>
+						<input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"/>
 					</div>
 					<label class="col-sm-1 label_style" >联系地址:</label>
 					<div class="col-sm-3">
@@ -501,7 +505,7 @@
 					<label class="col-sm-1 label_style" for="sampatientage">年&nbsp;龄:</label>
 					<div class="col-sm-3">
 						<span class="label_style" style="width:90%">
-							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%" name="sampatientage" datatype="n1-2"/>
+							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%" name="sampatientage" datatype="n1-3"/>
 							<select class="input_style" style="float:left;width:25%" id="sampatientagetype">
 								<option value="1">岁</option>
 								<option value="2">月</option>
@@ -574,7 +578,7 @@
 					</div>
 					<label class="col-sm-1 label_style" for="samremark">原因:</label>
 					<div class="col-sm-7">
-						<input  type="text" id="samremark" class="col-sm-10 label_style"/>
+						<input  type="text" id="samremark" class="col-sm-10 input_style"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">

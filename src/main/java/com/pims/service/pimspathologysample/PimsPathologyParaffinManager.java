@@ -1,6 +1,7 @@
 package com.pims.service.pimspathologysample;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyParaffin;
 import com.pims.model.PimsPathologySample;
@@ -50,7 +51,7 @@ public interface PimsPathologyParaffinManager extends GenericManager<PimsPatholo
      * @param state
      * @return
      */
-    boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state);
+    JSONObject updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state);
 
     /**
      * 判断单据是否可被修改

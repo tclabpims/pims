@@ -88,7 +88,7 @@ function clearData() {
 function searchSts(states){
 	var req_sts = states;
 	//var req_sts = $("#req_sts").val();
-	if(req_sts == "1"){
+	if(req_sts == "0"){
 		changeimgclick(1);
 		// $("#resetbutton").attr({"disabled":true});
 		// $("#saveButton").removeAttr("disabled");//将按钮可用
@@ -147,7 +147,8 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['材块ID','标本id','病理状态', '病理号','材块编号','特殊要求','白片数','病理状态','补取医嘱','材块数','白片数', '取材部位','特殊要求', '取材时间','取材医生ID','取材医生','序号','包埋状态'],
+		colNames: ['材块ID','标本id','病理状态', '病理号','材块编号','特殊要求','白片数','病理状态','补取医嘱','病人名',
+			'材块数','白片数', '取材部位','特殊要求', '取材时间','取材医生ID','取材医生','序号','包埋状态'],
 		colModel: [
 			{name:'pieceid',hidden:true},//材块ID
 			{name:'sampleid',hidden:true},//标本id
@@ -158,6 +159,7 @@ $(function() {
 			{ name: 'pienullslidenum', index: 'pienullslidenum'},//白片数
 			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"},width:70},//病理状态
 			{ name: 'piefirstn', index: 'piefirstn'},//补取医嘱
+			{ name: 'sampatientname', index: 'sampatientname'},//病人名
 			{name:'piecounts',hidden:true},//材块数
 			{name:'pienullslidenum',hidden:true},//白片数
 			{name:'pieparts',hidden:true},//取材部位

@@ -67,8 +67,8 @@
 						<div class="input_style">
 							<span>&nbsp;打印状态:&nbsp;</span>
 							<input type="hidden" id="send_hosptail">
-							<input type="checkbox" name="send_hosptail1" value="0">&nbsp;待打印&nbsp;
-							<input type="checkbox" name="send_hosptail2" value="1">&nbsp;已打印&nbsp;
+							<input type="checkbox" id="send_hosptail1" value="0"><span>&nbsp;待打印&nbsp;</span>
+							<input type="checkbox" id="send_hosptail2" value="1"><span>&nbsp;已打印&nbsp;</span>
 						</div>
 					</table>
 					<table style="margin-bottom: 5px;">

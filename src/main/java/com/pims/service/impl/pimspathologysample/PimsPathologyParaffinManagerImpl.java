@@ -1,6 +1,7 @@
 package com.pims.service.impl.pimspathologysample;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pims.dao.pimspathologysample.PimsPathologyParaffinDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyParaffin;
@@ -77,7 +78,7 @@ public class PimsPathologyParaffinManagerImpl extends GenericManagerImpl<PimsPat
      * @return
      */
     @Override
-    public boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state) {
+    public JSONObject updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state) {
         return pimsPathologyParaffinDao.updateSampleSts(slideList,paraList,sampleList,sts,state);
     }
 

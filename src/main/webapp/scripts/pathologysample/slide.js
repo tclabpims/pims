@@ -66,6 +66,9 @@ function saveInfo() {
 		return;
 	}
 	var post = true;
+	if(num == 2){
+		post  = false;
+	}
 	if(post) {
 		$.post("../pathologysample/slide/editSample", {
 			states:"1",
@@ -81,6 +84,23 @@ function saveInfo() {
 					layer.msg(data.message, {icon:2, time: 1000});
 				}
 			});
+	}else{
+		layer.confirm('确定取消切片？', {icon: 2, title:'警告'}, function(index){
+			$.post("../pathologysample/slide/editSample", {
+					states:"1",
+					savenum:num,
+					samples:JSON.stringify(arr),
+					slides:JSON.stringify(rowdatas)
+				},
+				function(data) {
+					if(data.success) {
+						layer.msg(data.message, {icon: 1, time: 1000});
+						location.reload();
+					} else {
+						layer.msg(data.message, {icon:2, time: 1000});
+					}
+				});
+		});
 	}
 }
 /**
@@ -146,6 +166,8 @@ $(function() {
 		$('#send_hosptail').val("0");
 	}else if($("#send_hosptail2").is(':checked')){
 		$('#send_hosptail').val("1");
+	}else{
+		$('#send_hosptail').val("");
 	}
 	var send_hosptail = $('#send_hosptail').val();
 	if($("#send_doctor").is(':checked')){
@@ -351,6 +373,8 @@ function searchList() {
 		$('#send_hosptail').val("0");
 	}else if($("#send_hosptail2").is(':checked')){
 		$('#send_hosptail').val("1");
+	}else{
+		$('#send_hosptail').val("");
 	}
 	var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();

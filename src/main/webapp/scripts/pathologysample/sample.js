@@ -103,7 +103,7 @@ function getSampleData(id) {//根据申请单据补充登记单信息
 			$("#samismenopause").val(data.reqismenopause);//是否绝经
 			$("#reqlastmenstruation").val(data.reqlastmenstruation);//末次月经时间
 			$("#samischarged").val(data.reqchargestatus);//收费状态(0未收费,1已收费)
-			$("#samreceivertime").val(CurentTime(new Date(data.reqcreatetime)));//接收时间
+			$("#samreceivertime").val(CurentTime(new Date()));//接收时间data.reqcreatetime
 			$("#samreceiverid").val(data.reqcreateuser);//接收人员id
 			$("#samreceivername").val("");//接收人员姓名
 			$("#samregisttime").val(CurentTime(new Date()));//登记时间
@@ -248,7 +248,8 @@ function saveInfo() {
 			samcreateuser:$("#samcreateuser").val(),//创建人
 			samjcxm:$("#samjcxm").val(),//检查项目
 			sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
-			sampiecedoctorname:$("#sampiecedoctorname").val()//首次取材医师既诊断医师
+			sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
+			samremark:$("#samremark").val()//不合格原因
 		},
 		function(data) {
 			if(data.success) {
@@ -304,7 +305,7 @@ function addSample() {
 	$("#samreqtime").val("");//申请时间
 	$("#samreqdocid").val("");//申请医生id
 	$("#samreqdocname").val("");//申请医生姓名
-	$("#samsendtime").val("");//送检时间
+	$("#samsendtime").val(CurentTime(new Date()));//送检时间
 	$("#samsenddoctorid").val("");//送检医生id
 	$("#samsenddoctorname").val("");//送检医生姓名----
 	$("#samsendhospital").val("");//送检单位名称
@@ -322,7 +323,7 @@ function addSample() {
 	$("#samismenopause").val("");//是否绝经
 	$("#reqlastmenstruation").val("");//末次月经时间
 	$("#samischarged").val("");//收费状态(0未收费,1已收费)
-	$("#samreceivertime").val("");//接收时间
+	$("#samreceivertime").val(CurentTime(new Date()));//接收时间
 	$("#samreceiverid").val("");//接收人员id
 	$("#samreceivername").val("");//接收人员姓名
 	$("#samregisttime").val(CurentTime(new Date()));//登记时间
@@ -643,7 +644,7 @@ $(function() {
 			.appendTo( ul );
 	};
 	var clientHeight= $(window).innerHeight();
-	var height = $("#formDialog").height() - $('#search_div_1').height() + 230;
+	var height = $("#div_1").height() - $('#h5_1').height()-$("#tabss").height + 230;
     var width = $('#search_div_1').width();
     var width1 = $("#sampleForm").width();
 	//alert($(window).innerWidth());
@@ -1020,6 +1021,7 @@ function getSampleData1(id) {
 			}
 			$("#sampiecedoctorid").val(data.sampiecedoctorid);//首次取材医师既诊断医师ID
 			$("#sampiecedoctorname").val(data.sampiecedoctorname);//首次取材医师既诊断医师
+			$("#samremark").val(data.samremark);//不合格原因
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}

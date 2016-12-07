@@ -166,11 +166,11 @@ public class PimsPathologyParaffinController extends PIMSBaseController{
         String states = request.getParameter("states");
         JSONArray samplesList = JSON.parseArray(samples);
         JSONArray slidesList = JSON.parseArray(slides);
-        JSONObject o = new JSONObject();
+//        JSONObject o = new JSONObject();
 //        pimsPathologyParaffinManager.updateSampleSts(slidesList,slidesList,samplesList,Integer.parseInt(savenum),Integer.parseInt(states));
-        pimsPathologyParaffinManager.updateSampleSts(slidesList,samplesList,samplesList,Integer.parseInt(savenum),Integer.parseInt(states));
-        o.put("message", "操作成功！");
-        o.put("success", true);
+        JSONObject o = pimsPathologyParaffinManager.updateSampleSts(slidesList,samplesList,samplesList,Integer.parseInt(savenum),Integer.parseInt(states));
+//        o.put("message", "操作成功！");
+//        o.put("success", true);
         PrintwriterUtil.print(response, o.toString());
 
     }

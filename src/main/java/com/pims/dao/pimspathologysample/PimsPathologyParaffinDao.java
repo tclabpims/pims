@@ -1,6 +1,7 @@
 package com.pims.dao.pimspathologysample;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologyParaffin;
 import com.pims.model.PimsPathologySample;
@@ -50,7 +51,7 @@ public interface PimsPathologyParaffinDao extends GenericDao<PimsPathologyParaff
      * @param state
      * @return
      */
-    boolean updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state);
+    JSONObject updateSampleSts(JSONArray slideList, JSONArray paraList, JSONArray sampleList, int sts, int state);
     /**
      * 查询单据是否可被修改
      * @param id,sts(1修改2删除)

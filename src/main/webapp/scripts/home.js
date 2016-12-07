@@ -568,8 +568,9 @@ $(function () {
         mtype: "GET",
         datatype: "json",
         postData:{},
-        colNames: ['favoriteid','favsampleid','favcustomerid','病理编号', '收藏标题', '收藏时间','类型'],
+        colNames: ['删除','favoriteid','favsampleid','favcustomerid','病理编号', '收藏标题', '收藏时间','类型'],
         colModel: [
+            { name: 'deleteinfo', index: 'deleteinfo', sortable: false, align: "center", width: "70px" },
             {name:'favoriteid',hidden:true},
             {name:'favsampleid',hidden:true},
             {name:'favcustomerid',hidden:true},
@@ -588,6 +589,14 @@ $(function () {
             //viewSample(3,id);
             var rowData = $("#new4").jqGrid('getRowData',id);
             reportView(1, null, null,rowData.favsampleid);
+        },
+        gridComplete: function () {
+            var ids = jQuery("#new4").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var id = ids[i];
+                var deleteinfo = "<button style='border-radius:5px;border:1px solid #C2C2C2;' onclick='deleteinfo("+id+")' >删除</button>";
+                jQuery("#new4").jqGrid('setRowData', ids[i], { deleteinfo: deleteinfo});
+            }
         },
         viewrecords: true,
         height:320,
@@ -674,6 +683,25 @@ $(function () {
         pager: "#pager7"
     });
 });
+
+/**
+ * 删除收藏记录
+ * @param id
+ */
+function deleteinfo(id){
+    var rowData = $("#new4").jqGrid('getRowData',id);
+    $.post("../favorite/deleteinfo",{favoriteid:rowData.favoriteid},function(data) {
+        if(data.success) {
+            layer.msg(data.message, {icon: 1, time: 1000});
+            jQuery("#new4").jqGrid('setGridParam',{
+                url: "../favorite/query",
+                page : 1
+            }).trigger('reloadGrid');//重新载入
+        } else {
+            layer.msg(data.message, {icon:2, time: 1000});
+        }
+    });
+}
 
 function reportView(v, showPicNum, templateUrl,samid) {
     $.get("../diagnosis/report/getTemplate", {"sampleid": samid}, function (data) {
