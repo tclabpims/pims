@@ -142,7 +142,7 @@ $(function() {
 			},width:'100px'},//年龄
 			{ name: 'sampatientnumber', index: 'sampatientnumber',width:'100px'},//住院号
 			{ name: 'sampatientbed', index: 'sampatientbed',width:'100px'},//床号
-			{ name: 'sampatientsex', index: 'sampatientsex',formatter: "select", editoptions:{value:"0:男;1:女;2:未知"},width:'100px'},//性别
+			{ name: 'sampatientsex', index: 'sampatientsex',formatter: "select", editoptions:{value:"1:男;2:女;3:未知"},width:'100px'},//性别
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;" +
 			"5:已审核;6:已发送;7:会诊中:8:报告已打印"},width:'100px'},//病理状态
 			{ name: 'samsendtime', index: 'samsendtime',formatter:function(cellvalue, options, row)

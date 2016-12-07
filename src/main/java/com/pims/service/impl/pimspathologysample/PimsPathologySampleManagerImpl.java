@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by king on 2016/10/10.
@@ -182,5 +181,74 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     @Override
     public int getReportDelayNum(PimsBaseModel map) {
         return pimsPathologySampleDao.getReportDelayNum(map);
+    }
+
+    private List ChangeList(String[] st,List list){
+        List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+        if(list == null || list.size() == 0){
+            return mapList;
+        }else{
+
+            for(Object bean:list){
+                Map<String, Object> map1 = new HashMap<String, Object>();
+                Object[] pd = (Object[]) bean;
+                for(int i=0;i<pd.length;i++){
+                    Object o = pd[i];
+                    map1.put(st[i],o);
+                }
+                mapList.add(map1);
+            }
+            return mapList;
+        }
+    }
+
+    /**
+     * 日志统计总列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List getRztj(PimsBaseModel map) {
+        List list = pimsPathologySampleDao.getRztj(map);
+        String[] st = {"samsamplestatus0","samsamplestatus1","samsamplestatus2","samsamplestatus3","samsamplestatus4",
+                "samsamplestatus5","samsamplestatus6","samsamplestatus7","samsamplestatus8"};
+        return ChangeList(st,list);
+    }
+
+    /**
+     * 日志统计详细列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List getRztjInfo(PimsBaseModel map) {
+        List list = pimsPathologySampleDao.getRztjInfo(map);
+        String[] st = {"sampathologyid","samsamplestatus0","samsamplestatus1","samsamplestatus2","samsamplestatus3","samsamplestatus4",
+                "samsamplestatus5","samsamplestatus6","samsamplestatus7","samsamplestatus8"};
+        return ChangeList(st,list);
+    }
+
+    /**
+     * 标本来源统计
+     * @param map
+     * @return
+     */
+    @Override
+    public List getBbly(PimsBaseModel map) {
+        List list = pimsPathologySampleDao.getBbly(map);
+        String[] st = {"name","nums"};
+        return ChangeList(st,list);
+    }
+
+    /**
+     * 收费统计报告
+     * @param map
+     * @return
+     */
+    @Override
+    public List getSftj(PimsBaseModel map) {
+        List list = pimsPathologySampleDao.getSftj(map);
+        String[] st = {"name","prices"};
+        return ChangeList(st,list);
     }
 }

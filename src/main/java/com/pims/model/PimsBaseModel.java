@@ -46,8 +46,8 @@ public class PimsBaseModel {
         Calendar cal = Calendar.getInstance();
         request.setCharacterEncoding("UTF-8");
         this.request = request;
-        String pages = request.getParameter("page")==null?"0":request.getParameter("page");
-        String rows = request.getParameter("rows")==null?"0":request.getParameter("rows");
+        String pages = request.getParameter("page")==null?"1":request.getParameter("page");
+        String rows = request.getParameter("rows")==null?"10":request.getParameter("rows");
         this.req_code = request.getParameter("req_code");
         this.patient_name = request.getParameter("patient_name");
         this.send_hosptail = request.getParameter("send_hosptail");

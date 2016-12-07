@@ -117,7 +117,7 @@ $(function() {
 				}
 				return cellvalue.substr(0,cellvalue.length-1)+cell1;
 			},align:'center'},//年龄
-			{ name: 'sampatientsex', index: 'sampatientsex',formatter: "select", editoptions:{value:"0:男;1:女;2:未知"},align:'center'},//性别
+			{ name: 'sampatientsex', index: 'sampatientsex',formatter: "select", editoptions:{value:"1:男;2:女;3:未知"},align:'center'},//性别
 			{ name: 'samsendtime', index: 'samsendtime',formatter:function(cellvalue, options, row)
 			{if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))},align:'center'},//送检日期
 			{ name: 'delreporttime', index: 'delreporttime',formatter:function(cellvalue, options, row)

@@ -269,9 +269,9 @@
 				<label class="col-sm-1 label_style">性别:</label>
 				<div class="col-sm-3">
 					<select class="col-sm-9 input_style" id="reqpatientsex">
-						<option value="0">男</option>
-						<option value="1">女</option>
-						<option value="">未知</option>
+						<option value="1">男</option>
+						<option value="2">女</option>
+						<option value="3">未知</option>
 					</select>
 				</div>
 			</div>

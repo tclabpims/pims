@@ -202,9 +202,9 @@
 			<label style="font-size: 13px;"  class="col-sm-1 control-label no-padding-right">性别:</label>
 			<div class="col-sm-3">
 				<select class="col-sm-9" id="reqpatientsex">
-					<option value="0">男</option>
-					<option value="1">女</option>
-					<option value="">未知</option>
+					<option value="1">男</option>
+					<option value="2">女</option>
+					<option value="3">未知</option>
 				</select>
 			</div>
 		</div>
