@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -173,15 +172,37 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
         String templateUrl = request.getParameter("templateUrl");
         int operateType = Integer.valueOf(request.getParameter("type"));
+        String pclass = request.getParameter("patClass");
+        int patClass = pclass == null?0:Integer.valueOf(pclass);
 
         PimsPathologySample pimsPathologySample = pimsPathologySampleManager.get(sampleId);
         PimsSysPathology pathology = pimsSysPathologyManager.get(pimsPathologySample.getSampathologyid());
-        PimsSampleResult result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
+
+
+
         List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
 
+        PimsSampleResult result = null;
+        Map<String, String> resultMap = null;
         VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
         if (picNumInt > pictures.size()) picNumInt = pictures.size();
-        context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
+        if(patClass == 2) {
+            resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+            context.put("advice", resultMap.get("advice"));
+            context.put("dnaResult", resultMap.get("dnaResult"));
+            context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
+            context.put("degree", resultMap.get("degree"));
+        } else if(patClass == 7) {
+            resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
+            context.put("sampleAmount", resultMap.get("sampleAmount"));
+            context.put("hpvResult", resultMap.get("hpvResult"));
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+        }
+        else {
+            result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
+            context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
+        }
         context.put("picNum", picNumInt);
         context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
 
@@ -452,8 +473,9 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @ResponseBody
     public Map<String, Long> saveResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String result = request.getParameter("result");
+        String pclass = request.getParameter("patClass");
+        int patClass = pclass == null?0:Integer.valueOf(pclass);
         User user = WebControllerUtil.getAuthUser();
-        Long hospitalId = user.getHospitalId();
         DefaultJSONParser parser = new DefaultJSONParser(result);
         JSONArray jsonArray = (JSONArray) parser.parse();
         List<PimsSampleResult> set = new ArrayList<>();
@@ -477,7 +499,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
                 sampleResult.setRescreatetime(new Date());
                 sampleResult.setRescreateuser(String.valueOf(user.getId()));
             }
-            sampleResult.setRescustomerid(hospitalId);
+            sampleResult.setRescustomerid(((JSONObject) obj).getLongValue("customerId"));
             sampleResult.setResviewtype((String) ((JSONObject) obj).get("resviewtype"));
             sampleResult.setRestestresult((String) ((JSONObject) obj).get("restestresult"));
             sampleResult.setRestestitemid(((JSONObject) obj).getLongValue("restestitemid"));
@@ -489,7 +511,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             set.add(sampleResult);
         }
         Map<String, Long> map = new HashMap<>();
-        if (set.size() > 0) map = pimsSampleResultManager.save(set);
+        if (set.size() > 0) map = pimsSampleResultManager.save(set, patClass);
         response.setContentType(contentType);
         return map;
     }
@@ -498,8 +520,10 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @ResponseBody
     public Map<String, PimsSampleResult> getSampleResult(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
+        String pclass = request.getParameter("patClass");
+        int patClass = pclass == null?0:Integer.valueOf(pclass);
         response.setContentType(contentType);
-        return pimsSampleResultManager.getSampleResult(sampleId);
+        return pimsSampleResultManager.getSampleResult(sampleId, patClass);
     }
 
     @RequestMapping(method = {RequestMethod.GET}, value = "/pictures")
@@ -553,7 +577,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         if(!StringUtils.isEmpty(id)){
             PimsPathologySample pathology = pimsPathologySampleManager.get(Long.parseLong(id));
             mv.addObject("code", pathology.getSampathologycode());//病理号
-            options = getPathologyOption(request);
+            options = getPathologySelectOption(request);
             mv.addObject("options", options);
 
         }

@@ -17,6 +17,7 @@ public class PimsSysReqField extends BaseObject {
     private long fieldid;
     private String fieelementid;
     private String fieelementname;
+    private String fieelinputtype;
     private String fieelementtype;
     private String fieshowlevel;
     private Long fiepelementid;
@@ -37,6 +38,15 @@ public class PimsSysReqField extends BaseObject {
     private String fieldcss;
 
     private List<PimsSysReqField> children = new ArrayList<>();
+
+    @Column(name="fieelinputtype")
+    public String getFieelinputtype() {
+        return fieelinputtype;
+    }
+
+    public void setFieelinputtype(String fieelinputtype) {
+        this.fieelinputtype = fieelinputtype;
+    }
 
     @Transient
     public List<PimsSysReqField> getChildren() {

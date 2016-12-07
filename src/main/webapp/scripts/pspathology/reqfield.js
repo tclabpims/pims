@@ -52,7 +52,7 @@ function saveFieldData() {
             fiepelementid: $('#fiepelementid').val(), fiedefaultvalue: $('#fiedefaultvalue').val(),
             fieshoworder: showorder, fieuseflag: $('#fieuseflag').val(),
             invokefunc: $('#invokefunc').val(), invokefuncbody: $('#invokefuncbody').val(),fieldcss: $('#fieldcss').val(),
-            fieremark: $('#fieremark').val()
+            fieremark: $('#fieremark').val(),fieelinputtype:$("#fieelinputtype").val()
         }, function (data) {
             treeObj.addNodes(nodes[0], data, true);
             layer.msg('添加成功', {icon: 2, time: 1000});
@@ -65,7 +65,7 @@ function saveFieldData() {
             fiepelementid: $('#fiepelementid').val(), fiedefaultvalue: $('#fiedefaultvalue').val(),
             fieshoworder: $('#fieshoworder').val(), fieuseflag: $('#fieuseflag').val(),
             invokefunc: $('#invokefunc').val(), invokefuncbody: $('#invokefuncbody').val(),fieldcss: $('#fieldcss').val(),
-            fieremark: $('#fieremark').val(), fieldid: $('#fieldid').val()
+            fieremark: $('#fieremark').val(), fieldid: $('#fieldid').val(),fieelinputtype:$("#fieelinputtype").val()
         }, function (data) {
             layer.msg('修改成功', {icon: 2, time: 1000});
         });
@@ -139,4 +139,5 @@ function clearData() {
     $('#invokefunc').val('');
     $('#invokefuncbody').val('');
     $('#fieldcss').val('');
+    $('#fieelinputtype').val('');
 }

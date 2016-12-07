@@ -97,6 +97,18 @@ public class PimsPathologySample {
 
     private String samjcxm;
 
+    //病种分类
+    private String patclass;
+
+    @Transient
+    public String getPatclass() {
+        return patclass;
+    }
+
+    public void setPatclass(String patclass) {
+        this.patclass = patclass;
+    }
+
     private String sampiecedoctorid;
 
     private String sampiecedoctorname;

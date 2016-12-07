@@ -4,14 +4,18 @@ import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -154,20 +158,37 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
 
     @Override
     public List<PimsPathologySample> querySample(PimsPathologySample sample, GridQuery gridQuery, String sql) {
-        Query query = getSession().createQuery(sql);
-        setParameter(sample, query);
+        SQLQuery query = getSession().createSQLQuery(sql);
+        try {
+            setParameter(sample, query);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         query.setFirstResult(gridQuery.getStart());
         query.setMaxResults(gridQuery.getEnd());
-        List<PimsPathologySample> lis = query.list();
+        List<PimsPathologySample> ret = new ArrayList<>();
+        List lis = query.list();
         if(lis.size() > 0) {
-            for(PimsPathologySample sp : lis) {
-                sp.setSampathologystatus(sp.pathologyStatus());
+            for(Object obj : lis) {
+                Object[] objects = (Object[])obj;
+                PimsPathologySample pps = new PimsPathologySample();
+                pps.setSampleid(((BigDecimal)objects[0]).longValue());
+                pps.setSampathologycode((String)objects[1]);
+                pps.setSamcustomerid(((BigDecimal)objects[2]).longValue());
+                pps.setSampathologyid(((BigDecimal)objects[3]).longValue());
+                pps.setSamsenddoctorname((String)objects[4]);
+                pps.setSamreportorid((String)objects[5]);
+                pps.setSamauditerid((String)objects[6]);
+                pps.setSaminitiallyuserid((String)objects[7]);
+                pps.setPatclass((String)objects[8]);
+                pps.setSampathologystatus(pps.pathologyStatus());
+                ret.add(pps);
             }
         }
-        return lis;
+        return ret;
     }
 
-    private void setParameter(PimsPathologySample sample, Query query) {
+    private void setParameter(PimsPathologySample sample, SQLQuery query) throws ParseException {
         long pathologyId = sample.getSampathologyid();
         long sampleStatus = sample.getSamsamplestatus();
         Date from = sample.getSamplesectionfrom();
@@ -179,27 +200,30 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             query.setLong("SamSampleStatus", sample.getSamsamplestatus());
         if(pathologyId > 0)
             query.setLong("SamPathologyId", sample.getSampathologyid());
-        if(inspectionId != null && !"".equals(inspectionId.trim()))
+        if(StringUtils.isNotEmpty(inspectionId))
             query.setString("SamInspectionId", sample.getSaminspectionid());
-        if(pathologyCode != null && !"".equals(pathologyCode.trim()))
+        if(StringUtils.isNotEmpty(pathologyCode))
             query.setString("SamPathologyCode", sample.getSampathologycode());
-        if(patientName != null && !"".equals(patientName.trim()))
+        if(StringUtils.isNotEmpty(patientName))
             query.setString("SamPatientName", sample.getSampatientname());
-        if( from != null && to == null) {
-            query.setDate("samplesectionfrom", from);
-            query.setDate("samplesectionto", new Date());
-        }
-        if(from != null && to != null) {
+        if(from == null && to != null) from = Constants.SDF.parse("1980-01-01 00:00:00");
+        if(from != null && to == null) to = new Date();
+        if(from != null) {
             query.setDate("samplesectionfrom", from);
             query.setDate("samplesectionto", to);
         }
+
     }
 
     @Override
     public Integer totalNum(PimsPathologySample sample, String s) {
-        Query query = getSession().createQuery(s);
-        setParameter(sample, query);
-        return ((Long)query.uniqueResult()).intValue();
+        SQLQuery query = getSession().createSQLQuery(s);
+        try {
+            setParameter(sample, query);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return ((BigDecimal)query.uniqueResult()).intValue();
     }
 
     @Override

@@ -1,7 +1,7 @@
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/base/base.css'/>" />
-<script type="text/javascript" src="../scripts/layer/layer.js"></script>
+<script type="text/javascript" src="<c:url value='/scripts/layer/layer.js'/>"></script>
 <script type="text/javascript">
     var time1;
     var num = 0;
@@ -174,27 +174,6 @@
             病理库：
             <select style="appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:rgb(67, 142, 185);border: 0;font-size: 14px;color: #ffffff"
                     onchange="changePathologyType()" id="pathologyType">
-                    <%--<%
-                        User user = WebControllerUtil.getAuthUser();
-                        UserBussinessRelate ubr = user.getUserBussinessRelate();
-                        ApplicationContext ctx= WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-                        PimsSysPathologyManager pimsSysPathologyManager = (PimsSysPathologyManager) ctx.getBean("pimsSysPathologyManager");
-                        JSONArray items = pimsSysPathologyManager.getPathologyType();
-                        for(Object obj : items) {
-                            JSONObject o = (JSONObject)obj;
-                            StringBuilder builder = new StringBuilder();
-                            builder.append("<option value=\"")
-                                    .append(o.get("pathologyLibId"))
-                                    .append("\" ");
-                            if(ubr.getPathologyLibId().equals(String.valueOf(o.get("pathologyLibId")))) {
-                                builder.append(" selected ");
-                            }
-                            builder.append(">")
-                                    .append(o.get("pathologyLib"))
-                                    .append("</option>\n");
-                            out.print(builder.toString());
-                        }
-                    %>--%>
             </select>
         </div>
     </div>

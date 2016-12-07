@@ -79,13 +79,64 @@ function saveAsTemplate(v, obj) {
 
 }
 
+function saveYJXB(rowData, patClass) {
+    if ($("#textarea1").val() == "") return layer.alert("请先选择判读结果!");
+    var ipts = document.getElementsByTagName("input");
+    var conclusions = [];
+    for (var i = 0; i < ipts.length; i++) {
+        if ((ipts[i].type == "radio" || ipts[i].type == "checkbox") && ipts[i].checked) {
+            conclusions.push(ipts[i].id);
+        }
+    }
+    var customerId = rowData.samcustomerid;
+    var result = [];
+    for (var j = 1; j <= 3; j++) {
+        var e = $("#textarea" + j);
+        var data = {};
+        data.resultid = e.attr("hiddenValue");
+        data.resviewtype = 'textarea';
+        data.restestresult = e.val();
+        data.customerId = customerId;
+        data.restestitemid = 0;
+        data.resviewtitle = e.attr("placeholder");
+        data.resviewsort = "'" + j + "'";
+        data.resinputsort = "textarea" + j;
+        data.ressampleid = rowData.sampleid;
+        result.push(data);
+    }
+    result.push(
+        {
+            resultid: $("#textarea0").attr("hiddenValue"),
+            resviewtype: "other",
+            restestresult: conclusions.join(","),
+            restestitemid: 0,
+            resviewtitle: $("#c35").is(":checked") ? $("#s1").val() : "",
+            resviewsort: "0",
+            customerId: customerId,
+            resinputsort: "textarea0",
+            ressampleid: rowData.sampleid
+        });
+    $.post('../diagnosis/saveResult', {result: JSON.stringify(result), patClass: patClass}, function (data) {
+        for (var i = 0; i <= 3; i++) {
+            $("#textarea" + i).attr("hiddenValue", data["textarea" + i]);
+        }
+        layer.alert('保存成功！');
+    });
+}
+
 function saveDiagnosisInfo() {
     var x = document.getElementById("diagnosisInfoForm");
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
+    var patClass = rowData.patclass;
+    if (patClass == 2) {
+        saveYJXB(rowData, patClass);
+        return;
+    }
+    var customerId = rowData.samcustomerid;
     var result = [];
     var j = 0;
     for (var i = 0; i < x.length; i++) {
-        if (x.elements[i].type == 'textarea') {
+        if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
             var e = x.elements[i];
             var data = {};
             data.resultid = $("#" + e.id).attr("hiddenValue");
@@ -96,13 +147,14 @@ function saveDiagnosisInfo() {
             data.resviewsort = $("#" + e.id).attr("printOrder");
             data.resinputsort = $("#" + e.id).attr("showOrder");
             data.ressampleid = rowData.sampleid;
+            data.customerId = customerId;
             result[j] = data;
             j++;
         }
     }
     $.post('../diagnosis/saveResult', {result: JSON.stringify(result)}, function (data) {
         for (var i = 0; i < x.length; i++) {
-            if (x.elements[i].type == 'textarea') {
+            if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
                 var e = x.elements[i];
                 var restestitemid = $("#" + e.id).attr("rptItemId");
                 if (data[restestitemid]) {
@@ -110,7 +162,7 @@ function saveDiagnosisInfo() {
                 }
             }
         }
-        layer.msg('保存成功！', {icon: 2, time: 1000});
+        layer.alert('保存成功！');
     });
 }
 
@@ -541,7 +593,7 @@ function requestOrder(lindex) {
     })
 }
 
-function yjfullScreen(){
+function yjfullScreen() {
     var yjwindow = layer.open(
         {
             type: 1,
@@ -552,8 +604,8 @@ function yjfullScreen(){
             title: "液基细胞学报告诊断",
             content: $('#yjcell'),
             btn: ["确定", "取消"],
-            yes:function(index2, layero2) {
-
+            yes: function (index2, layero2) {
+                layer.close(index2);
             }
         });
     layer.full(yjwindow);
@@ -796,26 +848,35 @@ function getSampleData1(id) {
             $("#samreportorid").val(data.samreportorid);//报告医生编号
             $("#samreportor").val(data.samreportor);//报告医生姓名
 
-            $.get("../diagnosis/sampleresult", {sampleid: id}, function (data) {
-                var x = document.getElementById("diagnosisInfoForm");
-                for (itm in data) {
-                    var resultid = data[itm].resultid;
-                    var restestitemid = data[itm].restestitemid;
-                    for (var i = 0; i < x.length; i++) {
-                        var e = x.elements[i];
-                        if ($("#" + e.id).attr("rptItemId") == restestitemid) {
-                            $("#" + e.id).val(data[itm].restestresult);
-                            $("#" + e.id).attr("hiddenValue", resultid);
+            var rowData = $("#sectionList").jqGrid('getRowData', crno);
+            var patClass = rowData.patclass;
+            $.get("../diagnosis/sampleresult", {sampleid: id, patClass: patClass}, function (data) {
+                if (patClass == 2) {
+                    setYJXBDiagnosis(data);
+                } else {
+                    var x = document.getElementById("diagnosisInfoForm");
+                    for (itm in data) {
+                        var resultid = data[itm].resultid;
+                        var restestitemid = data[itm].restestitemid;
+                        for (var i = 0; i < x.length; i++) {
+                            var e = x.elements[i];
+                            if ($("#" + e.id).attr("rptItemId") == restestitemid) {
+                                $("#" + e.id).val(data[itm].restestresult);
+                                $("#" + e.id).attr("hiddenValue", resultid);
+                                if(patClass == 7 && $("#" + e.id).attr("type") == "hidden") {
+                                    setSelectedValue(data[itm].restestresult);
+                                }
+                            }
                         }
                     }
-                }
-                var emptyResult = jQuery.isEmptyObject(data);
-                if (emptyResult) {
-                    for (var i = 0; i < x.length; i++) {
-                        var e = x.elements[i];
-                        if ($("#" + e.id).attr("rptItemId")) {
-                            $("#" + e.id).val('');
-                            $("#" + e.id).attr("hiddenValue", "");
+                    var emptyResult = jQuery.isEmptyObject(data);
+                    if (emptyResult) {
+                        for (var i = 0; i < x.length; i++) {
+                            var e = x.elements[i];
+                            if ($("#" + e.id).attr("rptItemId")) {
+                                $("#" + e.id).val('');
+                                $("#" + e.id).attr("hiddenValue", "");
+                            }
                         }
                     }
                 }
@@ -826,6 +887,58 @@ function getSampleData1(id) {
             layer.msg("该申请单不存在！", {icon: 0, time: 1000});
         }
     });
+}
+
+function setSelectedValue(jsonStr) {
+    var json = JSON.parse(jsonStr);
+    $("#A5A6Result").val(json.A5A6Result);
+    $("#A7Result").val(json.A7Result);
+    $("#A9Result").val(json.A9Result);
+    if($("#A5A6Result").val() == "阳性") {
+        $("#A5A6Result").css("color","red");
+    }
+    if($("#A7Result").val() == "阳性") {
+        $("#A7Result").css("color","red");
+    }
+    if($("#A9Result").val() == "阳性") {
+        $("#A9Result").css("color","red");
+    }
+    if($("#A5A6Result").val() == "阳性" || $("#A7Result").val() == "阳性" || $("#A9Result").val() == "阳性" ) {
+        $("textarea[printOrder=1]").val("阳性");
+        $("textarea[printOrder=1]").css("color", "red");
+    }
+}
+
+function setYJXBDiagnosis(data) {
+    var emptyResult = jQuery.isEmptyObject(data);
+    if (emptyResult) {
+        for (var i = 0; i <= 3; i++) {
+            var e = $("#textarea" + i);
+            e.val('');
+            e.attr("hiddenValue", "");
+        }
+        for (var j = 1; j <= 40; j++) {
+            $("#c" + j).attr("checked", false);
+        }
+        return;
+    }
+    for (itm in data) {
+        var resultid = data[itm].resultid;
+        e = $("#" + itm);
+        e.val(data[itm].restestresult);
+        e.attr("hiddenValue", resultid);
+    }
+    setCheckStatus($("#textarea0").val());
+}
+
+function setCheckStatus(checkedIdStr) {
+    /*for(var j = 1; j <= 40; j++) {
+     $("#c"+j).attr("checked", false);
+     }*/
+    var array_ = checkedIdStr.split(",");
+    for (var i = 0; i < array_.length; i++) {
+        $("#" + array_[i]).attr("checked", true);
+    }
 }
 
 function getSamplePicures(sampleId) {
@@ -975,6 +1088,8 @@ function print(url) {
 }
 
 function reportView(v, showPicNum, templateUrl) {
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
+    var patClass = rowData.patclass;
     $.get("../diagnosis/report/getTemplate", {"sampleid": GRID_SELECTED_ROW_SAMPLEID}, function (data) {
             var rows = data.rows;
             if (rows.length > 0) {
@@ -982,13 +1097,14 @@ function reportView(v, showPicNum, templateUrl) {
                 for (var i = 0; i < rows.length; i++) {
                     $("#reportTemplateSelect").append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
                 }
-                var picNum = showPicNum == null?$("#reportTemplateSelect").find("option:first").attr("picNum"):showPicNum;
-                var template = templateUrl== null?$("#reportTemplateSelect").find("option:first").val():templateUrl;
+                var picNum = showPicNum == null ? $("#reportTemplateSelect").find("option:first").attr("picNum") : showPicNum;
+                var template = templateUrl == null ? $("#reportTemplateSelect").find("option:first").val() : templateUrl;
                 $.get("../diagnosis/report/print", {
                     "sampleid": GRID_SELECTED_ROW_SAMPLEID,
                     "templateUrl": template,
                     "type": v,
                     "picpictureclass": PIC_TAKING_FROM,
+                    "patClass": patClass,
                     "picNum": picNum
                 }, function (data) {
                     if (v == 1) {
@@ -1015,7 +1131,7 @@ function reportView(v, showPicNum, templateUrl) {
                                         title: "选择报告打印模板",
                                         content: $('#reportTemplateList'),
                                         btn: ["确定", "取消"],
-                                        yes:function(index2, layero2) {
+                                        yes: function (index2, layero2) {
                                             var selectedPicNum = $("#reportTemplateSelect").find("option:selected").attr("picNum");
                                             var template = $("#reportTemplateSelect").find("option:selected").val();
                                             layer.close(index2);
@@ -1287,14 +1403,277 @@ function setcolor(id) {
     $("#sectionList").children().children("tr[id='" + id + "']").addClass("ui-state-highlight");
 }
 
+function setCheckBoxStatus() {
+    if ($("#c1").is(':checked')) {
+        $("input.c2").attr("checked", false);
+        $("input.c2").attr("disabled", true);
+        $("input.c1").removeAttr("disabled");
+    }
+    if ($("#c2").is(':checked')) {
+        $("input.c1").attr("checked", false);
+        $("input.c1").attr("disabled", true);
+        $("input.c2").removeAttr("disabled");
+    }
+    makeResult();
+}
+
+function makeResult() {
+    var ipts = document.getElementsByTagName("input");
+    var conclusions = [];
+    for (var i = 0; i < ipts.length; i++) {
+        if ((ipts[i].type == "radio" || ipts[i].type == "checkbox") && ipts[i].checked) {
+            for (var j = 0; j < Conclusion.length; j++) {
+                var item = Conclusion[j];
+                if (item.id == ipts[i].id) {
+                    conclusions.push(item.order + "-" + item.value);
+                }
+            }
+        }
+    }
+    var result = [];
+    if (conclusions.length > 0) {
+        conclusions.sort();
+        for (var j = 0; j < conclusions.length; j++) {
+            result.push(conclusions[j].substr(conclusions[j].indexOf("-") + 1));
+        }
+    }
+    $("#textarea1").val(result.join("；"));
+}
+
+function setStatus1() {
+    if ($("#c17").is(":checked") || $("#c18").is(":checked") || $("#c19").is(":checked")) {
+        $("input.g2").attr("checked", false);
+        $("input.g222").attr("checked", false);
+        $("input.g3").attr("checked", false);
+        $("input.g4").attr("checked", false);
+        $("input.g444").attr("checked", false);
+        $("input.g1").attr("checked", true);
+    }
+    makeResult();
+}
+
+function setStatus2() {
+    if ($("#c21").is(":checked") || $("#c22").is(":checked")) {
+        $("input.g1").attr("checked", false);
+        $("input.g111").attr("checked", false);
+        $("input.g3").attr("checked", false);
+        $("input.g4").attr("checked", false);
+        $("input.g444").attr("checked", false);
+        $("input.g2").attr("checked", true);
+    }
+    makeResult();
+}
+
+function setStatus3() {
+    if ($("#c23").is(":checked")) {
+        $("input.g1").attr("checked", false);
+        $("input.g111").attr("checked", false);
+        $("input.g2").attr("checked", false);
+        $("input.g222").attr("checked", false);
+        $("input.g4").attr("checked", false);
+        $("input.g444").attr("checked", false);
+        $("input.g3").attr("checked", true);
+    }
+    makeResult();
+}
+
+function setStatus4() {
+    if ($("#c25").is(":checked") || $("#c26").is(":checked") || $("#c27").is(":checked")) {
+        $("input.g1").attr("checked", false);
+        $("input.g111").attr("checked", false);
+        $("input.g2").attr("checked", false);
+        $("input.g222").attr("checked", false);
+        $("input.g3").attr("checked", false);
+        $("input.g4").attr("checked", true);
+    }
+    makeResult();
+}
+
+function changeCellSee() {
+    if (!$("#c15").is(':checked')) {
+        $("input.g1").removeAttr("disabled");
+        $("input.g111").removeAttr("disabled");
+        $("input.g2").removeAttr("disabled");
+        $("input.g222").removeAttr("disabled");
+        $("input.g3").removeAttr("disabled");
+        $("input.g4").removeAttr("disabled");
+        $("input.g444").removeAttr("disabled");
+        $("input.g5").removeAttr("disabled");
+        $("input.g555").removeAttr("disabled");
+        $("input.g6").removeAttr("disabled");
+        $("input.g7").removeAttr("disabled");
+        $("input.g8").removeAttr("disabled");
+    } else {
+        $("input.g1").attr("checked", false);
+        $("input.g1").attr("disabled", true);
+        $("input.g111").attr("checked", false);
+        $("input.g111").attr("disabled", true);
+        $("input.g2").attr("checked", false);
+        $("input.g2").attr("disabled", true);
+        $("input.g222").attr("checked", false);
+        $("input.g222").attr("disabled", true);
+        $("input.g3").attr("checked", false);
+        $("input.g3").attr("disabled", true);
+        $("input.g4").attr("checked", false);
+        $("input.g4").attr("disabled", true);
+        $("input.g444").attr("checked", false);
+        $("input.g444").attr("disabled", true);
+        $("input.g5").attr("checked", false);
+        $("input.g5").attr("disabled", true);
+        $("input.g555").attr("checked", false);
+        $("input.g555").attr("disabled", true);
+        $("input.g6").attr("checked", false);
+        $("input.g6").attr("disabled", true);
+        $("input.g7").attr("checked", false);
+        $("input.g7").attr("disabled", true);
+        $("input.g8").attr("checked", false);
+        $("input.g8").attr("disabled", true);
+    }
+    makeResult();
+}
+
+function setParentCheckboxStatus1() {
+    if ($("#c4").is(':checked') || $("#c5").is(':checked')) {
+        $("#c1").attr("checked", "true");
+        setCheckBoxStatus();
+        makeResult();
+        //alert($("#c1").attr("checked"))
+    }
+}
+
+function setParentCheckboxStatus2() {
+    if ($("#c6").is(':checked') || $("#c7").is(':checked') || $("#c8").is(':checked')) {
+        $("#c2").attr("checked", true);
+        setCheckBoxStatus();
+        makeResult();
+    }
+}
+
+function setCheckboxStatus3() {
+    if ($("#c3").is(':checked')) {
+        $("input.g33").attr("checked", false);
+        $("input.g33").attr("disabled", true);
+    } else {
+        $("input.g33").removeAttr("disabled");
+    }
+    if ($("input.g33").is(':checked')) {
+        $("#c3").attr("checked", false);
+        $("#c3").attr("disabled", true);
+    } else {
+        $("#c3").removeAttr("disabled");
+    }
+    makeResult();
+}
+
+function setBtEnable() {
+    if (!$("#c40").is(":checked")) {
+        $("input.btclass").attr("disabled", true);
+    } else {
+        $("input.btclass").removeAttr("disabled");
+    }
+}
+
+function setHPVResult(v) {
+    if ($('#textarea2').val() == '阴性') {
+        $('#textarea2').val(v + ";");
+    } else {
+        $('#textarea2').val($('#textarea2').val() + v + ";");
+    }
+}
+
 function onRowSelect(id) {
     var rowData = $("#sectionList").jqGrid('getRowData', id);
-    if (rowData != null && rowData.sampleid != null && rowData.sampleid != "")
+    if (rowData != null && rowData.sampleid != null && rowData.sampleid != "") {
         GRID_SELECTED_ROW_SAMPLEID = rowData.sampleid;
-    GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
-    getOrderTabs(rowData.sampleid);
-    setcolor(id);
-    crno = id;
+        GRID_SELECTED_ROW_SAMPCUSTOMERID = rowData.samcustomerid;
+        var patClass = rowData.patclass;
+        if (patClass == 2) {
+            $("#diagnosisInfoForm").css('display', 'none');
+            $("#fullScreen").css('display', 'block');
+            $("#yjcell").css('display', 'block');
+        } else {
+            $("#diagnosisInfoForm").css('display', 'block');
+            $("#fullScreen").css('display', 'none');
+            $("#yjcell").css('display', 'none');
+            insertTable(patClass)
+        }
+        getOrderTabs(rowData.sampleid);
+        setcolor(id);
+        crno = id;
+    }
+}
+
+function setSelectView(selectId) {
+    var selectObj = document.getElementById (selectId);  //获取select
+    if(selectObj.selectedIndex == 2) {
+        selectObj.style.color = "red";
+    } else {
+        selectObj.style.color = "#000";
+    }
+    if($("#A5A6Result").val() == "阳性" || $("#A7Result").val() == "阳性" || $("#A9Result").val() == "阳性" ) {
+        $("textarea[printOrder=1]").val("阳性");
+        $("textarea[printOrder=1]").css("color", "red");
+    }
+    else {
+        $("textarea[printOrder=1]").val("阴性");
+        $("textarea[printOrder=1]").css("color", "#000");
+    }
+    var result = {"A5A6Result":$("#A5A6Result").val(), "A7Result":$("#A7Result").val(), "A9Result":$("#A9Result").val()};
+    var hiddenInput = $('#diagnosisInfoForm').children('div').children('input[type=hidden]');
+    hiddenInput.val(JSON.stringify(result));
+}
+
+function insertTable(patClass) {
+    if (patClass == 7) {
+        if($('#dnaTestTable').length == 0) {
+        var div1 = $('#diagnosisInfoForm').children('div');
+        if(div1.length > 0) {
+            var lastChild = div1[div1.length-1];
+            var str='<div id="dnaTestTable"><table width="80%" border="1" cellspacing="0" style="font-size: 12px">' +
+                '<tr>' +
+                '<td align="center" height="14px"><strong>HPV型组</strong></td>' +
+                '<td align="center"><strong>亚型</strong></td>' +
+                '<td align="center"><strong>结果</strong></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="left" height="14px">A5/A6</td>' +
+                '<td align="left">51,56,66</td>' +
+                '<td align="left">' +
+                '<Select id="A5A6Result" onchange="setSelectView(\'A5A6Result\')">' +
+                '<option></option>' +
+                '<option value="阴性" style="color:#000">阴性</option>' +
+                '<option value="阳性" style="color:red">阳性</option>' +
+                '</select>' +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="left" height="14px">A7</td>' +
+                '<td align="left">18,39,45,59,68</td>' +
+                '<td align="left">' +
+                '<Select id="A7Result" onchange="setSelectView(\'A7Result\')">' +
+                '<option></option>' +
+                '<option value="阴性" style="color:#000">阴性</option>' +
+                '<option value="阳性" style="color:red">阳性</option>' +
+                '</select>' +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td align="left" height="14px">A9</td>' +
+                '<td align="left">16,31,33,35,52,58</td>' +
+                '<td align="left">' +
+                '<Select id="A9Result" onchange="setSelectView(\'A9Result\')">' +
+                '<option></option>' +
+                '<option value="阴性" style="color:#000">阴性</option>' +
+                '<option value="阳性" style="color:red">阳性</option>' +
+                '</select>' +
+                '</td>' +
+                '</tr>' +
+                '</table>' +
+                '</div>';
+            $(str).insertBefore(lastChild);
+        }
+        }
+    }
 }
 
 $(function () {
@@ -1324,7 +1703,7 @@ $(function () {
             "sampatientname": sampatientname
         },
         width: $('.leftContent').width(),
-        colNames: ['病理状态', '病理号', '送检医生', 'id', 'samcustomerid', 'sampathologyid'],
+        colNames: ['病理状态', '病理号', '送检医生', '病种类别', 'id', 'samcustomerid', 'sampathologyid'],
         colModel: [
             {
                 name: 'sampathologystatus',
@@ -1335,6 +1714,10 @@ $(function () {
             },
             {name: 'sampathologycode', index: 'sampathologycode', width: 40},
             {name: 'samsenddoctorname', index: 'samsenddoctorname', width: 40},
+            {
+                name: 'patclass', index: 'patclass', width: 40, formatter: "select",
+                editoptions: {value: "1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学"}
+            },
             {name: 'sampleid', index: 'sampleid', hidden: true},
             {name: 'samcustomerid', index: 'samcustomerid', hidden: true},
             {name: 'sampathologyid', index: 'sampathologyid', hidden: true}

@@ -8,11 +8,11 @@
     <table width="100%">
         <tr>
             <td width="16%"><span class="fieldname">条形码：</span></td>
-            <td width="16%" class="tdtextalign">$!saminspectionid</td>
+            <td width="16%" align="left">$!saminspectionid</td>
             <td width="16%"><span class="fieldname">送检医院：</span></td>
-            <td width="20%" class="tdtextalign">$!samsendhospital</td>
+            <td width="20%" align="left">$!samsendhospital</td>
             <td width="16%"><span class="fieldname">病理号：</span></td>
-            <td width="16%" class="tdtextalign">$!sampathologycode</td>
+            <td width="16%" align="left">$!sampathologycode</td>
         </tr>
     </table>
 </div>
@@ -20,40 +20,40 @@
 <div align="center" class="itemContainer">
     <table width="100%">
         <tr>
-            <td width="10%"><span class="fieldname">姓名：</span></td>
-            <td width="12%" class="tdtextalign">$!sampatientname</td>
+            <td width="15%"><span class="fieldname">姓名：</span></td>
+            <td width="12%" align="left">$!sampatientname</td>
             <td width="8%"><span class="fieldname">性别：</span></td>
-            <td width="10%" class="tdtextalign">#if($sampatientsex==1) 男 #elseif ($sampatientsex == 2)女 #else 未知 #end  </td>
-            <td width="8%"><span class="fieldname">年龄：</span></td>
-            <td width="16%" class="tdtextalign">$!sampatientage  </td>
+            <td width="10%" align="left">#if($sampatientsex==1) 男 #elseif ($sampatientsex == 2)女 #else 未知 #end  </td>
+            <td width="13%"><span class="fieldname">年龄：</span></td>
+            <td width="16%" align="left">$!sampatientage  </td>
             <td width="12%"><span class="fieldname">联系电话：</span></td>
-            <td width="24%" class="tdtextalign">$!sampatientphoneno</td>
+            <td width="14%" align="left">$!sampatientphoneno</td>
         </tr>
         <tr>
             <td><span class="fieldname">住院/门诊号：</span></td>
-            <td class="tdtextalign">$!sampatientnumber</td>
+            <td align="left">$!sampatientnumber</td>
             <td><span class="fieldname">床号：</span></td>
-            <td class="tdtextalign">$!sampatientbed</td>
+            <td align="left">$!sampatientbed</td>
             <td><span class="fieldname">科室：</span></td>
-            <td class="tdtextalign">$!samdeptname</td>
+            <td align="left">$!samdeptname</td>
             <td><span class="fieldname">送检医生：</span></td>
-            <td class="tdtextalign">$!samsenddoctorname</td>
+            <td align="left">$!samsenddoctorname</td>
         </tr>
         <tr>
             <td><span class="fieldname">送检材料：</span></td>
-            <td colspan="5" class="tdtextalign">$!samsamplename</td>
+            <td colspan="5" align="left">$!samsamplename</td>
             <td><span class="fieldname">送检日期：</span></td>
-            <td class="tdtextalign">$!samsendtime</td>
+            <td align="left">$!samsendtime</td>
         </tr>
         <tr>
             <td><span class="fieldname">联系地址：</span></td>
-            <td colspan="5"class="tdtextalign">$!sampatientaddress</td>
+            <td colspan="5" align="left">$!sampatientaddress</td>
             <td><span class="fieldname">接收日期：</span></td>
-            <td class="tdtextalign">$!samreceivertime</td>
+            <td align="left">$!samreceivertime</td>
         </tr>
         <tr>
             <td><span class="fieldname">临床诊断：</span></td>
-            <td colspan="7" class="tdtextalign">$!sampatientdignoses</td>
+            <td colspan="7" align="left">$!sampatientdignoses</td>
         </tr>
     </table>
 </div>

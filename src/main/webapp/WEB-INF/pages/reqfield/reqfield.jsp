@@ -101,6 +101,7 @@
                     $('#fieremark').val(data.fieremark);
                     $('#invokefunc').val(data.invokefunc);
                     $('#invokefuncbody').val(data.invokefuncbody);
+                    $('#fieelinputtype').val(data.fieelinputtype);
                     $('#fieldid').val(treeNode.id);
                     $('#saveButton').attr("disabled", false);
                 });
@@ -174,7 +175,7 @@
                     <div class="form-group" style="margin-left:0px;margin-right:0px;">
                         <label class="col-xs-3 control-label no-padding-right" for="fieelementtype"> 对象类型 </label>
                         <div class="col-xs-8">
-                            <select id="fieelementtype" name="fieelementtype" onchange="showOptional()">
+                            <select id="fieelementtype" name="fieelementtype">
                                 <option value="input">单行输入框-input</option>
                                 <option value="button">按钮-button</option>
                                 <option value="textarea">多行输入框-textarea</option>
@@ -204,6 +205,17 @@
                         <div class="col-xs-8">
                             <input type="text" id="fieelementname" name="fieelementname" placeholder="对象名称"
                                    class="col-xs-8" datatype="*1-255">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                        <label class="col-xs-3 control-label no-padding-right" for="fieelinputtype"> 输入框类型 </label>
+                        <div class="col-xs-8" style="">
+                            <select id="fieelinputtype" name="fieelinputtype">
+                                <option></option>
+                                <option value="text">text</option>
+                                <option value="hidden">hidden</option>
+                            </select>
                         </div>
                     </div>
 
