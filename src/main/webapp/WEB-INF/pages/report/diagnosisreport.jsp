@@ -20,9 +20,9 @@
 	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
 	<style>
 		.ui-autocomplete {z-index: 99999999;}
-		.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }
-		.div_img{cursor:pointer;display: block;margin-bottom:11px;}
-		.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}
+		/*.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }*/
+		/*.div_img{cursor:pointer;display: block;margin-bottom:11px;}*/
+		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
 		.input_style{height: 24px;font-size: 12px!important;}
@@ -38,19 +38,44 @@
 		</div>
 	</div>
 	<div class="div_1" id="div_1">
-		<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
-		<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
-		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printSet()">列表打印设置</div>
-		<div class="div_div"><img src="/styles/imagepims/listprint.png" class="div_img" onclick="printCode()">列表打印</div>
-		<div class="div_div"><img src="/styles/imagepims/report.png" class="div_img" onclick="reportExcel()">导出</div>
+		<button type="button" class="btn btn-sm btn-primary"  class="div_img" onclick="upSample()">
+			<i class="ace-icon fa fa-arrow-left"></i>
+			上一个
+		</button>
+		<button type="button" class="btn btn-sm btn-info" class="div_img" onclick="downSample()">
+			<i class="ace-icon fa fa-arrow-right"></i>
+			下一个
+		</button>
+		<button type="button" class="btn btn-sm btn-warning" class="div_img" onclick="printSet()">
+			<i class="ace-icon fa fa-cog"></i>
+			列表打印设置
+		</button>
+		<button type="button" class="btn btn-sm btn-success" class="div_img" onclick="printCode()">
+			<i class="ace-icon fa fa-file-text-o"></i>
+			列表打印
+		</button>
+		<button type="button" class="btn btn-sm btn-info" class="div_img" onclick="reportExcel()">
+			<i class="ace-icon fa fa-share"></i>
+			导出
+		</button>
 	</div>
 	<div>
-		<div>
-			<h5 style="float: left;width: 25%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/reportsearch.png" class="img_style">&nbsp;报告查询条件</strong></h5>
-			<h5 style="float: left;width: 75%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/reportresult.png" class="img_style">&nbsp;报告查询结果</strong></h5>
-		</div>
+		<%--<div>--%>
+			<%--<h5 style="float: left;width: 25%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/reportsearch.png" class="img_style">&nbsp;报告查询条件</strong></h5>--%>
+			<%--<h5 style="float: left;width: 75%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/reportresult.png" class="img_style">&nbsp;报告查询结果</strong></h5>--%>
+		<%--</div>--%>
 		<div class="col-sm-3 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height:470px;border:1px solid #E0E0E0;">
+			<div class="widget-box widget-color-green ui-sortable-handle">
+				<div class="widget-header">
+					<h6 class="widget-title">报告查询条件</h6>
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="ace-icon fa fa-chevron-up">隐藏</i>
+						</a>
+					</div>
+				</div>
+				<div class="widget-body" style="display:block">
+					<div id="search_div_1" style="background-color: #F9F9F9;height:470px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<div style="margin-bottom: 5px;">
 						<span class="col-sm-4 input_style">&nbsp;送检FROM:&nbsp;</span>
@@ -156,12 +181,26 @@
 					</div>
 				</div>
 			</div>
+				</div>
+			</div>
 		</div>
 		<div class="col-sm-9 rightContent" id="formDialog">
-			<div class="widget-main no-padding">
-				<table id="new" class="table-striped">
-				</table>
-				<div id="pager"></div>
+			<div class="widget-box widget-color-green ui-sortable-handle">
+			<div class="widget-header">
+				<h6 class="widget-title">报告查询条件</h6>
+				<div class="widget-toolbar">
+					<a href="#" data-action="collapse">
+						<i class="ace-icon fa fa-chevron-up">隐藏</i>
+					</a>
+				</div>
+			</div>
+			<div  style="display: block;">
+				<div class="widget-main no-padding">
+					<table id="new" class="table-striped">
+					</table>
+					<div id="pager"></div>
+				</div>
+			</div>
 			</div>
 			<ul id="tabs" class="nav nav-tabs">
 				<li class="active">

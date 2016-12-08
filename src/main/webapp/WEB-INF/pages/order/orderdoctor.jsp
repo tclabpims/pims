@@ -119,21 +119,27 @@
         <div style="padding-top: 5px;">
             <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary" title="上一个" onclick="setSelect(0)">
+                    <i class="ace-icon fa fa-arrow-left"></i>
                     上一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
+                <button type="button" class="btn btn-sm btn-info" title="下一个" onclick="setSelect(1)">
+                    <i class="ace-icon fa fa-arrow-right"></i>
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="取消医嘱" id="btCancel" onclick="updateState(4)">
+                <button type="button" class="btn btn-sm btn-warning" title="取消医嘱" id="btCancel" onclick="updateState(4)">
+                    <i class="ace-icon glyphicon glyphicon-remove"></i>
                     取消医嘱
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="保存" id="btFinish" onclick="saveOrder()">
+                <button type="button" class="btn btn-sm btn-success" title="保存" id="btFinish" onclick="saveOrder()">
+                    <i class="ace-icon fa fa-floppy-o"></i>
                     保存
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="计费调整" id="btChagreAdjust" onclick="hisChange()">
+                <button type="button" class="btn btn-sm btn-info" title="计费调整" id="btChagreAdjust" onclick="hisChange()">
+                    <i class="ace-icon glyphicon glyphicon-pencil"></i>
                     计费调整
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="签收" id="btReceive" onclick="updateState(3)">
+                    <i class="ace-icon fa fa-folder-open-o"></i>
                     签收
                 </button>
             </div>

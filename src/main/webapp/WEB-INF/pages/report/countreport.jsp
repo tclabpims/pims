@@ -20,9 +20,9 @@
 	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
 	<style>
 		.ui-autocomplete {z-index: 99999999;}
-		.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }
-		.div_img{cursor:pointer;display: block;margin-bottom:11px;}
-		.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}
+		/*.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }*/
+		/*.div_img{cursor:pointer;display: block;margin-bottom:11px;}*/
+		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
 		.input_style{height: 24px;font-size: 12px!important;}
@@ -33,8 +33,14 @@
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
 	<div class="div_1" id="div_1">
-		<div class="div_div"><img src="/styles/imagepims/report.png" class="div_img" onclick="reportExcel()">文件导出</div>
-		<div class="div_div"><img src="/styles/imagepims/listprint.png" class="div_img" onclick="printCode()">文件打印</div>
+		<botton class="btn btn-sm btn-primary"  class="div_img" onclick="reportExcel()">
+			<i class="ace-icon fa fa-share"></i>
+			文件导出
+		</botton>
+		<botton class="btn btn-sm btn-info"  class="div_img" onclick="printCode()">
+			<i class="ace-icon fa fa-file-text-o"></i>
+			文件打印
+		</botton>
 	</div>
 	<div class="row">
 		<h5 style="float: left;width: 100%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/countshow.png" class="img_style">&nbsp;统计一览</strong></h5>
