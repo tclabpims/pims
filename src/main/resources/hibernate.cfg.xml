@@ -141,5 +141,7 @@
         <mapping class="com.pims.model.PimsPathologyOrderCheck"/>
         <mapping class="com.pims.model.PimsPathologyOrder"/>
         <mapping class="com.pims.model.PimsPathologyReportDelay"/>
+        <mapping class="com.pims.model.PimsPathologyBoneMarrow"/>
+        <mapping class="com.pims.model.PimsPathologyBmResult"/>
     </session-factory>
 </hibernate-configuration>
