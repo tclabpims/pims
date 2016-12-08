@@ -2,7 +2,12 @@ package com.pims.service.impl;
 
 import com.pims.model.HisChargePrice;
 import com.pims.model.PatientInfo;
+import com.pims.model.PimsPathologyFee;
+import com.pims.model.PimsPathologySample;
 import com.pims.service.QueryHisDataService;
+import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.smart.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -132,5 +137,17 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 return result;
             }
         });
+    }
+
+    @Autowired
+    private PimsPathologySampleManager pimsPathologySampleManager;
+    @Override
+    public boolean insert(PimsPathologyFee fee) {
+        PimsPathologySample pathology = pimsPathologySampleManager.get(fee.getFeesampleid());
+        String sql = " insert into V_HSBDI_CHARGEDETAIL (BRZYID,BRJZHM,FYJLID,FYXMID,FYXMC,FYHJJE,FYFSRQ,SQMXID,FYJLZT) values (" +pathology.getSampatientnumber()+
+                ",'"+pathology.getSampatientnumber()+"',"+fee.getFeehisitemid()+","+fee.getFeeitemid()+",'"+fee.getFeehisname()+"',"+fee.getFeehisprice()*fee.getFeeamount()+
+                ",to_date('"+ Constants.SDF.format(fee.getFeetime())+"','YYYY-MM-DD HH24:MI:SS'),"+fee.getFeeid()+",1)";
+        jdbcTemplate.execute(sql);
+        return true;
     }
 }

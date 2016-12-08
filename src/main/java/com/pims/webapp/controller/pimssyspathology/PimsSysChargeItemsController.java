@@ -84,7 +84,9 @@ public class PimsSysChargeItemsController extends PIMSBaseController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public String getTestitemInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List list = pimsSysChargeItemsManager.getfeeAll();
+        String name = request.getParameter("name");
+        List list = pimsSysChargeItemsManager.getFeeByName(name);
+//        List list = pimsSysChargeItemsManager.getfeeAll();
         JSONArray array = new JSONArray();
         if (list != null) {
             for(int i=0;i<list.size();i++){

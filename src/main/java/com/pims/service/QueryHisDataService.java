@@ -1,5 +1,7 @@
 package com.pims.service;
 
+import com.pims.model.PimsPathologyFee;
+
 import java.util.List;
 
 /**
@@ -25,5 +27,8 @@ public interface QueryHisDataService {
      * @return
      */
     List queryPatientList(String query);
+
+
+    boolean insert(PimsPathologyFee fee);
 
 }

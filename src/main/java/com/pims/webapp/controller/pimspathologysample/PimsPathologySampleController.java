@@ -9,6 +9,7 @@ import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysPathology;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.pims.model.*;
+import com.pims.service.QueryHisDataService;
 import com.pims.service.basedata.PimsCommonBaseDataManager;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimspathologysample.PimsPathologyFeeManager;
@@ -60,6 +61,8 @@ public class PimsPathologySampleController extends PIMSBaseController{
     private PimsSysReqTestitemManager pimsSysReqTestitemManager;//检查项目
     @Autowired
     private PimsCommonBaseDataManager pimsCommonBaseDataManager;//基础资料
+    @Autowired
+    private QueryHisDataService dataService;
     /**
      * 渲染视图
      * @param request
@@ -415,7 +418,10 @@ public class PimsPathologySampleController extends PIMSBaseController{
             for(int i=0;i<feesList.size();i++){
                 Map map = (Map) feesList.get(i);
                 PimsPathologyFee fee = (PimsPathologyFee) setBeanProperty(map,PimsPathologyFee.class);
-                if(fee.getFeestate() == 0){
+                if(fee.getFeestate() != 2){
+                    if(fee.getFeestate() == -1){
+                        fee.setFeestate(0);
+                    }
                     pimsPathologyFeeManager.save(fee);
                 }
             }
@@ -428,9 +434,16 @@ public class PimsPathologySampleController extends PIMSBaseController{
                 fee.setFeesenduserid(String.valueOf(user.getId()));
                 fee.setFeesendusername(user.getName());
                 fee.setFeesendtime(new Date());
-                if(fee.getFeestate() == 0){
-                    fee.setFeestate(2);
-                    pimsPathologyFeeManager.save(fee);
+                if(fee.getFeestate() != 2){
+                    boolean result = dataService.insert(fee);
+                    if(result){
+                        fee.setFeestate(2);
+                        pimsPathologyFeeManager.save(fee);
+                    }else{
+                        fee.setFeestate(3);
+                        pimsPathologyFeeManager.save(fee);
+                    }
+
                 }
                 //// TODO: 2016/11/3 发送到HIS
             }

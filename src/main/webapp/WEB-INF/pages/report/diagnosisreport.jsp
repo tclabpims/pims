@@ -65,12 +65,12 @@
 			<%--<h5 style="float: left;width: 75%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/reportresult.png" class="img_style">&nbsp;报告查询结果</strong></h5>--%>
 		<%--</div>--%>
 		<div class="col-sm-3 leftContent" id="div_2">
-			<div class="widget-box widget-color-green ui-sortable-handle">
+			<div id="div1" class="widget-box widget-color-green ui-sortable-handle">
 				<div class="widget-header">
 					<h6 class="widget-title">报告查询条件</h6>
 					<div class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="ace-icon fa fa-chevron-up">隐藏</i>
+						<a href="#"  data-action="collapse" onclick="showandhiden(this)">
+							<i id="a1" class="ace-icon fa fa-chevron-up">隐藏</i>
 						</a>
 					</div>
 				</div>
@@ -189,12 +189,12 @@
 			<div class="widget-header">
 				<h6 class="widget-title">报告查询条件</h6>
 				<div class="widget-toolbar">
-					<a href="#" data-action="collapse">
+					<a href="#" data-action="collapse" onclick="showandhiden(this)">
 						<i class="ace-icon fa fa-chevron-up">隐藏</i>
 					</a>
 				</div>
 			</div>
-			<div  style="display: block;">
+			<div class="widget-body"  style="display: block;">
 				<div class="widget-main no-padding">
 					<table id="new" class="table-striped">
 					</table>

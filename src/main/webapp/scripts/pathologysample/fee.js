@@ -135,7 +135,8 @@ function createNew2() {
         width:900,
         height:600,
         colNames: ['id','收费项目', '单价','数量','金额','状态','记录人','记录时间','发送人','发送时间','客户id','标本号','病种id','病理编号','费用来源',
-            '费用状态','统计类别','中文名称','英文名称','his项目id','his项目名称','his单价','计费人员id','发送人员id'],
+            // '费用状态',
+            '统计类别','中文名称','英文名称','his项目id','his项目名称','his单价','计费人员id','发送人员id'],
         colModel: [
             { name: 'feeid', index: 'feeid',hidden: true },//收费id
             { name: 'feenamech', index: 'feenamech',editable:true,editoptions: {dataInit: function (elem) {myAutocomplete(elem);}, align: "center"},
@@ -164,7 +165,7 @@ function createNew2() {
                     }]
             }, align: "center"},//数量
             { name: 'feecost', index: 'feecost', width: 60, align: "center"},//金额
-            { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"0:已保存;1:已审核;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
+            { name: 'feestate', index: 'feestate',formatter: "select", editoptions:{value:"-1:未保存;0:已保存;1:已审核;2:已发送;3:发送失败"}, width: 60, align: "center"},//状态
             { name: 'feeusername', index: 'feeusername', width: 60, align: "center"},//记录人
             { name: 'feetime', index: 'feetime', width: 60,formatter:function(cellvalue, options, row){if(cellvalue == null || cellvalue == "")
                 return "";
@@ -178,7 +179,7 @@ function createNew2() {
             { name: 'feepathologyid', index: 'feepathologyid',hidden: true },//病种id
             { name: 'feepathologycode', index: 'feepathologycode',hidden: true },//病理编号
             { name: 'feesource', index: 'feesource',hidden: true },//费用来源
-            { name: 'feestate', index: 'feestate',hidden: true },//费用状态
+            // { name: 'feestate', index: 'feestate',hidden: true },//费用状态
             { name: 'feecategory', index: 'feecategory',hidden: true },//统计类别
             { name: 'feeitemid', index: 'feeitemid',hidden: true },//中文名称
             { name: 'feenameen', index: 'feenameen',hidden: true },//英文名称
@@ -238,7 +239,7 @@ function myAutocomplete(elem) {
 				url: "../chargeitem/info",
 				dataType: "json",
 				data: {
-					// name : request.term,//名称
+					name : request.term,//名称
 					// bddatatype:4,//送检医院
 					// bdcustomerid:$("#lcal_hosptail").val()//账号所属医院
 				},
@@ -291,7 +292,7 @@ function addfeeRow(){
 		feeprince:"",//单价
 		feeamount:"",//数量
 		feecost:"",//金额
-		feestate:"0",//状态
+		feestate:"-1",//状态
 		feeusername:$("#local_username").val(),//记录人
 		feetime:new Date(),//记录时间
 		feesendusername:"",//发送人
@@ -301,7 +302,7 @@ function addfeeRow(){
 		feepathologyid:$("#pathologyCode") == null?$("#sampathologyid").val():$("#pathologyCode").val(),//病种id
 		feepathologycode:$("#sampathologycode").val(),//病理编号
 		feesource:"2",//费用来源
-		feestate:"0",//费用状态
+		// feestate:"0",//费用状态
 		feecategory:"",//统计类别
 		feenamech:"",//中文名称
 		feenameen:"",//英文名称

@@ -5,6 +5,16 @@ var GRID_SELECTED_ROW_SAMPCUSTOMERID = "";
 var PIC_TAKING_FROM = 1;
 var LASTEDITROW1 = "";
 var LASTEDITCELL1 = "";
+function showandhiden(obj) {
+	if($(obj).children("i").attr("class").indexOf("fa-chevron-up") >=0){
+		$(obj).children("i").removeClass("fa-chevron-up");
+		$(obj).children("i").addClass("fa-chevron-down");
+	}else{
+		$(obj).children("i").removeClass("fa-chevron-down");
+		$(obj).children("i").addClass("fa-chevron-up");
+		$(obj).parent().parent().parent().removeClass("collapsed");
+	}
+}
 /**
  * 设置颜色
  * @param id

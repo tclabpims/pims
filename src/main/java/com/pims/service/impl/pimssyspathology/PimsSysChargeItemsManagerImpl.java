@@ -51,4 +51,9 @@ public class PimsSysChargeItemsManagerImpl extends GenericManagerImpl<PimsSysCha
     public List getfeeAll() {
         return pimsSysChargeItemsDao.getfeeAll();
     }
+
+    @Override
+    public List getFeeByName(String name) {
+        return pimsSysChargeItemsDao.getFeeByName(name);
+    }
 }

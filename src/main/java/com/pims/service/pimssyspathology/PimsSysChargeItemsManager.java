@@ -16,4 +16,11 @@ public interface PimsSysChargeItemsManager extends GenericManager<PimsSysChargeI
     Integer countChargeItems(String query);
 
     List getfeeAll();
+
+    /**
+     * 模糊搜索收费信息
+     * @param name
+     * @return
+     */
+    List getFeeByName(String name);
 }
