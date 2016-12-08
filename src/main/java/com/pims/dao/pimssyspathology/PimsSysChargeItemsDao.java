@@ -12,4 +12,11 @@ import java.util.List;
 public interface PimsSysChargeItemsDao extends GenericDao<PimsSysChargeItems, Long> {
 
     List getfeeAll();
+
+    /**
+     * 模糊搜索收费信息
+     * @param name
+     * @return
+     */
+    List getFeeByName(String name);
 }

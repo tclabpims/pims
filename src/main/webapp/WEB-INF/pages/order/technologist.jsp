@@ -99,15 +99,19 @@
         <div style="padding-top: 5px;">
             <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary" title="上一个" onclick="setSelect(0)">
+                    <i class="ace-icon fa fa-arrow-left"></i>
                     上一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="setSelect(1)">
+                <button type="button" class="btn btn-sm btn-info" title="下一个" onclick="setSelect(1)">
+                    <i class="ace-icon fa fa-arrow-right"></i>
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="接收" id="btAccept" onclick="updateState(1)">
+                <button type="button" class="btn btn-sm btn-warning" title="接收" id="btAccept" onclick="updateState(1)">
+                    <i class="ace-icon fa fa-folder-open-o"></i>
                     接收
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="完成" id="btFinish" onclick="updateState(2)">
+                <button type="button" class="btn btn-sm btn-success" title="完成" id="btFinish" onclick="updateState(2)">
+                    <i class="ace-icon fa fa-check"></i>
                     完成
                 </button>
             </div>

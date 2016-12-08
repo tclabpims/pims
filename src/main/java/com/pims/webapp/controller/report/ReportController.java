@@ -129,8 +129,8 @@ public class ReportController extends PIMSBaseController{
                         "samsendhospital","piedoctorname","parsectioneddoctor","saminitiallyusername","restestresult","myzhnum","tsrsnum","fzblnum"};
                 for(int i=0;i<pd.length;i++){
                     Object o = pd[i];
-                    String propertyTypeName = o.getClass().getName();
                     if(o != null){
+                        String propertyTypeName = o.getClass().getName();
                         if (propertyTypeName.equals(boolean.class.getName())
                                 || propertyTypeName.equals(Boolean.class.getName())) {
                             map.put(st[i],((Boolean)o).booleanValue());
@@ -141,6 +141,8 @@ public class ReportController extends PIMSBaseController{
                         }else{
                             map.put(st[i],o.toString());
                         }
+                    }else{
+                        map.put(st[i],"");
                     }
                 }
                 mapList.add(map);
