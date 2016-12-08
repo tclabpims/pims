@@ -1673,6 +1673,11 @@ function insertTable(patClass) {
             $(str).insertBefore(lastChild);
         }
         }
+    } else {
+        var tableDiv = document.getElementById("dnaTestTable");
+        if(tableDiv != null) {
+            tableDiv.parentNode.removeChild(tableDiv);
+        }
     }
 }
 

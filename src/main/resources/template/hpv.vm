@@ -78,12 +78,24 @@
             var hpvResult = '$!hpvResult';
             if(hpvResult != "") {
                 var json = eval("json="+hpvResult);
-                document.getElementById("A5A6Result").innerText = json.A5A6Result
-                document.getElementById("A7Result").innerText = json.A7Result
-                document.getElementById("A9Result").innerText = json.A9Result
+                var A5A6Result = document.getElementById("A5A6Result");
+                var A7Result = document.getElementById("A7Result");
+                var A9Result = document.getElementById("A9Result");
+                A5A6Result.innerText = json.A5A6Result
+                A7Result.innerText = json.A7Result
+                A9Result.innerText = json.A9Result
                 var doc = document.getElementById("hpvTestResult");
                 if(json.A5A6Result == "阳性" || json.A7Result == "阳性" || json.A9Result == "阳性") {
                     doc.style.color = "red";
+                    if(json.A5A6Result == "阳性") {
+                        A5A6Result.style.color = "red";
+                    }
+                    if(json.A7Result == "阳性") {
+                        A7Result.style.color = "red";
+                    }
+                    if(json.A9Result == "阳性") {
+                        A9Result.style.color = "red";
+                    }
                 }
             }
         }
