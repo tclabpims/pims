@@ -30,9 +30,17 @@
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
-	<div class="div_1" id="div_1">
-		<div class="div_div"><img src="/styles/imagepims/para.png" class="div_img"  id="saveButton">包埋</div>
-		<div class="div_div"><img src="/styles/imagepims/canclepara.png" class="div_img" id="resetbutton">取消包埋</div>
+	<div class="div_1" id="div_1" style="background:white;border:none;height:30px;">
+            <button type="button" class="btn btn-sm btn-primary " title="包埋" id="saveButton">
+                <i class="ace-icon fa fa-building bigger-110"></i>
+                包埋
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="取消包埋" id="resetbutton">
+                <i class="ace-icon fa fa-building-o bigger-110"></i>
+                取消包埋
+            </button>
+		<!--<div class="div_div"><img src="/styles/imagepims/para.png" class="div_img"  id="saveButton">包埋</div>
+		<div class="div_div"><img src="/styles/imagepims/canclepara.png" class="div_img" id="resetbutton">取消包埋</div>-->
 	</div>
 	<h5 style="float: left;width: 34%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/worklist.png" class="img_style">&nbsp;&nbsp;工作列表</strong></h5>
 	<h5 style="font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/paramarge.png" class="img_style">&nbsp;&nbsp;包埋管理</strong></h5>

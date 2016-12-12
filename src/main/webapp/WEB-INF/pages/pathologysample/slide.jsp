@@ -28,13 +28,26 @@
 		.input_style{height: 24px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
+		.btn-sm{padding:0 9px!important}
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
-	<div class="div_1" id="div_1">
-		<div class="div_div"><img src="/styles/imagepims/slide.png" class="div_img"   id="saveButton">切片</div>
+	<div class="div_1" id="div_1" style="background:white;border:none;height:30px;">
+    <button type="button" class="btn btn-sm btn-primary " title="切片" id="saveButton">
+                <i class="ace-icon fa fa-map bigger-110"></i>
+                切片
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="取消切片" id="resetbutton">
+                <i class="ace-icon fa fa-map-o bigger-110"></i>
+                取消切片
+            </button>
+            <button type="button" class="btn btn-sm btn-warning " title="打印" id="printslide" >
+                <i class="ace-icon fa fa-print bigger-110"></i>
+                打印
+            </button>
+		<!--<div class="div_div"><img src="/styles/imagepims/slide.png" class="div_img"   id="saveButton">切片</div>
 		<div class="div_div"><img src="/styles/imagepims/cancleslide.png" class="div_img"  id="resetbutton">取消切片</div>
-		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" id="printslide" >打印</div>
+		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" id="printslide" >打印</div>-->
 	</div>
 	<h5 style="float: left;font-size: 14px;width: 34%"><strong>&nbsp;<img src="/styles/imagepims/worklist.png">&nbsp;&nbsp;工作列表</strong></h5>
 	<h5 style="font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/slidemarage.png">&nbsp;&nbsp;切片管理</strong></h5>
@@ -67,8 +80,8 @@
 						<div class="input_style">
 							<span>&nbsp;打印状态:&nbsp;</span>
 							<input type="hidden" id="send_hosptail">
-							<input type="checkbox" id="send_hosptail1" value="0"><span>&nbsp;待打印&nbsp;</span>
-							<input type="checkbox" id="send_hosptail2" value="1"><span>&nbsp;已打印&nbsp;</span>
+							<input type="checkbox" name="send_hosptail1" value="0">&nbsp;待打印&nbsp;
+							<input type="checkbox" name="send_hosptail2" value="1">&nbsp;已打印&nbsp;
 						</div>
 					</table>
 					<table style="margin-bottom: 5px;">

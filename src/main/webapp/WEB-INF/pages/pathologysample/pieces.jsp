@@ -29,17 +29,46 @@
 		.input_style{height: 24px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
+		.btn-sm{padding:0 9px!important}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
-	<div class="div_1" id="div_1">
-		<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
+	<div class="div_1" id="div_1" style="background:white;border:none;height:30px;">
+            <button type="button" class="btn btn-sm btn-primary " title="上一个" onclick="upSample()">
+                <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+                上一个
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="下一个" onclick="downSample()">
+                <i class="ace-icon fa fa-arrow-right bigger-110"></i>
+                下一个
+            </button>
+            <button type="button" class="btn btn-sm btn-warning " title="打印" onclick="printCode()">
+                <i class="ace-icon fa fa-print bigger-110"></i>
+                打印
+            </button>
+            <button type="button" class="btn btn-sm btn-success " title="取材" id="saveButton" onclick="saveInfo(1)">
+                <i class="ace-icon fa fa-magic bigger-110"></i>
+                取材
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="计费调整" id="hisbutton">
+                <i class="ace-icon glyphicon glyphicon-pencil bigger-110"></i>
+                计费调整
+            </button>
+            <button type="button" class="btn btn-sm btn-primary " title="图像采集" onclick="takingPicture()">
+                <i class="ace-icon fa fa-picture-o bigger-110"></i>
+                图像采集
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="列表打印" onclick="printCode()">
+                <i class="ace-icon fa fa-file-text-o bigger-110"></i>
+                列表打印
+            </button>
+		<!--<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
 		<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
 		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
 		<div class="div_div"><img src="/styles/imagepims/piece.png" class="div_img" id="saveButton" onclick="saveInfo(1)">取材</div>
 		<div class="div_div"><img src="/styles/imagepims/fee.png" class="div_img" id="hisbutton" onclick="hisChange()">计费调整</div>
 		<div class="div_div"><img src="/styles/imagepims/imgget.png" class="div_img" onclick="takingPicture()">图像采集</div>
-		<div class="div_div"><img src="/styles/imagepims/listprint.png" class="div_img" onclick="printCode()">列表打印</div>
+		<div class="div_div"><img src="/styles/imagepims/listprint.png" class="div_img" onclick="printCode()">列表打印</div>-->
 	</div>
 	<div  class="row" id="feeGrid" style="display: none;">
 		<h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>

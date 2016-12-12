@@ -32,18 +32,52 @@
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
+		.btn-sm{padding:0 9px!important}
+		tr button{background:#e9e9e9!important;padding:0 10px;border:1px solid #c2c2c2!important;}
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
-	<div class="div_1" id="div_1">
-			<div class="div_div"><img src="/styles/imagepims/add.png" class="div_img" onclick="addSample()">新增</div>
+	<div class="div_1" id="div_1" style="background:white;border:none;height:30px;">
+	        <button type="button" class="btn btn-sm btn-primary " title="新增" onclick="addSample()">
+                <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+                新增
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="修改" id="editButton">
+                <i class="ace-icon fa fa-location-arrow bigger-110"></i>
+                修改
+            </button>
+            <button type="button" class="btn btn-sm btn-warning " title="删除" id="deleteButton">
+                <i class="ace-icon fa fa-times bigger-110"></i>
+                删除
+            </button>
+            <button type="button" class="btn btn-sm btn-success " title="保存" id="saveButton" onclick="clickOther()">
+                <i class="ace-icon fa fa-floppy-o bigger-110"></i>
+                保存
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="打印" onclick="printCode()">
+                <i class="ace-icon fa fa-print bigger-110"></i>
+                打印
+            </button>
+            <button type="button" class="btn btn-sm btn-primary " title="上一个" onclick="upSample()">
+                <i class="ace-icon fa fa-arrow-left bigger-110"></i>
+                上一个
+            </button>
+            <button type="button" class="btn btn-sm btn-info " title="下一个" onclick="downSample()">
+                <i class="ace-icon fa fa-arrow-right bigger-110"></i>
+                下一个
+            </button>
+            <button type="button" class="btn btn-sm btn-warning " title="计费调整" id="hisbutton">
+                <i class="ace-icon glyphicon glyphicon-pencil bigger-110"></i>
+                计费调整
+            </button>
+            <!--<div class="div_div"><img src="/styles/imagepims/add.png" class="div_img" onclick="addSample()">新增</div>
 			<div class="div_div"><img src="/styles/imagepims/edit.png" class="div_img" id="editButton">修改</div>
 			<div class="div_div"><img src="/styles/imagepims/delete.png" class="div_img" id="deleteButton">删除</div>
 			<div class="div_div"><img src="/styles/imagepims/save.png" class="div_img" id="saveButton" onclick="clickOther()">保存</div>
 			<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
 			<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
 			<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
-			<div class="div_div"><img src="/styles/imagepims/fee.png" class="div_img" id="hisbutton">计费调整</div>
+			<div class="div_div"><img src="/styles/imagepims/fee.png" class="div_img" id="hisbutton">计费调整</div>-->
 	</div>
 	<div  class="row" id="feeGrid" style="display: none;">
 		<h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
@@ -290,7 +324,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="h5_1">
+	<div>
 		<h5 style="float: left;width: 34%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/list.png" class="img_style">&nbsp;已登记标本一览</strong></h5>
 		<h5  style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/main.png" class="img_style">&nbsp;标本登记</strong></h5>
 	</div>
@@ -308,7 +342,7 @@
 	</ul>
 	<div id="div_main">
 		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">
-			<div id = "search_div_1" style="background-color: #F9F9F9;height: 160px;border:1px solid #E0E0E0;">
+			<div id = "search_div_1" style="background-color: #F9F9F9;height: 220px;border:1px solid #E0E0E0;">
 				<div style="margin-top: 10px">
 					<table style="margin-bottom: 5px;">
 						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
@@ -329,23 +363,19 @@
 					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
 						<input type="text" id="send_dept" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>
 						<input type="text" id="send_hosptail" class="input_style"/>
 					</table>
-					<%--<table style="margin-bottom: 5px">--%>
-						<%--<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>--%>
-						<%--<input type="text" id="send_hosptail" class="input_style"/>--%>
-					<%--</table>--%>
 					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>
 						<input type="text" id="send_doctor" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px">
 						<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
 					</table>
-					<%--<table style="margin-bottom: 5px">--%>
-						<%--<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>--%>
-						<%--<input type="text" id="patient_name" class="input_style"/>--%>
-					<%--</table>--%>
 					<table style="margin-bottom: 5px">
 						<div class="input_style">
 							<span class="input_style">&nbsp;&nbsp;合格状态:&nbsp;&nbsp;</span>
@@ -476,13 +506,13 @@
 					</div>
 					<label class="label_style col-sm-1" >联系电话:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno" datatype="*"/>
+						<input class="input_style" type="text" id="sampatientphoneno" name="sampatientphoneno"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">
 					<label class="col-sm-1 label_style" >住院号:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="n1-11"/>
+						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"/>
 					</div>
 					<label class="col-sm-1 label_style" >床号:</label>
 					<div class="col-sm-3 ">
@@ -505,7 +535,7 @@
 					<label class="col-sm-1 label_style" for="sampatientage">年&nbsp;龄:</label>
 					<div class="col-sm-3">
 						<span class="label_style" style="width:90%">
-							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%" name="sampatientage" datatype="n1-3"/>
+							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%" name="sampatientage" datatype="n1-2"/>
 							<select class="input_style" style="float:left;width:25%" id="sampatientagetype">
 								<option value="1">岁</option>
 								<option value="2">月</option>
@@ -559,11 +589,11 @@
 				<div class="form-group" style="margin-bottom: 5px;">
 					<label class="col-sm-1 label_style" >送检时间:</label>
 					<div class="col-sm-3">
-						<input  type="text" class=" input_style" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
+						<input  type="text" class="form_datetime1 input_style" value="${samsendtime}" id="samsendtime" name="samsendtime" datatype="*"/>
 					</div>
 					<label class="col-sm-1 label_style" for="samreceivertime">接收日期:</label>
 					<div class="col-sm-3">
-						<input type="text" class=" input_style" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
+						<input type="text" class="form_datetime1 input_style" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
 					</div>
 					<label class="col-sm-1 label_style" for="samfirstn">组织袋数:</label>
 					<div class="col-sm-3">
@@ -578,7 +608,7 @@
 					</div>
 					<label class="col-sm-1 label_style" for="samremark">原因:</label>
 					<div class="col-sm-7">
-						<input  type="text" id="samremark" class="col-sm-10 input_style"/>
+						<input  type="text" id="samremark" class="col-sm-10 label_style"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">

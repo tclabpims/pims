@@ -1,4 +1,4 @@
-<%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
+﻿<%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/base/base.css'/>" />
 <script type="text/javascript" src="../scripts/layer/layer.js"></script>
@@ -359,7 +359,7 @@
             height:20px!important;
         }
         .ui-tabs-nav,.ui-helper-reset,.ui-helper-clearfix,.ui-widget-header,.ui-corner-all,.ui-state-default,.ui-corner-to,.ui-tabs-active,.ui-state-active{
-            background:none!important;
+            background:white!important;
             border:none!important;
         }
         .ui-tabs-anchor{
