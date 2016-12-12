@@ -33,10 +33,11 @@ public class PimsPathologyFavoriteController extends PIMSBaseController {
     @RequestMapping(method = {RequestMethod.GET}, value = "/query")
     @ResponseBody
     public DataResponse query(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String num = request.getParameter("num");
         DataResponse dr = new DataResponse();
         GridQuery gridQuery = new GridQuery(request);
-        List<PimsPathologyFavorite> result = pimsPathologyFavoriteManager.queryMyFavorite(gridQuery);
-        Integer total = pimsPathologyFavoriteManager.myFavorite();
+        List<PimsPathologyFavorite> result = pimsPathologyFavoriteManager.queryMyFavorite(gridQuery,num);
+        Integer total = pimsPathologyFavoriteManager.myFavorite(num);
         dr.setRecords(total);
         dr.setPage(gridQuery.getPage());
         dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));

@@ -68,7 +68,7 @@ function saveInfo() {
 			function(data) {
 				if(data.success) {
 					layer.msg(data.message, {icon: 1, time: 1000});
-					location.reload();
+					searchList();
 				} else {
 					layer.msg(data.message, {icon:2, time: 1000});
 				}

@@ -116,6 +116,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         String favtitle = request.getParameter("favtitle");
         String favdescription = request.getParameter("favdescription");
         String pathologyItems = request.getParameter("pathologyItems");
+        String num = request.getParameter("num");
         JSONArray array = JSONArray.parseArray(pathologyItems);
         User user = WebControllerUtil.getAuthUser();
         for(Object obj : array) {
@@ -130,6 +131,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             favorite.setFavdescription(favdescription);
             favorite.setFavstate(0L);
             favorite.setFavtime(new Date());
+            favorite.setFavfirstn(Long.valueOf(num));
             pimsPathologyFavoriteManager.save(favorite);
         }
     }

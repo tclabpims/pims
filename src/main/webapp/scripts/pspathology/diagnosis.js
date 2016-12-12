@@ -1328,7 +1328,7 @@ function doAddRow(maxId, jjinfo) {
     $("#new1").jqGrid("addRowData", parseInt(reqDoctorId) + maxId, dataRow, "last");
 }
 
-function addFavorite() {
+function addFavorite(num1) {
     var selectedIds = $("#sectionList").jqGrid("getGridParam", "selarrrow");
     // var sampleid = $("#sampleid").val();
     var arr = [];
@@ -1344,32 +1344,64 @@ function addFavorite() {
         layer.alert("请先勾选病例!");
         return;
     }
-    layer.open({
-        type: 1,
-        area: ['400px', '300px'],
-        fix: false, //不固定
-        maxmin: true,
-        shade: 0.5,
-        title: "添加收藏",
-        content: $('#myFavorite'),
-        btn: ["确定", "取消"],
-        yes: function (index, layero) {
-            $.get("../diagnosis/addFavorite", {
-                favtitle: $("#favtitle").val(),
-                favdescription: $("#favdescription").val(),
-                pathologyItems: JSON.stringify(arr)
-            }, function (data) {
-                layer.alert("收藏成功!");
-                layer.close(index);
-            });
-        },
-        success: function () {
-            var title = new Date().Format("yyyy/MM/dd hh:mm:ss") + "-" + $("#local_username").val() + "的收藏";
-            $("#favtitle").val(title);
-            var remark = "本次收藏您选择了：" + arr.length + " 个标本，病理号是：" + pathologyCode.join("、");
-            $("#favdescription").val(remark);
-        }
-    })
+    if(num1 == 0){
+        layer.open({
+            type: 1,
+            area: ['400px', '300px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.5,
+            title: "添加收藏",
+            content: $('#myFavorite'),
+            btn: ["确定", "取消"],
+            yes: function (index, layero) {
+                $.get("../diagnosis/addFavorite", {
+                    favtitle: $("#favtitle").val(),
+                    favdescription: $("#favdescription").val(),
+                    num:num1,
+                    pathologyItems: JSON.stringify(arr)
+                }, function (data) {
+                    layer.alert("收藏成功!");
+                    layer.close(index);
+                });
+            },
+            success: function () {
+                var title = new Date().Format("yyyy/MM/dd hh:mm:ss") + "-" + $("#local_username").val() + "的收藏";
+                $("#favtitle").val(title);
+                var remark = "本次收藏您选择了：" + arr.length + " 个标本，病理号是：" + pathologyCode.join("、");
+                $("#favdescription").val(remark);
+            }
+        })
+    }else{
+        layer.open({
+            type: 1,
+            area: ['400px', '300px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.5,
+            title: "添加关注",
+            content: $('#myFavorite'),
+            btn: ["确定", "取消"],
+            yes: function (index, layero) {
+                $.get("../diagnosis/addFavorite", {
+                    favtitle: $("#favtitle").val(),
+                    favdescription: $("#favdescription").val(),
+                    num:num1,
+                    pathologyItems: JSON.stringify(arr)
+                }, function (data) {
+                    layer.alert("关注成功!");
+                    layer.close(index);
+                });
+            },
+            success: function () {
+                var title = new Date().Format("yyyy/MM/dd hh:mm:ss") + "-" + $("#local_username").val() + "的关注";
+                $("#favtitle").val(title);
+                var remark = "本次关注您选择了：" + arr.length + " 个标本，病理号是：" + pathologyCode.join("、");
+                $("#favdescription").val(remark);
+            }
+        })
+    }
+
 }
 
 function delRow() {

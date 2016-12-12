@@ -27,15 +27,15 @@ public class PimsPathologyFavoriteDaoHibernate extends GenericDaoHibernate<PimsP
     }
 
     @Override
-    public Integer myFavorite(String username) {
-        Query query = getSession().createQuery("select count(*) from PimsPathologyFavorite where favowner=:username");
+    public Integer myFavorite(String username,String num) {
+        Query query = getSession().createQuery("select count(*) from PimsPathologyFavorite where favowner=:username and favfirstn="+num);
         query.setParameter("username", username);
         return ((Long)query.uniqueResult()).intValue();
     }
 
     @Override
-    public List<PimsPathologyFavorite> queryMyFavorite(GridQuery query, String userName) {
-        Query q = getSession().createQuery("from PimsPathologyFavorite where favowner=:username order by favoriteid desc");
+    public List<PimsPathologyFavorite> queryMyFavorite(GridQuery query, String userName,String num) {
+        Query q = getSession().createQuery("from PimsPathologyFavorite where favowner=:username and favfirstn="+ num +" order by favoriteid desc");
         q.setParameter("username", userName);
         q.setFirstResult(query.getStart());
         q.setMaxResults(query.getEnd());

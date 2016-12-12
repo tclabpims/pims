@@ -171,7 +171,8 @@ public class HomeController extends PIMSBaseController{
         view.addObject("nosysjs",nosysjs); //系统未接收
         view.addObject("nosysbq",nosysbq); //系统未补取
 
-        view.addObject("myFavorite", pimsPathologyFavoriteManager.myFavorite());
+        view.addObject("myFavorite", pimsPathologyFavoriteManager.myFavorite("0"));
+        view.addObject("myFollow", pimsPathologyFavoriteManager.myFavorite("1"));
         return view;
     }
 

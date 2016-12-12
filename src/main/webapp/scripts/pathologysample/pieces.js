@@ -98,6 +98,10 @@ function saveInfo(num) {
  */
 function clearData() {
     $('#sampleForm')[0].reset();
+	// $("#samissamplingall").attr("checked",false);
+	// $("#samisdecacified").attr("checked",false);
+	$("#samissamplingall").removeAttr("checked");
+	$("#samisdecacified").removeAttr("checked");
 	jQuery("#new1").jqGrid("clearGridData");
 }
 /**
@@ -402,10 +406,10 @@ function getSampleData(id) {
 			var samissamplingall = data.samissamplingall;
 			var samisdecacified = data.samisdecacified;
 			if(samisdecacified == 1){
-				$("#samisdecacified").attr("checked",true);
+				$("#samisdecacified").prop("checked",true);
 			}
 			if(samissamplingall == 1){
-				$("#samissamplingall").attr("checked",true);
+				$("#samissamplingall").prop("checked",true);
 				$("#addrow1").attr({"disabled":true});
 			}else{
 				$("#addrow1").removeAttr("disabled");
@@ -737,9 +741,9 @@ function CreateDataBill(data) {
 				"</tr>";
 		for(i=0;i<data.labOrders.length;i++){
 			var datas = data.labOrders[i];
-			var samjjsj =  datas.samjjsj==undefined?"":datas.piespecial;
-			var piespecial =  datas.piespecial==undefined?"":datas.piespecial;
-			var pieparts = datas.pieparts==undefined?"":datas.pieparts;
+			var samjjsj =  (datas.samjjsj==undefined || datas.samjjsj==null || datas.samjjsj=='null')?"":datas.samjjsj;
+			var piespecial =  (datas.piespecial==undefined || datas.piespecial==null || datas.samjjsj=='null')?"":datas.piespecial;
+			var pieparts = (datas.pieparts==undefined || datas.pieparts==null || datas.samjjsj=='null')?"":datas.pieparts;
 			divhtml +="<tr>" +
 						"<td>"+datas.piepathologycode+"</td>" +
 						"<td>"+datas.samissamplingall+"</td>" +

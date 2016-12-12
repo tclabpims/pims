@@ -212,10 +212,10 @@
                 <button type="button" class="btn btn-sm btn-primary" title="发起会诊" onclick="consMarage()">
                     发起会诊
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="加入随访病例" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-primary" title="加入随访病例" onclick="addFavorite(1)">
                     加入随访病例
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="加入我的收藏" onclick="addFavorite()">
+                <button type="button" class="btn btn-sm btn-primary" title="加入我的收藏" onclick="addFavorite(0)">
                     加入我的收藏
                 </button>
             </div>

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface PimsPathologyFavoriteManager extends GenericManager<PimsPathologyFavorite,Long> {
 
-    Integer myFavorite();
+    Integer myFavorite(String num);
 
-    List<PimsPathologyFavorite> queryMyFavorite(GridQuery query);
+    List<PimsPathologyFavorite> queryMyFavorite(GridQuery query,String num);
 
 }

@@ -63,11 +63,11 @@
                     我的收藏(${myFavorite})
                 </a>
             </label>
-            <%--<label class="label_style1">
+            <label class="label_style1">
                 <a href="5" style="color: #323232;cursor:pointer;text-decoration: none;outline:none;">
-                    随访病例(10)
+                    我的关注(${myFollow})
                 </a>
-            </label>--%>
+            </label>
         </div>
         <div style="width: 50%;float: left;margin-bottom: 12px">
             <label class="label_style1">
@@ -210,6 +210,17 @@
                     <table id="new4" class="table">
                     </table>
                     <div id="pager4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="show_div_5" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="new5" class="table">
+                    </table>
+                    <div id="pager5"></div>
                 </div>
             </div>
         </div>

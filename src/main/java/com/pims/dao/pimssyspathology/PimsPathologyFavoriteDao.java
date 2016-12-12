@@ -11,7 +11,7 @@ import java.util.List;
  * Description:
  */
 public interface PimsPathologyFavoriteDao extends GenericDao<PimsPathologyFavorite, Long> {
-    Integer myFavorite(String username);
+    Integer myFavorite(String username,String num);
 
-    List<PimsPathologyFavorite> queryMyFavorite(GridQuery query, String userName);
+    List<PimsPathologyFavorite> queryMyFavorite(GridQuery query, String userName,String num);
 }

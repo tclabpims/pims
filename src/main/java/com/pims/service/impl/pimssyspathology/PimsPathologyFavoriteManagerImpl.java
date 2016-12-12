@@ -28,14 +28,14 @@ public class PimsPathologyFavoriteManagerImpl extends GenericManagerImpl<PimsPat
     }
 
     @Override
-    public Integer myFavorite() {
+    public Integer myFavorite(String num) {
         User user = WebControllerUtil.getAuthUser();
-        return pimsPathologyFavoriteDao.myFavorite(user.getUsername());
+        return pimsPathologyFavoriteDao.myFavorite(user.getUsername(),num);
     }
 
     @Override
-    public List<PimsPathologyFavorite> queryMyFavorite(GridQuery query) {
+    public List<PimsPathologyFavorite> queryMyFavorite(GridQuery query,String num) {
         User user = WebControllerUtil.getAuthUser();
-        return pimsPathologyFavoriteDao.queryMyFavorite(query, user.getUsername());
+        return pimsPathologyFavoriteDao.queryMyFavorite(query, user.getUsername(),num);
     }
 }
