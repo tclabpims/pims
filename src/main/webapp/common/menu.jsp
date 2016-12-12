@@ -270,7 +270,7 @@
              border:1px solid #c2c2c2!important;
              border-radius:3px;
         }
-        .table-striped>tbody>tr:nth-of-type(odd) {
+        /*.table-striped>tbody>tr:nth-of-type(odd) {
             background-color: #eff8fd;
         }
         .table-striped>tbody>tr:nth-of-type(even) {
@@ -281,7 +281,7 @@
         }
         .ui-jqgrid-btable tr:nth-of-type(even) {
              background-color: #fff!important;
-        }
+        }*/
         .div_div{
             margin:10px 22px 0 13px!important;
         }
