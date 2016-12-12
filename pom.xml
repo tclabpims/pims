@@ -1152,12 +1152,12 @@
                 <jdbc.artifactId>ojdbc14</jdbc.artifactId>
                 <jdbc.version>10.2.0.4.0</jdbc.version>
                 <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
-                <!--<jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</jdbc.url>-->
+                <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcldata</jdbc.url>
                 <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
-                <jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>
+                <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
                 <!--<jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>-->
                 <jdbc.username>pathology</jdbc.username>
-                <jdbc.password>pathology#123</jdbc.password>
+                <jdbc.password>cxs</jdbc.password>
                 <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
             </properties>
         </profile>
@@ -1255,12 +1255,12 @@
         <jdbc.artifactId>ojdbc14</jdbc.artifactId>
         <jdbc.version>10.2.0.4.0</jdbc.version>
         <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
-        <!--<jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</jdbc.url>-->
+        <jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcldata</jdbc.url>
         <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
-        <jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>
+        <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
         <!--<jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>-->
         <jdbc.username>pathology</jdbc.username>
-        <jdbc.password>pathology#123</jdbc.password>
+        <jdbc.password>cxs</jdbc.password>
         <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
 
         <!-- <dbunit.dataTypeFactoryName>org.dbunit.ext.mysql.MySqlDataTypeFactory</dbunit.dataTypeFactoryName>

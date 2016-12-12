@@ -177,13 +177,30 @@
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 100px;height:24px">
                                 <button onclick="query(-1)" style="    border-radius: 3px;border:1px solid #2274E4;background-color: #108CCF;color: #ffffff"> 查询</button></div>
                             <div style="display:block;">
-                                <div style="display:inline;padding-right: 5px">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#" data-toggle="tab" onclick="query(-1)">全部</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(0)">已申请</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(1)">已接收</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(2)">已完成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(3)">已签收</a>
+                                    </li>
+                                </ul>
+                                <!--<div style="display:inline;padding-right: 5px">
                                     <a href="#" onclick="query(-1)">全部</a>
                                 </div>
                                 <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(0)">已申请</a></div>
                                 <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(1)">已接收</a></div>
                                 <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(2)">已完成</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(3)">已签收</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(3)">已签收</a></div>-->
                             </div>
                         </div>
                     </div>
@@ -211,9 +228,9 @@
             </div>
             <div style="display: block;">
                 <div id="tabs" style="margin: 0 auto;">
-                    <ul class="tabs">
-                        <li class="tab-link"><a href="#tabs-1">病人基本信息</a></li>
-                        <li class="tab-link"><a href="#tabs-2">取材信息</a></li>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tabs-1" data-toggle="tab">病人基本信息</a></li>
+                        <li><a href="#tabs-2"  data-toggle="tab">取材信息</a></li>
                     </ul>
                     <div id="tabs-1">
                         <div>
@@ -284,9 +301,11 @@
         <div>
             <div style="float: left">
                 <div id="tabs99">
-                    <ul class="tabs">
-                        <li class="tab-link"><a href="#T1">项目一览</a></li>
-                        <li class="tab-link"><a href="#T2">医嘱开单费用列表</a></li>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#T1" data-toggle="tab">项目一览</a></li>
+                        <li><a href="#T2" data-toggle="tab">医嘱开单费用列表</a></li>
+                    </ul>
+                    <div>
                         <div id="T1">
                             <div style="height:240px" id="checkItemListContainer">
                                 <div><table id="checkItemList"></table></div>
@@ -295,12 +314,12 @@
                                 <div>检测项目合计：<span id="itemCal"></span></div>
                             </div>
                         </div>
-                        <div  id="T2">
+                        <div  id="T2" style="padding:0 1.4rem 4em 1.4em!important;">
                             <div style="float: left"  id="chargeItemListContainer">
                                 <div style="height:240px"><table id="childChargeList"></table></div>
                             </div>
                         </div>
-                    </ul>
+                    </div>
                 </div>
                 <div style="height:200px;display: none;" id="materialPieceListContainer">
                     <div><table id="materialPieceList"></table></div>
