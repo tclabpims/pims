@@ -42,11 +42,20 @@
 			文件打印
 		</botton>
 	</div>
-	<div class="row">
-		<h5 style="float: left;width: 100%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/countshow.png" class="img_style">&nbsp;统计一览</strong></h5>
-	</div>
+	<%--<div class="row">--%>
+		<%--<h5 style="float: left;width: 100%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/countshow.png" class="img_style">&nbsp;统计一览</strong></h5>--%>
+	<%--</div>--%>
 	<div class="row" id="div_2">
-		<div id="search_div_1" style="background-color: #F9F9F9;height:100px;border:1px solid #E0E0E0;">
+		<div class="widget-box widget-color-green ui-sortable-handle">
+			<div class="widget-header">
+				<h6 class="widget-title">统计一览</h6>
+				<div class="widget-toolbar">
+					<a href="#" data-action="collapse">
+						<i class="ace-icon fa fa-chevron-up">隐藏</i>
+					</a>
+				</div>
+			</div>
+			<div id="search_div_1" style="background-color: #F9F9F9;height:100px;border:1px solid #E0E0E0;">
 			<div style="margin-top:10px;">
 				<div style="margin-bottom: 5px;">
 					<span class="input_style">&nbsp;&nbsp;统计年月:&nbsp;</span>
@@ -82,26 +91,27 @@
 				</div>
 			</div>
 		</div>
+		</div>
 	</div>
 	<div>
-		<div id="rztj" style="display:block"><!--日志统计-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
+		<div id="rztj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--日志统计-->
+			<div style="font-size: 16px;text-align:center; " class="widget-header">工作日志统计报告</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
-				<div class="widget-main no-padding">
+				<div class="widget-main no-padding" style="margin-left: 5px">
 					<table id="rztj_new0" class="table-striped">
 					</table>
 				</div>
 			</div>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
-				<div class="widget-main no-padding">
+				<div class="widget-main no-padding" style="margin-left: 5px">
 					<table id="rztj_new1" class="table-striped">
 					</table>
 				</div>
 			</div>
 		</div>
-		<div id="bbytj" style="display:block"><!--标本源统计-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">标本来源统计报告</h5>
+		<div id="bbytj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--标本源统计-->
+			<div style="font-size: 16px;text-align:center; " class="widget-header">标本来源统计报告</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div>
 				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
@@ -122,11 +132,11 @@
 						</table>
 					</div>
 				</div>
+				<div style="clear:both"></div>
 			</div>
-
 		</div>
-		<div id="sftj" style="display:block"><!--收费统计-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">收费统计报告</h5>
+		<div id="sftj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--收费统计-->
+			<div style="font-size: 16px;text-align:center; " class="widget-header">收费统计报告</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div>
 				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
@@ -147,27 +157,29 @@
 						</table>
 					</div>
 				</div>
+
 			</div>
-			<div>
-				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
+			<div >
+				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
 					<div class="widget-main no-padding">
 						<table id="sftj_new3" class="table-striped">
 						</table>
 					</div>
 				</div>
-				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
+				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
 					<div class="widget-main no-padding">
 						<table id="sftj_new4" class="table-striped">
 						</table>
 					</div>
 				</div>
-				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
+				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
 					<div class="widget-main no-padding">
 						<table id="sftj_new5" class="table-striped">
 						</table>
 					</div>
 				</div>
 			</div>
+			<div style="clear:both"></div>
 		</div>
 		<div id="gzltj" style="display:block"><!--工作量统计-->
 			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作量统计报告</h5>

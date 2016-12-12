@@ -28,6 +28,11 @@
 		.input_style{height: 24px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
+		.row{
+			margin-left: 0px!important;
+			margin-right: 0px!important;
+		}
+
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -51,11 +56,20 @@
 			列表打印
 		</botton>
 	</div>
-	<div style="height: 40px">
-		<h5 style="float: left;font-size: 14px;margin-bottom: 5px;width: 100%"><strong>&nbsp;<img src="/styles/imagepims/reportdelay.png" class="img_style">&nbsp;延发报告管理</strong></h5>
+	<%--<div style="height: 40px">--%>
+		<%--<h5 style="float: left;font-size: 14px;margin-bottom: 5px;width: 100%"><strong>&nbsp;<img src="/styles/imagepims/reportdelay.png" class="img_style">&nbsp;延发报告管理</strong></h5>--%>
 
-	</div>
-	<div>
+	<%--</div>--%>
+
+	<div class="widget-box widget-color-green ui-sortable-handle">
+			<div class="widget-header">
+				<h6 class="widget-title">延迟报告管理</h6>
+				<div class="widget-toolbar">
+					<a href="#" data-action="collapse">
+						<i class="ace-icon fa fa-chevron-up">隐藏</i>
+					</a>
+				</div>
+			</div>
 		<div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;height: " id="div_0">
 			<div style="margin-top: 10px;">
 				<table style="margin-bottom: 5px">

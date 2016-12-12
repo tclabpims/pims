@@ -136,19 +136,19 @@
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline;"><label>医嘱类型：</label>
-                                <select id="q_specialCheck">
+                                <select id="q_specialCheck" style="height: 24px;">
                                     <option value="">--请选择--</option>
                                 </select>
                             </div>
                             <div><label>申请年月：</label><input type="text" id="q_startDate"
-                                                            style="width: 120px">~<input type="text"
-                                                                                         style="width: 120px"
+                                                            style="width: 100px;height: 24px;">~<input type="text"
+                                                                                         style="width:100px;height: 24px;"
                                                                                          id="q_endDate"></div>
                             <div style="display:inline;"><label>源病理号：</label><input type="text" id="q_pathologyCode"
-                                                                                    style="width: 120px"></div>
-                            <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 120px">
-                                <button onclick="query(-1)"> 查询</button></div>
-                            <div style="display:inline;">
+                                                                                    style="width: 100px;height: 24px;"></div>
+                            <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 100px;height: 24px;">
+                                <button onclick="query(-1)" style="border-radius: 3px;border:1px solid #2274E4;background-color: #108CCF;color: #ffffff"> 查询</button></div>
+                            <div style="display:block;">
                                 <div style="display:inline;padding-right: 5px">
                                     <a href="#" onclick="query(-1)">全部</a>
                                 </div>

@@ -81,7 +81,7 @@
 						<span class="col-sm-4 input_style">&nbsp;送检FROM:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style" value="${sevenday}" id="req_bf_time"/>
 						<div class="col-sm-2 ">
-							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
+							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0" onclick="searchList()">
 								<span style="color: white;">查询</span>
 							</button>
 						</div>
