@@ -305,6 +305,11 @@
                 </a>
             </li>
             <li>
+                <a href="5,2" data-toggle="tab">
+                    未制片(${nosyszp})
+                </a>
+            </li>
+            <li>
                 <a href="3,3" data-toggle="tab">
                     未初查(${nosyscc})
                 </a>
@@ -397,6 +402,17 @@
                     <table id="sysnew4" class="table">
                     </table>
                     <div id="syspager4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="sys_5" style="display: none">
+        <div>
+            <div class="widget-body" style="overflow:auto;">
+                <div class="widget-main no-padding">
+                    <table id="sysnew5" class="table">
+                    </table>
+                    <div id="syspager5"></div>
                 </div>
             </div>
         </div>

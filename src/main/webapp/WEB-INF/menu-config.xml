@@ -63,6 +63,7 @@
             <Item name="SamplingManage" title="menu.samplingManage" page="/pathologysample/pieces" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="EmbeddingManage" title="menu.embeddingManage" page="/pathologysample/paraffin" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="SectionManage" title="menu.sectionManage" page="/pathologysample/slide" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="ProducerManage" title="menu.producerManage" page="/pathologysample/producer" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
         <Menu name="PathologicalDiagnosis" title="PathologicalDiagnosis.title" page="/diagnosis/diagnosis" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">

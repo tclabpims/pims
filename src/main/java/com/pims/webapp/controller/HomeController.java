@@ -120,6 +120,9 @@ public class HomeController extends PIMSBaseController{
         map.setReq_sts("0");
         int nosysqp = pimsPathologySlideManager.getReqListNum(map);//系统未切片
         map = new PimsBaseModel();
+        map.setReq_sts("2");
+        int nosyszp = pimsPathologySlideManager.getProducerSampleListNum(map);//系统未制片
+        map = new PimsBaseModel();
         map.setReq_sts("3");
         int nosyscc = pimsPathologySampleManager.getSNum(map);//系统未初查
         map.setReq_sts("4");
@@ -162,6 +165,7 @@ public class HomeController extends PIMSBaseController{
         view.addObject("nosyscq",nosyscq);//系统未取材
         view.addObject("nosysbm",nosysbm);//系统未包埋
         view.addObject("nosysqp",nosysqp);//系统未切片
+        view.addObject("nosyszp",nosyszp);//系统未制片
         view.addObject("nosyscc",nosyscc);//系统未初查
         view.addObject("nosyssh",nosyssh);//系统未审核
         view.addObject("nosysdy",nosysdy);//系统未打印

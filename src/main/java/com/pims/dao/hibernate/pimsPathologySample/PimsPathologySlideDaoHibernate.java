@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -494,5 +495,211 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         }
 
         return array;
+    }
+    /**
+     * 制片管理
+     * @param slideList
+     * @param sampleList
+     * @param sts
+     * @param sampleid
+     * @param username
+     * @param userid
+     * @return
+     */
+    @Override
+    public boolean updateProducer(JSONArray slideList, JSONArray sampleList, int sts, String sampleid, String username, String userid) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        StringBuffer sb_sample = new StringBuffer();//标本sql
+        sb_sample.append(" update pims_pathology_sample set samsamplestatus=3,sampiecedoctorid='"+userid+"',sampiecedoctorname='"+username+"' where sampleid =:sampleid");
+        StringBuffer sb_para = new StringBuffer();//蜡块sql
+        sb_para.append(" from PimsPathologyParaffin where parsampleid=:parsampleid and rownum=1");
+        if(sts == 1){//批量制片
+            if(sampleList != null && sampleList.size() > 0){
+                for(int i = 0;i<sampleList.size();i++){
+                    Map map = (Map) sampleList.get(i);
+                    PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                    //获取蜡块信息
+                    Query querypara = getSession().createQuery(sb_para.toString());
+                    querypara.setLong("parsampleid",sample.getSampleid());
+                    PimsPathologyParaffin para = (PimsPathologyParaffin) querypara.uniqueResult();
+                    //更新标本状态
+                    Query query = getSession().createSQLQuery(sb_sample.toString());
+                    query.setLong("sampleid",sample.getSampleid());
+                    query.executeUpdate();
+                    //自动切片
+                    PimsPathologySlide slide = new PimsPathologySlide();
+                    slide.setSlisampleid(sample.getSampleid());//样本号
+                    slide.setSlicustomerid(sample.getSamcustomerid());//客户代码
+                    slide.setSlislidebarcode(sample.getSampathologycode()+"-1");//玻片条码号
+                    slide.setSlipathologycode(sample.getSampathologycode());//病理编号
+                    slide.setSlislidetype(0);//玻片类型(0常规 1白片)
+                    slide.setSlislidesource(new Long(3));//玻片类型(0来自正常取材 1来自内部医嘱,3直接登记（如Tct）)
+                    slide.setSliuseflag(new Long(0));//玻片使用状态(0未使用,1已使用)
+                    slide.setSlislideno("1");//玻片序号
+                    slide.setSlislidecode(sample.getSampathologycode()+"-1");//玻片号
+                    slide.setSliparaffinid(para.getParaffinid());//蜡块Id
+                    slide.setSliparaffinno(para.getParparaffinno());//蜡块序号
+                    slide.setSliparaffincode(para.getParparaffincode());//蜡块编号
+                    slide.setSliparaffinname(para.getParname());//蜡块名称
+                    slide.setSlisamplingparts(para.getParpieceparts());//取材部位
+                    slide.setSliifprint(0);//是否已打印(0未打印,1已打印)
+                    slide.setSlicreateuser(String.valueOf(user.getId()));//创建用户
+                    slide.setSlicreatetime(new Date());//创建时间
+                    pimsPathologySlideManager.save(slide);
+                }
+            }
+            return true;
+        }else if(sts == 0){//单独制片
+            StringBuffer sb = new StringBuffer();
+            sb.append(" from PimsPathologySlide where slisampleid="+ sampleid);
+            List<PimsPathologySlide> list = getSession().createQuery(sb.toString()).list();
+            List list1 = new ArrayList();
+            sb = new StringBuffer();
+            sb.append(" from PimsPathologySample where sampleid ="+sampleid);
+            PimsPathologySample sample = (PimsPathologySample) getSession().createQuery(sb.toString()).uniqueResult();
+            if(slideList != null && slideList.size() > 0){
+                PimsPathologyParaffin para = new PimsPathologyParaffin();
+                for(int i = 0;i<slideList.size();i++){
+                    Map map = (Map) slideList.get(i);
+                    PimsPathologySlide slide = (PimsPathologySlide) setBeanProperty(map,PimsPathologySlide.class);
+                    if(i==0){
+                        //获取蜡块信息
+                        Query querypara = getSession().createQuery(sb_para.toString());
+                        querypara.setLong("parsampleid",sample.getSampleid());
+                        para = (PimsPathologyParaffin) querypara.uniqueResult();
+                    }
+                    if(StringUtils.isEmpty(sample.getSampiecedoctorid()) && StringUtils.isEmpty(sample.getSampiecedoctorname()) && i == 0){
+                        //更新标本状态
+                        Query query = getSession().createSQLQuery(sb_sample.toString());
+                        query.setLong("sampleid",sample.getSampleid());
+                        query.executeUpdate();
+                    }
+                    if(slide.getSlideid() == 0){//新增
+                        slide.setSlisampleid(sample.getSampleid());//样本号
+                        slide.setSlicustomerid(sample.getSamcustomerid());//客户代码
+                        slide.setSlislidebarcode(sample.getSampathologycode()+"-" +(i + 1));//玻片条码号
+                        slide.setSlipathologycode(sample.getSampathologycode());//病理编号
+                        slide.setSlislidetype(0);//玻片类型(0常规 1白片)
+                        slide.setSlislidesource(new Long(3));//玻片类型(0来自正常取材 1来自内部医嘱,3直接登记（如Tct）)
+                        slide.setSliuseflag(new Long(0));//玻片使用状态(0未使用,1已使用)
+                        slide.setSlislideno(String.valueOf(i+1));//玻片序号
+                        slide.setSlislidecode(sample.getSampathologycode()+"-" +(i + 1));//玻片号
+                        slide.setSliparaffinid(para.getParaffinid());//蜡块Id
+                        slide.setSliparaffinno(para.getParparaffinno());//蜡块序号
+                        slide.setSliparaffincode(para.getParparaffincode());//蜡块编号
+                        slide.setSliparaffinname(para.getParname());//蜡块名称
+                        slide.setSlisamplingparts(para.getParpieceparts());//取材部位
+                        slide.setSlicreateuser(String.valueOf(user.getId()));//创建用户
+                        slide.setSlicreatetime(new Date());//创建时间
+                        slide = pimsPathologySlideManager.save(slide);
+                    }
+                    list1.add(slide.getSlideid());
+                }
+                //删除不存在的材块
+                if(list != null && list.size() > 0){
+                    StringBuffer sbf = new StringBuffer();
+                    sbf.append(" delete from pims_pathology_slide where slideid=:slideid");
+                    for(PimsPathologySlide pps : list){
+                        if(!list1.contains(pps.getSlideid())){
+                            if(pps.getSliuseflag() == 0){
+                                Query query = getSession().createSQLQuery(sbf.toString());
+                                query.setLong("slideid",pps.getSlideid());
+                                query.executeUpdate();
+                            }else{
+                                throw  new RuntimeException("该玻片已被使用，无法被删除");
+                            }
+                        }
+                    }
+                }
+            }
+            return  true;
+        }
+        return false;
+    }
+    /**
+     * 查询无需切片的标本列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List<PimsPathologySample> getProducerSampleList(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologySample where samisdeleted = 0 ");
+        getProducerSql(sb,map);
+        if(!StringUtils.isEmpty(map.getLogyid())){
+            sb.append(" and sampathologyid = " + map.getLogyid());//病种类别
+            sb.append(" and exists ( select 1 from PimsSysPathology p where sampathologyid = p.pathologyid and " +
+                    "p.patissampling = 1 and p.pathologyid = " + map.getLogyid()+")");
+        }else{
+            sb.append(" and exists ( select 1 from PimsSysPathology p where sampathologyid = p.pathologyid and " +
+                    "p.patissampling = 1 )");
+        }
+        String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"sampathologycode":map.getSidx();
+        sb.append(" order by " + orderby + " " +map.getSord());
+        return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+    /**
+     * 查询无需切片的标本数量
+     * @param map
+     * @return
+     */
+    @Override
+    public int getProducerSampleListNum(PimsBaseModel map) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("select count(1) from pims_pathology_sample where samisdeleted = 0 ");
+        getProducerSql(sb,map);
+        if(!StringUtils.isEmpty(map.getLogyid())){
+            sb.append(" and sampathologyid = " + map.getLogyid());//病种类别
+            sb.append(" and exists ( select 1 from pims_sys_pathology p where sampathologyid = p.pathologyid and " +
+                    "p.patissampling = 1 and p.pathologyid = " + map.getLogyid()+")");
+        }else{
+            sb.append(" and exists ( select 1 from pims_sys_pathology p where sampathologyid = p.pathologyid and " +
+                    "p.patissampling = 1 )");
+        }
+        return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 组装查询语句
+     * @param sb
+     * @param map
+     * @return
+     */
+    public StringBuffer getProducerSql(StringBuffer sb,PimsBaseModel map){
+        if(map.getReq_bf_time() != null){
+            sb.append(" and samregisttime >= :req_bf_time");//开始时间
+        }
+        if(!StringUtils.isEmpty(map.getReq_sts())){
+            sb.append(" and samsamplestatus = "+ map.getReq_sts() );//制片状态
+        }
+        if(!StringUtils.isEmpty(map.getSend_doctor())){
+            sb.append(" and sampleid in (select chisampleid from pims_pathology_order_child " +
+                    "where chihandletype = 1 and chiisdelete = 0)");//补医嘱
+        }
+        if(!StringUtils.isEmpty(map.getSend_dept())){
+            sb.append(" and sampathologycode like '%" + map.getSend_dept().toUpperCase()+"%'");//病理编号
+        }
+        if(!StringUtils.isEmpty(map.getSend_hosptail())){
+            //sb.append(" and samsendhospital = " + map.getSend_hosptail());
+        }
+        if(!StringUtils.isEmpty(map.getPatient_name())){
+            sb.append(" and sampatientname  like '%" + map.getPatient_name()+"%'");//病人姓名
+        }
+        if(map.getReq_af_time() != null){
+            sb.append(" and  samregisttime < :req_af_time");//结束时间
+        }
+        return sb;
+    }
+
+    /**
+     * 查询制片数据
+     * @param code
+     * @return
+     */
+    @Override
+    public List getProducerInfo(String code) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologySlide where slisampleid = "+code + " order by slislidebarcode");
+        return getSession().createQuery(sb.toString()).list();
     }
 }

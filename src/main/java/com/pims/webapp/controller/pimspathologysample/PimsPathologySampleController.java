@@ -12,8 +12,7 @@ import com.pims.model.*;
 import com.pims.service.QueryHisDataService;
 import com.pims.service.basedata.PimsCommonBaseDataManager;
 import com.pims.service.his.PimsPathologyRequisitionManager;
-import com.pims.service.pimspathologysample.PimsPathologyFeeManager;
-import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.pims.service.pimspathologysample.*;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysTestFeeManager;
@@ -63,6 +62,12 @@ public class PimsPathologySampleController extends PIMSBaseController{
     private PimsCommonBaseDataManager pimsCommonBaseDataManager;//基础资料
     @Autowired
     private QueryHisDataService dataService;
+    @Autowired
+    private PimsPathologyPiecesManager pimsPathologyPiecesManager;//取材
+    @Autowired
+    private PimsPathologyParaffinManager pimsPathologyParaffinManager;//包埋
+    @Autowired
+    private PimsPathologySlideManager pimsPathologySlideManager;//制片
     /**
      * 渲染视图
      * @param request
@@ -263,7 +268,67 @@ public class PimsPathologySampleController extends PIMSBaseController{
             phi = searchCodeValue(phi);
             ppr.setSampathologycode(phi.getNumberPrefix()+phi.getNextNumber());
             ppr.setSaminspectionid(samplecode);
-            ppr = pimsPathologySampleManager.save(ppr);
+            PimsSysPathology pathology = pimsSysPathologyManager.get(ppr.getSampathologyid());
+            int patissampling = pathology.getPatissampling() == null?0:pathology.getPatissampling().intValue();
+            if(patissampling == 0){//常规登记
+                ppr = pimsPathologySampleManager.save(ppr);
+            }else if(patissampling == 1){//无需取材，细胞学标本登记
+                ppr.setSamsamplestatus(2);
+                ppr = pimsPathologySampleManager.save(ppr);
+                PimsPathologyPieces pieces = new PimsPathologyPieces();
+                pieces.setPiesampleid(ppr.getSampleid());//标本Id
+                pieces.setPiepathologycode(ppr.getSampathologycode());//病理编号
+                pieces.setPiesamplingno("1");//取材序号
+                pieces.setPieunit("虚拟");//取材单位
+                pieces.setPiecode(ppr.getSampathologycode()+"-1");//材块条码编号
+                pieces.setPiestate(Long.getLong("2"));//状态
+                pieces.setPieisembed("1");//是否包埋
+                pieces = pimsPathologyPiecesManager.save(pieces);//自动生成材块信息
+                PimsPathologyParaffin para = new PimsPathologyParaffin();
+                para.setParsampleid(ppr.getSampleid());//样本号
+                para.setParpathologycode(ppr.getSampathologycode());//病理编号
+                para.setParname("虚拟蜡块");//蜡块名称
+                para.setParparaffinno(1);//蜡块序号
+                para.setParissectioned(0);//是否已切片(0未切片，1已切片
+                para.setParpieceids(String.valueOf(pieces.getPieceid()));//材块ID
+                pimsPathologyParaffinManager.save(para);//自动生成蜡块信息
+            }else if(patissampling == 2){//外院会诊，无需取材也无需制片
+                ppr.setSamsamplestatus(3);
+                ppr = pimsPathologySampleManager.save(ppr);
+                PimsPathologyPieces pieces = new PimsPathologyPieces();
+                pieces.setPiesampleid(ppr.getSampleid());//标本Id
+                pieces.setPiepathologycode(ppr.getSampathologycode());//病理编号
+                pieces.setPiesamplingno("1");//取材序号
+                pieces.setPieunit("虚拟");//取材单位
+                pieces.setPiecode(ppr.getSampathologycode()+"-1");//材块条码编号
+                pieces.setPiestate(Long.getLong("2"));//状态
+                pieces.setPieisembed("1");//是否包埋
+                pieces = pimsPathologyPiecesManager.save(pieces);//自动生成材块信息
+                PimsPathologyParaffin para = new PimsPathologyParaffin();
+                para.setParsampleid(ppr.getSampleid());//样本号
+                para.setParpathologycode(ppr.getSampathologycode());//病理编号
+                para.setParname("虚拟蜡块");//蜡块名称
+                para.setParparaffinno(1);//蜡块序号
+                para.setParissectioned(0);//是否已切片(0未切片，1已切片
+                para.setParpieceids(String.valueOf(pieces.getPieceid()));//材块ID
+                para = pimsPathologyParaffinManager.save(para);//自动生成蜡块信息
+                PimsPathologySlide slide = new PimsPathologySlide();
+                slide.setSlisampleid(ppr.getSampleid());//样本号
+                slide.setSlicustomerid(ppr.getSamcustomerid());//客户代码
+                slide.setSlislidebarcode(ppr.getSampathologycode()+"-1");//玻片条码号
+                slide.setSlipathologycode(ppr.getSampathologycode());//病理编号
+                slide.setSlislidetype(0);//玻片类型(0常规 1白片)
+                slide.setSlislidesource(Long.getLong("4"));//玻片类型(0来自正常取材 1来自内部医嘱,3直接登记（如tct）,外送会诊)
+                slide.setSliuseflag(Long.getLong("0"));//玻片使用状态(0未使用,1已使用)
+                slide.setSliparaffinid(para.getParaffinid());//蜡块id
+                slide.setSliifprint(0);//是否已打印(0未打印,1已打印)
+                slide.setSliprinttimes("0");//打印次数
+                pimsPathologySlideManager.save(slide);//自动生成制片信息
+                //为标本绑定诊断医师
+                ppr.setSampiecedoctorid(String.valueOf(phi.getLatestUser()));//诊断医师ID
+                ppr.setSampiecedoctorname(phi.getTheAlias());//诊断医师姓名
+                pimsPathologySampleManager.save(ppr);
+            }
             pimsHospitalPathologyInfoManager.save(phi);//更新病理编号最大值
 
             //更新电子申请单已被使用

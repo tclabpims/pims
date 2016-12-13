@@ -62,4 +62,35 @@ public interface PimsPathologySlideDao extends GenericDao<PimsPathologySlide,Lon
      * @return
      */
     JSONArray getSlideCode(JSONArray samplesList);
+    /**
+     * 制片管理
+     * @param slideList
+     * @param sampleList
+     * @param sts
+     * @param sampleid
+     * @param username
+     * @param userid
+     * @return
+     */
+    boolean updateProducer(JSONArray slideList,JSONArray sampleList, int sts, String sampleid,String username,String userid);
+
+    /**
+     * 查询无需切片的标本列表
+     * @param map
+     * @return
+     */
+    List<PimsPathologySample> getProducerSampleList(PimsBaseModel map);
+    /**
+     * 查询无需切片的标本数量
+     * @param map
+     * @return
+     */
+    int getProducerSampleListNum(PimsBaseModel map);
+    /**
+     *
+     * 查询制片数据
+     * @param code
+     * @return
+     */
+    List getProducerInfo(String code);
 }

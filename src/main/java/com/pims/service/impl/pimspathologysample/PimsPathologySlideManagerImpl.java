@@ -98,4 +98,47 @@ public class PimsPathologySlideManagerImpl extends GenericManagerImpl<PimsPathol
     public JSONArray getSlideCode(JSONArray samplesList) {
         return pimsPathologySlideDao.getSlideCode(samplesList);
     }
+
+    /**
+     * 制片管理
+     * @param slideList
+     * @param sampleList
+     * @param sts
+     * @param sampleid
+     * @param username
+     * @param userid
+     * @return
+     */
+    @Override
+    public boolean updateProducer(JSONArray slideList, JSONArray sampleList, int sts, String sampleid, String username, String userid) {
+        return pimsPathologySlideDao.updateProducer(slideList,sampleList,sts,sampleid,username,userid);
+    }
+    /**
+     * 查询无需切片的标本列表
+     * @param map
+     * @return
+     */
+    @Override
+    public List<PimsPathologySample> getProducerSampleList(PimsBaseModel map) {
+        return pimsPathologySlideDao.getProducerSampleList(map);
+    }
+    /**
+     * 查询无需切片的标本数量
+     * @param map
+     * @return
+     */
+    @Override
+    public int getProducerSampleListNum(PimsBaseModel map) {
+        return pimsPathologySlideDao.getProducerSampleListNum(map);
+    }
+
+    /**
+     * 查询制片数据
+     * @param code
+     * @return
+     */
+    @Override
+    public List getProducerInfo(String code) {
+        return pimsPathologySlideDao.getProducerInfo(code);
+    }
 }

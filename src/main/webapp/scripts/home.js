@@ -164,6 +164,12 @@ $(function () {
                 postData : {"req_sts":href[1],"req_code":req_code},
                 page : 1
             }).trigger('reloadGrid');//重新载入
+        }else if(href[0] == 5){//未制片
+            jQuery("#sysnew5").jqGrid('setGridParam',{
+                url: "../pathologysample/producer/ajax/sample",
+                postData : {"req_sts":href[1]},
+                page : 1
+            }).trigger('reloadGrid');//重新载入
         }
 
     });
@@ -402,6 +408,48 @@ $(function () {
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#syspager4"
+    });
+    //未制片
+    $("#sysnew5").jqGrid({
+        url: "../pathologysample/producer/ajax/sample",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_sts":2},
+        colNames: ['ID','制片状态', '病理号','病种类型', '送检医生','送检医院','病人名','客户ID','送检时间'],
+        colModel: [
+            {name:'sampleid',hidden:true},
+            { name: 'samsamplestatus', hidden: true},
+            { name: 'sampathologycode', index: 'sampathologycode', align: "center"},
+            { name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes1()},align:"center"},//病种类型
+            { name: 'samsenddoctorname', index: 'samsenddoctorname', align: "center"},
+            { name: 'samsendhospital', index: 'samsendhospital', align: "center"},
+            { name: 'sampatientname', index: 'sampatientname', align: "center"},
+            { name: 'samcustomerid', index: 'samcustomerid',hidden:true},
+            { name: 'samsendtime', index: 'samsendtime', align: "center",
+                formatter:function(cellvalue, options, row){if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))}}//取材时间
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        ondblClickRow: function (id) {
+        },
+        // onSelectRow:function(id){
+        // 	fillInfo();
+        // },
+        onCellSelect:function(id){
+            // fillInfo(id);
+        },
+        viewrecords: true,
+        height:320,
+        width: width,
+        rowNum: 10,
+        rowList:[10,20,30],
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        pager: "#syspager5"
     });
     /**
      * 我的未处理

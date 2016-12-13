@@ -203,6 +203,7 @@
                         <select type="text" id="patissampling" name="patissampling" class="col-xs-2">
                             <option value="0">是</option>
                             <option value="1">否</option>
+                            <option value="2">无</option>
                         </select>
                     </div>
                 </div>
