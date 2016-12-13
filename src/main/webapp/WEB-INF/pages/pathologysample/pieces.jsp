@@ -206,9 +206,11 @@
 							<input class="input_style" type="text" id="sampatientbed" readonly/>
 						</div>
 						<label class="col-sm-2 label_style" >标本状态:</label>
-						<div class="col-sm-4 input_style">
-							<input type="checkbox" id="samissamplingall" value="1"/>&nbsp;&nbsp;全取&nbsp;&nbsp;
-							<input type="checkbox" id="samisdecacified" value="1"/>&nbsp;&nbsp;脱钙&nbsp;&nbsp;
+						<div class="col-sm-1 input_style">
+							<input type="checkbox" id="samissamplingall" value="1"/>&nbsp;全取&nbsp;
+						</div>
+						<div class="col-sm-3 input_style">
+							<input type="checkbox" id="samisdecacified" value="1"/>&nbsp;脱钙&nbsp;
 						</div>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px;">

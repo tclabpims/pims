@@ -593,7 +593,7 @@
 					</div>
 					<label class="col-sm-1 label_style" for="samreceivertime">接收日期:</label>
 					<div class="col-sm-3">
-						<input type="text" class="form_datetime1 input_style" value="${samreceivertime}" id="samreceivertime" name="samreceivertime" datatype="*"/>
+						<input type="text" class="input_style" value="${samreceivertime}" id="samreceivertime" readonly/>
 					</div>
 					<label class="col-sm-1 label_style" for="samfirstn">组织袋数:</label>
 					<div class="col-sm-3">

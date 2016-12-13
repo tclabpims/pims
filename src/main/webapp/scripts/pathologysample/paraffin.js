@@ -166,7 +166,7 @@ $(function() {
 			{name:'piespecial',hidden:true},//特殊要求
 			{name:'piesamplingtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
 			{name:'piedoctorid',hidden:true},//取材医生ID
-			{name:'piedoctorname',hidden:true},//取材医生
+			{name:'piedoctorname',index:'piedoctorname'},//取材医生
 			{name:'piesamplingno',hidden:true},//序号
 			{name:'pieisembed',hidden:true},//包埋状态
 		],

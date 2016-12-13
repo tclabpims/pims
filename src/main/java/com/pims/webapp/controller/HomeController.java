@@ -95,8 +95,8 @@ public class HomeController extends PIMSBaseController{
         int mycons = pimsConsultationDetailManager.getReqListNum(map);//我的会诊
         map = new PimsBaseModel();
         map.setReq_sts("0");
-        map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
-        map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
+//        map.setReq_bf_time(new java.sql.Date((Constants.DF2.parse(sevenDay).getTime())));
+//        map.setReq_af_time(new java.sql.Date((Constants.DF2.parse(today)).getTime()));
         map.setPatient_name(String.valueOf(user.getId()));
         int mymessage = pimsPathologyReceivemessageManager.getTaskListNum(map);//我的留言
         map = new PimsBaseModel();
