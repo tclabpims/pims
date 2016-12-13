@@ -147,15 +147,32 @@
                             <div style="display:inline;"><label>源病理号：</label><input type="text" id="q_pathologyCode"
                                                                                     style="width: 100px;height: 24px;"></div>
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 100px;height: 24px;">
-                                <button onclick="query(-1)" style="border-radius: 3px;border:1px solid #2274E4;background-color: #108CCF;color: #ffffff"> 查询</button></div>
+                                <button onclick="query(-1)" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;"> 查询</button></div>
                             <div style="display:block;">
-                                <div style="display:inline;padding-right: 5px">
+                                 <ul class="nav nav-tabs" style="">
+                                    <li class="active">
+                                        <a href="#" data-toggle="tab" onclick="query(-1)">全部</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(0)">已申请</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(1)">已接收</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(2)">已完成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-toggle="tab" onclick="query(3)">已签收</a>
+                                    </li>
+                                 </ul>
+                                <!--<div style="display:inline;padding-right: 5px">
                                     <a href="#" onclick="query(-1)">全部</a>
                                 </div>
                                 <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(0)">已申请</a></div>
                                 <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(1)">已接收</a></div>
                                 <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(2)">已完成</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(3)">已签收</a></div>
+                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(3)">已签收</a></div>-->
                             </div>
                         </div>
                     </div>
@@ -183,9 +200,9 @@
             </div>
             <div style="display: block;">
                 <div id="tabs" style="margin: 0 auto;">
-                    <ul class="tabs">
-                        <li class="tab-link"><a href="#tabs-1">病人基本信息</a></li>
-                        <li class="tab-link"><a href="#tabs-2">取材信息</a></li>
+                    <ul class="tabs nav nav-tabs">
+                        <li class="active"><a href="#tabs-1" data-toggle="tab">病人基本信息</a></li>
+                        <li><a href="#tabs-2" data-toggle="tab">取材信息</a></li>
                     </ul>
                     <div id="tabs-1">
                         <div>
@@ -259,7 +276,7 @@
                         <div style="float: left">
                             <h6>检测项目一览</h6>
                         </div>
-                        <div style="float: right"><button onclick="finishItem()">已完成</button></div>
+                        <div style="float: right"><button onclick="finishItem()" style="border:1px solid #c2c2c2;background:#e9e9e9;border-radius:3px;">已完成</button></div>
                 </div>
                 <div style="height:200px;display: none;" id="materialPieceListContainer">
                     <div><table id="materialPieceList"></table></div>

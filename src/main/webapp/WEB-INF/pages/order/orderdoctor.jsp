@@ -175,7 +175,7 @@
                             <div style="display:inline;"><label>源病理号：</label><input type="text" id="q_pathologyCode"
                                                                                     style="width:100px;height:24px"></div>
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 100px;height:24px">
-                                <button onclick="query(-1)" style="    border-radius: 3px;border:1px solid #2274E4;background-color: #108CCF;color: #ffffff"> 查询</button></div>
+                                <button onclick="query(-1)" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;"> 查询</button></div>
                             <div style="display:block;">
                                 <ul class="nav nav-tabs">
                                     <li class="active">
@@ -349,7 +349,7 @@
             <div style="width: 100%;height: 25px;">
                 项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)"></select>
             </div>
-            <div style="width: 100%;padding-top:5px"><button onclick="appendAll()">全部追加</button></div>
+            <div style="width: 100%;padding-top:5px"><button onclick="appendAll()" style="background:#e9e9e9;border-radius:3px;border:1px solid #c2c2c2">全部追加</button></div>
             <div style="width: 100%;padding-top:5px">项目名称：<input id="itemName"></div>
             <div style="width: 100%;padding-top:5px;">
                 <table id="ckItemList"></table>
