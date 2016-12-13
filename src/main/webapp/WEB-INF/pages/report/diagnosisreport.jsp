@@ -25,7 +25,7 @@
 		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
-		.input_style{height: 24px;font-size: 12px!important;}
+		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 	</style>
@@ -75,7 +75,7 @@
 					</div>
 				</div>
 				<div class="widget-body" style="display:block">
-					<div id="search_div_1" style="background-color: #F9F9F9;height:470px;border:1px solid #E0E0E0;">
+					<div id="search_div_1" style="background-color: #F9F9F9;height:500px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<div style="margin-bottom: 5px;">
 						<span class="col-sm-4 input_style">&nbsp;送检FROM:&nbsp;</span>
