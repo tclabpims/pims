@@ -315,7 +315,7 @@
                             </div>
                         </div>
                         <div  id="T2" style="padding:0 1.4rem 4em 1.4em!important;">
-                            <div style="float: left"  id="chargeItemListContainer">
+                            <div style=""  id="chargeItemListContainer">
                                 <div style="height:240px"><table id="childChargeList"></table></div>
                             </div>
                         </div>

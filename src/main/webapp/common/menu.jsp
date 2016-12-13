@@ -149,7 +149,7 @@
         .navbar-nav > li > a {
             padding-top: 8px;
             padding-bottom: 7px;
-            font-size: 16px!important;
+            font-size: 15px!important;
         }
         .navbar-brand {
             height: 30px;
@@ -276,11 +276,14 @@
         .table-striped>tbody>tr:nth-of-type(even) {
             background-color: #fff;
         }
-        .ui-jqgrid-btable tr:nth-of-type(odd) {
+        .ui-jqgrid-btable>tr:nth-of-type(odd) {
              background-color: #eff8fd!important;
         }
-        .ui-jqgrid-btable tr:nth-of-type(even) {
+        .ui-jqgrid-btable>tr:nth-of-type(even) {
              background-color: #fff!important;
+        }
+        .ui-jqgrid-btable .ui-widget-content.ui-state-highlight{
+            background:#E4EFC9!important;
         }*/
         .div_div{
             margin:10px 22px 0 13px!important;
@@ -358,8 +361,10 @@
         .col-sm-6.input_style{
             height:20px!important;
         }
-        .ui-tabs-nav,.ui-helper-reset,.ui-helper-clearfix,.ui-widget-header,.ui-corner-all,.ui-state-default,.ui-corner-to,.ui-tabs-active,.ui-state-active{
-            background:white!important;
+        .ui-widget-header,.ui-state-default.ui-corner-top{
+            background:white;
+        }
+        .ui-widget-header,.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
             border:none!important;
         }
         .ui-tabs-anchor{
@@ -367,6 +372,12 @@
             background:none!important;
             color:black!important;
             font-family:"微软雅黑";
+        }
+        #pathologyType{
+            background:rgb(67, 142, 185)!important;
+        }
+        #pathologyType:focus{
+            border:1px solid transparent!important;
         }
 </style>
 
