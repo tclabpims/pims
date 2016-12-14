@@ -54,7 +54,6 @@
     .ui-autocomplete {
         z-index: 99999999;
     }
-
 </style>
 <body>
 <div class="row" id="toolbar">

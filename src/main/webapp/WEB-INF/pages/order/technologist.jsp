@@ -87,7 +87,6 @@
 <SCRIPT LANGUAGE="JavaScript">
     var OsObject = navigator.userAgent;
 </SCRIPT>
-
 <body>
 <div class="row" id="toolbar">
     <div  class="row" id="userGrid" style="display: none;">
@@ -355,6 +354,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
