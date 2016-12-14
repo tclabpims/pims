@@ -314,7 +314,7 @@
                                 <div>检测项目合计：<span id="itemCal"></span></div>
                             </div>
                         </div>
-                        <div  id="T2" style="padding:0 1.4rem 4em 1.4em!important;">
+                        <div  id="T2">
                             <div style=""  id="chargeItemListContainer">
                                 <div style="height:240px"><table id="childChargeList"></table></div>
                             </div>

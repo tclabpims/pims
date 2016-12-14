@@ -160,17 +160,17 @@
         #head .navbar-header img{
             margin-top:10px!important;
         }
-        #menuheader ul>li{
+        #menuheader>ul>li{
             font-weight:normal;
             margin-top:20px;
         }
-        #menuheader ul>li ul{
+        #menuheader>ul>li ul{
             border:1px solid #04a0f3;
             border-radius:5px!important;
             text-align:center;
             background:#f6fbfe!important;
         }
-        #menuheader ul>li ul li a{
+        #menuheader>ul>li ul li a{
             display:block!important;
             border-bottom:1px solid #cee7fd;
             color:#6a6a6a;
@@ -180,17 +180,17 @@
              border-bottom:none;
              color:#6a6a6a;
         }
+        #menuheader>ul>li>a{
+            background:transparent!important;
+            border-radius:5px 5px 0 0;
+            color:white!important;
+            font-weight:normal!important;
+        }
         #menuheader ul>li:hover>a{
             border-radius:5px 5px 0 0;
             color:#323232!important;
             font-weight:normal;
             background:white!important;
-        }
-        #menuheader ul>li.active a{
-            background:white!important;
-            border-radius:5px 5px 0 0;
-            color:#323232!important;
-            font-weight:normal!important;
         }
         #menuheader ul>li:hover ul{
             display:block;
@@ -236,6 +236,10 @@
             padding:0 16px;
             font-size:12px;
             border:1px solid #2274e4;
+        }
+        h5{
+            margin-top:0!important;
+            margin-bottom:10px!important;
         }
         h5 button{
             height:26px;
@@ -378,6 +382,12 @@
         }
         #pathologyType:focus{
             border:1px solid transparent!important;
+        }
+        .navbar .navbar-nav>.dropdown>a:focus{
+            background:transparent!important;
+        }
+        .dropdown.open ul{
+            display:none;
         }
 </style>
 

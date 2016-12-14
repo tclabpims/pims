@@ -49,11 +49,11 @@
 		<div class="div_div"><img src="/styles/imagepims/cancleslide.png" class="div_img"  id="resetbutton">取消切片</div>
 		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" id="printslide" >打印</div>-->
 	</div>
-	<h5 style="float: left;font-size: 14px;width: 34%"><strong>&nbsp;<img src="/styles/imagepims/worklist.png">&nbsp;&nbsp;工作列表</strong></h5>
-	<h5 style="font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/slidemarage.png">&nbsp;&nbsp;切片管理</strong></h5>
+	<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;padding-right:12px;font-size:15px;color:#fff;line-height:40px;"><strong>&nbsp;&nbsp;&nbsp;工作列表</strong></h5>
+	<h5 style="float: left;width: 66%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;"><strong>&nbsp;&nbsp;&nbsp;切片管理</strong></h5>
 	<div>
 		<div class="col-sm-4 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 180px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 190px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;包埋年月:&nbsp;</span>
