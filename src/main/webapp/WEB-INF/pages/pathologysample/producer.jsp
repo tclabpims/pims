@@ -21,9 +21,9 @@
 	<script type="text/javascript" src="../scripts/pathologysample/fee.js"></script>
 	<style>
 		.ui-autocomplete {z-index: 99999999;}
-		.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }
-		.div_img{cursor:pointer;display: block;margin-bottom:11px;}
-		.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}
+		/*.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }*/
+		/*.div_img{cursor:pointer;display: block;margin-bottom:11px;}*/
+		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
 		.input_style{height: 24px;font-size: 12px!important;}
@@ -33,10 +33,22 @@
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
 	<div class="div_1" id="div_1">
-		<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
-		<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
-		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
-		<div class="div_div"><img src="/styles/imagepims/piece.png" class="div_img" id="saveButton">制片</div>
+		<botton  class="div_img btn btn-sm btn-primary" onclick="upSample()">
+			<i class="ace-icon fa fa-arrow-left bigger-110"></i>
+			上一个
+		</botton>
+		<botton  class="div_img btn btn-sm btn-info" onclick="downSample()">
+			<i class="ace-icon fa fa-arrow-right bigger-110"></i>
+			下一个
+		</botton>
+		<botton  class="div_img btn btn-sm btn-warning" onclick="printCode()">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			打印
+		</botton>
+		<botton  class="div_img btn btn-sm btn-success" id="saveButton">
+			<i class="ace-icon fa fa-leaf bigger-110"></i>
+			制片
+		</botton>
 	</div>
 	<div class="row" id="userGrid1" style="display: none;">
 		<div class="col-xs-12">
@@ -45,9 +57,9 @@
 		</div>
 	</div>
 	<div>
-		<div>
-			<h5 style="float: left;width: 34%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/worklist.png" class="img_style">&nbsp;工作列表</strong></h5>
-			<h5 style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px;"><strong>&nbsp;<img src="/styles/imagepims/piecemage.png" class="img_style">&nbsp;制片管理</strong>
+		<div style="margin-top: 5px">
+			<h5 style="float: left;width: 33%;font-size: 14px;background-color:#82af6f;margin-right:0.8%; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
+			<h5 style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-color:#82af6f;line-height: 38px;text-indent: 20px"><strong style="font-weight: nonrmal">制片管理</strong>
 			</h5>
 		</div>
 		<div class="col-sm-4 leftContent" id="div_2">
