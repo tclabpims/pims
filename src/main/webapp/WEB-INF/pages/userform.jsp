@@ -192,7 +192,7 @@
     </c:when>
 </c:choose>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary" name="save" onclick="bCancel=false">
+            <button type="submit" class="btn btn-primary" name="save" onclick="bCancel=false" style="line-height: 0">
                 <i class="icon-ok icon-white"></i> <fmt:message key="button.save"/>
             </button>
 
@@ -202,7 +202,7 @@
               </button>
             </c:if>
 
-            <button type="submit" class="btn btn-default" name="cancel" onclick="bCancel=true">
+            <button type="submit" class="btn btn-default" name="cancel" onclick="bCancel=true" style="line-height: 0">
                 <i class="icon-remove"></i> <fmt:message key="button.cancel"/>
             </button>
         </div>
@@ -214,8 +214,8 @@
 		<fieldset style="width:95%; margin-left:4px;">
 		<legend style="margin-top:3px;"><fmt:message key='electronic.Signature.titel' /></legend>
 			<div>
-		    <button class="btn btn-info" onclick="createInput();"><fmt:message key='add.point'/></button>
-		    <button class="btn btn-success" onclick="ajaxFileUploads()"><fmt:message key='upload.title'/></button>
+		    <button class="btn btn-info" onclick="createInput();" style="line-height: 0"><fmt:message key='add.point'/></button>
+		    <button class="btn btn-success" onclick="ajaxFileUploads()"style="line-height: 0"><fmt:message key='upload.title'/></button>
 			<div id="more" style="float:left;"></div>
 			</div>
 		</fieldset>

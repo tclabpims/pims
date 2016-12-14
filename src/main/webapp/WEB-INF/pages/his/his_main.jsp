@@ -76,7 +76,7 @@
 				<input type="text" class="input_style" id="send_doctor"/>
 				<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<span>
-					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
+					<button type="button" style="border-radius:3px;border:1px solid #2274E4;padding:0 16px;background-color: #4190f7;float: right" onclick="searchList()">
 						<span style="color: white;">查询</span>
 					</button>
 				</span>
@@ -85,16 +85,20 @@
 	</div>
 	<table style="margin-bottom: 10px">
 		<h5 style="font-size: 14px;"><strong>&nbsp;工作安排一览</strong></h5>
-		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="addSample()">
+		<button type="button" class="btn btn-sm btn-primary"  onclick="addSample()">
+			<i class="ace-icon glyphicon glyphicon-plus"></i>
 			<span style="color: white;">新增</span>
 		</button>&nbsp;
-		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;"  onclick="viewSample()">
+		<button type="button" class="btn btn-sm btn-info"  onclick="viewSample()">
+			<i class="ace-icon fa fa-eye"></i>
 			<span style="color: white;">查看</span>
 		</button>&nbsp;
-		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="deleteSample()">
+		<button type="button" class="btn btn-sm btn-warning" onclick="deleteSample()">
+			<i class="ace-icon fa fa-trash-o"></i>
 			<span style="color: white;">删除</span>
 		</button>&nbsp;
-		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="print()">
+		<button type="button" class="btn btn-sm btn-success"  onclick="print()">
+			<i class="ace-icon fa fa-file-text-o"></i>
 			<span style="color: white;">打印</span>
 		</button>
 	</table>

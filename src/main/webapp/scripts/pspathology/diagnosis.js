@@ -704,7 +704,7 @@ function getOrderTabs(sampleId) {
         if (ret != null && ret.length > 0) {
             for (var i = 0; i < ret.length; i++) {
                 if (ret[i].tesenglishname == "MYZH" || ret[i].tesenglishname == "FZBL" || ret[i].tesenglishname == "TSRS") {
-                    var li_ = "<li itemId=\"order_" + ret[i].testitemid + "\" id=\"order_" + ret[i].tesenglishname + "\" tesischarge=\"" + ret[i].tesischarge + "\"><a href=\"#tabs-" + ret[i].tesenglishname + "\">" + ret[i].teschinesename + "</a></li>";
+                    var li_ = "<li itemId=\"order_" + ret[i].testitemid + "\" id=\"order_" + ret[i].tesenglishname + "\" tesischarge=\"" + ret[i].tesischarge + "\"><a data-toggle='tab' href=\"#tabs-" + ret[i].tesenglishname + "\">" + ret[i].teschinesename + "</a></li>";
                     //alert(li_);
                     ul.append(li_);
                     //$("#"+ret[i].tesenglishname+"Item").jqGrid('GridUnload');

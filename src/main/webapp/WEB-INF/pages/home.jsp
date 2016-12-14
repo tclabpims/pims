@@ -154,7 +154,7 @@
                         <option value="2">会诊取消</option>
                     </select>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList(2)">
+                    <button type="button" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;" onclick="searchList(2)">
                         <span style="color: white;">查询</span>
                     </button>
                 </table>
@@ -186,7 +186,7 @@
                         <option value="1">已读</option>
                     </select>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList(3)">
+                    <button type="button" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;" onclick="searchList(3)">
                         <span style="color: white;">查询</span>
                     </button>
                 </table>
@@ -241,7 +241,7 @@
                         <option value="2">会诊取消</option>
                     </select>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList(6)">
+                    <button type="button" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;" onclick="searchList(6)">
                         <span style="color: white;">查询</span>
                     </button>
                 </table>
@@ -267,7 +267,7 @@
                     <span>-</span>
                     <input type="text" class="form_datetime input_style" value="${receivetime}"  id="req_af_time7"/>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList(7)">
+                    <button type="button" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;" onclick="searchList(7)">
                         <span style="color: white;">查询</span>
                     </button>
                 </table>
