@@ -673,25 +673,35 @@ function deleteSample() {
 	var id = $("#new").jqGrid('getGridParam', 'selrow');
 	var rowData = $("#new").jqGrid('getRowData',id);
 	if (id == null || id == 0) {
-		layer.msg('请先选择要删除的数据', {icon: 2, time: 1000});
+		layer.msg('请先选择要删除的数据!', {icon: 2, time: 1000});
 		return false;
-	}
-	layer.confirm('确定删除选择数据？', {icon: 2, title:'警告'}, function(index){
-		$.get("../pimspathology/canchange", {
-				id:rowData.requisitionid,
-				sts:"2"
-			},
-			function(data) {
-				if(data.success) {
-					$.post('../pimspathology/deleteSample',{requisitionid:rowData.requisitionid},function(data) {
-						layer.close(index);
-						$("#new").trigger('reloadGrid');
+	}else{
+		if(rowData.reqstate > 0){
+			layer.msg('该单据处于非申请状态,无法删除!', {icon: 2, time: 1000});
+			return;
+		}else if(rowData.reqcreateuser != $("#local_userid").val()){
+			layer.msg('您无法删除别人申请的单据!', {icon: 2, time: 1000});
+			return;
+		}else{
+			layer.confirm('确定删除选择数据？', {icon: 2, title:'警告'}, function(index){
+				$.get("../pimspathology/canchange", {
+						id:rowData.requisitionid,
+						sts:"2"
+					},
+					function(data) {
+						if(data.success) {
+							$.post('../pimspathology/deleteSample',{requisitionid:rowData.requisitionid},function(data) {
+								layer.close(index);
+								$("#new").trigger('reloadGrid');
+							});
+						}else{
+							layer.msg(data.message, {icon:2, time: 1000});
+						}
 					});
-				}else{
-					layer.msg(data.message, {icon:2, time: 1000});
-				}
 			});
-	});
+		}
+	}
+
 }
 /**
  * 清除数据
@@ -1047,7 +1057,7 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
-		colNames: ['ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生'],
+		colNames: ['ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生','创建人','申请状态'],
 		colModel: [
 			{name:'requisitionid',hidden:true},
 			{ name: 'requisitionno', index: 'requisitionno'},
@@ -1056,7 +1066,9 @@ $(function() {
 			{ name: 'reqpatientname', index: 'reqpatientname'},
 			{ name: 'reqsendhospital', index: 'reqsendhospital'},
 			{ name: 'reqdeptname', index: 'reqdeptname'},
-			{ name: 'reqdoctorname', index: 'reqdoctorname'}
+			{ name: 'reqdoctorname', index: 'reqdoctorname'},
+			{name:'reqcreateuser',hidden:true},
+			{name:'reqstate',hidden:true}
 		],
 		loadComplete : function() {
 			var table = this;

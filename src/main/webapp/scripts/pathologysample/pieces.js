@@ -57,6 +57,10 @@ function downSample() {
  */
 function saveInfo(num) {
 	$("#new1").jqGrid("saveCell",LASTEDITROW1,LASTEDITCELL1);
+	if($("#doctor_id").val() == $("#input_user").val()){
+		layer.msg("取材医生与录入人员不允许为同一人!", {icon: 2, time: 1000});
+		return;
+	}
 	var rowdatas = $('#new1').jqGrid('getRowData');
 	if(rowdatas == null || rowdatas == ""){
 		alert("请录入材块信息！！");
@@ -85,8 +89,12 @@ function saveInfo(num) {
 			},
 			function(data) {
 				if(data.success) {
-					layer.msg(data.message, {icon: 1, time: 1000});
-					location.reload();
+					if(num == 0){
+						layer.msg("保存成功!", {icon: 1, time: 1000});
+					}else{
+						layer.msg(data.message, {icon: 1, time: 1000});
+					}
+					searchList();
 				} else {
 					layer.msg(data.message, {icon:2, time: 1000});
 				}
@@ -308,19 +316,7 @@ function createNew1(reqid,width1){
 		//shrinkToFit:false,
 		//autoScroll: true,
 		cellEdit:true,
-		rownumbers : true,
-		onSelectAll:function(aRowids,status){
-			var rowIds = $("#new1").jqGrid('getDataIDs');
-			for(var k = 0; k<rowIds.length; k++) {
-				var curRowData = jQuery("#new1").jqGrid('getRowData', rowIds[k]);
-				var curChk = $("#"+rowIds[k]+"").find(":checkbox");
-				if(status){
-					curChk.attr('checked', 'true');   //设置所有checkbox被选中
-				}else{
-					curChk.attr('checked', 'false');   //设置所有checkbox被选中
-				}
-			}
-		}
+		rownumbers : true
 	});
 }
 /**

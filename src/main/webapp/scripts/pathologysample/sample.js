@@ -454,6 +454,7 @@ $(function() {
 		format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
 		language: 'zh-CN', //汉化
 		todayBtn:  1,
+		endDate : new Date(),
 		autoclose:true //选择日期后自动关闭
 	});
 	$(".form_datetime1").datetimepicker({
@@ -461,43 +462,44 @@ $(function() {
 		format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
 		language: 'zh-CN', //汉化
 		todayBtn:  1,
+		endDate : new Date(),
 		autoclose:true //选择日期后自动关闭
 	}).on('changeDate',function(ev){
 		this.focus();
 	});
 
-    $("#samsendtime").datetimepicker({
-        // minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        todayBtn:  1,
-        endDate : new Date(),
-        autoclose:true //选择日期后自动关闭
-    }).on('changeDate',function(e){
-        var startTime = $("#samsendtime").val();
-		var endTime = $("#samreceivertime").val();
-		if(endTime != null && endTime != "" && endTime < startTime){
-			$("#samreceivertime").val("");
-		}
-        $('#samreceivertime').datetimepicker('setStartDate',startTime);
-		this.focus();
-    });
-    $("#samreceivertime").datetimepicker({
-        // minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        todayBtn:  1,
-        endDate : new Date(),
-        autoclose:true //选择日期后自动关闭
-    }).on('changeDate',function(e){
-		var startTime = $("#samsendtime").val();
-		var endTime = $("#samreceivertime").val();
-		if(startTime != null && startTime != "" && endTime < startTime){
-			$("#samsendtime").val("");
-		}
-        $('#samsendtime').datetimepicker('setEndDate',endTime);
-		this.focus();
-    });
+    // $("#samsendtime").datetimepicker({
+    //     // minView: "month", //选择日期后，不会再跳转去选择时分秒
+    //     format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
+    //     language: 'zh-CN', //汉化
+    //     todayBtn:  1,
+    //     endDate : new Date(),
+    //     autoclose:true //选择日期后自动关闭
+    // }).on('changeDate',function(e){
+    //     var startTime = $("#samsendtime").val();
+    //     var endTime = $("#samreceivertime").val();
+    //     if(endTime != null && endTime != "" && endTime < startTime){
+		// 	$("#samreceivertime").val("");
+    //     }
+    //     $('#samreceivertime').datetimepicker('setStartDate',startTime);
+		// this.focus();
+    // });
+    // $("#samreceivertime").datetimepicker({
+    //     // minView: "month", //选择日期后，不会再跳转去选择时分秒
+    //     format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
+    //     language: 'zh-CN', //汉化
+    //     todayBtn:  1,
+    //     endDate : new Date(),
+    //     autoclose:true //选择日期后自动关闭
+    // }).on('changeDate',function(e){
+		// var startTime = $("#samsendtime").val();
+		// var endTime = $("#samreceivertime").val();
+		// if(startTime != null && startTime != "" && endTime < startTime){
+		// 	$("#samsendtime").val("");
+		// }
+    //     $('#samsendtime').datetimepicker('setEndDate',endTime);
+		// this.focus();
+    // });
 
 
 

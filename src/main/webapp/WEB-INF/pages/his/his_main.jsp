@@ -109,18 +109,13 @@
 			</a>
 		</li>
 		<li>
-			<a href="1" data-toggle="tab">
-				已登记
-			</a>
-		</li>
-		<li>
-			<a href="2" data-toggle="tab">
-				已完成
-			</a>
-		</li>
-		<li>
 			<a href="3" data-toggle="tab">
 				已延迟
+			</a>
+		</li>
+		<li>
+			<a href="4" data-toggle="tab">
+				未打印
 			</a>
 		</li>
 		<li>

@@ -175,7 +175,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
     public boolean updateSampleDoctor(PimsPathologySample map,PimsPathologyPieces pieces) {
             StringBuffer sb = new StringBuffer();
             sb.append("update pims_pathology_sample set sampiecedoctorid = '"+pieces.getPiedoctorid()+"',sampiecedoctorname='"+pieces.getPiedoctorname()+
-                    ", where sampleid = "+map.getSampleid());
+                    "', where sampleid = "+map.getSampleid());
             getSession().createSQLQuery(sb.toString()).executeUpdate();
             return true;
     }
