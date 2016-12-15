@@ -237,10 +237,6 @@
             font-size:12px;
             border:1px solid #2274e4;
         }
-        h5{
-            margin-top:0!important;
-            margin-bottom:10px!important;
-        }
         h5 button{
             height:26px;
             background:#e9e9e9!important;
@@ -388,6 +384,9 @@
         }
         .dropdown.open ul{
             display:none;
+        }
+        .form-control{
+            height:26px!important;
         }
 </style>
 

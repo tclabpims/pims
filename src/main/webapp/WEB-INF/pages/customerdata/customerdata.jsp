@@ -72,7 +72,7 @@
 						<fmt:message key="button.search"/>
 						<i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
 					</button>
-                        <button type="button" class="btn btn-purple btn-sm" onclick="clearQuery()">
+                        <button type="button" class="btn btn-grey btn-sm" style="margin-left:3px;" onclick="clearQuery()">
 						清空
 					</button>
 				</span>

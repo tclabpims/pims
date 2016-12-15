@@ -91,8 +91,8 @@
 	</div>
 	<div>
 		<div>
-			<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;"><strong>&nbsp;&nbsp;工作列表</strong></h5>
-			<h5 style="float: left;width: 50%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;"><strong>&nbsp;&nbsp;取材管理</strong>
+			<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;工作列表</strong></h5>
+			<h5 style="float: left;width: 50%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;取材管理</strong>
 				<span class="input_style">&nbsp;&nbsp;取材医生:</span>
 				<select id="doctor_id" class="input_style" style="width: 20%" onchange="searchDoctor('1')">
 					<%out.println(request.getAttribute("piecesname"));%>
@@ -102,7 +102,7 @@
 					<%out.println(request.getAttribute("piecesname"));%>
 				</select>
 			</h5>
-			<h5 style="float: left;width: 16%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;"><strong>&nbsp;&nbsp;图像采集</strong></h5>
+			<h5 style="float: left;width: 16%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;图像采集</strong></h5>
 		</div>
 		<div class="col-sm-4 leftContent" id="div_2">
 			<div id="search_div_1" style="background-color: #F9F9F9;height: 121px;border:1px solid #E0E0E0;">

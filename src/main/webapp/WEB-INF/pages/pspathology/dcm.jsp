@@ -52,7 +52,7 @@
                 <i class="ace-icon fa fa-times bigger-110"></i>
                 <fmt:message key="button.delete" />
             </button>
-            <div class="input-group col-sm-3 " style="float: right;">
+            <div class="input-group col-sm-3 " style="float: right;width:28%;">
                 <input type="text" id="query" class="form-control search-query" placeholder="输入编号或名称" />
                 <span class="input-group-btn">
 					<button type="button" class="btn btn-purple btn-sm" onclick="search()">

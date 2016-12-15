@@ -325,8 +325,8 @@
 		</div>
 	</div>
 	<div>
-		<h5 style="float: left;width: 33%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:15px;height:40px;font-size:15px;color:#fff;line-height:40px;"><strong>&nbsp;&nbsp;已登记标本一览</strong></h5>
-		<h5  style="float: left;width: 67%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;"><strong>&nbsp;&nbsp;标本登记</strong></h5>
+		<h5 style="float: left;width: 33%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:15px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;已登记标本一览</strong></h5>
+		<h5  style="float: left;width: 67%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;标本登记</strong></h5>
 	</div>
 	<ul id="tabss" class="nav nav-tabs">
 		<li class="active">

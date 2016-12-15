@@ -58,8 +58,8 @@
 	</div>
 	<div>
 		<div style="margin-top: 5px">
-			<h5 style="float: left;width: 33%;font-size: 14px;background-color:#82af6f;margin-right:0.8%; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
-			<h5 style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-color:#82af6f;line-height: 38px;text-indent: 20px"><strong style="font-weight: nonrmal">制片管理</strong>
+			<h5 style="float: left;width: 33%;font-size: 14px;background-color:#82af6f;margin-right:0.8%; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px;margin-top:0px!important;" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
+			<h5 style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-color:#82af6f;line-height: 38px;text-indent: 20px;margin-top:0px!important;"><strong style="font-weight: nonrmal">制片管理</strong>
 			</h5>
 		</div>
 		<div class="col-sm-4 leftContent" id="div_2">
