@@ -200,20 +200,19 @@ function loanbtn() {
           }).trigger('reloadGrid');//重新载入
 
           layer.closeAll();
-          layer.closeAll();
           document.getElementById("sliloancustomerid").value='';
           document.getElementById("sliloancustomername").value='';
           document.getElementById("sliintime").value='';
 }
 
 function cancellayer(){
-    layer.closeAll();
     document.getElementById("sliloancustomerid").value='';
     document.getElementById("sliloancustomername").value='';
     document.getElementById("sliintime").value='';
     document.getElementById("slireturncustomerid").value='';
     document.getElementById("slidept").value='';
     document.getElementById("sliresult").value='';
+    layer.closeAll();
 }
 
 function returnbtn(){
@@ -409,7 +408,6 @@ function searchList() {
     var patient_name = $('#patient_name').val();
     var sliid = $('#sliid').val();
     var current = $('#current').val();//包埋状态
-    alert(slipathologyid);
 	jQuery("#new").jqGrid("clearGridData");
 	jQuery("#new").jqGrid('setGridParam',{
 		url: "../othermanage/loanmanagement/ajax/slide",
@@ -606,108 +604,7 @@ function gettypes1(){
 	return str;
 }
 
-//function printCode() {
-//	//打印标本条码号
-//	var ids = $("#new2").jqGrid('getGridParam', 'selarrrow');
-//	if(ids == null || ids == ""){
-//		layer.msg("请选择打印数据!", {icon:2, time: 1000});
-//		return;
-//	}
-//	var saveDatas = [];
-//	$.each(ids, function (key, val) {
-//		var rowData = $("#new2").jqGrid("getRowData", ids[key]);
-//		saveDatas.push(rowData);
-//		startPrint(rowData);
-//	});
-//	// $.ajax({
-//	// 	type: "POST",
-//	// 	async: false,
-//	// 	url: "../nursestation/inexecute/printRequestList",
-//	// 	dataType: "json",
-//	// 	contentType: "application/json",
-//	// 	data: JSON.stringify(saveDatas),
-//	// 	success: function (data) {
-//	// 		var printDatas = data.printOrders
-//	// 		var noPrintDatas = data.noPrintOrders;
-//	// 		for (i = 0; i < printDatas.length; i++) {
-//	// 			startPrint(printDatas[i]);
-//	// 		}
-//	// 		for (i = 0; i < noPrintDatas.length; i++) {
-//	//
-//	// 		}
-//	// 	}
-//	//
-//	// });
-//	//刷新当前节点数据
-//	// var zTree = $.fn.zTree.getZTreeObj("tree");
-//	// var nodes = zTree.getSelectedNodes();
-//	// if (nodes.length > 0) {
-//	// 	zTree.selectNode(nodes[0]);
-//	// 	zTree.setting.callback.onClick(null, zTree.setting.treeId, nodes[0]);//调用事件
-//	// }
-//}
 
-//function printCode() {
-//	//打印标本条码号
-//	var ids = $("#new").jqGrid('getGridParam', 'selarrrow');
-//	if(ids == null || ids == ""){
-//		layer.msg("请选择打印数据!", {icon:2, time: 1000});
-//		return;
-//	}
-//	var saveDatas = [];
-//	$.each(ids, function (key, val) {
-//		var rowData = $("#new").jqGrid("getRowData", ids[key]);
-//		saveDatas.push(rowData);
-//		// startPrint(rowData);
-//	});
-//	$.post("../pathologysample/slide/printcode",{samples:JSON.stringify(saveDatas)},function(data){
-//		data = jQuery.parseJSON(data);
-//		// console.log(data);
-//		startPrint(data);
-//		// for(i=0;i<data.labOrders.length;i++){
-//		// 	startPrint(data.labOrders[i]);
-//		// }
-//	});
-//}
-//
-//var LODOP; //声明为全局变量
-//
-//function Preview() {//打印预览
-//	LODOP = getLodop();
-//	CreateDataBill(data)
-//	LODOP.PREVIEW();
-//}
-//function Setup() {//打印维护
-//	LODOP = getLodop();
-//	LODOP.PRINT_SETUP();
-//}
-//function CreateDataBill(datas) {
-//	LODOP = getLodop();
-//	LODOP.PRINT_INIT("");
-//	LODOP.SET_PRINT_PAGESIZE(3,"97mm","17mm","A4");
-//	for(i=0;i<datas.labOrders.length;i++){
-//		var data = datas.labOrders[i];
-//		var topheight1 = Math.floor(i/3)*22+ 3;
-//		var topheight2 = Math.floor(i/3)*22+ 8;
-//		var leftwidth1 = i%3*32+3;
-//		LODOP.ADD_PRINT_TEXT(topheight1+"mm",leftwidth1+"mm","29mm","5mm","树兰(杭州)医院");
-//		LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
-//		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-//		LODOP.ADD_PRINT_TABLE(128,"5%","90%",314,strStyle+document.getElementById("new").innerHTML);
-//		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
-//		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-//		LODOP.ADD_PRINT_TEXTA("nameText",topheight2+"mm",leftwidth1+"mm","29mm","3mm",data.barcode);
-//		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
-//	}
-//
-//}
-//function startPrint(data) {
-//	CreateDataBill(data);
-//	//开始打印
-//	// LODOP.PRINT();
-//	LODOP.PREVIEW();
-//	// LODOP.PRINT_SETUP();
-//}
 
 function printCode() {
 	//打印标本条码号
@@ -831,7 +728,7 @@ function startPrint() {
 
 
 function loanSlide(){
-    document.getElementById("loanSlidePage").style.display="block";
+//    document.getElementById("loanSlidePage").style.display="block";
     layer.open({
     			type: 1,
     			area: ['500px','220px'],
@@ -846,7 +743,7 @@ function loanSlide(){
 }
 
 function returnSlide(){
-    document.getElementById("returnSlidePage").style.display="block";
+//    document.getElementById("returnSlidePage").style.display="block";
     layer.open({
         			type: 1,
         			area: ['900px','400px'],

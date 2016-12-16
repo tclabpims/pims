@@ -178,7 +178,7 @@
 </div>
 
 <div  class="row" id="returnSlidePage" style="display: none;z-index:1000000000;">
-    <h5 style="margin-left: 20px">当前位置：借阅信息录入</h5>
+    <h5 style="margin-left: 20px">当前位置：归还信息录入</h5>
     <div class="col-xs-6 leftContent">
         <label style="margin-left: 20px">借阅信息确认</label>
         <div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" id="div_0">
