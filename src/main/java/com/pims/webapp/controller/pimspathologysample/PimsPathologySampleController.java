@@ -173,7 +173,7 @@ public class PimsPathologySampleController extends PIMSBaseController{
                 Object[] pd = (Object[]) bean;
                 String[] st = {"sampleid","sampathologyid","sampathologycode","samsenddoctorname",
                         "samsendhospital","sampatientname","piedoctorname","piesamplingtime","samsamplestatus","piedoctorid"};
-                for(int i=0;i<pd.length;i++){
+                for(int i=0;i<st.length;i++){
                     Object o = pd[i];
                     map.put(st[i],o);
                 }

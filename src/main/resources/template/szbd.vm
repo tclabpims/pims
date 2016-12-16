@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常规病理报告单</title>
+    <style>
+        *{
+            font-family:MSYH;
+            font-size: 10pt;
+        }
+        html * {
+            margin: 0 auto;
+        }
+
+        body {
+            width: 794px;
+            height: 1123px;
+        }
+
+        .logo{
+            width:100%;
+            padding-left:20px;
+            padding-top:5px;
+            padding-bottom:5px;
+        }
+        .headtitle {
+            font-size: 16pt;
+            font-weight: bold;
+        }
+        .itemContainer {
+            width:100%;
+            padding-bottom:10px;
+        }
+        .itemtitle {
+            width:100%;
+            padding-left:5px;
+            padding-bottom:5px;
+            padding-top:5px;
+            font-weight:bold;
+        }
+        .fieldname{
+            font-weight:bold;
+        }
+        .imgContainer{
+            margin:0 auto;
+        }
+        .line {
+            border-bottom:1px solid #000;
+            padding-left:5px;
+            padding-right:5px;
+        }
+        .divfirst {
+            display:inline;
+            padding-left:5px;
+        }
+        .divother {
+            display:inline;
+            padding-left:50px
+        }
+        .tdtextalign {
+            vertical-align:middle;
+            text-align:left;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="logo" align="left"><img src="$!hospitalLogo" width="137px" height="46px" style="vertical-align:middle">
+        <div align="center" class="itemContainer">
+            <span class="headtitle">$!formname</span>
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="itemtitle">尊敬的客户：	</div>
+    <div id="picContainer" class="imgContainer">
+        &#12288;&#12288;手术中冰冻切片检查是临床医师在实施手术过程中，就与手术方案有关的疾病诊断问题请求病理医师
+        快速进行的紧急会诊，是将手术中切下的病变组织在冰冻切片机中迅速冻硬后制成切片供显微镜下病理检查，
+        要求病理医师在短时间内，根据对切除标本快速冰冻切片观察后，向手术医师提供参考性病理学诊断意见，
+        以决定下一步治疗的方案。限于医学技术的发展水平，目前冰冻切片的诊断准确率有限。</br>
+        <div class="itemtitle">
+        &#12288;&#12288;1. 冰冻切片诊断仅为手术医师提供参考意见，具有局限性，准确率一般在95%左右。</br>
+        &#12288;&#12288;2．休积较大的肿瘤发生局灶性恶变时，因冰冻切片时难以全部取材而可能未发现。</br>
+        &#12288;&#12288;3．一些病变单靠冰冻切片难以鉴别良恶性，为防止对患者造成不必要的损伤，病理医师遇到
+                不典型或可疑恶性时会在冰冻报告中&#12288;&#12288;&#12288;&#12288;提示等待常规石蜡诊断。</br>
+        &#12288;&#12288;4. 冰冻报告不能作为最后诊断，最后诊断必须等待石蜡切片。</br>
+        &#12288;&#12288;5．冰冻报告与常规石蜡切片报告可能不一致，此时以石蜡切片诊断报告为准。手术方案有可能
+                因此发生改变。</br>
+        &#12288;&#12288;6．送检下列标本者请注意:</br></div>
+        &#12288;&#12288;&#12288;&#12288;①骨组织、皮肤组织及过小的组织原则上不宜做冰冻切片；</br>
+        &#12288;&#12288;&#12288;&#12288;②淋巴结病变、依靠核分裂像计数判断良恶性的某些软组织肿瘤(如平滑肌肿瘤)及主要依赖于侵袭
+                    或转移才能判断为恶性的肿&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;瘤，一般需做常规石蜡切片确诊；</br>
+        &#12288;&#12288;&#12288;&#12288;③脑组织含水量多，冰冻切片质量较差，诊断可能有难度。</br>
+        <div class="itemtitle">&#12288;&#12288;由于上述原因，当冰冻切片不能达到预期的目的时，需患者及家属谅解。同时患者有权选择快速的
+        术中需患者及家属谅解。同时患者有权选择快速的术中冰冻切片病理检查，也可选择更精确的常规
+        石蜡切片病理检查。常规检查一般需5天出报告（节假日顺延）。</div>
+    </div>
+    <div class="line"></div>
+    <div class="imgContainer">
+        &#12288;&#12288;医师已经告知我将要进行的检查方法、检查存在的潜在风险、可能存在的其他诊疗方法并且解答了
+        我关于此次检查的相关问题。愿意接受手术中冰冻切片检查。
+    </div>
+    <div class="line"></div>
+    <div class="itemtitle">
+        医师签名：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;患者(代理/监护人)签名：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;关系：</br>
+        签署日期：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;签署日期：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;※非本人签字
+    </div>
+</div>
+</body>
+</html>

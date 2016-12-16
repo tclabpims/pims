@@ -56,4 +56,11 @@ public class PimsSysPathologyDaoHibernate extends GenericDaoHibernate<PimsSysPat
     public List<PimsSysPathology> findEnabledPathology(String hql) {
         return getSession().createQuery(hql).list();
     }
+
+    @Override
+    public PimsSysPathology getSysPathologyById(long pathologyId) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsSysPathology where pathologyid="+pathologyId);
+        return (PimsSysPathology)getSession().createQuery(sb.toString()).uniqueResult();
+    }
 }

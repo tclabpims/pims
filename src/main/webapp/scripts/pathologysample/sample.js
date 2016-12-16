@@ -134,34 +134,34 @@ function clickOther() {//实现表单验证
 function changeimgclick(num) {//1新增 2 修改
 	if(num == 1){
 		if (typeof document.addEventListener == "undefined") {
-			document.getElementById("editButton").detachEvent("onclick",editSample);
+			// document.getElementById("editButton").detachEvent("onclick",editSample);
 			document.getElementById("deleteButton").detachEvent("onclick",deleteSample);
 			document.getElementById("hisbutton").detachEvent("onclick",hisChange);
 		} else {
-			document.getElementById("editButton").removeEventListener("click",editSample,false);
+			// document.getElementById("editButton").removeEventListener("click",editSample,false);
 			document.getElementById("deleteButton").removeEventListener("click",deleteSample,false);
 			document.getElementById("hisbutton").removeEventListener("click",hisChange,false);
 		}
-		$("#editButton").css("cursor","default");
+		// $("#editButton").css("cursor","default");
 		$("#deleteButton").css("cursor","default");
 		$("#hisbutton").css("cursor","default");
 	}else if(num == 2){
 		if (typeof document.addEventListener == "undefined") {
-			document.getElementById("editButton").detachEvent("onclick",editSample);
-			document.getElementById("editButton").attachEvent("onclick",editSample);
+			// document.getElementById("editButton").detachEvent("onclick",editSample);
+			// document.getElementById("editButton").attachEvent("onclick",editSample);
 			document.getElementById("deleteButton").detachEvent("onclick",deleteSample);
 			document.getElementById("deleteButton").attachEvent("onclick",deleteSample);
 			document.getElementById("hisbutton").detachEvent("onclick",hisChange);
 			document.getElementById("hisbutton").attachEvent("onclick",hisChange)
 		} else {
-			document.getElementById("editButton").removeEventListener("click",editSample,false);
-			document.getElementById("editButton").addEventListener("click",editSample,false);
+			// document.getElementById("editButton").removeEventListener("click",editSample,false);
+			// document.getElementById("editButton").addEventListener("click",editSample,false);
 			document.getElementById("deleteButton").removeEventListener("click",deleteSample,false);
 			document.getElementById("deleteButton").addEventListener("click",deleteSample,false);
 			document.getElementById("hisbutton").removeEventListener("click",hisChange,false);
 			document.getElementById("hisbutton").addEventListener("click",hisChange,false);
 		}
-		$("#editButton").css("cursor","pointer");
+		// $("#editButton").css("cursor","pointer");
 		$("#deleteButton").css("cursor","pointer");
 		$("#hisbutton").css("cursor","pointer");
 	}
@@ -177,91 +177,192 @@ function saveInfo() {
 	if($("input[name='samsecondv']:checked").val() == "2"){
 		post = false;
 		layer.msg("标本不合格,请描述原因!", {icon: 2, time: 2000});
-		return false;
+		return;
 	}
-	if(post) {
-		$.post("../pathologysample/sample/editSample", {
-			samfirstv:$("input[name='samfirstv']:checked").val(),
-			samsenddoctorname:$("#samsenddoctorid").find("option:selected").text(),
-            samsenddoctorname:$("#samsenddoctorname").val(),
-			samsecondv:$("input[name='samsecondv']:checked").val(),
-			sampleid:$("#sampleid").val(),//标本id
-			saminspectionid:$("#saminspectionid").val(),//标本条码号
-			sampathologycode:$("#sampathologycode").val(),//病理编号
-			samcustomerid:$("#samcustomerid").val(),//客户id
-			samcustomercode:$("#samcustomercode").val(),//客户id
-			sampathologyid:$("#sampathologyid").val(),//病种类别id
-			samsource:$("#samsource").val(),//是否外送标本(0本院,1外送)
-			samotherid:$("#samotherid").val(),//第三方条码号
-			samrequistionid:$("#samrequistionid").val(),//申请单号(多个申请单号之间用逗号隔开)
-			sampatientid:$("#sampatientid").val(),//患者唯一号(病案号)
-			saminpatientid:$("#saminpatientid").val(),//就诊id(患者每一次来院的id)
-			saminpatientno:$("#saminpatientno").val(),//住院序号(住院次数)
-			sampatientnumber:$("#sampatientnumber").val(),//住院卡号/门诊卡号
-			sampatienttype:$("#sampatienttype").val(),//患者类型(病人类型： 1门诊,2住院,3体检,4婚检,5科研,6特勤,7其他)
-			sampatientname:$("#sampatientname").val(),//姓名
-			sampatientsex:$("#sampatientsex").val(),//患者性别(1男,2女,3未知)
-			sampatientage:$("#sampatientage").val(),//年龄
-			sampatientagetype:$("#sampatientagetype").val(),//年龄类型(1年、2岁、3月、4周、5日、6小时)
-			sampatientbed:$("#sampatientbed").val(),//患者床号
-			samsampleclass:$("#samsampleclass").val(),//标本种类
-			samsamplename:$("#samsamplename").val(),//标本名称(,多个检查项目名称之间用逗号隔开)
-			sampopuser:$("#sampopuser").val(),//标本检查项目id(多个检验目的之间用逗号隔开)
-			samisemergency:$("#samisemergency").val(),//是否加急(0不加急,1加急)
-			samisdecacified:$("#samisdecacified").val(),//是否脱钙(0没有脱钙,1已脱钙)
-			samissamplingall:$("#samissamplingall").val(),//是否全取(0,未全取,1全取)
-			samsamplestatus:$("#samsamplestatus").val(),//标本状态(0已登记,1已取材,2包埋,3已切片,4已初诊,5已审核,6已发送,7会诊中,8报告已打印)
-			samreqtime:$("#samreqtime").val(),//申请时间
-			samreqdocid:$("#samreqdocid").val(),//申请医生id
-			samreqdocname:$("#samreqdocname").val(),//申请医生姓名
-			samsendtime:$("#samsendtime").val(),//送检时间
-			samsenddoctorid:$("#samsenddoctorid").val(),//送检医生id
-			//samsenddoctorname:$("#samsenddoctorname").val(),//送检医生姓名----
-			samsendhospital:$("#samsendhospital").val(),//送检单位名称
-			samsendphone:$("#samsendphone").val(),//送检联系电话
-			samdigcode:$("#samdigcode").val(),//诊疗小组代码
-			samdeptcode:$("#samdeptcode").val(),//科室代码
-			samdeptname:$("#samdeptname").val(),//科室名称
-			samwardcode:$("#samwardcode").val(),//病区代码
-			samwardname:$("#samwardname").val(),//病区名称
-			sampatientdignoses:$("#sampatientdignoses").val(),//临床诊断
-			sampatientidcardno:$("#sampatientidcardno").val(),//身份证号
-			sampatientaddress:$("#sampatientaddress").val(),//联系地址
-			sampatientphoneno:$("#sampatientphoneno").val(),//联系电话
-			sampatientcompany:$("#sampatientcompany").val(),//工作单位
-			samismenopause:$("#samismenopause").val(),//是否绝经
-			reqlastmenstruation:$("#reqlastmenstruation").val(),//末次月经时间
-			samischarged:$("#samischarged").val(),//收费状态(0未收费,1已收费)
-			samreceivertime:$("#samreceivertime").val(),//接收时间
-			samreceiverid:$("#samreceiverid").val(),//接收人员id
-			samreceivername:$("#samreceivername").val(),//接收人员姓名
-			samregisttime:$("#samregisttime").val(),//登记时间
-			samregisterid:$("#samregisterid").val(),//登记人员id
-			samregistername:$("#samregistername").val(),//登记人员姓名
-			saminitiallytime:$("#saminitiallytime").val(),//初诊时间
-			saminitiallyuserid:$("#saminitiallyuserid").val(),//初诊人员id
-			saminitiallyusername:$("#saminitiallyusername").val(),//初诊人员姓名
-			samisdeleted:$("#samisdeleted").val(),//删除标志（0正常，1已删除）
-			samthirdv:$("#samthirdv").val(),//手术所见
-			samfirstn:$("#samfirstn").val(),//组织袋数
-			samcreatetime:$("#samcreatetime").val(),//创建时间
-			samcreateuser:$("#samcreateuser").val(),//创建人
-			samjcxm:$("#samjcxm").val(),//检查项目
-			sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
-			sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
-			samremark:$("#samremark").val()//不合格原因
-		},
-		function(data) {
-			if(data.success) {
-				layer.msg(data.message, {icon: 1, time: 1000});
-				location.reload();
-			} else {
-				layer.msg(data.message, {icon:2, time: 1000});
-			}
-		});
-	} else {
-		layer.msg(msg, {icon: 2, time: 1000});
+	if(addstates == "1"){
+		$.get("../pathologysample/sample/canchange", {
+				id:$("#sampleid").val(),
+				sts:"1"
+			},
+			function(data) {
+				//var data = JSON.parse(data);
+				if(data.success) {
+					if(post) {
+						$.post("../pathologysample/sample/editSample", {
+								samfirstv:$("input[name='samfirstv']:checked").val(),
+								samsenddoctorname:$("#samsenddoctorid").find("option:selected").text(),
+								samsenddoctorname:$("#samsenddoctorname").val(),
+								samsecondv:$("input[name='samsecondv']:checked").val(),
+								sampleid:$("#sampleid").val(),//标本id
+								saminspectionid:$("#saminspectionid").val(),//标本条码号
+								sampathologycode:$("#sampathologycode").val(),//病理编号
+								samcustomerid:$("#samcustomerid").val(),//客户id
+								samcustomercode:$("#samcustomercode").val(),//客户id
+								sampathologyid:$("#sampathologyid").val(),//病种类别id
+								samsource:$("#samsource").val(),//是否外送标本(0本院,1外送)
+								samotherid:$("#samotherid").val(),//第三方条码号
+								samrequistionid:$("#samrequistionid").val(),//申请单号(多个申请单号之间用逗号隔开)
+								sampatientid:$("#sampatientid").val(),//患者唯一号(病案号)
+								saminpatientid:$("#saminpatientid").val(),//就诊id(患者每一次来院的id)
+								saminpatientno:$("#saminpatientno").val(),//住院序号(住院次数)
+								sampatientnumber:$("#sampatientnumber").val(),//住院卡号/门诊卡号
+								sampatienttype:$("#sampatienttype").val(),//患者类型(病人类型： 1门诊,2住院,3体检,4婚检,5科研,6特勤,7其他)
+								sampatientname:$("#sampatientname").val(),//姓名
+								sampatientsex:$("#sampatientsex").val(),//患者性别(1男,2女,3未知)
+								sampatientage:$("#sampatientage").val(),//年龄
+								sampatientagetype:$("#sampatientagetype").val(),//年龄类型(1年、2岁、3月、4周、5日、6小时)
+								sampatientbed:$("#sampatientbed").val(),//患者床号
+								samsampleclass:$("#samsampleclass").val(),//标本种类
+								samsamplename:$("#samsamplename").val(),//标本名称(,多个检查项目名称之间用逗号隔开)
+								sampopuser:$("#sampopuser").val(),//标本检查项目id(多个检验目的之间用逗号隔开)
+								samisemergency:$("#samisemergency").val(),//是否加急(0不加急,1加急)
+								samisdecacified:$("#samisdecacified").val(),//是否脱钙(0没有脱钙,1已脱钙)
+								samissamplingall:$("#samissamplingall").val(),//是否全取(0,未全取,1全取)
+								samsamplestatus:$("#samsamplestatus").val(),//标本状态(0已登记,1已取材,2包埋,3已切片,4已初诊,5已审核,6已发送,7会诊中,8报告已打印)
+								samreqtime:$("#samreqtime").val(),//申请时间
+								samreqdocid:$("#samreqdocid").val(),//申请医生id
+								samreqdocname:$("#samreqdocname").val(),//申请医生姓名
+								samsendtime:$("#samsendtime").val(),//送检时间
+								samsenddoctorid:$("#samsenddoctorid").val(),//送检医生id
+								//samsenddoctorname:$("#samsenddoctorname").val(),//送检医生姓名----
+								samsendhospital:$("#samsendhospital").val(),//送检单位名称
+								samsendphone:$("#samsendphone").val(),//送检联系电话
+								samdigcode:$("#samdigcode").val(),//诊疗小组代码
+								samdeptcode:$("#samdeptcode").val(),//科室代码
+								samdeptname:$("#samdeptname").val(),//科室名称
+								samwardcode:$("#samwardcode").val(),//病区代码
+								samwardname:$("#samwardname").val(),//病区名称
+								sampatientdignoses:$("#sampatientdignoses").val(),//临床诊断
+								sampatientidcardno:$("#sampatientidcardno").val(),//身份证号
+								sampatientaddress:$("#sampatientaddress").val(),//联系地址
+								sampatientphoneno:$("#sampatientphoneno").val(),//联系电话
+								sampatientcompany:$("#sampatientcompany").val(),//工作单位
+								samismenopause:$("#samismenopause").val(),//是否绝经
+								reqlastmenstruation:$("#reqlastmenstruation").val(),//末次月经时间
+								samischarged:$("#samischarged").val(),//收费状态(0未收费,1已收费)
+								samreceivertime:$("#samreceivertime").val(),//接收时间
+								samreceiverid:$("#samreceiverid").val(),//接收人员id
+								samreceivername:$("#samreceivername").val(),//接收人员姓名
+								samregisttime:$("#samregisttime").val(),//登记时间
+								samregisterid:$("#samregisterid").val(),//登记人员id
+								samregistername:$("#samregistername").val(),//登记人员姓名
+								saminitiallytime:$("#saminitiallytime").val(),//初诊时间
+								saminitiallyuserid:$("#saminitiallyuserid").val(),//初诊人员id
+								saminitiallyusername:$("#saminitiallyusername").val(),//初诊人员姓名
+								samisdeleted:$("#samisdeleted").val(),//删除标志（0正常，1已删除）
+								samthirdv:$("#samthirdv").val(),//手术所见
+								samfirstn:$("#samfirstn").val(),//组织袋数
+								samcreatetime:$("#samcreatetime").val(),//创建时间
+								samcreateuser:$("#samcreateuser").val(),//创建人
+								samjcxm:$("#samjcxm").val(),//检查项目
+								sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
+								sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
+								samremark:$("#samremark").val()//不合格原因
+							},
+							function(data) {
+								if(data.success) {
+									layer.msg(data.message, {icon: 1, time: 1000});
+									location.reload();
+								} else {
+									layer.msg(data.message, {icon:2, time: 1000});
+								}
+							});
+					} else {
+						layer.msg(msg, {icon: 2, time: 1000});
+					}
+				}else{
+					layer.msg(data.message, {icon:2, time: 1000});
+					post = false;
+					return;
+				}
+			});
+	}else{
+		if(post) {
+			$.post("../pathologysample/sample/editSample", {
+					samfirstv:$("input[name='samfirstv']:checked").val(),
+					samsenddoctorname:$("#samsenddoctorid").find("option:selected").text(),
+					samsenddoctorname:$("#samsenddoctorname").val(),
+					samsecondv:$("input[name='samsecondv']:checked").val(),
+					sampleid:$("#sampleid").val(),//标本id
+					saminspectionid:$("#saminspectionid").val(),//标本条码号
+					sampathologycode:$("#sampathologycode").val(),//病理编号
+					samcustomerid:$("#samcustomerid").val(),//客户id
+					samcustomercode:$("#samcustomercode").val(),//客户id
+					sampathologyid:$("#sampathologyid").val(),//病种类别id
+					samsource:$("#samsource").val(),//是否外送标本(0本院,1外送)
+					samotherid:$("#samotherid").val(),//第三方条码号
+					samrequistionid:$("#samrequistionid").val(),//申请单号(多个申请单号之间用逗号隔开)
+					sampatientid:$("#sampatientid").val(),//患者唯一号(病案号)
+					saminpatientid:$("#saminpatientid").val(),//就诊id(患者每一次来院的id)
+					saminpatientno:$("#saminpatientno").val(),//住院序号(住院次数)
+					sampatientnumber:$("#sampatientnumber").val(),//住院卡号/门诊卡号
+					sampatienttype:$("#sampatienttype").val(),//患者类型(病人类型： 1门诊,2住院,3体检,4婚检,5科研,6特勤,7其他)
+					sampatientname:$("#sampatientname").val(),//姓名
+					sampatientsex:$("#sampatientsex").val(),//患者性别(1男,2女,3未知)
+					sampatientage:$("#sampatientage").val(),//年龄
+					sampatientagetype:$("#sampatientagetype").val(),//年龄类型(1年、2岁、3月、4周、5日、6小时)
+					sampatientbed:$("#sampatientbed").val(),//患者床号
+					samsampleclass:$("#samsampleclass").val(),//标本种类
+					samsamplename:$("#samsamplename").val(),//标本名称(,多个检查项目名称之间用逗号隔开)
+					sampopuser:$("#sampopuser").val(),//标本检查项目id(多个检验目的之间用逗号隔开)
+					samisemergency:$("#samisemergency").val(),//是否加急(0不加急,1加急)
+					samisdecacified:$("#samisdecacified").val(),//是否脱钙(0没有脱钙,1已脱钙)
+					samissamplingall:$("#samissamplingall").val(),//是否全取(0,未全取,1全取)
+					samsamplestatus:$("#samsamplestatus").val(),//标本状态(0已登记,1已取材,2包埋,3已切片,4已初诊,5已审核,6已发送,7会诊中,8报告已打印)
+					samreqtime:$("#samreqtime").val(),//申请时间
+					samreqdocid:$("#samreqdocid").val(),//申请医生id
+					samreqdocname:$("#samreqdocname").val(),//申请医生姓名
+					samsendtime:$("#samsendtime").val(),//送检时间
+					samsenddoctorid:$("#samsenddoctorid").val(),//送检医生id
+					//samsenddoctorname:$("#samsenddoctorname").val(),//送检医生姓名----
+					samsendhospital:$("#samsendhospital").val(),//送检单位名称
+					samsendphone:$("#samsendphone").val(),//送检联系电话
+					samdigcode:$("#samdigcode").val(),//诊疗小组代码
+					samdeptcode:$("#samdeptcode").val(),//科室代码
+					samdeptname:$("#samdeptname").val(),//科室名称
+					samwardcode:$("#samwardcode").val(),//病区代码
+					samwardname:$("#samwardname").val(),//病区名称
+					sampatientdignoses:$("#sampatientdignoses").val(),//临床诊断
+					sampatientidcardno:$("#sampatientidcardno").val(),//身份证号
+					sampatientaddress:$("#sampatientaddress").val(),//联系地址
+					sampatientphoneno:$("#sampatientphoneno").val(),//联系电话
+					sampatientcompany:$("#sampatientcompany").val(),//工作单位
+					samismenopause:$("#samismenopause").val(),//是否绝经
+					reqlastmenstruation:$("#reqlastmenstruation").val(),//末次月经时间
+					samischarged:$("#samischarged").val(),//收费状态(0未收费,1已收费)
+					samreceivertime:$("#samreceivertime").val(),//接收时间
+					samreceiverid:$("#samreceiverid").val(),//接收人员id
+					samreceivername:$("#samreceivername").val(),//接收人员姓名
+					samregisttime:$("#samregisttime").val(),//登记时间
+					samregisterid:$("#samregisterid").val(),//登记人员id
+					samregistername:$("#samregistername").val(),//登记人员姓名
+					saminitiallytime:$("#saminitiallytime").val(),//初诊时间
+					saminitiallyuserid:$("#saminitiallyuserid").val(),//初诊人员id
+					saminitiallyusername:$("#saminitiallyusername").val(),//初诊人员姓名
+					samisdeleted:$("#samisdeleted").val(),//删除标志（0正常，1已删除）
+					samthirdv:$("#samthirdv").val(),//手术所见
+					samfirstn:$("#samfirstn").val(),//组织袋数
+					samcreatetime:$("#samcreatetime").val(),//创建时间
+					samcreateuser:$("#samcreateuser").val(),//创建人
+					samjcxm:$("#samjcxm").val(),//检查项目
+					sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
+					sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
+					samremark:$("#samremark").val()//不合格原因
+				},
+				function(data) {
+					if(data.success) {
+						layer.msg(data.message, {icon: 1, time: 1000});
+						location.reload();
+					} else {
+						layer.msg(data.message, {icon:2, time: 1000});
+					}
+				});
+		} else {
+			layer.msg(msg, {icon: 2, time: 1000});
+		}
 	}
+
+
 }
 /**
  * 新增标本单
@@ -503,10 +604,9 @@ $(function() {
 
 
 
-    $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
+    // $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
     $('#samrequistionid').removeAttr("disabled");
 	//检查项目
-	// $(".js-example-basic-single").select2();
 	$("#samjcxm").autocomplete({
 		source: function( request, response ) {
 			$.ajax({
@@ -645,8 +745,17 @@ $(function() {
 			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
 			.appendTo( ul );
 	};
-	var clientHeight= $(window).innerHeight();
-	var height = $("#div_1").height() - $('#h5_1').height()-$("#tabss").height + 230;
+	var clientHeight = $(window).innerHeight();
+
+	var mainheight = clientHeight - $("#div_1").height() - $('#h5_1').height()-$("#tabss").height() - $("#search_div_1").height()-$("#menuheader").height()-120;
+	if(mainheight < 340){
+		mainheight = 340;
+	}
+	var reqheight = mainheight + $("#search_div_1").height()+ 40
+	if(reqheight < 340){
+		reqheight = 340;
+	}
+	var feeheight = reqheight - $("#sampleForm").height()-60;
     var width = $('#search_div_1').width();
     var width1 = $("#sampleForm").width();
 	//alert($(window).innerWidth());
@@ -661,7 +770,7 @@ $(function() {
 	var send_dept = $('#send_dept').val();
 	var send_doctor = $('#send_doctor').val();
 	var req_sts = $("input[name='req_sts']:checked").val();//包埋状态
-    createNew1(width1);
+    createNew1(feeheight,width1);
 	$("#new").jqGrid({
 		//caption:"标本列表",
 		url: "../pathologysample/sample/ajax/sample",
@@ -669,21 +778,22 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['ID','条形码', '病理号', '送检医生','送检医院','病人名','病理状态','性别','年龄','年龄类型','临床诊断','申请时间','送检时间','登记时间'],
+		colNames: ['ID', '病理编号','患者姓名','送检单位','送检科室', '送检医生','申请时间','合格状态','病理状态','性别','年龄','年龄类型','临床诊断','送检时间','登记时间'],
 		colModel: [
 			{name:'sampleid',hidden:true},
-			{ name: 'saminspectionid', index: 'saminspectionid',width:'100px', align: "center"},
 			{ name: 'sampathologycode', index: 'sampathologycode',width:'100px', align: "center"},
-			{ name: 'samsenddoctorname', index: 'samsenddoctorname',width:'100px', align: "center"},
-			{ name: 'samsendhospital', index: 'samsendhospital',width:'100px', align: "center"},
 			{ name: 'sampatientname', index: 'sampatientname',width:'100px', align: "center"},
+			{ name: 'samsendhospital', index: 'samsendhospital',width:'100px', align: "center"},
+			{ name: 'samdeptname', index: 'samdeptname',width:'100px', align: "center"},
+			{ name: 'samsenddoctorname', index: 'samsenddoctorname',width:'100px', align: "center"},
+			{name:'samreqtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
+			{ name: 'samsecondv', index: 'samsecondv',width:'100px', align: "center",formatter:"select",editoptions:{value:"1:合格;2:不合格"}},
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;" +
 			"6:已发送;7:会诊中:8:报告已打印"},width:'100px', align: "center"},
 			{name:'sampatientsex',hidden:true},
 			{name:'sampatientage',hidden:true},
 			{name:'sampatientagetype',hidden:true},
 			{name:'sampatientdignoses',hidden:true},
-			{name:'samreqtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
 			{name:'samsendtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
 			{name:'samregisttime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
 			],
@@ -730,7 +840,7 @@ $(function() {
 		// },
 		multiselect: true,
 		viewrecords: true,
-		height:269,
+		height:mainheight,
         width:width,
         shrinkToFit:false,
         autoScroll: true,
@@ -782,7 +892,7 @@ $(function() {
 		// 	fillInfo(id);
 		// },
 		viewrecords: true,
-		height:489,
+		height:reqheight,
         width:width,
 		//autowidth: true,
 		// rowNum: 20,
@@ -801,12 +911,12 @@ $(function() {
 /**
  * 初始化收费项目列表
  */
-function createNew1(width) {
+function createNew1(height,width) {
 	$("#new2").jqGrid({
 		url:"../pathologysample/sample/ajax/fee",
 		datatype: "json",
 		mtype:"GET",
-		height: 133,
+		height: height,
         width:width,
 		postData:{"feesampleid":$("#sampleid").val(),"feesource":"0"},
 		colNames: ['ID','项目名称','单价','数量', '金额','记录人员','记录时间','发送状态'],
@@ -931,7 +1041,7 @@ function fillInfo1(id){
         //发送数据
         postData:{"feesampleid":rowData.sampleid,"feesource":"0"}
     }).trigger('reloadGrid');//重新载入
-	$('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
+	// $('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
 	// $("#editButton").removeAttr("disabled");//将按钮可用
 	// $("#deleteButton").removeAttr("disabled");//将按钮可用
 	// $("#saveButton").attr({"disabled":"disabled"});
@@ -1246,7 +1356,7 @@ function getdynamicdiv(logyid,num) {
 		$.ajax({
 			type:'get',
 			url: '../pimspathology/ajax/item',
-			data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val()},
+			data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val(),"req_sts":2},
 			dataType:"json",
 			// error:function(value){
 			// 	ds.dialog.alert('加载失败');

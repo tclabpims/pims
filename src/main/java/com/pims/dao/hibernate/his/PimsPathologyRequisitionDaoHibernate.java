@@ -242,9 +242,12 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
     @Override
     public List searchLists(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsSysCustomerBasedata,PimsSysReqField where bastype = 2 and basrefdataid = fieldid and basuseflag = 1 and fieuseflag = 1 ");
+        sb.append(" from PimsSysCustomerBasedata,PimsSysReqField where basrefdataid = fieldid and basuseflag = 1 and fieuseflag = 1 ");
         if(map == null){
             return  null;
+        }
+        if(!StringUtils.isEmpty(map.getReq_sts())){
+            sb.append(" and bastype="+map.getReq_sts());
         }
         if(!StringUtils.isEmpty(map.getReq_code())){
             sb.append(" and bascustomercode ='" + map.getReq_code() + "'");
@@ -252,7 +255,7 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         if(!StringUtils.isEmpty(map.getLogyid())){
             sb.append(" and baspathologyid=" + map.getLogyid());
         }
-        sb.append(" order by fieshoworder");
+//        sb.append(" order by fieshoworder");
         return getSession().createQuery(sb.toString()).list();
     }
 

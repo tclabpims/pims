@@ -19,4 +19,5 @@ public interface PimsSysPathologyManager extends GenericManager<PimsSysPathology
 
     JSONArray getPathologyType();
 
+    PimsSysPathology getSysPathologyById(long pathologyId);
 }

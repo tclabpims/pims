@@ -72,4 +72,9 @@ public class PimsSysPathologyManagerImpl extends GenericManagerImpl<PimsSysPatho
         }
         return array;
     }
+
+    @Override
+    public PimsSysPathology getSysPathologyById(long pathologyId) {
+        return pimsSysPathologyDao.getSysPathologyById(pathologyId);
+    }
 }

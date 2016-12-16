@@ -102,6 +102,29 @@ function showDataGrid() {
                 }
             });
             break;
+        case 5:
+            layer.open({
+                type: 1,
+                area: ['800px', '500px'],
+                fix: false, //不固定
+                maxmin: true,
+                shade: 0.5,
+                title: "申请送检材料",
+                content: $('#treeArea'),
+                btn: ["保存", "取消"],
+                yes: function (index, layero) {
+                    var treeObj = $.fn.zTree.getZTreeObj("tree");
+                    var nodes = treeObj.getSelectedNodes();
+                    if (!nodes || nodes.length == 0 || nodes[0].id == 0) {
+                        layer.msg('请先选择节点', {icon: 2, time: 1000});
+                        return false;
+                    }
+                    $('#basrefdataid').val(nodes[0].id);
+                    $('#basrefdataname').val(nodes[0].name);
+                    layer.close(index);
+                }
+            });
+            break;
     }
 }
 
@@ -368,7 +391,7 @@ $(function () {
                 index: 'bastype',
                 width: 30,
                 formatter: "select",
-                editoptions: {value: "1:申请材料数据;2:申请字段数据;3:报告项目数据;4:申请检查项目数据"}
+                editoptions: {value: "1:申请材料数据;2:申请字段数据;3:报告项目数据;4:申请检查项目数据;5:申请送检材料"}
             },
             {name: 'basrefdataname', index: 'basrefdataname', width: 30},
             {name: 'basrefdataalias', index: 'basrefdataalias', width: 30},

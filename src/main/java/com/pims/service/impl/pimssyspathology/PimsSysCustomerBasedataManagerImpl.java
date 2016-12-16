@@ -36,7 +36,7 @@ public class PimsSysCustomerBasedataManagerImpl extends GenericManagerImpl<PimsS
                 .append("(Select P.patnamech From Pims_Sys_Pathology P where A.baspathologyid=P.Pathologyid) as baspathologyname,")
                 .append("(select case ")
                 .append("        when A.bastype=1 then (select m.matname from Pims_Sys_Req_Material m where m.materialid=a.basrefdataid) ")
-                .append("        when A.bastype=2 then (select M.Fieelementname from Pims_Sys_Req_field m where M.Fieldid=a.basrefdataid)")
+                .append("        when A.bastype=2 or A.bastype=5 then (select M.Fieelementname from Pims_Sys_Req_field m where M.Fieldid=a.basrefdataid)")
                 .append("        when A.bastype=3 then (select M.Rptname from Pims_Sys_Report_Items m where M.Reportitemid=a.basrefdataid)")
                 .append("        when A.bastype=4 then (select M.Teschinesename from Pims_Sys_Req_Testitem m where m.testitemid=a.basrefdataid)")
                 .append("        else null end basrefdataname from dual")

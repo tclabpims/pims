@@ -4,20 +4,25 @@ package com.pims.webapp.controller.his;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pims.model.PimsBaseModel;
-import com.pims.model.PimsPathologyRequisition;
-import com.pims.model.PimsRequisitionMaterial;
-import com.pims.model.PimsSysReqTestitem;
+import com.pims.model.*;
 import com.pims.service.QueryHisDataService;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.his.PimsRequisitionMaterialManager;
+import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.PIMSBaseController;
+import com.pims.webapp.controller.WebControllerUtil;
 import com.smart.Constants;
+import com.smart.model.lis.Hospital;
 import com.smart.model.user.User;
+import com.smart.service.lis.HospitalManager;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,6 +32,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.io.StringWriter;
 import java.util.*;
 
 @Controller
@@ -40,6 +49,10 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	private PimsSysReqTestitemManager pimsSysReqTestitemManager;
 	@Autowired
 	private QueryHisDataService dataService;
+	@Autowired
+	private PimsSysPathologyManager pimsSysPathologyManager;
+	@Autowired
+	private HospitalManager hospitalManager;
 
 	/**
 	 * 渲染视图
@@ -164,6 +177,7 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		PimsBaseModel map = new PimsBaseModel();
 		map.setReq_code(request.getParameter("req_code"));
 		map.setLogyid(request.getParameter("logyid"));
+		map.setReq_sts(request.getParameter("req_sts"));
 		List list = pimsPathologyRequisitionManager.searchLists(map);
 		String resultString = getResultJsons(list);
 		//response.setContentType("text/html; charset=UTF-8");
@@ -305,5 +319,81 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		dataResponse.setRows(getResultMap(list));
 		response.setContentType("text/html; charset=UTF-8");
 		return dataResponse;
+	}
+
+	@RequestMapping(value = "/report/printzqs", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> printReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		User user = WebControllerUtil.getAuthUser();
+		PimsSysPathology pathology = pimsSysPathologyManager.get(Long.valueOf(request.getParameter("id")));
+		Map<String, String> resultMap = null;
+		VelocityContext context = new VelocityContext();
+		context.put("formname", pathology.getPatcoddingprechar());
+		context.put("hospitalLogo", getHospitalLogo(request, user.getHospitalId()));
+		VelocityEngine engine = new VelocityEngine();
+		engine.setProperty(Velocity.RESOURCE_LOADER, "class");
+		engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		engine.init();
+		Template template = engine.getTemplate(pathology.getPatthirdv(), "UTF-8");
+		StringWriter writer = new StringWriter();
+		template.merge(context, writer);
+
+		String rootDir = request.getSession().getServletContext().getRealPath("/pdf");
+		String fileName = "1.html";
+		String outputFile = rootDir + File.separator + fileName;
+		generateHtml(outputFile, writer.toString());
+
+		response.setContentType(super.contentType);
+
+		Map<String, String> map = new HashMap<>();
+		map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
+
+		return map;
+	}
+
+	private String getHospitalLogo(HttpServletRequest request, Long hospitalId) {
+		Hospital hospital = hospitalManager.get(hospitalId);
+		StringBuilder logoFileRoot = new StringBuilder(request.getScheme());
+		logoFileRoot.append("://").append(request.getServerName())
+				.append(":").append(request.getServerPort()).append("/images/hospital/");
+		logoFileRoot.append(hospitalId).append("/").append(hospital.getLogo());
+		return logoFileRoot.toString();
+	}
+	private void generateHtml(String fileName, String html) {
+		File file = new File(fileName);
+		if (file.exists()) {
+			file.delete();
+		}
+		RandomAccessFile mm = null;
+		try {
+			mm = new RandomAccessFile(fileName, "rw");
+			mm.write(html.getBytes("UTF-8"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} finally {
+			if (mm != null) {
+				try {
+					mm.close();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Autowired
+	private PimsSysPathologyManager pimsSysPathology;
+	/**
+	 * 查询病种是否需要取材
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getpathologyinfo*", method = RequestMethod.GET)
+	public void getPathologyInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String code = request.getParameter("id");
+		PimsSysPathology pathology = pimsSysPathology.getSysPathologyById(Long.parseLong(code));
+		JSONObject pathMap = getJSONObject(pathology);
+		PrintwriterUtil.print(response, pathMap.toString());
 	}
 }

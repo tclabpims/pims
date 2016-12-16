@@ -164,6 +164,7 @@
                             <option value="2">申请字段数据</option>
                             <option value="3">报告项目数据</option>
                             <option value="4">申请检查项目数据</option>
+                            <option value="5">申请送检材料</option>
                         </select>
                     </div>
                 </div>

@@ -38,46 +38,46 @@
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
 	<div class="div_1" id="div_1" style="background:white;border:none;height:30px;">
-	        <button type="button" class="btn btn-sm btn-primary " title="新增" onclick="addSample()">
-                <i class="ace-icon fa fa-plus-circle bigger-110"></i>
-                新增
-            </button>
-            <button type="button" class="btn btn-sm btn-info " title="修改" id="editButton">
-                <i class="ace-icon fa fa-location-arrow bigger-110"></i>
-                修改
-            </button>
-            <button type="button" class="btn btn-sm btn-warning " title="删除" id="deleteButton">
-                <i class="ace-icon fa fa-times bigger-110"></i>
-                删除
-            </button>
-            <button type="button" class="btn btn-sm btn-success " title="保存" id="saveButton" onclick="clickOther()">
-                <i class="ace-icon fa fa-floppy-o bigger-110"></i>
-                保存
-            </button>
-            <button type="button" class="btn btn-sm btn-info " title="打印" onclick="printCode()">
-                <i class="ace-icon fa fa-print bigger-110"></i>
-                打印
-            </button>
-            <button type="button" class="btn btn-sm btn-primary " title="上一个" onclick="upSample()">
-                <i class="ace-icon fa fa-arrow-left bigger-110"></i>
-                上一个
-            </button>
-            <button type="button" class="btn btn-sm btn-info " title="下一个" onclick="downSample()">
-                <i class="ace-icon fa fa-arrow-right bigger-110"></i>
-                下一个
-            </button>
-            <button type="button" class="btn btn-sm btn-warning " title="计费调整" id="hisbutton">
-                <i class="ace-icon glyphicon glyphicon-pencil bigger-110"></i>
-                计费调整
-            </button>
-            <!--<div class="div_div"><img src="/styles/imagepims/add.png" class="div_img" onclick="addSample()">新增</div>
-			<div class="div_div"><img src="/styles/imagepims/edit.png" class="div_img" id="editButton">修改</div>
-			<div class="div_div"><img src="/styles/imagepims/delete.png" class="div_img" id="deleteButton">删除</div>
-			<div class="div_div"><img src="/styles/imagepims/save.png" class="div_img" id="saveButton" onclick="clickOther()">保存</div>
-			<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
-			<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
-			<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
-			<div class="div_div"><img src="/styles/imagepims/fee.png" class="div_img" id="hisbutton">计费调整</div>-->
+		<button type="button" class="btn btn-sm btn-primary " title="上一个" onclick="upSample()">
+			<i class="ace-icon fa fa-arrow-left bigger-110"></i>
+			上一个
+		</button>
+		<button type="button" class="btn btn-sm btn-info " title="下一个" onclick="downSample()">
+			<i class="ace-icon fa fa-arrow-right bigger-110"></i>
+			下一个
+		</button>
+		<button type="button" class="btn btn-sm btn-primary " title="新增" onclick="addSample()">
+			<i class="ace-icon fa fa-plus-circle bigger-110"></i>
+			新增
+		</button>
+		<%--<button type="button" class="btn btn-sm btn-info " title="修改" id="editButton">--%>
+			<%--<i class="ace-icon fa fa-location-arrow bigger-110"></i>--%>
+			<%--修改--%>
+		<%--</button>--%>
+		<button type="button" class="btn btn-sm btn-warning " title="删除" id="deleteButton">
+			<i class="ace-icon fa fa-times bigger-110"></i>
+			删除
+		</button>
+		<button type="button" class="btn btn-sm btn-success " title="保存" id="saveButton" onclick="clickOther()">
+			<i class="ace-icon fa fa-floppy-o bigger-110"></i>
+			保存
+		</button>
+		<button type="button" class="btn btn-sm btn-warning " title="计费调整" id="hisbutton">
+			<i class="ace-icon glyphicon glyphicon-pencil bigger-110"></i>
+			计费调整
+		</button>
+		<button type="button" class="btn btn-sm btn-info " title="打印" onclick="printCode()">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			列表打印
+		</button>
+		<!--<div class="div_div"><img src="/styles/imagepims/add.png" class="div_img" onclick="addSample()">新增</div>
+		<div class="div_div"><img src="/styles/imagepims/edit.png" class="div_img" id="editButton">修改</div>
+		<div class="div_div"><img src="/styles/imagepims/delete.png" class="div_img" id="deleteButton">删除</div>
+		<div class="div_div"><img src="/styles/imagepims/save.png" class="div_img" id="saveButton" onclick="clickOther()">保存</div>
+		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" onclick="printCode()">打印</div>
+		<div class="div_div"><img src="/styles/imagepims/up.png" class="div_img" onclick="upSample()">上一个</div>
+		<div class="div_div"><img src="/styles/imagepims/down.png" class="div_img" onclick="downSample()">下一个</div>
+		<div class="div_div"><img src="/styles/imagepims/fee.png" class="div_img" id="hisbutton">计费调整</div>-->
 	</div>
 	<div  class="row" id="feeGrid" style="display: none;">
 		<h5 style="float: left;"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费项目一览&nbsp;&nbsp;&nbsp;&nbsp;</strong>
@@ -324,9 +324,9 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		<h5 style="float: left;width: 33%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:15px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;已登记标本一览</strong></h5>
-		<h5  style="float: left;width: 67%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;标本登记</strong></h5>
+	<div id="h5_1">
+		<h5 style="float: left;width: 34%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/list.png" class="img_style">&nbsp;已登记标本一览</strong></h5>
+		<h5  style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/main.png" class="img_style">&nbsp;标本登记</strong></h5>
 	</div>
 	<ul id="tabss" class="nav nav-tabs">
 		<li class="active">
@@ -342,7 +342,7 @@
 	</ul>
 	<div id="div_main">
 		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">
-			<div id = "search_div_1" style="background-color: #F9F9F9;height: 220px;border:1px solid #E0E0E0;">
+			<div id = "search_div_1" style="background-color: #F9F9F9;height: 200px;border:1px solid #E0E0E0;">
 				<div style="margin-top: 10px">
 					<table style="margin-bottom: 5px;">
 						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
@@ -364,23 +364,38 @@
 						<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
 						<input type="text" id="send_dept" class="input_style"/>
 					</table>
+					<%--<table style="margin-bottom: 5px">--%>
+						<%--<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>--%>
+						<%--<input type="text" id="send_hosptail" class="input_style"/>--%>
+					<%--</table>--%>
+					<%--<table style="margin-bottom: 5px">--%>
+						<%--<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>--%>
+						<%--<input type="text" id="send_doctor" class="input_style"/>--%>
+					<%--</table>--%>
 					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;送检医院:&nbsp;&nbsp;</span>
-						<input type="text" id="send_hosptail" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>
-						<input type="text" id="send_doctor" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 5px">
-						<span class="input_style">&nbsp;&nbsp;病人姓名:&nbsp;&nbsp;</span>
+						<span class="input_style">&nbsp;&nbsp;患者姓名:&nbsp;&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
+					</table>
+					<table style="margin-bottom: 5px;">
+						<span class="input_style">&nbsp;&nbsp;合格状态:&nbsp;&nbsp;</span>
+						<input type="radio"   value="1" name="req_sts" checked/>合格
+						<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</table>
 					<table style="margin-bottom: 5px">
 						<div class="input_style">
-							<span class="input_style">&nbsp;&nbsp;合格状态:&nbsp;&nbsp;</span>
-							<input type="radio"   value="1" name="req_sts" checked/>合格
-							<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病理状态:&nbsp;&nbsp;</span>
+							<select id="req_code" class="input_style">
+								<option value="">全部</option>
+								<option value="0">已登记</option>
+								<option value="1">已取材</option>
+								<option value="2">已包埋</option>
+								<option value="3">已切片</option>
+								<option value="4">已初诊</option>
+								<option value="5">已审核</option>
+								<option value="6">已发送</option>
+								<option value="7">会诊中</option>
+								<option value="8">报告已打印</option>
+							</select>
 							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
 								<span style="color: white;">查询</span>
@@ -608,7 +623,7 @@
 					</div>
 					<label class="col-sm-1 label_style" for="samremark">原因:</label>
 					<div class="col-sm-7">
-						<input  type="text" id="samremark" class="col-sm-10 label_style"/>
+						<input  type="text" id="samremark" class="col-sm-10 input_style"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">

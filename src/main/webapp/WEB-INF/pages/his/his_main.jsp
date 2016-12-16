@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
+	<script src="<c:url value='/scripts/LodopFuncs.js'/>"></script>
 	<style>
 		.ui-autocomplete {
 			z-index: 99999999 !important;
@@ -147,7 +148,13 @@
 	</div>
 	<div id="formDialog" style="display:none;" class="col-sm-12">
 		<form class="form-horizontal" action="#" method="post" id="sampleForm" onkeypress="JavaScript:return NoSubmit(event);">
-			<div class="form-group" style="margin-top: 10px;margin-bottom: 5px">
+			<div style="margin: 0px 0px 0px 0px">
+				<h5 style="float:left;font-size: 12px;width: 100%">
+					<strong>&nbsp;患者基本信息</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" id="printcodeid" onclick="printCode()" style="font-size: 12px;" disabled="disabled">打印知情同意书</button>
+				</h5>
+			</div>
+			<div class="form-group" style="margin-bottom: 5px">
 				<label class="col-sm-1 label_style">住院/门诊号:</label>
 				<div class="col-sm-2">
 					<input type="hidden" id="requisitionid"/><!--申请id-->
@@ -243,8 +250,16 @@
 					<input type="text" class="input_style" id="reqfirstn" name="reqfirstn"/>
 				</div>
 				<label class="col-sm-1 label_style">联系地址:</label>
-				<div class="col-sm-8">
-					<input type="text" class="col-sm-7 input_style" id="reqpataddress"/>
+				<div class="col-sm-5">
+					<input type="text" class="input_style col-sm-12" id="reqpataddress"/>
+				</div>
+				<label class="col-sm-1 label_style" id="reqfirstv1">同意书:</label>
+				<div class="col-sm-2">
+					<select id="reqfirstv" class="input_style col-sm-10" style="display: none" name="reqfirstv" datatype="*">
+						<option value=" "></option>
+						<option value="2">未签</option>
+						<option value="1">已签</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group" style="margin-bottom: 5px;">
@@ -283,6 +298,12 @@
 				<div class="col-sm-8">
 					<textarea id="reqremark" style="height: 55px;font-size: 12px;width: 90%"></textarea>
 				</div>
+			</div>
+			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
+			<div style="margin: 0px 0px 0px 0px">
+				<h5 style="float:left;font-size: 12px;width: 100%">
+					<strong>病理检查申请信息</strong>
+				</h5>
 			</div>
 			<div class="form-group" style="z-index: 99999999;margin-bottom: 5px">
 				<label class="col-sm-1 label_style">申请单号:</label>
@@ -374,29 +395,42 @@
 					<button type="submit" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right"  id="savebutton">
 						<span style="color: white;">保存</span>
 					</button>
+					<%--<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right"  id="printbutton" onclick="printCode()">--%>
+						<%--<span style="color: white;">打印知情书</span>--%>
+					<%--</button>--%>
 				</div>
 			</div>
 		</form>
 		<div class="form-horizontal">
-			<h5 style="font-size: 14px;"><strong>&nbsp;电子申请单列表</strong></h5>
+			<h5 style="float:left;font-size: 12px;width: 50%">
+				<strong>&nbsp;送检材料</strong>
+			</h5>
+			<h5 style="float:left;font-size: 12px;width: 50%"><strong>&nbsp;增项信息</strong></h5>
 			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
-			<div class="leftContent  col-sm-5" style="margin-top: 5px">
-				<div class="form-group" style="margin-right:0px;margin-left:0px;">
-					<h5 style="font-size: 14px;"><strong>&nbsp;组织信息</strong>
+			<div class="leftContent  col-sm-6" style="margin-top: 0px">
+				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-top: 0px;margin-bottom: 2px">
 						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="addRow()">
 							<span style="color: white;">追加行</span>
 						</button>
 						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="delRow()">
 							<span style="color: white;">删除行</span>
 						</button>
-					</h5>
 				</div>
-				<div class="form-group " style="margin-right:0px;margin-left:0px;">
+				<div class="form-group " style="margin-right:0px;margin-left:0px;margin-top: 0px;margin-bottom: 0px;display: none" id="divnew1" >
 					<table id="new1" class="table-striped">
 					</table>
 				</div>
+				<div id="divnew2" style="display: none"></div>
+				<%--<div class="form-group" style="margin-bottom: 5px">--%>
+					<%--<input type="checkbox" class="col-sm-1 label_style" id="A"/>--%>
+					<%--<label class="col-sm-1 input_style" style="line-height: 24px">胸水</label>--%>
+					<%--<input type="checkbox" class="col-sm-1 label_style" id="B"/>--%>
+					<%--<label class="col-sm-3 input_style" style="line-height: 24px">心包积液</label>--%>
+					<%--<input type="checkbox" class="col-sm-1 label_style" id="C"/>--%>
+					<%--<label class="col-sm-5 input_style" style="line-height: 24px">其他穿刺细胞学涂片</label>--%>
+				<%--</div>--%>
 			</div>
-			<div class="rightContent  col-sm-6" style="margin-top: 5px;">
+			<div class="rightContent  col-sm-6" style="margin-top: 0px;">
 				<div id="dynamic_div2">
 
 				</div>

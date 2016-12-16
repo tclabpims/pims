@@ -284,7 +284,7 @@ function saveInfo() {
 		$.ajax({
 			type:'get',
 			url: '../pimspathology/ajax/item',
-			data:{"logyid":$("#reqpathologyid").val(),"req_code":$("#lcal_hosptail").val()},
+			data:{"logyid":$("#reqpathologyid").val(),"req_code":$("#lcal_hosptail").val(),"req_sts":2},
 			dataType:"json",
 			error:function(value){
 				saveInfo1(post,arrs,rowdatas);
@@ -519,7 +519,7 @@ function addSample() {
 	$("#reqprinttime").val("");//申请单打印时间
 	$("#reqsendtime").val("");//回写时间
 	$("#reqremark").val("");//备注信息
-	$("#reqfirstv").val("1");//预留字段1(第一个varchar预留字段)
+	$("#reqfirstv").val("");//预留字段1(第一个varchar预留字段)
 	$("#reqsecondv").val("");//预留字段2(第二个varchar预留字段)
 	$("#reqthirdv").val("");//预留字段3(第二个varchar预留字段)
 	$("#reqfirstd").val("");//预留字段4(第一个datetime预留字段)
@@ -542,13 +542,108 @@ function addSample() {
 	});
 }
 function getdynamicdiv(logyid,num) {
+	$.get("../pimspathology/getpathologyinfo", {"id":logyid},
+		function(data) {
+			if(data.patissampling == 0) {
+				$("#divnew1").css("display","block");
+				$("#divnew2").css("display","none");
+			} else {
+				$("#divnew1").css("display","none");
+				$("#divnew2").css("display","block");
+				$("#divnew2").empty();
+				if(num == 0){//新增
+					$.ajax({
+						type:'get',
+						url: '../pimspathology/ajax/item',
+						data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val(),"req_sts":"5"},
+						dataType:"json",
+						success: function(obj){
+							var html1 = "";
+							var maxnum = 0;
+							if(obj != null && obj != ""){
+								$.each(obj,function(n,value) {
+									if(n%3 == 0){
+										html1 +="<div class=\"form-group\" style=\"margin-bottom: 5px\">";
+										html1 +="<input type=\""+value.fieelementtype+"\" class=\"col-sm-1 label_style\" id=\""+value.fieelementid+"\"/>";
+										html1 +="<label class=\"col-sm-2 input_style\" style=\"line-height: 24px\">"+value.fieelementname+"</label>";
+									}else if(n%3 == 1){
+										html1 +="<input type=\""+value.fieelementtype+"\" class=\"col-sm-1 label_style\" id=\""+value.fieelementid+"\"/>";
+										html1 +="<label class=\"col-sm-3 input_style\" style=\"line-height: 24px\">"+value.fieelementname+"</label>";
+									}else if(n%3 == 2){
+										html1 +="<input type=\""+value.fieelementtype+"\" class=\"col-sm-1 label_style\" id=\""+value.fieelementid+"\"/>";
+										html1 +="<label class=\"col-sm-4 input_style\" style=\"line-height: 24px\">"+value.fieelementname+"</label>";
+										html1 +="</div>";
+									}
+								});
+								$("#divnew2").html(html1);
+							}
+
+						}
+					});
+				}else if(num ==1){//查看
+					$.ajax({
+						type:'get',
+						url: '../pimspathology/ajax/reqdata',
+						data:{"id":logyid},
+						dataType:"json",
+						// error:function(value){
+						// 	ds.dialog.alert('加载失败');
+						// },
+						success: function(obj){
+							var fieremark = "";
+							var maxnum = 0;
+							if(obj != null && obj != ""){
+								$.each(obj,function(n,value) {
+									// if(fieremark != value.fieremark){
+									// 	fieremark = value.fieremark;
+									// 	html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+									// }
+									if(maxnum == 0){
+										html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
+									}
+									maxnum += parseInt(value.fieldcss.substr(7))+parseInt(value.invokefunc.substr(7));
+									html +="<label class=\""+value.fieldcss +"\">"+value.fieelementname+":</label><"+value.fieelementtype +" id = \""+value.fieelementid+"\" class=\""+value.invokefunc +"\"";
+									if(value.fieelementtype == "input"){
+										html +=" type= \"text\"";
+									}
+									if(value.fieelementtype == "textarea"){
+										html +=">"+value.reqfvalue;
+									}else{
+										html +="value=\""+value.reqfvalue+"\">";
+									}
+									if(value.invokefuncbody != null && value.invokefuncbody != ""){
+										html += value.invokefuncbody;
+									}
+									html +="</"+value.fieelementtype+">"
+									if(maxnum == 12){
+										html +="</div>";
+										maxnum = 0;
+									}
+								});
+								$("#dynamic_div2").html(html);
+							}
+						}
+					});
+				}
+			}
+		}
+	);
+	if(NOW_LOGYID == "185"){
+		$("#printcodeid").removeAttr("disabled");
+		$("#reqfirstv").css("display","block");
+		$("#reqfirstv1").css("display","block");
+	}else {
+		$("#printcodeid").attr("disabled","disabled");
+		$("#reqfirstv").css("display","none");
+		$("#reqfirstv1").css("display","none");
+	}
 	$("#dynamic_div2").empty();
 	var html = "";
 	if(num == 0){//新增
 		$.ajax({
 			type:'get',
 			url: '../pimspathology/ajax/item',
-			data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val()},
+			data:{"logyid":logyid,"req_code":$("#lcal_hosptail").val(),"req_sts":"2"},
 			dataType:"json",
 			// error:function(value){
 			// 	ds.dialog.alert('加载失败');
@@ -558,10 +653,10 @@ function getdynamicdiv(logyid,num) {
 				var maxnum = 0;
 				if(obj != null && obj != ""){
 					$.each(obj,function(n,value) {
-						if(fieremark != value.fieremark){
-							fieremark = value.fieremark;
-							html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
-						}
+						// if(fieremark != value.fieremark){
+						// 	fieremark = value.fieremark;
+						// 	html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+						// }
 						if(maxnum == 0){
 							html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
 						}
@@ -599,10 +694,10 @@ function getdynamicdiv(logyid,num) {
 				var maxnum = 0;
 				if(obj != null && obj != ""){
 					$.each(obj,function(n,value) {
-						if(fieremark != value.fieremark){
-							fieremark = value.fieremark;
-							html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
-						}
+						// if(fieremark != value.fieremark){
+						// 	fieremark = value.fieremark;
+						// 	html +="<div class=\"form-group\" style=\"margin: 0px 0px 0px 0px\"> <h5 style=\"float: left;font-size: 14px;\">"+value.fieremark+"</h5></div>";
+						// }
 						if(maxnum == 0){
 							html +="<div class=\"form-group\" style=\"margin-bottom: 5px;z-index: 99999999;\">";
 						}
@@ -722,6 +817,12 @@ function fillval(id,name,anotherid,obj) {
 	$("#"+name).val(string2);
 	if(anotherid != null){
 		$("#"+anotherid).val(string1);
+		if(anotherid == "reqpathologyid"){
+			if(NOW_LOGYID != string1){
+				NOW_LOGYID = string1;
+				getdynamicdiv(NOW_LOGYID,0);
+			}
+		}
 	}
 	$("#"+name).focus();
 }
@@ -760,6 +861,7 @@ $(function() {
 		//minView: "month", //选择日期后，不会再跳转去选择时分秒
 		format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
 		language: 'zh-CN', //汉化
+		startDate: new Date(),
 		todayBtn:  1,
 		autoclose:true //选择日期后自动关闭
 	}).on('changeDate',function(ev){
@@ -1271,4 +1373,37 @@ function changeSexinfo() {
     }else{
         $("#sexinfo").css("display","none");
     }
+}
+var LODOP; //声明为全局变量
+function printCode(){
+	$.get("../pimspathology/report/printzqs", {
+		"id": $("#reqpathologyid").val()
+	}, function (data) {
+		var rptView = layer.open({
+			type: 2,
+			title: "报告单预览",
+			area: ['854px', '600px'],
+			btn: ["打印",  "关闭"],
+			maxmin: true,
+			shade: 0.5,
+			content: data.url,
+			yes: function (index1, layero1) {
+				print(data.url);
+				layer.close(index1);
+			},
+			btn2: function (index1, layero1) {
+				layer.close(index1);
+			}
+		});
+		layer.full(rptView);
+	});
+}
+function print(url) {
+	LODOP = getLodop();
+	LODOP.PRINT_INIT("知情书打印");
+	LODOP.ADD_PRINT_URL(10, 10, 794, 1123, url);
+	LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
+	LODOP.SET_PRINT_STYLEA(0, "VOrient", 3);
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
