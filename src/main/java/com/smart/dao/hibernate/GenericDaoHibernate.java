@@ -260,6 +260,13 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return query.list();
     }
 
+    public List pagingList(String s) {
+        Session session = getSession();
+        Query query = session.createQuery(s);
+        System.out.println(query.toString());
+        return query.list();
+    }
+
     /**
      *
      * @param s hql
@@ -267,6 +274,16 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
      */
     public Integer countTotal(String s) {
         Query query = getSession().createSQLQuery(s);
+        Object total = query.uniqueResult();
+        if(total == null) return 0;
+        return ((BigDecimal)total).intValue();
+    }
+
+    public Integer countTotal(String s,Date req_af_time) {
+        Query query = getSession().createSQLQuery(s);
+        if(req_af_time != null){
+            query.setDate("req_af_time",req_af_time);
+        }
         Object total = query.uniqueResult();
         if(total == null) return 0;
         return ((BigDecimal)total).intValue();

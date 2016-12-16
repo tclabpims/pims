@@ -39,6 +39,13 @@ public class PimsBaseModel {
     private String fzbl;//分子病理
     private String blzd;//病理诊断
     private String qcbw;//取材部位
+    private String slipathologyid;
+    private String sliid;
+    private String current;
+    private Date sli_in_time;
+    private String slidept;
+    private String sliresult;
+    private String slicustomerid;
     public PimsBaseModel(){
 
     }
@@ -79,6 +86,14 @@ public class PimsBaseModel {
         this.row = Integer.parseInt(rows);
         this.start = row * (page - 1);
         this.end = row * page;
+        this.sliid = request.getParameter("sliid");
+        this.current = request.getParameter("current");
+        this.patient_name = request.getParameter("patient_name");
+        this.sli_in_time = (request.getParameter("sli_in_time")== null|| request.getParameter("sli_in_time").equals(""))?null:new Date(Constants.DF2.parse(request.getParameter("sli_in_time")).getTime());
+        this.slidept = request.getParameter("slidept");
+        this.sliresult = request.getParameter("sliresult");
+        this.slicustomerid = request.getParameter("slicustomerid");
+        this.slipathologyid = request.getParameter("slipathologyid");
     }
 
     public HttpServletRequest getRequest() {
@@ -295,5 +310,61 @@ public class PimsBaseModel {
 
     public void setQcbw(String qcbw) {
         this.qcbw = qcbw;
+    }
+
+    public String getSlipathologyid() {
+        return slipathologyid;
+    }
+
+    public void setSlipathologyid(String slipathologyid) {
+        this.slipathologyid = slipathologyid;
+    }
+
+    public String getSliid() {
+        return sliid;
+    }
+
+    public void setSliid(String sliid) {
+        this.sliid = sliid;
+    }
+
+    public String getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(String current) {
+        this.current = current;
+    }
+
+    public Date getSli_in_time() {
+        return sli_in_time;
+    }
+
+    public void setSli_in_time(Date sli_in_time) {
+        this.sli_in_time = sli_in_time;
+    }
+
+    public String getSlidept() {
+        return slidept;
+    }
+
+    public void setSlidept(String slidept) {
+        this.slidept = slidept;
+    }
+
+    public String getSliresult() {
+        return sliresult;
+    }
+
+    public void setSliresult(String sliresult) {
+        this.sliresult = sliresult;
+    }
+
+    public String getSlicustomerid() {
+        return slicustomerid;
+    }
+
+    public void setSlicustomerid(String slicustomerid) {
+        this.slicustomerid = slicustomerid;
     }
 }
