@@ -132,6 +132,18 @@
             width:100%;
             height:100px;
             }
+            #tabs-1 div{
+                margin-left: 10px;
+            }
+        #maincontent{
+            width:100%
+        }
+        .button2{
+            background-color: #2274E4;color:#ffffff;border-radius:3px;border:1px solid #2274E4;width: 58px
+        }
+        .datetimepicker{
+            z-index: 9999999999!important;
+        }
     </style>
 </head>
 <script>
@@ -145,18 +157,23 @@
 <body>
  <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary" title="上一个" onclick="upSlide()">
+                    <i class="ace-icon fa fa-arrow-left bigger-110"></i>
                     上一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="downSlide()">
+                <button type="button" class="btn btn-sm btn-info" title="下一个" onclick="downSlide()">
+                    <i class="ace-icon fa fa-arrow-right bigger-110"></i>
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="列表打印" id="print" onclick="printCode()">
+                <button type="button" class="btn btn-sm btn-warning" title="列表打印" id="print" onclick="printCode()">
+                    <i class="ace-icon fa fa-print bigger-110"></i>
                     列表打印
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="借阅" id="loan" onclick="loanSlide()">
+                <button type="button" class="btn btn-sm btn-success" title="借阅" id="loan" onclick="loanSlide()">
+                    <i class="ace-icon fa fa-book bigger-110"></i>
                     借阅
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="归还" id="return" onclick="returnSlide()">
+                    <i class="ace-icon fa fa-paperclip bigger-110"></i>
                     归还
                 </button>
 
@@ -164,8 +181,8 @@
 <div  class="row" id="loanSlidePage" style="display: none;z-index:1000000000;">
     <h5 style="margin-left: 20px">当前位置：借阅信息录入</h5>
     <div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" id="div_0">
-        <div style="margin-left: 30px"><label>身份证号:</label><input type="text" id="sliloancustomerid" style="width:160px" value="" datatype="*" autocomplete="off"/></div>
-        <div style="margin-left: 45px"><label>借阅者:</label><input type="text" style="width:160px" id="sliloancustomername" value="" autocomplete="off"/></div>
+        <div style="margin-left: 30px"><label>身份证号:</label><input type="text" id="sliloancustomerid" style="width:160px;height: 24px" value="" datatype="*" autocomplete="off"/></div>
+        <div style="margin-left: 45px"><label>借阅者:</label><input type="text" style="width:160px;height: 24px" id="sliloancustomername" value="" autocomplete="off"/></div>
         <div  style="margin-left: 21px">预计归还日:<input style="width:160px" type="text" id="sliintime" class="form_datetime input_style" placeholder="" autocomplete="off"/>
         <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;margin-left:100px;" onclick="loanbtn()">
             <span style="color: white;">保存并关闭</span>
@@ -179,12 +196,12 @@
 
 <div  class="row" id="returnSlidePage" style="display: none;z-index:1000000000;">
     <h5 style="margin-left: 20px">当前位置：归还信息录入</h5>
-    <div class="col-xs-6 leftContent">
+    <div class="col-xs-6 leftContent" style="padding-top: 1px">
         <label style="margin-left: 20px">借阅信息确认</label>
         <div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" id="div_0">
-            <div style="margin-left: 30px"><label>身份证号:</label><input type="text" id="slireturncustomerid" style="width:160px" value="" datatype="*" autocomplete="off"/></div>
-            <div style="margin-left: 45px"><label>借阅者:</label><input disabled="disabled" type="text" style="width:160px" id="slireturncustomername" value="" autocomplete="off"/></div>
-            <button type="button" class="btn-sm btn-info" onclick="searchList2()" style="float:right">
+            <div style="margin-left: 30px"><label>身份证号:</label><input type="text" id="slireturncustomerid" style="width:160px;height:24px" value="" datatype="*" autocomplete="off"/></div>
+            <div style="margin-left: 45px"><label>借阅者:</label><input disabled="disabled" type="text" style="width:160px;height:24px" id="slireturncustomername" value="" autocomplete="off"/></div>
+            <button type="button" class="button2" onclick="searchList2()" style="float:right">
                 查询
             </button>
         </div>
@@ -196,7 +213,7 @@
         <label  style="margin-left:10px">诊断信息录入</label>
         <div  style="margin-left:10px">
         <div>
-            <label>诊断机构</label><input type="text" id="slidept" style="width:160px" value="" autocomplete="off"/>
+            <label>诊断机构</label><input type="text" id="slidept" style="width:160px;height: 24px" value="" autocomplete="off"/>
         </div>
         <div>
             <label>诊断结果</label><textarea id='sliresult' style="vertical-align: text-top;width: 70%;height:150px" value="" autocomplete="off"></textarea>
@@ -224,21 +241,21 @@
                         <div class="content">
                             <div style="display:inline;">
                                 <label style="margin-left:20px">病种类别：</label>
-                                <select id="slipathologyid">
+                                <select id="slipathologyid" style="width: 100px;height: 24px">
                                     <%out.println(request.getAttribute("logyids"));%>
                                 </select>
-                                <label style="margin-left:20px">病理编号：</label><input type="text" id="logyid" style="width: 120px">
-                                <label style="margin-left:20px">患者姓名：</label><input type="text" id="patient_name" style="width: 120px">
+                                <label style="margin-left:20px">病理编号：</label><input type="text" id="logyid" style="width: 120px;height: 24px;">
+                                <label style="margin-left:20px">患者姓名：</label><input type="text" id="patient_name" style="width: 120px;height: 24px;">
                             </div>
                             <div>
                                 <label style="margin-left:20px">在库状态：</label>
-                                <select id="current">
+                                <select id="current"  style="width: 100px;height: 24px">
                                 <option value="">全部</option>
                                 <option value="">借阅中</option>
                                 <option value="">在库</option>
                                 </select>
-                                <label style="margin-left:20px">玻片编号：</label><input type="text" id="sliid" style="width: 120px">
-                                <button type="button" class="btn-sm btn-info" onclick="searchList()" style="float:right">
+                                <label style="margin-left:20px">玻片编号：</label><input type="text" id="sliid" style="width: 120px; height: 24px;">
+                                <button type="button" class="button2" onclick="searchList()" style="float:right;">
                                     查询
                                 </button>
                             </div>
@@ -287,7 +304,7 @@
                     </div>
                     <div id="tabs-2">
                         <div class="row" id="materialGrid">
-                            <div class="col-xs-12 leftContent">
+                            <div class="col-xs-12 leftContent" style="margin-top: 15px">
                                 <table id="new2"></table>
                                 <div id="pager2"></div>
                             </div>
