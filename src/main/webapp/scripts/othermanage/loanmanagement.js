@@ -100,14 +100,14 @@ $(function() {
 //			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
 		colNames: ['在库状态','病种类别','病理编号', '玻片编号','患者姓名','年龄','性别','制品日期'],
 		colModel: [
-        { name: 'slicurrent', index: 'slicurrent',align:'center',width:'85px',formatter:"select",editoptions:{value:"0:借阅中;1:在库;"}},
-        { name: 'slipathologyid', align:'center',index: 'slipathologyid',width:'85px',formatter:"select",editoptions:{value:"181:常规病理;182:常规细胞学;183:骨髓细胞学;184:免疫组化;185:术中冰冻;186:外周血细胞;187:液基细胞学;188:HPV;"}},
-        { name: 'pathologyid', align:'center',index: 'pathologyid',width:'85px'},
-        { name: 'sliid', align:'center',index: 'sliid',width:'85px'},
-        { name: 'slipatientname', align:'center',index: 'slipatientname',width:'85px'},
-        { name: 'slipatientage',align:'center', index: 'slipatientage',width:'85px'},
-        {name:'slipatientsex',align:'center',index:'slipatientsex',width:'85px',formatter:"select",editoptions:{value:"0:女;1:男;"}},
-        {name:'slimadetime',align:'center',index:'slimadetime', width:'150px',formatter:function(cellvalue,options,row){
+        { name: 'slicurrent', index: 'slicurrent',align:'center',width:'90px',formatter:"select",editoptions:{value:"0:借阅中;1:在库;"}},
+        { name: 'slipathologyid', align:'center',index: 'slipathologyid',width:'90px',formatter:"select",editoptions:{value:"181:常规病理;182:常规细胞学;183:骨髓细胞学;184:免疫组化;185:术中冰冻;186:外周血细胞;187:液基细胞学;188:HPV;"}},
+        { name: 'pathologyid', align:'center',index: 'pathologyid',width:'90px'},
+        { name: 'sliid', align:'center',index: 'sliid',width:'90px'},
+        { name: 'slipatientname', align:'center',index: 'slipatientname',width:'90px'},
+        { name: 'slipatientage',align:'center', index: 'slipatientage',width:'90px'},
+        {name:'slipatientsex',align:'center',index:'slipatientsex',width:'90px',formatter:"select",editoptions:{value:"0:女;1:男;"}},
+        {name:'slimadetime',align:'center',index:'slimadetime', width:'170px',formatter:function(cellvalue,options,row){
             if(cellvalue!=null){
                 return CurentTime(new Date(cellvalue));
             }return '';}
@@ -300,7 +300,7 @@ function createNew1(width) {
 		autowidth: true,
 		colNames: ['状态','操作日期','申请人', '经手人','诊断机构','诊断结果'],
 		colModel: [
-			{name:'slicurrent',align:'center',index:'slicurrent',width:'70px',formatter:"select",editoptions:{value:"0:借阅;1:归还;"}},//项目名称
+			{name:'slicurrent',align:'center',index:'slicurrent',width:'90px',formatter:"select",editoptions:{value:"0:借阅;1:归还;"}},//项目名称
 			{name:'slitime',align:'center',index:'slitime',width:'200px',formatter:function(cellvalue, options, row){
             			if(cellvalue!=null){
                         return CurentTime(new Date(cellvalue))}return '';}},//记录时间

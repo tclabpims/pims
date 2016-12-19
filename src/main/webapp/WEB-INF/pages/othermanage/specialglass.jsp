@@ -73,7 +73,7 @@
     <div  style="margin-top:10px">
         自定义文字:<textarea id="slideinfo" style="vertical-align: text-top;width: 30%;height:100px" value=""></textarea>
     </div>
-    <button type="button" class="btn-sm btn-info" onclick="printCode()" style="margin-left:10%;margin-top:10px">
+    <button type="button"  onclick="printCode()" style="margin-left:10%;margin-top:10px; background-color: #2274E4;color:#ffffff!important;border-radius:3px;border:1px solid #2274E4;width: 58px">
         打印
     </button>
     </div>

@@ -144,6 +144,10 @@
         .datetimepicker{
             z-index: 9999999999!important;
         }
+        .row{
+            margin-left: 0px!important;
+            margin-right: 0px!important;
+        }
     </style>
 </head>
 <script>
@@ -184,7 +188,7 @@
         <div style="margin-left: 30px"><label>身份证号:</label><input type="text" id="sliloancustomerid" style="width:160px;height: 24px" value="" datatype="*" autocomplete="off"/></div>
         <div style="margin-left: 45px"><label>借阅者:</label><input type="text" style="width:160px;height: 24px" id="sliloancustomername" value="" autocomplete="off"/></div>
         <div  style="margin-left: 21px">预计归还日:<input style="width:160px" type="text" id="sliintime" class="form_datetime input_style" placeholder="" autocomplete="off"/>
-        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;margin-left:100px;" onclick="loanbtn()">
+        <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;margin-left:60px;" onclick="loanbtn()">
             <span style="color: white;">保存并关闭</span>
         </button>
         <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;margin-left:10px;" onclick="cancellayer()">
