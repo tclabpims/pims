@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常规病理报告单</title>
+    <style>
+        *{
+            font-family:MSYH;
+            font-size: 10pt;
+        }
+        html * {
+            margin: 0 auto;
+        }
+
+        body {
+            width: 794px;
+            height: 1123px;
+        }
+
+        .logo{
+            width:100%;
+            padding-left:20px;
+            padding-top:5px;
+            padding-bottom:5px;
+        }
+        .headtitle {
+            font-size: 16pt;
+            font-weight: bold;
+        }
+        .itemContainer {
+            width:100%;
+            padding-bottom:10px;
+        }
+        .itemtitle {
+            width:100%;
+            padding-left:5px;
+            padding-bottom:5px;
+            padding-top:5px;
+            font-weight:bold;
+        }
+        .fieldname{
+            font-weight:bold;
+        }
+        .fieldname1{
+            font-size: 12px;
+            font-weight:bold;
+        }
+        .imgContainer{
+            margin:0 auto;
+        }
+        .line {
+            border-bottom:1px solid #000;
+            padding-left:5px;
+            padding-right:5px;
+        }
+        .divfirst {
+            display:inline;
+            padding-left:5px;
+        }
+        .divother {
+            display:inline;
+            padding-left:50px
+        }
+        .tdtextalign {
+            vertical-align:middle;
+            text-align:left;
+        }
+        .topstyle{
+            width: 11px;
+            font-size: 11px;
+            word-wrap: break-word;
+            letter-spacing: 3px;
+            float: left;
+        }
+        .underlinestyle{
+            text-decoration:underline;
+        }
+        .tdstyle{
+            border-color: black;
+            border-bottom: 1px solid;
+            border-left: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="logo" align="left"><img src="$!hospitalLogo" width="137px" height="46px"></div>
+    <div>
+        <div align="center" class="itemContainer">
+            <span class="headtitle">病理检查申请单</span>
+        </div>
+    </div>
+    <div align="left" class="itemContainer">
+        <img src="$!barcode" width="137px" height="46px"><div class="line"></div>
+    </div>
+    <div>
+        <div style="width: 12%;float: left;">
+            <table border="0" width="100%" cellpadding="3" cellspacing="1"  style="background-color: black;">
+                <tr style="background-color: white;">
+                    <td colspan="5" style="font-size: 11px" align="center"> 注意事项</td>
+                </tr>
+                <tr style="background-color: white">
+                    <td class="topstyle" style="border-right: 1px black solid">1送检单内容各项务请详细认真填写，希作为诊断参考；送检单及标本容器上均需写清病人的姓名及组织部位块数，免致查对时易发生误会；</td>
+                    <td class="topstyle" style="border-right: 1px black solid">2取下的标本需及时用10%福尔马林固定，固定液量应为标本体积的5倍以上，标本容器及口径不宜太小，更不宜用绳缠扎，以免组织受压变形；</td>
+                    <td class="topstyle" style="border-right: 1px black solid">3取标本宜用锋利器械，切忌撕拉及用齿钳夹持组织，以免组织变形，送检组织不宜太小，以免影响诊断，切除的标本应尽量全部送检；</td>
+                    <td class="topstyle" style="border-right: 1px black solid">4若曾做过病理检查，请注明以前的检查单位、病理诊断病理号，以便查对；</td>
+                    <td class="topstyle">5骨组织或牙因脱钙后才能切片，其他标本有时需重切、重染或重取标本方能确诊，以上情况报告推迟，请谅解。</td>
+                </tr>
+            </table>
+        </div>
+        <div style="width: 88%;float: right">
+            <div align="left" class="itemContainer">
+                <table width="100%">
+                    <tr>
+                        <td width="9%"><span class="fieldname">&#12288;姓名：</span></td>
+                        <td width="11%" align="left" class="underlinestyle">$!reqpatientname</td>
+                        <td width="7%"><span class="fieldname">性别：</span></td>
+                        <td width="13%" align="left" class="underlinestyle">$!reqpatientsex</td>
+                        <td width="7%"><span class="fieldname">年龄：</span></td>
+                        <td width="13%" align="left" class="underlinestyle">$!reqpatientage</td>
+                        <td width="7%"><span class="fieldname">籍贯：</span></td>
+                        <td width="13%" align="left" class="underlinestyle">$!reqpatientjg</td>
+                        <td width="7%"><span class="fieldname">婚姻：</span></td>
+                        <td width="13%" align="left" class="underlinestyle">$!reqprevious</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="9%"><span class="fieldname">&#12288;职业：</span></td>
+                        <td width="11%" align="left" class="underlinestyle">$!reqpreviouszy</td>
+                        <td width="12%"><span class="fieldname">联系地址：</span></td>
+                        <td width="68%" align="left" class="underlinestyle">$!reqpataddress</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="9%"><span class="fieldname">&#12288;医院：</span></td>
+                        <td width="51%" align="left" class="underlinestyle">$!reqsendhospital</td>
+                        <td width="12%"><span class="fieldname">联系电话：</span></td>
+                        <td width="28%" align="left" class="underlinestyle">$!reqpattelephone</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="20%"><span class="fieldname">&#12288;门诊/住院科别：</span></td>
+                        <td width="40%" align="left" class="underlinestyle">$!reqdeptname</td>
+                        <td width="14%"><span class="fieldname">病房(区)号：</span></td>
+                        <td width="26%" align="left" class="underlinestyle">$!reqwardname</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="18%"><span class="fieldname">&#12288;门诊/住院号：</span></td>
+                        <td width="42%" align="left" class="underlinestyle">$!reqpatientnumber</td>
+                        <td width="7%"><span class="fieldname">床号：</span></td>
+                        <td width="33%" align="left" class="underlinestyle">$!reqfirstn</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="line"></div>
+            <div align="left" class="itemContainer">
+                <table width="100%">
+                    <tr>
+                        <td width="14%"><span class="fieldname">&#12288;手术名称：</span></td>
+                        <td width="26%" align="left" class="underlinestyle">$!reqssmc</td>
+                        <td width="12%"><span class="fieldname">手术医生：</span></td>
+                        <td width="18%" align="left" class="underlinestyle">$!reqsecondv</td>
+                        <td width="12%"><span class="fieldname">联系电话：</span></td>
+                        <td width="18%" align="left" class="underlinestyle">$!reqthirdv</td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="14%"><span class="fieldname">&#12288;手术日期：</span></td>
+                        <td width="56%" align="left" class="underlinestyle">$!reqfirstd</td>
+                        <td width="12%"><span class="fieldname">送检日期：</span></td>
+                        <td width="18%" align="left" class="underlinestyle">$!reqplanexectime</td>
+                    </tr>
+                </table>
+                <table width="98%" border="0" cellpadding="3" cellspacing="1"  style="background-color: #b9d8f3;" align="center">
+                    <tr style="background-color: #F4FAFF;">
+                        <td width="20%" align="center"><span class="fieldname">标本</span></td>
+                        <td width="40%" align="center">切取部位</span></td>
+                        <td width="40%" align="center">送检标本</span></td>
+                    </tr>
+                    #foreach($!mater in $!materlist)
+                    <tr style="background-color: #F4FAFF;">
+                        <td width="20%" align="center">$!velocityCount</td>
+                        <td width="40%"  align="center">$!mater.reqmsamplingparts</td>
+                        <td width="40%" align="center">$!mater.reqmmaterialname</td>
+                    </tr>
+                    #end
+                </table>
+            </div>
+            <div class="line"></div>
+            <div align="left"  class="fieldname">&#12288;曾在何处做过病理检查：</div>
+            <div align="left"  class="fieldname">&#12288;详细病史摘要及临床所见：</div>
+            <div style="height: 50px;font-size: 12px">&#12288;&#12288;&#12288;$!reqpatdiagnosis
+            </div>
+            <div  class="fieldname">&#12288;手术所见（肿瘤标本请注明肿瘤部位、肿瘤大小、包膜情况、有无转移性瘤等）:</div>
+            <div style="height: 50px;font-size: 12px">&#12288;&#12288;&#12288;$!reqremark
+            </div>
+            <div  class="fieldname">&#12288;影像学检查（如为骨或关节标本请更详细填写）:</div></br>
+##            #foreach($!dtzd in $!dtzds)
+##            <table width="100%">
+##                <tr>
+##                    <td width="14%" style="font-size: 12px">&#12288;&#12288;$!dtzd.fieelementname：</span></td>
+##                    <td width="86%" align="left" class="underlinestyle"  style="font-size: 12px">$!dtzd.reqfvalue</td>
+##                </tr>
+##            </table>
+##            #end
+            <table width="100%">
+                <tr>
+                    <td width="14%" style="font-size: 12px">&#12288;&#12288;X光：</span></td>
+                    <td width="86%" align="left" class="underlinestyle"  style="font-size: 12px">$!reqxray</td>
+                </tr>
+                <tr>
+                    <td width="14%" style="font-size: 12px">&#12288;&#12288;CT：</span></td>
+                    <td width="86%" align="left" class="underlinestyle"  style="font-size: 12px">$!reqct</td>
+                </tr>
+                <tr>
+                    <td width="14%" style="font-size: 12px">&#12288;&#12288;B超：</span></td>
+                    <td width="86%" align="left" class="underlinestyle"  style="font-size: 12px">$!reqbultrasonic</td>
+                </tr>
+            </table>
+            <div  class="fieldname">&#12288;妇产科疾病请增填:</div>
+            <table width="100%">
+                <tr>
+                    <td width="14%"><span class="fieldname" style="font-size: 12px">&#12288;月经初潮：</span></td>
+                    <td width="16%" align="left" class="underlinestyle" style="font-size: 12px">$!reqmenses</td>
+                    <td width="12%"><span class="fieldname" style="font-size: 12px">末次月经：</span></td>
+                    <td width="18%" align="left" class="underlinestyle" style="font-size: 12px">$!reqlastmenstruation</td>
+                    <td width="7%"><span class="fieldname" style="font-size: 12px">周期：</span></td>
+                    <td width="13%" align="left" class="underlinestyle" style="font-size: 12px">$!reqcycle</td>
+                    <td width="7%"><span class="fieldname" style="font-size: 12px">产次：</span></td>
+                    <td width="13%" align="left" class="underlinestyle" style="font-size: 12px">$!reqcesarean</td>
+                </tr>
+            </table>
+            <div  class="fieldname">&#12288;本次检查要求:</div>
+            <div style="height: 50px;font-size: 12px">
+            </div>
+            <div  class="fieldname">&#12288;临床诊断:</div></br>
+            <div style="height: 50px;font-size: 12px">
+            </div>
+            <div class="line"></div>
+            <div class="itemtitle">
+                <table style="width: 100%">
+                    <tr>
+                        <td width="14%"><span class="fieldname">&#12288;送检医生：</span></td>
+                        <td width="21%" align="center" class="underlinestyle">$!reqdoctorname</td>
+                        <td width="12%"><span class="fieldname">联系电话：</span></td>
+                        <td width="18%" align="center" class="underlinestyle">$!reqsendphone</td>
+                        <td width="12%"><span class="fieldname">送检日期：</span></td>
+                        <td width="23%" align="center" class="underlinestyle">$!reqplanexectime</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

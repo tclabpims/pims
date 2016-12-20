@@ -28,6 +28,12 @@ public interface QueryHisDataService {
      */
     List queryPatientList(String query);
 
+    /**
+     * 根据住院类型及唯一ID获取病人信息
+     * @return
+     */
+    List querPatientInfo(String patient_type,String brjzxh);
+
 
     boolean insert(PimsPathologyFee fee);
 

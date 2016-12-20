@@ -85,4 +85,11 @@ public class PimsHospitalPathologyInfoManagerImpl extends GenericManagerImpl<Pim
     public PimsHospitalPathologyInfo gethinfo(PimsPathologySample sample) {
         return hospitalPathologyInfoDao.gethinfo(sample);
     }
+
+    @Override
+    public List<PimsSysPathology> getPathologyByHosId(long hosptailId) {
+        StringBuilder hql = new StringBuilder("from PimsSysPathology as pathology where pathology.patuseflag=0 and pathology.pathologyid ")
+                .append("in(select hpi.pathologyId from PimsHospitalPathologyInfo as hpi, User as us where hpi.useFlag=1 and hpi.hospitalId =:id)");
+        return hospitalPathologyInfoDao.getPathologyByUserId(hql.toString(), hosptailId);
+    }
 }

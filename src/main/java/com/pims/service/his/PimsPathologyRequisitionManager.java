@@ -71,7 +71,7 @@ public interface PimsPathologyRequisitionManager extends GenericManager<PimsPath
      * @param ppr
      * @return
      */
-    PimsPathologyRequisition insertOrUpdate(JSONArray materials,PimsPathologyRequisition ppr,JSONArray fields);
+    PimsPathologyRequisition insertOrUpdate(JSONArray materials,PimsPathologyRequisition ppr,JSONArray fields,JSONArray fields1);
     /**
      * 查询申请字段
      * @param map
@@ -83,7 +83,7 @@ public interface PimsPathologyRequisitionManager extends GenericManager<PimsPath
      * @param id
      * @return
      */
-    List searchViews(long id);
+    List searchViews(long id,String reqffirstv);
 
     /**
      * 查询单据是否存在

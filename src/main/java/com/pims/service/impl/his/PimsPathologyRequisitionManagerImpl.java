@@ -106,8 +106,8 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
      * @return
      */
     @Override
-    public PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr,JSONArray fields) {
-        return pimsPathologyRequisitionDao.insertOrUpdate(materials,ppr,fields);
+    public PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr,JSONArray fields,JSONArray fields1) {
+        return pimsPathologyRequisitionDao.insertOrUpdate(materials,ppr,fields,fields1);
     }
 
     @Override
@@ -121,8 +121,8 @@ public class PimsPathologyRequisitionManagerImpl extends GenericManagerImpl<Pims
     }
 
     @Override
-    public List searchViews(long id) {
-        return pimsPathologyRequisitionDao.searchViews(id);
+    public List searchViews(long id,String reqffirstv) {
+        return pimsPathologyRequisitionDao.searchViews(id,reqffirstv);
     }
 
     /**

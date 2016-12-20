@@ -73,6 +73,9 @@ public class PimsPathologyRequisition {
     private Date reqmenses;
     private String reqcycle;
     private Integer reqcesarean;
+    private String reqxray;
+    private String reqct;
+    private String reqbultrasonic;
 
     @Basic
     @Column(name = "REQPATIENTDEPTCODE")
@@ -700,6 +703,33 @@ public class PimsPathologyRequisition {
     public void setReqcreatetime(Date reqcreatetime) {
         this.reqcreatetime = reqcreatetime;
     }
+    @Basic
+    @Column(name = "REQXRAY")
+    public String getReqxray() {
+        return reqxray;
+    }
+
+    public void setReqxray(String reqxray) {
+        this.reqxray = reqxray;
+    }
+    @Basic
+    @Column(name = "REQCT")
+    public String getReqct() {
+        return reqct;
+    }
+
+    public void setReqct(String reqct) {
+        this.reqct = reqct;
+    }
+    @Basic
+    @Column(name = "REQBULTRASONIC")
+    public String getReqbultrasonic() {
+        return reqbultrasonic;
+    }
+
+    public void setReqbultrasonic(String reqbultrasonic) {
+        this.reqbultrasonic = reqbultrasonic;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -802,7 +832,12 @@ public class PimsPathologyRequisition {
             return false;
         if (reqcesarean != null ? !reqcesarean.equals(that.reqcesarean) : that.reqcesarean != null)
             return false;
-
+        if (reqxray != null ? !reqxray.equals(that.reqxray) : that.reqxray != null)
+            return false;
+        if (reqct != null ? !reqct.equals(that.reqct) : that.reqct != null)
+            return false;
+        if (reqbultrasonic != null ? !reqbultrasonic.equals(that.reqbultrasonic) : that.reqbultrasonic != null)
+            return false;
         return true;
     }
 
@@ -872,6 +907,9 @@ public class PimsPathologyRequisition {
         result = 31 * result + (reqmenses != null ? reqmenses.hashCode() : 0);
         result = 31 * result + (reqcycle != null ? reqcycle.hashCode() : 0);
         result = 31 * result + (reqcesarean != null ? reqcesarean.hashCode() : 0);
+        result = 31 * result + (reqxray != null ? reqxray.hashCode() : 0);
+        result = 31 * result + (reqct != null ? reqct.hashCode() : 0);
+        result = 31 * result + (reqbultrasonic != null ? reqbultrasonic.hashCode() : 0);
         return result;
     }
 }

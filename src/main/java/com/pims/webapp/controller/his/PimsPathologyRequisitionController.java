@@ -10,14 +10,18 @@ import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.his.PimsRequisitionMaterialManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
+import com.pims.util.OneBarcodeUtil;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.pims.webapp.controller.WebControllerUtil;
 import com.smart.Constants;
 import com.smart.model.lis.Hospital;
 import com.smart.model.user.User;
 import com.smart.service.lis.HospitalManager;
+import com.smart.util.Config;
+import com.smart.util.ConvertUtil;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
+import org.apache.commons.codec.binary.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -32,10 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.*;
 
 @Controller
@@ -197,7 +198,8 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	@ResponseBody
 	public String getReqData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = request.getParameter("id");
-		List list = pimsPathologyRequisitionManager.searchViews(Long.parseLong(id));
+		String reqffirstv = request.getParameter("reqffirstv");
+		List list = pimsPathologyRequisitionManager.searchViews(Long.parseLong(id),reqffirstv);
 		String resultString = getResultJsons(list);
 		//response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -215,13 +217,15 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	@RequestMapping(value = "/editSample*", method = RequestMethod.POST)
 	public String editSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PimsPathologyRequisition ppr = (PimsPathologyRequisition)setBeanProperty(request,PimsPathologyRequisition.class);
-		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String materiallist = request.getParameter("material");
-		String fieldlist = request.getParameter("arrs");
+//		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String materiallist = request.getParameter("material");//取材部位
+		String fieldlist = request.getParameter("arrs");//动态字段
+		String fieldlist1 = request.getParameter("arrs1");//送检材料
 		JSONArray materials = JSON.parseArray(materiallist);
 		JSONArray fields = JSON.parseArray(fieldlist);
+		JSONArray fields1 = JSON.parseArray(fieldlist1);
 		JSONObject o = new JSONObject();
-		ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr,fields);
+		ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr,fields,fields1);
 		//pimsPathologyRequisitionManager.save(ppr);
 		o.put("requisitionid", ppr.getRequisitionid());
 		o.put("requisitionno", ppr.getRequisitionno());
@@ -321,15 +325,47 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		return dataResponse;
 	}
 
+	/**
+	 * 获取病人住院记录
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getpatientinfo*", method = RequestMethod.GET)
+	@ResponseBody
+	public DataResponse getPatientInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		DataResponse dataResponse = new DataResponse();
+		String brjzxh = request.getParameter("brjzxh");
+		String patient_type = request.getParameter("patient_type");
+		List list = dataService.querPatientInfo(patient_type,brjzxh);
+		if(list == null || list.size() == 0) {
+			return null;
+		}
+		dataResponse.setRecords(list.size());
+		dataResponse.setRows(getResultMap(list));
+		response.setContentType("text/html; charset=UTF-8");
+		return dataResponse;
+	}
+
 	@RequestMapping(value = "/report/printzqs", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, String> printReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		User user = WebControllerUtil.getAuthUser();
+	public Map<String, String> printReportzqs(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String hosptail = request.getParameter("hosptail");
+		long hosptailId = 0 ;
+		if(StringUtils.isEmpty(hosptail)){
+			User user = WebControllerUtil.getAuthUser();
+			hosptailId = user.getHospitalId();
+		}else{
+			hosptailId = Long.parseLong(hosptail);
+		}
+
 		PimsSysPathology pathology = pimsSysPathologyManager.get(Long.valueOf(request.getParameter("id")));
 		Map<String, String> resultMap = null;
 		VelocityContext context = new VelocityContext();
 		context.put("formname", pathology.getPatcoddingprechar());
-		context.put("hospitalLogo", getHospitalLogo(request, user.getHospitalId()));
+//		context.put("hospitalLogo", getHospitalLogo(request, hosptailId));
+		context.put("hospitalLogo", "data:image/png" + ";base64," + getHospitalLogo(request, hosptailId));//医院logo
 		VelocityEngine engine = new VelocityEngine();
 		engine.setProperty(Velocity.RESOURCE_LOADER, "class");
 		engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -351,13 +387,156 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		return map;
 	}
 
-	private String getHospitalLogo(HttpServletRequest request, Long hospitalId) {
+	@RequestMapping(value = "/report/printreq", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> printReportreq(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String hosptail = request.getParameter("hosptail");
+		long hosptailId = 0 ;
+		if(StringUtils.isEmpty(hosptail)){
+			User user = WebControllerUtil.getAuthUser();
+			hosptailId = user.getHospitalId();
+		}else{
+			hosptailId = Long.parseLong(hosptail);
+		}
+		PimsPathologyRequisition reqPathology = pimsPathologyRequisitionManager.getBySampleNo(Long.parseLong(request.getParameter("id")));
+		PimsSysPathology pathology = pimsSysPathologyManager.get(reqPathology.getReqpathologyid());
+		List list = pimsPathologyRequisitionManager.searchViews(reqPathology.getRequisitionid(),"1");//送检材料
+		VelocityContext context = getVelocityContext(reqPathology);
+		String rootDir = request.getSession().getServletContext().getRealPath("/pdf");
+		String fileName = reqPathology.getRequisitionid()+".html";
+		String outputFile = rootDir + File.separator + fileName;
+//		StringBuilder logoFileRoot = new StringBuilder(request.getScheme());
+//		logoFileRoot.append("://").append(request.getServerName())
+//				.append(":").append(request.getServerPort()).append("/pdf/").append(reqPathology.getRequisitionid()+".png");
+//		OneBarcodeUtil.generateFile(reqPathology.getRequisitionno(),rootDir + File.separator + reqPathology.getRequisitionid()+".png");
+        StringBuilder logoFileRoot = new StringBuilder();
+        logoFileRoot.append(Config.getString("img.path","E:\\img\\pdf") + File.separator + reqPathology.getRequisitionid()+".png");
+        OneBarcodeUtil.generateFile(reqPathology.getRequisitionno(),logoFileRoot.toString());
+		context.put("formname", pathology.getPatcoddingprechar());//报告单抬头
+
+//		context.put("hospitalLogo", getHospitalLogo(request, user.getHospitalId()));//医院logo
+        context.put("hospitalLogo", "data:image/png" + ";base64," + getHospitalLogo(request, hosptailId));//医院logo
+		context.put("sjcls",getResultMaps(list));//送检材料
+
+//		List list1 = pimsPathologyRequisitionManager.searchViews(reqPathology.getRequisitionid(),"0");//动态字段
+//		context.put("dtzds",getResultMaps(list1));//动态字段
+
+        FileInputStream fileInputStream = new FileInputStream(logoFileRoot.toString().replace("/","\\"));
+        byte[] buffer = null;
+        buffer = new byte[fileInputStream.available()];
+        fileInputStream.read(buffer);
+        fileInputStream.close();
+        context.put("barcode","data:image/png" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer)));//条形码
+//		context.put("barcode",logoFileRoot.toString());//条形码
+
+		List<PimsRequisitionMaterial> materlist = pimsRequisitionMaterialManager.getListByReqId(reqPathology.getRequisitionid());//取材部位
+		context.put("materlist",getResultMap(materlist));
+		VelocityEngine engine = new VelocityEngine();
+		engine.setProperty(Velocity.RESOURCE_LOADER, "class");
+		engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		engine.init();
+		Template template = engine.getTemplate(pathology.getPatsecondv(), "UTF-8");
+		StringWriter writer = new StringWriter();
+		template.merge(context, writer);
+		generateHtml(outputFile, writer.toString());
+
+		response.setContentType(super.contentType);
+
+		Map<String, String> map = new HashMap<>();
+		map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
+
+		return map;
+	}
+
+	private VelocityContext getVelocityContext(PimsPathologyRequisition sample) {
+		VelocityContext context = new VelocityContext();
+		context.put("requisitionno", sample.getRequisitionno());//申请单号
+		context.put("reqpatientname", sample.getReqpatientname());//姓名
+		String sex = "";
+		if(sample.getReqpatientsex() == 1){
+			sex = "男";
+		}else if(sample.getReqpatientsex() == 2){
+			sex = "女";
+		}else{
+			sex = "未知";
+		}
+		context.put("reqpatientsex", sex);//性别
+		String age = sample.getReqpatientage();
+		int agetype = sample.getReqpatagetype().intValue();
+		if(agetype == 1){
+			age +="岁";
+		}else if(agetype == 2){
+			age +="月";
+		}else if(agetype == 4){
+			age +="周";
+		}else if(agetype == 5){
+			age +="日";
+		}else if(agetype == 6){
+			age +="小时";
+		}
+		context.put("reqpatientage", age);//年龄
+		context.put("reqpatientjg", "");//籍贯
+		String reqprevious = "";
+		if(sample.getReqprevious() == null){
+
+		}else if(sample.getReqprevious().intValue() == 0){
+			reqprevious="未婚";
+		}else if(sample.getReqprevious().intValue() == 1){
+			reqprevious="已婚";
+		}
+		context.put("reqprevious", reqprevious);//婚姻
+		context.put("reqpreviouszy", "");//职业
+		context.put("reqpataddress", sample.getReqpataddress());//联系地址
+		context.put("reqsendhospital", sample.getReqsendhospital());//医院
+		context.put("reqpattelephone", sample.getReqpattelephone());//联系电话
+		context.put("reqdeptname", sample.getReqdeptname());//门诊/住院科别
+		context.put("reqwardname", sample.getReqwardname());//病区
+		context.put("reqpatientnumber", sample.getReqpatientnumber());//门诊/住院号
+		context.put("reqfirstn", sample.getReqfirstn());//床号
+
+		context.put("reqssmc", "");//手术名称
+		context.put("reqsecondv", sample.getReqsecondv());//手术医生
+		context.put("reqthirdv", sample.getReqthirdv());//联系电话
+		String reqfirstd = "";
+		if(sample.getReqfirstd() != null){
+			reqfirstd = Constants.DF2.format(sample.getReqfirstd())	;
+		}
+		context.put("reqfirstd", reqfirstd);//手术日期
+		String reqplanexectime = "";
+		if(sample.getReqplanexectime() != null){
+			reqplanexectime = Constants.DF2.format(sample.getReqplanexectime())	;
+		}
+		context.put("reqplanexectime", reqplanexectime);//送检日期
+		context.put("reqremark", sample.getReqremark());//手术所见
+		context.put("reqpatdiagnosis", sample.getReqpatdiagnosis());//临床所见
+		context.put("reqdoctorname", sample.getReqdoctorname());//送检医生
+		context.put("reqsendphone", sample.getReqsendphone());//联系电话
+
+		context.put("reqmenses", sample.getReqmenses()==null?"":Constants.DF2.format(sample.getReqmenses()));//月经初潮
+		context.put("reqcycle", sample.getReqcycle());//周期
+		context.put("reqcesarean", sample.getReqcesarean());//产史
+		context.put("reqlastmenstruation", sample.getReqlastmenstruation()==null?"":Constants.DF2.format(sample.getReqlastmenstruation()));//末次月经
+		context.put("reqismenopause", sample.getReqismenopause());//是否绝经
+		context.put("reqxray", sample.getReqxray());//X光
+		context.put("reqct", sample.getReqct());//CT
+		context.put("reqbultrasonic", sample.getReqbultrasonic());//B超
+		return context;
+	}
+
+	private String getHospitalLogo(HttpServletRequest request, Long hospitalId) throws Exception {
 		Hospital hospital = hospitalManager.get(hospitalId);
-		StringBuilder logoFileRoot = new StringBuilder(request.getScheme());
-		logoFileRoot.append("://").append(request.getServerName())
-				.append(":").append(request.getServerPort()).append("/images/hospital/");
-		logoFileRoot.append(hospitalId).append("/").append(hospital.getLogo());
-		return logoFileRoot.toString();
+//		StringBuilder logoFileRoot = new StringBuilder(request.getScheme());
+//		logoFileRoot.append("://").append(request.getServerName())
+//				.append(":").append(request.getServerPort()).append("/images/hospital/");
+//		logoFileRoot.append(hospitalId).append("/").append(hospital.getLogo());
+        StringBuilder logoFileRoot = new StringBuilder();
+        logoFileRoot.append(Config.getString("img.hospital","E:\\img\\hospital") + File.separator+ hospitalId + File.separator + hospital.getLogo());
+        FileInputStream fileInputStream = new FileInputStream(logoFileRoot.toString().replace("/","\\"));
+        byte[] buffer = null;
+        buffer = new byte[fileInputStream.available()];
+        fileInputStream.read(buffer);
+        fileInputStream.close();
+		return new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer));
 	}
 	private void generateHtml(String fileName, String html) {
 		File file = new File(fileName);

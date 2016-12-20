@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>常规病理报告单</title>
+    <style>
+        *{
+            font-family:MSYH;
+            font-size: 10pt;
+        }
+        html * {
+            margin: 0 auto;
+        }
+
+        body {
+            width: 794px;
+            height: 1123px;
+        }
+
+        .logo{
+            width:100%;
+            padding-left:20px;
+            padding-top:5px;
+            padding-bottom:5px;
+        }
+        .headtitle {
+            font-size: 16pt;
+            font-weight: bold;
+        }
+        .itemContainer {
+            width:100%;
+            padding-bottom:10px;
+        }
+        .itemtitle {
+            width:100%;
+            padding-left:5px;
+            padding-bottom:5px;
+            padding-top:5px;
+            font-weight:bold;
+        }
+        .fieldname{
+            font-weight:bold;
+        }
+        .fieldname1{
+            font-size: 12px;
+            font-weight:bold;
+        }
+        .imgContainer{
+            margin:0 auto;
+        }
+        .line {
+            border-bottom:1px solid #000;
+            padding-left:5px;
+            padding-right:5px;
+        }
+        .divfirst {
+            display:inline;
+            padding-left:5px;
+        }
+        .divother {
+            display:inline;
+            padding-left:50px
+        }
+        .tdtextalign {
+            vertical-align:middle;
+            text-align:left;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="logo" align="left"><img src="$!hospitalLogo" width="137px" height="46px"></div>
+    <div>
+        <div align="center" class="itemContainer">
+            <span class="headtitle">病理细胞学检查申请单</span>
+        </div>
+    </div>
+    <div align="left" class="itemContainer">
+        <img src="$!barcode" width="137px" height="46px"><div class="line"></div>
+    </div>
+    <div align="left" class="itemContainer">
+        <table width="100%">
+            <tr>
+                <td width="8%"><span class="fieldname">姓名：</span></td>
+                <td width="8%" align="left">$!reqpatientname</td>
+                <td width="8%"><span class="fieldname">性别：</span></td>
+                <td width="8%" align="left">$!reqpatientsex</td>
+                <td width="8%"><span class="fieldname">年龄：</span></td>
+                <td width="8%" align="left">$!reqpatientage</td>
+                <td width="8%"><span class="fieldname">籍贯：</span></td>
+                <td width="8%" align="left">$!reqpatientjg</td>
+                <td width="8%"><span class="fieldname">婚姻：</span></td>
+                <td width="8%" align="left">$!reqprevious</td>
+                <td width="8%"><span class="fieldname">职业：</span></td>
+                <td width="12%" align="left">$!reqpreviouszy</td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td width="10%"><span class="fieldname">联系地址：</span></td>
+                <td width="54%" align="left">$!reqpataddress</td>
+                <td width="10%"><span class="fieldname">联系电话：</span></td>
+                <td width="26%" align="left">$!reqpattelephone</td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td width="10%"><span class="fieldname">医院：</span></td>
+                <td width="20%" align="left">$!reqsendhospital</td>
+                <td width="15%"><span class="fieldname">门诊/住院科别：</span></td>
+                <td width="19%" align="left">$!reqdeptname</td>
+                <td width="15%"><span class="fieldname">病房(区)号：</span></td>
+                <td width="21%" align="left">$!reqwardname</td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td width="15%"><span class="fieldname">门诊/住院号：</span></td>
+                <td width="15%" align="left">$!reqpatientnumber</td>
+                <td width="15%"><span class="fieldname">床号：</span></td>
+                <td width="55%" align="left">$!reqfirstn</td>
+            </tr>
+        </table>
+    </div>
+    <div class="line"></div>
+    <div align="left"  class="fieldname">临床诊断及送检目的：</div>
+    <div align="center" class="itemContainer">
+        <table width="100%">
+            #foreach($!sjcl in $!sjcls)
+                #if($!velocityCount%3 == 1)
+                    <tr>
+                        <td width="5%"><input  type="checkbox" #if($!sjcl.reqfvalue == 1) checked
+                        #end/></td>
+                        <td width="25%" align="left">$!sjcl.fieelementname</td>
+                #elseif($!velocityCount%3 == 2)
+                        <td width="5%"><input  type="checkbox" #if($!sjcl.reqfvalue == 1) checked
+                        #end/></td>
+                        <td width="30%" align="left">$!sjcl.fieelementname</td>
+                #elseif($!velocityCount%3 == 0)
+                        <td width="5%"><input  type="checkbox" #if($!sjcl.reqfvalue == 1) checked
+                        #end/></td>
+                        <td width="30%" align="left">$!sjcl.fieelementname</td>
+                    </tr>
+                #end
+            #end
+        </table>
+    </div>
+    <div class="line"></div>
+    <div class="itemtitle">病史摘要：</div>
+    <div  class="fieldname1">&#12288;&#12288;主要病史:</div>
+    <div style="height: 80px">
+    </div>
+    <div  class="fieldname1">&#12288;&#12288;查看情况:</div>
+    <div style="height: 80px">
+    </div>
+    <div  class="fieldname1">&#12288;&#12288;检查结果:</div>
+    <div style="height: 80px">
+    </div>
+    <div  class="fieldname1">&#12288;&#12288;既往病史、病理学检查及治疗情况:</div>
+    <div style="height: 80px">
+    </div>
+    </br>
+    <div class="line"></div>
+    <div class="itemtitle">
+        送检医生：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;
+        联系电话：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;
+        送检日期：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;
+    </div>
+</div>
+</body>
+</html>

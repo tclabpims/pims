@@ -19,7 +19,6 @@
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
 	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
-	<script src="<c:url value='/scripts/LodopFuncs.js'/>"></script>
 	<style>
 		.ui-autocomplete {
 			z-index: 99999999 !important;
@@ -77,7 +76,7 @@
 				<input type="text" class="input_style" id="send_doctor"/>
 				<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<span>
-					<button type="button" style="border-radius:3px;border:1px solid #2274E4;padding:0 16px;background-color: #4190f7;float: right" onclick="searchList()">
+					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
 						<span style="color: white;">查询</span>
 					</button>
 				</span>
@@ -86,24 +85,19 @@
 	</div>
 	<table style="margin-bottom: 10px">
 		<h5 style="font-size: 14px;"><strong>&nbsp;工作安排一览</strong></h5>
-		<button type="button" class="btn btn-sm btn-primary"  onclick="addSample()">
-			<i class="ace-icon glyphicon glyphicon-plus"></i>
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="addSample()">
 			<span style="color: white;">新增</span>
 		</button>&nbsp;
-		<button type="button" class="btn btn-sm btn-info"  onclick="viewSample()">
-			<i class="ace-icon fa fa-eye"></i>
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;"  onclick="viewSample()">
 			<span style="color: white;">查看</span>
 		</button>&nbsp;
-		<button type="button" class="btn btn-sm btn-warning" onclick="deleteSample()">
-			<i class="ace-icon fa fa-trash-o"></i>
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="deleteSample()">
 			<span style="color: white;">删除</span>
 		</button>&nbsp;
-		<button type="button" class="btn btn-sm btn-success"  onclick="printCode1()">
-			<i class="ace-icon fa fa-file-text-o"></i>
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="printCode1()">
 			<span style="color: white;">打印</span>
-		</button>&nbsp;
-		<button type="button" class="btn btn-sm btn-success"  onclick="printSlide()">
-			<i class="ace-icon fa fa-file-text-o"></i>
+		</button>
+		<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="printSlide()">
 			<span style="color: white;">打印标签</span>
 		</button>
 	</table>
@@ -114,13 +108,18 @@
 			</a>
 		</li>
 		<li>
-			<a href="3" data-toggle="tab">
-				已延迟
+			<a href="1" data-toggle="tab">
+				已登记
 			</a>
 		</li>
 		<li>
-			<a href="4" data-toggle="tab">
-				未打印
+			<a href="2" data-toggle="tab">
+				已完成
+			</a>
+		</li>
+		<li>
+			<a href="3" data-toggle="tab">
+				已延迟
 			</a>
 		</li>
 		<li>
@@ -254,16 +253,8 @@
 					<input type="text" class="input_style" id="reqfirstn" name="reqfirstn"/>
 				</div>
 				<label class="col-sm-1 label_style">联系地址:</label>
-				<div class="col-sm-5">
-					<input type="text" class="input_style col-sm-12" id="reqpataddress"/>
-				</div>
-				<label class="col-sm-1 label_style" id="reqfirstv1">同意书:</label>
-				<div class="col-sm-2">
-					<select id="reqfirstv" class="input_style col-sm-10" style="display: none" name="reqfirstv" >
-						<option value=" "></option>
-						<option value="2">未签</option>
-						<option value="1">已签</option>
-					</select>
+				<div class="col-sm-8">
+					<input type="text" class="col-sm-7 input_style" id="reqpataddress"/>
 				</div>
 			</div>
 			<div class="form-group" style="margin-bottom: 5px;">
@@ -399,9 +390,6 @@
 					<button type="submit" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right"  id="savebutton">
 						<span style="color: white;">保存</span>
 					</button>
-					<%--<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right"  id="printbutton" onclick="printCode()">--%>
-						<%--<span style="color: white;">打印知情书</span>--%>
-					<%--</button>--%>
 				</div>
 			</div>
 		</form>
@@ -413,46 +401,38 @@
 			<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
 			<div class="leftContent  col-sm-6" style="margin-top: 0px">
 				<div class="form-group" style="margin-right:0px;margin-left:0px;margin-top: 0px;margin-bottom: 2px;display: none" id="divnew">
-						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="addRow()">
-							<span style="color: white;">追加行</span>
-						</button>
-						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="delRow()">
-							<span style="color: white;">删除行</span>
-						</button>
+					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="addRow()">
+						<span style="color: white;">追加行</span>
+					</button>
+					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="delRow()">
+						<span style="color: white;">删除行</span>
+					</button>
 				</div>
 				<div class="form-group " style="margin-right:0px;margin-left:0px;margin-top: 0px;margin-bottom: 0px;display: none" id="divnew1" >
 					<table id="new1" class="table-striped">
 					</table>
 				</div>
 				<div id="divnew2" style="display: none"></div>
-				<%--<div class="form-group" style="margin-bottom: 5px">--%>
-					<%--<input type="checkbox" class="col-sm-1 label_style" id="A"/>--%>
-					<%--<label class="col-sm-1 input_style" style="line-height: 24px">胸水</label>--%>
-					<%--<input type="checkbox" class="col-sm-1 label_style" id="B"/>--%>
-					<%--<label class="col-sm-3 input_style" style="line-height: 24px">心包积液</label>--%>
-					<%--<input type="checkbox" class="col-sm-1 label_style" id="C"/>--%>
-					<%--<label class="col-sm-5 input_style" style="line-height: 24px">其他穿刺细胞学涂片</label>--%>
-				<%--</div>--%>
 			</div>
-			<div class="rightContent  col-sm-6" style="margin-top: 0px;">
-				<%--<div id="dynamic_div2">--%>
+			<div class="rightContent  col-sm-6" style="margin-top: 5px;">
+				<div id="dynamic_div2">
 
+				</div>
+				<%--<div class="form-group" style="margin: 0px 0px 0px 0px">--%>
+					<%--<h5 style="float: left;font-size: 14px;">影像学检查</h5>--%>
 				<%--</div>--%>
-				<div class="form-group" style="margin-bottom: 5px">
-					<label class="col-sm-2 label_style">X光:</label>
-					<textarea id="reqct" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
-					<%--<input type="text" class="col-sm-10 input_style" id="reqxray"/>--%>
-				</div>
-				<div class="form-group" style="margin-bottom: 5px">
-					<label class="col-sm-2 label_style">CT:</label>
-					<textarea id="reqct" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
-					<%--<input type="text" class="col-sm-10 input_style" id="reqct"/>--%>
-				</div>
-				<div class="form-group" style="margin-bottom: 5px">
-					<label class="col-sm-2 label_style">B超:</label>
-					<textarea id="reqbultrasonic" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
-					<%--<input type="text" class="col-sm-10 input_style" id="reqbultrasonic"/>--%>
-				</div>
+				<%--<div class="form-group" style="margin-bottom: 5px">--%>
+					<%--<label class="col-sm-2 label_style" for="X">X光:</label>--%>
+					<%--<input type="text" class="col-sm-10 input_style" id="X"/>--%>
+				<%--</div>--%>
+				<%--<div class="form-group" style="margin-bottom: 5px">--%>
+					<%--<label class="col-sm-2 label_style" for="CT">CT:</label>--%>
+					<%--<input type="text" class="col-sm-10 input_style" id="CT"/>--%>
+				<%--</div>--%>
+				<%--<div class="form-group" style="margin-bottom: 5px">--%>
+					<%--<label class="col-sm-2 label_style" for="B">B超:</label>--%>
+					<%--<input type="text" class="col-sm-10 input_style" id="B"/>--%>
+				<%--</div>--%>
 				<div id="sexinfo" style="display: none">
 					<div class="form-group" style="margin: 0px 0px 0px 0px">
 						<h5 style="float: left;font-size: 14px;">妇产科检查</h5>

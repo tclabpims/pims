@@ -62,7 +62,7 @@ public class HisMainController extends PIMSBaseController {
         StringBuilder builder = new StringBuilder();
         for(PimsSysPathology obj : items) {
             builder.append("<option value='").append(obj.getPathologyid()).append("' ");
-            if(user.getUserBussinessRelate().getPathologyLibId().equals(String.valueOf(obj.getPathologyid()))) {
+            if((String.valueOf(user.getUserBussinessRelate().getPathologyLibId())).equals(String.valueOf(obj.getPathologyid()))) {
                 builder.append(" selected = 'selected' ");
             }
             builder.append(">").append(obj.getPatnamech()).append("</option>");

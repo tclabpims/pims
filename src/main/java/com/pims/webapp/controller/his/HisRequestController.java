@@ -3,6 +3,7 @@ package com.pims.webapp.controller.his;
 import com.pims.model.PimsCommonBaseData;
 import com.pims.model.PimsSysPathology;
 import com.pims.model.PimsSysReqTestitem;
+import com.pims.service.QueryHisDataService;
 import com.pims.service.basedata.PimsCommonBaseDataManager;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
@@ -12,6 +13,7 @@ import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
 import com.smart.model.user.User;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,7 +41,7 @@ public class HisRequestController extends PIMSBaseController {
     private PimsCommonBaseDataManager pimsCommonBaseDataManager;//基础资料
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
-        String hosptail = request.getParameter("hosptail");
+        String hosptail = request.getParameter("hosptail");//申请医院
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, - 7);
         Date monday = c.getTime();
@@ -92,14 +94,68 @@ public class HisRequestController extends PIMSBaseController {
         map.put("bddatatype",1);
         listbase = pimsCommonBaseDataManager.getDataList(map);
         view.addObject("reqwardname",getOptions(listbase).toString());
+
+        String brjzxh = request.getParameter("brjzxh");//门诊唯一号
+        String patient_type = request.getParameter("patient_type");//患者类型:1 住院 2 门诊
+        String lczdmc = request.getParameter("lczdmc");//临床诊断
+        String reqdoctorid = request.getParameter("reqdoctorid");//申请医生ID
+        String reqdoctorname = request.getParameter("reqdoctorname");//申请医生姓名
+        String reqwardcode = request.getParameter("reqwardcode");//申请病区ID
+        String reqwardname = request.getParameter("reqwardname");//申请病区名称
+        String reqdeptcode = request.getParameter("reqdeptcode");//申请科室ID
+        String reqdeptname = request.getParameter("reqdeptname");//申请科室名称
+        String reqsendhospital = request.getParameter("reqsendhospital");//送检医院
+        String reqcreateuser = request.getParameter("reqcreateuser");//申请人ID
+        String reqcreateusername = request.getParameter("reqcreateusername");//申请人姓名
+
+        if(!(StringUtils.isEmpty(reqdeptcode) || StringUtils.isEmpty(reqdeptname))){
+            //送检科室
+            map.put("bddatatype",2);
+            map.put("bdhisid",reqdeptcode);//HIS ID
+            map.put("bddatanamech",reqdeptname);//名称
+            listbase = pimsCommonBaseDataManager.getDataList(map);
+            if(listbase != null && listbase.size() > 0){
+                view.addObject("reqdeptcode1",listbase.get(0).getDataid());
+            }
+            view.addObject("reqdeptname1",reqdeptname);
+        }
+        //送检医生
+        if(!(StringUtils.isEmpty(reqdoctorid) || StringUtils.isEmpty(reqdoctorname))) {
+            map.put("bddatatype", 3);
+            map.put("bdhisid", reqdoctorid);//HIS ID
+            map.put("bddatanamech", reqdoctorname);//名称
+            listbase = pimsCommonBaseDataManager.getDataList(map);
+            if (listbase != null && listbase.size() > 0) {
+                view.addObject("reqdoctorid1", listbase.get(0).getDataid());
+            }
+            view.addObject("reqdoctorname1", reqdoctorname);
+        }
+        //病区
+        if(!(StringUtils.isEmpty(reqwardcode) || StringUtils.isEmpty(reqwardname))) {
+            map.put("bddatatype", 1);
+            map.put("bdhisid", reqwardcode);//HIS ID
+            map.put("bddatanamech", reqwardname);//名称
+            listbase = pimsCommonBaseDataManager.getDataList(map);
+            if (listbase != null && listbase.size() > 0) {
+                view.addObject("reqwardcode1", listbase.get(0).getDataid());
+            }
+            view.addObject("reqwardname1", reqwardname);
+        }
         view.addObject("requisitionno",requisitionno);//申请单号
         view.addObject("sevenday", sevenDay);//7天前
         view.addObject("receivetime", today);//当前时间
         view.addObject("reqcustomerid",hosptail);//账号所属医院
         view.addObject("reqsource",0);//申请单来源
         view.addObject("testList",getResultMap(list));//申请项目列表
-        view.addObject("local_user",hosptail);//用户姓名
-        view.addObject("local_userid",hosptail);//用户ID
+        view.addObject("local_user",reqcreateuser+"_"+hosptail);//用户姓名
+        view.addObject("local_userid",reqcreateuser+"_"+hosptail);//用户ID
+
+        view.addObject("lczdmc",lczdmc);//临床诊断
+        view.addObject("reqsendhospital1",reqsendhospital);//送检医院
+        view.addObject("brjzxh",brjzxh);//门诊唯一号
+        view.addObject("patient_type",patient_type);//患者类型:1 住院 2 门诊
         return view;
     }
+
+
 }

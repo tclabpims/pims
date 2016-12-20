@@ -41,7 +41,7 @@ public class Config {
 		return Long.parseLong(value);
 	}
 	
-	private static String getString(String name, String defaultValue) {
+	public static String getString(String name, String defaultValue) {
 		return prop.getProperty(name, defaultValue);
 	}
 	

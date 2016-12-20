@@ -20,4 +20,6 @@ public interface PimsHospitalPathologyInfoManager extends GenericManager<PimsHos
     List<PimsSysPathology> getPathologyByUserId(long userId);
 
     PimsHospitalPathologyInfo gethinfo(PimsPathologySample sample);
+
+    List<PimsSysPathology> getPathologyByHosId(long hosptailId);
 }

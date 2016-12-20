@@ -11,6 +11,7 @@ import com.smart.model.user.UserBussinessRelate;
 import com.smart.util.DateUtil;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 909436637@qq.com on 2016/10/20.
@@ -109,8 +107,15 @@ public class PimsHospitalPathologyInfoController extends PIMSBaseController {
     @RequestMapping(method = {RequestMethod.GET}, value = "/userid",produces="text/html;charset=UTF-8")
     @ResponseBody
     public String getPathologyByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        User user = WebControllerUtil.getAuthUser();
-        List<PimsSysPathology> result = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        List<PimsSysPathology> result = null;
+        String id = request.getParameter("id");
+        if(StringUtils.isEmpty(id)){
+            User user = WebControllerUtil.getAuthUser();
+            result = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        }else{
+            result = pimsHospitalPathologyInfoManager.getPathologyByHosId(Long.parseLong(id));
+        }
+
         JSONArray array = new JSONArray();
         if (result != null) {
             for (PimsSysPathology s : result) {

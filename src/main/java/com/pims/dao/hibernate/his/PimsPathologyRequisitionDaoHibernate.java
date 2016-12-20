@@ -123,7 +123,7 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
     @Override
     public String getMaxCode(String reqpathologyid) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select max(requisitionno) from pims_pathology_requisition where reqisdeleted = 0 ");
+        sb.append(" select max(requisitionno) from pims_pathology_requisition");
         if(!StringUtils.isEmpty(reqpathologyid)){
             sb.append(" and reqpathologyid = " + reqpathologyid);
         }
@@ -182,7 +182,7 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
      * @return
      */
     @Override
-    public PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr,JSONArray fields) {
+    public PimsPathologyRequisition insertOrUpdate(JSONArray materials, PimsPathologyRequisition ppr,JSONArray fields,JSONArray fields1) {
         if(StringUtils.isEmpty(String.valueOf(ppr.getRequisitionid())) || String.valueOf(ppr.getRequisitionid()).equals("0")){
             String maxCode = getMaxCode(null);
             if(!StringUtils.isEmpty(maxCode) && Long.parseLong(maxCode) >= Long.parseLong(ppr.getRequisitionno()) ){
@@ -193,13 +193,15 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         //删除组织信息
         getSession().createSQLQuery("delete from pims_requisition_material where requisitionid = "+ ppr.getRequisitionid()).executeUpdate();//删除申请材料表
         getSession().createSQLQuery("delete from pims_requisition_testitem where requisitionid = "+ ppr.getRequisitionid()).executeUpdate();//删除检查项目表
-        for(int i= 0;i<materials.size();i++){
-            Map map = (Map) materials.get(i);
-            PimsRequisitionMaterial mater = (PimsRequisitionMaterial) setBeanProperty(map,PimsRequisitionMaterial.class);
-            if(String.valueOf(mater.getRequisitionid()).equals("0")){
-                mater.setRequisitionid(ppr.getRequisitionid());
+        if(materials != null && materials.size()>0){
+            for(int i= 0;i<materials.size();i++){//取材部位
+                Map map = (Map) materials.get(i);
+                PimsRequisitionMaterial mater = (PimsRequisitionMaterial) setBeanProperty(map,PimsRequisitionMaterial.class);
+                if(String.valueOf(mater.getRequisitionid()).equals("0")){
+                    mater.setRequisitionid(ppr.getRequisitionid());
+                }
+                pimsRequisitionMaterialManager.save(mater);
             }
-            pimsRequisitionMaterialManager.save(mater);
         }
         String sql = "delete from pims_requisition_field where requisitionid =" + ppr.getRequisitionid();
         getSession().createSQLQuery(sql).executeUpdate();//删除申请单配置字段
@@ -218,6 +220,27 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
             rf.setReqfdefaultvalue(field.getFiedefaultvalue());//默认值
             rf.setReqfsort(field.getFieshoworder());//显示顺序
             rf.setReqfvalue((String)map.get("value"));//值
+            rf.setReqffirstv("0");//动态字段标识
+            rf.setReqfcreateuser(ppr.getReqcreateuser());//创建人
+            rf.setReqfcreatetime(ppr.getReqcreatetime());//创建时间
+            pimsRequisitionFieldManager.save(rf);
+        }
+        for(int i= 0;i<fields1.size();i++){//送检材料
+            Map map = (Map) fields1.get(i);
+            PimsSysReqField field = pimsSysReqFieldManager.getInfo((String)map.get("id"));
+            PimsRequisitionField rf = new PimsRequisitionField();
+            rf.setRequisitionid(ppr.getRequisitionid());//申请单号
+            rf.setFieldid(field.getFieldid());//字段id
+            rf.setReqfcustomerid(ppr.getReqcustomerid());//客户id
+            rf.setReqfelementid(field.getFieelementid());//对象id
+            rf.setReqfelementname(field.getFieelementname());//对象名称
+            rf.setReqfelementtype(field.getFieelementtype());//对象类型
+            rf.setReqfshowlevel(field.getFieshowlevel());//显示级别
+            rf.setReqfpelementid(String.valueOf(field.getFiepelementid()));//上级对象id
+            rf.setReqfdefaultvalue(field.getFiedefaultvalue());//默认值
+            rf.setReqfsort(field.getFieshoworder());//显示顺序
+            rf.setReqfvalue((String)map.get("value"));//值
+            rf.setReqffirstv("1");//申请材料表示
             rf.setReqfcreateuser(ppr.getReqcreateuser());//创建人
             rf.setReqfcreatetime(ppr.getReqcreatetime());//创建时间
             pimsRequisitionFieldManager.save(rf);
@@ -265,9 +288,9 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
      * @return
      */
     @Override
-    public List searchViews(long id) {
+    public List searchViews(long id,String reqffirstv) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsRequisitionField a ,PimsSysReqField b where a.fieldid = b.fieldid and b.fieuseflag = 1 and a.requisitionid = "+ id + " order by b.fieshoworder");
+        sb.append(" from PimsRequisitionField a ,PimsSysReqField b where a.fieldid = b.fieldid and a.requisitionid = "+ id + " and reqffirstv='"+reqffirstv+"' order by reqfid");
         return getSession().createQuery(sb.toString()).list();
     }
     /**
