@@ -220,7 +220,7 @@
             <label>诊断机构</label><input type="text" id="slidept" style="width:160px;height: 24px" value="" autocomplete="off"/>
         </div>
         <div>
-            <label>诊断结果</label><textarea id='sliresult' style="vertical-align: text-top;width: 70%;height:150px" value="" autocomplete="off"></textarea>
+            <label>诊断结果</label><textarea id='sliresult' style="resize: none; vertical-align: text-top;width: 70%;height:150px" value="" autocomplete="off"></textarea>
         </div>
         </div>
         <button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;margin-left:200px;margin-top:10px" onclick="returnbtn()">

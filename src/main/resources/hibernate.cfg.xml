@@ -145,5 +145,6 @@
         <mapping class="com.pims.model.PimsPathologyBmResult"/>
         <mapping class="com.pims.model.PimsSlideLoan"/>
         <mapping class="com.pims.model.PimsSlideRecord"/>
+        <mapping class="com.pims.model.PimsDisposableMaterial"/>
     </session-factory>
 </hibernate-configuration>

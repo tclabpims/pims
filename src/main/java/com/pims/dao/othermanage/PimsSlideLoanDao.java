@@ -3,7 +3,6 @@ package com.pims.dao.othermanage;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsSlideLoan;
 import com.smart.dao.GenericDao;
-
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ public interface PimsSlideLoanDao extends GenericDao<PimsSlideLoan,Long> {
 
     /**
      * 查询标本列表
-         * @param map
+     * @param map
      * @return
      */
     List<PimsSlideLoan> getLoanList(PimsBaseModel map);

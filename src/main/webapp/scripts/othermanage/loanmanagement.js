@@ -184,20 +184,23 @@ function loanbtn() {
                 "customer_name":x,
                 "slicustomerid":y,
                 "sliintime":z
-                });
+                },function(data){
+                         layer.msg(data.message, {icon: 0, time: 1000});
+                         jQuery("#new").jqGrid("clearGridData");
+                                   jQuery("#new").jqGrid('setGridParam',{
+                                       url: "../othermanage/loanmanagement/ajax/slide",
+                                       //发送数据
+                               //		success: function(logyid) {
+                               //                            console.log(logyid);
+                               //                        },
+                                       page : 1
+                                   }).trigger('reloadGrid');//重新载入
+                      });
         }else{
         return layer.alert("请填写借阅人和预计归还日期！");
         }
     }else{return layer.alert("玻片暂时无法借阅！");}
-    }jQuery("#new").jqGrid("clearGridData");
-          jQuery("#new").jqGrid('setGridParam',{
-              url: "../othermanage/loanmanagement/ajax/slide",
-              //发送数据
-      //		success: function(logyid) {
-      //                            console.log(logyid);
-      //                        },
-              page : 1
-          }).trigger('reloadGrid');//重新载入
+    }
 
           layer.closeAll();
           document.getElementById("sliloancustomerid").value='';
@@ -248,24 +251,27 @@ function returnbtn(){
                   sliresult:$("#sliresult").val()
                    },
                    function(m){
-                        layer.alert(m.message);
+                        layer.msg(data.message, {icon: 0, time: 1000});
                    }
                    );
        $.post("../othermanage/loanmanagement/ajax/return3",{
                    sliid:rowData.sliid
+                   },
+                   function(data){
+                        jQuery("#new").jqGrid("clearGridData");
+                        jQuery("#new").jqGrid('setGridParam',{
+                        url: "../othermanage/loanmanagement/ajax/slide",
+                        //发送数据
+                        //		success: function(logyid) {
+                        //                            console.log(logyid);
+                        //                        },
+                        page : 1
+                        }).trigger('reloadGrid');//重新载入
                    });
        document.getElementById("slidept").value='';
        document.getElementById("sliresult").value='';
     }
-    jQuery("#new").jqGrid("clearGridData");
-    jQuery("#new").jqGrid('setGridParam',{
-        url: "../othermanage/loanmanagement/ajax/slide",
-        //发送数据
-//		success: function(logyid) {
-//                            console.log(logyid);
-//                        },
-        page : 1
-    }).trigger('reloadGrid');//重新载入
+
     layer.closeAll();
     document.getElementById("slireturncustomerid").value='';
     document.getElementById("slidept").value='';

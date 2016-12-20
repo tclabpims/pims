@@ -175,7 +175,7 @@ public class LoanManagementController extends PIMSBaseController {
         @RequestMapping(value = "/ajax/return0*", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json; charset=utf-8")
         @ResponseBody
         public void returnSlide0(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PimsSlideRecord ppr = (PimsSlideRecord)setBeanProperty(request,PimsSlideRecord.class);
+            PimsSlideRecord ppr = (PimsSlideRecord)setBeanProperty(request,PimsSlideRecord.class);
             User user = WebControllerUtil.getAuthUser();
             ppr.setSliid(ppr.getSliid());
             ppr.setSlitime(new Date());

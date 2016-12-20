@@ -46,6 +46,7 @@ public class PimsBaseModel {
     private String slidept;
     private String sliresult;
     private String slicustomerid;
+    private String marname;
     public PimsBaseModel(){
 
     }
@@ -94,6 +95,8 @@ public class PimsBaseModel {
         this.sliresult = request.getParameter("sliresult");
         this.slicustomerid = request.getParameter("slicustomerid");
         this.slipathologyid = request.getParameter("slipathologyid");
+        this.marname = request.getParameter("marname");
+
     }
 
     public HttpServletRequest getRequest() {
@@ -366,5 +369,13 @@ public class PimsBaseModel {
 
     public void setSlicustomerid(String slicustomerid) {
         this.slicustomerid = slicustomerid;
+    }
+
+    public String getMarname() {
+        return marname;
+    }
+
+    public void setMarname(String marname) {
+        this.marname = marname;
     }
 }
