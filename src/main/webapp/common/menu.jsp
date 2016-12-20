@@ -409,7 +409,7 @@
             <menu:displayMenu name="OtherManage"/>
             <menu:displayMenu name="BasicData"/>
             <menu:displayMenu name="Individual"/>
-            <menu:displayMenu name="ElectronicApplyManage"/>
+            <%--<menu:displayMenu name="ElectronicApplyManage"/>--%>
         </ul>
         <input type="hidden" id="scode" value="210800"/>
         <input type="hidden" id="pathologyLibId"/>

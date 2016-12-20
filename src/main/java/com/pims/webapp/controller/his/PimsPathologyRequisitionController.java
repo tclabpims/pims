@@ -217,22 +217,33 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 	@RequestMapping(value = "/editSample*", method = RequestMethod.POST)
 	public String editSample(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PimsPathologyRequisition ppr = (PimsPathologyRequisition)setBeanProperty(request,PimsPathologyRequisition.class);
-//		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String materiallist = request.getParameter("material");//取材部位
-		String fieldlist = request.getParameter("arrs");//动态字段
-		String fieldlist1 = request.getParameter("arrs1");//送检材料
-		JSONArray materials = JSON.parseArray(materiallist);
-		JSONArray fields = JSON.parseArray(fieldlist);
-		JSONArray fields1 = JSON.parseArray(fieldlist1);
 		JSONObject o = new JSONObject();
-		ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr,fields,fields1);
-		//pimsPathologyRequisitionManager.save(ppr);
-		o.put("requisitionid", ppr.getRequisitionid());
-		o.put("requisitionno", ppr.getRequisitionno());
-		o.put("reqitemnames", ppr.getReqitemnames());
-		o.put("reqpathologyid", ppr.getReqpathologyid());
-		o.put("message", "单据保存成功！");
-		o.put("success", true);
+//		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		boolean canchange = true;
+		if(ppr.getRequisitionid() > 0){
+			PimsPathologyRequisition reqmodel = pimsPathologyRequisitionManager.getBySampleNo(ppr.getRequisitionid());
+			if(reqmodel.getReqstate() > 0){
+				canchange = false;
+				o.put("message", "单据已登记无法修改！");
+				o.put("success", false);
+			}
+		}
+		if(canchange){
+			String materiallist = request.getParameter("material");//取材部位
+			String fieldlist = request.getParameter("arrs");//动态字段
+			String fieldlist1 = request.getParameter("arrs1");//送检材料
+			JSONArray materials = JSON.parseArray(materiallist);
+			JSONArray fields = JSON.parseArray(fieldlist);
+			JSONArray fields1 = JSON.parseArray(fieldlist1);
+			ppr = pimsPathologyRequisitionManager.insertOrUpdate(materials,ppr,fields,fields1);
+			//pimsPathologyRequisitionManager.save(ppr);
+			o.put("requisitionid", ppr.getRequisitionid());
+			o.put("requisitionno", ppr.getRequisitionno());
+			o.put("reqitemnames", ppr.getReqitemnames());
+			o.put("reqpathologyid", ppr.getReqpathologyid());
+			o.put("message", "单据保存成功！");
+			o.put("success", true);
+		}
 		PrintwriterUtil.print(response, o.toString());
 		return null;
 	}

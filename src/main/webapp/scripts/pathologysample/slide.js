@@ -79,10 +79,11 @@ function saveInfo() {
 			function(data) {
 				if(data.success) {
 					layer.msg(data.message, {icon: 1, time: 1000});
-					location.reload();
+					// location.reload();
 				} else {
 					layer.msg(data.message, {icon:2, time: 1000});
 				}
+				searchList();
 			});
 	}else{
 		layer.confirm('确定取消切片？', {icon: 2, title:'警告'}, function(index){
@@ -95,10 +96,11 @@ function saveInfo() {
 				function(data) {
 					if(data.success) {
 						layer.msg(data.message, {icon: 1, time: 1000});
-						location.reload();
+						// location.reload();
 					} else {
 						layer.msg(data.message, {icon:2, time: 1000});
 					}
+					searchList();
 				});
 		});
 	}

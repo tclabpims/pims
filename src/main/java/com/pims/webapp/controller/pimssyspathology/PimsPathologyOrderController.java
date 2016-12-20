@@ -166,7 +166,7 @@ public class PimsPathologyOrderController extends PIMSBaseController {
             int obligateSlide = totalSlide - commonSlide;
             int slideNo = slide == null ? 1 : Integer.valueOf(slide.getSlislideno());
             String slideCode = slide == null ? orderChild.getChiparaffincode() + "-0" : slide.getSlislidecode();
-            int slideCodeStart = Integer.valueOf(slideCode.substring(slideCode.lastIndexOf("-") + 1));
+            int slideCodeStart = Integer.valueOf(slideCode.substring(slideCode.lastIndexOf("-") + 1,slideCode.lastIndexOf("-") + 2));
             setSlide(slideNo, slideCodeStart, 0, commonSlide, orderChild, user.getId());
             setSlide((slideNo + commonSlide), (slideCodeStart + commonSlide), 1, obligateSlide, orderChild, user.getId());
         }

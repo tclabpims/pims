@@ -254,10 +254,10 @@
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
                     <div class="scroll-content">
                         <div class="content">
-                            <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px"">病种类别：</label>
+                            <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">病种类别：</label>
                                 <select onchange="" id="sampathologyid" style="height:24px;width:150px;">
-                                    <option value="" <c:if test="${code != ''}"> selected</c:if>>--请选择--</option>
-                                    <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("options"))%>
+                                    <%--<option value="" <c:if test="${code != ''}"> selected</c:if>>--请选择--</option>--%>
+                                    <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("logyids"))%>
                                 </select>
                             </div>
                             <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">切片年月：</label><input type="text" id="samplesectionfrom"

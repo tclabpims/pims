@@ -132,16 +132,18 @@ public class PIMSBaseController {
         List<PimsSysPathology> items = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
         StringBuilder builder = new StringBuilder();
         builder.append("<option value=''>全部</option>");
-        for(PimsSysPathology obj : items) {
-            builder.append("<option value='").append(obj.getPathologyid()).append("' ");
-            if((String.valueOf(user.getUserBussinessRelate().getPathologyLibId())).equals(String.valueOf(obj.getPathologyid()))) {
-                builder.append(" selected = 'selected' ");
-            }
-            builder.append(">").append(obj.getPatnamech()).append("</option>");
-        }
         ModelAndView view = new ModelAndView();
         view.addObject("logyid",logylibid);//当前用户选择的病例库
         String id = request.getParameter("id");
+        for(PimsSysPathology obj : items) {
+            builder.append("<option value='").append(obj.getPathologyid()).append("' ");
+            if(StringUtils.isEmpty(id)){
+                if((String.valueOf(user.getUserBussinessRelate().getPathologyLibId())).equals(String.valueOf(obj.getPathologyid()))) {
+                    builder.append(" selected = 'selected' ");
+                }
+            }
+            builder.append(">").append(obj.getPatnamech()).append("</option>");
+        }
         if(!StringUtils.isEmpty(id)){
             PimsPathologySample pathology = pimsPathologySampleManager.get(Long.parseLong(id));
             view.addObject("sevenday", "");//7天前
