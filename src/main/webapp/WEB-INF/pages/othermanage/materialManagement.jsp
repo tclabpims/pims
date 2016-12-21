@@ -131,6 +131,12 @@
             width:100%;
             height:100px;
             }
+            input[type="text"]{
+                height:26px;
+            }
+            select{
+                height:26px!important;
+            }
     </style>
 </head>
 <script>
@@ -144,15 +150,19 @@
 <body>
  <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary" title="新增" onclick="newAdd()">
+                    <i class="ace-icon fa fa-plus-circle bigger-110"></i>
                     新增
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="删除" onclick="deletemar()">
+                <button type="button" class="btn btn-sm btn-info" title="删除" onclick="deletemar()">
+                    <i class="ace-icon fa fa-times bigger-110"></i>
                     删除
                 </button>
-                <button type="button" disabled="disabled" class="btn btn-sm btn-primary" title="保存" id="savemar" onclick="save()">
+                <button type="button" disabled="disabled" class="btn btn-sm btn-warning" title="保存" id="savemar" onclick="save()">
+                    <i class="ace-icon fa fa-floppy-o bigger-110"></i>
                     保存
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="列表打印" id="print" onclick="printCode()">
+                <button type="button" class="btn btn-sm btn-success" title="列表打印" id="print" onclick="printCode()">
+                    <i class="ace-icon fa fa-print bigger-110"></i>
                     列表打印
                 </button>
 
@@ -178,7 +188,7 @@
                                 <option value="1">有</option>
                                 <option value="0">无</option>
                                 </select>
-                                <button type="button" class="btn-sm btn-info" onclick="searchList()" style="float:right">
+                                <button type="button" class="btn-sm btn-info" onclick="searchList()" style="float:right;background-color: #4190f7!important;color:#ffffff;border-radius:3px;border:1px solid #2274E4;padding:0 16px;">
                                     查询
                                 </button>
                             </div>
