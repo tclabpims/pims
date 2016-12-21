@@ -311,6 +311,33 @@ public class PimsPathologyRequisitionController extends PIMSBaseController{
 		PrintwriterUtil.print(response, o.toString());
 	}
 
+
+	/**
+	 * 获取影像学检查信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getyxxlist*", method = RequestMethod.GET)
+	@ResponseBody
+	public DataResponse getyxxList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		DataResponse dataResponse = new DataResponse();
+		String brjzxh = request.getParameter("brjzxh");
+		String yxjclx = request.getParameter("yxjclx");
+		if(StringUtils.isEmpty(brjzxh) || StringUtils.isEmpty(yxjclx)){
+			return null;
+		}
+		List list = dataService.queryyxxList(brjzxh,yxjclx);
+		if(list == null || list.size() == 0) {
+			return null;
+		}
+		dataResponse.setRecords(list.size());
+		dataResponse.setRows(getResultMap(list));
+		response.setContentType("text/html; charset=UTF-8");
+		return dataResponse;
+	}
+
 	/**
 	 * 获取病人住院记录
 	 * @param request

@@ -431,17 +431,17 @@
 
 					<div class="form-group" style="margin-bottom: 5px">
 						<label class="col-sm-2 label_style">X光:</label>
-						<textarea id="reqxray" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
+						<textarea id="reqxray" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" onclick="getYxxinfo('DX','reqxray')"></textarea>
 						<%--<input type="text" class="col-sm-10 input_style" id="reqxray"/>--%>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px">
 						<label class="col-sm-2 label_style">CT:</label>
-						<textarea id="reqct" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
+						<textarea id="reqct" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" onclick="getYxxinfo('CT','reqct')"></textarea>
 						<%--<input type="text" class="col-sm-10 input_style" id="reqct"/>--%>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px">
 						<label class="col-sm-2 label_style">B超:</label>
-						<textarea id="reqbultrasonic" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
+						<textarea id="reqbultrasonic" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" onclick="getYxxinfo('US','reqbultrasonic')"></textarea>
 						<%--<input type="text" class="col-sm-10 input_style" id="reqbultrasonic"/>--%>
 					</div>
 					<%--<div class="form-group" style="margin: 0px 0px 0px 0px">--%>
@@ -502,6 +502,16 @@
 			<div class="widget-body" style="overflow:auto;">
 				<div class="widget-main no-padding">
 					<table id="new2" class="table">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="formDialog2" style="display:none;" class="col-sm-12">
+		<div>
+			<div class="widget-body" style="overflow:auto;">
+				<div class="widget-main no-padding">
+					<table id="new3" class="table">
 					</table>
 				</div>
 			</div>

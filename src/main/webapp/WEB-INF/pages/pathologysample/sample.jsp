@@ -70,6 +70,10 @@
 			<i class="ace-icon fa fa-print bigger-110"></i>
 			列表打印
 		</button>
+		<button type="button" class="btn btn-sm btn-info " title="打印" onclick="printCode1()">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			申请打印
+		</button>
 		<!--<div class="div_div"><img src="/styles/imagepims/add.png" class="div_img" onclick="addSample()">新增</div>
 		<div class="div_div"><img src="/styles/imagepims/edit.png" class="div_img" id="editButton">修改</div>
 		<div class="div_div"><img src="/styles/imagepims/delete.png" class="div_img" id="deleteButton">删除</div>

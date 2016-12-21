@@ -1,9 +1,6 @@
 package com.pims.service.impl;
 
-import com.pims.model.HisChargePrice;
-import com.pims.model.PatientInfo;
-import com.pims.model.PimsPathologyFee;
-import com.pims.model.PimsPathologySample;
+import com.pims.model.*;
 import com.pims.service.QueryHisDataService;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.smart.Constants;
@@ -206,6 +203,83 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                     pi.setPatient_address(resultSet.getString("patient_address"));//家庭地址
                     pi.setPhone_no(resultSet.getString("phone_no"));//联系电话
                     pi.setChargr_type(resultSet.getString("chargr_type"));//收费类别Id
+                    result.add(pi);
+                }
+                return result;
+            }
+        });
+    }
+
+
+    /**
+     * 获取影像学信息
+     * @param query
+     * @return
+     */
+    @Override
+    public List queryyxxList(String query,String yxjclx) {
+        StringBuffer sql = new StringBuffer(" select jcybid,zzjgdm,sqmxid,sqjlid,sjbrlx,brdaid,brjzhm,sjbrxm,sjbrch,sjbrxb" +
+                ",sjbrnl,brnldw,yxjclx,jcmddm,jcmdmc,jcxmid,jcxmhm,jcxmmc,jcbwdm,jcbwnr" +
+                ",yxsjnr,yxzdnr,lczddm,lczdmc,bszynr,jcjgzt,kdysid,kdysxm,kdksid,kdksmc,jcdjsj" +
+                ",djryid,djryxm,djksid,spczsj,spryid,spryxm,djksmc,shczsj,shryid,shryxm,jgbggh,jgbgxm" +
+                ",jgwcsj,sfdypb,sfyxpb,sfjzpb,jgljdz,ftpljz,brdabh,jgtxpb from DI_CHECKRESULT where BRJZHM = '"+query+"' and yxjclx='"+yxjclx+"' ");
+        return jdbcTemplate.query(sql.toString(), new ResultSetExtractor<List>() {
+            @Override
+            public List extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+                List result = new ArrayList();
+                while (resultSet.next()) {
+                    CheckResult pi = new CheckResult();
+                    pi.setJcybid(resultSet.getString("jcybid"));//检测样本号码
+                    pi.setZzjgdm(resultSet.getString("zzjgdm"));//组织机构代码
+                    pi.setSqmxid(resultSet.getLong("sqmxid"));//申请明细编号
+                    pi.setSqjlid(resultSet.getLong("sqjlid"));//申请记录序号
+                    pi.setSjbrlx(resultSet.getInt("sjbrlx"));//受检病人类型
+                    pi.setBrdaid(resultSet.getLong("brdaid"));//病人档案序号
+                    pi.setBrjzhm(resultSet.getString("brjzhm"));//病人就诊号码
+                    pi.setSjbrxm(resultSet.getString("sjbrxm"));//受检病人姓名
+                    pi.setSjbrch(resultSet.getString("sjbrch"));//受检病人床号
+                    pi.setSjbrxb(resultSet.getString("sjbrxb"));//受检病人性别
+                    pi.setSjbrnl(resultSet.getInt("sjbrnl"));//受检病人年龄
+                    pi.setBrnldw(resultSet.getString("brnldw"));//病人年龄单位
+                    pi.setYxjclx(resultSet.getString("yxjclx"));//影像检查类型
+                    pi.setJcmddm(resultSet.getString("jcmddm"));//检查目的代码
+                    pi.setJcmdmc(resultSet.getString("jcmdmc"));//检查目的名称
+                    pi.setJcxmid(resultSet.getString("jcxmid"));//检查项目序号
+                    pi.setJcxmhm(resultSet.getString("jcxmhm"));//检查项目号码
+                    pi.setJcxmmc(resultSet.getString("jcxmmc"));//检查项目名称
+                    pi.setJcbwdm(resultSet.getString("jcbwdm"));//检查部位代码
+                    pi.setJcbwnr(resultSet.getString("jcbwnr"));//检查部位内容
+                    pi.setYxsjnr(resultSet.getString("yxsjnr"));//影像所见内容
+                    pi.setYxzdnr(resultSet.getString("yxzdnr"));//影像诊断内容
+                    pi.setLczddm(resultSet.getString("lczddm"));//临床诊断代码
+                    pi.setLczdmc(resultSet.getString("lczdmc"));//临床诊断名称
+                    pi.setBszynr(resultSet.getString("bszynr"));//病史摘要内容
+                    pi.setJcjgzt(resultSet.getString("jcjgzt"));//检查结果状态
+                    pi.setKdysid(resultSet.getString("kdysid"));//开单医生序号
+                    pi.setKdysxm(resultSet.getString("kdysxm"));//开单医生姓名
+                    pi.setKdksid(resultSet.getString("kdksid"));//开单科室序号
+                    pi.setKdksmc(resultSet.getString("kdksmc"));//开单科室名称
+                    pi.setJcdjsj(resultSet.getDate("jcdjsj"));//检查登记时间
+                    pi.setDjryid(resultSet.getString("djryid"));//登记人员序号
+                    pi.setDjryxm(resultSet.getString("djryxm"));//登记人员姓名
+                    pi.setDjksid(resultSet.getString("djksid"));//登记科室序号
+                    pi.setSpczsj(resultSet.getDate("spczsj"));//摄片操作时间
+                    pi.setSpryid(resultSet.getString("spryid"));//摄片人员序号
+                    pi.setSpryxm(resultSet.getString("spryxm"));//摄片人员姓名
+                    pi.setDjksmc(resultSet.getString("djksmc"));//登记科室名称
+                    pi.setShczsj(resultSet.getDate("shczsj"));//审核操作时间
+                    pi.setShryid(resultSet.getString("shryid"));//审核人员序号
+                    pi.setShryxm(resultSet.getString("shryxm"));//审核人员姓名
+                    pi.setJgbggh(resultSet.getString("jgbggh"));//结果报告人员
+                    pi.setJgbgxm(resultSet.getString("jgbgxm"));//结果报告姓名
+                    pi.setJgwcsj(resultSet.getDate("jgwcsj"));//结果完成时间
+                    pi.setSfdypb(resultSet.getInt("sfdypb"));//是否打印判别
+                    pi.setSfyxpb(resultSet.getInt("sfyxpb"));//是否阳性判别
+                    pi.setSfjzpb(resultSet.getInt("sfjzpb"));//是否急诊判别
+                    pi.setJgljdz(resultSet.getString("jgljdz"));
+                    pi.setFtpljz(resultSet.getString("ftpljz"));
+                    pi.setBrdabh(resultSet.getString("brdabh"));
+                    pi.setJgtxpb(resultSet.getInt("jgtxpb"));
                     result.add(pi);
                 }
                 return result;
