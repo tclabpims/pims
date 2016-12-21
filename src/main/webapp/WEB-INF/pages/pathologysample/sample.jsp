@@ -46,7 +46,7 @@
 			<i class="ace-icon fa fa-arrow-right bigger-110"></i>
 			下一个
 		</button>
-		<button type="button" class="btn btn-sm btn-primary " title="新增" onclick="addSample()">
+		<button type="button" class="btn btn-sm btn-warning " title="新增" onclick="addSample()">
 			<i class="ace-icon fa fa-plus-circle bigger-110"></i>
 			新增
 		</button>
@@ -54,15 +54,15 @@
 			<%--<i class="ace-icon fa fa-location-arrow bigger-110"></i>--%>
 			<%--修改--%>
 		<%--</button>--%>
-		<button type="button" class="btn btn-sm btn-warning " title="删除" id="deleteButton">
+		<button type="button" class="btn btn-sm btn-success " title="删除" id="deleteButton">
 			<i class="ace-icon fa fa-times bigger-110"></i>
 			删除
 		</button>
-		<button type="button" class="btn btn-sm btn-success " title="保存" id="saveButton" onclick="clickOther()">
+		<button type="button" class="btn btn-sm btn-info " title="保存" id="saveButton" onclick="clickOther()">
 			<i class="ace-icon fa fa-floppy-o bigger-110"></i>
 			保存
 		</button>
-		<button type="button" class="btn btn-sm btn-warning " title="计费调整" id="hisbutton">
+		<button type="button" class="btn btn-sm btn-primary " title="计费调整" id="hisbutton">
 			<i class="ace-icon glyphicon glyphicon-pencil bigger-110"></i>
 			计费调整
 		</button>
