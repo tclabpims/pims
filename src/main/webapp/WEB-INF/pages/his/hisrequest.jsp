@@ -50,7 +50,7 @@
 		<i class="ace-icon fa fa-arrow-right bigger-110"></i>
 		下一个
 	</button>
-	<button type="button" class="btn btn-sm btn-primary " title="新增" onclick="addSample()">
+	<button type="button" class="btn btn-sm btn-warning " title="新增" onclick="addSample()">
 		<i class="ace-icon fa fa-plus-circle bigger-110"></i>
 		新增
 	</button>
@@ -58,7 +58,7 @@
 	<%--<i class="ace-icon fa fa-location-arrow bigger-110"></i>--%>
 	<%--修改--%>
 	<%--</button>--%>
-	<button type="button" class="btn btn-sm btn-warning " title="删除" id="deleteButton" onclick="deleteSample()">
+	<button type="button" class="btn btn-sm btn-success " title="删除" id="deleteButton" onclick="deleteSample()">
 		<i class="ace-icon fa fa-times bigger-110"></i>
 		删除
 	</button>
@@ -66,14 +66,14 @@
 		<i class="ace-icon fa fa-print bigger-110"></i>
 		打印
 	</button>
-	<button type="button" class="btn btn-sm btn-info " title="打印" onclick="printSlide()">
+	<button type="button" class="btn btn-sm btn-primary " title="打印" onclick="printSlide()">
 		<i class="ace-icon fa fa-print bigger-110"></i>
 		打印送检物
 	</button>
 </div>
 	<div id="h5_1">
-		<h5 style="float: left;width: 34%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/list.png" class="img_style">&nbsp;已登记申请一览</strong></h5>
-		<h5  style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/main.png" class="img_style">&nbsp;申请登记</strong></h5>
+		<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:15px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;已登记申请一览</strong></h5>
+		<h5 style="float: left;width: 66%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;申请登记</strong></h5>
 	</div>
 	<div>
 		<div class="col-sm-4 leftContent" id="div_2">
@@ -395,7 +395,7 @@
 					<div class="col-sm-11">
 						<textarea id="reqpatcompany" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
 						<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<button type="submit" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right"  id="savebutton">
+						<button type="submit" style="border-radius:3px;border:1px solid #2274E4;background-color: #4190f7;float: right;padding:0 16px;" id="savebutton">
 							<span style="color: white;">保存</span>
 						</button>
 					</div>
@@ -431,17 +431,17 @@
 
 					<div class="form-group" style="margin-bottom: 5px">
 						<label class="col-sm-2 label_style">X光:</label>
-						<textarea id="reqxray" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
+						<textarea id="reqxray" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" onclick="getYxxinfo('DX','reqxray')"></textarea>
 						<%--<input type="text" class="col-sm-10 input_style" id="reqxray"/>--%>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px">
 						<label class="col-sm-2 label_style">CT:</label>
-						<textarea id="reqct" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
+						<textarea id="reqct" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" onclick="getYxxinfo('CT','reqct')"></textarea>
 						<%--<input type="text" class="col-sm-10 input_style" id="reqct"/>--%>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px">
 						<label class="col-sm-2 label_style">B超:</label>
-						<textarea id="reqbultrasonic" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" ></textarea>
+						<textarea id="reqbultrasonic" class="col-sm-8" style="height: 55px;font-size: 12px;width: 80%" class="col-sm-9" onclick="getYxxinfo('US','reqbultrasonic')"></textarea>
 						<%--<input type="text" class="col-sm-10 input_style" id="reqbultrasonic"/>--%>
 					</div>
 					<%--<div class="form-group" style="margin: 0px 0px 0px 0px">--%>
@@ -502,6 +502,16 @@
 			<div class="widget-body" style="overflow:auto;">
 				<div class="widget-main no-padding">
 					<table id="new2" class="table">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="formDialog2" style="display:none;" class="col-sm-12">
+		<div>
+			<div class="widget-body" style="overflow:auto;">
+				<div class="widget-main no-padding">
+					<table id="new3" class="table">
 					</table>
 				</div>
 			</div>

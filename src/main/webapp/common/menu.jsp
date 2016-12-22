@@ -158,7 +158,7 @@
         }
      /*改变的导航栏样式*/
         #head .navbar-header img{
-            margin-top:10px!important;
+            margin-top:6px!important;
         }
         #menuheader>ul>li{
             font-weight:normal;
@@ -249,6 +249,7 @@
         h5 button:last-child{
             background:#4190f7!important;
             border:1px solid #2274e4!important;
+            color:white;
         }
         h5 button:last-child span{
             color:white!important;
@@ -387,6 +388,7 @@
         }
         .form-control{
             height:26px!important;
+            padding:3px 12px!important;
         }
 </style>
 
@@ -409,7 +411,7 @@
             <menu:displayMenu name="OtherManage"/>
             <menu:displayMenu name="BasicData"/>
             <menu:displayMenu name="Individual"/>
-            <menu:displayMenu name="ElectronicApplyManage"/>
+            <%--<menu:displayMenu name="ElectronicApplyManage"/>--%>
         </ul>
         <input type="hidden" id="scode" value="210800"/>
         <input type="hidden" id="pathologyLibId"/>

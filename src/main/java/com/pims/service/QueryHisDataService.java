@@ -29,6 +29,13 @@ public interface QueryHisDataService {
     List queryPatientList(String query);
 
     /**
+     * 获取影像学信息
+     * @param query
+     * @return
+     */
+    List queryyxxList(String query,String yxjclx);
+
+    /**
      * 根据住院类型及唯一ID获取病人信息
      * @return
      */

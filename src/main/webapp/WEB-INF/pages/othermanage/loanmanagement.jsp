@@ -139,7 +139,7 @@
             width:100%
         }
         .button2{
-            background-color: #2274E4;color:#ffffff;border-radius:3px;border:1px solid #2274E4;width: 58px
+            background-color: #4190f7;color:#ffffff;border-radius:3px;border:1px solid #2274E4;width: 58px
         }
         .datetimepicker{
             z-index: 9999999999!important;

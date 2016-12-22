@@ -234,44 +234,44 @@
                     </ul>
                     <div id="tabs-1">
                         <div>
-                            <div style="display: inline">病理号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">病理号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px" disabled
                                                                     id="sampathologycode"></div>
                             <input type="hidden" id="sampleid"/>
                             <input type="hidden" id="customerId"/>
                             <input type="hidden" id="pathologyCode"/>
-                            <div style="display: inline">条形码：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">条形码：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                     id="saminspectionid"></div>
-                            <div style="display: inline">年龄：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">年龄：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                    id="sampatientage"></div>
                         </div>
                         <div>
-                            <div style="display: inline">病人姓名：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">病人姓名：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                      id="sampatientname">详细
                             </div>
-                            <div style="display: inline">性别：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">性别：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                    id="sampatientgender"></div>
-                            <div style="display: inline">送检医生：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">送检医生：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                      id="samsenddoctorid"></div>
                         </div>
                         <div>
-                            <div style="display: inline">住院号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">住院号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                     id="sampatientnumber"></div>
-                            <div style="display: inline">常规收费：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px" id=""></div>
-                            <div style="display: inline">送检科室：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px" id="samdeptname">
+                            <div style="display: inline">常规收费：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled id=""></div>
+                            <div style="display: inline">送检科室：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled id="samdeptname">
                             </div>
                         </div>
                         <div>
-                            <div style="display: inline">床号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px" id="sampatientbed">
+                            <div style="display: inline">床号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled id="sampatientbed">
                             </div>
-                            <div style="display: inline">末次月经：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">末次月经：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                      id="reqlastmenstruation"></div>
-                            <div style="display: inline">送检医院：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">送检医院：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"disabled
                                                                      id="samsendhospital"></div>
                         </div>
                         <div>
                             <div style="display: inline">绝经：<input type="checkbox"></div>
-                            <div style="display: inline">送检材料：<textarea type="text" id="samsamplename" style="border-width: 0px 0px 1px 0px"></textarea></div>
-                            <div style="display: inline">临床诊断：<textarea type="text" id="sampatientdignoses" style="border-width: 0px 0px 1px 0px"></textarea>
+                            <div style="display: inline">送检材料：<textarea type="text" id="samsamplename" style="border-width: 0px 0px 1px 0px"disabled></textarea></div>
+                            <div style="display: inline">临床诊断：<textarea type="text" id="sampatientdignoses" style="border-width: 0px 0px 1px 0px"disabled></textarea>
                             </div>
                         </div>
 
@@ -289,14 +289,14 @@
         </div>
         <div><h6>申请信息</h6></div>
         <div>
-            <div style="display: inline;float: left">病理号：<input id="chipathologycode" style="border-width: 0px 0px 1px 0px"></div>
-            <div style="display: inline;">医嘱类型：<input id="testItemChName" style="border-width: 0px 0px 1px 0px"></div>
-            <div style="display: inline;float: right">申请时间：<input id="chireqtime" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;float: left">病理号：<input id="chipathologycode" style="border-width: 0px 0px 1px 0px" disabled></div>
+            <div style="display: inline;">医嘱类型：<input id="testItemChName" style="border-width: 0px 0px 1px 0px"disabled></div>
+            <div style="display: inline;float: right">申请时间：<input id="chireqtime" style="border-width: 0px 0px 1px 0px"disabled></div>
         </div>
         <div>
-            <div style="display: inline;float: left">医嘱号：<input id="chiordercode" style="border-width: 0px 0px 1px 0px"></div>
-            <div style="display: inline;">申请医生：<input id="chirequsername" style="border-width: 0px 0px 1px 0px"></div>
-            <div style="display: inline;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
+            <div style="display: inline;float: left">医嘱号：<input id="chiordercode" style="border-width: 0px 0px 1px 0px"disabled></div>
+            <div style="display: inline;">申请医生：<input id="chirequsername" style="border-width: 0px 0px 1px 0px"disabled></div>
+            <div style="display: inline;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"disabled></div>
         </div>
         <div>
             <div style="float: left">

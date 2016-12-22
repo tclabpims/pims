@@ -343,20 +343,26 @@ function doctorSign(f) {
 
 function saveSign() {
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
-    $.post('../diagnosis/saveSign', {
-        sampleid: rowData.sampleid,
-        saminitiallytime: $("#saminitiallytime").val(),
-        saminitiallyuserid: $("#saminitiallyuserid").val(),
-        saminitiallyusername: $("#saminitiallyusername").val(),
-        samauditedtime: $("#samauditedtime").val(),
-        samauditerid: $("#samauditerid").val(),
-        samauditer: $("#samauditer").val(),
-        samreportedtime: $("#samreportedtime").val(),
-        samreportorid: $("#samreportorid").val(),
-        samreportor: $("#samreportor").val()
-    }, function (data) {
-        layer.msg('保存成功！', {icon: 2, time: 1000});
-    })
+    if(rowData.samsamplestatus < 4){
+        layer.msg('该标本未切片或制片无法审核！', {icon: 2, time: 1000});
+    }else{
+        $.post('../diagnosis/saveSign', {
+            sampleid: rowData.sampleid,
+            saminitiallytime: $("#saminitiallytime").val(),
+            saminitiallyuserid: $("#saminitiallyuserid").val(),
+            saminitiallyusername: $("#saminitiallyusername").val(),
+            samauditedtime: $("#samauditedtime").val(),
+            samauditerid: $("#samauditerid").val(),
+            samauditer: $("#samauditer").val(),
+            samreportedtime: $("#samreportedtime").val(),
+            samreportorid: $("#samreportorid").val(),
+            samreportor: $("#samreportor").val()
+        }, function (data) {
+            layer.msg('保存成功！', {icon: 1, time: 1000});
+            query();
+        })
+    }
+
 }
 
 function createOptions(pathologyid, patIsSampling, specialCheck) {
@@ -1740,7 +1746,7 @@ $(function () {
             "sampatientname": sampatientname
         },
         width: $('.leftContent').width(),
-        colNames: ['病理状态', '病理号', '送检医生', '病种类别', 'id', 'samcustomerid', 'sampathologyid'],
+        colNames: ['病理状态', '病理号', '送检医生', '病种类别', 'id', 'samcustomerid', 'sampathologyid','samsamplestatus'],
         colModel: [
             {
                 name: 'sampathologystatus',
@@ -1757,7 +1763,8 @@ $(function () {
             },
             {name: 'sampleid', index: 'sampleid', hidden: true},
             {name: 'samcustomerid', index: 'samcustomerid', hidden: true},
-            {name: 'sampathologyid', index: 'sampathologyid', hidden: true}
+            {name: 'sampathologyid', index: 'sampathologyid', hidden: true},
+            {name: 'samsamplestatus', index: 'samsamplestatus', hidden: true}
         ],
         loadComplete: function () {
             var table = this;
@@ -2120,6 +2127,8 @@ $(function () {
         format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
         language: 'zh-CN', //汉化
         todayBtn: 1,
+        startDate:new Date(),
+        endDate:new Date(),
         autoclose: true //选择日期后自动关闭
     });
 

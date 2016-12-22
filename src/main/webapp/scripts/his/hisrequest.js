@@ -74,6 +74,43 @@ function getPatient(obj,event) {
 	}
 }
 /**
+ * 双击事件事件
+ * @param obj
+ * @param event
+ */
+function getYxxinfo(yxjclx,objid) {
+	if($("#reqpatientnumber").val() == null || $("#reqpatientnumber").val() == ""){
+		layer.msg("请先选择病人信息!", {icon:2, time: 1000});
+	}else{
+		$.get("../pimspathology/getyxxlist", {"brjzxh": $("#reqpatientnumber").val(),"yxjclx":yxjclx}, function (data) {
+			var records = data.records;
+			if(records == undefined){
+
+			}else if (records == 1) {
+				var rows = data.rows;
+				$("#"+objid).val(rows[0].yxzdnr);
+			}else{
+				jQuery("#new3").jqGrid("clearGridData");
+				jQuery("#new3").jqGrid('setGridParam',{
+					url: "../pimspathology/getyxxlist",
+					//发送数据
+					postData : {"brjzxh":$("#reqpatientnumber").val(),"yxjclx":yxjclx}
+				}).trigger('reloadGrid');//重新载入
+				layer.open({
+					type: 1,
+					area: ['1000px','600px'],
+					skin: 'layui-layer-molv',
+					fix: false, //不固定
+					maxmin: false,
+					shade:0.6,
+					title: "申请信息录入",
+					content: $("#formDialog2")
+				});
+			}
+		});
+	}
+}
+/**
  * 回车事件
  * @param obj
  * @param event
@@ -494,6 +531,55 @@ function createNew2(brjzxh){
 			var index = layer.index; //获取窗口索引
 			layer.close(index);
 			//layer.close();
+		},
+	});
+}
+
+/**
+ * 创建病人信息列表
+ * @param reqid
+ */
+function createNew3(){
+	$("#new3").jqGrid({
+		url:"../pimspathology/getyxxlist",
+		datatype: "json",
+		mtype:"GET",
+		height: 500,
+		width: 1000,
+		// postData:{"brjzxh":brjzxh},
+		colNames: ['检测样本号码','组织机构代码','受检病人床号','检查目的名称','检查项目名称','检查部位内容', '影像所见内容','影像诊断内容','临床诊断名称','病史摘要内容','yxjclx'],
+		colModel: [
+			{name:'jcybid',index:'jcybid',align:"center"},//检测样本号码
+			{name:'zzjgdm',index:'zzjgdm',align:"center"},//组织机构代码
+			{name:'sjbrch',index:'sjbrch',align:"center"},//受检病人床号
+			{ name: 'jcmdmc', index: 'jcmdmc',align:"center"},//检查目的名称
+			{ name: 'jcxmmc', index: 'jcxmmc',align:"center"},//检查项目名称
+			{ name: 'jcbwnr', index: 'jcbwnr',align:"center"},//检查部位内容
+			{name:'yxsjnr',index:'yxsjnr',align:"center"},//影像所见内容
+			{name:'yxzdnr',index:'yxzdnr',align:"center"},//影像诊断内容
+			{name:'lczdmc',index:'lczdmc',align:"center"},//临床诊断名称
+			{name:'bszynr',index:'bszynr',align:"center"},//病史摘要内容
+			{name:'yxjclx',hidden:true,align:"center"}//病史摘要内容
+		],
+		loadComplete : function() {
+			var table = this;
+			setTimeout(function(){
+				updatePagerIcons(table);
+			}, 0);
+		},
+		viewrecords: true,
+		rownumbers : true,
+		ondblClickRow: function (id) {
+			var rowData = $("#new3").jqGrid('getRowData',id);
+			if(rowData.yxjclx == 'DX'){
+				$("#reqxray").val(rowData.yxzdnr);
+			}else if(rowData.yxjclx == 'CT'){
+				$("#reqct").val(rowData.yxzdnr);
+			}else if(rowData.yxjclx == 'US'){
+				$("#reqbultrasonic").val(rowData.yxzdnr);
+			}
+			var index = layer.index; //获取窗口索引
+			layer.close(index);
 		},
 	});
 }
@@ -1217,7 +1303,7 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
-		colNames: ['ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生','创建人','申请状态'],
+		colNames: ['ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室','送检医生','创建人','申请状态','性别','年龄','年龄类型'],
 		colModel: [
 			{name:'requisitionid',hidden:true},
 			{ name: 'requisitionno', index: 'requisitionno'},
@@ -1228,7 +1314,10 @@ $(function() {
 			{ name: 'reqdeptname', index: 'reqdeptname'},
 			{ name: 'reqdoctorname', index: 'reqdoctorname'},
 			{name:'reqcreateuser',hidden:true},
-			{name:'reqstate',hidden:true}
+			{name:'reqstate',hidden:true},
+			{name:'reqpatientsex',hidden:true},
+			{name:'reqpatientage',hidden:true},
+			{name:'reqpatagetype',hidden:true},
 		],
 		beforeSelectRow: function (rowid, e) {
 			return $(e.target).is('input[type=checkbox]');
@@ -1260,6 +1349,7 @@ $(function() {
 	});
     createNew1("");
 	createNew2("");
+	createNew3();
 	$("#pager_left").remove();
 	if($("#brjzxh").val() != "" && $("#patient_type").val() != ""){
 		$.get("../pimspathology/getpatientinfo", {"brjzxh": $("#brjzxh").val(),"patient_type":$("#patient_type").val()}, function (data) {
@@ -1547,7 +1637,10 @@ function printSlide(){
                 $.get("../pimspathology/ajax/getmaterial", {"reqId":rowData.requisitionid},
                     function(data1) {
                         var rows = data1.rows;
-                        if(rows.length > 0){
+						if(rows == undefined){
+							layer.msg('该申请单无送检组织!', {icon: 2, time: 1000});
+							return;
+						}else if(rows.length > 0){
                             printSlideCode(rows,rowData);
                         }else {
                             layer.msg('该申请单无送检组织!', {icon: 2, time: 1000});
@@ -1567,22 +1660,45 @@ function printSlideCode(datas,rowdatas) {
         var data = datas[i];
         LODOP = getLodop();
         LODOP.PRINT_INIT("");
-        LODOP.SET_PRINT_PAGESIZE(3,"31mm","17mm","A4");
-        LODOP.ADD_PRINT_TEXT("2mm","2mm","29mm","5mm","树兰(杭州)医院");
+        LODOP.SET_PRINT_PAGESIZE(1,"51mm","32mm","A4");
+        LODOP.ADD_PRINT_TEXT("2mm","5mm","40mm","5mm","树兰(杭州)医院");
         LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        // LODOP.ADD_PRINT_BARCODEA("patientCode","7mm","2mm","46.57mm",40,"128B",rowdatas.requisitionno);
-        // LODOP.ADD_PRINT_BARCODEA("7mm","2mm","20mm","10mm","128B",rowdatas.requisitionno);
-        LODOP.ADD_PRINT_BARCODE(30,100,120,40,"128B",rowdatas.requisitionno);
-        // LODOP.ADD_PRINT_BARCODEA("patientCode","7mm","-10mm","20mm",40,"128B",rowdatas.requisitionno);
+        LODOP.ADD_PRINT_BARCODE("7mm","2mm","40mm","10mm","128B",rowdatas.requisitionno);
         LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-        LODOP.ADD_PRINT_TEXTA("nameText","20mm","2mm","20mm","3mm","取材部位:");
-        LODOP.ADD_PRINT_TEXTA("nameText","20mm","18mm","17mm","3mm",datas[i].reqmsamplingparts);
+		LODOP.ADD_PRINT_TEXT("19mm","0mm","12mm","5mm","姓名:");
+		LODOP.ADD_PRINT_TEXT("19mm","8mm","10mm","5mm",rowdatas.reqpatientname);
+		LODOP.ADD_PRINT_TEXT("19mm","20mm","12mm","5mm","性别:");
+		var sex = "";
+		if(rowdatas.reqpatientsex == 1){
+			sex = "男";
+		}else if(rowdatas.reqpatientsex == 2){
+			sex = "女";
+		}
+		LODOP.ADD_PRINT_TEXT("19mm","28mm","10mm","5mm",sex);
+		LODOP.ADD_PRINT_TEXT("19mm","35mm","12mm","5mm","年龄:");
+		var agetype = "";
+		if(rowdatas.reqpatagetype == 1){
+			agetype = "岁";
+		}else if(rowdatas.reqpatagetype == 2){
+			agetype = "月";
+		}else if(rowdatas.reqpatagetype == 4){
+			agetype = "周";
+		}else if(rowdatas.reqpatagetype == 5){
+			agetype = "日";
+		}else if(rowdatas.reqpatagetype == 6){
+			agetype = "小时";
+		}
+		LODOP.ADD_PRINT_TEXT("19mm","43mm","10mm","5mm",rowdatas.reqpatientage+agetype);
+        LODOP.ADD_PRINT_TEXT("24mm","2mm","20mm","5mm","取材部位:");
+		LODOP.ADD_PRINT_TEXT("24mm","18mm","20mm","5mm",datas[i].reqmsamplingparts);
+        // LODOP.ADD_PRINT_TEXTA("nameText","20mm","18mm","17mm","3mm",datas[i].reqmsamplingparts);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
-        LODOP.ADD_PRINT_TEXTA("nameText","24mm","2mm","20mm","3mm","送检材料");
-        LODOP.ADD_PRINT_TEXTA("nameText","24mm","18mm","29mm","3mm",datas[i].reqmmaterialname);
+        LODOP.ADD_PRINT_TEXT("28mm","2mm","20mm","5mm","送检材料:");
+        LODOP.ADD_PRINT_TEXT("28mm","18mm","20mm","5mm",datas[i].reqmmaterialname);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
-        LODOP.PREVIEW();
+        //LODOP.PREVIEW();
+		LODOP.PRINT();
     }
 
     // LODOP.PRINT();

@@ -148,9 +148,21 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
                 return true;
             }
         } else if (sts.equals("2")) {
-            String sql = "select count(1) from PIMS_PATHOLOGY_SAMPLE where samsamplestatus = 0 and sampleid = " + id;
-            if (countTotal(sql).intValue() == 1) {
-                return true;
+            StringBuffer sb = new StringBuffer();
+            sb.append(" from PimsPathologySample where samsamplestatus = 0 and sampleid = " + id);
+            Object o = getSession().createQuery(sb.toString()).uniqueResult();
+            if(o == null ){
+                return false;
+            }else{
+                PimsPathologySample sample = (PimsPathologySample) o;
+                sb = new StringBuffer();
+                sb.append(" select max(sampathologycode) from PIMS_PATHOLOGY_SAMPLE  where samisdeleted=0 and sampathologyid = "+ sample.getSampathologyid() +
+                        " and samcustomerid = "+ sample.getSamcustomerid());
+                String str = getSession().createSQLQuery(sb.toString()).uniqueResult().toString();
+                if(str.equals(sample.getSampathologycode())){
+                    return  true;
+                }
+                return false;
             }
         }
         return false;

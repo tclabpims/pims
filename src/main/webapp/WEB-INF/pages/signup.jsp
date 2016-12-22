@@ -111,10 +111,10 @@
             </div>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary" name="save" onclick="bCancel=false">
+            <button type="submit" class="btn btn-primary" name="save" onclick="bCancel=false" style="padding:0 12px;">
                 <i class="icon-ok icon-white"></i> <fmt:message key="button.register"/>
             </button>
-            <button type="submit" class="btn btn-default" name="cancel" onclick="bCancel=true">
+            <button type="submit" class="btn btn-default" name="cancel" onclick="bCancel=true" style="padding:0 12px;">
                 <i class="icon-remove"></i> <fmt:message key="button.cancel"/>
             </button>
         </div>

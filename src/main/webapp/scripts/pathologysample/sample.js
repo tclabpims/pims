@@ -174,7 +174,7 @@ function changeimgclick(num) {//1新增 2 修改
 function saveInfo() {
 	var msg = "";
 	var post = true;
-	if($("input[name='samsecondv']:checked").val() == "2"){
+	if($("input[name='samsecondv']:checked").val() == "2" && $("#samremark").val() == ""){
 		post = false;
 		layer.msg("标本不合格,请描述原因!", {icon: 2, time: 2000});
 		return;
@@ -859,7 +859,7 @@ $(function() {
 		postData:{"logyid":$("#local_logyid").val()},
 		colNames: ['选择','详情','ID','临床申请', '病种类别', '申请年月','病人姓名','送检医院','送检科室',"送检医生"],
 		colModel: [
-			{ name: 'selectinfo', index: 'selectinfo', sortable: false, align: "center", width: "70px" },
+			{ name: 'selectinfo', index: 'selectinfo', sortable: false, align: "center", width: "70px" ,hidden:true},
 			{ name: 'showinfo', index: 'showinfo', sortable: false, align: "center", width: "70px" },
 			{name:'requisitionid',hidden:true},
 			{ name: 'requisitionno', index: 'requisitionno', align: "center"},
@@ -885,12 +885,12 @@ $(function() {
 				updatePagerIcons(table);
 			}, 0);
 		},
-		// ondblClickRow: function (id) {
-		// 	fillInfo(id);
-		// },
-		// onSelectRow:function(id){
-		// 	fillInfo(id);
-		// },
+		ondblClickRow: function (id) {
+			fillInfo(id);
+		},
+		onSelectRow:function(id){
+			fillInfo(id);
+		},
 		viewrecords: true,
 		height:reqheight,
         width:width,
@@ -1587,4 +1587,52 @@ function changeSexinfo() {
 	}else{
 		$("#sexinfo").css("display","none");
 	}
+}
+
+
+function printCode1(){
+	var id = $("#new1").jqGrid('getGridParam', 'selrow');
+	var rowData = $("#new1").jqGrid('getRowData',id);
+	if (id == null || id == 0) {
+		layer.msg('请先选择要打印的数据', {icon: 2, time: 1000});
+		return;
+	}
+	$.get("../pimspathology/report/printreq", {
+		"id": rowData.requisitionid,
+		"hosptail":$("#lcal_hosptail").val()
+	}, function (data) {
+		var rptView = layer.open({
+			type: 2,
+			title: "报告单预览",
+			area: ['854px', '600px'],
+			btn: ["打印",  "关闭"],
+			maxmin: true,
+			shade: 0.5,
+			content: data.url,
+			yes: function (index1, layero1) {
+				print(data.url);
+				layer.close(index1);
+			},
+			btn2: function (index1, layero1) {
+				layer.close(index1);
+			}
+		});
+		layer.full(rptView);
+		// print(data.url);
+	});
+}
+
+function print(url) {
+	LODOP = getLodop();
+	LODOP.PRINT_INIT("申请单打印");
+	$.get(url,function (data) {
+		// LODOP.ADD_PRINT_HTM(10, 10, 794, 1123, $("#test").html());
+		LODOP.ADD_PRINT_HTM(10, 10, 794, 1123, data);
+		// LODOP.ADD_PRINT_URL(10, 10, 794, 1123, url);
+		// LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
+		// LODOP.SET_PRINT_STYLEA(0, "VOrient", 3);
+		LODOP.PREVIEW();
+		// LODOP.PRINT();
+	})
+
 }

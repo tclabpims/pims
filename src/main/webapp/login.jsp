@@ -513,7 +513,7 @@
                         </div>
                         <div class="infobox-data">
                             <a href="<c:url value="/his/hisrequest?hosptail=1"/>" data-target="#signup-box" class="user-signup-link">
-                                排班查询
+                                电子申请
                             </a>
                         </div>
                     </div>

@@ -564,9 +564,9 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView diagnosis(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String options = getPathologySelectOption(request);
+//        String options = getPathologySelectOption(request);
         ModelAndView mv = getmodelView(request);
-        mv.addObject("options", options);
+//        mv.addObject("options", options);
         User user = WebControllerUtil.getAuthUser();
         Long hospitalId = user.getHospitalId();
         Long pathologyId = user.getUserBussinessRelate().getPathologyLibId();
@@ -579,8 +579,8 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         if(!StringUtils.isEmpty(id)){
             PimsPathologySample pathology = pimsPathologySampleManager.get(Long.parseLong(id));
             mv.addObject("code", pathology.getSampathologycode());//病理号
-            options = getPathologySelectOption(request);
-            mv.addObject("options", options);
+//            options = getPathologySelectOption(request);
+//            mv.addObject("options", options);
 
         }
         return mv;

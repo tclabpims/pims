@@ -831,6 +831,7 @@ function deleteSample() {
  * 清除数据
  */
 function clearData() {
+	// $("form").validate().resetForm();
 	// $("#sampleForm").Validform.resetForm();
     $('#sampleForm')[0].reset();
     jQuery("#new1").jqGrid("clearGridData");
