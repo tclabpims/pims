@@ -255,6 +255,8 @@
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">病种类别：</label>
+                                <input type="hidden" id ="user_id" value="${local_userid}">
+                                <input type="hidden" id ="reqsts" value="">
                                 <select onchange="" id="sampathologyid" style="height:24px;width:150px;">
                                     <%--<option value="" <c:if test="${code != ''}"> selected</c:if>>--请选择--</option>--%>
                                     <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("logyids"))%>
@@ -284,20 +286,33 @@
                             <div style="display:inline;">
                                   <ul class="nav nav-tabs">
                                         <li class="active">
-                                            <a href="#" data-toggle="tab">个人</a>
+                                            <a href="#" onclick="queryList1('${local_userid}','')" data-toggle="tab">个人</a>
                                         </li>
                                         <li>
-                                            <a href="#" data-toggle="tab">全部</a>
+                                            <a href="#" onclick="queryList1('','')" data-toggle="tab">全部</a>
                                         </li>
                                         <li>
-                                            <a href="#" onclick="queryList(0)" data-toggle="tab">已发抄送</a>
+                                            <a href="#" onclick="queryList1('','0')" data-toggle="tab">已发抄送</a>
                                         </li>
                                         <li>
-                                            <a href="#" onclick="queryList(1)" data-toggle="tab">待收抄送</a>
+                                            <a href="#" onclick="queryList1('','1')" data-toggle="tab">待收抄送</a>
                                         </li>
                                         <li>
-                                            <a href="#" onclick="queryList(2)" data-toggle="tab">待审抄送</a>
+                                            <a href="#" onclick="queryList1('','2')" data-toggle="tab">待审抄送</a>
                                         </li>
+
+                                      <%--<li>--%>
+                                          <%--<a href="#" onclick="query()" data-toggle="tab">全部</a>--%>
+                                      <%--</li>--%>
+                                      <%--<li>--%>
+                                          <%--<a href="#" onclick="queryList(0)" data-toggle="tab">已发抄送</a>--%>
+                                      <%--</li>--%>
+                                      <%--<li>--%>
+                                          <%--<a href="#" onclick="queryList(1)" data-toggle="tab">待收抄送</a>--%>
+                                      <%--</li>--%>
+                                      <%--<li>--%>
+                                          <%--<a href="#" onclick="queryList(2)" data-toggle="tab">待审抄送</a>--%>
+                                      <%--</li>--%>
                                     </ul>
                                 <!--<div style="display:inline;padding-right: 5px">
                                     <a href="#">个人</a>
@@ -819,29 +834,29 @@
             <div style="width: 100%;padding-top:5px;height: 20px;font-weight:bold;">基本信息</div>
             <div style="width: 100%;height: 20%;">
                 <div style="padding-top:5px;">性别：<input id="patientGender"
-                                                        style="width: 60px;border-width: 0px 0px 1px 0px">住院号：<input
-                        id="patientZyh" style="width: 120px;border-width: 0px 0px 1px 0px"></div>
+                                                        style="width: 60px;border-width: 0px 0px 1px 0px" disabled>住院号：<input
+                        id="patientZyh" style="width: 120px;border-width: 0px 0px 1px 0px" disabled></div>
                 <div style="padding-top:5px;">病人姓名：<input id="patientName"
-                                                          style="width: 120px;border-width: 0px 0px 1px 0px">年龄：<input
-                        id="patientAge" style="width: 60px;border-width: 0px 0px 1px 0px">床号：<input id="patientBed"
-                                                                                                    style="width: 120px;border-width: 0px 0px 1px 0px">
+                                                          style="width: 120px;border-width: 0px 0px 1px 0px" disabled>年龄：<input
+                        id="patientAge" style="width: 60px;border-width: 0px 0px 1px 0px" disabled>床号：<input id="patientBed"
+                                                                                                    style="width: 120px;border-width: 0px 0px 1px 0px" disabled>
                 </div>
                 <div style="padding-top:5px;">临床诊断：<input id="patientDiagnosisNote"
-                                                          style="width: 300px;border-width: 0px 0px 1px 0px"></div>
+                                                          style="width: 300px;border-width: 0px 0px 1px 0px" disabled></div>
             </div>
             <div style="width: 100%;height: 20px;font-weight:bold;">特殊检查</div>
             <div style="width: 100%;height: 23%;">
-                <div style="padding-top:5px;">医嘱号：<input id="ordercode" value="" readonly
+                <div style="padding-top:5px;">医嘱号：<input id="ordercode" value="" disabled
                                                          style="width: 120px;border-width: 0px 0px 1px 0px">检查类型：
-                    <input name="reqType" id="reqType" readonly style="width: 120px;border-width: 0px 0px 1px 0px">
+                    <input name="reqType" id="reqType" disabled style="width: 120px;border-width: 0px 0px 1px 0px">
                 </div>
                 <div style="padding-top:5px;">
-                    源病理号：<input id="yblNo" readonly style="width: 120px;border-width: 0px 0px 1px 0px">
+                    源病理号：<input id="yblNo" disabled style="width: 120px;border-width: 0px 0px 1px 0px">
                     申请医生：
-                    <input id="reqDoctor" style="width: 120px;border-width: 0px 0px 1px 0px">
+                    <input id="reqDoctor" style="width: 120px;border-width: 0px 0px 1px 0px" value="${local_username}">
                     <input type="hidden" id="local_userid" value="${local_userid}"/><!--当前登录用户id-->
                     <input type="hidden" id="local_username" value="${local_username}"/><!--当前登录用户名称-->
-                    <input type="hidden" id="reqDoctorId" value=""/>
+                    <input type="hidden" id="reqDoctorId" value="${local_userid}"/>
                 </div>
                 <div style="padding-top:5px;">
                     源条形码：<input id="ytxm" readonly style="width: 120px;border-width: 0px 0px 1px 0px">

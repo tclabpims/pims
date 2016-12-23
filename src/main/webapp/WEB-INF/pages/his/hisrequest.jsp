@@ -64,7 +64,7 @@
 	</button>
 	<button type="button" class="btn btn-sm btn-info " title="打印" onclick="printCode1()">
 		<i class="ace-icon fa fa-print bigger-110"></i>
-		打印
+		打印申请单
 	</button>
 	<button type="button" class="btn btn-sm btn-primary " title="打印" onclick="printSlide()">
 		<i class="ace-icon fa fa-print bigger-110"></i>

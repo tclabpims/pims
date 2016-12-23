@@ -53,6 +53,9 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
                 sql.append("and p.sampleid in (select tassampleid from PIMS_PATHOLOGY_TASK where tastasktype = 0 and tastaskstate = "+samfirstv+" and tasreciverid ='"+user.getId()+"')");
             }
         }
+        if(!StringUtils.isEmpty(sample.getSampiecedoctorid())){
+            sql.append(" and sampiecedoctorid = '"+sample.getSampiecedoctorid()+"'");
+        }
         if (sampleStatus > 0) {
             sql.append("and p.samsamplestatus=:SamSampleStatus ");
         }

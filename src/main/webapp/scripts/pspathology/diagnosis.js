@@ -420,9 +420,9 @@ function reqyizhu() {
             $("#customerId").val(rowData.samcustomerid);
             $("#pathologyCode").val(rowData.sampathologycode);
 
-            $("#reqDate").val('');
-            $("#reqDoctor").val('');
-            $("#reqDoctorId").val('');
+            $("#reqDate").val(CurentTime(new Date()));
+            $("#reqDoctor").val($("#local_username").val());
+            $("#reqDoctorId").val($("#local_userid").val());
 
             var code = new Date().Format("yyyyMMdd") + "-" + $("#customerId").val() + "-" + $("#sampleid").val();
             code = code + "-" + parseInt((Math.random() * 9000 + 1000), 10);
@@ -1030,6 +1030,7 @@ function queryList(num) {
     var saminspectionid = $("#saminspectionidq").val();
     var sampathologycode = $("#sampathologycodeq").val();
     var sampatientname = $("#sampatientnameq").val();
+    jQuery("#sectionList").jqGrid("clearGridData");
     jQuery("#sectionList").jqGrid('setGridParam', {
         datatype: 'json',
         postData: {
@@ -1039,7 +1040,34 @@ function queryList(num) {
             "saminspectionid": saminspectionid,
             "sampathologycode": sampathologycode,
             "sampatientname": sampatientname,
-            "samfirstv": num
+            "samfirstv": num,
+            "sampiecedoctorid":""
+        },
+        page: 1
+    }).trigger('reloadGrid');//重新载入
+}
+
+function queryList1(userid,num) {
+    $("#user_id").val(userid);
+    $("#reqsts").val(num);
+    var sampathologyid = $("#sampathologyid").val();
+    var samplesectionfrom = $("#samplesectionfrom").val();
+    var samplesectionto = $("#samplesectionto").val();
+    var saminspectionid = $("#saminspectionidq").val();
+    var sampathologycode = $("#sampathologycodeq").val();
+    var sampatientname = $("#sampatientnameq").val();
+    jQuery("#sectionList").jqGrid("clearGridData");
+    jQuery("#sectionList").jqGrid('setGridParam', {
+        datatype: 'json',
+        postData: {
+            "sampathologyid": sampathologyid,
+            "samplesectionfrom": samplesectionfrom,
+            "samplesectionto": samplesectionto,
+            "saminspectionid": saminspectionid,
+            "sampathologycode": sampathologycode,
+            "sampatientname": sampatientname,
+            "samfirstv": num,
+            "sampiecedoctorid": userid
         },
         page: 1
     }).trigger('reloadGrid');//重新载入
@@ -1052,6 +1080,7 @@ function query() {
     var saminspectionid = $("#saminspectionidq").val();
     var sampathologycode = $("#sampathologycodeq").val();
     var sampatientname = $("#sampatientnameq").val();
+    jQuery("#sectionList").jqGrid("clearGridData");
     jQuery("#sectionList").jqGrid('setGridParam', {
         datatype: 'json',
         postData: {
@@ -1060,7 +1089,9 @@ function query() {
             "samplesectionto": samplesectionto,
             "saminspectionid": saminspectionid,
             "sampathologycode": sampathologycode,
-            "sampatientname": sampatientname
+            "sampatientname": sampatientname,
+            "samfirstv": $("#reqsts").val(),
+            "sampiecedoctorid":$("#user_id").val()
         },
         page: 1
     }).trigger('reloadGrid');//重新载入
@@ -1073,7 +1104,7 @@ function CurentTime(now) {
     var day = now.getDate();            //日
     var hh = now.getHours();            //时
     var mm = now.getMinutes();          //分
-    var ss = now.getMilliseconds();    //秒
+    var ss = now.getSeconds();    //秒
     var clock = year + "-";
     if (month < 10)
         clock += "0";
@@ -1751,7 +1782,8 @@ $(function () {
             "samplesectionto": samplesectionto,
             "saminspectionid": saminspectionid,
             "sampathologycode": sampathologycode,
-            "sampatientname": sampatientname
+            "sampatientname": sampatientname,
+            "sampiecedoctorid": $("#local_userid").val()
         },
         width: $('.leftContent').width(),
         colNames: ['病理状态', '病理号', '送检医生', '病种类别', 'id', 'samcustomerid', 'sampathologyid','samsamplestatus'],

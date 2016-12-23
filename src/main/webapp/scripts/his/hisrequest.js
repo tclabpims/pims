@@ -1736,6 +1736,23 @@ function printCode1(){
     });
 }
 
+function printReport() {
+	if($("#req_sts").val() != "2"){
+		layer.msg("只有未打印报告的申请单才可以打印!",{icon:2,time:1000});
+	}else{
+		var ids = $("#new").jqGrid("getGridParam","selarrrow");
+		if(ids == null || ids == ""){
+			layer.msg("请选中要打印的报告单!",{icon:2,time:1000});
+		}else{
+			var saveDatas = [];
+			$.each(ids,function(key,val){
+				var rowData = $("#new").jqGrid("getRowData",ids[key]);
+				saveDatas.push(rowData);
+			})
+		}
+
+	}
+}
 
 
 
