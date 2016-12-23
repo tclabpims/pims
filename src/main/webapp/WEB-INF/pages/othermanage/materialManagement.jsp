@@ -131,21 +131,12 @@
             width:100%;
             height:100px;
             }
-<<<<<<< HEAD
-        input{
-            height: 24px;
-        }
-        #tabs-1{
-            padding-left: 10px;
-        }
-=======
             input[type="text"]{
                 height:26px;
             }
             select{
                 height:26px!important;
             }
->>>>>>> origin/master
     </style>
 </head>
 <script>
