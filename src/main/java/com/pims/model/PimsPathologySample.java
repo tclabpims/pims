@@ -152,10 +152,23 @@ public class PimsPathologySample {
     }
 
     public int pathologyStatus() {
-        if(samreportorid != null) return Constants.PATHOLOGY_STATUS_PRINTED;
-        else if(samauditerid != null && samreportorid == null) return Constants.PATHOLOGY_STATUS_CHECKED;
-        else if(saminitiallyuserid != null && samauditerid == null) return Constants.PATHOLOGY_STATUS_REPORTED;
-        else return Constants.PATHOLOGY_STATUS_NOT_REPORTED;
+        if(samsamplestatus < 4){
+            return Constants.PATHOLOGY_STATUS_NOT_REPORTED;//未报告
+        }else if(samsamplestatus == 4){
+            return Constants.PATHOLOGY_STATUS_REPORTED;//已初查
+        }else if(samsamplestatus == 5){
+            return Constants.PATHOLOGY_STATUS_CHECKED;//已审核
+        }else if(samsamplestatus == 8){
+            return Constants.PATHOLOGY_STATUS_PRINTED;//已打印
+        }else if(samsamplestatus == 6){
+            return Constants.PATHOLOGY_STATUS_WRITE;//已签发
+        }else{
+            return 0;
+        }
+//        if(samreportorid != null) return Constants.PATHOLOGY_STATUS_PRINTED;
+//        else if(samauditerid != null && samreportorid == null) return Constants.PATHOLOGY_STATUS_CHECKED;
+//        else if(saminitiallyuserid != null && samauditerid == null) return Constants.PATHOLOGY_STATUS_REPORTED;
+//        else return Constants.PATHOLOGY_STATUS_NOT_REPORTED;
     }
 
     @Basic

@@ -127,6 +127,10 @@ function saveYJXB(rowData, patClass) {
 function saveDiagnosisInfo() {
     var x = document.getElementById("diagnosisInfoForm");
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
+    if(rowData.sampathologystatus > 2){
+        layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
+        return;
+    }
     var patClass = rowData.patclass;
     if (patClass == 2) {
         saveYJXB(rowData, patClass);
@@ -343,8 +347,12 @@ function doctorSign(f) {
 
 function saveSign() {
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
-    if(rowData.samsamplestatus < 4){
-        layer.msg('该标本未切片或制片无法审核！', {icon: 2, time: 1000});
+    if(rowData.samsamplestatus < 3 && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
+        layer.msg('该标本未切片或未制片无法初查或复核！', {icon: 2, time: 1000});
+        return;
+    }else if(rowData.sampathologystatus > 2){
+        layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
+        return;
     }else{
         $.post('../diagnosis/saveSign', {
             sampleid: rowData.sampleid,
@@ -1753,7 +1761,7 @@ $(function () {
                 index: 'sampathologystatus',
                 width: 30,
                 formatter: "select",
-                editoptions: {value: "1:未报告;2:已签发;3:已审核;4:已打印"}
+                editoptions: {value: "1:未报告;2:已初查;3:已审核;4:已打印;5:已签发"}
             },
             {name: 'sampathologycode', index: 'sampathologycode', width: 40},
             {name: 'samsenddoctorname', index: 'samsenddoctorname', width: 40},
@@ -2103,31 +2111,39 @@ $(function () {
     })
     $("#ctabs").tabs();
 
-    $("#samplesectionfrom").datepicker({
-        changeMonth: true,
-        dateFormat: "yy-mm-dd",
-        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
-        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
-        onClose: function (selectedDate) {
-            $("#samplesectionfrom").datepicker("option", "minDate", selectedDate);
-        }
-    });
-
-    $("#samplesectionto").datepicker({
-        changeMonth: true,
-        dateFormat: "yy-mm-dd",
-        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
-        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
-        onClose: function (selectedDate) {
-            $("#datepickerf").datepicker("option", "maxDate", selectedDate);
-        }
-    });
+    // $("#samplesectionfrom").datepicker({
+    //     changeMonth: true,
+    //     dateFormat: "yy-mm-dd",
+    //     monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+    //     dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+    //     onClose: function (selectedDate) {
+    //         $("#samplesectionfrom").datepicker("option", "minDate", selectedDate);
+    //     }
+    // });
+    //
+    // $("#samplesectionto").datepicker({
+    //     changeMonth: true,
+    //     dateFormat: "yy-mm-dd",
+    //     monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+    //     dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+    //     onClose: function (selectedDate) {
+    //         $("#datepickerf").datepicker("option", "maxDate", selectedDate);
+    //     }
+    // });
     $(".form_datetime1").datetimepicker({
         //minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
         language: 'zh-CN', //汉化
         todayBtn: 1,
         startDate:new Date(),
+        endDate:new Date(),
+        autoclose: true //选择日期后自动关闭
+    });
+    $(".form_datetime").datetimepicker({
+        //minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        todayBtn: 1,
         endDate:new Date(),
         autoclose: true //选择日期后自动关闭
     });

@@ -531,7 +531,7 @@
 				<div class="form-group" style="margin-bottom: 5px;">
 					<label class="col-sm-1 label_style" >住院号:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"/>
+						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"  onkeypress="getPatient(this,event)"/>
 					</div>
 					<label class="col-sm-1 label_style" >床号:</label>
 					<div class="col-sm-3 ">
@@ -650,6 +650,16 @@
 				<h5 style="font-size: 14px;"><strong>&nbsp;费用列表</strong></h5>
 				<table id="new2" class="table table-striped table-bordered table-hover">
 				</table>
+			</div>
+		</div>
+	</div>
+	<div id="formDialog11" style="display:none;" class="col-sm-12">
+		<div>
+			<div class="widget-body" style="overflow:auto;">
+				<div class="widget-main no-padding">
+					<table id="new22" class="table">
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

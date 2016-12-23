@@ -260,8 +260,8 @@
                                     <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("logyids"))%>
                                 </select>
                             </div>
-                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">切片年月：</label><input type="text" id="samplesectionfrom"
-                                                            style="width: 150px;height:24px;">~<input type="text"
+                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">切片年月：</label><input type="text" id="samplesectionfrom" class="form_datetime"
+                                                            style="width: 150px;height:24px;">~<input type="text" class="form_datetime"
                                                                                          style="height:24px;width: 150px"
                                                                                          id="samplesectionto"></div>
                             <div style="display:block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">条形码：</label><input type="text" id="saminspectionidq"
@@ -277,7 +277,7 @@
                                         <button onclick="receivecs(1)" style="border:1px solid #c2c2c2!important;border-radius:3px;background:#e9e9e9!important;margin:3px 8px 0 0;">抄送接收</button>
                                     </div>
                                     <div style="display:inline;text-align: right;">
-                                        <button onclick="receivecs(0)" style="border:1px solid #c2c2c2!important;border-radius:3px;background:#e9e9e9!important;margin-right:3px 0 0 0;">抄送取消</button>
+                                        <button onclick="receivecs(0)" style="border:1px solid #c2c2c2!important;border-radius:3px;background:#e9e9e9!important;margin-right:3px;">抄送取消</button>
                                     </div>
                                 </div>
                             </div>

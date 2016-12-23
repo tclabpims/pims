@@ -3,63 +3,81 @@
  */
 function consMarage() {
 	//判断该病理是否已经发起了会诊
-	var sampleid = $("#sampleid").val();
-	if(sampleid == null || sampleid == ""){
-		alert("请选择病理标本再发起会诊!");
+	// var sampleid = $("#sampleid").val();
+	// if(sampleid == null || sampleid == ""){
+	// 	alert("请选择病理标本再发起会诊!");
+	// 	return;
+	// }
+	var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+	if(selectedIds == null || selectedIds == ""){
+		layer.msg("请选择病理标本再发起会诊!",{icon:2,time:1000});
 		return;
-	}
-	$.post("../consultation/cons/isexist", {
-			id:sampleid
-		},
-		function(data) {
-			if(data.success) {//已发起过会诊
-				location.href='../consultation/cons.jsp?id='+ sampleid;
-			} else {
-				//弹出用户选择窗口选择用户
-				layer.open({
-					type: 1,
-					area: ['800px','500px'],
-					fix: false, //不固定
-					maxmin: true,
-					multiselect: true,
-					rownumbers : true,
-					shade:0.5,
-					title: "用户列表",
-					content: $('#userGrid'),
-					btn:["保存","取消"],
-					yes: function(index, layero){
-						//var id = $('#sectionList3').jqGrid('getGridParam','selrow');
-						var selectedIds = $("#sectionList3").jqGrid("getGridParam","selarrrow");
-						var arr = new Array();
-						if(selectedIds.length > 0){
-							$(selectedIds).each(function () {
-									var rowData1 = $("#sectionList3").jqGrid('getRowData',this.toString());
-									arr.push(rowData1);
+	}else if(selectedIds.length > 1){
+		layer.msg("不允许同时对多个病理标本发起会诊!",{icon:2,time:1000});
+		return;
+	}else{
+		var id = $("#sectionList").jqGrid('getGridParam', 'selrow');
+		var rowData = $("#sectionList").jqGrid('getRowData',id);
+		var sampleid = rowData.sampleid;
+		if(rowData.sampathologystatus == 2){
+			$.post("../consultation/cons/isexist", {
+					id:sampleid
+				},
+				function(data) {
+					if(data.success) {//已发起过会诊
+						location.href='../consultation/cons.jsp?id='+ sampleid;
+					} else {
+						//弹出用户选择窗口选择用户
+						layer.open({
+							type: 1,
+							area: ['800px','500px'],
+							fix: false, //不固定
+							maxmin: true,
+							multiselect: true,
+							rownumbers : true,
+							shade:0.5,
+							title: "用户列表",
+							content: $('#userGrid'),
+							btn:["保存","取消"],
+							yes: function(index, layero){
+								//var id = $('#sectionList3').jqGrid('getGridParam','selrow');
+								var selectedIds = $("#sectionList3").jqGrid("getGridParam","selarrrow");
+								var arr = new Array();
+								if(selectedIds.length > 0){
+									$(selectedIds).each(function () {
+											var rowData1 = $("#sectionList3").jqGrid('getRowData',this.toString());
+											arr.push(rowData1);
+										}
+									);
+									$.post("../consultation/cons/addCons", {
+											userlist:JSON.stringify(arr),
+											sampleid:sampleid,
+											samcustomerid:$("#samcustomerid").val(),
+											sampathologycode:$("#sampathologycode").val()
+										},
+										function(data) {
+											if(data.success) {
+												layer.close(index);
+												location.href='../consultation/cons.jsp?id='+ sampleid;
+											} else {
+												layer.msg(data.message, {icon:2, time: 1000});
+											}
+										});
+								}else{
+									layer.msg('请先选择用户', {icon: 2,time: 1000});
+									return false;
 								}
-							);
-							$.post("../consultation/cons/addCons", {
-									userlist:JSON.stringify(arr),
-									sampleid:sampleid,
-									samcustomerid:$("#samcustomerid").val(),
-									sampathologycode:$("#sampathologycode").val()
-								},
-								function(data) {
-									if(data.success) {
-										layer.close(index);
-										location.href='../consultation/cons.jsp?id='+ sampleid;
-									} else {
-										layer.msg(data.message, {icon:2, time: 1000});
-									}
-								});
-						}else{
-							layer.msg('请先选择用户', {icon: 2,time: 1000});
-							return false;
-						}
 
+							}
+						})
 					}
-				})
-			}
-		});
+				});
+		}else{
+			layer.msg("初查状态下才可以发起会诊!",{icon:2,time:1000});
+			return;
+		}
+	}
+
 }
 $(function () {
 	$("#sectionList3").jqGrid({

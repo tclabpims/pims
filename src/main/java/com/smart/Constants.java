@@ -363,12 +363,13 @@ public final class Constants {
 	public final static String ORDER_TYPE_SHENQIE = "SHENQIE";
 	public final static String ORDER_TYPE_BUQU = "BUQU";
 
-	//病理状态 1:未报告 2：已签发 3：已审核 4：已打印
+	//病理状态 1:未报告 2：已初查 3：已审核 4：已打印 5 已签发
 
 	public static final int PATHOLOGY_STATUS_NOT_REPORTED = 1;
 	public static final int PATHOLOGY_STATUS_REPORTED = 2;
 	public static final int PATHOLOGY_STATUS_CHECKED = 3;
 	public static final int PATHOLOGY_STATUS_PRINTED= 4;
+	public static final int PATHOLOGY_STATUS_WRITE= 5;
 
 	//液基细胞学诊断页面输入框前缀
 	public static final String YJXB_INPUT_PREFIX = "textarea";

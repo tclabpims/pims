@@ -29,7 +29,7 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
 
     @Override
     public List<PimsPathologySample> querySample(PimsPathologySample sample, GridQuery gridQuery) {
-        StringBuffer sql = new StringBuffer("select p.sampleid,p.sampathologycode,p.samcustomerid,p.sampathologyid,p.samsenddoctorname,p.samreportorid,p.samauditerid,p.saminitiallyuserid,sp.patclass from PIMS_PATHOLOGY_SAMPLE p,Pims_Sys_Pathology sp where p.SamPathologyId=sp.pathologyid ");
+        StringBuffer sql = new StringBuffer("select p.sampleid,p.sampathologycode,p.samcustomerid,p.sampathologyid,p.samsenddoctorname,p.samreportorid,p.samauditerid,p.saminitiallyuserid,sp.patclass,p.samsamplestatus from PIMS_PATHOLOGY_SAMPLE p,Pims_Sys_Pathology sp where p.SamPathologyId=sp.pathologyid ");
         setParameter(sql, sample);
         sql.append(" order by p.sampleid desc");
         return pimsPathologySampleDao.querySample(sample, gridQuery, sql.toString());

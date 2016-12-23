@@ -1,5 +1,142 @@
 var nowrow = "";//当前显示数据所在的行
 var addstates = "";//当前页面状态
+
+/**
+ * 回车事件
+ * @param obj
+ * @param event
+ */
+function getPatient(obj,event) {
+	var e=e||event;
+	var key = event.keyCode;
+	if(navigator.appName=="Netscape"){
+		key=e.which;
+	}else{
+		key=event.keyCode;
+	}
+	switch(key){
+		case 13 :
+			$.get("../pimspathology/getpatientlist", {"brjzxh": obj.value}, function (data) {
+				var records = data.records;
+				if(records == undefined){
+
+				}else if (records == 1) {
+					var rows = data.rows;
+					fillpatinetinfo(rows[0]);
+					// $("#sampatientname").val(rows[0].patient_name);//姓名
+					// $("#sampatientphoneno").val(rows[0].phone_no);//电话
+					// $("#sampatientbed").val(rows[0].patient_bed);//床号
+					// $("#sampatientaddress").val(rows[0].patient_address);//联系地址
+					// $("#sampatientsex").val(rows[0].patient_sex);//性别
+					// $("#sampatientage").val(rows[0].patient_age);//年龄
+					// // $("#reqpatagetype").val(rows[0].patient_age_type);//年龄类型
+					// $("#sampatientagetype option").each(function () {
+					// 	if($(this).text() == rows[0].patient_age_type){
+					// 		$(this).attr("selected", "selected");
+					// 	}
+					// });
+					// $("#samwardcode").val(rows[0].patient_ward);//送检病区id
+					// $("#samwardname").val(rows[0].patient_ward_name);//送检病区名称
+					// $("#samdeptcode").val(rows[0].patient_dept);//送检科室ID
+					// $("#samdeptname").val(rows[0].patient_dept_name);//送检科室名称
+					// $("#samsendhospital").val(1);//送检医院
+					// $("#sampatientdignoses").val(rows[0].lczd);//临床诊断
+					// $("#sampatienttype").val(rows[0].patient_type);//患者类型
+					// $("#saminpatientid").val(rows[0].inpatient_id);//就诊id
+
+				}else{
+					jQuery("#new22").jqGrid("clearGridData");
+					jQuery("#new22").jqGrid('setGridParam',{
+						url: "../pimspathology/getpatientlist",
+						//发送数据
+						postData : {"brjzxh":obj.value}
+					}).trigger('reloadGrid');//重新载入
+					layer.open({
+						type: 1,
+						area: ['1000px','600px'],
+						skin: 'layui-layer-molv',
+						fix: false, //不固定
+						maxmin: false,
+						shade:0.6,
+						title: "申请信息录入",
+						content: $("#formDialog11")
+					});
+				}
+			});
+			break;
+	}
+}
+/**
+ * 创建病人信息列表
+ * @param reqid
+ */
+function createNew22(brjzxh){
+	$("#new22").jqGrid({
+		url:"../pimspathology/getpatientlist",
+		datatype: "json",
+		mtype:"GET",
+		height: 500,
+		width: 1000,
+		postData:{"brjzxh":brjzxh},
+		colNames: ['ID','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址'],
+		colModel: [
+			{name:'key_no',index:'key_no'},//ID
+			{name:'patient_id',index:'patient_id'},//住院号
+			{name:'patient_name',index:'patient_name'},//病人姓名
+			{ name: 'patient_sex', index: 'patient_sex',formatter:'select',editoptions:{value:"1:男;2:女;3:未知"}},//性别
+			{ name: 'patient_age', index: 'patient_age'},//年龄
+			{ name: 'patient_age_type', index: 'patient_age_type'},//年龄
+			{name:'patient_dept_name',index:'patient_dept_name'},//住院科室名称
+			{name:'patient_ward_name',index:'patient_ward_name'},//住院病区名称
+			{name:'patient_bed',index:'patient_bed'},//床号
+			{name:'lczd',index:'lczd'},//临床诊断
+			{name:'phone_no',hidden:true},//电话
+			{name:'patient_type',hidden:true},//患者类型
+			{name:'patient_address',hidden:true}//联系地址
+		],
+		loadComplete : function() {
+			var table = this;
+			setTimeout(function(){
+				updatePagerIcons(table);
+			}, 0);
+		},
+		viewrecords: true,
+		rownumbers : true,
+		ondblClickRow: function (id) {
+			var rowData = $("#new22").jqGrid('getRowData',id);
+			fillpatinetinfo(rowData);
+			var index = layer.index; //获取窗口索引
+			layer.close(index);
+			//layer.close();
+		},
+	});
+}
+
+
+function fillpatinetinfo(data) {
+	$("#sampatientname").val(data.patient_name);//姓名
+	$("#sampatientphoneno").val(data.phone_no);//电话
+	$("#sampatientbed").val(data.patient_bed);//床号
+	$("#sampatientaddress").val(data.patient_address);//联系地址
+	$("#sampatientsex").val(data.patient_sex);//性别
+	$("#sampatientage").val(data.patient_age);//年龄
+	// $("#reqpatagetype").val(rows[0].patient_age_type);//年龄类型
+	$("#sampatientagetype option").each(function () {
+		if($(this).text() == data.patient_age_type){
+			$(this).attr("selected", "selected");
+		}
+	});
+	$("#samwardcode").val(data.patient_ward);//送检病区id
+	$("#samwardname").val(data.patient_ward_name);//送检病区名称
+	$("#samdeptcode").val(data.patient_dept);//送检科室ID
+	$("#samdeptname").val(data.patient_dept_name);//送检科室名称
+	// $("#samsendhospital").val(1);//送检医院
+	$("#sampatientdignoses").val(data.lczd);//临床诊断
+	$("#sampatienttype").val(data.patient_type);//患者类型
+	$("#saminpatientid").val(data.inpatient_id);//就诊id
+
+}
+
 function NoSubmit(ev){
     if( ev.keyCode == 13 ){
         return false;
@@ -907,6 +1044,7 @@ $(function() {
     // createNew2();
     $("#pager_left").remove();
 	$("#pager1_left").remove();
+	createNew22("");
 });
 /**
  * 初始化收费项目列表

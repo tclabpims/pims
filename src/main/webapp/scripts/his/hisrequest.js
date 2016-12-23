@@ -369,7 +369,7 @@ function saveInfo() {
 				saveInfo1(post,arrs,rowdatas,arrs1);
             },
             success: function(obj){
-            	alert(obj);
+            	//alert(obj);
                 $.each(obj,function(n,value) {
                     var arr = {};
                     arr["id"] = value.fieelementid;
@@ -1589,7 +1589,7 @@ var LODOP; //声明为全局变量
 function printCode(){
 	$.get("../pimspathology/report/printzqs", {
 		"id": $("#reqpathologyid").val(),
-        "hosptail":$("#lcal_hosptail").val()
+        "hosptail":$("#lcal_hosptail").val()==""?"1":$("#lcal_hosptail").val()
 	}, function (data) {
 		var rptView = layer.open({
 			type: 2,
@@ -1661,41 +1661,41 @@ function printSlideCode(datas,rowdatas) {
         LODOP = getLodop();
         LODOP.PRINT_INIT("");
         LODOP.SET_PRINT_PAGESIZE(1,"51mm","32mm","A4");
-        LODOP.ADD_PRINT_TEXT("2mm","5mm","40mm","5mm","树兰(杭州)医院");
+        LODOP.ADD_PRINT_TEXT("2mm","7mm","40mm","4mm","树兰(杭州)医院");
         LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_BARCODE("7mm","2mm","40mm","10mm","128B",rowdatas.requisitionno);
+        LODOP.ADD_PRINT_BARCODE("6mm","2mm","30mm","10mm","128B",rowdatas.requisitionno);
         LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXT("19mm","0mm","12mm","5mm","姓名:");
-		LODOP.ADD_PRINT_TEXT("19mm","8mm","10mm","5mm",rowdatas.reqpatientname);
-		LODOP.ADD_PRINT_TEXT("19mm","20mm","12mm","5mm","性别:");
+		LODOP.ADD_PRINT_TEXT("17mm","7mm","12mm","5mm","姓名:");
+		LODOP.ADD_PRINT_TEXT("17mm","17mm","20mm","5mm",rowdatas.reqpatientname);
+		LODOP.ADD_PRINT_TEXT("17mm","32mm","12mm","5mm","性别:");
 		var sex = "";
 		if(rowdatas.reqpatientsex == 1){
 			sex = "男";
 		}else if(rowdatas.reqpatientsex == 2){
 			sex = "女";
 		}
-		LODOP.ADD_PRINT_TEXT("19mm","28mm","10mm","5mm",sex);
-		LODOP.ADD_PRINT_TEXT("19mm","35mm","12mm","5mm","年龄:");
-		var agetype = "";
-		if(rowdatas.reqpatagetype == 1){
-			agetype = "岁";
-		}else if(rowdatas.reqpatagetype == 2){
-			agetype = "月";
-		}else if(rowdatas.reqpatagetype == 4){
-			agetype = "周";
-		}else if(rowdatas.reqpatagetype == 5){
-			agetype = "日";
-		}else if(rowdatas.reqpatagetype == 6){
-			agetype = "小时";
-		}
-		LODOP.ADD_PRINT_TEXT("19mm","43mm","10mm","5mm",rowdatas.reqpatientage+agetype);
-        LODOP.ADD_PRINT_TEXT("24mm","2mm","20mm","5mm","取材部位:");
-		LODOP.ADD_PRINT_TEXT("24mm","18mm","20mm","5mm",datas[i].reqmsamplingparts);
+		LODOP.ADD_PRINT_TEXT("17mm","42mm","10mm","5mm",sex);
+		// LODOP.ADD_PRINT_TEXT("19mm","35mm","12mm","5mm","年龄:");
+		// var agetype = "";
+		// if(rowdatas.reqpatagetype == 1){
+		// 	agetype = "岁";
+		// }else if(rowdatas.reqpatagetype == 2){
+		// 	agetype = "月";
+		// }else if(rowdatas.reqpatagetype == 4){
+		// 	agetype = "周";
+		// }else if(rowdatas.reqpatagetype == 5){
+		// 	agetype = "日";
+		// }else if(rowdatas.reqpatagetype == 6){
+		// 	agetype = "小时";
+		// }
+		// LODOP.ADD_PRINT_TEXT("19mm","43mm","10mm","5mm",rowdatas.reqpatientage+agetype);
+        LODOP.ADD_PRINT_TEXT("21mm","7mm","20mm","5mm","取材部位:");
+		LODOP.ADD_PRINT_TEXT("21mm","27mm","20mm","5mm",datas[i].reqmsamplingparts);
         // LODOP.ADD_PRINT_TEXTA("nameText","20mm","18mm","17mm","3mm",datas[i].reqmsamplingparts);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
-        LODOP.ADD_PRINT_TEXT("28mm","2mm","20mm","5mm","送检材料:");
-        LODOP.ADD_PRINT_TEXT("28mm","18mm","20mm","5mm",datas[i].reqmmaterialname);
+        LODOP.ADD_PRINT_TEXT("25mm","7mm","20mm","5mm","送检材料:");
+        LODOP.ADD_PRINT_TEXT("25mm","27mm","20mm","5mm",datas[i].reqmmaterialname);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         //LODOP.PREVIEW();
 		LODOP.PRINT();
@@ -1713,7 +1713,7 @@ function printCode1(){
     }
     $.get("../pimspathology/report/printreq", {
         "id": rowData.requisitionid,
-        "hosptail":$("#lcal_hosptail").val()
+        "hosptail":$("#lcal_hosptail").val()==""?"1":$("#lcal_hosptail").val()
     }, function (data) {
         var rptView = layer.open({
             type: 2,

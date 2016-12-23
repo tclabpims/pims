@@ -51,9 +51,16 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         if (!StringUtils.isEmpty(pims.getSend_doctor())) {
             buffer.append(" and ReqDoctorName like '%" + pims.getSend_doctor().toUpperCase()+"%'");//送检医生
         }
-        if (!StringUtils.isEmpty(pims.getReq_sts())) {
-            buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
-        }
+//        if (!StringUtils.isEmpty(pims.getReq_sts())) {
+//            String req_sts = pims.getReq_sts();
+//            if(req_sts.equals("0")){//已申请
+//                buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
+//            }else if(req_sts.equals("1")){//已延迟
+//                buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
+//            }else if(req_sts.equals("2")){//未打印
+//                buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
+//            }
+//        }
         if (!StringUtils.isEmpty(pims.getLogyid())) {
             buffer.append(" and  reqpathologyid = " + pims.getLogyid());//病种
         }
@@ -69,6 +76,18 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         StringBuffer buffer = new StringBuffer();
         buffer.append(" from PimsPathologyRequisition where ReqIsDeleted = 0 ");//正常单据
         buffer = getStringSql(buffer,pims);
+        if (!StringUtils.isEmpty(pims.getReq_sts())) {
+            String req_sts = pims.getReq_sts();
+            if(req_sts.equals("0")){//已申请
+                buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
+            }else if(req_sts.equals("1")){//已延迟
+                buffer.append(" and exists  (select 1 from PimsPathologySample,PimsPathologyReportDelay where delsampleid = sampleid and" +
+                        " sampleid = reqsampleid and samsamplestatus < 6 ) ");//申请状态
+            }else if(req_sts.equals("2")){//未打印
+                buffer.append(" and exists  (select 1 from PimsPathologySample where  " +
+                        " sampleid = reqsampleid and samsamplestatus = 6) ");//申请状态
+            }
+        }
         String orderby = (pims.getSidx()==null|| pims.getSidx().trim().equals(""))?"requisitionno":pims.getSidx();
         buffer.append(" order by " + orderby + " " +pims.getSord());
         System.out.println(buffer.toString());
@@ -84,6 +103,18 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
         StringBuffer buffer = new StringBuffer();
         buffer.append(" select count(1) from PIMS_PATHOLOGY_REQUISITION where ReqIsDeleted = 0 ");
         buffer = getStringSql(buffer,pims);
+        if (!StringUtils.isEmpty(pims.getReq_sts())) {
+            String req_sts = pims.getReq_sts();
+            if(req_sts.equals("0")){//已申请
+                buffer.append(" and  ReqState = " + pims.getReq_sts());//申请状态
+            }else if(req_sts.equals("1")){//已延迟
+                buffer.append(" and exists  (select 1 from Pims_Pathology_Sample,Pims_Pathology_Report_Delay where delsampleid = sampleid and" +
+                        " sampleid = reqsampleid and samsamplestatus < 6 ) ");//申请状态
+            }else if(req_sts.equals("2")){//未打印
+                buffer.append(" and exists  (select 1 from Pims_Pathology_Sample where  " +
+                        " sampleid = reqsampleid and samsamplestatus = 6) ");//申请状态
+            }
+        }
         System.out.println(buffer.toString());
         return countTotal(buffer.toString(),pims.getReq_bf_time(),pims.getReq_af_time()).intValue();
     }

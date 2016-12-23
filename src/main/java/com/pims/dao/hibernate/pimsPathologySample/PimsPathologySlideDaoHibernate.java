@@ -474,7 +474,7 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
                 Map map = (Map) samplesList.get(i);
                 PimsPathologyParaffin para = (PimsPathologyParaffin) setBeanProperty(map,PimsPathologyParaffin.class);
                 query.setLong("sliparaffinid",para.getParaffinid());
-                PimsPathologySlide slide = (PimsPathologySlide) query.uniqueResult();
+                PimsPathologySlide slide = (PimsPathologySlide) query.list().get(0);
                 org.codehaus.jettison.json.JSONObject object = new org.codehaus.jettison.json.JSONObject();
                 try {
                     object.put("barcode",slide.getSlislidebarcode());

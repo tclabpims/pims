@@ -654,19 +654,22 @@ function Setup() {//打印维护
 function CreateDataBill(datas) {
 	LODOP = getLodop();
 	LODOP.PRINT_INIT("");
-	LODOP.SET_PRINT_PAGESIZE(3,"97mm","17mm","A4");
+	LODOP.SET_PRINT_PAGESIZE(1,"80mm","24mm","A4");
 	for(i=0;i<datas.labOrders.length;i++){
 		var data = datas.labOrders[i];
-		var topheight1 = Math.floor(i/3)*22+ 3;
-		var topheight2 = Math.floor(i/3)*22+ 8;
-		var leftwidth1 = i%3*32+3;
-		LODOP.ADD_PRINT_TEXT(topheight1+"mm",leftwidth1+"mm","29mm","5mm","树兰(杭州)医院");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+		// var topheight1 = Math.floor(i/3)*24+ 3;
+		// var topheight2 = Math.floor(i/3)*24+ 8;
+		var leftwidth1 = i%3*26+4;
+		LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","24mm","5mm","树兰(杭州)医院");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
 		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
 		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXTA("nameText",topheight2+"mm",leftwidth1+"mm","29mm","3mm",data.barcode);
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+		LODOP.ADD_PRINT_TEXTA("nameText","8mm",leftwidth1+"mm","24mm","3mm",data.barcode);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		if(i%3 == 2 || i == datas.labOrders.length -1){
+			LODOP.PRINT();
+		}
 	}
 
 }
@@ -674,7 +677,7 @@ function startPrint(data) {
 	CreateDataBill(data);
 	//开始打印
 	// LODOP.PRINT();
-	LODOP.PREVIEW();
+	// LODOP.PREVIEW();
 	// LODOP.PRINT_SETUP();
 }
 
