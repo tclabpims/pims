@@ -29,7 +29,18 @@
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
+		.inputstyle2{
+			margin-left:-15%;
+		}
 	</style>
+	<script type="text/javascript">
+
+$(document).ready(function(){
+
+	a=$(window).height()-$("#head").height()-$("#div_1").height();
+    $("#search_div_1").height(a);
+});
+</script>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
 	<div id="reportTemplateList" style="display:none;alignment: center">
@@ -69,18 +80,18 @@
 			<div id="div1" class="widget-box widget-color-green ui-sortable-handle">
 				<div class="widget-header">
 					<h6 class="widget-title">报告查询条件</h6>
-					<div class="widget-toolbar">
-						<a href="#"  data-action="collapse" onclick="showandhiden(this)">
-							<i id="a1" class="ace-icon fa fa-chevron-up">隐藏</i>
-						</a>
-					</div>
+					<%--<div class="widget-toolbar">--%>
+						<%--<a href="#"  data-action="collapse" onclick="showandhiden(this)">--%>
+							<%--<i id="a1" class="ace-icon fa fa-chevron-up">隐藏</i>--%>
+						<%--</a>--%>
+					<%--</div>--%>
 				</div>
 				<div class="widget-body" style="display:block">
-					<div id="search_div_1" style="background-color: #F9F9F9;height:500px;border:1px solid #E0E0E0;">
+					<div id="search_div_1" style="background-color: #F9F9F9;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<div style="margin-bottom: 5px;">
 						<span class="col-sm-4 input_style">&nbsp;送检FROM:&nbsp;</span>
-						<input type="text" class="col-sm-6 form_datetime input_style" value="${sevenday}" id="req_bf_time"/>
+						<input type="text" class="col-sm-6 form_datetime input_style " value="${sevenday}" id="req_bf_time"/>
 						<div class="col-sm-2 ">
 							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0" onclick="searchList()">
 								<span style="color: white;">查询</span>
@@ -88,34 +99,34 @@
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;送检TO:&nbsp;</span>
-						<input type="text" class="col-sm-6 form_datetime input_style" value="${receivetime}"  id="req_af_time"/>
+						<span class="col-sm-5 input_style">&nbsp;送检TO:&nbsp;</span>
+						<input type="text" class="col-sm-6 form_datetime input_style inputstyle2" value="${receivetime}"  id="req_af_time"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;病种类别:&nbsp;</span>
-						<select id="logyid" class="col-sm-6 input_style">
+						<span class="col-sm-5 input_style">&nbsp;病种类别:&nbsp;</span>
+						<select id="logyid" class="col-sm-6 input_style inputstyle2">
 							<%out.println((String) request.getAttribute("logyids"));%>
 						</select>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;病理号码:&nbsp;</span>
-						<input type="text" id="req_code" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;病理号码:&nbsp;</span>
+						<input type="text" id="req_code" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;病人姓名:&nbsp;</span>
-						<input type="text" id="patient_name" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;病人姓名:&nbsp;</span>
+						<input type="text" id="patient_name" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;住院号:&nbsp;</span>
-						<input type="text" id="sampatientnumber" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;住院号:&nbsp;</span>
+						<input type="text" id="sampatientnumber" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;床号:&nbsp;</span>
-						<input type="text" id="sampatientbed" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;床号:&nbsp;</span>
+						<input type="text" id="sampatientbed" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;性别:&nbsp;</span>
-						<select class="col-sm-6  input_style" id="sampatientsex">
+						<span class="col-sm-5 input_style">&nbsp;性别:&nbsp;</span>
+						<select class="col-sm-6  input_style inputstyle2" id="sampatientsex">
 							<option value="">全部</option>
 							<option value="1">男</option>
 							<option value="2">女</option>
@@ -123,60 +134,60 @@
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;送检医生:&nbsp;</span>
-						<input type="text" id="send_doctor" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;送检医生:&nbsp;</span>
+						<input type="text" id="send_doctor" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;送检科室:&nbsp;</span>
-						<input type="text" id="send_dept" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;送检科室:&nbsp;</span>
+						<input type="text" id="send_dept" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;送检医院:&nbsp;</span>
-						<input type="text" id="send_hosptail" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;送检医院:&nbsp;</span>
+						<input type="text" id="send_hosptail" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;取材医生:&nbsp;</span>
-						<input type="text" id="piedoctorname" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;取材医生:&nbsp;</span>
+						<input type="text" id="piedoctorname" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;切片医生:&nbsp;</span>
-						<input type="text" id="parsectioneddoctor" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;切片医生:&nbsp;</span>
+						<input type="text" id="parsectioneddoctor" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;诊断医生:&nbsp;</span>
-						<input type="text" id="saminitiallyusername" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;诊断医生:&nbsp;</span>
+						<input type="text" id="saminitiallyusername" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;免疫组化:&nbsp;</span>
-						<select id="myzh" class="col-sm-6 input_style">
+						<span class="col-sm-5 input_style">&nbsp;免疫组化:&nbsp;</span>
+						<select id="myzh" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
 							<option value="1">无</option>
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;特殊染色:&nbsp;</span>
-						<select id="tsrs" class="col-sm-6 input_style">
+						<span class="col-sm-5 input_style">&nbsp;特殊染色:&nbsp;</span>
+						<select id="tsrs" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
 							<option value="1">无</option>
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;分子病理:&nbsp;</span>
-						<select id="fzbl" class="col-sm-6 input_style">
+						<span class="col-sm-5 input_style">&nbsp;分子病理:&nbsp;</span>
+						<select id="fzbl" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
 							<option value="1">无</option>
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-4 input_style">&nbsp;病理诊断:&nbsp;</span>
-						<input type="text" id="blzd" class="col-sm-6 input_style"/>
+						<span class="col-sm-5 input_style">&nbsp;病理诊断:&nbsp;</span>
+						<input type="text" id="blzd" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-							<span class="col-sm-4 input_style">&nbsp;取材部位:&nbsp;</span>&nbsp;&nbsp;
-							<input type="text" id="qcbw" class="col-sm-6 input_style"/>
+							<span class="col-sm-5 input_style">&nbsp;取材部位:&nbsp;</span>&nbsp;&nbsp;
+							<input type="text" id="qcbw" class="col-sm-6 input_style inputstyle2"/>
 							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
 					</div>
@@ -189,11 +200,11 @@
 			<div class="widget-box widget-color-green ui-sortable-handle">
 			<div class="widget-header">
 				<h6 class="widget-title">报告查询条件</h6>
-				<div class="widget-toolbar">
-					<a href="#" data-action="collapse" onclick="showandhiden(this)">
-						<i class="ace-icon fa fa-chevron-up">隐藏</i>
-					</a>
-				</div>
+				<%--<div class="widget-toolbar">--%>
+					<%--<a href="#" data-action="collapse" onclick="showandhiden(this)">--%>
+						<%--<i class="ace-icon fa fa-chevron-up">隐藏</i>--%>
+					<%--</a>--%>
+				<%--</div>--%>
 			</div>
 			<div class="widget-body"  style="display: block;">
 				<div class="widget-main no-padding">
