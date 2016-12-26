@@ -76,6 +76,10 @@ $(function() {
 
 	var clientHeight= $(window).innerHeight();
 	var height = $("#formDialog").height() - $('#search_div_1').height() + 230;
+	var height2 =clientHeight-$("#head").height()- $('#search_div_1').height()-150;
+	    	if(height2 < 340){
+        	    height2 = 340;
+        	}
 	$("#slicode_bro").css("width",850);
 	var width = $("#checkSlide").width()-20;
 	var width1 = $("#checkSlide2").width();
@@ -125,7 +129,7 @@ $(function() {
 		},
 		multiselect: true,   //默认选中
 		viewrecords: true,
-		height:390,
+		height:height2,
 		width:width,
 		shrinkToFit:false,
 		autoScroll: true,

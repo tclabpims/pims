@@ -530,8 +530,10 @@ $(function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
     var clientHeight = $(window).innerHeight();
-    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
-
+    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150 - $('#yizhuleixin').height();
+    	if(height < 340){
+    	    height = 340;
+    	}
     $("#sectionList").jqGrid({
         caption: "",
         url: "../order/getorders",

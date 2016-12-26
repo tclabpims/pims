@@ -76,6 +76,10 @@ $(function() {
 
 	var clientHeight= $(window).innerHeight();
 	var height = $("#formDialog").height() - $('#search_div_1').height() + 230;
+		var height2 =clientHeight-$("#head").height()- $('#search_div_1').height()-150;
+    	    	if(height2 < 340){
+            	    height2 = 340;
+            	}
 	$("#slicode_bro").css("width",850);
 	var width = $("#checkSlide").width()-20;
 	var width1 = $("#checkSlide2").width();
@@ -149,7 +153,7 @@ $(function() {
 		// },
 		multiselect: true,   //默认选中
 		viewrecords: true,
-		height:390,
+		height:height2,
 		width:width,
 		shrinkToFit:false,
 		autoScroll: true,
@@ -297,11 +301,17 @@ function returnbtn(){
  * 初始化收费项目列表
  */
 function createNew1(width) {
+    	var clientHeight= $(window).innerHeight();
+    	var height = $("#formDialog").height() - $('#search_div_1').height() + 230;
+    		var height3 =clientHeight-$("#head").height()- $('#tabs-1').height()-300-70;
+                if(height3 < 100){
+                        	    height3 = 100;
+                        	}
 	$("#new2").jqGrid({
 		url:"../othermanage/loanmanagement/ajax/rec",
 		datatype: "json",
 		mtype:"GET",
-		height: 100,
+		height: height3,
 		width:width,
 		autowidth: true,
 		colNames: ['状态','操作日期','申请人', '经手人','诊断机构','诊断结果'],

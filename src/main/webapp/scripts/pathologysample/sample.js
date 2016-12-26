@@ -1054,7 +1054,7 @@ function createNew1(height,width) {
 		url:"../pathologysample/sample/ajax/fee",
 		datatype: "json",
 		mtype:"GET",
-		height: height,
+//		height: height,
         width:width,
 		postData:{"feesampleid":$("#sampleid").val(),"feesource":"0"},
 		colNames: ['ID','项目名称','单价','数量', '金额','记录人员','记录时间','发送状态'],

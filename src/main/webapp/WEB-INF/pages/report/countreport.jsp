@@ -49,11 +49,11 @@
 		<div class="widget-box widget-color-green ui-sortable-handle">
 			<div class="widget-header">
 				<h6 class="widget-title">统计一览</h6>
-				<div class="widget-toolbar">
-					<a href="#" data-action="collapse">
-						<i class="ace-icon fa fa-chevron-up">隐藏</i>
-					</a>
-				</div>
+				<%--<div class="widget-toolbar">--%>
+					<%--<a href="#" data-action="collapse">--%>
+						<%--<i class="ace-icon fa fa-chevron-up">隐藏</i>--%>
+					<%--</a>--%>
+				<%--</div>--%>
 			</div>
 			<div id="search_div_1" style="background-color: #F9F9F9;height:100px;border:1px solid #E0E0E0;">
 			<div style="margin-top:10px;">

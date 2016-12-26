@@ -105,6 +105,7 @@ $(function() {
 	var fzbl = $('#fzbl').val();//分子病理
 	var blzd = $('#blzd').val();//病理诊断
 	var qcbw = $('#qcbw').val();//取材部位
+	var height2=$(window).height()-150-$("#sampleForm").height()-$("#head").height()-$("#div_1").height();
 	$("#new").jqGrid({
 		url: "../report/diagnosisreport/list",
 		mtype: "GET",
@@ -195,7 +196,7 @@ $(function() {
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:200,
+		height:height2,
 		width: width1,
 		shrinkToFit:false,
 		autoScroll: true,
@@ -518,7 +519,5 @@ function reportExcel() {
 		+"&piedoctorname="+piedoctorname+"&parsectioneddoctor="+parsectioneddoctor+"&saminitiallyusername="+saminitiallyusername
 		+"&myzh="+myzh+"&tsrs="+tsrs+"&fzbl="+fzbl+"&blzd="+blzd+"&qcbw="+qcbw;
 }
-
-
 
 
