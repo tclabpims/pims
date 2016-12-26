@@ -314,33 +314,63 @@ function clearData() {
 }
 
 function doctorSign(f) {
+    //0 报告日期 ， 1 初查签名，2 初查取消 3.复核签名 4.复核取消
     var reportTime = $("#samreportedtime").val();
-    if (f == 1 || f == 3 || (f == 0 && reportTime != '')) {
-        $.get("../diagnosis/signdoctor", {}, function (data) {
-            if (f == 1) {
-                $("#saminitiallyusername").val(data.name);
-                $("#saminitiallytime").val(data.time);
-                $("#saminitiallyuserid").val(data.id);
-            } else if (f == 3) {
-                $("#samauditer").val(data.name);
-                $("#samauditedtime").val(data.time);
-                $("#samauditerid").val(data.id);
-            } else {
-                $("#samreportor").val(data.name);
-                $("#samreportorid").val(data.id);
-            }
-        });
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
+    var result = true;
+    if(f == 1 || f == 2){//初查签名,初查取消
+        if($("#saminitiallyuserid").val() != "" && $("#saminitiallyuserid").val() != $("#local_userid").val()){
+            result = false;
+            layer.msg("您无权修改其他医生的初查签名!",{icon:2,time:1000});
+        }else if(rowData.sampathologystatus > 2){
+            result = false;
+            layer.msg("该标本已审核无法修改初查签名!",{icon:2,time:1000});
+        }
+    }else if(f == 3 || f == 4 ){//复核签名，复核取消
+        if($("#samauditer").val() != "" && $("#samauditer").val() != $("#local_userid").val()){
+            result = false;
+            layer.msg("您无权修改其他医生的复核签名!",{icon:2,time:1000});
+        }else if(rowData.sampathologystatus > 3){
+            result = false;
+            layer.msg("该标本已签发或已打印无法修改复核签名!",{icon:2,time:1000});
+        }
     }
+    if($("#binglizhenduan").length > 0 && $("#binglizhenduan").val() == ""){
+        result = false;
+        layer.msg('该标本未填写诊断意见无法初查或复核！', {icon: 2, time: 1000});
+        return;
+    }
+    if(result){
+        if (f == 1 || f == 3 || (f == 0 && reportTime != '')) {
+            $.get("../diagnosis/signdoctor", {}, function (data) {
+                if (f == 1) {
+                    if($("#samauditer").val() != ""){
+                        layer.msg("",{icon:2,time:1000});
+                    }
+                    $("#saminitiallyusername").val(data.name);
+                    $("#saminitiallytime").val(data.time);
+                    $("#saminitiallyuserid").val(data.id);
+                } else if (f == 3) {
+                    $("#samauditer").val(data.name);
+                    $("#samauditedtime").val(data.time);
+                    $("#samauditerid").val(data.id);
+                } else {
+                    $("#samreportor").val(data.name);
+                    $("#samreportorid").val(data.id);
+                }
+            });
+        }
 
-    if (f == 2 || f == 4) {
-        if (f == 2) {
-            $("#saminitiallyusername").val('');
-            $("#saminitiallytime").val('');
-            $("#saminitiallyuserid").val('');
-        } else {
-            $("#samauditer").val('');
-            $("#samauditedtime").val('');
-            $("#samauditerid").val('');
+        if (f == 2 || f == 4) {
+            if (f == 2) {
+                $("#saminitiallyusername").val('');
+                $("#saminitiallytime").val('');
+                $("#saminitiallyuserid").val('');
+            } else {
+                $("#samauditer").val('');
+                $("#samauditedtime").val('');
+                $("#samauditerid").val('');
+            }
         }
     }
 }
@@ -352,6 +382,9 @@ function saveSign() {
         return;
     }else if(rowData.sampathologystatus > 2){
         layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
+        return;
+    }else if($("#binglizhenduan").length > 0 && $("#binglizhenduan").val() == "" && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
+        layer.msg('该标本未填写诊断意见无法初查或复核！', {icon: 2, time: 1000});
         return;
     }else{
         $.post('../diagnosis/saveSign', {
@@ -2179,6 +2212,14 @@ $(function () {
         endDate:new Date(),
         autoclose: true //选择日期后自动关闭
     });
+    $(".form_datetime2").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        todayBtn: 1,
+        startDate:new Date(),
+        autoclose: true //选择日期后自动关闭
+    });
 
     $('#reqDate').datepicker({
         changeMonth: true,
@@ -2188,13 +2229,13 @@ $(function () {
         autoclose: true //选择日期后自动关闭
     });
 
-    $('#delreporttime').datepicker({
-        changeMonth: true,
-        dateFormat: "yy-mm-dd",
-        monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
-        dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
-        autoclose: true //选择日期后自动关闭
-    });
+    // $('#delreporttime').datepicker({
+    //     changeMonth: true,
+    //     dateFormat: "yy-mm-dd",
+    //     monthNamesShort: ['1\u6708', '2\u6708', '3\u6708', '4\u6708', '5\u6708', '6\u6708', '7\u6708', '8\u6708', '9\u6708', '10\u6708', '11\u6708', '12\u6708'],
+    //     dayNamesMin: ['\u65e5', '\u4e00', '\u4e8c', '\u4e09', '\u56db', '\u4e94', '\u516d'],
+    //     autoclose: true //选择日期后自动关闭
+    // });
     //送检医生
     $("#reqDoctor").autocomplete({
         source: function (request, response) {
@@ -2270,3 +2311,71 @@ $(function () {
             .appendTo(ul);
     };
 })
+
+function workdayafter(num) {
+    if(num == 0){
+        var laterdays = $("#deldays").val();//延迟天数
+        var today = new Date(Date.parse(CurentTime1(new Date()).replace(/-/g,'/')));//当前时间
+        var todayweek = today.getDay();//今天周几
+        var sleepday = Math.floor(laterdays/5)*2;//双休天数
+        var yxday = laterdays%5;//额外天数
+        var days = parseInt(laterdays) + parseInt(sleepday);
+        if(yxday == 0 && sleepday > 0){
+            if(todayweek == 0){
+                days = days - 2;
+            }else if(todayweek == 6){
+                days = days - 1;
+            }
+        }else{
+            if(todayweek == 6){
+                days = days + 1;
+            }else if(todayweek + yxday > 5 ){
+                days = days + 2;
+            }
+        }
+        // alert(days);
+        var latertime = new Date(today.getTime() + days*24*60*60*1000);
+        $("#delreporttime").val(CurentTime1(latertime));
+    }else if(num == 1){
+        var latertime = $("#delreporttime").val();
+        var laterday = new Date(Date.parse(latertime.replace(/-/g, '/')));
+        // var today = new Array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
+        // var week = today[laterday.getDay()];
+        // var week = laterday.getDay();
+        // alert(week);
+        var today = new Date(Date.parse(CurentTime1(new Date()).replace(/-/g,'/')));
+        var days = (laterday.getTime() - today.getTime())/24/60/60/1000;
+        var sleepday = Math.floor(days/7)*2;
+        var laterweek = laterday.getDay();
+        var todayweek = today.getDay();
+        if(laterweek < todayweek){
+            if(todayweek == 6){
+                sleepday += 1;
+            }else{
+                sleepday += 2;
+            }
+        }else{
+            if(laterweek == 6){
+                sleepday += 1;
+            }
+        }
+        $("#deldays").val(days-sleepday);
+        // alert(days-sleepday);
+        // alert(days);
+    }
+}
+
+function CurentTime1(now) {
+    //var now = new Date();
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();            //日
+    var clock = year + "-";
+    if (month < 10)
+        clock += "0";
+    clock += month + "-";
+    if (day < 10)
+        clock += "0";
+    clock += day ;
+    return (clock);
+}

@@ -659,14 +659,22 @@ function CreateDataBill(datas) {
 		var data = datas.labOrders[i];
 		// var topheight1 = Math.floor(i/3)*24+ 3;
 		// var topheight2 = Math.floor(i/3)*24+ 8;
-		var leftwidth1 = i%3*26+4;
-		LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","24mm","5mm","树兰(杭州)医院");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		var leftwidth1 = 3;
+		if(i%3 == 1){
+			leftwidth1 = 30;
+		}else if(i%3 == 2){
+			leftwidth1 = 57;
+		}
+		LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","27mm","5mm","浙大国际医院");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
+		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode); slisamplingparts
 		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXTA("nameText","8mm",leftwidth1+"mm","24mm","3mm",data.barcode);
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","24mm","8mm",data.barcode);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.ADD_PRINT_TEXT("16mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
 		if(i%3 == 2 || i == datas.labOrders.length -1){
 			LODOP.PRINT();
 		}

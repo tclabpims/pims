@@ -478,6 +478,7 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
                 org.codehaus.jettison.json.JSONObject object = new org.codehaus.jettison.json.JSONObject();
                 try {
                     object.put("barcode",slide.getSlislidebarcode());
+                    object.put("slisamplingparts",slide.getSlisamplingparts());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

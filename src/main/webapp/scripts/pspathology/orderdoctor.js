@@ -1,3 +1,4 @@
+var STATES = "-1";
 Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份
@@ -219,7 +220,8 @@ function doUpdate(rowData, state) {
     $.get("../order/updateorderstate", {orderState:state, orderId:rowData.orderId}, function(data){
         rowData.chiOrderState = state;
         $("#sectionList").jqGrid("setRowData", crno, rowData);
-        layer.alert("操作成功！");
+        layer.msg("操作成功！",{icon:1,time:1000});
+        query();
         onRowSelect(crno);
     });
 }
@@ -261,7 +263,12 @@ function getSampleData1(id) {
     });
 }
 
+function query() {
+    query(STATES);
+}
+
 function query(state) {
+    STATES = state;
     var specialCheck = $("#q_specialCheck").val();
     var startDate = $("#q_startDate").val();
     var endDate = $("#q_endDate").val();
@@ -512,6 +519,11 @@ function onRowSelect(id) {
         $("#btCancel").removeAttr("disabled");
     } else {
         $("#btCancel").attr("disabled","disabled");
+    }
+    if(state == 2){
+        $("#btReceive").removeAttr("disabled");
+    }else{
+        $("#btReceive").attr("disabled","disabled");
     }
     setcolor(id);
     crno = id;

@@ -233,7 +233,11 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         List list2 = new ArrayList();
         if(sts == 1){//取材
             //更新标本信息
-            updateSampleSts(sample,sts);
+            if(piecesList == null || piecesList.size() == 0){
+                updateSampleSts(sample,0);
+            }else{
+                updateSampleSts(sample,1);
+            }
             for(int i = 0;i<piecesList.size();i++){//取材
                 Map map = (Map) piecesList.get(i);
                 PimsPathologyPieces piece = (PimsPathologyPieces) setBeanProperty(map,PimsPathologyPieces.class);
@@ -268,7 +272,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 list1.add(piece.getPieceid());
             }
             if(state==1){//完全更新才更新的原则
-                if(list2.contains("0")){
+                if(list2 == null || list2.size() ==0 || list2.contains("0")){
                     updateSampleSts(sample,0);
                 }else{
                     updateSampleSts(sample,1);

@@ -78,7 +78,7 @@ function createNew22(brjzxh){
 		height: 500,
 		width: 1000,
 		postData:{"brjzxh":brjzxh},
-		colNames: ['ID','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址'],
+		colNames: ['ID','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址','会诊ID','住院病区ID','住院科室ID'],
 		colModel: [
 			{name:'key_no',index:'key_no'},//ID
 			{name:'patient_id',index:'patient_id'},//住院号
@@ -92,7 +92,10 @@ function createNew22(brjzxh){
 			{name:'lczd',index:'lczd'},//临床诊断
 			{name:'phone_no',hidden:true},//电话
 			{name:'patient_type',hidden:true},//患者类型
-			{name:'patient_address',hidden:true}//联系地址
+			{name:'patient_address',hidden:true},//会诊ID
+			{name:'inpatient_id',hidden:true},//联系地址
+			{name:'patient_ward',hidden:true},//住院病区ID
+			{name:'patient_dept',hidden:true}//住院科室ID
 		],
 		loadComplete : function() {
 			var table = this;

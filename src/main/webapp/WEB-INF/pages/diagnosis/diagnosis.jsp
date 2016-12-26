@@ -150,12 +150,12 @@
     </div>
     <div style="border:0px solid black;width:100%;border-width:0px 0px 1px 0px;"></div>
     <div style="border:0px solid black;width:100%;padding-top:5px;padding-left:10px">
-        <div style="display: inline;float: left">
+        <div style="display: inline;float: left;z-index: 99999999 !important;" >
             患者的病例诊断因：<select onchange="" id="delreasonid">
             <option value="">--请选择--</option>
-            <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("options"))%>
-        </select>延迟<input id="deldays"> 天发送</div>
-        <div style="display: inline;padding-left: 10px">预计报告日期：<input id="delreporttime"></div>
+            <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("logyids"))%>
+        </select>延迟<input id="deldays" onchange="workdayafter(0)"> 工作日发送</div>
+        <div style="display: inline;padding-left: 10px">预计报告日期：<input type="text" class="form_datetime2" id="delreporttime" onchange="workdayafter(1)" ></div>
     </div>
     <div style="border:0px solid black;width:100%;padding-top:5px;padding-left:10px">
         <div style="display: inline;border:0px solid black;width:50%;float: left">初步诊断：<textarea id="deldiagnosis"></textarea></div>
@@ -337,6 +337,7 @@
 
         </div>
     </div>
+
 
     <div id="diagnosis" class="col-xs-6">
         <div class="widget-box widget-color-green ui-sortable-handle">
@@ -694,7 +695,7 @@
                     <div><table id="FZBLItem"></table></div>
             </div>
             <div>
-                <div>报告日期：<input type="text" class="form_datetime1" id="samreportedtime" onchange="doctorSign(0)"
+                <div>报告日期：<input type="text"  id="samreportedtime" onchange="doctorSign(0)" readonly
                                  name="samreportedtime">
                     <button onclick="delayReport()">延迟报告</button>
                 </div>
@@ -920,6 +921,6 @@
             <textarea type="text" cols="40" rows="6" id="favdescription"></textarea>
         </div>
     </div>
-
+</div>
 </body>
 </html>

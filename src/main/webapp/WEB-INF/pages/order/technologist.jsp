@@ -148,7 +148,7 @@
                             <div style="display:inline;"><label>源病理号：</label><input type="text" id="q_pathologyCode"
                                                                                     style="width: 100px;height: 24px;"></div>
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 100px;height: 24px;">
-                                <button onclick="query(-1)" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;"> 查询</button></div>
+                                <button onclick="query()" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;"> 查询</button></div>
                             <div style="display:block;">
                                  <ul class="nav nav-tabs" style="">
                                     <li class="active">

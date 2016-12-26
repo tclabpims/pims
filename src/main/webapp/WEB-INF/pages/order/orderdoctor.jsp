@@ -176,7 +176,7 @@
                             <div style="display:inline;"><label>源病理号：</label><input type="text" id="q_pathologyCode"
                                                                                     style="width:100px;height:24px"></div>
                             <div style="display:inline;"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 100px;height:24px">
-                                <button onclick="query(-1)" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;"> 查询</button></div>
+                                <button onclick="query()" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;"> 查询</button></div>
                             <div style="display:block;">
                                 <ul class="nav nav-tabs">
                                     <li class="active">
@@ -271,8 +271,8 @@
                         </div>
                         <div style="margin-bottom: 10px">
                             <div style="display: inline">绝经：<input type="checkbox"></div>
-                            <div style="display: inline">送检材料：<textarea type="text" id="samsamplename" style="border-width: 0px 0px 1px 0px"disabled></textarea></div>
-                            <div style="display: inline">临床诊断：<textarea type="text" id="sampatientdignoses" style="border-width: 0px 0px 1px 0px"disabled></textarea>
+                            <div style="display: inline">送检材料：<input type="text" id="samsamplename" style="border-width: 0px 0px 1px 0px"disabled></input></div>
+                            <div style="display: inline">临床诊断：<input type="text" id="sampatientdignoses" style="border-width: 0px 0px 1px 0px"disabled></input>
                             </div>
                         </div>
 

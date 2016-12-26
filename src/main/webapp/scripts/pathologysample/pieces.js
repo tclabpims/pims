@@ -268,18 +268,18 @@ function createNew1(reqid,width1){
 			{name:'piesampleid',hidden:true},//客户ID
 			{name:'pieceid',hidden:true},//材块ID
 			{name:'pieunit',hidden:true},//取材单位
-			{ name: 'piepathologycode', index: 'piepathologycode'},//病理号
-			{ name: 'piesamplingno', index: 'piesamplingno'},//取材序号
-			{ name: 'piecounts', index: 'piecounts',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:1,maxValue:100}},//材块数
-			{ name: 'pienullslidenum', index: 'pienullslidenum',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:0,maxValue:100}},//白片数
-			{ name: 'pieparts', index: 'pieparts',editable:true},//取材部位
+			{ name: 'piepathologycode', index: 'piepathologycode',align:"center",width:100},//病理号
+			{ name: 'piesamplingno', index: 'piesamplingno',align:"center",width:70},//取材序号
+			{ name: 'piecounts', index: 'piecounts',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:1,maxValue:100},align:"center",width:70},//材块数
+			{ name: 'pienullslidenum', index: 'pienullslidenum',editable:true,editrules: {edithidden:true,required:true,number:true,minValue:0,maxValue:100},align:"center",width:70},//白片数
+			{ name: 'pieparts', index: 'pieparts',editable:true,align:"center",width:100},//取材部位
 			{ name: 'piedoctorid', hidden:true},//取材医生ID
-			{ name: 'piedoctorname', index: 'piedoctorname'},//取材医生
+			{ name: 'piedoctorname', index: 'piedoctorname',align:"center",width:100},//取材医生
 			{ name: 'pierecorderid', hidden:true},//录入员ID
-			{ name: 'pierecordername', index: 'pierecordername'},//录入员
-			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
-			{ name: 'piespecial', index: 'piespecial',editable:true},//特殊要求
-			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}},//取材状态
+			{ name: 'pierecordername', index: 'pierecordername',align:"center",width:100},//录入员
+			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},align:"center",width:100},//取材时间
+			{ name: 'piespecial', index: 'piespecial',editable:true,align:"center",width:100},//特殊要求
+			{ name: 'piestate', index: 'piestate',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"},align:"center",width:100},//取材状态
 			{name:'piesign',hidden:true},//标记物
 			{name:'pieisdeprivation',hidden:true},//是否脱水
 			{name:'piedeprivationtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//脱水时间
@@ -312,6 +312,8 @@ function createNew1(reqid,width1){
 		viewrecords: true,
 		multiselect: true,
 		cellsubmit: "clientArray",
+		shrinkToFit:false,
+		autoScroll: true,
 		//autowidth: true,
 		//shrinkToFit:false,
 		//autoScroll: true,
@@ -758,9 +760,9 @@ function CreateDataBill(data) {
 		divhtml += "</table>";
 		LODOP = getLodop();
 		LODOP.PRINT_INIT("");
-		LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4") ; //A4纸张纵向打印
+		LODOP.SET_PRINT_PAGESIZE(1, 794, 1123, "A4") ; //A4纸张纵向打印
 		LODOP.SET_PRINT_STYLE("FontSize", 9);
-		LODOP.ADD_PRINT_HTM(10,55,"100%","100%",divhtml);
+		LODOP.ADD_PRINT_HTM(10,55,794,1123,divhtml);
 
 	}
 }
