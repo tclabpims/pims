@@ -844,6 +844,7 @@ function saveResult(n) {
 function getSampleData1(id) {
     $.get("../pathologysample/sample/get", {id: id}, function (data) {
         if (data != "") {
+            var samjjsj = data.samjjsj;
             $("#sampleid").val(data.sampleid);//标本id
             $("#saminspectionid").val(data.saminspectionid);//标本条码号 11
             $("#sampathologycode").val(data.sampathologycode);//病理编号 11
@@ -922,6 +923,9 @@ function getSampleData1(id) {
                             var e = x.elements[i];
                             if ($("#" + e.id).attr("rptItemId")) {
                                 $("#" + e.id).val('');
+                                if(e.placeholder.indexOf("巨检") >= 0){
+                                    $("#" + e.id).val(samjjsj);
+                                }
                                 $("#" + e.id).attr("hiddenValue", "");
                             }
                         }

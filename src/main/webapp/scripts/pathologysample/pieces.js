@@ -376,6 +376,10 @@ function fillInfo(id){
 		//发送数据
 		postData : {"reqId":rowData.sampleid}
 	}).trigger('reloadGrid');//重新载入
+	var ids = $("#new1").jqGrid("getDataIDs");
+	if(ids == null || ids == ""){
+		addRow();
+	}
 	//$('#sampleForm').find('input,textarea,select').attr('disabled',true) ;
 	// $("#editButton").removeAttr("disabled");//将按钮可用
 	// $("#editButton").removeAttr("disabled");//将按钮可用

@@ -263,6 +263,14 @@ function getSampleData(id) {//根据申请单据补充登记单信息
 				$("input[name='samfirstv'][value='2']").prop("checked",true);
 			}
 			$("input[name='samsecondv'][value='1']").prop("checked",true);
+            $.get("../pathologysample/sample/getcode", {"pathologyid":$("#sampathologyid").val()},
+                function(data) {
+                    if(data.success) {
+                        $("#sampathologycode").val(data.maxcode);
+                    } else {
+                    }
+                }
+            );
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -403,10 +411,13 @@ function saveInfo() {
 								if(data.success) {
 									layer.msg(data.message, {icon: 1, time: 1000});
 									location.reload();
+                                    // searchList();
+                                    // addSample();
 								} else {
 									layer.msg(data.message, {icon:2, time: 1000});
 								}
 							});
+                        // addSample();
 					} else {
 						layer.msg(msg, {icon: 2, time: 1000});
 					}
@@ -493,10 +504,12 @@ function saveInfo() {
 					if(data.success) {
 						layer.msg(data.message, {icon: 1, time: 1000});
 						location.reload();
+                        // searchList();
 					} else {
 						layer.msg(data.message, {icon:2, time: 1000});
 					}
 				});
+            // addSample();
 		} else {
 			layer.msg(msg, {icon: 2, time: 1000});
 		}
@@ -511,6 +524,14 @@ function addSample() {
 	addstates = "0";
 	clearData();
 	changeimgclick(1);
+    $.get("../pathologysample/sample/getcode", {"pathologyid":$("#sampathologyid").val()},
+        function(data) {
+            if(data.success) {
+                $("#sampathologycode").val(data.maxcode);
+            } else {
+            }
+        }
+    );
 	$('#sampleForm').find('input,textarea,select').removeAttr('disabled') ;
 	$("#sampathologyid").attr({"disabled":"disabled"});
 	//$("#hisbutton").removeAttr("disabled");//将按钮可用
@@ -549,7 +570,7 @@ function addSample() {
 	$("#samsendtime").val(CurentTime(new Date()));//送检时间
 	$("#samsenddoctorid").val("");//送检医生id
 	$("#samsenddoctorname").val("");//送检医生姓名----
-	$("#samsendhospital").val("");//送检单位名称
+	$("#samsendhospital").val("树兰（杭州）医院");//送检单位名称
 	$("#samsendphone").val("");//送检联系电话
 	$("#samdigcode").val("");//诊疗小组代码
 	$("#samdeptcode").val("");//科室代码
@@ -578,7 +599,7 @@ function addSample() {
 	$("#samcreateuser").val($("#local_userid").val());//创建人
 	$("#samjcxm").val("");//检查项目
 	$("input[name='samfirstv'][value='1']").attr("checked",true);//知情书
-	$("input[name='samsecondv'][value='1']").attr("checked",true);合格状态
+	$("input[name='samsecondv'][value='1']").attr("checked",true);//合格状态
     $("#sampiecedoctorid").val("");//首次取材医师既诊断医师ID
     $("#sampiecedoctorname").val("");//首次取材医师既诊断医师
 }
@@ -654,6 +675,16 @@ function fillval(id,name,anotherid,obj) {
 	$("#"+name).val(string2);
 	if(anotherid != null){
 		$("#"+anotherid).val(string1);
+        if(anotherid == "sampathologyid"){
+            $.get("../pathologysample/sample/getcode", {"pathologyid":$("#sampathologyid").val()},
+                function(data) {
+                    if(data.success) {
+                        $("#sampathologycode").val(data.maxcode);
+                    } else {
+                    }
+                }
+            );
+        }
 	}
 	$("#"+name).focus();
 }
@@ -947,11 +978,12 @@ $(function() {
 			setTimeout(function(){
 				updatePagerIcons(table);
 			}, 0);
-			var ids = $("#new").jqGrid('getDataIDs');
-			if(ids != null && ids != ""){
-			    nowrow = "1";
-				fillInfo1(1);
-			}
+			// var ids = $("#new").jqGrid('getDataIDs');
+			// if(ids != null && ids != ""){
+			//     nowrow = "1";
+			// 	fillInfo1(1);
+			// }
+            addSample();
 			//$("#new").setSelection(1);
 		},
 		gridComplete:function(){

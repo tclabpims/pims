@@ -453,7 +453,7 @@
 
 				</div>
 				<div class="form-group" style="margin-bottom: 5px">
-					<label  class="label_style col-sm-1" for="saminspectionid">条形码:</label>
+					<label  class="label_style col-sm-1">病理编号:</label>
 					<div class="col-sm-3">
 						<input type="hidden" id="sampleid"><!--标本id-->
 						<input type="hidden" id="samcustomerid"/><!--客户id-->
@@ -494,8 +494,8 @@
 						<input type="hidden" id="samregistername"/><!--登记人员姓名-->
 						<input type="hidden" id="sampiecedoctorid"/><!--首次取材医师既诊断医师ID-->
 						<input type="hidden" id="sampiecedoctorname"/><!--首次取材医师既诊断医师-->
-						<input type="text" class="input_style" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}" readonly/>
-					</div>
+                        <input class="input_style" type="text" id="sampathologycode" name="sampathologycode" readonly/>
+                    </div>
 					<label class="label_style col-sm-1">检查项目:</label>
 					<div class="col-sm-3 ">
 						<input type="hidden" id="sampopuser"/><!--标本检查项目id-->
@@ -515,9 +515,9 @@
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px">
-					<label class="label_style col-sm-1" >病理编号:</label>
+					<label class="label_style col-sm-1" >条形码:</label>
 					<div class="col-sm-3">
-						<input class="input_style" type="text" id="sampathologycode" name="sampathologycode" readonly/>
+                        <input type="text" class="input_style" id="saminspectionid" name="saminspectionid" onkeypress="getData(this,event)" value="${saminspectionid}" readonly/>
 					</div>
 					<label class="label_style col-sm-1" >病人姓名:</label>
 					<div class="col-sm-3 ">

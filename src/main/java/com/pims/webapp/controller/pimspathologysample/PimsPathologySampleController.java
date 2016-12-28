@@ -243,6 +243,29 @@ public class PimsPathologySampleController extends PIMSBaseController{
         PrintwriterUtil.print(response, o.toString());
     }
 
+
+    /**
+     * 获取最大单号
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getcode*", method = RequestMethod.GET)
+    public void getMaxCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String pathologyid = request.getParameter("pathologyid");
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PimsPathologySample ppr = new PimsPathologySample();
+        ppr.setSamcustomerid(user.getHospitalId());
+        ppr.setSampathologyid(Long.parseLong(pathologyid));
+        //查询客户病理编号生成规则
+        PimsHospitalPathologyInfo phi = pimsHospitalPathologyInfoManager.gethinfo(ppr);
+        phi = searchCodeValue(phi);
+        JSONObject o = new JSONObject();
+        o.put("success",true);
+        o.put("maxcode",phi.getNumberPrefix()+phi.getNextNumber());
+        PrintwriterUtil.print(response, o.toString());
+    }
+
     /**
      * 保存单据
      * @param request

@@ -225,11 +225,11 @@
                     <!--<i class="ace-icon fa fa-picture-o smaller-60"></i>-->
                     发起会诊
                 </button>
-                <button type="button" class="btn btn-sm btn-warning" title="加入随访病例" onclick="deleteSection()">
+                <button type="button" class="btn btn-sm btn-warning" title="加入随访病例" onclick="addFavorite(1)">
                     <!--<i class="ace-icon fa fa-picture-o smaller-60"></i>-->
                     加入随访病例
                 </button>
-                <button type="button" class="btn btn-sm btn-success" title="加入我的收藏" onclick="addFavorite()">
+                <button type="button" class="btn btn-sm btn-success" title="加入我的收藏" onclick="addFavorite(0)">
                     <!--<i class="ace-icon fa fa-picture-o smaller-60"></i>-->
                     加入我的收藏
                 </button>
