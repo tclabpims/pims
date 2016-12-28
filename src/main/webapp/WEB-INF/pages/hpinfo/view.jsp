@@ -184,6 +184,7 @@
                         <select id="regularExpression">
                             <option value="yyyyMMdd|D3">年月日+3位数字（共11位）</option>
                             <option value="yyyyMMdd|D4">年月日+4位数字（共12位）</option>
+                            <option value="yyyy|D6">年+6位数字（共12位）</option>
                         </select>
                     </div>
                 </div>

@@ -131,7 +131,7 @@ public class HomeController extends PIMSBaseController{
         int nosysdy = pimsPathologySampleManager.getSNum(map);//系统未打印
         map.setReq_sts("5");
         int nosysfs = pimsPathologySampleManager.getSNum(map);//系统未发送
-        map.setReq_sts("2");
+        map.setReq_sts("1");
         int nosyswc = pimsPathologyOrderManager.getOrderNum(map);//系统未完成
         map.setReq_sts("2");
         int nosysqs = pimsPathologyOrderManager.getOrderNum(map);//系统未签收

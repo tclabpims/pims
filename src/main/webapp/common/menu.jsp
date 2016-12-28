@@ -44,6 +44,24 @@
                             } else {
                                 layer.close(index);
                             }
+                        },
+                        end: function (index,layero) {
+                            var pathologyId = $("#pathologyList").val();
+                            var pathologyName = $("#pathologyList").find("option:selected").text();
+                            if (pathologyId == null || jQuery.trim(pathologyId) == "") {
+                                var selectId = document.getElementById("pathologyList");
+                                //获取select下拉框中第一个值
+                                pathologyId = selectId.options[0].value;
+                                //获取select下拉框中第一个文本值
+                                pathologyName = selectId.options[0].text;
+
+                            }
+                            $.post('../hpinfo/userpathology', {
+                                pathologyLibId: pathologyId,
+                                pathologyLib: pathologyName
+                            }, function (data) {
+                                layer.close(index);
+                            });
                         }
                     });
                 }
@@ -114,9 +132,93 @@
             });
         }
     }
+
+    function changePathol(){
+        layer.open({
+            type: 1,
+            area: ['200px', '125px'],
+            fix: false, //不固定
+            maxmin: false,
+            shade: 0.6,
+            title: "选择病种",
+            content: $("#pathologyListContainer"),
+            btn: ["确定"],
+            yes: function (index, layero) {
+                var pathologyId = $("#pathologyList").val();
+                var pathologyName = $("#pathologyList").find("option:selected").text();
+                if (pathologyId != null && jQuery.trim(pathologyId) != "") {
+                    $.post('../hpinfo/userpathology', {
+                        pathologyLibId: pathologyId,
+                        pathologyLib: pathologyName
+                    }, function (data) {
+                        layer.close(index);
+                    });
+                } else {
+                    layer.close(index);
+                }
+            },
+            end: function (index,layero) {
+                var pathologyId = $("#pathologyList").val();
+                var pathologyName = $("#pathologyList").find("option:selected").text();
+                if (pathologyId == null || jQuery.trim(pathologyId) == "") {
+                    var selectId = document.getElementById("pathologyList");
+                    //获取select下拉框中第一个值
+                    pathologyId = selectId.options[0].value;
+                    //获取select下拉框中第一个文本值
+                    pathologyName = selectId.options[0].text;
+
+                }
+                $.post('../hpinfo/userpathology', {
+                    pathologyLibId: pathologyId,
+                    pathologyLib: pathologyName
+                }, function (data) {
+                    layer.close(index);
+                });
+            }
+        });
+
+    }
+
+    var LODOP;
+    function setCookie(name, value) {
+        var Days = 9999;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+    }
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+    function printSetting() {
+        //readPrintFile();
+        if (LODOP.CVERSION) {
+            LODOP.On_Return = function (TaskID, Value) {
+                if (Value >= 0)
+                    setCookie("lis_print", Value);
+                else
+                    alert("选择失败！");
+            };
+            LODOP.SELECT_PRINTER();
+            return;
+        }
+    }
+    function setPrintIndex(){
+        var index = getCookie("lis_print");
+        LODOP = getLodop();
+        LODOP.SET_PRINTER_INDEX(index);
+    }
+
+
+
+
 </script>
 <script type="text/javascript" src="../scripts/message/quick_links.js"></script>
 <script type="text/javascript" src="../scripts/message/common.js"></script>
+<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
 
 <style>
     /*.navbar {
@@ -384,7 +486,7 @@
             background:transparent!important;
         }
         .dropdown.open ul{
-            display:none;
+            /*display:none;*/
         }
         .form-control{
             height:26px!important;
@@ -462,9 +564,9 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #108bd1;text-decoration:none;"><img src="/styles/imagepims/set.png">设置</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">打印机设定</a></li>
-                    <li><a href="#">病种再设定</a></li>
-                    <li><a href="#">修改密码</a></li>
+                    <li><a href="#" onclick="printSetting()">打印机设定</a></li>
+                    <li><a href="#" onclick="changePathol()">病种再设定</a></li>
+                    <li><a href="../userform">修改密码</a></li>
                     <li><a href="#">系统帮助</a></li>
                     <li><a href="#">联系我们</a></li>
                 </ul>

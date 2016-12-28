@@ -54,19 +54,35 @@ function changeimgclick(num) {//1切片 取消包埋
 		if (typeof document.addEventListener == "undefined") {
 			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
 			document.getElementById("saveButton").attachEvent("onclick",saveInfo);
+			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
+			document.getElementById("printslide").detachEvent("onclick",printCode);
 		} else {
 			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
 			document.getElementById("saveButton").addEventListener("click",saveInfo,false);
+			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
+			document.getElementById("printslide").removeEventListener("onclick",printCode,false);
 		}
 		$("#saveButton").css("cursor","pointer");
+		$("#resetbutton").css("cursor","default");
+		$("#printslide").css("cursor","default");
 	}else{
 		SAVENUM = 0;
 		if (typeof document.addEventListener == "undefined") {
 			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
+			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
+			document.getElementById("resetbutton").attachEvent("onclick",saveInfo);
+			document.getElementById("printslide").detachEvent("onclick",printCode);
+			document.getElementById("printslide").attachEvent("onclick",printCode);
 		} else {
 			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
+			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
+			document.getElementById("resetbutton").addEventListener("click",saveInfo,false);
+			document.getElementById("printslide").removeEventListener("click",printCode,false);
+			document.getElementById("printslide").addEventListener("click",printCode,false);
 		}
 		$("#saveButton").css("cursor","default");
+		$("#resetbutton").css("cursor","pointer");
+		$("#printslide").css("cursor","pointer");
 	}
 }
 /**
@@ -215,14 +231,19 @@ var clientHeight= $(window).innerHeight();
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['ID','制片状态', '病理号', '送检医生','送检医院','病人名','客户ID'],
+		colNames: ['ID','制片状态', '病理编号','患者姓名','送检单位','送检科室', '送检医生','接收时间','客户ID'],
 		colModel: [
 			{name:'sampleid',hidden:true},
 			{ name: 'samsamplestatus', hidden: true},
-			{ name: 'sampathologycode', index: 'sampathologycode'},
-			{ name: 'samsenddoctorname', index: 'samsenddoctorname'},
-			{ name: 'samsendhospital', index: 'samsendhospital'},
-			{ name: 'sampatientname', index: 'sampatientname'},
+			{ name: 'sampathologycode', index: 'sampathologycode',align:"center"},
+			{ name: 'sampatientname', index: 'sampatientname',align:"center"},
+			{ name: 'samsendhospital', index: 'samsendhospital',align:"center"},
+			{ name: 'samdeptname', index: 'samdeptname',align:"center"},
+			{ name: 'samsenddoctorname', index: 'samsenddoctorname',align:"center"},
+			{ name: 'samreceivertime', index: 'samreceivertime',align:"center",formatter:function(cellvalue,options,row){
+				if(cellvalue == null || cellvalue == ""){return ""}
+				return CurentTime(new Date(cellvalue))
+			}},
 			{ name: 'samcustomerid', index: 'samcustomerid',hidden:true}
 		],
 		beforeSelectRow: function (rowid, e) {

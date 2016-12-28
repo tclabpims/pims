@@ -24,8 +24,25 @@ function csMarage(states) {
 			}
 		);
 	}else{
-		alert("请选择病理标本再发起抄送!");
-		return;
+		var rowData = $("#sectionList").jqGrid('getRowData', crno);
+		if(rowData == null || rowData ==""){
+			result = false;
+			layer.msg("请选择病理标本再发起抄送!",{icon:2,time:1000});
+			return;
+		}
+		if(rowData.sampathologystatus != 2 && states == 0){//抄送
+			layer.msg("只有初查的标本才允许抄送!",{icon:2,time:1000});
+			result = false;
+			return;
+		}
+		if(rowData.sampathologystatus > 1 && states == 1){//转送
+			layer.msg("只有未初查的标本才循序转送!",{icon:2,time:1000});
+			result = false;
+			return;
+		}
+			arr.push(rowData);
+
+
 	}
 	var states = states;
 	// if(sampleid == null || sampleid == ""){

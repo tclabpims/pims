@@ -437,7 +437,8 @@ function addRow(){
 		piesamplingno: maxId,
 		piecounts: 1,
 		pienullslidenum:0,
-		pieparts:jjinfo,
+		// pieparts:jjinfo,
+		pieparts:"",
 		piedoctorid:$("#doctor_id").val() ,
 		pierecorderid: $("#input_user").val(),
 		piedoctorname:$("#doctor_id").find("option:selected").text(),
@@ -722,20 +723,20 @@ function Setup() {//打印维护
 }
 function CreateDataBill(data) {
 	if(data && data!=null){
-		var divhtml = "<table border=\"1\" style=\"font-size:14px;border-collapse:collapse;border:solid 1px\" bordercolor=\"#000000\">";
+		var divhtml = "<table border=\"1\" style=\"font-size:12px;border-collapse:collapse;border:solid 1px\" bordercolor=\"#000000\">";
 		divhtml +="<tr>" +
-					"<td>病理编号</td>" +
-					"<td>是否全取</td>" +
-					"<td>是否脱钙</td>" +
-					"<td>巨检所见</td>" +
-					"<td>取材序号</td>" +
+					"<td width='100px'>病理编号</td>" +
+					"<td width='70px'>是否全取</td>" +
+					"<td width='70px'>是否脱钙</td>" +
+					"<td width='100px'>巨检所见</td>" +
+					"<td width='50px'>取材序号</td>" +
 					// "<td>材块数</td>" +
-					"<td>白片数</td>" +
-					"<td>取材部位</td>" +
-					"<td>取材医生</td>" +
+					"<td width='50px'>白片数</td>" +
+					"<td width='70px'>取材部位</td>" +
+					"<td width='70px'>取材医生</td>" +
 					// "<td>录入员</td>" +
-					"<td>取材时间</td>" +
-					"<td>特殊要求</td>" +
+					"<td width='100px'>取材时间</td>" +
+					"<td width='70px'>特殊要求</td>" +
 				"</tr>";
 		for(i=0;i<data.labOrders.length;i++){
 			var datas = data.labOrders[i];
@@ -759,10 +760,10 @@ function CreateDataBill(data) {
 		}
 		divhtml += "</table>";
 		LODOP = getLodop();
-		LODOP.PRINT_INIT("");
-		LODOP.SET_PRINT_PAGESIZE(1, 794, 1123, "A4") ; //A4纸张纵向打印
+		LODOP.PRINT_INIT("标本打印");
+		LODOP.SET_PRINT_PAGESIZE(1, "210mm", "297mm", "A4") ; //A4纸张纵向打印
 		LODOP.SET_PRINT_STYLE("FontSize", 9);
-		LODOP.ADD_PRINT_HTM(10,55,794,1123,divhtml);
+		LODOP.ADD_PRINT_HTM("10mm","10mm","210mm","297mm",divhtml);
 
 	}
 }

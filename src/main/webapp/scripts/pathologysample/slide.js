@@ -86,7 +86,7 @@ function saveInfo() {
 				searchList();
 			});
 	}else{
-		layer.confirm('确定取消切片？', {icon: 2, title:'警告'}, function(index){
+		layer.confirm('确定取消制片？', {icon: 2, title:'警告'}, function(index){
 			$.post("../pathologysample/slide/editSample", {
 					states:"1",
 					savenum:num,

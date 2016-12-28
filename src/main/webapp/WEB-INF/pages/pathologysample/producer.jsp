@@ -41,13 +41,21 @@
 			<i class="ace-icon fa fa-arrow-right bigger-110"></i>
 			下一个
 		</botton>
-		<botton  class="div_img btn btn-sm btn-warning" onclick="printCode()">
-			<i class="ace-icon fa fa-print bigger-110"></i>
-			打印
-		</botton>
 		<botton  class="div_img btn btn-sm btn-success" id="saveButton">
 			<i class="ace-icon fa fa-leaf bigger-110"></i>
 			制片
+		</botton>
+		<botton  class="div_img btn btn-sm btn-success" id="resetbutton">
+			<i class="ace-icon fa fa-leaf bigger-110"></i>
+			取消制片
+		</botton>
+		<botton  class="div_img btn btn-sm btn-warning" id="printslide">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			制片打印
+		</botton>
+		<botton  class="div_img btn btn-sm btn-warning" onclick="printList()">
+			<i class="ace-icon fa fa-print bigger-110"></i>
+			列表打印
 		</botton>
 	</div>
 	<div class="row" id="userGrid1" style="display: none;">
@@ -58,19 +66,13 @@
 	</div>
 	<div>
 		<div style="margin-top: 5px">
-			<h5 style="float: left;width: 33%;font-size: 14px;background-color:#82af6f;margin-right:0.8%; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px;margin-top:0px!important;" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
-			<h5 style="float: left;width: 66%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-color:#82af6f;line-height: 38px;text-indent: 20px;margin-top:0px!important;"><strong style="font-weight: nonrmal">制片管理</strong>
+			<h5 style="float: left;width: 50%;font-size: 14px;background-color:#82af6f;margin-right:0.8%; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px;margin-top:0px!important;" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
+			<h5 style="float: left;width: 49%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-color:#82af6f;line-height: 38px;text-indent: 20px;margin-top:0px!important;"><strong style="font-weight: nonrmal">制片管理</strong>
 			</h5>
 		</div>
-		<div class="col-sm-4 leftContent" id="div_2">
+		<div class="col-sm-6 leftContent" id="div_2">
 			<div id="search_div_1" style="background-color: #F9F9F9;height: 121px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
-					<table style="margin-bottom: 5px;">
-						<span class="input_style">&nbsp;病种类别:&nbsp;</span>
-						<select id="logyid" class="input_style">
-							<%out.println((String) request.getAttribute("logyids"));%>
-						</select>
-					</table>
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;登记年月:&nbsp;</span>
 						<input type="hidden" id="req_sts" value="2">
@@ -82,11 +84,17 @@
 						<input type="text" class="form_datetime input_style" value="${receivetime}"  id="req_af_time"/>
 					</table>
 					<table style="margin-bottom: 5px;">
-						<span class="input_style">&nbsp;病理号码:&nbsp;</span>
+						<span class="input_style">&nbsp;病理编号:&nbsp;</span>
 						<input type="text" id="send_dept" class="input_style" value="${code}"/>
 					</table>
 					<table style="margin-bottom: 5px;">
-						<span class="input_style">&nbsp;病人姓名:&nbsp;</span>
+						<span class="input_style">&nbsp;打印状态:&nbsp;</span>
+						<input type="hidden" id="send_hosptail">
+						<input type="checkbox" name="send_hosptail1" value="0">&nbsp;待打印&nbsp;
+						<input type="checkbox" name="send_hosptail2" value="1">&nbsp;已打印&nbsp;
+					</table>
+					<table style="margin-bottom: 5px;">
+						<span class="input_style">&nbsp;患者姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
 						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList()">
 							<span style="color: white;">查询</span>
@@ -112,7 +120,7 @@
 				<div id="pager"></div>
 			</div>
 		</div>
-		<div class="col-sm-8 rightContent" id="formDialog">
+		<div class="col-sm-6 rightContent" id="formDialog">
 			<form class="form-horizontal" action="#" method="post" id="sampleForm" >
 				<div style="background-color: #F9F9F9;height: 235px;border:1px solid #E0E0E0;" id="div_main">
 					<div class="form-group" style="margin-top:10px;margin-bottom: 5px;">

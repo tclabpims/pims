@@ -258,11 +258,11 @@ function getSampleData(id) {//根据申请单据补充登记单信息
 			$("#samthirdv").val(data.reqremark);//手术所见
 			$("#samjcxm").val(data.reqitemnames);//检查项目
 			if(data.reqfirstv == "1"){
-				$("input[name='samfirstv'][value='1']").attr("checked",true);
+				$("input[name='samfirstv'][value='1']").prop("checked",true);
 			}else{
-				$("input[name='samfirstv'][value='2']").attr("checked",true);
+				$("input[name='samfirstv'][value='2']").prop("checked",true);
 			}
-			$("input[name='samsecondv'][value='1']").attr("checked",true);
+			$("input[name='samsecondv'][value='1']").prop("checked",true);
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
@@ -579,6 +579,8 @@ function addSample() {
 	$("#samjcxm").val("");//检查项目
 	$("input[name='samfirstv'][value='1']").attr("checked",true);//知情书
 	$("input[name='samsecondv'][value='1']").attr("checked",true);合格状态
+    $("#sampiecedoctorid").val("");//首次取材医师既诊断医师ID
+    $("#sampiecedoctorname").val("");//首次取材医师既诊断医师
 }
 /**
  *修改标本
@@ -1263,14 +1265,14 @@ function getSampleData1(id) {
 			var samfirstv = data.samfirstv;
 			var samsecondv = data.samsecondv;
 			if(samfirstv == 1){
-				$("input[name='samfirstv'][value='1']").attr("checked",true);
+				$("input[name='samfirstv'][value='1']").prop("checked",true);
 			}else{
-				$("input[name='samfirstv'][value='2']").attr("checked",true);
+				$("input[name='samfirstv'][value='2']").prop("checked",true);
 			}
 			if(samsecondv == 1){
-				$("input[name='samsecondv'][value='1']").attr("checked",true);
+				$("input[name='samsecondv'][value='1']").prop("checked",true);
 			}else{
-				$("input[name='samsecondv'][value='2']").attr("checked",true);
+				$("input[name='samsecondv'][value='2']").prop("checked",true);
 			}
 			$("#sampiecedoctorid").val(data.sampiecedoctorid);//首次取材医师既诊断医师ID
 			$("#sampiecedoctorname").val(data.sampiecedoctorname);//首次取材医师既诊断医师
@@ -1683,6 +1685,7 @@ function CreateDataBill(data) {
 		}
 		LODOP = getLodop();
 		LODOP.PRINT_INIT("");
+		setPrintIndex();
 		LODOP.SET_PRINT_PAGESIZE(0,520,400,"A4");
 		// LODOP.ADD_PRINT_IMAGE(10,10,80,80,"<img src='../images/shulan.png' style='width:80px;'/>");
         LODOP.ADD_PRINT_TEXT("1mm","1mm","100mm","5mm","病理编号:" + data.sampathologycode);

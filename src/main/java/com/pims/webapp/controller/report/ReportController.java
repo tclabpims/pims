@@ -97,7 +97,7 @@ public class ReportController extends PIMSBaseController{
                 String[] st = {"sampleid","saminspectionid","sampathologyid","sampathologycode","sampatientname","sampatientage","sampatientnumber",
                         "sampatientbed","sampatientsex","samsamplestatus","samsendtime","saminitiallytime","samsenddoctorname","samdeptname",
                         "samsendhospital","piedoctorname","parsectioneddoctor","saminitiallyusername","restestresult","myzhnum","tsrsnum","fzblnum"};
-                for(int i=0;i<pd.length;i++){
+                for(int i=0;i<st.length;i++){
                     Object o = pd[i];
                     map.put(st[i],o);
                 }
@@ -127,7 +127,7 @@ public class ReportController extends PIMSBaseController{
                 String[] st = {"sampleid","saminspectionid","sampathologyid","sampathologycode","sampatientname","sampatientage","sampatientnumber",
                         "sampatientbed","sampatientsex","samsamplestatus","samsendtime","saminitiallytime","samsenddoctorname","samdeptname",
                         "samsendhospital","piedoctorname","parsectioneddoctor","saminitiallyusername","restestresult","myzhnum","tsrsnum","fzblnum"};
-                for(int i=0;i<pd.length;i++){
+                for(int i=0;i<st.length;i++){
                     Object o = pd[i];
                     if(o != null){
                         String propertyTypeName = o.getClass().getName();
@@ -331,7 +331,7 @@ public class ReportController extends PIMSBaseController{
                 String[] st = {"sampleid","sampathologyid","sampathologycode","sampatientname","sampatientage","sampatientsex","samsendtime",
                         "delreporttime","deldoctor","delreason","samsamplestatus","samdeptname","samsenddoctorname","samsendhospital",
                         "deldiagnosis","restestresult","delcreatetime","deldays"};
-                for(int i=0;i<pd.length;i++){
+                for(int i=0;i<st.length;i++){
                     Object o = pd[i];
                     map.put(st[i],o);
                 }

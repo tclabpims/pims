@@ -195,7 +195,7 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
             for(Object bean:list){
                 Map<String, Object> map1 = new HashMap<String, Object>();
                 Object[] pd = (Object[]) bean;
-                for(int i=0;i<pd.length;i++){
+                for(int i=0;i<st.length;i++){
                     Object o = pd[i];
                     map1.put(st[i],o);
                 }
