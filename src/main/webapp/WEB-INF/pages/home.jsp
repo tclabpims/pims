@@ -24,6 +24,9 @@
     .label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
     .input_style{height: 24px;font-size: 12px!important;}
     /*.a_style{color: #323232;cursor:pointer;border-bottom: 4px solid #0FCFA0;text-decoration: none;outline:none;}*/
+    .ui-jqgrid .ui-jqgrid-bdiv{
+        border-top:0!important;
+    }
 </style>
 </head>
 <body class="home"  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -117,7 +120,7 @@
         </ul>
     </div>
     <div class="row" id="show_div_1_1" style="display: none">
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new1" class="table">
@@ -128,7 +131,7 @@
         </div>
     </div>
     <div class="row" id="show_div_1_2" style="display: none">
-        <div>
+        <div  style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new2_1" class="table">
@@ -161,7 +164,7 @@
             </div>
 
         </div>
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new2" class="table">
@@ -193,7 +196,7 @@
             </div>
 
         </div>
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new3" class="table">
@@ -204,7 +207,7 @@
         </div>
     </div>
     <div class="row" id="show_div_4" style="display: none">
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new4" class="table">
@@ -215,7 +218,7 @@
         </div>
     </div>
     <div class="row" id="show_div_5" style="display: none">
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new5" class="table">
@@ -248,7 +251,7 @@
             </div>
 
         </div>
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new6" class="table">
@@ -274,7 +277,7 @@
             </div>
 
         </div>
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="new7" class="table">
@@ -352,7 +355,7 @@
         </ul>
     </div>
     <div class="row" id="sys_0" style="display: none">
-        <div>
+        <div style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="sysnew0" class="table">
@@ -363,7 +366,7 @@
         </div>
     </div>
     <div class="row" id="sys_1" style="display: none">
-        <div>
+        <div  style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="sysnew1" class="table">
@@ -374,7 +377,7 @@
         </div>
     </div>
     <div class="row" id="sys_2" style="display: none">
-        <div>
+        <div  style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="sysnew2" class="table">
@@ -385,7 +388,7 @@
         </div>
     </div>
     <div class="row" id="sys_3" style="display: none">
-        <div>
+        <div  style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="sysnew3" class="table">
@@ -396,7 +399,7 @@
         </div>
     </div>
     <div class="row" id="sys_4" style="display: none">
-        <div>
+        <div  style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="sysnew4" class="table">
@@ -407,7 +410,7 @@
         </div>
     </div>
     <div class="row" id="sys_5" style="display: none">
-        <div>
+        <div  style="margin-left: 12px">
             <div class="widget-body" style="overflow:auto;">
                 <div class="widget-main no-padding">
                     <table id="sysnew5" class="table">

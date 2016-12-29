@@ -553,7 +553,7 @@
         </select>
     </div>
 </div>
-<div style="width:100%;float:left;height: 30px;background-color: #ffffff">
+<div style="width:100%;float:left;height: 30px;background-color: #ffffff;padding-top:10px">
     <div style="float:left;padding-left: 15px;font-size:14px;color: #808080" id="navigationBar"></div>
     <div style="float:right;padding-right:15px;font-size:14px;">
         <a  id="span_id1" href="/home" style="background-color: #0fcfa0;border-radius:2.7rem;float:left;margin-top: 2px;text-decoration:none;" onmouseover="spanfcus()" onmouseleave="spanblur()">&nbsp;

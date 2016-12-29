@@ -954,10 +954,10 @@ $(function() {
 		colNames: ['ID', '病理编号','患者姓名','送检单位','送检科室', '送检医生','申请时间','合格状态','病理状态','性别','年龄','年龄类型','临床诊断','送检时间','登记时间'],
 		colModel: [
 			{name:'sampleid',hidden:true},
-			{ name: 'sampathologycode', index: 'sampathologycode',width:'100px', align: "center"},
+			{ name: 'sampathologycode', index: 'sampathologycode',width:'120px', align: "center"},
 			{ name: 'sampatientname', index: 'sampatientname',width:'100px', align: "center"},
-			{ name: 'samsendhospital', index: 'samsendhospital',width:'100px', align: "center"},
-			{ name: 'samdeptname', index: 'samdeptname',width:'100px', align: "center"},
+			{ name: 'samsendhospital', index: 'samsendhospital',width:'150px', align: "center"},
+			{ name: 'samdeptname', index: 'samdeptname',width:'130px', align: "center"},
 			{ name: 'samsenddoctorname', index: 'samsenddoctorname',width:'100px', align: "center"},
 			{name:'samreqtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
 			{ name: 'samsecondv', index: 'samsecondv',width:'100px', align: "center",formatter:"select",editoptions:{value:"1:合格;2:不合格"}},

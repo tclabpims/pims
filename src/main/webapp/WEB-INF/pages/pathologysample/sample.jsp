@@ -34,6 +34,27 @@
 		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
 		.btn-sm{padding:0 9px!important}
 		tr button{background:#e9e9e9!important;padding:0 10px;border:1px solid #c2c2c2!important;}
+		#cb_new{
+			margin-left:3px;
+		}
+		#jqgh_new_cb{
+			padding-bottom:30px;
+		}
+		.ui-jqgrid-view{
+			width:99%!important;
+			overflow: hidden;
+			boeder-right:1px solid #000;
+		}
+		#pager{
+			width: 99%!important;
+		}
+		.ui-jqgrid .ui-jqgrid-bdiv{
+			border-top:0!important;
+		}
+		.ui-widget-content{
+			border-right: 1px solid #E0E0E0;
+			margin-right:1px;
+		}
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -329,8 +350,8 @@
 		</div>
 	</div>
 	<div id="h5_1">
-		<h5 style="float: left;width: 33%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:15px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;已登记标本一览</strong></h5>
-        <h5  style="float: left;width: 67%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;标本登记</strong></h5>
+		<h5 style="float: left;width: 33%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:6px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;已登记标本一览</strong></h5>
+        <h5  style="float: left;width: 67%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;padding-left:4px"><strong>&nbsp;&nbsp;标本登记</strong></h5>
 	</div>
 	<ul id="tabss" class="nav nav-tabs">
 		<li class="active">
@@ -345,7 +366,7 @@
 		</li>
 	</ul>
 	<div id="div_main">
-		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;">
+		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;margin-left:-5px">
 			<div id = "search_div_1" style="background-color: #F9F9F9;height: 200px;border:1px solid #E0E0E0;">
 				<div style="margin-top: 10px">
 					<table style="margin-bottom: 5px;">
@@ -438,7 +459,7 @@
 				</div>
 			</table>
 		</div>
-		<div id="formDialog" style="float: right;margin-top: 0px" class="col-sm-8 rightContent" >
+		<div id="formDialog" style="float: right;margin-top: 0px;padding-right: 15px" class="col-sm-8 rightContent" >
 			<form class="form-horizontal" style="background-color: #F9F9F9;height: 354px;border:1px solid #E0E0E0;"
 				  action="#" method="post" id="sampleForm"  onkeypress="JavaScript:return NoSubmit(event);">
 				<button type="submit"id="saveButton1" style="display:none;">保存</button>
