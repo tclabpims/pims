@@ -149,7 +149,11 @@ $(function() {
 	// $("#resetbutton").attr({"disabled":true});
 	changeimgclick(1);
 	var clientHeight= $(window).innerHeight();
-	var height = $("#formDialog").height() - $('#search_div_1').height()+405;
+//	var height = $("#formDialog").height() - $('#search_div_1').height()+405;
+    height = clientHeight- $("#div_1").height()-$("tabss").height()-$("#head").height() - $('#search_div_1').height()-24-35-42-50;
+	if(height < 340){
+        height = 340;
+    }
 	var width = $('#search_div_1').width()-5;
 	var width1 = $("#sampleForm").width()-5;
 
@@ -264,11 +268,16 @@ $(function() {
  * @param reqid
  */
 function createNew1(reqid,width1){
+    var clientHeight= $("html").innerHeight();
+    height1 = height+$("#search_div_1").height()+35+$("#tabss").height()+24-206-51;
+  	if(height1 < 340){
+        height1 = 340;
+    }
 	$("#new1").jqGrid({
 		url:"../pathologysample/slide/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
-		height: 200,
+		height: height1,
 		width:width1,
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','蜡块ID','材块编号','玻片类型','玻片序号','取材医生','取材时间','包埋医生', '包埋时间','切片医生', '切片时间','切片状态','印刷状态','分类', '特检项目',

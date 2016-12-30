@@ -342,9 +342,19 @@ $(function () {
     $(window).on('resize.jqGrid', function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
-    var clientHeight = $(window).innerHeight();
-    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
-
+//    var clientHeight = $(window).innerHeight();
+//    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
+           var height =$("#diagnosis").height()  - $(".widget-box.widget-color-green.ui-sortable-handle").height()-41-35;
+           if(height < 340){
+               height = 340;
+           }
+        $("body").click(function(){
+            height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
+            $("#sectionList").setGridHeight(height);
+            if(height < 340){
+                height = 340;
+            }
+         })
     $("#sectionList").jqGrid({
         caption: "",
         url: "../order/getorders?ingore=BUQU",

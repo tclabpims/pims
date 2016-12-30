@@ -1800,7 +1800,12 @@ $(function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
     var clientHeight = $(window).innerHeight();
-    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
+//    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
+        var height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41+65;
+        $("body").click(function(){
+           height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
+           $("#sectionList").setGridHeight(height);
+        })
 
     var sampathologyid = $("#sampathologyid").val();
     var samplesectionfrom = $("#samplesectionfrom").val();

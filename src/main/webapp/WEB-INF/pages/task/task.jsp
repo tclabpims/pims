@@ -57,7 +57,7 @@
 				<input type="text" class="input_style form_datetime" value="${receivetime}"  id="req_af_time"/>
 				<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<span>
-					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
+					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #4190f7;padding:0 16px;float: right" onclick="searchList()">
 						<span style="color: white;">查询</span>
 					</button>
 				</span>

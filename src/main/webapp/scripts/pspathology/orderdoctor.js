@@ -542,10 +542,20 @@ $(function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
     var clientHeight = $(window).innerHeight();
-    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150 - $('#yizhuleixin').height();
-    	if(height < 340){
-    	    height = 340;
-    	}
+//    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150 - $('#yizhuleixin').height();
+     var height =$("#diagnosis").height()  - $(".widget-box.widget-color-green.ui-sortable-handle").height()-41-35-250;
+     if(height < 340){
+         height = 340;
+     }
+      $("body").click(function(){
+         setTimeout(function(){
+            height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
+            $("#sectionList").setGridHeight(height);
+         },400);
+         if(height < 340){
+             height = 340;
+         }
+      })
     $("#sectionList").jqGrid({
         caption: "",
         url: "../order/getorders",

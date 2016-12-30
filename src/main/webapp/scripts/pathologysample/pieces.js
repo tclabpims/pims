@@ -138,7 +138,10 @@ $(function() {
 		}
 	}
 var clientHeight= $(window).innerHeight();
-	var height = $("#formDialog").height() - $('#search_div_1').height()+70;
+	var height = $("#formDialog").height() - $('#search_div_1').height()+70-35;
+	if(height < 340){
+        height = 340;
+    }
 	var width = $('#search_div_1').width()-5;
 	var width1 = $("#div_main").width();
 
@@ -201,7 +204,7 @@ var clientHeight= $(window).innerHeight();
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:400,
+		height:height,
 		width: width,
 		shrinkToFit:false,
 		autoScroll: true,

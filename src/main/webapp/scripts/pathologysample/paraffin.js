@@ -119,7 +119,10 @@ $(function() {
 	//$("#resetbutton").attr({"disabled":true});
 	changeimgclick(1);
 	var clientHeight= $(window).innerHeight();
-	var height = $("#formDialog").height() - $('#search_div_1').height()+120;
+	var height =clientHeight- $("#div_1").height()-50-$("#head").height() - $('#search_div_1').height()-55-35;
+	if(height < 340){
+        height = 340;
+    }
 	var width = $('#search_div_1').width()-5;
 	var width1 = $("#sampleForm").width()-5;
 
@@ -212,11 +215,13 @@ $(function() {
  * @param reqid
  */
 function createNew1(reqid,width1){
+    var clientHeight=$("html").innerHeight();
+    var height =clientHeight- $("#div_1").height()-50-$("#head").height() - 210-56;
 	$("#new1").jqGrid({
 		url:"../pathologysample/pieces/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
-		height: 170,
+		height:height,
 		width:width1,
 		postData:{"reqId":reqid},
 		colNames: ['样本ID','材块ID','蜡块ID','病理编号','蜡块名称','蜡块序号','蜡块标签','蜡块条码号','材块编号','材块数','白片数', '取材部位',
