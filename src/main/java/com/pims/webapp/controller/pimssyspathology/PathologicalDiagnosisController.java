@@ -175,87 +175,104 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @ResponseBody
     public Map<String, String> printReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
+        String writerString = getReportHtml(request);
+        String rootDir = request.getSession().getServletContext().getRealPath("/pdf");
+        String fileName = sampleId + ".html";
+        String outputFile = rootDir + File.separator + fileName;
+//        generateHtml(outputFile, writer.toString());
+        generateHtml(outputFile, writerString);
+        response.setContentType(super.contentType);
+        Map<String, String> map = new HashMap<>();
+        map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
+//            GenericPdfUtil.html2Pdf(sampleId+".pdf",writer.toString());
+        return map;
+    }
+
+    /**
+     * 创建静态页
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private String getReportHtml(HttpServletRequest request) throws Exception{
+        Long sampleId = Long.valueOf(request.getParameter("sampleid"));
         PimsPathologyReportPdf pprpdf = pimsPathologyReportPdfManager.getPdfBySampleId(sampleId);
 //        if(pprpdf == null){
-            String picNum = request.getParameter("picNum");
-            Long pictureClass = Long.valueOf(request.getParameter("picpictureclass"));
-            int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
-            String templateUrl = request.getParameter("templateUrl");
-            int operateType = Integer.valueOf(request.getParameter("type"));
-            String pclass = request.getParameter("patClass");
-            int patClass = pclass == null?0:Integer.valueOf(pclass);
-            PimsPathologySample pimsPathologySample = pimsPathologySampleManager.get(sampleId);
-            PimsSysPathology pathology = pimsSysPathologyManager.get(pimsPathologySample.getSampathologyid());
-            List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
-            PimsSampleResult result = null;
-            Map<String, String> resultMap = null;
-            VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
-            if (picNumInt > pictures.size()) picNumInt = pictures.size();
-            if(patClass == 2) {
-                resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
-                context.put("diagnosisResult", resultMap.get("diagnosisResult"));
-                context.put("advice", resultMap.get("advice"));
-                context.put("dnaResult", resultMap.get("dnaResult"));
-                context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
-                context.put("degree", resultMap.get("degree"));
-            } else if(patClass == 7) {
-                resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
-                context.put("sampleAmount", resultMap.get("sampleAmount"));
-                context.put("hpvResult", resultMap.get("hpvResult"));
-                context.put("diagnosisResult", resultMap.get("diagnosisResult"));
-            }
-            else {
-                result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
-                context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
-            }
-            context.put("picNum", picNumInt);
-//            context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
-            context.put("hospitalLogo", "data:image/png" + ";base64," + getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));//医院logo
-
-            if (picNumInt > 0) {
-                Map<String, String> map1 = new HashMap<>();
-                for (int i = 0; i < picNumInt; i++) {
-                    PimsPathologyPictures pic = pictures.get(i);
-                    String realPath = pic.getPicsavepath();
-                    if (realPath != null && realPath.length() > 0) {
-                        realPath = realPath.substring(realPath.indexOf("\\images"));
-                        realPath = realPath.replaceAll("\\\\", "/");
-                        if(picNumInt == 1) {
-                            context.put("imgsrc", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
-                        }
-                        else
-                            map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
-                    }
-                }
-                context.put("multiSrc", map1);
-            }
-
-            VelocityEngine engine = new VelocityEngine();
-            engine.setProperty(Velocity.RESOURCE_LOADER, "class");
-            engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-            engine.init();
-
-            Template template = engine.getTemplate(templateUrl, "UTF-8");
-            StringWriter writer = new StringWriter();
-            template.merge(context, writer);
-
-            String rootDir = request.getSession().getServletContext().getRealPath("/pdf");
-            String fileName = sampleId + ".html";
-            String outputFile = rootDir + File.separator + fileName;
-            generateHtml(outputFile, writer.toString());
-
-            response.setContentType(super.contentType);
-
-            Map<String, String> map = new HashMap<>();
-            map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
-//            GenericPdfUtil.html2Pdf(sampleId+".pdf",writer.toString());
-            return map;
-//        }else{
-//            Map<String, String> map = new HashMap<>();
-//            map.put("url", Config.getString("pdf.path","E:\\pims\\pdf") + File.separator + pprpdf.getPdfsampleid()+".pdf");
-//            return map;
-//        }
+        String picNum = request.getParameter("picNum");
+        Long pictureClass = Long.valueOf(request.getParameter("picpictureclass"));
+        int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
+        String templateUrl = request.getParameter("templateUrl");
+        int operateType = Integer.valueOf(request.getParameter("type"));
+        String pclass = request.getParameter("patClass");
+        int patClass = pclass == null?0:Integer.valueOf(pclass);
+        PimsPathologySample pimsPathologySample = pimsPathologySampleManager.get(sampleId);
+        PimsSysPathology pathology = pimsSysPathologyManager.get(pimsPathologySample.getSampathologyid());
+        List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
+        PimsSampleResult result = null;
+        Map<String, String> resultMap = null;
+        VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
+        if (picNumInt > pictures.size()) picNumInt = pictures.size();
+        if(patClass == 2) {
+            resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+            context.put("advice", resultMap.get("advice"));
+            context.put("dnaResult", resultMap.get("dnaResult"));
+            context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
+            context.put("degree", resultMap.get("degree"));
+        } else if(patClass == 7) {
+            resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
+            context.put("sampleAmount", resultMap.get("sampleAmount"));
+            context.put("hpvResult", resultMap.get("hpvResult"));
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
         }
+        else {
+            result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
+            context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
+        }
+        context.put("picNum", picNumInt);
+//            context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
+        context.put("hospitalLogo", "data:image/png" + ";base64," + getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));//医院logo
+
+        if (picNumInt > 0) {
+            Map<String, String> map1 = new HashMap<>();
+            for (int i = 0; i < picNumInt; i++) {
+                PimsPathologyPictures pic = pictures.get(i);
+                String realPath = pic.getPicsavepath();
+                if (realPath != null && realPath.length() > 0) {
+                    realPath = realPath.substring(realPath.indexOf("\\images"));
+                    realPath = realPath.replaceAll("\\\\", "/");
+                    if(picNumInt == 1) {
+                        context.put("imgsrc", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                    }
+                    else
+                        map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                }
+            }
+            context.put("multiSrc", map1);
+        }
+
+        VelocityEngine engine = new VelocityEngine();
+        engine.setProperty(Velocity.RESOURCE_LOADER, "class");
+        engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        engine.init();
+
+        Template template = engine.getTemplate(templateUrl, "UTF-8");
+        StringWriter writer = new StringWriter();
+        template.merge(context, writer);
+
+        return writer.toString();
+    }
+
+    /**
+     * 创建报告单PDF
+     * @return
+     * @throws Exception
+     */
+    public void createReportPdf(HttpServletRequest request) throws Exception {
+        String html = getReportHtml(request);
+        Long sampleId = Long.valueOf(request.getParameter("sampleid"));
+        GenericPdfUtil.html2Pdf(sampleId+".pdf",html);
+    }
 
     private String getHospitalLogo(HttpServletRequest request, Long hospitalId) throws  Exception{
         Hospital hospital = hospitalManager.get(hospitalId);

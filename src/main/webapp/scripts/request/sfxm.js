@@ -52,7 +52,7 @@ $(function(){
 		altRows:true,
 		height: "100%",
 		rowNum: 20,
-		rowList:[10,20,30],
+		rowList:[10,20,30,40,50],
 		rownumbers: true, // 显示行号
 		rownumWidth: 35, // the width of the row numbers columns
 		pager: "#pager"

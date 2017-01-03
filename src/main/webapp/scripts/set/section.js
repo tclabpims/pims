@@ -195,7 +195,7 @@ $(function(){
 		altRows:true,
 		height: height,
 		rowNum: 10,
-		rowList:[10,20,30],
+		rowList:[10,20,30,40,50],
 		rownumbers: true, // 显示行号
 		rownumWidth: 35, // the width of the row numbers columns
 		pager: "#pager",
@@ -230,7 +230,7 @@ $(function(){
         shrinkToFit:false,
         scrollOffset:2,
         rowNum: 10,
-        rowList:[10,20,40],
+        rowList:[10,20,30,40,50],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // the width of the row numbers columns
         pager: "#rightPager",//分页控件的id

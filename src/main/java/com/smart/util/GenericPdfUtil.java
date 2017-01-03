@@ -23,7 +23,7 @@ public final class GenericPdfUtil {
     public static synchronized void html2Pdf(String fileName, String html){
         File pdfFile = new File(Config.getString("pdf.path","E:\\pims\\pdf")+ File.separator +fileName);
         System.out.println(html);
-        StringReader strReader = new StringReader(html);
+            StringReader strReader = new StringReader(html);
         try {
             FileOutputStream fos = new FileOutputStream(pdfFile);
             PD4ML pd4ml = new PD4ML();
