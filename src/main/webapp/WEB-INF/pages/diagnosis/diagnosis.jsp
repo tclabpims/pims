@@ -287,50 +287,6 @@
                                     </div>
                                 </div>
                             </div>
-<<<<<<< HEAD
-=======
-                            <div style="display:inline;">
-                                  <ul class="nav nav-tabs">
-                                        <li class="active">
-                                            <a href="#" onclick="queryList1('${local_userid}','')" data-toggle="tab">个人</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="queryList1('','')" data-toggle="tab">全部</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="queryList1('','0')" data-toggle="tab">已发抄送</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="queryList1('','1')" data-toggle="tab">待收抄送<span id="noreceiveid" style="color: red"></span></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="queryList1('','2')" data-toggle="tab">待审抄送<span id="noauditid" style="color: red"></span></a>
-                                        </li>
-
-                                      <%--<li>--%>
-                                          <%--<a href="#" onclick="query()" data-toggle="tab">全部</a>--%>
-                                      <%--</li>--%>
-                                      <%--<li>--%>
-                                          <%--<a href="#" onclick="queryList(0)" data-toggle="tab">已发抄送</a>--%>
-                                      <%--</li>--%>
-                                      <%--<li>--%>
-                                          <%--<a href="#" onclick="queryList(1)" data-toggle="tab">待收抄送</a>--%>
-                                      <%--</li>--%>
-                                      <%--<li>--%>
-                                          <%--<a href="#" onclick="queryList(2)" data-toggle="tab">待审抄送</a>--%>
-                                      <%--</li>--%>
-                                    </ul>
-                                <!--<div style="display:inline;padding-right: 5px">
-                                    <a href="#">个人</a>
-                                </div>
-                                <div style="display:inline;padding-right: 5px">
-                                    <a href="#">全部</a>
-                                </div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="queryList(0)">已发抄送</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="queryList(1)">待收抄送</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="queryList(2)">待审抄送</a></div>-->
-                            </div>
->>>>>>> origin/master
                         </div>
                     </div>
                 </div>
@@ -418,16 +374,10 @@
                             <input type="hidden" id="sampleid"/>
                             <input type="hidden" id="customerId"/>
                             <input type="hidden" id="pathologyCode"/>
-<<<<<<< HEAD
-                            <div style="display: inline-block;width:33%"><label style="width:35% ; text-align: right;font-size: 12px">条形码：</label><input type="text"
-                                                                    style="width:65%;height: 24px"
-=======
                             <input type="hidden" id="sampathologyid1"/>
 
-                            <div style="display: inline">条形码：<input type="text"
-                                                                    style="width:120px;border-width: 0px 0px 1px 0px"
->>>>>>> origin/master
-                                                                    id="saminspectionid"></div>
+                            <div style="display: inline-block;width:33%"><label style="width:35% ; text-align: right;font-size: 12px">条形码：</label><input type="text"
+                                                                                                                                                         style="width:65%;height: 24px" id="saminspectionid"></div>
                             <div style="display: inline-block;width:33%"><label style="width:35%; text-align: right;font-size: 12px">年龄：</label><input type="text"
                                                                    style="width:65%;height: 24px"
                                                                    id="sampatientage"></div>

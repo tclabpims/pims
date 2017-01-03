@@ -579,7 +579,7 @@
         <a href="/logout" style="text-decoration:none;color:#108bd1;"><img src="/styles/imagepims/lgout.png">退出</a>
     </div>
 </div>
-<<<<<<< HEAD
+
 <script>
 function showandhiden(obj) {
 if($(obj).children("i").attr("class").indexOf("fa-chevron-up") >=0){
@@ -601,5 +601,5 @@ $(function(){
 		        }
 		    });
 	})
->>>>>>> origin/master
+
 </script>
