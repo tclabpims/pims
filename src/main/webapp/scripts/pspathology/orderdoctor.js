@@ -91,8 +91,18 @@ function getOrderInfo(orderId, orderType) {
             jQuery("#checkItemList")[0].addJSONData(checkItems);
 
             jQuery("#childChargeList").jqGrid("clearGridData");
+            for(var i=0;i<childChargeJson.length;i++){
+                var datarowsss = {
+                    hisChargeName:childChargeJson[i].feehisname,
+                    hisPrice:childChargeJson[i].feehisprice,
+                    hisPrice:childChargeJson[i].feehisprice,
+                    num:childChargeJson[i].feeamount
+                };
+                $("#childChargeList").jqGrid("addRowData", i+1, datarowsss, "last");
+            }
 
-            jQuery("#childChargeList")[0].addJSONData(childChargeJson);
+            // jQuery("#childChargeList")[0].addJSONData(childChargeJson);
+
 
             var itemCal = "申请数量：" + checkChargeJson.reqItem + ",应收费用：￥" + checkChargeJson.totalMoney;
             $("#itemCal").html(itemCal);
@@ -542,10 +552,20 @@ $(function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
     var clientHeight = $(window).innerHeight();
-    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150 - $('#yizhuleixin').height();
-    	if(height < 340){
-    	    height = 340;
-    	}
+//    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150 - $('#yizhuleixin').height();
+     var height =$("#diagnosis").height()  - $(".widget-box.widget-color-green.ui-sortable-handle").height()-41-35-250;
+     if(height < 340){
+         height = 340;
+     }
+      $("body").click(function(){
+         setTimeout(function(){
+            height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
+            $("#sectionList").setGridHeight(height);
+         },400);
+         if(height < 340){
+             height = 340;
+         }
+      })
     $("#sectionList").jqGrid({
         caption: "",
         url: "../order/getorders",
@@ -569,10 +589,10 @@ $(function () {
             {
                 name: 'chiOrderType',
                 index: 'chiOrderType',
-                width: 30
+                width: 30,align:"center"
             },
-            {name: 'orderCode', index: 'orderCode', width: 40},
-            {name: 'ordOrderUser', index: 'ordOrderUser', width: 40},
+            {name: 'orderCode', index: 'orderCode', width: 40,align:"center"},
+            {name: 'ordOrderUser', index: 'ordOrderUser', width: 40,align:"center"},
             {name: 'orderId', index: 'orderId', hidden: true},
             {name: 'ordSampleId', index: 'ordSampleId', hidden: true},
             {name: 'ordCustomerId', index: 'ordCustomerId', hidden: true},

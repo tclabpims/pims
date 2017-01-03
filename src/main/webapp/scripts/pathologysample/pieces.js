@@ -138,7 +138,10 @@ $(function() {
 		}
 	}
 var clientHeight= $(window).innerHeight();
-	var height = $("#formDialog").height() - $('#search_div_1').height()+70;
+	var height = $("#formDialog").height() - $('#search_div_1').height()+70-35;
+	if(height < 340){
+        height = 340;
+    }
 	var width = $('#search_div_1').width()-5;
 	var width1 = $("#div_main").width();
 
@@ -165,15 +168,16 @@ var clientHeight= $(window).innerHeight();
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['ID','取材状态', '病理号', '送检医生','送检医院','病人名','补取医嘱','客户ID'],
+		colNames: ['ID','取材状态', '病理号','患者姓名', '送检医生','送检医院','补取医嘱','客户ID'],
 		colModel: [
 			{name:'sampleid',hidden:true},
-			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中:8:报告已打印"}},
-			{ name: 'sampathologycode', index: 'sampathologycode'},
-			{ name: 'samsenddoctorname', index: 'samsenddoctorname'},
-			{ name: 'samsendhospital', index: 'samsendhospital'},
-			{ name: 'sampatientname', index: 'sampatientname'},
-			{ name: 'samsamplestatus', index: 'samsamplestatus'},
+			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", align:"center",
+				editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中:8:报告已打印"}},
+			{ name: 'sampathologycode', index: 'sampathologycode',align:"center"},
+			{ name: 'sampatientname', index: 'sampatientname',align:"center"},
+			{ name: 'samsenddoctorname', index: 'samsenddoctorname',align:"center"},
+			{ name: 'samsendhospital', index: 'samsendhospital',align:"center"},
+			{ name: 'samsamplestatus', index: 'samsamplestatus',align:"center"},
 			{ name: 'samcustomerid', index: 'samcustomerid',hidden:true}
 		],
 		beforeSelectRow: function (rowid, e) {
@@ -201,7 +205,7 @@ var clientHeight= $(window).innerHeight();
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:400,
+		height:height,
 		width: width,
 		shrinkToFit:false,
 		autoScroll: true,
@@ -346,6 +350,10 @@ function searchList() {
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
 		page : 1
 	}).trigger('reloadGrid');//重新载入
+	var ids = $("#new").jqGrid('getDataIDs');
+	if(ids == null || ids == ""){
+		clearData();
+	}
 }
 function fillInfo(id){
 	setcolor(id);
@@ -431,10 +439,12 @@ function addRow(){
 		jjinfo = rowData.pieparts;
 		maxId = Math.max.apply(Math,ids)+1;
 	}
-	var  sampathologycode = $('#sampathologycode').val();
+	var rowData = $("#new").jqGrid('getRowData',nowrow);
+	var sampathologycode = rowData.sampathologycode;
+	// var  sampathologycode = $('#sampathologycode').val();
 	var dataRow = {
 		piecode:sampathologycode+"-"+maxId,
-		piesampleid:$("#sampleid").val(),
+		piesampleid:rowData.sampleid,
 		pieunit:1,
 		pieceid: "",
 		piepathologycode: sampathologycode,
@@ -581,6 +591,7 @@ function searchDoctor(id) {
 }
 
 function saveAsTemplate(v, obj) {
+	$("#temfirstv").val("");
 	$('#temkey').val('');
 	$('#tempinyin').val('');
 	$('#temfivestroke').val('');
@@ -611,6 +622,7 @@ function saveAsTemplate(v, obj) {
 				temfivestroke:$('#temfivestroke').val(),//关键字五笔码
 				temspellcode:$('#temspellcode').val(),//简码
 				temsort:"A"+$("#FN").val()+$("#SN").val()+$("#TN").val(),//排序号
+				temfirstv:$("#temfirstv").val(),//模版名称
 				temusetimes:0//使用次数
 			},function(data){
 				layer.close(index);

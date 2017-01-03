@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.*;
+import com.pims.service.PimsUserManager;
 import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
 import com.smart.Constants;
@@ -219,6 +220,8 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         return false;
     }
 
+    @Autowired
+    private PimsUserManager userManager;
     /**
      * 更新标本信息及材块信息
      * @param piecesList 材块列表,sample 标本信息,sts 状态,state 逻辑更新标志
@@ -231,6 +234,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         List<PimsPathologyPieces> list = pimsPathologyPiecesManager.getSampleListNoPage(String.valueOf(sample.getSampleid()));
         List list1 = new ArrayList();
         List list2 = new ArrayList();
+        List list3 = new ArrayList();
         if(sts == 1){//取材
             //更新标本信息
             if(piecesList == null || piecesList.size() == 0){
@@ -246,6 +250,10 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                         sample = pimsPathologyPiecesManager.getBySampleNo(sample.getSampleid());
                         if(StringUtils.isEmpty(sample.getSampiecedoctorid())){
                             updateSampleDoctor(sample,piece);//增加初诊医师ID信息
+                        }else{
+                            if (!list3.contains(piece.getPiedoctorid())) {
+                                list3.add(piece.getPiedoctorid());
+                            }
                         }
                     }
                     piece.setPiestate((long) 1);
@@ -257,7 +265,18 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                         pimsPathologyOrderManager.updateOrderState(piece.getPiefirstn(),2,user);
                     }
                 }
+                if (!list3.contains(piece.getPiedoctorid())) {
+                    list3.add(piece.getPiedoctorid());
+                }
                 list1.add(piece.getPieceid());
+            }
+            sample = pimsPathologyPiecesManager.getBySampleNo(sample.getSampleid());
+            if(list3 != null && list3.size()>0 && !list3.contains(sample.getSampiecedoctorid())){
+                User user = userManager.get(Long.parseLong((String)(list3.get(0))));
+                PimsPathologyPieces pieces = new PimsPathologyPieces();
+                pieces.setPiedoctorid(String.valueOf(user.getId()));
+                pieces.setPiedoctorname(user.getName());
+                updateSampleDoctor(sample,pieces);//增加初诊医师ID信息
             }
         }else if(sts == 0){//保存
             for(int i=0;i<piecesList.size();i++){

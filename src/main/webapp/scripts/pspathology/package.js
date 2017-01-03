@@ -1,4 +1,8 @@
 function chooseTestItem() {
+    if($("#pathologySelect").val() == null || $("#pathologySelect").val() == ""){
+        layer.msg("请先选择病种!",{icon:2,time:1000});
+        return;
+    }
     layer.open({
         type: 1,
         area: ['850px', '500px'],
@@ -12,7 +16,7 @@ function chooseTestItem() {
             jQuery("#itemList").jqGrid('setGridParam', {
                 url: "../estitem/query",
                 //发送数据
-                postData: {"pathologyId": $("#pathologySelect").val(), "sidx": "testitemid"},
+                postData: {"pathologyId": $("#pathologySelect").val(), "sidx": "testitemid","tesitemtype":2},
                 page: 1
             }).trigger('reloadGrid');//重新载入
         },

@@ -155,6 +155,12 @@
                     </div>
                 </div>
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="temfirstv">模版名称 </label>
+                    <div class="col-xs-8">
+                        <input type="text" id="temfirstv" name="temfirstv" placeholder="模版名称" class="col-xs-8" datatype="*2-255"/>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="temcontent"> 模板内容 </label>
                     <div class="col-xs-8">
                         <textarea type="text" cols="10" id="temcontent" name="temcontent" placeholder="模板内容" class="col-xs-8" datatype="*2-255"></textarea>

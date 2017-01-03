@@ -42,7 +42,9 @@ public class PimsPathologyOrderCheckDaoHibernate extends GenericDaoHibernate<Pim
 
     @Override
     public List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId) {
-        Query query = getSession().createQuery(" from PimsPathologyOrderCheck where cheorderid=:orderId");
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyOrderCheck where cheorderid=:orderId");
+        Query query = getSession().createQuery(sb.toString());
         query.setParameter("orderId", orderId);
         return query.list();
     }
@@ -54,6 +56,18 @@ public class PimsPathologyOrderCheckDaoHibernate extends GenericDaoHibernate<Pim
         query.setParameterList("checkItemId", checkItemId);
         query.setParameter("ordcustomercode", ordcustomercode);
         return query.list();
+    }
+
+    /**
+     * 获取医嘱收费列表
+     * @param orderId
+     * @return
+     */
+    @Override
+    public List orderFeeList(long orderId) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyFee where feecategory = "+ orderId);
+        return getSession().createQuery(sb.toString()).list();
     }
 
     @Override

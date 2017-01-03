@@ -18,5 +18,5 @@ public interface PimsPathologyFeeManager extends GenericManager<PimsPathologyFee
      */
     List<PimsPathologyFee> getSampleList(PimsPathologyFee map);
 
-    void saveFee(PimsPathologyOrder pathologyOrder, long pathologyId, Set<Long> testItem);
+    void saveFee(PimsPathologyOrder pathologyOrder, long pathologyId, Set<Long> testItem,List<Long> testItemList);
 }

@@ -205,7 +205,11 @@ $(function() {
 	}
 	changeimgclick(1);
 var clientHeight= $(window).innerHeight();
-	var height = $("#formDialog").height() - $('#search_div_1').height()+70;
+//	var height = $("#formDialog").height() - $('#search_div_1').height()+70;
+    height = clientHeight- $("#div_1").height()-$("tabss").height()-$("#head").height() - $('#search_div_1').height()-24-35-42-50;
+	if(height < 340){
+        height = 340;
+    }
 	var width = $('#search_div_1').width()-5;
 	var width1 = $("#div_main").width();
 
@@ -271,7 +275,7 @@ var clientHeight= $(window).innerHeight();
 		},
 		multiselect: true,
 		viewrecords: true,
-		height:400,
+		height:height,
 		width: width,
 		shrinkToFit:false,
 		autoScroll: true,
@@ -289,11 +293,13 @@ var clientHeight= $(window).innerHeight();
  * @param reqid
  */
 function createNew1(reqid,width1){
+    var clientHeight= $("html").innerHeight();
+    height1 = height+$("#search_div_1").height()+35+$("#tabss").height()+24-235-61;
 	$("#new1").jqGrid({
 		url:"../pathologysample/producer/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
-		height:130,
+		height:height1,
 		width: width1,
 		// shrinkToFit:false,
 		// autoScroll: true,

@@ -259,7 +259,7 @@ function  AddSection(){
                 temtype : $('#temtype').val(), temclass : $('#temclass').val(),
                 temownername : $('#temownername').val(), temkey : $('#temkey').val(),
                 temfivestroke : $('#temfivestroke').val(), temspellcode : $('#temspellcode').val(),
-                tempinyin : $('#tempinyin').val(), temsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+                tempinyin : $('#tempinyin').val(), temsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val(),temfirstv:$("#temfirstv").val()
             },function(data){
                 layer.close(index);
                 $("#sectionList").trigger('reloadGrid');
@@ -317,6 +317,7 @@ function editSection(){
         },
         success:function( msg ) {
             //设置数据
+            $("#temfirstv").val(msg.temfirstv);
             $('#templateid').val(rowData.templateid);
             $('#temsort').val(msg.temsort);
             $('#tempathologyname').val(rowData.tempathologyname);
@@ -353,7 +354,7 @@ function editSection(){
                         temownername : $('#temownername').val(), temownerid : $('#temownerid').val(),
                         temclass : $('#temclass').val(), temkey : $('#temkey').val(),
                         tempinyin : $('#tempinyin').val(), temfivestroke : $('#temfivestroke').val(),
-                        temspellcode : $('#temspellcode').val(), temsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
+                        temspellcode : $('#temspellcode').val(), temsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val(),temfirstv:$("#temfirstv").val()
                     },function(data){
                         layer.close(index);
                         $("#sectionList").trigger('reloadGrid');
@@ -511,7 +512,7 @@ $(function(){
         mtype: "GET",
         datatype: "json",
         width:$('.leftContent').width(),
-        colNames: ['templateid','temcustomerid','temownerid','tempathologyid','排序号', '病种类别', '客户', '模板类型','模板分类','归所用户','关键字','拼音码','五笔码','简码'],
+        colNames: ['templateid','temcustomerid','temownerid','tempathologyid','排序号', '病种类别', '客户', '模板类型','模板分类','模版名称','归所用户','关键字','拼音码','五笔码','简码'],
         colModel: [
             { name: 'templateid', index: 'templateid', width: 30, hidden: true },
             { name: 'temcustomerid', index: 'temcustomerid', width: 30, hidden: true },
@@ -522,6 +523,7 @@ $(function(){
             { name: 'temcustomername', index: 'temcustomername', width: 30},
             { name: 'temtype', index: 'temtype', width: 30,formatter: "select", editoptions:{value:"0:系统公用;1:用户私有"}},
             { name: 'temclass', index: 'temclass', width: 30,formatter: "select", editoptions:{value:"0:大体所见模板;1:病理所见模板;2:病理诊断模板"}},
+            { name: 'temfirstv', index: 'temfirstv', width: 60},
             { name: 'temownername', index: 'temownername', width: 60},
             { name: 'temkey', index: 'temkey', width: 50 },
             { name: 'tempinyin', index: 'tempinyin', width: 30},
@@ -615,6 +617,7 @@ $(function(){
 
 });
 function  clearData(){
+        $("#temfirstv").val('');
         $('#tempathologyname').val('');
         $('#tempathologyid').val('0');
         $('#temcustomername').val('');

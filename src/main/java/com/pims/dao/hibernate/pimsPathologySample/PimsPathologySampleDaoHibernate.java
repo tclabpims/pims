@@ -195,6 +195,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
                 pps.setPatclass((String)objects[8]);
                 pps.setSamsamplestatus(((BigDecimal) objects[9]).longValue());
                 pps.setSampathologystatus(pps.pathologyStatus());
+                pps.setSampatientname((String)objects[10]);
                 ret.add(pps);
             }
         }

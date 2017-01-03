@@ -27,4 +27,12 @@ public interface PimsPathologyOrderCheckDao extends GenericDao<PimsPathologyOrde
     void updateItemStatus(Set<Long> s);
 
     void saveResult(long checkid, String chetestresult);
+
+
+    /**
+     * 获取医嘱收费信息
+     * @param orderId
+     * @return
+     */
+    List  orderFeeList(long orderId);
 }

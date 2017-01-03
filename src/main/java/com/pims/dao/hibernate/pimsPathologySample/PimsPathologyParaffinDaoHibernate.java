@@ -388,7 +388,7 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         StringBuilder builder = new StringBuilder();
         builder.append("select paraffinid,parparaffincode, ");
         if(orderId != null) {
-            builder.append("(select NVL(ChiNullSlideNum,0)+NVL(ChiSlideNum,0) from pims_pathology_order_child where chiorderid=:orderId and paraffinid=ChiParaffinId and finishstatus=0) as slidenum, ");
+            builder.append("(select NVL(ChiSlideNum,0) from pims_pathology_order_child where chiorderid=:orderId and paraffinid=ChiParaffinId and finishstatus=0) as slidenum, ");
             builder.append("(select NVL(ChiNullSlideNum,0) from pims_pathology_order_child where chiorderid=:orderId and paraffinid=ChiParaffinId and finishstatus=0) as obligateslidenum, ");
             builder.append("(select childorderid from pims_pathology_order_child where chiorderid=:orderId and paraffinid=ChiParaffinId and finishstatus=0) as childorderid, ");
             builder.append("(select count(1) from pims_pathology_order_check where cheorderid=:orderId and paraffincode=parparaffincode and finishstatus=0) as totalitem, ");

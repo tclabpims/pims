@@ -1,13 +1,13 @@
 package com.pims.model;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by king on 2016/9/28.
  */
 @Entity
-@Table(name = "PIMS_PATHOLOGY_REPORT_PDF", schema = "KFTEST", catalog = "")
+@Table(name = "PIMS_PATHOLOGY_REPORT_PDF")
 public class PimsPathologyReportPdf {
     private long pdffileid;
     private long pdfsampleid;
@@ -15,20 +15,22 @@ public class PimsPathologyReportPdf {
     private String pdffilename;
     private String pdffilesize;
     private String pdffilesavepath;
-    private Time pdfuploadtime;
+    private Date pdfuploadtime;
     private String pdfuploaduser;
     private String pdfuploadip;
     private Long pdfuploadtimes;
-    private Time pdflastuploadtime;
+    private Date pdflastuploadtime;
     private String pdflastuploaduser;
     private String pdffirstv;
     private Long pdffirstn;
-    private Time pdffirstd;
-    private Time pdfcreatetime;
+    private Date pdffirstd;
+    private Date pdfcreatetime;
     private String pdfcreateuser;
 
     @Id
     @Column(name = "PDFFILEID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="SEQ_PDFFILEID")
+    @SequenceGenerator(name = "SEQ_PDFFILEID", sequenceName = "SEQ_PDFFILEID", allocationSize=1)
     public long getPdffileid() {
         return pdffileid;
     }
@@ -89,11 +91,11 @@ public class PimsPathologyReportPdf {
 
     @Basic
     @Column(name = "PDFUPLOADTIME")
-    public Time getPdfuploadtime() {
+    public Date getPdfuploadtime() {
         return pdfuploadtime;
     }
 
-    public void setPdfuploadtime(Time pdfuploadtime) {
+    public void setPdfuploadtime(Date pdfuploadtime) {
         this.pdfuploadtime = pdfuploadtime;
     }
 
@@ -129,11 +131,11 @@ public class PimsPathologyReportPdf {
 
     @Basic
     @Column(name = "PDFLASTUPLOADTIME")
-    public Time getPdflastuploadtime() {
+    public Date getPdflastuploadtime() {
         return pdflastuploadtime;
     }
 
-    public void setPdflastuploadtime(Time pdflastuploadtime) {
+    public void setPdflastuploadtime(Date pdflastuploadtime) {
         this.pdflastuploadtime = pdflastuploadtime;
     }
 
@@ -169,21 +171,21 @@ public class PimsPathologyReportPdf {
 
     @Basic
     @Column(name = "PDFFIRSTD")
-    public Time getPdffirstd() {
+    public Date getPdffirstd() {
         return pdffirstd;
     }
 
-    public void setPdffirstd(Time pdffirstd) {
+    public void setPdffirstd(Date pdffirstd) {
         this.pdffirstd = pdffirstd;
     }
 
     @Basic
     @Column(name = "PDFCREATETIME")
-    public Time getPdfcreatetime() {
+    public Date getPdfcreatetime() {
         return pdfcreatetime;
     }
 
-    public void setPdfcreatetime(Time pdfcreatetime) {
+    public void setPdfcreatetime(Date pdfcreatetime) {
         this.pdfcreatetime = pdfcreatetime;
     }
 

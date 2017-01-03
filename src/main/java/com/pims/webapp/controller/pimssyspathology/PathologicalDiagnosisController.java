@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.DefaultJSONParser;
 import com.pims.model.*;
 import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
+import com.pims.service.pimspathologysample.PimsPathologyReportPdfManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.*;
@@ -16,7 +17,10 @@ import com.smart.Constants;
 import com.smart.model.lis.Hospital;
 import com.smart.model.user.User;
 import com.smart.service.lis.HospitalManager;
+import com.smart.util.Config;
+import com.smart.util.GenericPdfUtil;
 import com.smart.webapp.util.DataResponse;
+import com.smart.webapp.util.PrintwriterUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -164,52 +168,52 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         pimsPathologyPicturesManager.removeByName(picName, sampleId);
     }
 
+    @Autowired
+    private PimsPathologyReportPdfManager pimsPathologyReportPdfManager;
+
     @RequestMapping(value = "/report/print", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, String> printReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
-        String picNum = request.getParameter("picNum");
-        Long pictureClass = Long.valueOf(request.getParameter("picpictureclass"));
-        int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
-        String templateUrl = request.getParameter("templateUrl");
-        int operateType = Integer.valueOf(request.getParameter("type"));
-        String pclass = request.getParameter("patClass");
-        int patClass = pclass == null?0:Integer.valueOf(pclass);
+        PimsPathologyReportPdf pprpdf = pimsPathologyReportPdfManager.getPdfBySampleId(sampleId);
+//        if(pprpdf == null){
+            String picNum = request.getParameter("picNum");
+            Long pictureClass = Long.valueOf(request.getParameter("picpictureclass"));
+            int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
+            String templateUrl = request.getParameter("templateUrl");
+            int operateType = Integer.valueOf(request.getParameter("type"));
+            String pclass = request.getParameter("patClass");
+            int patClass = pclass == null?0:Integer.valueOf(pclass);
+            PimsPathologySample pimsPathologySample = pimsPathologySampleManager.get(sampleId);
+            PimsSysPathology pathology = pimsSysPathologyManager.get(pimsPathologySample.getSampathologyid());
+            List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
+            PimsSampleResult result = null;
+            Map<String, String> resultMap = null;
+            VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
+            if (picNumInt > pictures.size()) picNumInt = pictures.size();
+            if(patClass == 2) {
+                resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
+                context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+                context.put("advice", resultMap.get("advice"));
+                context.put("dnaResult", resultMap.get("dnaResult"));
+                context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
+                context.put("degree", resultMap.get("degree"));
+            } else if(patClass == 7) {
+                resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
+                context.put("sampleAmount", resultMap.get("sampleAmount"));
+                context.put("hpvResult", resultMap.get("hpvResult"));
+                context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+            }
+            else {
+                result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
+                context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
+            }
+            context.put("picNum", picNumInt);
+//            context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
+            context.put("hospitalLogo", "data:image/png" + ";base64," + getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));//医院logo
 
-        PimsPathologySample pimsPathologySample = pimsPathologySampleManager.get(sampleId);
-        PimsSysPathology pathology = pimsSysPathologyManager.get(pimsPathologySample.getSampathologyid());
-
-
-
-        List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
-
-        PimsSampleResult result = null;
-        Map<String, String> resultMap = null;
-        VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
-        if (picNumInt > pictures.size()) picNumInt = pictures.size();
-        if(patClass == 2) {
-            resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
-            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
-            context.put("advice", resultMap.get("advice"));
-            context.put("dnaResult", resultMap.get("dnaResult"));
-            context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
-            context.put("degree", resultMap.get("degree"));
-        } else if(patClass == 7) {
-            resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
-            context.put("sampleAmount", resultMap.get("sampleAmount"));
-            context.put("hpvResult", resultMap.get("hpvResult"));
-            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
-        }
-        else {
-            result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
-            context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
-        }
-        context.put("picNum", picNumInt);
-        context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
-
-        if (picNumInt > 0) {
-            Map<String, String> map1 = new HashMap<>();
+            if (picNumInt > 0) {
+                Map<String, String> map1 = new HashMap<>();
                 for (int i = 0; i < picNumInt; i++) {
                     PimsPathologyPictures pic = pictures.get(i);
                     String realPath = pic.getPicsavepath();
@@ -244,17 +248,30 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 
             Map<String, String> map = new HashMap<>();
             map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
-
+//            GenericPdfUtil.html2Pdf(sampleId+".pdf",writer.toString());
             return map;
+//        }else{
+//            Map<String, String> map = new HashMap<>();
+//            map.put("url", Config.getString("pdf.path","E:\\pims\\pdf") + File.separator + pprpdf.getPdfsampleid()+".pdf");
+//            return map;
+//        }
         }
 
-    private String getHospitalLogo(HttpServletRequest request, Long hospitalId) {
+    private String getHospitalLogo(HttpServletRequest request, Long hospitalId) throws  Exception{
         Hospital hospital = hospitalManager.get(hospitalId);
-        StringBuilder logoFileRoot = new StringBuilder(request.getScheme());
-        logoFileRoot.append("://").append(request.getServerName())
-                .append(":").append(request.getServerPort()).append("/images/hospital/");
-        logoFileRoot.append(hospitalId).append("/").append(hospital.getLogo());
-        return logoFileRoot.toString();
+//        StringBuilder logoFileRoot = new StringBuilder(request.getScheme());
+//        logoFileRoot.append("://").append(request.getServerName())
+//                .append(":").append(request.getServerPort()).append("/images/hospital/");
+//        logoFileRoot.append(hospitalId).append("/").append(hospital.getLogo());
+//        return logoFileRoot.toString();
+        StringBuilder logoFileRoot = new StringBuilder();
+        logoFileRoot.append(Config.getString("img.hospital","E:\\img\\hospital") + File.separator+ hospitalId + File.separator + hospital.getLogo());
+        FileInputStream fileInputStream = new FileInputStream(logoFileRoot.toString().replace("/","\\"));
+        byte[] buffer = null;
+        buffer = new byte[fileInputStream.available()];
+        fileInputStream.read(buffer);
+        fileInputStream.close();
+        return new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer));
     }
 
     private void generateHtml(String fileName, String html) {
@@ -291,7 +308,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         return dr;
     }
 
-    private VelocityContext getVelocityContext(PimsPathologySample sample, PimsSysPathology pathology) {
+    private VelocityContext getVelocityContext(PimsPathologySample sample, PimsSysPathology pathology) throws Exception {
         VelocityContext context = new VelocityContext();
         context.put("formname", pathology.getPatreporttitle());
         context.put("patreportremark", pathology.getPatreportremark());
@@ -319,7 +336,15 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         context.put("samreceivertime", "");
         context.put("sampatientdignoses", sample.getSampatientdignoses());
         context.put("samreportor", sample.getSamreportor());
-        context.put("samauditer", sample.getSamauditer());
+        StringBuilder logoFileRoot = new StringBuilder();
+        logoFileRoot.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSamauditer()+".bmp");
+        FileInputStream fileInputStream = new FileInputStream(logoFileRoot.toString().replace("/","\\"));
+        byte[] buffer = null;
+        buffer = new byte[fileInputStream.available()];
+        fileInputStream.read(buffer);
+        fileInputStream.close();
+        context.put("samauditer","data:image/bmp" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer)));//条形码
+//        context.put("samauditer", sample.getSamauditer());
         if(sample.getSamreportedtime() != null)
         context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
         else
@@ -642,4 +667,29 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         response.setContentType(contentType);
         return dr;
     }
+
+
+    /**
+     * 获取未接收未审核单据
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getpathnum*", method = RequestMethod.GET)
+    public void getPathNum(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PimsPathologySample sample = (PimsPathologySample) setBeanProperty(request, PimsPathologySample.class);
+        DataResponse dr = new DataResponse();
+        //待接收
+        sample.setSampiecedoctorid("");
+        sample.setSamfirstv("1");
+        Integer noreceivetotal  = pimsPathologySampleManager.querySampleNum(sample);
+        sample.setSamfirstv("2");
+        Integer noaudittotal = pimsPathologySampleManager.querySampleNum(sample);
+        JSONObject o = new JSONObject();
+        o.put("success",true);
+        o.put("noreceiveid",noreceivetotal);
+        o.put("noauditid",noaudittotal);
+        PrintwriterUtil.print(response, o.toString());
+    }
+
 }

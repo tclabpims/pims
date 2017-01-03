@@ -486,12 +486,16 @@
             background:transparent!important;
         }
         .dropdown.open ul{
-            /*display:none;*/
+            display:none;
         }
         .form-control{
             height:26px!important;
             padding:3px 12px!important;
         }
+       #menuheader>ul>li.active>a{
+            background:white!important;
+            color:#323232!important;
+       }
 </style>
 
 <menu:useMenuDisplayer name="Velocity" config="navbarMenu.vm" permissions="rolesAdapter">
@@ -575,6 +579,7 @@
         <a href="/logout" style="text-decoration:none;color:#108bd1;"><img src="/styles/imagepims/lgout.png">退出</a>
     </div>
 </div>
+<<<<<<< HEAD
 <script>
 function showandhiden(obj) {
 if($(obj).children("i").attr("class").indexOf("fa-chevron-up") >=0){
@@ -586,4 +591,15 @@ $(obj).children("i").addClass("fa-chevron-up");
 $(obj).parent().parent().parent().removeClass("collapsed");
 }
 }
+=======
+<script type="text/javascript">
+$(function(){
+       $("#menuheader>ul>li ul li a").each(function(){
+		        $this = $(this);
+		        if($this[0].href==String(window.location)){
+                    $this.parent().parent().parent().addClass("active");
+		        }
+		    });
+	})
+>>>>>>> origin/master
 </script>

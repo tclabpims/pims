@@ -21,7 +21,7 @@ public final class GenericPdfUtil {
     }
 
     public static synchronized void html2Pdf(String fileName, String html){
-        File pdfFile = new File("d:\\"+fileName);
+        File pdfFile = new File(Config.getString("pdf.path","E:\\pims\\pdf")+ File.separator +fileName);
         System.out.println(html);
         StringReader strReader = new StringReader(html);
         try {
