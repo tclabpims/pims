@@ -579,6 +579,19 @@
         <a href="/logout" style="text-decoration:none;color:#108bd1;"><img src="/styles/imagepims/lgout.png">退出</a>
     </div>
 </div>
+
+<script>
+function showandhiden(obj) {
+if($(obj).children("i").attr("class").indexOf("fa-chevron-up") >=0){
+$(obj).children("i").removeClass("fa-chevron-up");
+$(obj).children("i").addClass("fa-chevron-down");
+}else{
+$(obj).children("i").removeClass("fa-chevron-down");
+$(obj).children("i").addClass("fa-chevron-up");
+$(obj).parent().parent().parent().removeClass("collapsed");
+}
+}
+</script>
 <script type="text/javascript">
 $(function(){
        $("#menuheader>ul>li ul li a").each(function(){
@@ -588,4 +601,5 @@ $(function(){
 		        }
 		    });
 	})
+
 </script>

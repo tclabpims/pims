@@ -30,6 +30,10 @@
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.btn-sm{padding:0 9px!important}
+		#div_2{
+			margin-left: -5px;
+			margin-right: 5px;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -91,7 +95,7 @@
 	</div>
 	<div>
 		<div>
-			<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;工作列表</strong></h5>
+			<h5 style="float: left;width: 33.7%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:15px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;工作列表</strong></h5>
 			<h5 style="float: left;width: 50%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;取材管理</strong>
 				<span class="input_style">&nbsp;&nbsp;取材医生:</span>
 				<select id="doctor_id" class="input_style" style="width: 20%" onchange="searchDoctor('1')">
@@ -216,7 +220,7 @@
 					<div class="form-group" style="margin-bottom: 5px;">
 						<label class="col-sm-2 label_style" for="sampatientsex">性&nbsp;别:</label>
 						<div class="col-sm-4">
-							<select class="col-sm-8 input_style" id="sampatientsex" disabled>
+							<select class="col-sm-8 input_style" id="sampatientsex" disabled style="background-color:#f5f5f5;color: #666666;padding: 0">
 								<option value="1">男</option>
 								<option value="2">女</option>
 								<option value="3">未知</option>

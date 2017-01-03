@@ -129,7 +129,7 @@
             <div class="widget-header">
                 <h6 class="widget-title">医嘱列表</h6>
                 <div class="widget-toolbar">
-                    <a href="#" data-action="collapse">
+                    <a href="#"  data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
@@ -197,12 +197,12 @@
             <div class="widget-header">
                 <h6 class="widget-title">医嘱内容</h6>
                 <div class="widget-toolbar">
-                    <a href="#" data-action="collapse">
+                    <a href="#"  data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
             </div>
-            <div style="display: block;">
+            <div class="widget-body" style="display: block;">
                 <div id="tabs" style="margin: 0 auto;">
                     <ul class="tabs nav nav-tabs">
                         <li class="active"><a href="#tabs-1" data-toggle="tab">病人基本信息</a></li>
@@ -305,13 +305,13 @@
             <div class="widget-header">
                 <h6 class="widget-title">申请项目</h6>
                 <div class="widget-toolbar">
-                    <a href="#" data-action="collapse">
+                    <a href="#"  data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
             </div>
         </div>
-        <div style="float:left;width: 40%;height: 100%;padding-left:5px;padding-right: 5px;display: inline">
+        <div style="float:left;width: 40%;height: 100%;padding-left:5px;padding-right: 5px;display:inline">
             <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
             <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
                 <table id="lkItemList"></table>

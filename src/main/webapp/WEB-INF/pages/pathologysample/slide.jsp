@@ -29,6 +29,10 @@
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.btn-sm{padding:0 9px!important}
+		#div_2{
+			margin-left: -5px;
+			margin-right: 5px;
+		}
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -49,7 +53,7 @@
 		<div class="div_div"><img src="/styles/imagepims/cancleslide.png" class="div_img"  id="resetbutton">取消切片</div>
 		<div class="div_div"><img src="/styles/imagepims/print.png" class="div_img" id="printslide" >打印</div>-->
 	</div>
-	<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;padding-right:12px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;&nbsp;工作列表</strong></h5>
+	<h5 style="float: left;width: 33.7%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;padding-right:15px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;&nbsp;工作列表</strong></h5>
 	<h5 style="float: left;width: 66%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;&nbsp;切片管理</strong></h5>
 	<div>
 		<div class="col-sm-4 leftContent" id="div_2">
@@ -80,20 +84,20 @@
 						<div class="input_style">
 							<span>&nbsp;打印状态:&nbsp;</span>
 							<input type="hidden" id="send_hosptail">
-							<input type="checkbox" name="send_hosptail1" value="0">&nbsp;待打印&nbsp;
-							<input type="checkbox" name="send_hosptail2" value="1">&nbsp;已打印&nbsp;
+							<input type="checkbox" name="send_hosptail1" value="0" style="margin: 0 0 0 0;vertical-align: middle">&nbsp;待打印&nbsp;
+							<input type="checkbox" name="send_hosptail2" value="1" style="margin: 0 0 0 0;vertical-align: middle">&nbsp;已打印&nbsp;
 						</div>
 					</table>
 					<table style="margin-bottom: 5px;">
 						<div class="input_style">
 							<span class="input_style">&nbsp;内部医嘱:&nbsp;</span>
-							<input type="checkbox" id="send_doctor" value="1"/>
+							<input type="checkbox" id="send_doctor" value="1" style="margin: 0 0 0 0;vertical-align: middle"/>
 						</div>
 					</table>
 					<table style="margin-bottom: 5px;">
 						<div class="input_style">
 							<span class="input_style">&nbsp;预留白片:&nbsp;</span>
-							<input type="checkbox"  id="req_code" value="1"/>
+							<input type="checkbox"  id="req_code" value="1" style="margin: 0 0 0 0;vertical-align: middle"/>
 							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							<span>
 								<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
@@ -165,7 +169,7 @@
 						</div>
 						<label class="col-sm-2 label_style" for="sampatientsex">性&nbsp;别:</label>
 						<div class="col-sm-4">
-							<select class="col-sm-6 input_style" id="sampatientsex" disabled>
+							<select class="col-sm-6 input_style" id="sampatientsex" disabled style="background-color:#f5f5f5;color: #666666;padding: 0">
 								<option value="1">男</option>
 								<option value="2">女</option>
 								<option value="3">未知</option>

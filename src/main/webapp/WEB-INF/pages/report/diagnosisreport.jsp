@@ -80,11 +80,11 @@ $(document).ready(function(){
 			<div id="div1" class="widget-box widget-color-green ui-sortable-handle">
 				<div class="widget-header">
 					<h6 class="widget-title">报告查询条件</h6>
-					<%--<div class="widget-toolbar">--%>
-						<%--<a href="#"  data-action="collapse" onclick="showandhiden(this)">--%>
-							<%--<i id="a1" class="ace-icon fa fa-chevron-up">隐藏</i>--%>
-						<%--</a>--%>
-					<%--</div>--%>
+					<div class="widget-toolbar">
+						<a href="#"  data-action="collapse" onclick="showandhiden(this)">
+							<i id="a1" class="ace-icon fa fa-chevron-up">隐藏</i>
+						</a>
+					</div>
 				</div>
 				<div class="widget-body" style="display:block">
 					<div id="search_div_1" style="background-color: #F9F9F9;border:1px solid #E0E0E0;">
@@ -200,11 +200,11 @@ $(document).ready(function(){
 			<div class="widget-box widget-color-green ui-sortable-handle">
 			<div class="widget-header">
 				<h6 class="widget-title">报告查询条件</h6>
-				<%--<div class="widget-toolbar">--%>
-					<%--<a href="#" data-action="collapse" onclick="showandhiden(this)">--%>
-						<%--<i class="ace-icon fa fa-chevron-up">隐藏</i>--%>
-					<%--</a>--%>
-				<%--</div>--%>
+				<div class="widget-toolbar">
+					<a href="#" data-action="collapse" onclick="showandhiden(this)">
+						<i class="ace-icon fa fa-chevron-up">隐藏</i>
+					</a>
+				</div>
 			</div>
 			<div class="widget-body"  style="display: block;">
 				<div class="widget-main no-padding">

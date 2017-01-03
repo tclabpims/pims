@@ -55,6 +55,9 @@
 			border-right: 1px solid #E0E0E0;
 			margin-right:1px;
 		}
+		#gbox_new{
+			width: 100%!important;
+		}
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -526,7 +529,7 @@
 								<%out.print(request.getAttribute("samjcxm"));%>
 							</select>
 						</span>
-						<input id="samjcxm"  name="samjcxm" datatype="*" style="position:absolute;left:5px;width: 55%" class="input_style" >
+						<input id="samjcxm"  name="samjcxm" datatype="*" style="position:absolute;left:5px;width: 55%;padding-left: 10px" class="input_style" >
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">
@@ -542,7 +545,7 @@
 					</div>
 					<label class="label_style col-sm-1" >病人姓名:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientname" name="sampatientname" datatype="*" />
+						<input class="input_style" type="text" id="sampatientname" name="sampatientname" datatype="*"style="padding-left: 10px" />
 					</div>
 					<label class="label_style col-sm-1" >联系电话:</label>
 					<div class="col-sm-3 ">
@@ -552,11 +555,11 @@
 				<div class="form-group" style="margin-bottom: 5px;">
 					<label class="col-sm-1 label_style" >住院号:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"  onkeypress="getPatient(this,event)"/>
+						<input class="input_style" type="text" id="sampatientnumber" name="sampatientnumber" datatype="*"  onkeypress="getPatient(this,event)" />
 					</div>
 					<label class="col-sm-1 label_style" >床号:</label>
 					<div class="col-sm-3 ">
-						<input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"/>
+						<input class="input_style" type="text" id="sampatientbed" name="sampatientbed"  placeholder="床号" datatype="*"style="padding-left: 10px"/>
 					</div>
 					<label class="col-sm-1 label_style" >联系地址:</label>
 					<div class="col-sm-3">
@@ -575,7 +578,7 @@
 					<label class="col-sm-1 label_style" for="sampatientage">年&nbsp;龄:</label>
 					<div class="col-sm-3">
 						<span class="label_style" style="width:90%">
-							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%" name="sampatientage" datatype="n1-2"/>
+							<input class="input_style" type="text" id="sampatientage" style="float:left;width:40%;padding-left: 10px" name="sampatientage" datatype="n1-2" />
 							<select class="input_style" style="float:left;width:25%" id="sampatientagetype">
 								<option value="1">岁</option>
 								<option value="2">月</option>
@@ -601,7 +604,7 @@
 								<%out.print(request.getAttribute("samsenddoctorname"));%>
 							</select>
 						</span>
-						<input id="samsenddoctorname"  name="samsenddoctorname" datatype="*" style="position:absolute;left:5px;width: 55%;" class="input_style">
+						<input id="samsenddoctorname"  name="samsenddoctorname" datatype="*" style="position:absolute;left:5px;width: 55%;padding-left: 10px" class="input_style">
 					</div>
 					<label class="col-sm-1 label_style" for="samdeptcode">送检科室:</label>
 					<div class="col-sm-3">

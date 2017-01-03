@@ -27,6 +27,9 @@
     .ui-jqgrid .ui-jqgrid-bdiv{
         border-top:0!important;
     }
+    td{
+        border-top: 0px!important;
+    }
 </style>
 </head>
 <body class="home"  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">

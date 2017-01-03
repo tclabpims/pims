@@ -169,3 +169,31 @@ a.g-menu-item, a.soptclass, a.clearsearchclass { cursor: pointer; }
 .ui-jqgrid .ui-jqgrid-view button {
 	font-size: 11px
 }
+/*修改表格内样式*/
+#cb_new{
+	margin-left:3px;
+}
+#jqgh_new_cb{
+	padding-bottom:30px;
+}
+.ui-jqgrid-view{
+	width:99%!important;
+	overflow: hidden;
+	boeder-right:1px solid #000;
+}
+#pager{
+	width: 99%!important;
+}
+.ui-jqgrid .ui-jqgrid-bdiv{
+	border-top:0!important;
+}
+#gbox_new{
+	width: 100%!important;
+}
+#cb_sectionList{
+	margin-left:3px;
+
+}
+#jqgh_sectionList_cb{
+	padding-bottom:30px;
+}
