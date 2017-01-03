@@ -5,6 +5,7 @@ import com.pims.model.PimsSysReqTestitem;
 import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.service.impl.GenericManagerImpl;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
     }
 
     @Override
-    public List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery, Long pathologyId) {
+    public List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery, Long pathologyId,String tesitemtype) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT a.testitemid,a.teschinesename,a.tesenglishname,a.tesitemsort,a.tespinyincode,a.tesfivestroke,a.tesitemtype,").append(
                 "a.tespathologyid,a.tesitemhandle,a.tesischarge,a.tesuseflag,B.Patnamech,a.tesitemproperty,a.tesisorder from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
@@ -49,6 +50,9 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
         }
         if(pathologyId !=null ) {
             builder.append(" and a.tespathologyid=").append(pathologyId);
+        }
+        if(!StringUtils.isEmpty(tesitemtype)){
+           builder.append(" and a.tesitemtype = "+ tesitemtype);
         }
         sidx = (sidx == null || sidx.trim().equals("")) ? "a.testitemid " : sidx;
         builder.append(" order by  ").append(sidx).append(gridQuery.getSord());
@@ -80,7 +84,7 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
     }
 
     @Override
-    public Integer countReqTestitem(String query, Long pathologyId) {
+    public Integer countReqTestitem(String query, Long pathologyId,String tesitemtype) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT count(1) cnt from PIMS_SYS_REQ_TESTITEM a, Pims_Sys_Pathology b ").append(
                 "where A.Tespathologyid = B.Pathologyid");
@@ -89,6 +93,9 @@ public class PimsSysReqTestitemManagerImpl extends GenericManagerImpl<PimsSysReq
         }
         if(pathologyId !=null ) {
             builder.append(" and a.tespathologyid=").append(pathologyId);
+        }
+        if(!StringUtils.isEmpty(tesitemtype)){
+            builder.append(" and a.tesitemtype = "+ tesitemtype);
         }
         return pimsSysReqTestitemDao.countTotal(builder.toString());
     }

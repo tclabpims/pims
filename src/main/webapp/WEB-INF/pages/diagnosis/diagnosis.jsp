@@ -26,88 +26,90 @@
     <script type="text/javascript" src="<c:url value='/scripts/task/task1.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/pathologysample/fee.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/pspathology/yjxbx.js'/>"></script>
+    <style>
+        .ui-jqgrid {
+            border: 1px solid #ddd;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #F5F5F5
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #999
+        }
+
+        .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+            background-color: #F5F5F6;
+        }
+
+        .ui-autocomplete {
+            z-index: 99999999;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        ul.tabs li {
+            background: none;
+            color: #222;
+            display: inline-block;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        ul.tabs li.current {
+            background: #ededed;
+            color: #222;
+        }
+
+        .tab-content {
+            display: none;
+            background: #ededed;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+
+        .ui-timepicker-div .ui-widget-header {
+            margin-bottom: 8px;
+        }
+
+        .ui-timepicker-div dl {
+            text-align: left;
+        }
+
+        .ui-timepicker-div dl dt {
+            height: 25px;
+            margin-bottom: -25px;
+        }
+
+        .ui-timepicker-div dl dd {
+            margin: 0 10px 10px 65px;
+        }
+
+        .ui-timepicker-div td {
+            font-size: 90%;
+        }
+        .tabs-3 table tr td {
+            padding-top:2px;
+            padding-bottom:2px;
+        }
+        object:focus { outline:none; }
+        .ui-jqgrid-sortable{text-align: center;}
+    </style>
+
 </head>
-<style>
-    .ui-jqgrid {
-        border: 1px solid #ddd;
-    }
-
-    ::-webkit-scrollbar-track {
-        background-color: #F5F5F5
-    }
-
-    ::-webkit-scrollbar {
-        width: 6px;
-        background-color: #F5F5F5
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: #999
-    }
-
-    .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
-        background-color: #F5F5F6;
-    }
-
-    .ui-autocomplete {
-        z-index: 99999999;
-    }
-
-    ul.tabs {
-        margin: 0px;
-        padding: 0px;
-        list-style: none;
-    }
-
-    ul.tabs li {
-        background: none;
-        color: #222;
-        display: inline-block;
-        padding: 10px 15px;
-        cursor: pointer;
-    }
-
-    ul.tabs li.current {
-        background: #ededed;
-        color: #222;
-    }
-
-    .tab-content {
-        display: none;
-        background: #ededed;
-        padding: 15px;
-    }
-
-    .tab-content.current {
-        display: inherit;
-    }
-
-    .ui-timepicker-div .ui-widget-header {
-        margin-bottom: 8px;
-    }
-
-    .ui-timepicker-div dl {
-        text-align: left;
-    }
-
-    .ui-timepicker-div dl dt {
-        height: 25px;
-        margin-bottom: -25px;
-    }
-
-    .ui-timepicker-div dl dd {
-        margin: 0 10px 10px 65px;
-    }
-
-    .ui-timepicker-div td {
-        font-size: 90%;
-    }
-    .tabs-3 table tr td {
-        padding-top:2px;
-        padding-bottom:2px;
-    }
-    object:focus { outline:none; }
-</style>
 <SCRIPT LANGUAGE="JavaScript">
 
     var OsObject = navigator.userAgent;
@@ -295,10 +297,10 @@
                                             <a href="#" onclick="queryList1('','0')" data-toggle="tab">已发抄送</a>
                                         </li>
                                         <li>
-                                            <a href="#" onclick="queryList1('','1')" data-toggle="tab">待收抄送</a>
+                                            <a href="#" onclick="queryList1('','1')" data-toggle="tab">待收抄送<span id="noreceiveid" style="color: red"></span></a>
                                         </li>
                                         <li>
-                                            <a href="#" onclick="queryList1('','2')" data-toggle="tab">待审抄送</a>
+                                            <a href="#" onclick="queryList1('','2')" data-toggle="tab">待审抄送<span id="noauditid" style="color: red"></span></a>
                                         </li>
 
                                       <%--<li>--%>
@@ -369,6 +371,8 @@
                             <input type="hidden" id="sampleid"/>
                             <input type="hidden" id="customerId"/>
                             <input type="hidden" id="pathologyCode"/>
+                            <input type="hidden" id="sampathologyid1"/>
+
                             <div style="display: inline">条形码：<input type="text"
                                                                     style="width:120px;border-width: 0px 0px 1px 0px"
                                                                     id="saminspectionid"></div>

@@ -201,6 +201,16 @@ public class PimsPathologyTaskDaoHibernate extends GenericDaoHibernate<PimsPatho
                         sb.append("delete from  pims_pathology_task where taskid ="+task.getTaskid());
                         getSession().createSQLQuery(sb.toString()).executeUpdate();
                     }
+                }else if(states.equals("2")){//抄送审核
+                    if(task.getTastaskstate() == 2){
+                        o.put("message", "该抄送已审核,无法重复审核！");
+                        o.put("success", false);
+                        return o;
+                    }else{
+                        sb = new StringBuffer();
+                        sb.append("update pims_pathology_task set tastaskstate = 2 where taskid ="+task.getTaskid());
+                        getSession().createSQLQuery(sb.toString()).executeUpdate();
+                    }
                 }
             }
         }

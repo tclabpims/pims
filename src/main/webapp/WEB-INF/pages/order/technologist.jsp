@@ -23,67 +23,70 @@
     <script type="text/javascript" src="<c:url value="/scripts/layer/layer.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/pspathology/technologist.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/consultation/cons1.js"/>"></script>
+    <style>
+        .ui-jqgrid {
+            border: 1px solid #ddd;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #F5F5F5
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #999
+        }
+
+        .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+            background-color: #F5F5F6;
+        }
+
+        .ui-autocomplete {
+            z-index: 99999999;
+        }
+
+        ul.tabs {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+
+        ul.tabs li {
+            background: none;
+            color: #222;
+            display: inline-block;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        ul.tabs li.current {
+            background: #ededed;
+            color: #222;
+        }
+
+        .tab-content {
+            display: none;
+            background: #ededed;
+            padding: 15px;
+        }
+
+        .tab-content.current {
+            display: inherit;
+        }
+        .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+        .ui-timepicker-div dl { text-align: left; }
+        .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+        .ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+        .ui-timepicker-div td { font-size: 90%; }
+        .ui-jqgrid-sortable{text-align: center;}
+
+    </style>
+
 </head>
-<style>
-    .ui-jqgrid {
-        border: 1px solid #ddd;
-    }
-
-    ::-webkit-scrollbar-track {
-        background-color: #F5F5F5
-    }
-
-    ::-webkit-scrollbar {
-        width: 6px;
-        background-color: #F5F5F5
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: #999
-    }
-
-    .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
-        background-color: #F5F5F6;
-    }
-
-    .ui-autocomplete {
-        z-index: 99999999;
-    }
-
-    ul.tabs {
-        margin: 0px;
-        padding: 0px;
-        list-style: none;
-    }
-
-    ul.tabs li {
-        background: none;
-        color: #222;
-        display: inline-block;
-        padding: 10px 15px;
-        cursor: pointer;
-    }
-
-    ul.tabs li.current {
-        background: #ededed;
-        color: #222;
-    }
-
-    .tab-content {
-        display: none;
-        background: #ededed;
-        padding: 15px;
-    }
-
-    .tab-content.current {
-        display: inherit;
-    }
-    .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
-    .ui-timepicker-div dl { text-align: left; }
-    .ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
-    .ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
-    .ui-timepicker-div td { font-size: 90%; }
-</style>
 <SCRIPT LANGUAGE="JavaScript">
     var OsObject = navigator.userAgent;
 </SCRIPT>

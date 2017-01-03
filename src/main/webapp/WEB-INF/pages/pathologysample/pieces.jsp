@@ -276,6 +276,10 @@
 		<div style="text-align: left">
 			<div>
 				<div class="form-group" style="margin-top:5px;display:inline">
+					<label class="control-label no-padding-right">模板名称：</label>
+					<input id="temfirstv" type="text">
+				</div>
+				<div class="form-group" style="margin-top:5px;display:inline">
 					<label class="control-label no-padding-right">关键字：</label>
 					<input id="temkey" type="text">
 				</div>

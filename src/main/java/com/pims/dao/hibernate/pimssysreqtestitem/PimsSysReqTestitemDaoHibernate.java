@@ -31,7 +31,9 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
         if(!StringUtils.isEmpty((String)(map.get("tesitemtype")))){
             sb.append(" and p.tesitemtype = " + map.get("tesitemtype"));
         }
-
+        if(!StringUtils.isEmpty((String)map.get("pathologyid"))){
+            sb.append(" and p.tespathologyid = "+ map.get("pathologyid"));
+        }
         if(!StringUtils.isEmpty((String)(map.get("isCharge")))){
             if(((String)map.get("isCharge")).trim().equals("true"))
             sb.append(" and p.tesischarge =1 ");
@@ -60,14 +62,16 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
 
     @Override
     public List<PimsSysReqTestitem> allTestItem() {
-        String hql = "from PimsSysReqTestitem where tesuseflag = 1 ";
-        return getSession().createQuery(hql).list();
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsSysReqTestitem where tesuseflag = 1 ");
+        return getSession().createQuery(sb.toString()).list();
     }
 
     @Override
     public List<PimsSysReqTestitem> getTestItems(Long aLong) {
-        String hql = "from PimsSysReqTestitem as t where t.testitemid in(select d.testItemId from PimsSysPackageDetail as d where d.packageId=:packageId)";
-        Query query = getSession().createQuery(hql);
+        StringBuffer hql = new StringBuffer();
+        hql.append("from PimsSysReqTestitem as t where t.testitemid in(select d.testItemId from PimsSysPackageDetail as d where d.packageId=:packageId)");
+        Query query = getSession().createQuery(hql.toString());
         query.setParameter("packageId", aLong);
         return query.list();
     }
@@ -101,7 +105,9 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
      */
     @Override
     public List<PimsSysReqTestitem> allValidOrderItem() {
-        Query query = getSession().createQuery("from PimsSysReqTestitem where tesuseflag=1 and tesisorder=1");
+        StringBuffer sb = new StringBuffer();
+        sb.append("from PimsSysReqTestitem where tesuseflag=1 and tesisorder=1");
+        Query query = getSession().createQuery(sb.toString());
         return query.list();
     }
 }

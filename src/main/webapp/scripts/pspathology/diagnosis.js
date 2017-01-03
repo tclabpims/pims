@@ -166,7 +166,7 @@ function saveDiagnosisInfo() {
                 }
             }
         }
-        layer.alert('保存成功！');
+        layer.msg('保存成功！',{icon:2,time:1000});
     });
 }
 
@@ -327,7 +327,7 @@ function doctorSign(f) {
             layer.msg("该标本已审核无法修改初查签名!",{icon:2,time:1000});
         }
     }else if(f == 3 || f == 4 ){//复核签名，复核取消
-        if($("#samauditer").val() != "" && $("#samauditer").val() != $("#local_userid").val()){
+        if($("#samauditerid").val() != "" && $("#samauditerid").val() != $("#local_userid").val()){
             result = false;
             layer.msg("您无权修改其他医生的复核签名!",{icon:2,time:1000});
         }else if(rowData.sampathologystatus > 3){
@@ -345,12 +345,16 @@ function doctorSign(f) {
             $.get("../diagnosis/signdoctor", {}, function (data) {
                 if (f == 1) {
                     if($("#samauditer").val() != ""){
-                        layer.msg("",{icon:2,time:1000});
+                        layer.msg("已初查，无需再次初查!",{icon:2,time:1000});
+                        return;
                     }
                     $("#saminitiallyusername").val(data.name);
                     $("#saminitiallytime").val(data.time);
                     $("#saminitiallyuserid").val(data.id);
                 } else if (f == 3) {
+                    if($("#samauditer").val() != ""){
+                        layer.msg("已复核，无需再次复核!",{icon:2,time:1000});
+                    }
                     $("#samauditer").val(data.name);
                     $("#samauditedtime").val(data.time);
                     $("#samauditerid").val(data.id);
@@ -372,10 +376,30 @@ function doctorSign(f) {
                 $("#samauditerid").val('');
             }
         }
+        var arr = new Array();
+        var rowData = $("#sectionList").jqGrid('getRowData', crno);
+        arr.push(rowData);
+        if(f == 3 && $("#reqsts").val() == "2"){
+            $.post("../task/task/changetaskstates", {
+                    tasks: JSON.stringify(arr),
+                    states: 2,
+                    taskstates: 0
+                },
+                function (data) {
+                    if (data.success) {
+                        saveSign();
+                    } else {
+                        layer.msg(data.message, {icon: 2, time: 1000});
+                        // location.reload();
+                        query();
+                    }
+                });
+        }
     }
 }
 
 function saveSign() {
+    saveDiagnosisInfo();
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
     if(rowData.samsamplestatus < 3 && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
         layer.msg('该标本未切片或未制片无法初查或复核！', {icon: 2, time: 1000});
@@ -387,21 +411,41 @@ function saveSign() {
         layer.msg('该标本未填写诊断意见无法初查或复核！', {icon: 2, time: 1000});
         return;
     }else{
-        $.post('../diagnosis/saveSign', {
-            sampleid: rowData.sampleid,
-            saminitiallytime: $("#saminitiallytime").val(),
-            saminitiallyuserid: $("#saminitiallyuserid").val(),
-            saminitiallyusername: $("#saminitiallyusername").val(),
-            samauditedtime: $("#samauditedtime").val(),
-            samauditerid: $("#samauditerid").val(),
-            samauditer: $("#samauditer").val(),
-            samreportedtime: $("#samreportedtime").val(),
-            samreportorid: $("#samreportorid").val(),
-            samreportor: $("#samreportor").val()
-        }, function (data) {
-            layer.msg('保存成功！', {icon: 1, time: 1000});
-            query();
-        })
+        if(rowData.samsamplestatus < 3 ){
+            layer.confirm('该标本未完全切片或未完全制片是否继续操作？', {icon: 2, title:'警告'}, function(index) {
+                $.post('../diagnosis/saveSign', {
+                    sampleid: rowData.sampleid,
+                    saminitiallytime: $("#saminitiallytime").val(),
+                    saminitiallyuserid: $("#saminitiallyuserid").val(),
+                    saminitiallyusername: $("#saminitiallyusername").val(),
+                    samauditedtime: $("#samauditedtime").val(),
+                    samauditerid: $("#samauditerid").val(),
+                    samauditer: $("#samauditer").val(),
+                    samreportedtime: $("#samreportedtime").val(),
+                    samreportorid: $("#samreportorid").val(),
+                    samreportor: $("#samreportor").val()
+                }, function (data) {
+                    layer.msg('保存成功！', {icon: 1, time: 1000});
+                    query();
+                });
+            });
+        }else{
+            $.post('../diagnosis/saveSign', {
+                sampleid: rowData.sampleid,
+                saminitiallytime: $("#saminitiallytime").val(),
+                saminitiallyuserid: $("#saminitiallyuserid").val(),
+                saminitiallyusername: $("#saminitiallyusername").val(),
+                samauditedtime: $("#samauditedtime").val(),
+                samauditerid: $("#samauditerid").val(),
+                samauditer: $("#samauditer").val(),
+                samreportedtime: $("#samreportedtime").val(),
+                samreportorid: $("#samreportorid").val(),
+                samreportor: $("#samreportor").val()
+            }, function (data) {
+                layer.msg('保存成功！', {icon: 1, time: 1000});
+                query();
+            });
+        }
     }
 
 }
@@ -845,6 +889,7 @@ function getSampleData1(id) {
     $.get("../pathologysample/sample/get", {id: id}, function (data) {
         if (data != "") {
             var samjjsj = data.samjjsj;
+            $("#sampathologyid1").val(data.sampathologyid);//病种类别
             $("#sampleid").val(data.sampleid);//标本id
             $("#saminspectionid").val(data.saminspectionid);//标本条码号 11
             $("#sampathologycode").val(data.sampathologycode);//病理编号 11
@@ -1052,10 +1097,12 @@ function receivecs(num) {
         function (data) {
             if (data.success) {
                 layer.msg(data.message, {icon: 1, time: 1000});
-                location.reload();
+                // location.reload();
+                query();
             } else {
                 layer.msg(data.message, {icon: 2, time: 1000});
-                location.reload();
+                // location.reload();
+                query();
             }
         });
 }
@@ -1108,6 +1155,29 @@ function queryList1(userid,num) {
         },
         page: 1
     }).trigger('reloadGrid');//重新载入
+    $.get("../diagnosis/getpathnum",
+        {"sampathologyid": sampathologyid,
+            "samplesectionfrom": samplesectionfrom,
+            "samplesectionto": samplesectionto,
+            "saminspectionid": saminspectionid,
+            "sampathologycode": sampathologycode,
+            "sampatientname": sampatientname,
+            "samfirstv": $("#reqsts").val(),
+            "sampiecedoctorid":$("#user_id").val()
+        }, function (data) {
+            if(data.success){
+                if(data.noreceiveid == "0"){
+                    $("#noreceiveid").html("");
+                }else
+                $("#noreceiveid").html("("+data.noreceiveid+")");
+                if(data.noauditid == "0"){
+                    $("#noauditid").html("");
+                }else
+                $("#noauditid").html("("+data.noauditid+")");
+
+            }
+        }
+    );
 }
 
 function query() {
@@ -1132,6 +1202,30 @@ function query() {
         },
         page: 1
     }).trigger('reloadGrid');//重新载入
+
+    $.get("../diagnosis/getpathnum",
+        {"sampathologyid": sampathologyid,
+        "samplesectionfrom": samplesectionfrom,
+        "samplesectionto": samplesectionto,
+        "saminspectionid": saminspectionid,
+        "sampathologycode": sampathologycode,
+        "sampatientname": sampatientname,
+        "samfirstv": $("#reqsts").val(),
+        "sampiecedoctorid":$("#user_id").val()
+        }, function (data) {
+            if(data.success){
+                if(data.noreceiveid == "0"){
+                    $("#noreceiveid").html("");
+                }else
+                    $("#noreceiveid").html("("+data.noreceiveid+")");
+                if(data.noauditid == "0"){
+                    $("#noauditid").html("");
+                }else
+                    $("#noauditid").html("("+data.noauditid+")");
+
+            }
+        }
+    );
 }
 
 function CurentTime(now) {
@@ -1162,11 +1256,20 @@ function CurentTime(now) {
 function print(url) {
     LODOP = getLodop();
     LODOP.PRINT_INIT("报告单打印");
-    LODOP.ADD_PRINT_URL(10, 10, 794, 1123, url);
-    LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
-    LODOP.SET_PRINT_STYLEA(0, "VOrient", 3);
-    //LODOP.PREVIEW();
-    LODOP.PRINT();
+    // LODOP.ADD_PRINT_URL(10, 10, 794, 1123, url);
+    // LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
+    // LODOP.SET_PRINT_STYLEA(0, "VOrient", 3);
+    // //LODOP.PREVIEW();
+    // LODOP.PRINT();
+    $.get(url,function (data) {
+        // LODOP.ADD_PRINT_HTM(10, 10, 794, 1123, $("#test").html());
+        LODOP.ADD_PRINT_HTM(10, 10, 794, 1123, data);
+        // LODOP.ADD_PRINT_URL(10, 10, 794, 1123, url);
+        // LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
+        // LODOP.SET_PRINT_STYLEA(0, "VOrient", 3);
+        // LODOP.PREVIEW();
+        LODOP.PRINT();
+    })
 }
 
 function reportView(v, showPicNum, templateUrl) {
@@ -1281,8 +1384,17 @@ function appendItem(v) {
     var itemNo = $("#itemList").jqGrid("getDataIDs").length;
     var insertedId = $("#itemList").getCol("testitemid");
     var e = false;
-    for (var j = 0; j < insertedId.length; j++) {
-        if (insertedId[j] == row.testitemid) e = true;
+    // for (var j = 0; j < insertedId.length; j++) {
+    //     if (insertedId[j] == row.testitemid) e = true;
+    // }
+    var itemnos = $("#itemList").jqGrid("getDataIDs");
+    if(itemnos.length > 0){
+        for(var j=0;j<itemnos.length;j++){
+            var itemrow = $("#itemList").jqGrid("getRowData", itemnos[j]);
+            if(itemrow.lkno == lakuai && itemrow.testitemid == row.testitemid){
+                e = true;
+            }
+        }
     }
     if (!e) {
         $("#itemList").jqGrid("addRowData", (itemNo + 1), row);
@@ -1297,9 +1409,25 @@ function removeItems() {
         gridName = "#pieceList";
     else if (orderType == 'MYZH' || orderType == 'TSRS' || orderType == 'FZBL')
         gridName = "#itemList";
-    var selectedRowIds = $(gridName).jqGrid("getGridParam", "selrow");
+    var selectedRowIds = $(gridName).jqGrid("getGridParam", "selarrrow");
     for (var i = 0; i < selectedRowIds.length; i++) {
+        if(gridName == "#itemList"){
+            var itemrow = $(gridName).jqGrid('getRowData',selectedRowIds[i]);
+            var lkrows = $("#lkItemList").jqGrid("getDataIDs");
+            for (var j = 0; j < lkrows.length; j++) {
+                var row = $("#lkItemList").jqGrid("getRowData", lkrows[j]);
+                if (itemrow.lkno == row.lkno) {
+                    if (orderType_ == "CHONGQIE" || orderType_ == "SHENQIE")row.totalItem = 0;
+                    else {
+                        row.totalItem = parseInt(row.totalItem) - 1;
+                    }
+                    $("#lkItemList").jqGrid("setRowData", lkrows[j], row);
+                    break;
+                }
+            }
+        }
         $(gridName).jqGrid("delRowData", selectedRowIds[i]);
+
     }
 }
 
@@ -1317,8 +1445,17 @@ function appendAll() {
             var itemNo = $("#itemList").jqGrid("getDataIDs").length;
             var insertedId = $("#itemList").getCol("testitemid");
             var e = false;
-            for (var j = 0; j < insertedId.length; j++) {
-                if (insertedId[j] == row.testitemid) e = true;
+            // for (var j = 0; j < insertedId.length; j++) {
+            //     if (insertedId[j] == row.testitemid) e = true;
+            // }
+            var itemnos = $("#itemList").jqGrid("getDataIDs");
+            if(itemnos.length > 0){
+                for(var j=0;j<itemnos.length;j++){
+                    var itemrow = $("#itemList").jqGrid("getRowData", itemnos[j]);
+                    if(itemrow.lkno == lakuai && itemrow.testitemid == row.testitemid){
+                        e = true;
+                    }
+                }
             }
             if (!e) {
                 $("#itemList").jqGrid("addRowData", (itemNo + 1), row);
@@ -1828,19 +1965,21 @@ $(function () {
             "sampiecedoctorid": $("#local_userid").val()
         },
         width: $('.leftContent').width(),
-        colNames: ['病理状态', '病理号', '送检医生', '病种类别', 'id', 'samcustomerid', 'sampathologyid','samsamplestatus'],
+        colNames: ['病理状态', '病理号', '送检医生','患者姓名', '病种类别', 'id', 'samcustomerid', 'sampathologyid','samsamplestatus'],
         colModel: [
             {
                 name: 'sampathologystatus',
                 index: 'sampathologystatus',
                 width: 30,
                 formatter: "select",
-                editoptions: {value: "1:未报告;2:已初查;3:已审核;4:已打印;5:已签发"}
+                editoptions: {value: "1:未报告;2:已初查;3:已审核;4:已打印;5:已签发"},align:"center"
             },
-            {name: 'sampathologycode', index: 'sampathologycode', width: 40},
-            {name: 'samsenddoctorname', index: 'samsenddoctorname', width: 40},
+            {name: 'sampathologycode', index: 'sampathologycode', width: 40,align:"center"},
+            {name: 'samsenddoctorname', index: 'samsenddoctorname', hidden: true},
+            {name: 'sampatientname', index: 'sampatientname', width: 40,align:"center"},
+
             {
-                name: 'patclass', index: 'patclass', width: 40, formatter: "select",
+                name: 'patclass', index: 'patclass', width: 40, formatter: "select",align:"center",
                 editoptions: {value: "1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学"}
             },
             {name: 'sampleid', index: 'sampleid', hidden: true},
@@ -1882,6 +2021,30 @@ $(function () {
         }
     });
 
+    $.get("../diagnosis/getpathnum",
+        {"sampathologyid": sampathologyid,
+            "samplesectionfrom": samplesectionfrom,
+            "samplesectionto": samplesectionto,
+            "saminspectionid": saminspectionid,
+            "sampathologycode": sampathologycode,
+            "sampatientname": sampatientname,
+            "samfirstv": $("#reqsts").val(),
+            "sampiecedoctorid":$("#user_id").val()
+        }, function (data) {
+            if(data.success){
+                if(data.noreceiveid == "0"){
+                    $("#noreceiveid").html("");
+                }else
+                    $("#noreceiveid").html("("+data.noreceiveid+")");
+                if(data.noauditid == "0"){
+                    $("#noauditid").html("");
+                }else
+                    $("#noauditid").html("("+data.noauditid+")");
+
+            }
+        }
+    )
+
     jQuery("#sectionList").jqGrid('bindKeys', {
             "onEnter": function (rowid) {
                 onRowSelect(rowid);
@@ -1900,42 +2063,42 @@ $(function () {
             {name: 'piecode', hidden: true},//材块条码编号
             {name: 'piesampleid', hidden: true},//客户ID
             {name: 'pieunit', hidden: true},//取材单位
-            {name: 'piepathologycode', index: 'piepathologycode', width: 75},//病理号
-            {name: 'piesamplingno', index: 'piesamplingno', width: 65},//取材序号
+            {name: 'piepathologycode', index: 'piepathologycode', width: 75,align:"center"},//病理号
+            {name: 'piesamplingno', index: 'piesamplingno', width: 65,align:"center"},//取材序号
             {
                 name: 'piecounts',
                 index: 'piecounts',
                 editable: true,
                 width: 60,
-                editrules: {edithidden: true, required: true, number: true, minValue: 1, maxValue: 100}
+                editrules: {edithidden: true, required: true, number: true, minValue: 1, maxValue: 100},align:"center"
             },//材块数
             {
                 name: 'pienullslidenum',
                 index: 'pienullslidenum',
                 width: 60,
                 editable: true,
-                editrules: {edithidden: true, required: true, number: true, minValue: 0, maxValue: 100}
+                editrules: {edithidden: true, required: true, number: true, minValue: 0, maxValue: 100},align:"center"
             },//白片数
-            {name: 'pieparts', index: 'pieparts', width: 65, editable: true},//取材部位
+            {name: 'pieparts', index: 'pieparts', width: 65, editable: true,align:"center"},//取材部位
             {name: 'piedoctorid', hidden: true},//取材医生ID
-            {name: 'piedoctorname', index: 'piedoctorname', width: 65},//取材医生
+            {name: 'piedoctorname', index: 'piedoctorname', width: 65,align:"center"},//取材医生
             {name: 'pierecorderid', hidden: true},//录入员ID
-            {name: 'pierecordername', index: 'pierecordername', width: 60},//录入员
+            {name: 'pierecordername', index: 'pierecordername', width: 60,align:"center"},//录入员
             {
                 name: 'piesamplingtime',
                 index: 'piesamplingtime',
                 width: 90,
                 formatter: function (cellvalue, options, row) {
                     return new Date().Format("yyyy-MM-dd hh:mm:ss")
-                }
+                },align:"center"
             },//取材时间
-            {name: 'piespecial', index: 'piespecial', width: 65, editable: true},//特殊要求
+            {name: 'piespecial', index: 'piespecial', width: 65, editable: true,align:"center"},//特殊要求
             {
                 name: 'piestate',
                 index: 'piestate',
                 width: 65,
                 formatter: "select",
-                editoptions: {value: "0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}
+                editoptions: {value: "0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"},align:"center"
             },//取材状态
             {name: 'pieisembed', index: 'pieisembed', hidden: true}
         ],
@@ -2075,35 +2238,35 @@ $(function () {
         pager: "#pager2",
         colNames: ['病理号', '取材序号', '材块数', '白片数', '取材部位', '取材医生', '录入员', '取材时间', '特殊要求', '取材状态'],
         colModel: [
-            {name: 'piepathologycode', index: 'piepathologycode', width: 80},//病理号
-            {name: 'piesamplingno', index: 'piesamplingno', width: 60},//取材序号
-            {name: 'piecounts', index: 'piecounts', width: 50},//材块数
-            {name: 'pienullslidenum', index: 'pienullslidenum', width: 50},//白片数
+            {name: 'piepathologycode', index: 'piepathologycode', width: 80,align:"center"},//病理号
+            {name: 'piesamplingno', index: 'piesamplingno', width: 60,align:"center"},//取材序号
+            {name: 'piecounts', index: 'piecounts', width: 50,align:"center"},//材块数
+            {name: 'pienullslidenum', index: 'pienullslidenum', width: 50,align:"center"},//白片数
             {
                 name: 'pieparts',
                 index: 'pieparts',
                 width: 60,
                 edittype: "select",
                 formatter: "select",
-                editoptions: {value: "1:肌腱;2:肺;3:肝脏"}
+                editoptions: {value: "1:肌腱;2:肺;3:肝脏"},align:"center"
             },//取材部位
-            {name: 'piedoctorname', index: 'piedoctorname', width: 80},//取材医生
-            {name: 'pierecordername', index: 'pierecordername', width: 80},//录入员
+            {name: 'piedoctorname', index: 'piedoctorname', width: 80,align:"center"},//取材医生
+            {name: 'pierecordername', index: 'pierecordername', width: 80,align:"center"},//录入员
             {
                 name: 'piesamplingtime',
                 index: 'piesamplingtime',
                 width: 80,
                 formatter: function (cellvalue, options, row) {
                     return CurentTime(new Date(cellvalue))
-                }
+                },align:"center"
             },//取材时间
-            {name: 'piespecial', index: 'piespecial', width: 60},//特殊要求
+            {name: 'piespecial', index: 'piespecial', width: 60,align:"center"},//特殊要求
             {
                 name: 'piestate',
                 index: 'piestate',
                 width: 60,
                 formatter: "select",
-                editoptions: {value: "0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}
+                editoptions: {value: "0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"},align:"center"
             }//取材状态
         ],
         loadComplete: function () {
@@ -2287,7 +2450,9 @@ $(function () {
                 url: "../estitem/querytestitem",
                 dataType: "json",
                 data: {
-                    query: $("#itemName").val()//项目中文名称
+                    query: $("#itemName").val(),//项目中文名称
+                    pathologyid:$("#sampathologyid1").val(),///病种类别
+                    tesitemtype:2
                 },
                 success: function (data) {
                     response($.map(data, function (result) {

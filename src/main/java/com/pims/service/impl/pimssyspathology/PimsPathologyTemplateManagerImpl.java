@@ -30,7 +30,7 @@ public class PimsPathologyTemplateManagerImpl extends GenericManagerImpl<PimsPat
 
     @Override
     public List<PimsPathologyTemplate> getTemplateList(GridQuery gridQuery) {
-        StringBuilder qstr = new StringBuilder("select a.templateid,a.temcustomerid,a.temownerid,a.tempathologyid,a.temsort,a.temtype,a.temcontent,a.temclass,a.temkey,a.tempinyin,a.temfivestroke,a.temspellcode,a.temownername,b.Patnamech as tempathologyname,c.Name as temcustomername from ");
+        StringBuilder qstr = new StringBuilder("select a.templateid,a.temcustomerid,a.temownerid,a.tempathologyid,a.temsort,a.temtype,a.temcontent,a.temclass,a.temkey,a.tempinyin,a.temfivestroke,a.temspellcode,a.temownername,b.Patnamech as tempathologyname,c.Name as temcustomername,a.temfirstv from ");
         qstr.append("Pims_Pathology_Template a,Pims_Sys_Pathology b,Lab_hospital c ")
         .append("where a.Tempathologyid=b.Pathologyid and a.Temcustomerid=c.Id");
         String query = gridQuery.getQuery();
@@ -61,6 +61,7 @@ public class PimsPathologyTemplateManagerImpl extends GenericManagerImpl<PimsPat
                 ppt.setTemownername((String)obj[12]);
                 ppt.setTempathologyname((String)obj[13]);
                 ppt.setTemcustomername((String)obj[14]);
+                ppt.setTemfirstv((String)obj[15]);
                 templateList.add(ppt);
             }
         }

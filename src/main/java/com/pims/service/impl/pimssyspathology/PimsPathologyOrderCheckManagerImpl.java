@@ -56,6 +56,11 @@ public class PimsPathologyOrderCheckManagerImpl extends GenericManagerImpl<PimsP
     }
 
     @Override
+    public List orderFeeList(long orderId) {
+        return pathologyOrderCheckDao.orderFeeList(orderId);
+    }
+
+    @Override
     public void updateTestResult(JSONArray json, String name) {
         pathologyOrderCheckDao.updateTestResult(json, name);
     }

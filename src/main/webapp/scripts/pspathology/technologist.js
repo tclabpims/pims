@@ -378,10 +378,10 @@ $(function () {
             {
                 name: 'chiOrderType',
                 index: 'chiOrderType',
-                width: 30
+                width: 30,align:"center"
             },
-            {name: 'orderCode', index: 'orderCode', width: 40},
-            {name: 'ordOrderUser', index: 'ordOrderUser', width: 40},
+            {name: 'orderCode', index: 'orderCode', width: 40,align:"center"},
+            {name: 'ordOrderUser', index: 'ordOrderUser', width: 40,align:"center"},
             {name: 'orderId', index: 'orderId', hidden: true},
             {name: 'ordSampleId', index: 'ordSampleId', hidden: true},
             {name: 'ordCustomerId', index: 'ordCustomerId', hidden: true},
@@ -710,44 +710,44 @@ $(function () {
     };
 
     //检查项目名称
-    $("#itemName").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: "../estitem/querytestitem",
-                dataType: "json",
-                data: {
-                    query: $("#itemName").val()//项目中文名称
-                },
-                success: function (data) {
-                    response($.map(data, function (result) {
-                        return {
-                            label: result.teschinesename,
-                            value: result.tesenglishname,
-                            id: result.testitemid,
-                            tesischarge: result.tesischarge
-                        }
-                    }));
-                }
-            });
-        },
-        minLength: 0,
-        select: function (event, ui) {
-            var row = {};
-            row.tesenglishname = ui.item.value;
-            row.teschinesename = ui.item.label;
-            row.testitemid = ui.item.id;
-            row.tesischarge = ui.item.tesischarge;
-            appendItem(row);
-            /*$("#chinesename").val(ui.item.label);
-             $("#chienglishname").val(ui.item.value);
-             $("#testitemid").val(ui.item.id);*/
-        }
-    })
-        .data("ui-autocomplete")._renderItem = function (ul, item) {
-        return $("<li>")
-            .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
-            .appendTo(ul);
-    };
+    // $("#itemName").autocomplete({
+    //     source: function (request, response) {
+    //         $.ajax({
+    //             url: "../estitem/querytestitem",
+    //             dataType: "json",
+    //             data: {
+    //                 query: $("#itemName").val()//项目中文名称
+    //             },
+    //             success: function (data) {
+    //                 response($.map(data, function (result) {
+    //                     return {
+    //                         label: result.teschinesename,
+    //                         value: result.tesenglishname,
+    //                         id: result.testitemid,
+    //                         tesischarge: result.tesischarge
+    //                     }
+    //                 }));
+    //             }
+    //         });
+    //     },
+    //     minLength: 0,
+    //     select: function (event, ui) {
+    //         var row = {};
+    //         row.tesenglishname = ui.item.value;
+    //         row.teschinesename = ui.item.label;
+    //         row.testitemid = ui.item.id;
+    //         row.tesischarge = ui.item.tesischarge;
+    //         appendItem(row);
+    //         /*$("#chinesename").val(ui.item.label);
+    //          $("#chienglishname").val(ui.item.value);
+    //          $("#testitemid").val(ui.item.id);*/
+    //     }
+    // })
+    //     .data("ui-autocomplete")._renderItem = function (ul, item) {
+    //     return $("<li>")
+    //         .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
+    //         .appendTo(ul);
+    // };
 
     getOrderItems();
 })

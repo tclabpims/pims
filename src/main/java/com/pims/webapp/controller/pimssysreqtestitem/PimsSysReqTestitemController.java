@@ -72,9 +72,11 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 	@RequestMapping(method = {RequestMethod.GET}, value = "/querytestitem")
 	@ResponseBody
 	public void queryTestItem(HttpServletRequest request, HttpServletResponse response) {
-		String query = request.getParameter("query");
+		String query = request.getParameter("query");//项目名称
 		Map<String, Object> param = new HashMap<>();
 		param.put("name", query);
+		param.put("tesitemtype",request.getParameter("tesitemtype"));//项目类型
+		param.put("pathologyid",request.getParameter("pathologyid"));//病种ID
 		param.put("isCharge", request.getParameter("isCharge"));
 		param.put("filter", request.getParameter("filter"));
 		List<PimsSysReqTestitem> lis = pimsSysReqTestitemManager.getTestitemInfo(param);
@@ -102,10 +104,12 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 		DataResponse dr = new DataResponse();
 		GridQuery gridQuery = new GridQuery(request);
 		String sid = request.getParameter("pathologyId");
+		String tesitemtype = request.getParameter("tesitemtype");//项目类型
+
 		Long pathologyId = null;
 		if(sid != null && !"".equals(sid)) pathologyId = Long.valueOf(sid);
-		List<PimsSysReqTestitem> result = pimsSysReqTestitemManager.getReqTestitemList(gridQuery, pathologyId);
-		Integer total = pimsSysReqTestitemManager.countReqTestitem(gridQuery.getQuery(), pathologyId);
+		List<PimsSysReqTestitem> result = pimsSysReqTestitemManager.getReqTestitemList(gridQuery, pathologyId,tesitemtype);
+		Integer total = pimsSysReqTestitemManager.countReqTestitem(gridQuery.getQuery(), pathologyId,tesitemtype);
 		dr.setRecords(total);
 		dr.setPage(gridQuery.getPage());
 		dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));

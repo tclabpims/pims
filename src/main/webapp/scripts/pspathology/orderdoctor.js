@@ -91,8 +91,18 @@ function getOrderInfo(orderId, orderType) {
             jQuery("#checkItemList")[0].addJSONData(checkItems);
 
             jQuery("#childChargeList").jqGrid("clearGridData");
+            for(var i=0;i<childChargeJson.length;i++){
+                var datarowsss = {
+                    hisChargeName:childChargeJson[i].feehisname,
+                    hisPrice:childChargeJson[i].feehisprice,
+                    hisPrice:childChargeJson[i].feehisprice,
+                    num:childChargeJson[i].feeamount
+                };
+                $("#childChargeList").jqGrid("addRowData", i+1, datarowsss, "last");
+            }
 
-            jQuery("#childChargeList")[0].addJSONData(childChargeJson);
+            // jQuery("#childChargeList")[0].addJSONData(childChargeJson);
+
 
             var itemCal = "申请数量：" + checkChargeJson.reqItem + ",应收费用：￥" + checkChargeJson.totalMoney;
             $("#itemCal").html(itemCal);
@@ -579,10 +589,10 @@ $(function () {
             {
                 name: 'chiOrderType',
                 index: 'chiOrderType',
-                width: 30
+                width: 30,align:"center"
             },
-            {name: 'orderCode', index: 'orderCode', width: 40},
-            {name: 'ordOrderUser', index: 'ordOrderUser', width: 40},
+            {name: 'orderCode', index: 'orderCode', width: 40,align:"center"},
+            {name: 'ordOrderUser', index: 'ordOrderUser', width: 40,align:"center"},
             {name: 'orderId', index: 'orderId', hidden: true},
             {name: 'ordSampleId', index: 'ordSampleId', hidden: true},
             {name: 'ordCustomerId', index: 'ordCustomerId', hidden: true},

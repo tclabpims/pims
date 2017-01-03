@@ -18,9 +18,9 @@ public interface PimsSysReqTestitemManager extends GenericManager<PimsSysReqTest
      */
     List<PimsSysReqTestitem> getTestitemInfo(Map map);
 
-    List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery, Long pathologyId);
+    List<PimsSysReqTestitem> getReqTestitemList(GridQuery gridQuery, Long pathologyId,String tesitemtype);
 
-    Integer countReqTestitem(String query, Long pathologyId);
+    Integer countReqTestitem(String query, Long pathologyId,String tesitemtype);
 
     List<PimsSysReqTestitem> allTestItem();
 

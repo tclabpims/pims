@@ -150,19 +150,19 @@ $(function() {
 		datatype: "json",
 		postData:{"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
 			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
-		colNames: ['材块ID','标本id','病理状态', '病理号','材块编号','特殊要求','白片数','病理状态','补取医嘱','病人名',
+		colNames: ['材块ID','标本id','病理状态', '病理号','材块编号','患者姓名','特殊要求','白片数','病理状态','补取医嘱',
 			'材块数','白片数', '取材部位','特殊要求', '取材时间','取材医生ID','取材医生','序号','包埋状态'],
 		colModel: [
 			{name:'pieceid',hidden:true},//材块ID
 			{name:'sampleid',hidden:true},//标本id
 			{name:'samsamplestatus',hidden:true},//病理状态
-			{ name: 'piepathologycode', index: 'piepathologycode'},//病理号
-			{ name: 'piecode', index: 'piecode'},//材块编号
-			{ name: 'piespecial', index: 'piespecial'},//特殊要求
-			{ name: 'pienullslidenum', index: 'pienullslidenum'},//白片数
-			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"},width:70},//病理状态
-			{ name: 'piefirstn', index: 'piefirstn'},//补取医嘱
-			{ name: 'sampatientname', index: 'sampatientname'},//病人名
+			{ name: 'piepathologycode', index: 'piepathologycode',align:"center"},//病理号
+			{ name: 'piecode', index: 'piecode',align:"center"},//材块编号
+			{ name: 'sampatientname', index: 'sampatientname',align:"center"},//病人名
+			{ name: 'piespecial', index: 'piespecial',align:"center"},//特殊要求
+			{ name: 'pienullslidenum', index: 'pienullslidenum',align:"center"},//白片数
+			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"},width:70,align:"center"},//病理状态
+			{ name: 'piefirstn', index: 'piefirstn',align:"center"},//补取医嘱
 			{name:'piecounts',hidden:true},//材块数
 			{name:'pienullslidenum',hidden:true},//白片数
 			{name:'pieparts',hidden:true},//取材部位
@@ -236,10 +236,10 @@ function createNew1(reqid,width1){
 			{name:'parparaffinno',hidden:true},//蜡块序号
 			{name:'parparaffincode',hidden:true},//蜡块标签
 			{name:'parbarcode',hidden:true},//蜡块条码号
-			{ name: 'piecode', index: 'piecode'},//材块编号
-			{ name: 'parpiececount', index: 'parpiececount'},//材块数
-			{ name: 'parnullslidenum', index: 'parnullslidenum'},//白片数
-			{ name: 'parpieceparts', index: 'parpieceparts'},//取材部位
+			{ name: 'piecode', index: 'piecode',align:"center"},//材块编号
+			{ name: 'parpiececount', index: 'parpiececount',align:"center"},//材块数
+			{ name: 'parnullslidenum', index: 'parnullslidenum',align:"center"},//白片数
+			{ name: 'parpieceparts', index: 'parpieceparts',align:"center"},//取材部位
 			{name:'parissectioned',hidden:true},//是否已切片
 			{name:'parsectioneddoctor',hidden:true},//切片医生
 			{name:'parsectionedtime',hidden:true},//切片时间
@@ -247,13 +247,13 @@ function createNew1(reqid,width1){
 			{name:'parprintuser',hidden:true},//标签打印人员
 			{name:'parprinttime',hidden:true},//标签打印时间
 			{name:'parremaining',hidden:true},//剩余处理
-			{ name: 'piespecial', index: 'piespecial'},//特殊要求
-			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//取材时间
-			{ name: 'piedoctorname', index: 'piedoctorname'},//取材医生
-			{ name: 'pieembedtime', index: 'pieembedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},//包埋时间
+			{ name: 'piespecial', index: 'piespecial',align:"center"},//特殊要求
+			{ name: 'piesamplingtime', index: 'piesamplingtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},align:"center"},//取材时间
+			{ name: 'piedoctorname', index: 'piedoctorname',align:"center"},//取材医生
+			{ name: 'pieembedtime', index: 'pieembedtime',formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))},align:"center"},//包埋时间
 			{name:'pieembeddoctorid',hidden:true},//包埋医生ID
-			{ name: 'pieembeddoctorname', index: 'pieembeddoctorname'},//包埋医生
-			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"}},//包埋状态
+			{ name: 'pieembeddoctorname', index: 'pieembeddoctorname',align:"center"},//包埋医生
+			{ name: 'pieisembed', index: 'pieisembed',formatter: "select", editoptions:{value:"0:未包埋;1:已包埋"},align:"center"},//包埋状态
 			{name:'pieceid',hidden:true}//材块ID
 			],
 		loadComplete : function() {
