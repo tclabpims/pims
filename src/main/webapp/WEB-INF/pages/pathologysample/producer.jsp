@@ -41,7 +41,7 @@
 			<i class="ace-icon fa fa-arrow-right bigger-110"></i>
 			下一个
 		</botton>
-		<botton  class="div_img btn btn-sm btn-success" id="saveButton">
+		<botton  class="div_img btn btn-sm btn-warning" id="saveButton">
 			<i class="ace-icon fa fa-leaf bigger-110"></i>
 			制片
 		</botton>
@@ -49,11 +49,11 @@
 			<i class="ace-icon fa fa-leaf bigger-110"></i>
 			取消制片
 		</botton>
-		<botton  class="div_img btn btn-sm btn-warning" id="printslide">
+		<botton  class="div_img btn btn-sm btn-info" id="printslide">
 			<i class="ace-icon fa fa-print bigger-110"></i>
 			制片打印
 		</botton>
-		<botton  class="div_img btn btn-sm btn-warning" onclick="printList()">
+		<botton  class="div_img btn btn-sm btn-primary" onclick="printList()">
 			<i class="ace-icon fa fa-print bigger-110"></i>
 			列表打印
 		</botton>
@@ -66,8 +66,8 @@
 	</div>
 	<div>
 		<div style="margin-top: 5px">
-			<h5 style="float: left;width: 50%;font-size: 14px;background-color:#82af6f;margin-right:0.8%; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px;margin-top:0px!important;" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
-			<h5 style="float: left;width: 49%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-color:#82af6f;line-height: 38px;text-indent: 20px;margin-top:0px!important;"><strong style="font-weight: nonrmal">制片管理</strong>
+			<h5 style="float: left;width: 49.8%;font-size: 14px;background-clip:content-box;background-color:rgb(135,184,127);padding-right:2px; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px;margin-top:0px!important;" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
+			<h5 style="float: left;width: 49%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-clip:content-box;background-color:rgb(135,184,127);line-height: 38px;text-indent: 20px;margin-top:0px!important;padding-left: 0.6%"><strong style="font-weight: nonrmal">制片管理</strong>
 			</h5>
 		</div>
 		<div class="col-sm-6 leftContent" id="div_2">
@@ -96,7 +96,7 @@
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;患者姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
-						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;" onclick="searchList()">
+						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;margin-right: 6%" onclick="searchList()">
 							<span style="color: white;">查询</span>
 						</button>
 					</table>
@@ -164,7 +164,7 @@
 						</div>
 						<label class="col-sm-2 label_style" for="sampatientsex">性&nbsp;别:</label>
 						<div class="col-sm-4">
-							<select class="col-sm-8 input_style" id="sampatientsex" disabled>
+							<select class="col-sm-8 input_style" id="sampatientsex" disabled style="background-color:#f5f5f5;color: #666666;padding: 0">
 								<option value="1">男</option>
 								<option value="2">女</option>
 								<option value="3">未知</option>

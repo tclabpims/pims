@@ -27,6 +27,9 @@
 		.input_style{height: 24px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
+		#sampleForm{
+			padding-left:0.5%;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -42,8 +45,8 @@
 		<!--<div class="div_div"><img src="/styles/imagepims/para.png" class="div_img"  id="saveButton">包埋</div>
 		<div class="div_div"><img src="/styles/imagepims/canclepara.png" class="div_img" id="resetbutton">取消包埋</div>-->
 	</div>
-	<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;&nbsp;工作列表</strong></h5>
-	<h5 style="float:left;width: 66%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;&nbsp;包埋管理</strong></h5>
+	<h5 style="float: left;width: 34%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:1%;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;&nbsp;工作列表</strong></h5>
+	<h5 style="float:left;width: 66%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;padding-right: 0.4%"><strong>&nbsp;&nbsp;&nbsp;包埋管理</strong></h5>
 	<div>
 		<div class="col-sm-4 leftContent" id="div_2">
 			<div id="search_div_1" style="background-color: #F9F9F9;height: 127px;border:1px solid #E0E0E0;">
@@ -149,7 +152,7 @@
 						</div>
 						<label class="col-sm-2 label_style" for="sampatientsex">性&nbsp;别:</label>
 						<div class="col-sm-4">
-							<select class="col-sm-6 input_style" id="sampatientsex" disabled>
+							<select class="col-sm-6 input_style" id="sampatientsex" disabled style="background-color:#f5f5f5;color: #666666;padding: 0">
 								<option value="1">男</option>
 								<option value="2">女</option>
 								<option value="3">未知</option>

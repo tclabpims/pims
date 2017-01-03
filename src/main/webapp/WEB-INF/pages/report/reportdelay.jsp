@@ -64,14 +64,14 @@
 	<div class="widget-box widget-color-green ui-sortable-handle">
 			<div class="widget-header">
 				<h6 class="widget-title">延迟报告管理</h6>
-				<%--<div class="widget-toolbar">--%>
-					<%--<a href="#" data-action="collapse">--%>
-						<%--<i class="ace-icon fa fa-chevron-up">隐藏</i>--%>
-					<%--</a>--%>
-				<%--</div>--%>
+				<div class="widget-toolbar">
+					<a href="#"  data-action="collapse" onclick="showandhiden(this)">
+						<i class="ace-icon fa fa-chevron-up">隐藏</i>
+					</a>
+				</div>
 			</div>
-		<div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;height: " id="div_0">
-			<div style="margin-top: 10px;">
+		<div class="row widget-main widget-body" style="background-color: #E8E8E8;border:1px solid #E0E0E0;height: " id="div_0">
+			<div  style="margin-top: 10px;">
 				<table style="margin-bottom: 5px">
 					<span class="input_style">申请FROM:&nbsp;</span>
 					<input type="text" class="form_datetime input_style" value="${sevenday}" id="req_bf_time"/>
