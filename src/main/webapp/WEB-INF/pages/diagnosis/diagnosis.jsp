@@ -277,7 +277,7 @@
                             <div style="display:inline;">
                                 <div style="text-align: right;margin-top:3px;">
                                     <div style="display:inline;text-align: right;">
-                                    <button onclick="query()" style="background:#4190f7!important;padding:0 16px;border-radius:3px;color:white;font-size:12px;border:1px solid #2274e4;height:25px!important;m"> 查询</button>
+                                    <button onclick="query()" style="background:#4190f7!important;padding:0 16px;border-radius:3px;color:white;font-size:12px;border:1px solid #2274e4;height:25px!important;margin-right: 10px"> 查询</button>
                                     </div>
                                         <div style="display:inline;text-align: right;">
                                         <button onclick="receivecs(1)" style="border:1px solid #c2c2c2!important;border-radius:3px;background:#e9e9e9!important;margin:3px 8px 0 0;">抄送接收</button>

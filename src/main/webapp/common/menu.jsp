@@ -591,7 +591,7 @@ $(obj).children("i").addClass("fa-chevron-up");
 $(obj).parent().parent().parent().removeClass("collapsed");
 }
 }
-=======
+</script>
 <script type="text/javascript">
 $(function(){
        $("#menuheader>ul>li ul li a").each(function(){
