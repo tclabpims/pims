@@ -1155,9 +1155,9 @@
                 <!--<jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</jdbc.url>-->
                 <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
                 <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
-                <jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>
+                <jdbc.url>jdbc:oracle:thin:@localhost:1521:orcl</jdbc.url>
                 <jdbc.username>pathology</jdbc.username>
-                <jdbc.password>pathology#123</jdbc.password>
+                <jdbc.password>cyy</jdbc.password>
                 <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
             </properties>
         </profile>
@@ -1258,9 +1258,9 @@
         <!--<jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:orcl</jdbc.url>-->
         <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
         <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
-        <jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>
+        <jdbc.url>jdbc:oracle:thin:@localhost:1521:orcl</jdbc.url>
         <jdbc.username>pathology</jdbc.username>
-        <jdbc.password>pathology#123</jdbc.password>
+        <jdbc.password>cyy</jdbc.password>
         <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
 
         <!-- <dbunit.dataTypeFactoryName>org.dbunit.ext.mysql.MySqlDataTypeFactory</dbunit.dataTypeFactoryName>

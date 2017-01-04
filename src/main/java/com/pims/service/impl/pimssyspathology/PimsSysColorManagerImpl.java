@@ -4,13 +4,18 @@ import com.pims.dao.pimssyspathology.PimsSysColorDao;
 import com.pims.model.PimsSysColor;
 import com.pims.service.pimssyspathology.PimsSysColorManager;
 import com.pims.webapp.controller.GridQuery;
+import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.service.impl.GenericManagerImpl;
+import com.smart.dao.hibernate.GenericDaoHibernate;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.hibernate.search.FullTextSession;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by 909436637@qq.com on 2016/10/10.
@@ -72,5 +77,10 @@ public class PimsSysColorManagerImpl extends GenericManagerImpl<PimsSysColor, Lo
             qstr.append(" and B.Name like '%").append(query).append("%'");
         }
         return pimsSysColorDao.countTotal(qstr.toString());
+    }
+
+    @Override
+    public boolean isExisted(PimsSysColor psc){
+       return pimsSysColorDao.isExisted(psc);
     }
 }

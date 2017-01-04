@@ -79,6 +79,9 @@
             <Item name="PathologicalReportQuery" title="menu.pathologicalReportQuery" page="/report/diagnosisreport" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="PathologicalStatisticalManagement" title="menu.PathologicalStatisticalManagement" page="/report/countreport" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="DelayReportManagement" title="menu.DelayReportManagement" page="/report/reportdelay" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="PathologicalConsultationQuery" title="menu.PathologicalConsultationQuery" page="/report/consultation" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="PathologicalCCQuery" title="menu.PathologicalCCQuery" page="/report/CC" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="PathologicalDeliveryQuery" title="menu.PathologicalDeliveryQuery" page="/report/Delivery" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
 

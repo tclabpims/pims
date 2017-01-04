@@ -2,6 +2,7 @@ package com.pims.service.pimspathologysample;
 
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
+import com.pims.model.PimsSysColor;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
 
@@ -130,4 +131,6 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
      * @return
      */
     List getSftj(PimsBaseModel map);
+
+    List<PimsSysColor> getColor();
 }

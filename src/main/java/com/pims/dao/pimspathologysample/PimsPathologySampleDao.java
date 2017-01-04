@@ -2,6 +2,7 @@ package com.pims.dao.pimspathologysample;
 
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
+import com.pims.model.PimsSysColor;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.GenericDao;
 import java.util.List;
@@ -125,4 +126,6 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
      * @return
      */
     List getSftj(PimsBaseModel map);
+
+    List<PimsSysColor> getColor();
 }

@@ -3,6 +3,7 @@ package com.pims.service.impl.pimspathologysample;
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
+import com.pims.model.PimsSysColor;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.model.user.User;
@@ -255,5 +256,10 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
         List list = pimsPathologySampleDao.getSftj(map);
         String[] st = {"name","prices"};
         return ChangeList(st,list);
+    }
+
+    @Override
+    public List<PimsSysColor> getColor(){
+        return pimsPathologySampleDao.getColor();
     }
 }

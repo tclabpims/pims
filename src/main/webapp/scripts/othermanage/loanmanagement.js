@@ -170,10 +170,7 @@ $(function() {
 
 
 function loanbtn() {
-    var ids = $("#new").jqGrid('getGridParam','selarrrow');
-    if(ids.length==0){
-            return layer.alert("请先选择玻片！");
-        }
+
     var x = document.getElementById("sliloancustomername").value;
     var y = document.getElementById("sliloancustomerid").value;
     var z = document.getElementById("sliintime").value;
@@ -203,7 +200,7 @@ function loanbtn() {
         }else{
         return layer.alert("请填写借阅人和预计归还日期！");
         }
-    }else{return layer.alert("玻片暂时无法借阅！");}
+    }
     }
 
           layer.closeAll();
@@ -452,6 +449,14 @@ function searchList2() {
 
  }
 
+function test(){
+    $.ajax({
+
+    });
+}
+
+
+
 function fillInfo1(id){
     document.getElementById("deptandresult").innerHTML = "";
 	setcolor(id);
@@ -473,28 +478,29 @@ function fillInfo1(id){
         postData:{"sliid":rowData.sliid}
     }).trigger('reloadGrid');//重新载入
      //诊断机构诊断结果
-     var obj = $("#new2").getGridParam("reccount");
-//     alert(obj);
-     for(var i=0;i<obj;i++){
-        var rowData = $("#new2").jqGrid("getRowData",i);
-        if(rowData.slicurrent=="1"){
-            var objhead = document.createElement("div");
-            objhead.className="widget-header";
-            document.getElementById("deptandresult").appendChild(objhead);
-            var objh = document.createElement("h6");
-            objh.className="widget-title";
-            objh.innerHTML=rowData.slidept+"诊断机构"+rowData.slitime;
-            objhead.appendChild(objh);
-            var objbody = document.createElement("div");
-            objbody.className="widget-body result widget-main padding-4 scrollable ace-scroll";
-            document.getElementById("deptandresult").appendChild(objbody);
-            var objtext = document.createElement("textarea");
-            objtext.className="ta";
-            objtext.innerHTML=rowData.sliresult;
-            objbody.appendChild(objtext);
-        }
-     }
-
+     setTimeout(function(){
+            var obj = $("#new2").getGridParam("reccount");
+//            alert(obj);
+            for(var i=1;i<=obj;i++){
+               var rowData2 = $("#new2").jqGrid("getRowData",i);
+//               alert(rowData2.slicurrent);
+               if(rowData2.slicurrent==1){
+                   var objhead = document.createElement("div");
+                   objhead.className="widget-header";
+                   document.getElementById("deptandresult").appendChild(objhead);
+                   var objh = document.createElement("h6");
+                   objh.className="widget-title";
+                   objh.innerHTML=rowData2.slidept+"诊断机构"+rowData2.slitime;
+                   objhead.appendChild(objh);
+                   var objbody = document.createElement("div");
+                   objbody.className="widget-body result widget-main padding-4 scrollable ace-scroll";
+                   document.getElementById("deptandresult").appendChild(objbody);
+                   var objtext = document.createElement("textarea");
+                   objtext.className="ta";
+                   objtext.innerHTML=rowData2.sliresult;
+                   objbody.appendChild(objtext);
+               }
+            }},100);
 }
 
 function fillInfo2(id){
@@ -745,6 +751,21 @@ function startPrint() {
 
 function loanSlide(){
 //    document.getElementById("loanSlidePage").style.display="block";
+        var ids = $("#new").jqGrid('getGridParam','selarrrow');
+        if(ids.length==0){
+                return layer.alert("请先选择玻片！");
+        }else{
+        var unloanable = "";
+        var a = 0;
+        for(var i=0;i<ids.length;i++){
+        var rowData = $("#new").jqGrid('getRowData',ids[i]);
+
+        if(rowData.slicurrent==0){
+            a++;
+            unloanable = rowData.sliid+","+unloanable;
+        }
+        }if(a>0){return layer.alert(unloanable+"以上玻片暂时无法借阅！");}
+        }
     layer.open({
     			type: 1,
     			area: ['500px','220px'],
@@ -755,7 +776,7 @@ function loanSlide(){
     			shade:0.5,
     			title: "借阅",
     			content: $('#loanSlidePage')
-    })
+    });
 }
 
 function returnSlide(){
@@ -770,7 +791,7 @@ function returnSlide(){
         			shade:0.5,
         			title: "归还",
         			content: $('#returnSlidePage')
-    })
+    });
 }
 
 //改变标题

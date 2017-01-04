@@ -1,5 +1,6 @@
 package com.pims.webapp.controller.pimssyspathology;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pims.model.PimsSysColor;
 import com.pims.model.PimsSysReportItems;
 import com.pims.service.pimssyspathology.PimsSysColorManager;
@@ -40,15 +41,25 @@ public class PimsSysColorController extends PIMSBaseController {
     @ResponseBody
     public void saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsSysColor pimsSysColor = (PimsSysColor)setBeanProperty(request, PimsSysColor.class);
-        if(pimsSysColor.getColorid() == 0) {
-            pimsSysColor.setColcreatetime(new Date());
-            pimsSysColor.setColcreateuser(String.valueOf(WebControllerUtil.getAuthUser().getId()));
-        } else {
-            PimsSysColor hisPimsSysColor = pimsSysColorManager.get(pimsSysColor.getColorid());
-            pimsSysColor.setColcreateuser(hisPimsSysColor.getColcreateuser());
-            pimsSysColor.setColcreatetime(hisPimsSysColor.getColcreatetime());
+        boolean a = pimsSysColorManager.isExisted(pimsSysColor);
+        JSONObject jj = new JSONObject();
+        if(a) {
+            jj.put("message","该对象已设置颜色！");
+        }else {
+            if (pimsSysColor.getColorid() == 0) {
+                pimsSysColor.setColcreatetime(new Date());
+                pimsSysColor.setColcreateuser(String.valueOf(WebControllerUtil.getAuthUser().getId()));
+            } else {
+                PimsSysColor hisPimsSysColor = pimsSysColorManager.get(pimsSysColor.getColorid());
+                pimsSysColor.setColcreateuser(hisPimsSysColor.getColcreateuser());
+                pimsSysColor.setColcreatetime(hisPimsSysColor.getColcreatetime());
+            }
+            pimsSysColorManager.save(pimsSysColor);
+            jj.put("message","保存成功！");
+
         }
-        pimsSysColorManager.save(pimsSysColor);
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(jj.toString());
     }
 
     @RequestMapping(method = {RequestMethod.GET}, value = "/query")

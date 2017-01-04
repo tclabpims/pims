@@ -3,7 +3,9 @@ package com.pims.dao.hibernate.pimsPathologySample;
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
+import com.pims.model.PimsSysColor;
 import com.pims.webapp.controller.GridQuery;
+import com.pims.webapp.controller.WebControllerUtil;
 import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
@@ -685,4 +687,14 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         }
         return  null;
     }
+
+    @Override
+    public List<PimsSysColor> getColor(){
+        User user = WebControllerUtil.getAuthUser();
+        StringBuffer hql = new StringBuffer();
+        hql.append("from PimsSysColor where colmodule='0' and colobject = 'Sample'");
+        hql.append("and colowner='"+user.getId()+"' or colowner='9999999999'");
+        return pagingList(hql.toString());
+    }
 }
+

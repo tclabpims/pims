@@ -13,11 +13,13 @@ import com.pims.service.QueryHisDataService;
 import com.pims.service.basedata.PimsCommonBaseDataManager;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimspathologysample.*;
+import com.pims.service.pimssyspathology.PimsSysColorManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.pims.service.pimssyspathology.PimsHospitalPathologyInfoManager;
 import com.pims.service.pimssyspathology.PimsSysTestFeeManager;
 import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.webapp.controller.PIMSBaseController;
+import com.pims.webapp.controller.WebControllerUtil;
 import com.smart.Constants;
 import com.smart.lisservice.WebService;
 import com.smart.model.user.User;
@@ -68,6 +70,8 @@ public class PimsPathologySampleController extends PIMSBaseController{
     private PimsPathologyParaffinManager pimsPathologyParaffinManager;//包埋
     @Autowired
     private PimsPathologySlideManager pimsPathologySlideManager;//制片
+    @Autowired
+    private PimsSysColorManager pimsSysColorManager;
     /**
      * 渲染视图
      * @param request
@@ -559,4 +563,27 @@ public class PimsPathologySampleController extends PIMSBaseController{
 
     }
 
+    @RequestMapping(value = "/ajax/color*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getColor(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        User user = WebControllerUtil.getAuthUser();
+        List<PimsSysColor> col = pimsPathologySampleManager.getColor();
+        String[] a = new String[9];
+        for(int i=0;i<col.size();i++){
+            if(col.get(i).getColowner().equals(user.getId().toString())){
+                a[i]=col.get(i).getColmodule();
+            }
+        }
+        for(int i=0;i<col.size();i++){
+            for(int j=0;j<col.size();j++){
+                if(col.get(j).getColmodule().equals(a[i])&&col.get(j).getColowner().equals("9999999999")){
+                    col.remove(j);
+                }
+            }
+        }
+        DataResponse dr = new DataResponse();
+        dr.setRows(getResultMap(col));
+        response.setContentType("text/html; charset=UTF-8");
+        return dr;
+    }
 }

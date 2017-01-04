@@ -95,7 +95,7 @@ $(function() {
 //			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
 		colNames: ['库存状态','耗材名称','制造商', '登录者','登录日期','备注','id'],
 		colModel: [
-        { name: 'marishas', align:'center',index: 'marishas',width:'90px'},
+        { name: 'marishas', align:'center',index: 'marishas',width:'90px',formatter:"select",editoptions:{value:"0:无;1:有;"}},
         { name: 'marname', align:'center',index: 'marname',width:'110px'},
         { name: 'manufacter', align:'center',index: 'manufacter',width:'110px'},
         { name: 'loginuser',align:'center', index: 'loginuser',width:'110px'},
@@ -492,8 +492,11 @@ function save(){
     var manufacter = $("#manufacter").val();
     var marishas = $("input[name='has']:checked").val();
     var remarks = $("#remarks").val();
-    if(marname==''||manufacter==''){
-        return layer.alert("请填写耗材名称和制造商！");
+    if(marname==''){
+        return layer.alert("请填写耗材名称！");
+    }
+    if(manufacter==''){
+        return layer.alert("请填写制造商！");
     }
     $.get("../othermanage/materialManagement/ajax/save",
     {

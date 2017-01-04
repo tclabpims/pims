@@ -18,7 +18,7 @@ public class PimsSysColor {
     private String colownername;
     private String colobject;
     private String colmodule;
-    private String colobjectstate;
+        private String colobjectstate;
     private String colvalue;
     private String colfirstv;
     private String colsecondv;

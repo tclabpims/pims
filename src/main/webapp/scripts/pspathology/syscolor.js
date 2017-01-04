@@ -84,6 +84,7 @@ function changeOwner() {
  *  add by zcw 2015-05-16
  * **********************************/
 function AddSection() {
+
     clearData();
     $('#colvalue').colorpicker({color:"#ffffff"});
     layer.open({
@@ -103,7 +104,7 @@ function AddSection() {
             $.post('../syscolor/edit', {
                 colcustomercode: $('#colcustomercode').val(), coltype: $('#coltype').val(),
                 colobject: $('#colobject').val(), colmodule: $('#colmodule').val(),
-                colobjectstate: $('#colobjectstate').val(), colvalue: $('#colvalue').val(),colowner:$('#colowner').val()
+                colobjectstate: $('#colobjectstate'+$('#colmodule').val()).val(), colvalue: $('#colvalue').val(),colowner:$('#colowner').val()
             }, function (data) {
                 layer.close(index);
                 $("#sectionList").trigger('reloadGrid');
@@ -167,7 +168,8 @@ function editSection() {
             $('#coltype').val(msg.coltype);
             $('#colobject').val(msg.colobject);
             $('#colmodule').val(msg.colmodule);
-            $('#colobjectstate').val(msg.colobjectstate);
+            setSecond(msg.colmodule);
+            $('#colobjectstate'+msg.colmodule).val(msg.colobjectstate);
             $('#colvalue').val(msg.colvalue);
             $('#colowner').val(msg.colowner);
             $('#colorid').val(msg.colorid);
@@ -185,10 +187,11 @@ function editSection() {
                     $.post('../syscolor/edit', {
                         colcustomercode: $('#colcustomercode').val(), coltype: $('#coltype').val(),
                         colobject: $('#colobject').val(), colmodule: $('#colmodule').val(),
-                        colobjectstate: $('#colobjectstate').val(), colvalue: $('#colvalue').val(),colowner:$('#colowner').val(),
+                        colobjectstate: $('#colobjectstate'+$('#colmodule').val()).val(), colvalue: $('#colvalue').val(),colowner:$('#colowner').val(),
                         colorid:$('#colorid').val()
                     }, function (data) {
                         layer.close(index);
+                        layer.msg(data.message, {icon: 0, time: 3000});
                         $("#sectionList").trigger('reloadGrid');
                     });
 
@@ -258,7 +261,7 @@ $(function () {
                 index: 'colobjectstate',
                 width: 30,
                 formatter: "select",
-                editoptions: {value: "1:已登记;2:已审核;3:已打印"}
+                editoptions: {value: "0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中;8:报告已打印;9:未取材;10:待包埋;11:待切片;12:未制作;13:已制作;14:已打印;"}
             },
             {name: 'colmodule', index: 'colmodule', width: 30}
         ],
@@ -362,8 +365,9 @@ function clearData() {
     $('#colowner').val('');
     $('#coltype').val('1');
     $('#colobject').val('Requisition');
-    $('#colmodule').val('');
-    $('#colobjectstate').val('1');
+    $('#colmodule').val('0');
+    for(var i=0;i<6;i++){
+    $('#colobjectstate'+i).val('0');}
     $('#colvalue').val('');
 }
 function updatePagerIcons(table) {
@@ -379,4 +383,51 @@ function updatePagerIcons(table) {
         var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
         if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
     })
+}
+
+function setSecond(obj){
+    var val = obj.value;
+    switch(val){
+        case ("0"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate0").css("display","block");
+            break;
+
+        case ("1"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate1").css("display","block");
+            break;
+
+        case ("2"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate2").css("display","block");
+            break;
+
+        case ("3"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate3").css("display","block");
+            break;
+
+        case ("4"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate4").css("display","block");
+            break;
+
+        case ("5"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate5").css("display","block");
+            break;
+        }
 }

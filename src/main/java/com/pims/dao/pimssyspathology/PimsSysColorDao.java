@@ -8,4 +8,5 @@ import com.smart.dao.GenericDao;
  * Description:
  */
 public interface PimsSysColorDao extends GenericDao<PimsSysColor, Long> {
+    boolean isExisted(PimsSysColor psc);
 }

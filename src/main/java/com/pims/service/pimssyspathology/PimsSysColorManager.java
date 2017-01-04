@@ -14,4 +14,6 @@ public interface PimsSysColorManager extends GenericManager<PimsSysColor, Long> 
     List<PimsSysColor> getSysColorList(GridQuery gridQuery);
 
     Integer countSysColor(String query);
+
+    boolean isExisted(PimsSysColor psc);
 }

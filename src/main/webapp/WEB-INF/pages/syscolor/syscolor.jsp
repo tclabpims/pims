@@ -165,17 +165,50 @@
             <div class="form-group" style="margin-left:0px;margin-right:0px;">
                 <label class="col-xs-3 control-label no-padding-right" for="colmodule">模块 </label>
                 <div class="col-xs-8">
-                    <input type="text" id="colmodule" name="colmodule" placeholder="模块" class="col-xs-8"
-                           datatype="*2-255"/>
+                    <select type="text" id="colmodule" name="colmodule" class="col-xs-3" onchange="setSecond(this)">
+                        <option value="0" selected="selected" >标本登记</option>
+                        <option value="1">取材管理</option>
+                        <option value="2">包埋管理</option>
+                        <option value="3">切片管理</option>
+                        <option value="4">制片管理</option>
+                        <option value="5">病理诊断</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group" style="margin-left:0px;margin-right:0px;">
                 <label class="col-xs-3 control-label no-padding-right" for="colobjectstate">对象状态 </label>
                 <div class="col-xs-8">
-                    <select type="text" id="colobjectstate" name="colobjectstate" class="col-xs-3">
-                        <option value="1">已登记</option>
-                        <option value="2">已审核</option>
-                        <option value="3">已打印</option>
+                    <select type="text" id="colobjectstate0" style="display:block" name="colobjectstate0" class="col-xs-3" >
+                        <option value="0">已登记</option>
+                        <option value="1">已取材</option>
+                        <option value="2">已包埋</option>
+                        <option value="3">已切片</option>
+                        <option value="4">已初诊</option>
+                        <option value="5">已审核</option>
+                        <option value="6">已发送</option>
+                        <option value="7">会诊中</option>
+                        <option value="8">报告已打印</option>
+                    </select>
+                    <select type="text" id="colobjectstate1" style="display:none" name="colobjectstate1" class="col-xs-3">
+                        <option value="9">未取材</option>
+                        <option value="1">已取材</option>
+                    </select>
+                    <select type="text" id="colobjectstate2" style="display:none" name="colobjectstate2" class="col-xs-3">
+                        <option value="10">待包埋</option>
+                        <option value="2">已包埋</option>
+                    </select>
+                    <select type="text" id="colobjectstate3" style="display:none" name="colobjectstate3" class="col-xs-3">
+                        <option value="11">待切片</option>
+                        <option value="3">已切片</option>
+                    </select>
+                    <select type="text" id="colobjectstate4" style="display:none" name="colobjectstate4" class="col-xs-3">
+                        <option value="12">未制作</option>
+                        <option value="13">已制作</option>
+                    </select>
+                    <select type="text" id="colobjectstate5" style="display:none" name="colobjectstate5" class="col-xs-3">
+                        <option value="0">已登记</option>
+                        <option value="5">已审核</option>
+                        <option value="14">已打印</option>
                     </select>
                 </div>
             </div>
