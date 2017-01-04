@@ -95,10 +95,10 @@ $(function() {
 //			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
 		colNames: ['库存状态','耗材名称','制造商', '登录者','登录日期','备注','id'],
 		colModel: [
-        { name: 'marishas', align:'center',index: 'marishas',width:'90px'},
-        { name: 'marname', align:'center',index: 'marname',width:'110px'},
-        { name: 'manufacter', align:'center',index: 'manufacter',width:'110px'},
-        { name: 'loginuser',align:'center', index: 'loginuser',width:'110px'},
+        { name: 'marishas', align:'center',index: 'marishas',width:'130px'},
+        { name: 'marname', align:'center',index: 'marname',width:'130px'},
+        { name: 'manufacter', align:'center',index: 'manufacter',width:'130px'},
+        { name: 'loginuser',align:'center', index: 'loginuser',width:'130px'},
         {name:'loginintime',align:'center',index:'loginintime', width:'150px',formatter:function(cellvalue,options,row){
             if(cellvalue!=null){
                 return CurentTime(new Date(cellvalue));

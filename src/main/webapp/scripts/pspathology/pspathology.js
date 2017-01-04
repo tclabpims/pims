@@ -302,7 +302,7 @@ $(function(){
         url: "../pspathology/dcm/query",
         mtype: "GET",
         datatype: "json",
-        width:$('.leftContent').width(),
+        width:$('.leftContent').width()+10,
         colNames: ['pathologyid','排序号', '病种名称', '病种名称（英文）', '病种分类','使用状态','是否取材','是否特检'],
         colModel: [
             { name: 'pathologyid', index: 'pathologyid', width: 30, hidden: true },

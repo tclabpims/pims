@@ -87,9 +87,9 @@
     });
 </SCRIPT>
 <div class="row" id="toolbar">
-    <div id="mainTable" class="col-xs-12">
+    <div id="mainTable" class="col-xs-12" style="padding-left:0px!important;">
         <div style="padding-top: 5px;">
-            <div class="col-xs-12">
+            <div class="col-xs-12" style="padding-left:0px!important;">
                 <button type="button" class="btn btn-sm btn-primary " title="添加报告项目" onclick="AddSection()">
                     <i class="ace-icon fa fa-fire bigger-110"></i>
                     添加报告项目

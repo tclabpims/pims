@@ -150,8 +150,10 @@
             padding-left: 10px;
         }
         #gbox_new{
-            width: 101.4%!important;
+            width: 100%!important;
+            margin-right:5px!important;
         }
+        .col-xs-12.leftContent{margin-left:0!important}
     </style>
 </head>
 <script>
@@ -163,7 +165,7 @@
     });
 </script>
 <body>
- <div class="col-xs-12">
+ <div class="col-xs-12" style="margin-left:3px;">
                 <button type="button" class="btn btn-sm btn-primary" title="新增" onclick="newAdd()">
                     <i class="ace-icon glyphicon glyphicon-plus"></i>
                     新增
