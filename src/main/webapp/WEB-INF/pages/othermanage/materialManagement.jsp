@@ -131,6 +131,29 @@
             width:100%;
             height:100px;
             }
+            input[type="text"]{
+                height:26px;
+            }
+            select{
+                height:26px!important;
+            }
+        #tabs-1 td{
+            border-right: 0px;
+
+
+
+        }
+        #tabs-1 tbody tr td{
+            padding-bottom: 10px!important;
+            padding-top: 5px;
+            margin-right: 5px;
+            padding-left: 10px;
+        }
+        #gbox_new{
+            width: 100%!important;
+            margin-right:5px!important;
+        }
+        .col-xs-12.leftContent{margin-left:0!important}
     </style>
 </head>
 <script>
@@ -142,17 +165,21 @@
     });
 </script>
 <body>
- <div class="col-xs-12">
+ <div class="col-xs-12" style="margin-left:3px;">
                 <button type="button" class="btn btn-sm btn-primary" title="新增" onclick="newAdd()">
+                    <i class="ace-icon glyphicon glyphicon-plus"></i>
                     新增
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="删除" onclick="deletemar()">
+                <button type="button" class="btn btn-sm btn-info" title="删除" onclick="deletemar()">
+                    <i class="ace-icon glyphicon glyphicon-remove"></i>
                     删除
                 </button>
-                <button type="button" disabled="disabled" class="btn btn-sm btn-primary" title="保存" id="savemar" onclick="save()">
+                <button type="button" disabled="disabled" class="btn btn-sm btn-warning" title="保存" id="savemar" onclick="save()">
+                    <i class="ace-icon fa fa-floppy-o"></i>
                     保存
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="列表打印" id="print" onclick="printCode()">
+                <button type="button" class="btn btn-sm btn-success" title="列表打印" id="print" onclick="printCode()">
+                    <i class="ace-icon fa fa-print bigger-110"></i>
                     列表打印
                 </button>
 
@@ -160,25 +187,29 @@
 
 <div class="row" id="maincontent">
     <div id="checkSlide" class="col-xs-8">
-        <div class="widget-box widget-color-green ui-sortable-handle">
+        <div class="widget-box widget-color-green ui-sortable-handle" style="margin-left: 12px">
             <div class="widget-header">
-                <h6 class="widget-title">耗材一览</h6>
+                <h6 class="widget-title">玻片一览</h6>
+                <div class="widget-toolbar">
+                    <a href="#"  data-action="collapse" onclick="showandhiden(this)">
+                        <i class="ace-icon fa fa-chevron-up">隐藏</i>
+                    </a>
+                </div>
             </div>
-
-            <div class="widget-body" style="display: block;">
+            <div class="widget-body" style="display: block;" >
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline;">
-                                <label style="margin-left:20px">耗材名称：</label><input type="text" id="marname" style="width: 120px" autocomplete="off">
+                                <label style="margin-left:10px">耗材名称：</label><input type="text" id="marname" style="width: 120px;height: 24px" autocomplete="off">
                             </div>
                             <div>
-                                <label style="margin-left:20px">在库状态：</label>
-                                <select id="current" style="width:50px">
+                                <label style="margin-left:10px;height:24px">在库状态：</label>
+                                <select id="current" style="width:50px;height:24px;margin-left:-4px">
                                 <option value="1">有</option>
                                 <option value="0">无</option>
                                 </select>
-                                <button type="button" class="btn-sm btn-info" onclick="searchList()" style="float:right">
+                                <button type="button" class="btn-sm btn-info" onclick="searchList()" style="float:right;background-color: #4190f7!important;color:#ffffff;border-radius:3px;border:1px solid #2274E4;padding:0 16px;">
                                     查询
                                 </button>
                             </div>
@@ -186,7 +217,7 @@
                     </div>
                 </div>
             </div>
-                <div class="col-xs-12 leftContent">
+                <div class="col-xs-12 leftContent" style="margin-top: 5px;margin-left: -0.7%">
                     <table id="new"></table>
                     <div id="pager"></div>
                 </div>
@@ -196,36 +227,43 @@
     <div id="checkSlide2" class="col-xs-4">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
-                <h6 class="widget-title">耗材详细信息</h6>
+                <h6 class="widget-title">玻片详细信息</h6>
+                <div class="widget-toolbar">
+                    <a href="#"  data-action="collapse" onclick="showandhiden(this)">
+                        <i class="ace-icon fa fa-chevron-up">隐藏</i>
+                    </a>
+                </div>
             </div>
-            <div style="display: block;">
+            <div class="widget-body" style="display: block;">
                 <div id="tabs" style="margin: 0 auto;">
 
-                    <div id="tabs-1">
-                        <div>
-                            <div style="display: inline">耗材ID：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
-                                id="marid" disabled="disabled" autocomplete="off" value=""></div>
-                            <div style="display: inline">登录者：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
-                                id="loginuser" disabled="disabled" value="" autocomplete="off" value=""/></div>
-                                <input id="loginuser2" style="display:none" value="${user}" autocomplete="off"/>
-                        </div>
-                        <div>
-                            <div style="display: inline">耗材名称：<input type="text" disabled="disabled" style="width:120px;border-width: 0px 0px 1px 0px"
-                                                                     id="marnamea" autocomplete="off" value=""/>
-                            </div>
-                            <div style="display: inline">登录日期：<input type="text" style="width:150px;border-width: 0px 0px 1px 0px"
-                                                                   id="loginintime" disabled="disabled" autocomplete="off" value=""></div>
-                                 <input id="loginintime2" style="display:none" value="${logintime}" autocomplete="off"/>
-                        </div>
-                        <div>
-                            <div style="display: inline">库存状态：<input type="radio" disabled="disabled" name="has" value="1" id="marishas" onclick="checkedhas()">有<input style="margin-left:10px" disabled="disabled" type="radio" name="has" value="0" id="marnothave" onclick="checkedhas2()">无</div>
-                            <div style="display: inline;margin-left:70px">制造商：<input type="text" disabled="disabled" style="width:120px;border-width: 0px 0px 1px 0px;"
-                                                                                               id="manufacter" autocomplete="off" value=""></div>
-                        </div>
+                    <table id="tabs-1">
+                        <tr style="margin-top:10px ">
 
-                    </div>
+
+                            <td style="padding-left: 10px">耗材ID：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px;margin-left: 12px"
+                                id="marid" disabled="disabled" autocomplete="off" value=""></td>
+                            <td >登录者：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px;margin-left: 12px"
+                                id="loginuser" disabled="disabled" value="" autocomplete="off" value=""/></td>
+                                <input id="loginuser2" style="display:none" value="${user}" autocomplete="off"/>
+                        </tr>
+                        <tr style="margin-top:10px ">
+                            <td style="padding-left: 10px">耗材名称：<input type="text" disabled="disabled" style="width:120px;border-width: 0px 0px 1px 0px"
+                                                                     id="marnamea" autocomplete="off" value=""/>
+                            </td>
+                            <td >登录日期：<input type="text" style="width:150px;border-width: 0px 0px 1px 0px"
+                                                                   id="loginintime" disabled="disabled" autocomplete="off" value=""></td>
+                                 <input id="loginintime2" style="display:none" value="${logintime}" autocomplete="off"/>
+                        </tr>
+                        <tr style="margin-bottom:10px ">
+                            <td style="padding-left: 10px">库存状态：<input type="radio" disabled="disabled" name="has" value="1" id="marishas" onclick="checkedhas()">有<input style="margin-left:10px" disabled="disabled" type="radio" name="has" value="0" id="marnothave" onclick="checkedhas2()">无</td>
+                            <td >制造商：<input type="text" disabled="disabled" style="width:120px;border-width: 0px 0px 1px 0px;margin-left: 12px"
+                                                                                               id="manufacter" autocomplete="off" value=""></td>
+                        </tr>
+
+                    </table>
                 </div>
-                <div>
+                <div style="margin-bottom: 20px;padding-left: 10px;">
                     备注：<textarea id='remarks' disabled="disabled" style="resize: none; vertical-align: text-top;width: 70%;height:150px" value="" autocomplete="off"></textarea>
                 </div>
             </div>

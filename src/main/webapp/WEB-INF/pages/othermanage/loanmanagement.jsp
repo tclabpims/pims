@@ -159,7 +159,7 @@
     });
 </script>
 <body>
- <div class="col-xs-12">
+ <div class="col-xs-12" style="margin-left:3px;">
                 <button type="button" class="btn btn-sm btn-primary" title="上一个" onclick="upSlide()">
                     <i class="ace-icon fa fa-arrow-left bigger-110"></i>
                     上一个
@@ -315,7 +315,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" style="padding:0px;">
                         <div id="deptandresult" class="widget-box widget-color-green ui-sortable-handle">
                             <div  class="widget-header">
                                 <h6 class="widget-title">诊断机构</h6>

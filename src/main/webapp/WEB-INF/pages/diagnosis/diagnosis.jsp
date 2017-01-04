@@ -107,6 +107,12 @@
         }
         object:focus { outline:none; }
         .ui-jqgrid-sortable{text-align: center;}
+        #maincontent .ui-jqgrid-htable{
+            width:490px!important;
+        }
+        #maincontent .ui-jqgrid-btable{
+            width:490px!important;
+        }
     </style>
 
 </head>
