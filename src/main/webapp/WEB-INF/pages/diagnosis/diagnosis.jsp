@@ -389,6 +389,7 @@
                                                                    id="sampatientage"></div>
                         </div>
                         <div style="margin-bottom: 5px">
+                            <div style="display: inline-block;width:30%"><label style="width:35%;;font-size: 12px;text-align: right">病人姓名：</label><input type="text"
                                                                      style="width:40%;height: 24px"
                                                                      id="sampatientname"><a href="#" onclick="viewDetail()">详细</a>
                             </div>
