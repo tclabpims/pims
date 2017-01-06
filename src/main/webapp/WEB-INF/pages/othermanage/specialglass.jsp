@@ -66,17 +66,41 @@
 <body>
 
 <div id="div_main">
+    <div class="col-xs-12">
     <h5><strong>&nbsp;特殊玻片打印</strong></h5>
-    <div style="margin-left:40%;margin-top:10%">
-    <span style="width: 100%;">蜡块号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <input type="text" id="slideid" class="input_style" value=""/>
-    <div  style="margin-top:10px">
-        自定义文字:<textarea id="slideinfo" style="vertical-align: text-top;width: 30%;height:100px" value=""></textarea>
     </div>
-    <button type="button"  onclick="printCode()" style="margin-left:10%;margin-top:10px; background-color: #2274E4;color:#ffffff!important;border-radius:3px;border:1px solid #2274E4;width: 58px">
-        打印
-    </button>
+    <div class="col-xs-4">
+            <div style="margin-top:10%">
+            <span style="width: 100%;">蜡块号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" id="slideid1" class="input_style" value=""/>
+            <div  style="margin-top:10px">
+                自定义文字:<textarea id="slideinfo1" style="vertical-align: text-top;width: 300px;height:100px" value=""></textarea>
+            </div>
+            </div>
+            </div>
     </div>
+    <div class="col-xs-4">
+            <div style="margin-top:10%">
+            <span style="width: 100%;">蜡块号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" id="slideid2" class="input_style" value=""/>
+            <div  style="margin-top:10px">
+                自定义文字:<textarea id="slideinfo2" style="vertical-align: text-top;width: 300px;height:100px" value=""></textarea>
+            </div>
+            <button type="button"  onclick="printCode()" style="margin-left:40%;margin-top:50px; background-color: #2274E4;color:#ffffff!important;border-radius:3px;border:1px solid #2274E4;width: 58px">
+                打印
+            </button>
+            </div>
+            </div>
+    </div>
+    <div class="col-xs-4">
+            <div style="margin-top:10%">
+            <span style="width: 100%;">蜡块号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" id="slideid3" class="input_style" value=""/>
+            <div  style="margin-top:10px">
+                自定义文字:<textarea id="slideinfo3" style="vertical-align: text-top;width: 300px;height:100px" value=""></textarea>
+            </div>
+            </div>
+            </div>
     </div>
 </body>
 
