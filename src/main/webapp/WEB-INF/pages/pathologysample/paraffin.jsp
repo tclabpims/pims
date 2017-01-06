@@ -30,6 +30,9 @@
 		#sampleForm{
 			padding-left:0.5%;
 		}
+		#div_2{
+			padding-left: 0px;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">

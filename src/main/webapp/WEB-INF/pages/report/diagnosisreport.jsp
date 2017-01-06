@@ -30,7 +30,7 @@
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
 		.inputstyle2{
-			margin-left:-15%;
+			margin-right:25%;
 		}
 		.col-sm-3.leftContent{padding-left:0px;}
 		.col-sm-5.input_style{width:135px!important;}
@@ -102,33 +102,33 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-5 input_style">&nbsp;送检TO:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;送检TO:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style inputstyle2" value="${receivetime}"  id="req_af_time"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-5 input_style">&nbsp;病种类别:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;病种类别:&nbsp;</span>
 						<select id="logyid" class="col-sm-6 input_style inputstyle2">
 							<%out.println((String) request.getAttribute("logyids"));%>
 						</select>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-5 input_style">&nbsp;病理号码:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;病理号码:&nbsp;</span>
 						<input type="text" id="req_code" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-5 input_style">&nbsp;病人姓名:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;病人姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-5 input_style">&nbsp;住院号:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;住院号:&nbsp;</span>
 						<input type="text" id="sampatientnumber" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-5 input_style">&nbsp;床号:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;床号:&nbsp;</span>
 						<input type="text" id="sampatientbed" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-5 input_style">&nbsp;性别:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;性别:&nbsp;</span>
 						<select class="col-sm-6  input_style inputstyle2" id="sampatientsex">
 							<option value="">全部</option>
 							<option value="1">男</option>
@@ -137,31 +137,31 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;送检医生:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;送检医生:&nbsp;</span>
 						<input type="text" id="send_doctor" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;送检科室:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;送检科室:&nbsp;</span>
 						<input type="text" id="send_dept" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;送检医院:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;送检医院:&nbsp;</span>
 						<input type="text" id="send_hosptail" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;取材医生:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;取材医生:&nbsp;</span>
 						<input type="text" id="piedoctorname" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;切片医生:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;切片医生:&nbsp;</span>
 						<input type="text" id="parsectioneddoctor" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;诊断医生:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;诊断医生:&nbsp;</span>
 						<input type="text" id="saminitiallyusername" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;免疫组化:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;免疫组化:&nbsp;</span>
 						<select id="myzh" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
@@ -169,7 +169,7 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;特殊染色:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;特殊染色:&nbsp;</span>
 						<select id="tsrs" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
@@ -177,7 +177,7 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;分子病理:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;分子病理:&nbsp;</span>
 						<select id="fzbl" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
@@ -185,11 +185,11 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-5 input_style">&nbsp;病理诊断:&nbsp;</span>
+						<span class="col-sm-3 input_style">&nbsp;病理诊断:&nbsp;</span>
 						<input type="text" id="blzd" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-							<span class="col-sm-5 input_style">&nbsp;取材部位:&nbsp;</span>&nbsp;&nbsp;
+							<span class="col-sm-3 input_style">&nbsp;取材部位:&nbsp;</span>&nbsp;&nbsp;
 							<input type="text" id="qcbw" class="col-sm-6 input_style inputstyle2"/>
 							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
