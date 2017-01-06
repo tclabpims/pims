@@ -1,16 +1,16 @@
 <div align="center" class="itemContainer">
     <table width="100%">
         <tr>
-            <td width="10%"><span class="fieldname">报告医生：</span></td>
+            <td width="12%"><span class="fieldname">报告医生：</span></td>
 ##            <td width="22%" class="tdtextalign">$!samreportor</td>
-            <td width="22%" class="tdtextalign"><img src="$!samreportor"></td>
-            <td width="10%"><span class="fieldname">审核医生：</span></td>
+            <td width="20%" class="txtstyle"><img src="$!samreportor"></td>
+            <td width="12%"><span class="fieldname">审核医生：</span></td>
 ##            <td width="22%" class="tdtextalign">$!samauditer</td>
-            <td width="22%" class="tdtextalign"><img src="$!samauditer"></td>
-            <td width="10%"><span class="fieldname">报告日期：</span></td>
-            <td width="22%" class="tdtextalign">$!samreportedtime</td>
+            <td width="20%" class="txtstyle"><img src="$!samauditer"></td>
+            <td width="12%"><span class="fieldname">报告日期：</span></td>
+            <td width="20%" class="txtstyle">$!samreportedtime</td>
         </tr>
     </table>
 </div>
 <div class="line"></div>
-<div style="width:100%;padding-top:10px" align="center">$!patreportremark</div>
+<div style="width:100%;padding-top:2px" align="center" class="txtstyle">$!patreportremark</div>

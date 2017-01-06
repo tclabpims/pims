@@ -405,7 +405,14 @@ function saveInfo() {
 								samjcxm:$("#samjcxm").val(),//检查项目
 								sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
 								sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
-								samremark:$("#samremark").val()//不合格原因
+								samremark:$("#samremark").val(),//不合格原因
+
+								samauditedtime:$("#samauditedtime").val(),//审核时间
+								samauditerid:$("#samauditerid").val(),//审核人员id
+								samauditer:$("#samauditer").val(),//审核人员姓名
+								samreportedtime:$("#samreportedtime").val(),//报告时间
+								samreportorid:$("#samreportorid").val(),//报告医生id
+								samreportor:$("#samreportor").val()//报告医生姓名
 							},
 							function(data) {
 								if(data.success) {
@@ -498,7 +505,14 @@ function saveInfo() {
 					samjcxm:$("#samjcxm").val(),//检查项目
 					sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
 					sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
-					samremark:$("#samremark").val()//不合格原因
+					samremark:$("#samremark").val(),//不合格原因
+
+					samauditedtime:$("#samauditedtime").val(),//审核时间
+					samauditerid:$("#samauditerid").val(),//审核人员id
+					samauditer:$("#samauditer").val(),//审核人员姓名
+					samreportedtime:$("#samreportedtime").val(),//报告时间
+					samreportorid:$("#samreportorid").val(),//报告医生id
+					samreportor:$("#samreportor").val()//报告医生姓名
 				},
 				function(data) {
 					if(data.success) {
@@ -1284,7 +1298,7 @@ function getSampleData1(id) {
 			$("#samregisttime").val(CurentTime(new Date(data.samregisttime)));//登记时间
 			$("#samregisterid").val(data.samregisterid);//登记人员id
 			$("#samregistername").val(data.samregistername);//登记人员姓名
-			$("#saminitiallytime").val(data.saminitiallytime);//初诊时间
+			$("#saminitiallytime").val(CurentTime(new Date(data.saminitiallytime)));//初诊时间
 			$("#saminitiallyuserid").val(data.saminitiallyuserid);//初诊人员id
 			$("#saminitiallyusername").val(data.saminitiallyusername);//初诊人员姓名
 			$("#samisdeleted").val(data.samisdeleted);//删除标志（0正常，1已删除）
@@ -1310,6 +1324,13 @@ function getSampleData1(id) {
 			$("#sampiecedoctorid").val(data.sampiecedoctorid);//首次取材医师既诊断医师ID
 			$("#sampiecedoctorname").val(data.sampiecedoctorname);//首次取材医师既诊断医师
 			$("#samremark").val(data.samremark);//不合格原因
+
+			$("#samauditedtime").val(CurentTime(new Date(data.samauditedtime)));//审核时间
+			$("#samauditerid").val(data.samauditerid);//审核人员id
+			$("#samauditer").val(data.samauditer);//审核人员姓名
+			$("#samreportedtime").val(CurentTime(new Date(data.samreportedtime)));//报告时间
+			$("#samreportorid").val(data.samreportorid);//报告医生id
+			$("#samreportor").val(data.samreportor);//报告医生姓名
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}

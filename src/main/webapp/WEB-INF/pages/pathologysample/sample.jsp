@@ -521,6 +521,14 @@
 						<input type="hidden" id="samregistername"/><!--登记人员姓名-->
 						<input type="hidden" id="sampiecedoctorid"/><!--首次取材医师既诊断医师ID-->
 						<input type="hidden" id="sampiecedoctorname"/><!--首次取材医师既诊断医师-->
+
+						<input type="hidden" id="samauditedtime"/><!--审核时间-->
+						<input type="hidden" id="samauditerid"/><!--审核人员id-->
+						<input type="hidden" id="samauditer"/><!--审核人员姓名-->
+						<input type="hidden" id="samreportedtime"/><!--报告时间-->
+						<input type="hidden" id="samreportorid"/><!--报告医生id-->
+						<input type="hidden" id="samreportor"/><!--报告医生姓名-->
+
                         <input class="input_style" type="text" id="sampathologycode" name="sampathologycode" readonly/>
                     </div>
 					<label class="label_style col-sm-1">检查项目:</label>

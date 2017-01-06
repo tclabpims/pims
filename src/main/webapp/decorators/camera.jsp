@@ -55,7 +55,7 @@
 
         $('#snap').on('click', function () {
 //            context.drawImage(video, 0, 0, canvas.width = video.videoWidth, canvas.height = video.videoHeight);
-            context.drawImage(video, 0, 0, canvas.width = 320, canvas.height = 240);
+            context.drawImage(video, 0, 0, canvas.width = 640, canvas.height = 480);
 
             var checkvale = $("#continuousBox").is(':checked')?"true":"false";
             var nowshow = parseInt($("#nowshow").val());
@@ -88,7 +88,7 @@
             <button id="snap">拍照</button>
         </div>
         <div class="container">
-        <video id="video" width="320px" height="240px"></video>
+        <video id="video" width="560px" height="420px" style="margin-top: 0px;margin-bottom: 0px"></video>
         <canvas id="canvas" style="display: none"></canvas>
         </div>
     </div>

@@ -236,7 +236,16 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         }
         context.put("picNum", picNumInt);
 //            context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
-        context.put("hospitalLogo", "data:image/png" + ";base64," + getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));//医院logo
+        context.put("hospitalLogo", "data:image/jpg" + ";base64," + getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));//医院logo
+
+        StringBuilder logoFileRoot2 = new StringBuilder();
+        logoFileRoot2.append(Config.getString("img.hospital","E:\\img\\hospital") + File.separator+ pimsPathologySample.getSamcustomerid() + File.separator + "R-Logo.jpg");
+        FileInputStream fileInputStream2 = new FileInputStream(logoFileRoot2.toString().replace("/","\\"));
+        byte[] buffer2 = null;
+        buffer2 = new byte[fileInputStream2.available()];
+        fileInputStream2.read(buffer2);
+        fileInputStream2.close();
+        context.put("RhospitalLogo","data:image/jpg" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer2)));//条形码
 
         if (picNumInt > 0) {
             Map<String, String> map1 = new HashMap<>();
