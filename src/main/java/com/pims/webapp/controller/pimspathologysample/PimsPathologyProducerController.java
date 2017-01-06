@@ -121,14 +121,18 @@ public class PimsPathologyProducerController extends PIMSBaseController{
         String slides = request.getParameter("slides");
         String samples = request.getParameter("samples");
         String savenum = request.getParameter("savenum");
-        String states = request.getParameter("states");
+        String states = StringUtils.isEmpty(request.getParameter("states"))?"0":request.getParameter("states");
         String userName = request.getParameter("username");
         String userId = request.getParameter("userid");
         String sampleid = request.getParameter("sampleid");
         JSONArray samplesList = JSON.parseArray(samples);
         JSONArray slidesList = JSON.parseArray(slides);
         JSONObject o = new JSONObject();
-        pimsPathologySlideManager.updateProducer(slidesList,samplesList,Integer.parseInt(savenum),sampleid,userName,userId);
+        if(states.equals("1")){
+            pimsPathologySlideManager.updateProducer(slidesList,samplesList,Integer.parseInt(savenum),sampleid,userName,userId);
+        }else{
+            pimsPathologySlideManager.resetProducer(samplesList);
+        }
         o.put("message", "操作成功！");
         o.put("success", true);
         PrintwriterUtil.print(response, o.toString());

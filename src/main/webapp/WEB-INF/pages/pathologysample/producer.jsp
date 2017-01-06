@@ -74,8 +74,14 @@
 			</h5>
 		</div>
 		<div class="col-sm-6 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 121px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 157px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
+					<table style="margin-bottom: 5px;">
+						<span style="width: 30%;" class="input_style">&nbsp;病种类别:&nbsp;</span>
+						<select id="logyid" class="input_style">
+							<%out.println((String) request.getAttribute("logyids"));%>
+						</select>
+					</table>
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;登记年月:&nbsp;</span>
 						<input type="hidden" id="req_sts" value="2">
@@ -93,8 +99,8 @@
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;打印状态:&nbsp;</span>
 						<input type="hidden" id="send_hosptail">
-						<input type="checkbox" name="send_hosptail1" value="0">&nbsp;待打印&nbsp;
-						<input type="checkbox" name="send_hosptail2" value="1">&nbsp;已打印&nbsp;
+						<input type="checkbox" id="send_hosptail1" value="0">&nbsp;待打印&nbsp;
+						<input type="checkbox" id="send_hosptail2" value="1">&nbsp;已打印&nbsp;
 					</table>
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;患者姓名:&nbsp;</span>
@@ -197,7 +203,7 @@
 							<span style="color: white">删除行</span>
 						</button>
 						<button type="button"  style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px" onclick="saveInfo(0)">
-							<span style="color: white">保存</span>
+							<span style="color: white">制片</span>
 						</button>
 					</h5>
 				</div>

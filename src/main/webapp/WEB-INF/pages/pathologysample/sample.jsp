@@ -607,7 +607,7 @@
 								<%out.print(request.getAttribute("samsenddoctorname"));%>
 							</select>
 						</span>
-						<input id="samsenddoctorname"  name="samsenddoctorname" datatype="*" style="position:absolute;left:5px;width: 55%;padding-left: 10px" class="input_style">
+						<input id="samsenddoctorname"  name="samsenddoctorname" style="position:absolute;left:5px;width: 55%;padding-left: 10px" class="input_style">
 					</div>
 					<label class="col-sm-1 label_style" for="samdeptcode">送检科室:</label>
 					<div class="col-sm-3">

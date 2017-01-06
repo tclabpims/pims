@@ -57,8 +57,14 @@
 	<h5 style="float: left;width: 66%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;&nbsp;切片管理</strong></h5>
 	<div>
 		<div class="col-sm-4 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 190px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 220px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
+					<table style="margin-bottom: 5px;">
+						<span style="width: 30%;" class="input_style">&nbsp;病种类别:&nbsp;</span>
+						<select id="logyid" class="input_style">
+							<%out.println((String) request.getAttribute("logyids"));%>
+						</select>
+					</table>
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;包埋年月:&nbsp;</span>
 						<input type="hidden" id="req_sts" value="0">

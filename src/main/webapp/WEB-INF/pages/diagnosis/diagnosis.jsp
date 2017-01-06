@@ -26,6 +26,9 @@
     <script type="text/javascript" src="<c:url value='/scripts/task/task1.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/pathologysample/fee.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/pspathology/yjxbx.js'/>"></script>
+    <%--<script type="text/javascript" src="<c:url value='/scripts/jquery.webcam.min.js'/>"></script>--%>
+
+
     <style>
         .ui-jqgrid {
             border: 1px solid #ddd;
@@ -222,8 +225,8 @@
                     <i class="ace-icon fa fa-print "></i>
                     打印
                 </button>
-                <button type="button" class="btn btn-sm btn-success" title="发送" onclick="">
-                    <i class="ace-icon fa fa-paper-plane-o "></i>
+                <button type="button" class="btn btn-sm btn-success" title="发送" onclick="sendDoctor()">
+                    <i class="ace-icon fa fa-paper-plane-o smaller-60"></i>
                     发送
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="转送" onclick="csMarage(1)">
@@ -393,7 +396,7 @@
                                                                    id="sampatientage"></div>
                         </div>
                         <div style="margin-bottom: 5px">
-                            <div style="display: inline-block;width:30%"><label style="width:35%;;font-size: 12px;text-align: right">病人姓名：</label><input type="text"
+                            <div style="display: inline-block;width:30%"><label style="width:45%;;font-size: 12px">病人姓名：</label><input type="text"
                                                                      style="width:40%;height: 24px"
                                                                      id="sampatientname"><a href="#" onclick="viewDetail()">详细</a>
                             </div>

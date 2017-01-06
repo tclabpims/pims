@@ -62,6 +62,13 @@ public interface PimsPathologySlideManager extends GenericManager<PimsPathologyS
     JSONArray getSlideCode(JSONArray samplesList);
 
     /**
+     * 获取制片列表
+     * @param samplesList
+     * @return
+     */
+    JSONArray getSlideCodepro(JSONArray samplesList);
+
+    /**
      * 制片管理
      * @param slideList
      * @param sampleList
@@ -72,6 +79,13 @@ public interface PimsPathologySlideManager extends GenericManager<PimsPathologyS
      * @return
      */
     boolean updateProducer(JSONArray slideList,JSONArray sampleList, int sts, String sampleid,String username,String userid);
+
+    /**
+     * 取消制片
+     * @param sampleList
+     * @return
+     */
+    boolean resetProducer(JSONArray sampleList);
 
     /**
      * 查询无需切片的标本列表

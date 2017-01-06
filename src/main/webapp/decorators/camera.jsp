@@ -5,10 +5,6 @@
 <head>
     <title>图像采集</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-    <meta name="decorator" value="none" />
-    <link rel="stylesheet" type="text/css" href="<c:url value='/scripts/picture/history/history.css'/>"/>
-    <script src="<c:url value='/scripts/picture/swfobject.js'/>"></script>
-    <script src="<c:url value='/scripts/picture/history/history.js'/>"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/ui.jqgrid.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/jquery-ui.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>"/>
@@ -17,107 +13,84 @@
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/jquery-2.1.4.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/jquery-ui.min.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/bootstrap-datetimepicker.min.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/i18n/grid.locale-cn.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/jquery.jqGrid.js'/>"></script>
+    <script src="<c:url value='/scripts/ajaxfileupload-new.js'/>"></script>
+    <script src="<c:url value='/scripts/LodopFuncs.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/scripts/validform/Validform.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/scripts/layer/layer.js'/>"></script>
+
     <style type="text/css" media="screen">
         html, body  { height:100%; }
         body { margin:0; padding:0; overflow:auto; text-align:center;
             background-color: #ffffff; }
         object:focus { outline:none; }
-        #flashContent { display:none; }
     </style>
 </head>
 <SCRIPT LANGUAGE="JavaScript">
-    //此地址给摄像头插件调用
-    function imgUploadPath() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/upload?sampleid="%>" + parent.GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + parent.GRID_SELECTED_ROW_SAMPCUSTOMERID + "&picpictureclass=" + parent.PIC_TAKING_FROM;
-    }
+    window.addEventListener("DOMContentLoaded", function () {
+        try { document.createElement("canvas").getContext("2d"); } catch (e) { alert("not support canvas!") }
+        var video = document.getElementById("video"),
+                canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d");
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
-    //此地址给文件上传插件调用
-    function multifileUploadUrl() {
-        return "<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/diagnosis/multiupload?sampleid="%>" + parent.GRID_SELECTED_ROW_SAMPLEID + "&samcustomerid=" + parent.GRID_SELECTED_ROW_SAMPCUSTOMERID + "&picpictureclass=" + parent.PIC_TAKING_FROM;
-    }
+        if (navigator.getUserMedia)
+            navigator.getUserMedia(
+                    { "video": true },
+                    function (stream) {
+                        if (video.mozSrcObject !== undefined)video.mozSrcObject = stream;
+                        else video.src = ((window.URL || window.webkitURL || window.mozURL || window.msURL) && window.URL.createObjectURL(stream)) || stream;
+                        video.play();
+                    },
+                    function (error) {
+                        //if(error.PERMISSION_DENIED)console.log("用户拒绝了浏览器请求媒体的权限",error.code);
+                        //if(error.NOT_SUPPORTED_ERROR)console.log("当前浏览器不支持拍照功能",error.code);
+                        //if(error.MANDATORY_UNSATISFIED_ERROR)console.log("指定的媒体类型未接收到媒体流",error.code);
+                        alert("Video capture error: " + error.code);
+                    }
+            );
+        else alert("Native device media streaming (getUserMedia) not supported in this browser");
 
-    function createImgElement(src) {
-        parent.createImgElement(src);
-    }
+        $('#snap').on('click', function () {
+//            context.drawImage(video, 0, 0, canvas.width = video.videoWidth, canvas.height = video.videoHeight);
+            context.drawImage(video, 0, 0, canvas.width = 320, canvas.height = 240);
+
+            var checkvale = $("#continuousBox").is(':checked')?"true":"false";
+            var nowshow = parseInt($("#nowshow").val());
+             $.post('../diagnosis/upload',
+                     { "img": canvas.toDataURL().substr(22),
+                         "sampleid":$("#nowsampleid").val(),
+                         "samcustomerid":$("#nowcustomerid").val(),
+                         "continuous":checkvale,
+                         "picpictureclass":"2"
+                     },
+                     function (data) {
+                       var result =  parent.childselect(checkvale,nowshow);
+                         if(checkvale == "false" && result > 0){
+                              $("#nowsampleid").val(result);
+                              $("#nowshow").val(nowshow+1);
+                         }
+             });
+        });
+    }, false);
+
 
 </SCRIPT>
-<body onunload="removeVideo()">
-<div id="flashContent" style="display: none;">
-    <p>
-        To view this page ensure that Adobe Flash Player version
-        11.1.0 or greater is installed.
-    </p>
-    <script type="text/javascript">
-        var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://");
-        document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='"
-                + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" );
-    </script>
-</div>
-<%
-    String swfPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +"/scripts/picture/";
-    String swf = swfPath+"Main.swf";
-    String install_ = swfPath + "playerProductInstall.swf";
-%>
-<script type="text/javascript">
-        // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection.
-        var swfVersionStr = "11.1.0";
-        // To use express install, set to playerProductInstall.swf, otherwise the empty string.
-        var xiSwfUrlStr = "<%=install_%>";
-        var flashvars = {};
-        var params = {};
-        params.quality = "high";
-        params.bgcolor = "#ffffff";
-        params.allowscriptaccess = "sameDomain";
-        params.allowfullscreen = "true";
-        params.wmode = "transparent";
-        var attributes = {};
-        attributes.id = "Main";
-        attributes.name = "Main";
-        attributes.align = "middle";
-        swfobject.embedSWF(
-                "<%=swf%>", "flashContent",
-                "100%", "100%",
-                swfVersionStr, xiSwfUrlStr,
-                flashvars, params, attributes, function(){
-                    layer.msg('视频控件已加载！', {
-                        time: 1500 //自动关闭
-                    });});
-        // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
-        swfobject.createCSS("#flashContent", "display:block;text-align:left;");
-
-    function removeVideo() {
-        swfobject.removeSWF("Main");
-    }
-
-</script>
-<noscript>
-    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="Main">
-        <param name="movie" value="<%=swf%>" />
-        <param name="quality" value="high" />
-        <param name="bgcolor" value="#ffffff" />
-        <param name="allowScriptAccess" value="sameDomain" />
-        <param name="allowFullScreen" value="true" />
-        <!--[if !IE]>-->
-        <object type="application/x-shockwave-flash" data="<%=swf%>" width="100%" height="100%">
-            <param name="quality" value="high" />
-            <param name="bgcolor" value="#ffffff" />
-            <param name="allowScriptAccess" value="sameDomain" />
-            <param name="allowFullScreen" value="true" />
-            <!--<![endif]-->
-            <!--[if gte IE 6]>-->
-            <p>
-                Either scripts and active content are not permitted to run or Adobe Flash Player version
-                11.1.0 or greater is not installed.
-            </p>
-            <!--<![endif]-->
-            <a href="http://www.adobe.com/go/getflashplayer">
-                <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
-            </a>
-            <!--[if !IE]>-->
-        </object>
-        <!--<![endif]-->
-    </object>
-</noscript>
+<body>
+    <div>
+        <input type="hidden" id="nowsampleid" value="${sampleId}">
+        <input type="hidden" id="nowcustomerid" value="${customerId}">
+        <input type="hidden" id="nowshow" value="${nowshow}">
+        <div>
+            <input type="checkbox" id="continuousBox"><span style="font-size: 14px">连拍</span></input>
+            <button id="snap">拍照</button>
+        </div>
+        <div class="container">
+        <video id="video" width="320px" height="240px"></video>
+        <canvas id="canvas" style="display: none"></canvas>
+        </div>
+    </div>
 </body>
 </html>

@@ -6,4 +6,6 @@
         <Arg>.*/.*jsp-api-[^/]/.jar$|./.*jsp-[^/]/.jar$|./.*taglibs[^/]*/.jar$
         </Arg>
     </Call>
+    <Set name="maxFormContentSize">6000000</Set>
+    <Set name="maxFormKeys">6000000</Set>
 </Configure>

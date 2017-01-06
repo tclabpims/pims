@@ -619,8 +619,8 @@ $(function () {
         altRows: true,
         multiselect:true,
         height: height,
-        rowNum: 10,
-        rowList: [10, 20, 30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // the width of the row numbers columns
         pager: "#pager",
@@ -888,8 +888,8 @@ $(function () {
         },
         shrinkToFit: false,
         scrollOffset: 2,
-        rowNum: 10,
-        rowList: [10, 20, 40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true // 显示行号
     });
 

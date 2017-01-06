@@ -598,8 +598,8 @@ function addSample() {
 	$("#samcreatetime").val(CurentTime(new Date()));//创建时间
 	$("#samcreateuser").val($("#local_userid").val());//创建人
 	$("#samjcxm").val("");//检查项目
-	$("input[name='samfirstv'][value='1']").attr("checked",true);//知情书
-	$("input[name='samsecondv'][value='1']").attr("checked",true);//合格状态
+	$("input[name='samfirstv'][value='1']").prop("checked",true);//知情书
+	$("input[name='samsecondv'][value='1']").prop("checked",true);//合格状态
     $("#sampiecedoctorid").val("");//首次取材医师既诊断医师ID
     $("#sampiecedoctorname").val("");//首次取材医师既诊断医师
 }
@@ -1019,8 +1019,8 @@ $(function() {
         shrinkToFit:false,
         autoScroll: true,
 		//autowidth: true,
-		rowNum: 10,
-		rowList:[20,30,40],
+		rowNum: 500,
+		rowList:[500,1000,1500],
 		rownumbers: true, // 显示行号
 		rownumWidth: 30, // the width of the row numbers columns
 		pager: "#pager"

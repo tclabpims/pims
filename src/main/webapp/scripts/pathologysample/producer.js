@@ -52,14 +52,14 @@ function changeimgclick(num) {//1切片 取消包埋
 	if(num == 1){
 		SAVENUM = 1;
 		if (typeof document.addEventListener == "undefined") {
-			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
-			document.getElementById("saveButton").attachEvent("onclick",saveInfo);
-			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
+			document.getElementById("saveButton").detachEvent("onclick",saveInfo2);
+			document.getElementById("saveButton").attachEvent("onclick",saveInfo2);
+			document.getElementById("resetbutton").detachEvent("onclick",resetInfo);
 			document.getElementById("printslide").detachEvent("onclick",printCode);
 		} else {
-			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
-			document.getElementById("saveButton").addEventListener("click",saveInfo,false);
-			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
+			document.getElementById("saveButton").removeEventListener("click",saveInfo2,false);
+			document.getElementById("saveButton").addEventListener("click",saveInfo2,false);
+			document.getElementById("resetbutton").removeEventListener("click",resetInfo,false);
 			document.getElementById("printslide").removeEventListener("onclick",printCode,false);
 		}
 		$("#saveButton").css("cursor","pointer");
@@ -68,15 +68,15 @@ function changeimgclick(num) {//1切片 取消包埋
 	}else{
 		SAVENUM = 0;
 		if (typeof document.addEventListener == "undefined") {
-			document.getElementById("saveButton").detachEvent("onclick",saveInfo);
-			document.getElementById("resetbutton").detachEvent("onclick",saveInfo);
-			document.getElementById("resetbutton").attachEvent("onclick",saveInfo);
+			document.getElementById("saveButton").detachEvent("onclick",saveInfo2);
+			document.getElementById("resetbutton").detachEvent("onclick",resetInfo);
+			document.getElementById("resetbutton").attachEvent("onclick",resetInfo);
 			document.getElementById("printslide").detachEvent("onclick",printCode);
 			document.getElementById("printslide").attachEvent("onclick",printCode);
 		} else {
-			document.getElementById("saveButton").removeEventListener("click",saveInfo,false);
-			document.getElementById("resetbutton").removeEventListener("click",saveInfo,false);
-			document.getElementById("resetbutton").addEventListener("click",saveInfo,false);
+			document.getElementById("saveButton").removeEventListener("click",saveInfo2,false);
+			document.getElementById("resetbutton").removeEventListener("click",resetInfo,false);
+			document.getElementById("resetbutton").addEventListener("click",resetInfo,false);
 			document.getElementById("printslide").removeEventListener("click",printCode,false);
 			document.getElementById("printslide").addEventListener("click",printCode,false);
 		}
@@ -100,11 +100,43 @@ function searchSts(states){
 		changeimgclick(2);
 	}
 }
+function resetInfo(){
+	var	 selectedIds = $("#new").jqGrid("getGridParam","selarrrow");
+	var arr = new Array();
+	// var sampleid = $("#sampleid").val();
+	if(selectedIds.length > 0){
+		$(selectedIds).each(function () {
+				var rowData1 = $("#new").jqGrid('getRowData',this.toString());
+				arr.push(rowData1);
+			}
+		);
+		$.post("../pathologysample/producer/editSample", {
+				states:0,
+				samples:JSON.stringify(arr)
+			},
+			function(data) {
+				if(data.success) {
+					layer.msg(data.message, {icon: 1, time: 1000});
+					searchList();
+				} else {
+					layer.msg(data.message, {icon:2, time: 1000});
+				}
+			});
+	}else{
+		layer.msg('未选择数据!', {icon: 2,time: 1000});
+		post = false;
+		return;
+	}
+
+}
+function saveInfo2() {
+	saveInfo(1);
+}
 /**
  * 制片
  */
 function saveInfo(num) {
-	num = SAVENUM;
+	// num = SAVENUM;
 	$("#new1").jqGrid("saveCell",LASTEDITROW1,LASTEDITCELL1);
 	var post = true;
 	var rowdatas;
@@ -155,6 +187,7 @@ function saveInfo(num) {
 						},
 						function(data) {
 							if(data.success) {
+								layer.close(index);
 								layer.msg(data.message, {icon: 1, time: 1000});
 								searchList();
 							} else {
@@ -279,8 +312,8 @@ var clientHeight= $(window).innerHeight();
 		width: width,
 		shrinkToFit:false,
 		autoScroll: true,
-		rowNum: 10,
-		rowList:[10,20,30],
+		rowNum: 500,
+		rowList:[500,1000,1500],
 		rownumbers: true, // 显示行号
 		rownumWidth: 30, // the width of the row numbers columns
 		pager: "#pager"
@@ -304,8 +337,8 @@ function createNew1(reqid,width1){
 		// shrinkToFit:false,
 		// autoScroll: true,
 		postData:{"reqId":reqid},
-		colNames: ['样本ID','蜡块ID','玻片条码','玻片类型','玻片序号','印刷状态', '特检项目',
-			'玻片id','客户代码','客户代码','病理编号','玻片来源','玻片使用状态','玻片号','蜡块序号','取材部位','是否内部医嘱'],
+		colNames: ['样本ID','蜡块ID','玻片条码','玻片类型','玻片序号','印刷状态', '取材部位',
+			'玻片id','客户代码','客户代码','病理编号','玻片来源','玻片使用状态','玻片号','蜡块序号','特检项目','是否内部医嘱'],
 		colModel: [
 			{name:'slisampleid',hidden:true},//样本ID
 			{name:'sliparaffinid',hidden:true},//蜡块ID
@@ -313,7 +346,7 @@ function createNew1(reqid,width1){
 			{name:'slislidetype',index:'slislidetype',formatter: "select", editoptions:{value:"0:常规;1:白片"},align:'center'},//玻片类型
 			{name:'slislideno',index:'slislideno',align:'center'},//玻片序号
 			{ name: 'sliifprint', index: 'sliifprint',formatter: "select", editoptions:{value:"0:未打印;1:已打印"},width:100,align:'center'},//印刷状态
-			{ name: 'slitestitemname', index: 'slitestitemname',width:100,align:'center'},//特检项目
+			{name:'slisamplingparts',index:'slisamplingparts',width:100,align:'center'},//取材部位
 			{name:'slideid',hidden:true},//玻片id
 			{name:'slicustomerid',hidden:true},//客户代码
 			{name:'slicustomercode',hidden:true},//客户代码
@@ -322,7 +355,8 @@ function createNew1(reqid,width1){
 			{name:'sliuseflag',hidden:true},//玻片使用状态
 			{name:'slislidecode',hidden:true},//玻片号
 			{name:'sliparaffinno',hidden:true},//蜡块序号
-			{name:'slisamplingparts',hidden:true},//取材部位
+			{ name: 'slitestitemname', index: 'slitestitemname',width:100,align:'center',hidden:true},//特检项目
+
 			{name:'slifirstn',hidden:true}//是否内部医嘱
 		],
 		loadComplete : function() {
@@ -360,6 +394,15 @@ function createNew1(reqid,width1){
 function searchList() {
 	var req_code = $('#req_code').val();
 	var patient_name = $('#patient_name').val();
+	if($("#send_hosptail1").prop("checked") && $("#send_hosptail2").prop("checked")){
+		$('#send_hosptail').val("");
+	}else if($("#send_hosptail1").prop("checked")){
+		$('#send_hosptail').val("0");
+	}else if($("#send_hosptail2").prop("checked")){
+		$('#send_hosptail').val("1");
+	}else{
+		$('#send_hosptail').val("");
+	}
 	var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
@@ -448,7 +491,7 @@ function addRow(){
 		slislideno:maxId,//玻片序号
 		sliifprint:0,//印刷状态
 		slitestitemname:"",//特检项目
-		slideid:"",//玻片id
+		slideid:0,//玻片id
 		slicustomerid:GRID_SELECTED_ROW_SAMPCUSTOMERID,//客户代码
 		slipathologycode:GRID_SELECTED_ROW_SAMPLECODE,//病理编号
 		slislidesource:3,//玻片来源
@@ -473,11 +516,14 @@ function delRow(){
 			return;
 		}else{
 			var rowData = $("#new1").jqGrid('getRowData',maxId);
-			if(rowData.pieceid == null || rowData.pieceid == ""){
-				$("#new1").jqGrid("delRowData", maxId);
-			}else if(rowData.sliuseflag == 1){
+			if(rowData.sliuseflag == 1){
 				layer.msg("该片已被使用无法删除!", {icon: 2, time: 1000});
 				return;
+			}else if(rowData.slideid > 0){
+				layer.msg("已制片无法删除!", {icon: 2, time: 1000});
+				return;
+			}else if(rowData.pieceid == null || rowData.pieceid == ""){
+				$("#new1").jqGrid("delRowData", maxId);
 			}
 		}
 	}else{
@@ -492,13 +538,16 @@ function delRow(){
 				if(delrow == "1"){
 					layer.msg("至少保留一条制片信息!", {icon: 2, time: 1000});
 					return;
-				}else if(rowData.pieceid == null || rowData.pieceid == ""){
-					$("#new1").jqGrid("delRowData", delrow);
 				}else if(rowData.sliuseflag == 1){
 					layer.msg("该片已被使用无法删除!", {icon: 2, time: 1000});
 					return;
+				}else if(rowData.slideid > 0){
+					layer.msg("已制片无法删除!", {icon: 2, time: 1000});
+					return;
+				}else if(rowData.pieceid == null || rowData.pieceid == ""){
+					$("#new1").jqGrid("delRowData", maxId);
 				}
-				}
+			}
 			);
 		}
 	}
@@ -541,7 +590,7 @@ function printCode() {
 		saveDatas.push(rowData);
 		// startPrint(rowData);
 	});
-	$.post("../pathologysample/slide/printcode",{samples:JSON.stringify(saveDatas)},function(data){
+	$.post("../pathologysample/slide/printcodeproducer",{samples:JSON.stringify(saveDatas)},function(data){
 		data = jQuery.parseJSON(data);
 		// console.log(data);
 		startPrint(data);
@@ -555,7 +604,7 @@ var LODOP; //声明为全局变量
 function Preview() {//打印预览
 	LODOP = getLodop();
 	CreateDataBill(data)
-	LODOP.PREVIEW();
+	// LODOP.PREVIEW();
 }
 function Setup() {//打印维护
 	LODOP = getLodop();
@@ -567,16 +616,42 @@ function CreateDataBill(datas) {
 	LODOP.SET_PRINT_PAGESIZE(3,"97mm","17mm","A4");
 	for(i=0;i<datas.labOrders.length;i++){
 		var data = datas.labOrders[i];
-		var topheight1 = Math.floor(i/3)*22+ 3;
-		var topheight2 = Math.floor(i/3)*22+ 8;
-		var leftwidth1 = i%3*32+3;
-		LODOP.ADD_PRINT_TEXT(topheight1+"mm",leftwidth1+"mm","29mm","5mm","树兰(杭州)医院");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode);
-		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXTA("nameText",topheight2+"mm",leftwidth1+"mm","29mm","3mm",data.barcode);
+		var leftwidth1 = 3;
+		if(i<3){
+			if(i%3 == 0){
+				leftwidth1 = 3;
+			}else if(i%3 == 1){
+				leftwidth1 = 30;
+			}else if(i%3 == 2){
+				leftwidth1 = 57;
+			}
+		}else{
+			if(i%3 == 0){
+				leftwidth1 = 1;
+			}else if(i%3 == 1){
+				leftwidth1 = 28;
+			}else if(i%3 == 2){
+				leftwidth1 = 55;
+			}
+		}
+
+		LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","27mm","5mm","浙大国际医院");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode); slisamplingparts
+		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
+		LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","4mm",data.barcode);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		if(data.slisamplingparts != null && data.slisamplingparts != ""){
+			LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+			LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		}
+		if(i%3 == 2 || i == datas.labOrders.length -1){
+			LODOP.PRINT();
+			// LODOP.PREVIEW();
+		}
 	}
 
 }
@@ -615,8 +690,8 @@ $(function () {
 		shrinkToFit: true,
 		altRows:true,
 		height: 'auto',
-		rowNum: 10,
-		rowList:[10,20,30],
+        rowNum: 20,
+        rowList:[20,40,60,80,100],
 		rownumbers: true, // 显示行号
 		rownumWidth: 35, // the width of the row numbers columns
 		pager: "#pager4",

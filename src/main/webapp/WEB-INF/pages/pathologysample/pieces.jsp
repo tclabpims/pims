@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
 	<script type="text/javascript" src="../scripts/pathologysample/fee.js"></script>
+
 	<style>
 		.ui-autocomplete {z-index: 99999999;}
 		.div_div {float:left;margin:20px 35px 11px 8px;text-align:center;color: #808080;font-size: 12px;  }
@@ -113,8 +114,14 @@
 			<h5 style="float: left;width: 16.3%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;图像采集</strong></h5>
 		</div>
 		<div class="col-sm-4 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 121px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 156px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
+					<table style="margin-bottom: 5px;">
+						<span style="width: 30%;" class="input_style">&nbsp;病种类别:&nbsp;</span>
+						<select id="logyid" class="input_style">
+							<%out.println((String) request.getAttribute("logyids"));%>
+						</select>
+					</table>
 					<table style="margin-bottom: 5px;">
 						<span class="input_style">&nbsp;登记年月:&nbsp;</span>
 						<input type="hidden" id="req_sts" value="0">

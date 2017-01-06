@@ -159,7 +159,7 @@ $(function() {
 
 	createNew1("",width1);
 	//var logyid = $("#logyid").val();
-	var logyid ="";
+	var logyid =$("#logyid").val();
 	var patient_name = $('#patient_name').val();//病人姓名
 	//var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();
@@ -255,8 +255,8 @@ $(function() {
 		//autowidth: true,
 		shrinkToFit:false,
 		autoScroll: true,
-		rowNum: 10,
-		rowList:[10,20,30,40,50],
+		rowNum: 500,
+		rowList:[500,1000,1500],
 		rownumbers: true, // 显示行号
 		rownumWidth: 35, // the width of the row numbers columns
 		pager: "#pager"
@@ -387,6 +387,7 @@ function searchList() {
 	}else{
 		$('#send_hosptail').val("");
 	}
+	var logyid = $("#logyid").val();
 	var send_hosptail = $('#send_hosptail').val();
 	var req_bf_time = $('#req_bf_time').val();
 	var req_af_time = $('#req_af_time').val();
@@ -406,7 +407,7 @@ function searchList() {
 		url: "../pathologysample/slide/ajax/sample",
 		//发送数据
 		postData : {"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
-			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
+			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
 		page : 1
 	}).trigger('reloadGrid');//重新载入
 }
@@ -669,23 +670,40 @@ function CreateDataBill(datas) {
 		// var topheight1 = Math.floor(i/3)*24+ 3;
 		// var topheight2 = Math.floor(i/3)*24+ 8;
 		var leftwidth1 = 3;
-		if(i%3 == 1){
-			leftwidth1 = 30;
-		}else if(i%3 == 2){
-			leftwidth1 = 57;
+		if(i<3){
+			if(i%3 == 0){
+				leftwidth1 = 3;
+			}else if(i%3 == 1){
+				leftwidth1 = 30;
+			}else if(i%3 == 2){
+				leftwidth1 = 57;
+			}
+		}else{
+			if(i%3 == 0){
+				leftwidth1 = 1;
+			}else if(i%3 == 1){
+				leftwidth1 = 28;
+			}else if(i%3 == 2){
+				leftwidth1 = 55;
+			}
 		}
+
 		LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","27mm","5mm","浙大国际医院");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
 		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode); slisamplingparts
 		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","24mm","8mm",data.barcode);
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-		LODOP.ADD_PRINT_TEXT("16mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+		LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","4mm",data.barcode);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		if(data.slisamplingparts != null && data.slisamplingparts != ""){
+			LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+			LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+		}
 		if(i%3 == 2 || i == datas.labOrders.length -1){
 			LODOP.PRINT();
+			// LODOP.PREVIEW();
 		}
 	}
 

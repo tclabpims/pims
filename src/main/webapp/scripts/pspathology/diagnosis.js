@@ -57,7 +57,7 @@ function saveAsTemplate(v, obj) {
     $("#temcontent").val(document.getElementById(obj).value);
     layer.open({
         type: 1,
-        area: ['800px', '500px'],
+        area: ['400px', '300px'],
         fix: false, //不固定
         maxmin: true,
         shade: 0.5,
@@ -178,8 +178,8 @@ function takingPicture() {
         shade: 0.5,
         closeBtn: false,
         maxmin: false, //开启最大化最小化按钮
-        area: ['320px', '360px'],
-        content: ["../diagnosis/camera"],
+        area: ['640px', '480px'],
+        content: ["../diagnosis/camera?sampleId="+GRID_SELECTED_ROW_SAMPLEID +"&customerId="+ GRID_SELECTED_ROW_SAMPCUSTOMERID+"&nowshowrow="+crno],
         btn: ["关闭"],
         yes: function (index, layero) {
             //swfobject.removeSWF("Main");
@@ -188,6 +188,7 @@ function takingPicture() {
         }
     });
 }
+
 
 function importImg() {
     layer.open({
@@ -1303,6 +1304,7 @@ function reportView(v, showPicNum, templateUrl) {
                             content: data.url,
                             yes: function (index1, layero1) {
                                 print(data.url);
+                                // print11(data.writerString);
                                 layer.close(index1);
                             },
                             btn2: function (index1, layero1) {
@@ -1333,6 +1335,7 @@ function reportView(v, showPicNum, templateUrl) {
                         layer.full(rptView);
                     } else {
                         print(data.url);
+                        // print11(data.writerString);
                     }
                 });
             } else {
@@ -1340,6 +1343,15 @@ function reportView(v, showPicNum, templateUrl) {
             }
         }
     );
+}
+
+
+function print11(strHtml) {
+    LODOP = getLodop();
+    LODOP.PRINT_INIT("打印报告单");
+    LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", strHtml);
+    //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
+    LODOP.PREVIEW();
 }
 
 var crno = 0;
@@ -2009,8 +2021,8 @@ $(function () {
         shrinkToFit: true,
         altRows: true,
         height: height,
-        rowNum: 10,
-        rowList: [10, 20,30,40,50],
+        rowNum: 500,
+        rowList:[500,1000,1500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // the width of the row numbers columns
         pager: "#pager",
@@ -2239,7 +2251,7 @@ $(function () {
         pager: "#pager2",
         colNames: ['病理号', '取材序号', '材块数', '白片数', '取材部位', '取材医生', '录入员', '取材时间', '特殊要求', '取材状态'],
         colModel: [
-            {name: 'piepathologycode', index: 'piepathologycode', width: 80,align:"center"},//病理号
+            {name: 'piepathologycode', index: 'piepathologycode', width: 115,align:"center"},//病理号
             {name: 'piesamplingno', index: 'piesamplingno', width: 60,align:"center"},//取材序号
             {name: 'piecounts', index: 'piecounts', width: 50,align:"center"},//材块数
             {name: 'pienullslidenum', index: 'pienullslidenum', width: 50,align:"center"},//白片数
@@ -2278,8 +2290,8 @@ $(function () {
         },
         shrinkToFit: false,
         scrollOffset: 2,
-        rowNum: 10,
-        rowList: [10, 20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true // 显示行号
     });
 
@@ -2324,8 +2336,8 @@ $(function () {
         shrinkToFit: true,
         altRows: true,
         height: height,
-        rowNum: 10,
-        rowList: [10, 20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // the width of the row numbers columns
         pager: "#templatePager",
@@ -2553,6 +2565,73 @@ function CurentTime1(now) {
         clock += "0";
     clock += day ;
     return (clock);
+}
+/**
+ * 签发
+ */
+function sendDoctor(){
+    var result = true;
+    var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    var arr = new Array();
+    if(selectedIds.length > 0){
+        $(selectedIds).each(function () {
+                var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+                if(rowData1.sampathologystatus != 3){//判断标本是否审核
+                    layer.msg("只有已审核的标本才允许签发!",{icon:2,time:1000});
+                    result = false;
+                    return;
+                }
+                arr.push(rowData1);
+            }
+        );
+    }else{
+        var rowData = $("#sectionList").jqGrid('getRowData', crno);
+        if(rowData == null || rowData ==""){
+            result = false;
+            layer.msg("请选择病理标本再进行签发!",{icon:2,time:1000});
+            return;
+        }
+        if(rowData.sampathologystatus != 3){//判断标本是否审核
+            layer.msg("只有已审核的标本才允许签发!",{icon:2,time:1000});
+            result = false;
+            return;
+        }
+        arr.push(rowData);
+    }
+    if(result){
+        $.post("../diagnosis/qianfa", {
+                tasks:JSON.stringify(arr)
+            },
+            function(data) {
+                if(data.success) {
+                    layer.msg(data.message, {icon:1, time: 1000});
+                } else {
+                    layer.msg(data.message, {icon:2, time: 1000});
+                }
+                query();
+            });
+    }
+}
+
+
+function childselect(checkvale,num) {
+    if(checkvale == "false"){
+        var ids = $("#sectionList").jqGrid('getDataIDs');
+        var maxId = Math.max.apply(Math,ids);
+        if(maxId > num){
+            var rowData = $("#sectionList").jqGrid('getRowData',num+1);
+            // $("#nowsampleid").val(rowData.sampleid);
+            // $("#nowshow").val(num+1)
+            onRowSelect(num+1);
+            return rowData.sampleid;
+        }else{
+            onRowSelect(num);
+            return 0;
+        }
+    }else{
+        onRowSelect(num);
+        return 0;
+    }
 }
 
 function getColor(){

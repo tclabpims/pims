@@ -53,7 +53,7 @@ public class PimsSysReportFormatManagerImpl  extends GenericManagerImpl<PimsSysR
     @Override
     public List<PimsSysReportFormate> getReportFormatByPathologyId(Long pathologyId) {
         StringBuilder hql = new StringBuilder("from PimsSysReportFormate psp");
-        hql.append(" where psp.formpathologyid=:pathologyId ");
+        hql.append(" where psp.formpathologyid=:pathologyId  order by formisdefault , formpicturenum asc");
         return pimsSysReportFormatDao.getReportFormatByPathologyId(hql.toString(), pathologyId);
     }
 }

@@ -87,8 +87,8 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
             sb.append(" and exists ( select 1 from PimsPathologySlide where slislidetype = 0"
                     +" and paraffinid = sliparaffinid and sliifprint = " +  map.getSend_hosptail()+")");//打印状态
         }
-        String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"sampathologycode":map.getSidx();
-        sb.append(" order by " + orderby + " " +map.getSord());
+        String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"piecode":map.getSidx();
+        sb.append(" order by length(piecode) asc," + orderby + " " +map.getSord());
         System.out.println(sb.toString());
         return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
     }
@@ -497,6 +497,50 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
 
         return array;
     }
+
+    @Override
+    public JSONArray getSlideCodepro(JSONArray samplesList) {
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JSONArray  array = new JSONArray();
+        if(samplesList == null || samplesList.size() == 0){
+            return array;
+        }else{
+            StringBuffer sb = new StringBuffer();
+            sb.append(" from PimsPathologySlide where slislidetype = 0 and slisampleid = :slisampleid");
+            Query query = getSession().createQuery(sb.toString());
+            for(int i=0;i<samplesList.size();i++){
+                Map map = (Map) samplesList.get(i);
+                PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                query.setLong("slisampleid",sample.getSampleid());
+                List<PimsPathologySlide> slideList = query.list();
+//                PimsPathologySlide slide = (PimsPathologySlide) query.list().get(0);
+                if(slideList != null && slideList.size()>0){
+                    for(PimsPathologySlide slide:slideList){
+                        org.codehaus.jettison.json.JSONObject object = new org.codehaus.jettison.json.JSONObject();
+                        try {
+                            object.put("barcode",slide.getSlislidebarcode());
+                            object.put("slisamplingparts",slide.getSlisamplingparts());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if(slide.getSliifprint() == 1){
+                            slide.setSliprinttimes(String.valueOf(Integer.valueOf(slide.getSliprinttimes())+1));
+                        }else{
+                            slide.setSliprinttimes("1");
+                            slide.setSliifprint(1);
+                            slide.setSliprinttime(new Date());
+                            slide.setSliprintuser(String.valueOf(user.getId()));
+                        }
+                        pimsPathologySlideManager.save(slide);
+                        array.add(object);
+                    }
+                }
+
+            }
+        }
+
+        return array;
+    }
     /**
      * 制片管理
      * @param slideList
@@ -617,6 +661,32 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         }
         return false;
     }
+
+    @Override
+    public boolean resetProducer(JSONArray sampleList) {
+        if(sampleList != null && sampleList.size() > 0){
+            StringBuffer sb = new StringBuffer();
+            sb.append(" from PimsPathologySlide where slisampleid = :slisampleid");
+            StringBuffer sbsample = new StringBuffer();
+            sbsample.append(" update pims_pathology_sample set samsamplestatus = 2 ,sampiecedoctorid = '',sampiecedoctorname = '' where sampleid=:sampleid and samsamplestatus=3");
+            for(int i = 0;i<sampleList.size();i++){
+                Map map = (Map) sampleList.get(i);
+                PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                //获取玻片信息
+                Query querypara = getSession().createQuery(sb.toString());
+                querypara.setLong("slisampleid",sample.getSampleid());
+                List<PimsPathologySlide> list = querypara.list();
+                getSession().createSQLQuery(sbsample.toString()).setLong("sampleid",sample.getSampleid()).executeUpdate();
+                for (PimsPathologySlide slide:list){
+                    if(slide.getSliuseflag().longValue() == 0){
+                        pimsPathologySlideManager.remove(slide);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * 查询无需切片的标本列表
      * @param map
@@ -634,6 +704,9 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         }else{
             sb.append(" and exists ( select 1 from PimsSysPathology p where sampathologyid = p.pathologyid and " +
                     "p.patissampling = 1 )");
+        }
+        if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("3") && !StringUtils.isEmpty(map.getSend_hosptail())){
+            sb.append(" and exists (select 1 from PimsPathologySlide m where sampleid = m.slisampleid and m.sliifprint = " +map.getSend_hosptail()+")");
         }
         String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"sampathologycode":map.getSidx();
         sb.append(" order by " + orderby + " " +map.getSord());
@@ -656,6 +729,9 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         }else{
             sb.append(" and exists ( select 1 from pims_sys_pathology p where sampathologyid = p.pathologyid and " +
                     "p.patissampling = 1 )");
+        }
+        if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("3") && !StringUtils.isEmpty(map.getSend_hosptail())){
+            sb.append(" and exists (select 1 from Pims_Pathology_Slide m where sampleid = m.slisampleid and m.sliifprint = " +map.getSend_hosptail()+")");
         }
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time());
     }
@@ -688,6 +764,9 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
         }
         if(map.getReq_af_time() != null){
             sb.append(" and  samregisttime < :req_af_time");//结束时间
+        }
+        if(!StringUtils.isEmpty(map.getLogyid())){
+            sb.append(" and sampathologyid  =" + map.getLogyid());//病种
         }
         return sb;
     }

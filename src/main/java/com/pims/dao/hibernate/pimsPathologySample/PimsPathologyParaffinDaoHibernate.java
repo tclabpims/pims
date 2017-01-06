@@ -87,7 +87,7 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
             sb.append(" and exists (select 1 from PimsPathologyParaffin where pieparaffinid = paraffinid and parissectioned = 0) ");
         }
         String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"piecode":map.getSidx();
-        sb.append(" order by " + orderby + " " +map.getSord());
+        sb.append(" order by  length(piecode) asc ," + orderby + " " +map.getSord());
         return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
     }
 

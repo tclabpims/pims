@@ -129,6 +129,7 @@
                 pathologyLib: pathologyName
             }, function (data) {
                 location.reload();
+
             });
         }
     }
@@ -490,7 +491,7 @@
             background:transparent!important;
         }
         .dropdown.open ul{
-            display:none;
+            /*display:none;*/
         }
         .form-control{
             height:26px!important;
