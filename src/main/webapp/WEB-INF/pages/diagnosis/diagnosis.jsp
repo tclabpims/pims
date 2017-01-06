@@ -191,58 +191,58 @@
         <div style="padding-top: 5px;">
             <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary " title="保存" onclick="saveSign()">
-                    <i class="ace-icon fa fa-floppy-o smaller-60"></i>
+                    <i class="ace-icon fa fa-floppy-o "></i>
                     保存
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="上一个" onclick="setSelect(0)">
-                    <i class="ace-icon fa fa-arrow-left smaller-60"></i>
+                    <i class="ace-icon fa fa-arrow-left "></i>
                     上一个
                 </button>
                 <button type="button" class="btn btn-sm btn-warning" title="下一个" onclick="setSelect(1)">
-                    <i class="ace-icon fa fa-arrow-right smaller-60"></i>
+                    <i class="ace-icon fa fa-arrow-right "></i>
                     下一个
                 </button>
                 <button type="button" class="btn btn-sm btn-success" title="计费调整" onclick="hisChange()">
-                    <i class="ace-icon glyphicon glyphicon-pencil smaller-60"></i>
+                    <i class="ace-icon glyphicon glyphicon-pencil "></i>
                     计费调整
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="图像采集" onclick="takingPicture()">
-                    <i class="ace-icon fa fa-picture-o smaller-60"></i>
+                    <i class="ace-icon fa fa-picture-o "></i>
                     图像采集
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="图像导入" onclick="importImg()">
-                    <i class="ace-icon fa fa-camera smaller-60"></i>
+                    <i class="ace-icon fa fa-camera "></i>
                     图像导入
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="预览" onclick="reportView(1, null, null)">
-                    <i class="ace-icon fa fa-file-image-o smaller-60"></i>
+                    <i class="ace-icon fa fa-file-image-o "></i>
                     预览
                 </button>
                 <button type="button" class="btn btn-sm btn-warning" title="打印" onclick="reportView(2, null, null)">
-                    <i class="ace-icon fa fa-print smaller-60"></i>
+                    <i class="ace-icon fa fa-print "></i>
                     打印
                 </button>
                 <button type="button" class="btn btn-sm btn-success" title="发送" onclick="">
-                    <i class="ace-icon fa fa-paper-plane-o smaller-60"></i>
+                    <i class="ace-icon fa fa-paper-plane-o "></i>
                     发送
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="转送" onclick="csMarage(1)">
-                    <i class="ace-icon fa fa-external-link smaller-60"></i>
+                    <i class="ace-icon fa fa-external-link "></i>
                     转送</button>
                 <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="csMarage(0)">
-                    <!--<i class="ace-icon fa fa-picture-o smaller-60"></i>-->
+                    <i class="ace-icon fa fa-cogs"></i>
                     抄送管理
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="发起会诊" onclick="consMarage()">
-                    <!--<i class="ace-icon fa fa-picture-o smaller-60"></i>-->
+                    <i class="ace-icon fa fa-puzzle-piece "></i>
                     发起会诊
                 </button>
                 <button type="button" class="btn btn-sm btn-warning" title="加入随访病例" onclick="addFavorite(1)">
-                    <!--<i class="ace-icon fa fa-picture-o smaller-60"></i>-->
+                    <i class="ace-icon fa fa-bookmark "></i>
                     加入随访病例
                 </button>
                 <button type="button" class="btn btn-sm btn-success" title="加入我的收藏" onclick="addFavorite(0)">
-                    <!--<i class="ace-icon fa fa-picture-o smaller-60"></i>-->
+                    <i class="ace-icon fa fa-heart "></i>
                     加入我的收藏
                 </button>
             </div>

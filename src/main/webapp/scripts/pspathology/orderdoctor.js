@@ -754,10 +754,10 @@ $(function () {
         rowNum: 10,
         rownumbers: true // 显示行号
     });
-
+    var width=$("#lakuaiListContainer").width();
     $("#lkItemList").jqGrid({
         datatype: "json",
-        width: 210,
+        width: width,
         cellEdit: true,
         cellsubmit:'clientArray',
         colNames: ['蜡块编号','库存', '预留','切片数','childorderid','chiparaffinid','totalitem'],
@@ -813,7 +813,7 @@ $(function () {
     $("#ckItemList").jqGrid({
         mtype: "GET",
         datatype: "json",
-        width: 210,
+        width: width,
         colNames: ['追加','testitemid', '项目名称','英文名称','tesischarge'],
         colModel: [
             {name:'testitemid',index:'testitemid',formatter:buttonFormat,width:35},
