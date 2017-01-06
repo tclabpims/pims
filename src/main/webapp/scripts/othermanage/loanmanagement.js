@@ -170,14 +170,15 @@ $(function() {
 
 
 function loanbtn() {
-
+    alert(1);
     var x = document.getElementById("sliloancustomername").value;
     var y = document.getElementById("sliloancustomerid").value;
     var z = document.getElementById("sliintime").value;
-
+    var ids = $("#new").jqGrid('getGridParam','selarrrow');
     for(var i=0;i<ids.length;i++){
     var rowData = $("#new").jqGrid('getRowData',ids[i]);
     if(rowData.slicurrent=='1'){
+    alert(2);
         if(x!=''&&y!=null){
             $.get("../othermanage/loanmanagement/ajax/loan",
                  {
@@ -449,11 +450,7 @@ function searchList2() {
 
  }
 
-function test(){
-    $.ajax({
 
-    });
-}
 
 
 

@@ -153,6 +153,21 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
+        var patnamech = $('#patnamech').val();
+        var patcoddingprechar = $('#patcoddingprechar').val();
+        var patreporttitle = $('#patreporttitle').val();
+        if(patnamech==''){
+            layer.msg('请填写病种名称', {icon: 2,time: 1000});
+            return false;
+        }
+        if(patcoddingprechar==''){
+            layer.msg('请填写病理编号前缀', {icon: 2,time: 1000});
+            return false;
+        }
+        if(patreporttitle==''){
+            layer.msg('请填写报告单抬头名称', {icon: 2,time: 1000});
+            return false;
+        }
             $.post('../pspathology/dcm/edit', {patnamech:$('#patnamech').val(),
                 patnameen : $('#patnameen').val(), patreporttitle : $('#patreporttitle').val(),
                 patreportremark : $('#patreportremark').val(), patdefaultdiagnosis : $('#patdefaultdiagnosis').val(),
@@ -247,6 +262,21 @@ function editSection(){
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
+                var patnamech = $('#patnamech').val();
+                var patcoddingprechar = $('#patcoddingprechar').val();
+                var patreporttitle = $('#patreporttitle').val();
+                if(patnamech==''){
+                    layer.msg('请填写病种名称', {icon: 2,time: 1000});
+                    return false;
+                }
+                if(patcoddingprechar==''){
+                    layer.msg('请填写病理编号前缀', {icon: 2,time: 1000});
+                    return false;
+                }
+                if(patreporttitle==''){
+                    layer.msg('请填写报告单抬头名称', {icon: 2,time: 1000});
+                    return false;
+                }
                     $.post('../pspathology/dcm/edit', {pathologyid:rowData.pathologyid,patnamech:$('#patnamech').val(),
                         patnameen : $('#patnameen').val(), patreporttitle : $('#patreporttitle').val(),
                         patreportremark : $('#patreportremark').val(), patdefaultdiagnosis : $('#patdefaultdiagnosis').val(),
@@ -302,7 +332,7 @@ $(function(){
         url: "../pspathology/dcm/query",
         mtype: "GET",
         datatype: "json",
-        width:$('.leftContent').width()+10,
+        width:$('.leftContent').width(),
         colNames: ['pathologyid','排序号', '病种名称', '病种名称（英文）', '病种分类','使用状态','是否取材','是否特检'],
         colModel: [
             { name: 'pathologyid', index: 'pathologyid', width: 30, hidden: true },

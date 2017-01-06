@@ -1,4 +1,4 @@
-﻿<%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
+﻿﻿<%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/base/base.css'/>" />
 <script type="text/javascript" src="../scripts/layer/layer.js"></script>
@@ -465,7 +465,7 @@
             height:20px!important;
         }
         .ui-widget-header,.ui-state-default.ui-corner-top{
-            background:transparent;
+            background:white;
         }
         .ui-widget-header,.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
             border:none!important;
@@ -499,18 +499,6 @@
        #menuheader>ul>li.active>a{
             background:white!important;
             color:#323232!important;
-       }
-       .ui-autocomplete-input{
-            border-style:solid;
-       }
-       .col-xs-12{
-            padding-left:3px;
-       }
-       .col-xs-12.leftContent{
-            padding:0px;
-       }
-       .ui-jqgrid .ui-jqgrid-hbox{
-            padding-right:0px;
        }
 </style>
 
@@ -610,15 +598,10 @@ $(obj).parent().parent().parent().removeClass("collapsed");
 </script>
 <script type="text/javascript">
 $(function(){
-       $("#menuheader ul li a").each(function(){
+       $("#menuheader>ul>li ul li a").each(function(){
 		        $this = $(this);
 		        if($this[0].href==String(window.location)){
-		            if($this.text()=="病理诊断"){
-                        $this.parent().addClass("active");
-		            }else{
-                        $this.parent().parent().parent().addClass("active");
-		            }
-
+                    $this.parent().parent().parent().addClass("active");
 		        }
 		    });
 	})

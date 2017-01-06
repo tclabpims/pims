@@ -58,9 +58,9 @@
 </style>
 <body>
 <div class="row" id="toolbar">
-    <div id="mainTable" class="col-xs-12" style="padding-left:0px!important;">
+    <div id="mainTable" class="col-xs-12">
         <div style="padding-top: 5px;">
-            <div class="col-xs-12"  style="padding-left:0px!important;">
+            <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary " title="添加颜色设置" onclick="AddSection()">
                     <i class="ace-icon fa fa-fire bigger-110"></i>
                     添加颜色设置
@@ -187,28 +187,30 @@
                         <option value="5">已审核</option>
                         <option value="6">已发送</option>
                         <option value="7">会诊中</option>
-                        <option value="8">报告已打印</option>
+                        <option value="8">已打印</option>
                     </select>
                     <select type="text" id="colobjectstate1" style="display:none" name="colobjectstate1" class="col-xs-3">
-                        <option value="9">未取材</option>
+                        <option value="0">未取材</option>
                         <option value="1">已取材</option>
                     </select>
                     <select type="text" id="colobjectstate2" style="display:none" name="colobjectstate2" class="col-xs-3">
-                        <option value="10">待包埋</option>
-                        <option value="2">已包埋</option>
+                        <option value="0">待包埋</option>
+                        <option value="1">已包埋</option>
                     </select>
                     <select type="text" id="colobjectstate3" style="display:none" name="colobjectstate3" class="col-xs-3">
-                        <option value="11">待切片</option>
-                        <option value="3">已切片</option>
+                        <option value="0">待切片</option>
+                        <option value="1">已切片</option>
                     </select>
                     <select type="text" id="colobjectstate4" style="display:none" name="colobjectstate4" class="col-xs-3">
-                        <option value="12">未制作</option>
-                        <option value="13">已制作</option>
+                        <option value="0">未制作</option>
+                        <option value="1">已制作</option>
                     </select>
                     <select type="text" id="colobjectstate5" style="display:none" name="colobjectstate5" class="col-xs-3">
-                        <option value="0">已登记</option>
-                        <option value="5">已审核</option>
-                        <option value="14">已打印</option>
+                        <option value="1">未报告</option>
+                        <option value="2">已初诊</option>
+                        <option value="3">已审核</option>
+                        <option value="4">已签发</option>
+                        <option value="5">已打印</option>
                     </select>
                 </div>
             </div>

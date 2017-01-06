@@ -49,6 +49,16 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
+        var tespathologyid = $('#tespathologyid').val();
+        var teschinesename = $('#teschinesename').val();
+        if(tespathologyid==''){
+            layer.msg('请填写病种类别', {icon: 2,time: 1000});
+            return false;
+        }
+        if(teschinesename==''){
+            layer.msg('请填写中文名称', {icon: 2,time: 1000});
+            return false;
+        }
             if($("#tesitemhandle").attr("disabled")=="disabled"){
                 $.post('../estitem/edit', {teschinesename:$('#teschinesename').val(),tesenglishname:$('#tesenglishname').val(),
                     tesischarge : $('#tesischarge').val(),tesitemproperty:$('#tesitemproperty').val(),
@@ -153,6 +163,16 @@ function editSection(){
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
+                var tespathologyid = $('#tespathologyid').val();
+                var teschinesename = $('#teschinesename').val();
+                if(tespathologyid==''){
+                    layer.msg('请填写病种类别', {icon: 2,time: 1000});
+                    return false;
+                }
+                if(teschinesename==''){
+                    layer.msg('请填写中文名称', {icon: 2,time: 1000});
+                    return false;
+                }
                     if($("#tesitemhandle").attr("disabled")=="disabled"){
                         $.post('../estitem/edit', {testitemid:$('#testitemid').val(),teschinesename:$('#teschinesename').val(),tesenglishname:$('#tesenglishname').val(),
                             tesischarge : $('#tesischarge').val(),

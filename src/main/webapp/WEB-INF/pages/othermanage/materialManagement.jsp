@@ -150,10 +150,8 @@
             padding-left: 10px;
         }
         #gbox_new{
-            width: 100%!important;
-            margin-right:5px!important;
+            width: 101.4%!important;
         }
-        .col-xs-12.leftContent{margin-left:0!important}
     </style>
 </head>
 <script>
@@ -165,7 +163,7 @@
     });
 </script>
 <body>
- <div class="col-xs-12" style="margin-left:3px;">
+ <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary" title="新增" onclick="newAdd()">
                     <i class="ace-icon glyphicon glyphicon-plus"></i>
                     新增
@@ -189,12 +187,16 @@
     <div id="checkSlide" class="col-xs-8">
         <div class="widget-box widget-color-green ui-sortable-handle" style="margin-left: 12px">
             <div class="widget-header">
+<<<<<<< Updated upstream
                 <h6 class="widget-title">玻片一览</h6>
                 <div class="widget-toolbar">
                     <a href="#"  data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
+=======
+                <h6 class="widget-title">耗材一览</h6>
+>>>>>>> Stashed changes
             </div>
             <div class="widget-body" style="display: block;background-color: #F9F9F9" >
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
@@ -227,12 +229,16 @@
     <div id="checkSlide2" class="col-xs-4">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
+<<<<<<< Updated upstream
                 <h6 class="widget-title">玻片详细信息</h6>
                 <div class="widget-toolbar">
                     <a href="#"  data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
+=======
+                <h6 class="widget-title">耗材详细信息</h6>
+>>>>>>> Stashed changes
             </div>
             <div class="widget-body" style="display: block;background-color: #F9F9F9">
                 <div id="tabs" style="margin: 0 auto;">

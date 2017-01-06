@@ -689,12 +689,21 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
     }
 
     @Override
-    public List<PimsSysColor> getColor(){
+    public List<PimsSysColor> getColor(PimsSysColor psc){
         User user = WebControllerUtil.getAuthUser();
         StringBuffer hql = new StringBuffer();
-        hql.append("from PimsSysColor where colmodule='0' and colobject = 'Sample'");
-        hql.append("and colowner='"+user.getId()+"' or colowner='9999999999'");
+        hql.append("from PimsSysColor where colmodule='"+psc.getColmodule()+"' and colobject = '"+psc.getColobject()+"'");
+        hql.append(" and colowner in('"+user.getId()+"','9999999999')");
         return pagingList(hql.toString());
     }
+
+    //@Override
+    //public List<PimsSysColor> getColor2(){
+    //    User user = WebControllerUtil.getAuthUser();
+    //    StringBuffer hql = new StringBuffer();
+    //    hql.append("from PimsSysColor where colmodule='5' and colobject = 'Sample'");
+    //    hql.append(" and colowner in('"+user.getId()+"','9999999999')");
+    //    return pagingList(hql.toString());
+    //}
 }
 

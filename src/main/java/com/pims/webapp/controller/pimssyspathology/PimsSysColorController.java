@@ -1,6 +1,7 @@
 package com.pims.webapp.controller.pimssyspathology;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsSysColor;
 import com.pims.model.PimsSysReportItems;
 import com.pims.service.pimssyspathology.PimsSysColorManager;
@@ -37,9 +38,9 @@ public class PimsSysColorController extends PIMSBaseController {
         return  new ModelAndView();
     }
 
-    @RequestMapping(method = {RequestMethod.POST}, value = "/edit")
+    @RequestMapping(method = {RequestMethod.POST}, value = "/save")
     @ResponseBody
-    public void saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void save(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsSysColor pimsSysColor = (PimsSysColor)setBeanProperty(request, PimsSysColor.class);
         boolean a = pimsSysColorManager.isExisted(pimsSysColor);
         JSONObject jj = new JSONObject();
@@ -49,15 +50,30 @@ public class PimsSysColorController extends PIMSBaseController {
             if (pimsSysColor.getColorid() == 0) {
                 pimsSysColor.setColcreatetime(new Date());
                 pimsSysColor.setColcreateuser(String.valueOf(WebControllerUtil.getAuthUser().getId()));
-            } else {
-                PimsSysColor hisPimsSysColor = pimsSysColorManager.get(pimsSysColor.getColorid());
-                pimsSysColor.setColcreateuser(hisPimsSysColor.getColcreateuser());
-                pimsSysColor.setColcreatetime(hisPimsSysColor.getColcreatetime());
             }
+            //else {
+            //    PimsSysColor hisPimsSysColor = pimsSysColorManager.get(pimsSysColor.getColorid());
+            //    pimsSysColor.setColcreateuser(hisPimsSysColor.getColcreateuser());
+            //    pimsSysColor.setColcreatetime(hisPimsSysColor.getColcreatetime());
+            //}
             pimsSysColorManager.save(pimsSysColor);
             jj.put("message","保存成功！");
 
         }
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(jj.toString());
+    }
+
+    @RequestMapping(method = {RequestMethod.POST}, value = "/update")
+    @ResponseBody
+    public void Update(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PimsSysColor pimsSysColor = (PimsSysColor)setBeanProperty(request, PimsSysColor.class);
+        JSONObject jj = new JSONObject();
+        PimsSysColor hisPimsSysColor = pimsSysColorManager.get(pimsSysColor.getColorid());
+        pimsSysColor.setColcreateuser(hisPimsSysColor.getColcreateuser());
+        pimsSysColor.setColcreatetime(hisPimsSysColor.getColcreatetime());
+        pimsSysColorManager.save(pimsSysColor);
+        jj.put("message","保存成功！");
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(jj.toString());
     }

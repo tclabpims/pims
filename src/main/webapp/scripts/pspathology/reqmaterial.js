@@ -42,6 +42,16 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
+            var matname = $('#matname').val();
+            var mattype = $('#mattype').val();
+            if(matname==''){
+                layer.msg('请填写材料名称', {icon: 2,time: 1000});
+                return false;
+            }
+            if(mattype==''){
+                layer.msg('请填写材料类型', {icon: 2,time: 1000});
+                return false;
+            }
             $.post('../reqmaterial/edit', {matname:$('#matname').val(),mattype:$('#mattype').val(),
                 matspecial : $('#matspecial').val(), matuseflag : $('#matuseflag').val(),
                 tempathologyname : $('#tempathologyname').val(), temcustomername : $('#temcustomername').val(),
@@ -127,6 +137,16 @@ function editSection(){
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
+                    var matname = $('#matname').val();
+                    var mattype = $('#mattype').val();
+                    if(matname==''){
+                        layer.msg('请填写材料名称', {icon: 2,time: 1000});
+                        return false;
+                    }
+                    if(mattype==''){
+                        layer.msg('请填写材料类型', {icon: 2,time: 1000});
+                        return false;
+                    }
                     $.post('../reqmaterial/edit', {materialid:rowData.materialid,
                         matname : $('#matname').val(), mattypename : $('#mattypename').val(),
                         mattype : $('#mattype').val(), matspecial : $('#matspecial').val(),

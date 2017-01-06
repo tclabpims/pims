@@ -42,7 +42,7 @@ public class PimsSysChargeItemsManagerImpl extends GenericManagerImpl<PimsSysCha
     public Integer countChargeItems(String query) {
         StringBuilder qstr = new StringBuilder("select count(1) cnt from PIMS_SYS_CHARGE_ITEMS p");
         if(query != null && !"".equals(query.trim())) {
-            qstr.append(" where p.chinesename||p.chienglishname  like '%").append(query).append("%'");
+            qstr.append(" where p.chichinesename||p.chienglishname  like '%").append(query).append("%'");
         }
         return pimsSysChargeItemsDao.countTotal(qstr.toString());
     }

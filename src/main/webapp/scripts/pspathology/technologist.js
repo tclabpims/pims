@@ -550,11 +550,11 @@ $(function () {
         datatype: "json",
         mtype: "GET",
         height: 'auto',
-        width: 730,
+        width: 640,
         pager: "#pager2",
         colNames: ['病理号', '取材序号', '材块数', '白片数', '取材部位', '取材医生', '录入员', '取材时间', '特殊要求', '取材状态'],
         colModel: [
-            {name: 'piepathologycode', index: 'piepathologycode', width: 120},//病理号
+            {name: 'piepathologycode', index: 'piepathologycode', width: 80},//病理号
             {name: 'piesamplingno', index: 'piesamplingno', width: 60},//取材序号
             {name: 'piecounts', index: 'piecounts', width: 50},//材块数
             {name: 'pienullslidenum', index: 'pienullslidenum', width: 50},//白片数

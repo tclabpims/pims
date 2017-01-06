@@ -29,7 +29,6 @@
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_check{vertical-align:middle;height: 17px;margin-top: 0px!important;}
-		.row{margin:0!important}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">

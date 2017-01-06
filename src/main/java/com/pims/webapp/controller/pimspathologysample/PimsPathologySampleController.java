@@ -563,20 +563,21 @@ public class PimsPathologySampleController extends PIMSBaseController{
 
     }
 
-    @RequestMapping(value = "/ajax/color*", method = RequestMethod.GET)
+    @RequestMapping(value = "/ajax/color*", method = RequestMethod.GET ,produces = "application/json; charset=utf-8")
     @ResponseBody
     public DataResponse getColor(HttpServletRequest request, HttpServletResponse response) throws Exception {
         User user = WebControllerUtil.getAuthUser();
-        List<PimsSysColor> col = pimsPathologySampleManager.getColor();
+        PimsSysColor psc = (PimsSysColor) setBeanProperty(request,PimsSysColor.class);
+        List<PimsSysColor> col = pimsPathologySampleManager.getColor(psc);
         String[] a = new String[9];
         for(int i=0;i<col.size();i++){
             if(col.get(i).getColowner().equals(user.getId().toString())){
-                a[i]=col.get(i).getColmodule();
+                a[i]=col.get(i).getColobjectstate();
             }
         }
         for(int i=0;i<col.size();i++){
             for(int j=0;j<col.size();j++){
-                if(col.get(j).getColmodule().equals(a[i])&&col.get(j).getColowner().equals("9999999999")){
+                if(col.get(j).getColobjectstate().equals(a[i])&&col.get(j).getColowner().equals("9999999999")){
                     col.remove(j);
                 }
             }
@@ -586,4 +587,28 @@ public class PimsPathologySampleController extends PIMSBaseController{
         response.setContentType("text/html; charset=UTF-8");
         return dr;
     }
+
+    //@RequestMapping(value = "/ajax/color2*", method = RequestMethod.GET)
+    //@ResponseBody
+    //public DataResponse getColor2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    //    User user = WebControllerUtil.getAuthUser();
+    //    List<PimsSysColor> col = pimsPathologySampleManager.getColor2();
+    //    String[] a = new String[9];
+    //    for(int i=0;i<col.size();i++){
+    //        if(col.get(i).getColowner().equals(user.getId().toString())){
+    //            a[i]=col.get(i).getColobjectstate();
+    //        }
+    //    }
+    //    for(int i=0;i<col.size();i++){
+    //        for(int j=0;j<col.size();j++){
+    //            if(col.get(j).getColobjectstate().equals(a[i])&&col.get(j).getColowner().equals("9999999999")){
+    //                col.remove(j);
+    //            }
+    //        }
+    //    }
+    //    DataResponse dr = new DataResponse();
+    //    dr.setRows(getResultMap(col));
+    //    response.setContentType("text/html; charset=UTF-8");
+    //    return dr;
+    //}
 }

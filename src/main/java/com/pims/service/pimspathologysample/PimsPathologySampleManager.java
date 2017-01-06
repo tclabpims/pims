@@ -132,5 +132,6 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
      */
     List getSftj(PimsBaseModel map);
 
-    List<PimsSysColor> getColor();
+    List<PimsSysColor> getColor(PimsSysColor psc);
+    //List<PimsSysColor> getColor2();
 }

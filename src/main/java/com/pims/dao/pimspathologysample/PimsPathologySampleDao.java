@@ -127,5 +127,6 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
      */
     List getSftj(PimsBaseModel map);
 
-    List<PimsSysColor> getColor();
+    List<PimsSysColor> getColor(PimsSysColor psc);
+    //List<PimsSysColor> getColor2();
 }

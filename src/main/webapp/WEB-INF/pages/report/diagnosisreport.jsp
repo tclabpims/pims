@@ -32,9 +32,6 @@
 		.inputstyle2{
 			margin-right:25%;
 		}
-		.col-sm-3.leftContent{padding-left:0px;}
-		.col-sm-5.input_style{width:135px!important;}
-		.col-sm-1{width:70px!important;text-align:left;}
 	</style>
 	<script type="text/javascript">
 
@@ -240,21 +237,21 @@ $(document).ready(function(){
 					<div class="form-group" style="margin-bottom: 5px;">
 						<label class="col-sm-1 label_style" >病理诊断:</label>
 						<div class="col-sm-5 ">
-							<textarea id="blzd1" style="height: 50px;width: 83%"></textarea>
+							<textarea id="blzd1" style="height: 50px;width: 80%"></textarea>
 						</div>
 						<label class="col-sm-1 label_style" >免疫组化:</label>
 						<div class="col-sm-5 ">
-							<textarea id="myzh1" style="height: 50px;width: 83%"></textarea>
+							<textarea id="myzh1" style="height: 50px;width: 80%"></textarea>
 						</div>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px;">
 						<label class="col-sm-1 label_style" >特殊染色:</label>
 						<div class="col-sm-5 ">
-							<textarea id="tsrs1" style="height: 50px;width: 83%"></textarea>
+							<textarea id="tsrs1" style="height: 50px;width: 80%"></textarea>
 						</div>
 						<label class="col-sm-1 label_style" >分子病理:</label>
 						<div class="col-sm-5 ">
-							<textarea id="fzbl1" style="height: 50px;width: 83%"></textarea>
+							<textarea id="fzbl1" style="height: 50px;width: 80%"></textarea>
 						</div>
 					</div>
 				</form>

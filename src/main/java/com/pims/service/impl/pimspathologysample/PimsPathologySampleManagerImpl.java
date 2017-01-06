@@ -259,7 +259,12 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     }
 
     @Override
-    public List<PimsSysColor> getColor(){
-        return pimsPathologySampleDao.getColor();
+    public List<PimsSysColor> getColor(PimsSysColor psc){
+        return pimsPathologySampleDao.getColor(psc);
     }
+
+    //@Override
+    //public List<PimsSysColor> getColor2(){
+    //    return pimsPathologySampleDao.getColor2();
+    //}
 }

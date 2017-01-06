@@ -1938,12 +1938,10 @@ $(function () {
     });
     var clientHeight = $(window).innerHeight();
 //    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
-        var height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
+        var height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41+65;
         $("body").click(function(){
-            setTimeout(function(){
-                height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41-63;
-                $("#sectionList").setGridHeight(height);
-            },400)
+           height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
+           $("#sectionList").setGridHeight(height);
         })
 
     var sampathologyid = $("#sampathologyid").val();
@@ -1999,6 +1997,7 @@ $(function () {
                 crno = 1;
                 onRowSelect(1);
             }
+            getColor();
         },
         ondblClickRow: function (id) {
         },
@@ -2236,11 +2235,11 @@ $(function () {
         datatype: "json",
         mtype: "GET",
         height: 'auto',
-        width: 730,
+        width: 640,
         pager: "#pager2",
         colNames: ['病理号', '取材序号', '材块数', '白片数', '取材部位', '取材医生', '录入员', '取材时间', '特殊要求', '取材状态'],
         colModel: [
-            {name: 'piepathologycode', index: 'piepathologycode', width: 115,align:"center"},//病理号
+            {name: 'piepathologycode', index: 'piepathologycode', width: 80,align:"center"},//病理号
             {name: 'piesamplingno', index: 'piesamplingno', width: 60,align:"center"},//取材序号
             {name: 'piecounts', index: 'piecounts', width: 50,align:"center"},//材块数
             {name: 'pienullslidenum', index: 'pienullslidenum', width: 50,align:"center"},//白片数
@@ -2554,4 +2553,38 @@ function CurentTime1(now) {
         clock += "0";
     clock += day ;
     return (clock);
+}
+
+function getColor(){
+    var colmodule = '5';
+    var Sample = 'Sample';
+    $.ajax({
+            type:"get",
+            async:false,
+            url:"../pathologysample/sample/ajax/color2",
+            data:{"colmodule":colmodule,
+                  "colobject":Sample
+                },
+            dataType: "json",
+            success:function(data){
+                var da=data.rows;
+//                alert(da.length);
+                for(var i = 0;i<da.length;i++){
+                    var state = da[i].colobjectstate;
+                    var color = da[i].colvalue;
+//                    alert(color);
+                    var ids = $("#sectionList").getGridParam("reccount");
+                    for(var j=1;j<=ids;j++){
+	                var rowData = $("#sectionList").jqGrid('getRowData',j);
+//                    alert("表状态"+rowData.samsamplestatus);
+//                    alert("数据库状态"+state);
+
+                    if(state==rowData.sampathologystatus){
+//                    alert(1);
+                    $("#sectionList").children().children("tr[id='"+j+"']").children("td").eq(0).css("background-color",color);
+                    }
+                    }
+                }
+            }
+    });
 }

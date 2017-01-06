@@ -253,6 +253,21 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
+        var temcustomerid = $('#temcustomerid').val();
+        var tempathologyid = $('#tempathologyid').val();
+        var temcontent = $('#temcontent').val();
+        if(temcustomerid==''){
+            layer.msg('请填写客户名称', {icon: 2,time: 1000});
+            return false;
+        }
+        if(tempathologyid==''){
+            layer.msg('请填写病种类别', {icon: 2,time: 1000});
+            return false;
+        }
+        if(temcontent==''){
+            layer.msg('请填写模板内容', {icon: 2,time: 1000});
+            return false;
+        }
             $.post('../template/edit', {temcustomerid:$('#temcustomerid').val(),temcontent:$('#temcontent').val(),
                 temownerid : $('#temownerid').val(), tempathologyid : $('#tempathologyid').val(),
                 tempathologyname : $('#tempathologyname').val(), temcustomername : $('#temcustomername').val(),
@@ -347,6 +362,21 @@ function editSection(){
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
+                var temcustomerid = $('#temcustomerid').val();
+                var tempathologyid = $('#tempathologyid').val();
+                var temcontent = $('#temcontent').val();
+                if(temcustomerid==''){
+                    layer.msg('请填写客户名称', {icon: 2,time: 1000});
+                    return false;
+                }
+                if(tempathologyid==''){
+                    layer.msg('请填写病种类别', {icon: 2,time: 1000});
+                    return false;
+                }
+                if(temcontent==''){
+                    layer.msg('请填写模板内容', {icon: 2,time: 1000});
+                    return false;
+                }
                     $.post('../template/edit', {templateid:rowData.templateid,
                         tempathologyname : $('#tempathologyname').val(), tempathologyid : $('#tempathologyid').val(),
                         temcontent : $('#temcontent').val(), temcustomername : $('#temcustomername').val(),
@@ -619,9 +649,9 @@ $(function(){
 function  clearData(){
         $("#temfirstv").val('');
         $('#tempathologyname').val('');
-        $('#tempathologyid').val('0');
+        $('#tempathologyid').val('');
         $('#temcustomername').val('');
-        $('#temcustomerid').val('0');
+        $('#temcustomerid').val('');
         $('#temtype').val('0');
         $('#temownername').val('System');
         $('#temownerid').val(SYSTEM_DEFAULT_ID);

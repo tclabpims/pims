@@ -32,7 +32,7 @@
 			margin-left: 0px!important;
 			margin-right: 0px!important;
 		}
-        .col-sm-2.label_style{width:70px;text-align:center;}
+
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">

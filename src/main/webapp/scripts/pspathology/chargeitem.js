@@ -18,6 +18,16 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
+        var chinesename = $('#chinesename').val();
+        var chiprice = $('#chiprice').val();
+        if(chinesename==''){
+            layer.msg('请填写中文名称', {icon: 2,time: 1000});
+            return false;
+        }
+        if(chiprice==''){
+            layer.msg('请填写单价', {icon: 2,time: 1000});
+            return false;
+        }
                 $.post('../chargeitem/edit', {chinesename:$('#chinesename').val(),chienglishname:$('#chienglishname').val(),
                     chicategory : $('#chicategory').val(),
                     chiprice : $('#chiprice').val(), chiuseflag : $('#chiuseflag').val(),
@@ -107,6 +117,16 @@ function editSection(){
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
+                var chinesename = $('#chinesename').val();
+                var chiprice = $('#chiprice').val();
+                if(chinesename==''){
+                    layer.msg('请填写中文名称', {icon: 2,time: 1000});
+                    return false;
+                }
+                if(chiprice==''){
+                    layer.msg('请填写单价', {icon: 2,time: 1000});
+                    return false;
+                }
                         $.post('../chargeitem/edit', {chargeitemid:$('#chargeitemid').val(),chinesename:$('#chinesename').val(),chienglishname:$('#chienglishname').val(),
                             chicategory : $('#chicategory').val(),
                             chiprice : $('#chiprice').val(), chiuseflag : $('#chiuseflag').val(),
@@ -185,6 +205,7 @@ $(function(){
         altRows:true,
         height: height,
         rowNum: 10,
+        ladoonce:true,
         rowList:[10,20,30,40,50],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // the width of the row numbers columns
@@ -240,7 +261,7 @@ function  clearData(){
     $('#chienglishname').val('');
     $('#chiitemsort').val('');
     $('#chicategory').val('');
-    $('#chiprice').val(0.0);
+    $('#chiprice').val('');
     $('#chiuseflag').val('1');
     $('#chiremark').val('');
     $("#FN").val('0');$("#SN").val('0');$("#TN").val('0');

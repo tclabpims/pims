@@ -253,6 +253,16 @@ function  AddSection(){
         content: $("#addDialog"),
         btn:["保存","取消"],
         yes: function(index, layero){
+        var hospitalId = $('#hospitalId').val();
+        var pathologyId = $('#pathologyId').val();
+        if(hospitalId==''){
+            layer.msg('请填写客户名称', {icon: 2,time: 1000});
+            return false;
+        }
+        if(pathologyId==''){
+            layer.msg('请填写病种类别', {icon: 2,time: 1000});
+            return false;
+        }
             $.post('../hpinfo/edit', {hospitalId:$('#hospitalId').val(),pathologyId:$('#pathologyId').val(),
                 numberPrefix : $('#numberPrefix').val(), regularExpression : $('#regularExpression').val(),
                 useFlag : $('#useFlag').val(), theAlias : $('#theAlias').val(),
@@ -338,6 +348,16 @@ function editSection(){
                 content: $("#addDialog"),
                 btn:["保存","取消"],
                 yes: function(index, layero){
+                var hospitalId = $('#hospitalId').val();
+                var pathologyId = $('#pathologyId').val();
+                if(hospitalId==''){
+                    layer.msg('请填写客户名称', {icon: 2,time: 1000});
+                    return false;
+                }
+                if(pathologyId==''){
+                    layer.msg('请填写病种类别', {icon: 2,time: 1000});
+                    return false;
+                }
                     $.post('../hpinfo/edit', {id:rowData.id,
                         hospitalId : $('#hospitalId').val(), pathologyId : $('#pathologyId').val(),
                         numberPrefix : $('#numberPrefix').val(), regularExpression : $('#regularExpression').val(),
@@ -603,10 +623,10 @@ $(function(){
 function  clearData(){
     $('#pathologyName').val('');
     $('#hospitalName').val('');
-    $('#hospitalId').val('0');
+    $('#hospitalId').val('');
     $('#theAlias').val('');
     $('#useFlag').val('1');
-    $('#pathologyId').val('0');
+    $('#pathologyId').val('');
     $('#numberPrefix').val('');
     $('#regularExpression').val('yyyyMMdd|D4');
     $('#sortNo').val('');

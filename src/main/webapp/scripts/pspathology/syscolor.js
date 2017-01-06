@@ -14,7 +14,7 @@ function showHospital() {
         yes: function(index, layero){
             var id = $('#sectionList2').jqGrid('getGridParam','selrow');
             if(id==null || id.length==0){
-                layer.msg('请先选择病种类别', {icon: 2,time: 1000});
+                layer.msg('请先选择医院', {icon: 2,time: 1000});
                 return false;
             }
             var rowData = $("#sectionList2").jqGrid('getRowData',id);
@@ -101,12 +101,13 @@ function AddSection() {
                 layer.msg('选择颜色', {icon: 2, time: 1000});
                 return false;
             }
-            $.post('../syscolor/edit', {
+            $.post('../syscolor/save', {
                 colcustomercode: $('#colcustomercode').val(), coltype: $('#coltype').val(),
                 colobject: $('#colobject').val(), colmodule: $('#colmodule').val(),
                 colobjectstate: $('#colobjectstate'+$('#colmodule').val()).val(), colvalue: $('#colvalue').val(),colowner:$('#colowner').val()
             }, function (data) {
                 layer.close(index);
+                layer.msg(data.message, {icon: 0, time: 3000});
                 $("#sectionList").trigger('reloadGrid');
             });
 
@@ -184,7 +185,7 @@ function editSection() {
                 content: $("#addDialog"),
                 btn: ["保存", "取消"],
                 yes: function (index, layero) {
-                    $.post('../syscolor/edit', {
+                    $.post('../syscolor/update', {
                         colcustomercode: $('#colcustomercode').val(), coltype: $('#coltype').val(),
                         colobject: $('#colobject').val(), colmodule: $('#colmodule').val(),
                         colobjectstate: $('#colobjectstate'+$('#colmodule').val()).val(), colvalue: $('#colvalue').val(),colowner:$('#colowner').val(),

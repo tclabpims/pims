@@ -47,9 +47,9 @@
     }
 </style>
 <div class="row" id="toolbar">
-    <div id="mainTable" class="col-xs-12" style="padding-left:0px!important;">
+    <div id="mainTable" class="col-xs-12">
         <div style="padding-top: 5px;">
-            <div class="col-xs-12" style="padding-left:0px!important;">
+            <div class="col-xs-12">
                 <button type="button" class="btn btn-sm btn-primary " title="添加收费项目对照信息" onclick="AddSection()">
                     <i class="ace-icon fa fa-fire bigger-110"></i>
                     添加收费项目对照信息
