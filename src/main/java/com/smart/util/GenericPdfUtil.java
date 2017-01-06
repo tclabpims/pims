@@ -23,7 +23,7 @@ public final class GenericPdfUtil {
     public static synchronized void html2Pdf(String fileName, String html){
         File pdfFile = new File(Config.getString("pdf.path","E:\\pims\\pdf")+ File.separator +fileName);
         System.out.println(html);
-            StringReader strReader = new StringReader(html);
+        StringReader strReader = new StringReader(html);
         try {
             FileOutputStream fos = new FileOutputStream(pdfFile);
             PD4ML pd4ml = new PD4ML();
@@ -40,6 +40,24 @@ public final class GenericPdfUtil {
         }catch (Exception e){
             e.printStackTrace();
         }
+//        File pdfFile1 = new File(Config.getString("pdf.path","E:\\pims\\pdf")+ File.separator +fileName);
+//        if(pdfFile1.exists()){
+//            try {
+//                FileInputStream fis = new FileInputStream(pdfFile1);
+//                FileOutputStream fos = new FileOutputStream( Config.getString("pdf.upload.path","")+ File.separator +fileName);
+//                byte[] b = new byte[fis.available()];
+//                int len = 0;
+//                while ((len = fis.read(b)) != -1) {
+//                    fos.write(b, 0, len);
+//                    fos.flush();
+//                }
+//                fos.close();
+//                fis.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
     }
     public static synchronized void createPdf(String fileName, String html){
         OutputStream os = null;

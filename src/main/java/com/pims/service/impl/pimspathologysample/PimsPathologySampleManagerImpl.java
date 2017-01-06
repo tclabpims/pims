@@ -33,7 +33,7 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
                 "p.samreportorid,p.samauditerid,p.saminitiallyuserid,sp.patclass,p.samsamplestatus,p.sampatientname from PIMS_PATHOLOGY_SAMPLE p," +
                 "Pims_Sys_Pathology sp where p.SamPathologyId=sp.pathologyid ");
         setParameter(sql, sample);
-        sql.append(" order by p.sampleid desc");
+        sql.append(" order by p.sampathologycode asc");
         return pimsPathologySampleDao.querySample(sample, gridQuery, sql.toString());
     }
 

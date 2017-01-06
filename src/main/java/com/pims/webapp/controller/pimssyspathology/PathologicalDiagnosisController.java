@@ -1,5 +1,6 @@
 package com.pims.webapp.controller.pimssyspathology;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.DefaultJSONParser;
@@ -21,12 +22,14 @@ import com.smart.util.Config;
 import com.smart.util.GenericPdfUtil;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletInputStream;
@@ -146,6 +150,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("sampleId", request.getParameter("sampleId"));
         mv.addObject("customerId", request.getParameter("customerId"));
+        mv.addObject("nowshow",request.getParameter("nowshowrow"));
         return mv;
     }
 
@@ -185,6 +190,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         Map<String, String> map = new HashMap<>();
         map.put("url", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/pdf/" + fileName);
 //            GenericPdfUtil.html2Pdf(sampleId+".pdf",writer.toString());
+        map.put("writerString",writerString);
         return map;
     }
 
@@ -196,8 +202,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
      */
     private String getReportHtml(HttpServletRequest request) throws Exception{
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
-        PimsPathologyReportPdf pprpdf = pimsPathologyReportPdfManager.getPdfBySampleId(sampleId);
-//        if(pprpdf == null){
+//        PimsPathologyReportPdf pprpdf = pimsPathologyReportPdfManager.getPdfBySampleId(sampleId);
         String picNum = request.getParameter("picNum");
         Long pictureClass = Long.valueOf(request.getParameter("picpictureclass"));
         int picNumInt = (picNum == null || "".equals(picNum)) ? 0 : Integer.valueOf(picNum);
@@ -239,13 +244,37 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
                 PimsPathologyPictures pic = pictures.get(i);
                 String realPath = pic.getPicsavepath();
                 if (realPath != null && realPath.length() > 0) {
-                    realPath = realPath.substring(realPath.indexOf("\\images"));
-                    realPath = realPath.replaceAll("\\\\", "/");
+//                    realPath = realPath.substring(realPath.indexOf("\\images"));
+//                    realPath = realPath.replaceAll("\\\\", "/");
                     if(picNumInt == 1) {
-                        context.put("imgsrc", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                        StringBuilder logoFileRoot1 = new StringBuilder();
+//                        logoFileRoot1.append(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                        logoFileRoot1.append(realPath);
+                        FileInputStream fileInputStream1 = new FileInputStream(logoFileRoot1.toString().replace("/","\\"));
+                        byte[] buffer1 = null;
+                        buffer1 = new byte[fileInputStream1.available()];
+                        fileInputStream1.read(buffer1);
+                        fileInputStream1.close();
+                        String imgstyle = realPath.substring(realPath.lastIndexOf(".")+1);
+                        System.out.println(imgstyle);
+                        context.put("imgsrc","data:image/"+imgstyle + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer1)));//条形码
+//                        context.put("imgsrc", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
                     }
-                    else
-                        map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                    else{
+                        StringBuilder logoFileRoot1 = new StringBuilder();
+                        logoFileRoot1.append(realPath);
+                        FileInputStream fileInputStream1 = new FileInputStream(logoFileRoot1.toString().replace("/","\\"));
+                        byte[] buffer1 = null;
+                        buffer1 = new byte[fileInputStream1.available()];
+                        fileInputStream1.read(buffer1);
+                        fileInputStream1.close();
+                        String imgstyle = realPath.substring(realPath.lastIndexOf(".")+1);
+
+//                        context.put("imgsrc","data:image/jpg" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer1)));//条形码
+                        map1.put("imgsrc" + (i + 1), "data:image/"+imgstyle + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer1)));
+                    }
+                    map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+
                 }
             }
             context.put("multiSrc", map1);
@@ -352,15 +381,34 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         else
         context.put("samreceivertime", "");
         context.put("sampatientdignoses", sample.getSampatientdignoses());
-        context.put("samreportor", sample.getSamreportor());
-        StringBuilder logoFileRoot = new StringBuilder();
-        logoFileRoot.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSamauditer()+".bmp");
-        FileInputStream fileInputStream = new FileInputStream(logoFileRoot.toString().replace("/","\\"));
-        byte[] buffer = null;
-        buffer = new byte[fileInputStream.available()];
-        fileInputStream.read(buffer);
-        fileInputStream.close();
-        context.put("samauditer","data:image/bmp" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer)));//条形码
+        if(StringUtils.isEmpty(sample.getSamreportor())){
+            context.put("samreportor","");//条形码
+        }else{
+            StringBuilder logoFileRoot1 = new StringBuilder();
+            logoFileRoot1.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSamreportor()+".bmp");
+            FileInputStream fileInputStream1 = new FileInputStream(logoFileRoot1.toString().replace("/","\\"));
+            byte[] buffer1 = null;
+            buffer1 = new byte[fileInputStream1.available()];
+            fileInputStream1.read(buffer1);
+            fileInputStream1.close();
+            context.put("samreportor","data:image/bmp" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer1)));//条形码
+        }
+
+
+//        context.put("samreportor", sample.getSamreportor());
+        if(StringUtils.isEmpty(sample.getSamauditer())){
+            context.put("samauditer","");//条形码
+
+        }else{
+            StringBuilder logoFileRoot = new StringBuilder();
+            logoFileRoot.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSamauditer()+".bmp");
+            FileInputStream fileInputStream = new FileInputStream(logoFileRoot.toString().replace("/","\\"));
+            byte[] buffer = null;
+            buffer = new byte[fileInputStream.available()];
+            fileInputStream.read(buffer);
+            fileInputStream.close();
+            context.put("samauditer","data:image/bmp" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer)));//条形码
+        }
 //        context.put("samauditer", sample.getSamauditer());
         if(sample.getSamreportedtime() != null)
         context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
@@ -375,6 +423,73 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         delPathologyPictures(request.getParameter("name"), Long.valueOf(request.getParameter("sampleid")));
     }
 
+//    @RequestMapping(method = {RequestMethod.POST}, value = "/upload")
+//    @ResponseBody
+//    public Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        String sampleId = request.getParameter("sampleid");
+//        String samCustomerId = request.getParameter("samcustomerid");
+//        String continuous = request.getParameter("continuous");
+//        Long picPictureClass = Long.valueOf(request.getParameter("picpictureclass"));
+//        ServletInputStream inputStream = request.getInputStream();
+//        BufferedImage bufferedImage = ImageIO.read(inputStream);
+//        String customerFileDir = "/images/jpg" + "/" + samCustomerId + "/" + sampleId;
+//        // the directory to upload to
+//        String uploadDir = request.getSession().getServletContext().getRealPath(customerFileDir);
+//
+//        //图片序号
+//        int picIndex = 0;
+//
+//        // The following seems to happen when running jetty:run
+//        if (uploadDir == null) {
+//            picIndex = 1;
+//            uploadDir = new File("src/main/webapp" + customerFileDir).getAbsolutePath();
+//        } else {
+//            File exsitFile = new File(uploadDir);
+//            File[] files = exsitFile.listFiles();
+//            //如果不是连拍
+//            if ("false".equals(continuous)) {
+//                if (files != null && files.length > 0) {
+//                    for (File f : files) {
+//                        if (f.isFile()) {
+//                            delPathologyPictures(f.getName(), Long.valueOf(sampleId));
+//                            f.delete();
+//                        }
+//                    }
+//                }
+//            } else {
+//                if (files != null && files.length > 0) {
+//                    for (File f : files) {
+//                        if (f.isFile()) {
+//                            picIndex = picIndex + 1;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        String fileName = sampleId + "_" + new Date().getTime() + "_" + picIndex + "." + Constants.PIC_TYPE_JPG;
+//        uploadDir += "/" + fileName;
+//
+//        // Create the directory if it doesn't exist
+//        File dirPath = new File(uploadDir);
+//
+//        boolean success;
+//        success = dirPath.mkdirs();
+//        if (success) {
+//            ImageIO.write(bufferedImage, "jpeg", dirPath);
+//            Thumbnails.of(dirPath).size(480,360).toFile(dirPath);
+//        }
+//
+//        PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), dirPath, picIndex, request, picPictureClass);
+//
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("name", pp.getPicpicturename());
+//        map.put("pictureid", pp.getPictureid());
+//        map.put("src", customerFileDir + "/" + fileName);
+//        map.put("continuous", continuous);
+//        response.setContentType(contentType);
+//        return map;
+//    }
+
     @RequestMapping(method = {RequestMethod.POST}, value = "/upload")
     @ResponseBody
     public Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -382,8 +497,9 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         String samCustomerId = request.getParameter("samcustomerid");
         String continuous = request.getParameter("continuous");
         Long picPictureClass = Long.valueOf(request.getParameter("picpictureclass"));
-        ServletInputStream inputStream = request.getInputStream();
-        BufferedImage bufferedImage = ImageIO.read(inputStream);
+        String imgString = request.getParameter("img");
+//        ServletInputStream inputStream = request.getInputStream();
+//        BufferedImage bufferedImage = ImageIO.read(inputStream);
         String customerFileDir = "/images/jpg" + "/" + samCustomerId + "/" + sampleId;
         // the directory to upload to
         String uploadDir = request.getSession().getServletContext().getRealPath(customerFileDir);
@@ -427,7 +543,18 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         boolean success;
         success = dirPath.mkdirs();
         if (success) {
-            ImageIO.write(bufferedImage, "jpeg", dirPath);
+            //使用BASE64对图片文件数据进行解码操作
+            BASE64Decoder decoder = new BASE64Decoder();
+            //通过Base64解密，将图片数据解密成字节数组
+            byte[] bytes = decoder.decodeBuffer(imgString);
+            //构造字节数组输入流
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+            //读取输入流的数据
+            BufferedImage bi = ImageIO.read(bais);
+            ImageIO.write(bi, "jpeg", dirPath);
+            bais.close();
+//            ImageIO.write(bufferedImage, "jpeg", dirPath);
+            Thumbnails.of(dirPath).size(480,360).toFile(dirPath);
         }
 
         PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), dirPath, picIndex, request, picPictureClass);
@@ -458,7 +585,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         pic.setPicpicturetype(1);
         pic.setPicpictureno(picIndex);
         pic.setPicsampleid(sample.getSampleid());
-        pic.setPicpicturesize(String.valueOf(new FileInputStream(dirPath).available() / 1000) + "k");
+        pic.setPicpicturesize(String.valueOf(new FileInputStream(dirPath).available() / 2000) + "k");
         pic.setPicpictureip(getRemoteHost(request));
         pic.setPicisupload(1);
         pic.setPicuploaduser(user.getUsername());
@@ -486,6 +613,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         File filePath = new File(uploadDir);
         if (uploadFiles.size() > 0) {
             for (File file : uploadFiles) {
+                Thumbnails.of(file).size(600,400).toFile(file);
                 PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), file, (filePath.list().length + 1), request, picPictureClass);
                 Map<String, Object> map = new HashMap<>();
                 map.put("name", pp.getPicpicturename());
@@ -707,6 +835,122 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         o.put("noreceiveid",noreceivetotal);
         o.put("noauditid",noaudittotal);
         PrintwriterUtil.print(response, o.toString());
+    }
+
+
+    /**
+     * 签发
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/qianfa*", method = RequestMethod.POST)
+    public String qianfa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JSONObject o = new JSONObject();
+        String tasks = request.getParameter("tasks");
+        com.alibaba.fastjson.JSONArray taskList = JSON.parseArray(tasks);
+        for(int i=0;i<taskList.size();i++){
+            Map map = (Map) taskList.get(i);
+            PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+            sample = pimsPathologySampleManager.getBySampleNo(sample.getSampleid());
+            if(sample.getSamsamplestatus() == 5){//已审核才允许签发
+                String html = getReportHtml(request,sample);
+                GenericPdfUtil.html2Pdf(sample.getSampleid()+".pdf",html);
+
+                sample.setSamsamplestatus(6);
+                sample.setSamreportedtime(new Date());
+                sample.setSamreportorid(String.valueOf(user.getId()));
+                sample.setSamreportor(user.getName());
+                pimsPathologySampleManager.save(sample);
+            }
+        }
+        o.put("message", "签发成功！");
+        o.put("success", true);
+        PrintwriterUtil.print(response, o.toString());
+        return  null;
+    }
+
+
+
+    /**
+     * 创建静态页
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private String getReportHtml(HttpServletRequest request,PimsPathologySample sample) throws Exception{
+        Long sampleId = sample.getSampleid();
+        int picNumInt = 0;
+        Long pictureClass = Long.valueOf(2);
+        String templateUrl = "";
+        PimsSysPathology pathology = pimsSysPathologyManager.get(sample.getSampathologyid());
+        List<PimsSysReportFormate> lis = pimsSysReportFormatManager.getReportFormatByPathologyId(pathology.getPathologyid());
+        if(lis == null || lis.size() == 0){
+            return null;
+        }else{
+            PimsSysReportFormate psf = lis.get(0);
+            picNumInt = Integer.valueOf(psf.getFormpicturenum());
+            templateUrl = psf.getFormweburl();
+        }
+        String pclass = pathology.getPatclass();
+        int patClass = pclass == null?0:Integer.valueOf(pclass);
+        PimsPathologySample pimsPathologySample = pimsPathologySampleManager.get(sampleId);
+        List<PimsPathologyPictures> pictures = pimsPathologyPicturesManager.getSamplePicture(sampleId, pictureClass);
+        PimsSampleResult result = null;
+        Map<String, String> resultMap = null;
+        VelocityContext context = getVelocityContext(pimsPathologySample, pathology);
+        if (picNumInt > pictures.size()) picNumInt = pictures.size();
+        if(patClass == 2) {
+            resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sampleId);
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+            context.put("advice", resultMap.get("advice"));
+            context.put("dnaResult", resultMap.get("dnaResult"));
+            context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
+            context.put("degree", resultMap.get("degree"));
+        } else if(patClass == 7) {
+            resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
+            context.put("sampleAmount", resultMap.get("sampleAmount"));
+            context.put("hpvResult", resultMap.get("hpvResult"));
+            context.put("diagnosisResult", resultMap.get("diagnosisResult"));
+        }
+        else {
+            result = pimsSampleResultManager.getSampleResultForPrint(sampleId);
+            context.put("diagnosisResult", result == null ? "" : result.getRestestresult());
+        }
+        context.put("picNum", picNumInt);
+//            context.put("hospitalLogo", getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));
+        context.put("hospitalLogo", "data:image/png" + ";base64," + getHospitalLogo(request, pimsPathologySample.getSamcustomerid()));//医院logo
+
+        if (picNumInt > 0) {
+            Map<String, String> map1 = new HashMap<>();
+            for (int i = 0; i < picNumInt; i++) {
+                PimsPathologyPictures pic = pictures.get(i);
+                String realPath = pic.getPicsavepath();
+                if (realPath != null && realPath.length() > 0) {
+                    realPath = realPath.substring(realPath.indexOf("\\images"));
+                    realPath = realPath.replaceAll("\\\\", "/");
+                    if(picNumInt == 1) {
+                        context.put("imgsrc", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                    }
+                    else
+                        map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+                }
+            }
+            context.put("multiSrc", map1);
+        }
+
+        VelocityEngine engine = new VelocityEngine();
+        engine.setProperty(Velocity.RESOURCE_LOADER, "class");
+        engine.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        engine.init();
+
+        Template template = engine.getTemplate(templateUrl, "UTF-8");
+        StringWriter writer = new StringWriter();
+        template.merge(context, writer);
+
+        return writer.toString();
     }
 
 }

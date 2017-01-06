@@ -1,0 +1,31 @@
+window.addEventListener("DOMContentLoaded", function () {
+    try { document.createElement("canvas").getContext("2d"); } catch (e) { alert("not support canvas!") }
+    var video = document.getElementById("video"),
+        canvas = document.getElementById("canvas"),
+        context = canvas.getContext("2d");
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    if (navigator.getUserMedia)
+        navigator.getUserMedia(
+            { "video": true },
+            function (stream) {
+                if (video.mozSrcObject !== undefined)video.mozSrcObject = stream;
+                else video.src = ((window.URL || window.webkitURL || window.mozURL || window.msURL) && window.URL.createObjectURL(stream)) || stream;
+                video.play();
+            },
+            function (error) {
+                //if(error.PERMISSION_DENIED)console.log("用户拒绝了浏览器请求媒体的权限",error.code);
+                //if(error.NOT_SUPPORTED_ERROR)console.log("当前浏览器不支持拍照功能",error.code);
+                //if(error.MANDATORY_UNSATISFIED_ERROR)console.log("指定的媒体类型未接收到媒体流",error.code);
+                alert("Video capture error: " + error.code);
+            }
+        );
+    else alert("Native device media streaming (getUserMedia) not supported in this browser");
+
+    $('#snap').on('click', function () {
+        context.drawImage(video, 0, 0, canvas.width = video.videoWidth, canvas.height = video.videoHeight);
+        // $.post('/home/index', { "img": canvas.toDataURL().substr(22) }, function (data, status) {
+        //     alert(status!="success"?"图片处理出错！":data== "yes"?"图片上传完成！":data);
+        // }, "text");
+    });
+}, false);

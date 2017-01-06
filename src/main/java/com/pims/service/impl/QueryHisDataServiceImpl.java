@@ -94,7 +94,7 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 "b.jzksmc as patient_dept_name,b.jzksid as patient_ward, " +
                 "b.jzksmc as patient_ward_name,'' as patient_bed, " +
                 "b.lczdmc as lczd,b.brdwmc as commpany,b.brsfzh as id_cardno,b.brjtdz as patient_address,b.brlxdh as phone_no, " +
-                "b.brlbid as chargr_type from v_hsbci_treatinfo b where b.brjzhm='"+query+"'" +
+                "b.brlbid as chargr_type from v_hsbci_treatinfo b where (b.brdabh = '"+query +"' or b.brjzhm ='"+query+"')" +
                 " union all " +
                 "select a.brzyid as key_no, a.brjzhm as patient_id,a.brdabh as inpatient_id,a.brdaxm as patient_name, " +
                 "a.brdaxb as patient_sex,a.brcsrq as patient_birth,to_char(a.brjznl) as patient_age,a.brnldw as patient_age_type, " +
@@ -102,7 +102,14 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 "(select zzksmc from v_hsbhi_deptinfo where zzksid =a.zyksid) as patient_dept_name,a.zybqid as patient_ward, " +
                 "(select zzksmc from v_hsbhi_deptinfo where zzksid =a.zybqid) as patient_ward_name,a.zycwhm as patient_bed, " +
                 "a.ryzdmc as lczd,a.brdwmc as commpany,a.brsfzh as id_cardno,a.brjtdz as patient_address,a.brlxdh as phone_no, " +
-                "a.brlbid as chargr_type from v_hsbbi_recordhome a where  a.brzyzt > 1 and a.brjzhm ='"+query+"'");
+                "a.brlbid as chargr_type from v_hsbbi_recordhome a where  a.brzyzt > 1 and  (a.brdabh = '"+query+"' or a.brjzhm = '"+query+"')"+
+                "union all "+
+                "select c.SQMXID as key_no, c.BRSQHM as patient_id,sqjlid as inpatient_id,c.XINGMING as patient_name, " +
+                " c.XINGBIE as patient_sex,c.CHUSHENGRQ as patient_birth,'' as patient_age,'岁' as patient_age_type, " +
+                " '' as patient_nation,'3' as patient_type,c.SONGJIANKSDM as patient_dept,  " +
+                " c.SONGJIANKSMC as patient_dept_name,c.SONGJIANKSDM as patient_ward,c.SONGJIANKSMC patient_ward_name, '' as patient_bed, " +
+                " '' as lczd,'' as commpany,c.sfzh as id_cardno,'' as patient_address,c.LIANXIDH as phone_no,  " +
+                " '' as chargr_type from v_hsbtj_requestinfo c where  c.sqjlid ='"+query +"'");
         return jdbcTemplate.query(sql.toString(), new ResultSetExtractor<List>() {
             @Override
             public List extractData(ResultSet resultSet) throws SQLException, DataAccessException {

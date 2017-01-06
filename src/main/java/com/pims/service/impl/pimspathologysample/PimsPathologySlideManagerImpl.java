@@ -99,6 +99,11 @@ public class PimsPathologySlideManagerImpl extends GenericManagerImpl<PimsPathol
         return pimsPathologySlideDao.getSlideCode(samplesList);
     }
 
+    @Override
+    public JSONArray getSlideCodepro(JSONArray samplesList) {
+        return pimsPathologySlideDao.getSlideCodepro(samplesList);
+    }
+
     /**
      * 制片管理
      * @param slideList
@@ -113,6 +118,12 @@ public class PimsPathologySlideManagerImpl extends GenericManagerImpl<PimsPathol
     public boolean updateProducer(JSONArray slideList, JSONArray sampleList, int sts, String sampleid, String username, String userid) {
         return pimsPathologySlideDao.updateProducer(slideList,sampleList,sts,sampleid,username,userid);
     }
+
+    @Override
+    public boolean resetProducer(JSONArray sampleList) {
+        return pimsPathologySlideDao.resetProducer(sampleList);
+    }
+
     /**
      * 查询无需切片的标本列表
      * @param map

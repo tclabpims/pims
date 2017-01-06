@@ -62,6 +62,9 @@ public interface PimsPathologySlideDao extends GenericDao<PimsPathologySlide,Lon
      * @return
      */
     JSONArray getSlideCode(JSONArray samplesList);
+
+    JSONArray getSlideCodepro(JSONArray samplesList);
+
     /**
      * 制片管理
      * @param slideList
@@ -73,6 +76,8 @@ public interface PimsPathologySlideDao extends GenericDao<PimsPathologySlide,Lon
      * @return
      */
     boolean updateProducer(JSONArray slideList,JSONArray sampleList, int sts, String sampleid,String username,String userid);
+
+    boolean resetProducer(JSONArray sampleList);
 
     /**
      * 查询无需切片的标本列表

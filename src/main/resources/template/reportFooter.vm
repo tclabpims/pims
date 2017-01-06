@@ -2,7 +2,8 @@
     <table width="100%">
         <tr>
             <td width="10%"><span class="fieldname">报告医生：</span></td>
-            <td width="22%" class="tdtextalign">$!samreportor</td>
+##            <td width="22%" class="tdtextalign">$!samreportor</td>
+            <td width="22%" class="tdtextalign"><img src="$!samreportor"></td>
             <td width="10%"><span class="fieldname">审核医生：</span></td>
 ##            <td width="22%" class="tdtextalign">$!samauditer</td>
             <td width="22%" class="tdtextalign"><img src="$!samauditer"></td>

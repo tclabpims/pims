@@ -365,8 +365,8 @@ $(function(){
         },
         shrinkToFit:false,
         scrollOffset:2,
-        rowNum: 10,
-        rowList:[10,20,40],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // the width of the row numbers columns
         pager: "#rightPager",//分页控件的id

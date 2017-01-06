@@ -148,7 +148,7 @@ var clientHeight= $(window).innerHeight();
 	createNew1("",width1);
 
 	//var logyid = $("#logyid").val();
-	var logyid ="";
+	var logyid =$("#logyid").val();
 	var send_hosptail = "";
 	var req_code = $('#req_code').val();
 	var patient_name = $('#patient_name').val();//病人姓名
@@ -209,8 +209,8 @@ var clientHeight= $(window).innerHeight();
 		width: width,
 		shrinkToFit:false,
 		autoScroll: true,
-		rowNum: 10,
-		rowList:[10,20,30,40,50],
+		rowNum: 500,
+		rowList:[500,1000,1500],
 		rownumbers: true, // 显示行号
 		rownumWidth: 30, // the width of the row numbers columns
 		pager: "#pager"
@@ -329,6 +329,7 @@ function createNew1(reqid,width1){
  * 查询数据
  */
 function searchList() {
+	var logyid = $("#logyid").val();
 	var req_code = $('#req_code').val();
 	var patient_name = $('#patient_name').val();
 	var send_hosptail = $('#send_hosptail').val();
@@ -347,7 +348,7 @@ function searchList() {
 		url: "../pathologysample/pieces/ajax/sample",
 		//发送数据
 		postData : {"req_code":req_code,"patient_name":patient_name,"send_hosptail":send_hosptail,"req_bf_time":req_bf_time,
-			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts},
+			"req_af_time":req_af_time,"send_dept":send_dept,"send_doctor":send_doctor,"req_sts":req_sts,"logyid":logyid},
 		page : 1
 	}).trigger('reloadGrid');//重新载入
 	var ids = $("#new").jqGrid('getDataIDs');

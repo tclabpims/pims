@@ -210,8 +210,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#syspager0"
@@ -263,8 +263,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#syspager1"
@@ -320,8 +320,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#syspager2"
@@ -361,8 +361,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#syspager3"
@@ -403,8 +403,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#syspager4"
@@ -445,8 +445,8 @@ $(function () {
         viewrecords: true,
         height:320,
         width: width,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 30, // the width of the row numbers columns
         pager: "#syspager5"
@@ -486,8 +486,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager1"
@@ -527,8 +527,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager2_1"
@@ -566,8 +566,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager2"
@@ -602,8 +602,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager3"
@@ -650,8 +650,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager4"
@@ -697,8 +697,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager5"
@@ -737,8 +737,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager6"
@@ -771,8 +771,8 @@ $(function () {
         height:320,
         width:width,
         //autowidth: true,
-        rowNum: 10,
-        rowList:[10,20,30,40,50],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
         rownumWidth: 35, // 行号宽度
         pager: "#pager7"

@@ -162,4 +162,17 @@ public class PimsPathologySlideController extends PIMSBaseController{
         response.getWriter().write(o.toString());
         return null;
     }
+
+    @RequestMapping(value = "/printcodeproducer*", method = RequestMethod.POST)
+    public String printcodeproducer(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        org.codehaus.jettison.json.JSONObject o = new org.codehaus.jettison.json.JSONObject();
+        String samples = request.getParameter("samples");
+        JSONArray samplesList = JSON.parseArray(samples);
+
+        JSONArray array = pimsPathologySlideManager.getSlideCodepro(samplesList);
+        o.put("labOrders", array);
+        response.setContentType("name/html; charset=UTF-8");
+        response.getWriter().write(o.toString());
+        return null;
+    }
 }

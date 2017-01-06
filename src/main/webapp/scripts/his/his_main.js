@@ -1214,8 +1214,8 @@ $(function() {
 		viewrecords: true,
 		height:height,
 		autowidth: true,
-		rowNum: 10,
-		rowList:[10,20,30],
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
 		rownumbers: true, // 显示行号
 		rownumWidth: 35, // the width of the row numbers columns
 		pager: "#pager"

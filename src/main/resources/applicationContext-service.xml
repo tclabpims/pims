@@ -112,4 +112,8 @@
     <bean id="hisService" class="com.pims.service.impl.QueryHisDataServiceImpl">
         <property name="jdbcTemplate" ref="jdbcTemplatez1" />
     </bean>
+
+    <bean id="reportService" class="com.pims.service.impl.UpdateReportDataServiceImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplatez2" />
+    </bean>
 </beans>
