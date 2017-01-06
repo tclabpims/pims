@@ -240,7 +240,7 @@
             </div>
 
             <div class="widget-body" style="display: block;">
-                <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
+                <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;background-color: #F9F9F9">
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline;">
@@ -285,30 +285,30 @@
             <div style="display: block;">
                 <div id="tabs" style="margin: 0 auto;">
 
-                    <div id="tabs-1">
-                        <div>
-                            <div style="display: inline">在库状态：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                    <div id="tabs-1"style="background-color: #f9f9f9">
+                        <div style="padding-top: 10px">
+                            <div style="display: inline">在库状态：<input type="text" style="width:120px;height: 24px"
                                                                     id="slicurrenta"></div>
-                            <div style="display: inline">患者姓名：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">患者姓名：<input type="text" style="width:93px;height: 24px"
                                                                     id="patientnamea"></div>
                         </div>
-                        <div>
-                            <div style="display: inline">病种类别：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                        <div style="padding-top: 10px">
+                            <div style="display: inline">病种类别：<input type="text" style="width:120px;height: 24px"
                                                                      id="slipathologyida">
                             </div>
-                            <div style="display: inline">年龄：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">年龄：<input type="text" style="width:120px;height: 24px"
                                                                    id="patientagea"></div>
                         </div>
-                        <div>
-                            <div style="display: inline">病理编号：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                        <div style="padding-top: 10px;padding-bottom:20px;">
+                            <div style="display: inline">病理编号：<input type="text" style="width:120px;height: 24px"
                                                                      id="pathologyida"></div>
-                            <div style="display: inline">性别：<input type="text" style="width:120px;border-width: 0px 0px 1px 0px"
+                            <div style="display: inline">性别：<input type="text" style="width:120px;height: 24px"
                                                                      id="patientsexa"></div>
                         </div>
                     </div>
                     <div id="tabs-2">
                         <div class="row" id="materialGrid">
-                            <div class="col-xs-12 leftContent" style="margin-top: 15px">
+                            <div class="col-xs-12 leftContent">
                                 <table id="new2"></table>
                                 <div id="pager2"></div>
                             </div>

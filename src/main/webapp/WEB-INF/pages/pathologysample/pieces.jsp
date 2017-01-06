@@ -34,6 +34,10 @@
 			margin-left: -5px;
 			margin-right: 5px;
 		}
+		#imgContainer{
+			border:1px #c5c5c5 solid;
+			min-height: 300px;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -106,7 +110,7 @@
 					<%out.println(request.getAttribute("piecesname"));%>
 				</select>
 			</h5>
-			<h5 style="float: left;width: 16%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;图像采集</strong></h5>
+			<h5 style="float: left;width: 16.3%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;图像采集</strong></h5>
 		</div>
 		<div class="col-sm-4 leftContent" id="div_2">
 			<div id="search_div_1" style="background-color: #F9F9F9;height: 121px;border:1px solid #E0E0E0;">

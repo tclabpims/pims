@@ -479,6 +479,10 @@
         #pathologyType{
             background:rgb(67, 142, 185)!important;
         }
+        #pathologyType option{
+            background-color: #ffffff;
+            color: #000000;
+        }
         #pathologyType:focus{
             border:1px solid transparent!important;
         }
@@ -536,7 +540,7 @@
         <div id="hospital" class="collapse navbar-collapse" style="float:right;font-size:14px;margin-top:8px;color:white">
             <%--我的未处理工作：<a href="#" style="color: #ffffff">（10）</a>|--%>
             病理库：
-            <select style="appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border: 0;font-size: 14px;color: #ffffff"
+            <select style="background-color:transpare;border: 0;font-size: 14px;color: #ffffff"
                     onchange="changePathologyType()" id="pathologyType">
                     <%--<%
                         User user = WebControllerUtil.getAuthUser();
@@ -578,7 +582,7 @@
         </a>
         <ul style="float:left;list-style: none;margin-right: 20px">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #108bd1;text-decoration:none;"><img src="/styles/imagepims/set.png">设置</a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #2b98d4;text-decoration:none;"><img src="/styles/imagepims/set.png">设置</a>
                 <ul class="dropdown-menu">
                     <li><a href="#" onclick="printSetting()">打印机设定</a></li>
                     <li><a href="#" onclick="changePathol()">病种再设定</a></li>
@@ -588,7 +592,7 @@
                 </ul>
             </li>
         </ul>
-        <a href="/logout" style="text-decoration:none;color:#108bd1;"><img src="/styles/imagepims/lgout.png">退出</a>
+        <a href="/logout" style="text-decoration:none;color:#2b98d4;"><img src="/styles/imagepims/lgout.png">退出</a>
     </div>
 </div>
 

@@ -113,6 +113,10 @@
         #maincontent .ui-jqgrid-btable{
             width:490px!important;
         }
+        #imgContainer{
+            border:1px #c5c5c5 solid;
+            min-height: 300px;
+        }
     </style>
 
 </head>

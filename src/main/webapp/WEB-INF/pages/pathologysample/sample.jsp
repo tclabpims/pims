@@ -28,7 +28,7 @@
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
 		.input_style{height: 24px;font-size: 12px!important;}
-		.ui-autocomplete-input{height: 24px;font-size: 12px!important;border-color:#B5B5B5;border-width: 1px;color: #000000}
+		.ui-autocomplete-input{height: 24px;font-size: 12px!important;border-color:#d5d5d5;border-width: 1px;color: #000000}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
@@ -57,6 +57,9 @@
 		}
 		#gbox_new{
 			width: 100%!important;
+		}
+		#req_id{
+			padding-left: 10px;
 		}
 	</style>
 </head>
@@ -524,7 +527,7 @@
 					<div class="col-sm-3 ">
 						<input type="hidden" id="sampopuser"/><!--标本检查项目id-->
 						<%--<input class="input_style" type="text" id="samjcxm" name="samjcxm" datatype="*"/>--%>
-						<span style="overflow:hidden;" class="input_style  col-sm-8">
+						<span style="overflow:hidden;padding-right:2px" class="input_style  col-sm-8">
 							<select class="input_style col-sm-12" id="samjcxm1" onchange="fillval('sampopuser','samjcxm','sampathologyid','samjcxm1')">
 								<%out.print(request.getAttribute("samjcxm"));%>
 							</select>
@@ -598,7 +601,7 @@
 					<label class="col-sm-1 label_style" >送检医生:</label>
 					<div class="col-sm-3 ">
 						<input type="hidden" id="samsenddoctorid"/>
-						<span style="overflow:hidden;" class="input_style  col-sm-8">
+						<span style="overflow:hidden;padding-right:2px" class="input_style  col-sm-8">
 							<select class="input_style  col-sm-12" id="samsenddoctorid1"
 									onchange="fillval('samsenddoctorid','samsenddoctorname',null,'samsenddoctorid1')">
 								<%out.print(request.getAttribute("samsenddoctorname"));%>
@@ -610,7 +613,7 @@
 					<div class="col-sm-3">
 						<input type="hidden" id="samdeptcode"/><!--申请科室名称-->
 						<%--<input class="input_style" type="text" id="samdeptname" name="samdeptname" datatype="*"/><!--申请科室名称-->--%>
-						<span style="overflow:hidden;" class="input_style  col-sm-8">
+						<span style="overflow:hidden;padding-right:2px" class="input_style  col-sm-8">
 							<select class="input_style  col-sm-12" id="samdeptcode1"
 									onchange="fillval('samdeptcode','samdeptname',null,'samdeptcode1')">
 								<%out.print(request.getAttribute("samdeptname"));%>
@@ -620,7 +623,7 @@
 					</div>
 					<label class="col-sm-1 label_style" >送检医院:</label>
 					<div class="col-sm-3 ">
-						<span style="overflow:hidden;" class="input_style  col-sm-8">
+						<span style="overflow:hidden;padding-right: 2px;" class="input_style  col-sm-8">
 							<select class="input_style  col-sm-12" id="samsendhospitalid"
 									onchange="fillval('samsendhospitalid','samsendhospital','samsource','samsendhospitalid')">
 								<%out.print(request.getAttribute("samsendhospital"));%>

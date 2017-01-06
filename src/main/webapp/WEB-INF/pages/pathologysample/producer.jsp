@@ -29,6 +29,9 @@
 		.input_style{height: 24px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
+		#div_2{
+			padding-left: 0;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -67,7 +70,7 @@
 	<div>
 		<div style="margin-top: 5px">
 			<h5 style="float: left;width: 49.8%;font-size: 14px;background-clip:content-box;background-color:rgb(135,184,127);padding-right:2px; min-height:38px;color: #ffffff;line-height: 38px;text-indent: 20px;margin-top:0px!important;" ><strong style="font-weight: nonrmal">工作列表</strong></h5>
-			<h5 style="float: left;width: 49%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-clip:content-box;background-color:rgb(135,184,127);line-height: 38px;text-indent: 20px;margin-top:0px!important;padding-left: 0.6%"><strong style="font-weight: nonrmal">制片管理</strong>
+			<h5 style="float: left;width: 49.8%;font-size: 14px;margin-bottom: 12px;min-height: 38px;color: #ffffff;background-clip:content-box;background-color:rgb(135,184,127);line-height: 38px;text-indent: 20px;margin-top:0px!important;padding-left: 0.6%"><strong style="font-weight: nonrmal">制片管理</strong>
 			</h5>
 		</div>
 		<div class="col-sm-6 leftContent" id="div_2">
