@@ -428,11 +428,17 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         else
         context.put("samreceivertime", "");
         context.put("sampatientdignoses", sample.getSampatientdignoses());
+//        if(StringUtils.isEmpty(sample.getSaminitiallyusername())){
+//            context.put("samreportor","");//条形码
+//        }
         if(StringUtils.isEmpty(sample.getSamreportor())){
             context.put("samreportor","");//条形码
-        }else{
+        }
+        else{
             StringBuilder logoFileRoot1 = new StringBuilder();
             logoFileRoot1.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSamreportor()+".jpg");
+//            logoFileRoot1.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSaminitiallyusername()+".jpg");
+
             FileInputStream fileInputStream1 = new FileInputStream(logoFileRoot1.toString().replace("/","\\"));
             byte[] buffer1 = null;
             buffer1 = new byte[fileInputStream1.available()];

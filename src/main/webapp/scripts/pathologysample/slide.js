@@ -672,11 +672,11 @@ function CreateDataBill(datas) {
 		var leftwidth1 = 3;
 		if(i<3){
 			if(i%3 == 0){
-				leftwidth1 = 3;
+				leftwidth1 = 1;
 			}else if(i%3 == 1){
-				leftwidth1 = 30;
+				leftwidth1 = 28;
 			}else if(i%3 == 2){
-				leftwidth1 = 57;
+				leftwidth1 = 55;
 			}
 		}else{
 			if(i%3 == 0){
