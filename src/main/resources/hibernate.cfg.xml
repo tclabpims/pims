@@ -146,6 +146,6 @@
         <mapping class="com.pims.model.PimsSlideLoan"/>
         <mapping class="com.pims.model.PimsSlideRecord"/>
         <mapping class="com.pims.model.PimsDisposableMaterial"/>
-        <mapping class="com.pims.model.ViewConsultationQuery"/>
+
     </session-factory>
 </hibernate-configuration>
