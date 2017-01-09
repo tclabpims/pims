@@ -1,6 +1,8 @@
 package com.pims.service;
 
 import com.pims.model.PimsPathologyFee;
+import com.pims.model.PimsPathologySample;
+import com.pims.model.PimsSysPathology;
 
 import java.util.List;
 
@@ -43,5 +45,7 @@ public interface QueryHisDataService {
 
 
     boolean insert(PimsPathologyFee fee);
+
+    boolean insert(PimsPathologySample sample,PimsSysPathology psp);
 
 }

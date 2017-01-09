@@ -78,9 +78,10 @@ function createNew22(brjzxh){
 		height: 500,
 		width: 1000,
 		postData:{"brjzxh":brjzxh},
-		colNames: ['ID','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址','会诊ID','住院病区ID','住院科室ID'],
+		colNames: ['就诊ID','档案号','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址','会诊ID','住院病区ID','住院科室ID'],
 		colModel: [
 			{name:'key_no',index:'key_no'},//ID
+			{name:'inpatient_id',index:'inpatient_id'},//档案号
 			{name:'patient_id',index:'patient_id'},//住院号
 			{name:'patient_name',index:'patient_name'},//病人姓名
 			{ name: 'patient_sex', index: 'patient_sex',formatter:'select',editoptions:{value:"1:男;2:女;3:未知"}},//性别
@@ -136,8 +137,9 @@ function fillpatinetinfo(data) {
 	// $("#samsendhospital").val(1);//送检医院
 	$("#sampatientdignoses").val(data.lczd);//临床诊断
 	$("#sampatienttype").val(data.patient_type);//患者类型
-	$("#saminpatientid").val(data.inpatient_id);//就诊id
-
+	$("#saminpatientid").val(data.key_no);//就诊id(患者每一次来院的id)
+	$("#sampatientid").val(data.inpatient_id);//患者唯一号(病案号)
+	$("#sampatientnumber").val(data.patient_id);//住院号
 }
 
 function NoSubmit(ev){

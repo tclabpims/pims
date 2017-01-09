@@ -693,14 +693,26 @@ function CreateDataBill(datas) {
 		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
 		// LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode); slisamplingparts
 		// LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","4mm",data.barcode);
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-		LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-		if(data.slisamplingparts != null && data.slisamplingparts != ""){
-			LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
-			LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+		if(data.barcode.length >15){
+			LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","8mm",data.barcode);
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+			if(data.slisamplingparts != null && data.slisamplingparts != ""){
+				LODOP.ADD_PRINT_TEXT("16mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+				LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+				LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+			}
+		}else{
+			LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","4mm",data.barcode);
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+			if(data.slisamplingparts != null && data.slisamplingparts != ""){
+				LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+				LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+				LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+			}
 		}
+
 		if(i%3 == 2 || i == datas.labOrders.length -1){
 			LODOP.PRINT();
 			// LODOP.PREVIEW();

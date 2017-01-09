@@ -147,7 +147,7 @@ function saveDiagnosisInfo() {
             var data = {};
             data.resultid = $("#" + e.id).attr("hiddenValue");
             data.resviewtype = e.type;
-            data.restestresult = e.value;
+            data.restestresult = e.value.replace(/\n|\r\n/g,"<br>");  ;
             data.restestitemid = $("#" + e.id).attr("rptItemId");
             data.resviewtitle = e.placeholder;
             data.resviewsort = $("#" + e.id).attr("printOrder");
@@ -977,7 +977,8 @@ function getSampleData1(id) {
                         for (var i = 0; i < x.length; i++) {
                             var e = x.elements[i];
                             if ($("#" + e.id).attr("rptItemId") == restestitemid) {
-                                $("#" + e.id).val(data[itm].restestresult);
+                                var reg=new RegExp("<br>","g");
+                                $("#" + e.id).val(data[itm].restestresult==null?"":data[itm].restestresult.replace(reg,"\n"));
                                 $("#" + e.id).attr("hiddenValue", resultid);
                                 if(patClass == 7 && $("#" + e.id).attr("type") == "hidden") {
                                     setSelectedValue(data[itm].restestresult);
@@ -1325,8 +1326,8 @@ function reportView(v, showPicNum, templateUrl) {
                             shade: 0.5,
                             content: data.url,
                             yes: function (index1, layero1) {
-                                print(data.url);
-                                // print11(data.writerString);
+                                // print(data.url);
+                                print11(data.writerString,data.sampleid);
                                 layer.close(index1);
                             },
                             btn2: function (index1, layero1) {
@@ -1356,8 +1357,8 @@ function reportView(v, showPicNum, templateUrl) {
                         });
                         layer.full(rptView);
                     } else {
-                        print(data.url);
-                        // print11(data.writerString);
+                        // print(data.url);
+                        print11(data.writerString);
                     }
                 });
             } else {
@@ -1368,12 +1369,19 @@ function reportView(v, showPicNum, templateUrl) {
 }
 
 
-function print11(strHtml) {
-    LODOP = getLodop();
-    LODOP.PRINT_INIT("打印报告单");
-    LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", strHtml);
-    //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
-    LODOP.PREVIEW();
+function print11(strHtml,sampleid) {
+    $.get("../diagnosis/updateprintStates", {
+        "sampleid": GRID_SELECTED_ROW_SAMPLEID
+    }, function (data) {
+        if(data.result == "true"){
+            LODOP = getLodop();
+            LODOP.PRINT_INIT("打印报告单");
+            LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", strHtml);
+            //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
+            // LODOP.PREVIEW();
+            LODOP.PRINT();
+        }
+    });
 }
 
 var crno = 0;

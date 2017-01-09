@@ -13,13 +13,19 @@
         }
 
         body {
-            width: 794px;
+            width: 784px;
             height: 1123px;
         }
 
         .logo{
-            width:100%;
             padding-left:20px;
+            padding-top:5px;
+            padding-bottom:5px;
+            padding-right:40px;
+        }
+        .rlogo{
+            width:100%;
+            padding-right:20px;
             padding-top:5px;
             padding-bottom:5px;
         }
@@ -29,7 +35,7 @@
         }
         .itemContainer {
             width:100%;
-            padding-bottom:10px;
+            padding-bottom:2px;
         }
         .itemtitle {
             width:100%;
@@ -40,15 +46,13 @@
         }
         .fieldname{
             font-weight:bold;
+            font-size: 15px;
         }
         .imgContainer{
             margin:0 auto;
         }
-        .yjxbCheckItems{
-            margin:0 auto;
-        }
         .line {
-            border-bottom:1px solid #000;
+            border-bottom:2px solid #000;
             padding-left:5px;
             padding-right:5px;
         }
@@ -63,6 +67,9 @@
         .tdtextalign {
             vertical-align:middle;
             text-align:left;
+        }
+        .txtstyle{
+            font-size: 15px;
         }
     </style>
     <script type="text/javascript">
@@ -322,18 +329,18 @@
         #end
     </div>
     <div class="line"></div>
-    <div class="itemtitle">判读意见/结果:</div>
-    <div style="width:100%;padding-left:5px">
+    <div class="fieldname">判读意见/结果:</div>
+    <div style="width:100%;padding-left:5px" class="txtstyle">
         $!diagnosisResult
     </div>
     <div class="line"></div>
-    <div class="itemtitle">Cervista高危型HPV DNA检测结果:</div>
-    <div style="width:100%;padding-left:5px">
+    <div class="fieldname">Cervista高危型HPV DNA检测结果:</div>
+    <div style="width:100%;padding-left:5px" class="txtstyle">
         $!dnaResult
     </div>
     <div class="line"></div>
-    <div class="itemtitle">附注/建议:</div>
-    <div style="width:100%;padding-left:5px">
+    <div class="fieldname">附注/建议:</div>
+    <div style="width:100%;padding-left:5px" class="txtstyle">
         $!advice
     </div>
     <div class="line"></div>

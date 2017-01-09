@@ -42,6 +42,7 @@ Temporary Items
 .apdisk
 .idea/*
 target/*
+src/main/webapp/pdf/*
 src/main/webapp/WEB-INF/lib/*
 src/main/webapp/WEB-INF/lib/fonts.jar
 src/main/webapp/WEB-INF/lib/ss_css2.jar
