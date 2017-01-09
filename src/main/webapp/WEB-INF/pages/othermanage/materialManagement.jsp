@@ -187,16 +187,12 @@
     <div id="checkSlide" class="col-xs-8">
         <div class="widget-box widget-color-green ui-sortable-handle" style="margin-left: 12px">
             <div class="widget-header">
-<<<<<<< Updated upstream
-                <h6 class="widget-title">玻片一览</h6>
+                <h6 class="widget-title">耗材一览</h6>
                 <div class="widget-toolbar">
                     <a href="#"  data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
-=======
-                <h6 class="widget-title">耗材一览</h6>
->>>>>>> Stashed changes
             </div>
             <div class="widget-body" style="display: block;background-color: #F9F9F9" >
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
@@ -229,16 +225,13 @@
     <div id="checkSlide2" class="col-xs-4">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
-<<<<<<< Updated upstream
-                <h6 class="widget-title">玻片详细信息</h6>
+
+                <h6 class="widget-title">耗材详细信息</h6>
                 <div class="widget-toolbar">
                     <a href="#"  data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
-=======
-                <h6 class="widget-title">耗材详细信息</h6>
->>>>>>> Stashed changes
             </div>
             <div class="widget-body" style="display: block;background-color: #F9F9F9">
                 <div id="tabs" style="margin: 0 auto;">
