@@ -271,6 +271,7 @@
                         <div class="content">
                             <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">病种类别：</label>
                                 <input type="hidden" id ="user_id" value="${local_userid}">
+                                <%--<input type="hidden" id ="local_username" value="${local_username}">--%>
                                 <input type="hidden" id ="reqsts" value="">
                                 <select onchange="" id="sampathologyid" style="height:24px;width:150px;">
                                     <%--<option value="" <c:if test="${code != ''}"> selected</c:if>>--请选择--</option>--%>

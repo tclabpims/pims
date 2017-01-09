@@ -18,6 +18,8 @@ var targetTextareaId;
 var GRID_SELECTED_ROW_SAMPLEID;
 var GRID_SELECTED_ROW_SAMPCUSTOMERID;
 
+var MMMROW;
+
 function showTemplate(v, target) {
     targetTextareaId = target;
     var a = $(function () {
@@ -127,10 +129,10 @@ function saveYJXB(rowData, patClass) {
 function saveDiagnosisInfo() {
     var x = document.getElementById("diagnosisInfoForm");
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
-    if(rowData.sampathologystatus > 2){
-        layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
-        return;
-    }
+    // if(rowData.sampathologystatus > 2){
+    //     layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
+    //     return;
+    // }
     var patClass = rowData.patclass;
     if (patClass == 2) {
         saveYJXB(rowData, patClass);
@@ -145,7 +147,7 @@ function saveDiagnosisInfo() {
             var data = {};
             data.resultid = $("#" + e.id).attr("hiddenValue");
             data.resviewtype = e.type;
-            data.restestresult = e.value;
+            data.restestresult = e.value.replace(/\n|\r\n/g,"<br>");  ;
             data.restestitemid = $("#" + e.id).attr("rptItemId");
             data.resviewtitle = e.placeholder;
             data.resviewsort = $("#" + e.id).attr("printOrder");
@@ -166,7 +168,7 @@ function saveDiagnosisInfo() {
                 }
             }
         }
-        layer.msg('保存成功！',{icon:2,time:1000});
+        // layer.msg('保存成功！',{icon:1,time:1000});
     });
 }
 
@@ -178,7 +180,7 @@ function takingPicture() {
         shade: 0.5,
         closeBtn: false,
         maxmin: false, //开启最大化最小化按钮
-        area: ['640px', '480px'],
+        area: ['640px', '540px'],
         content: ["../diagnosis/camera?sampleId="+GRID_SELECTED_ROW_SAMPLEID +"&customerId="+ GRID_SELECTED_ROW_SAMPCUSTOMERID+"&nowshowrow="+crno],
         btn: ["关闭"],
         yes: function (index, layero) {
@@ -345,17 +347,18 @@ function doctorSign(f) {
         if (f == 1 || f == 3 || (f == 0 && reportTime != '')) {
             $.get("../diagnosis/signdoctor", {}, function (data) {
                 if (f == 1) {
-                    if($("#samauditer").val() != ""){
-                        layer.msg("已初查，无需再次初查!",{icon:2,time:1000});
-                        return;
-                    }
+                    // if($("#saminitiallyuserid").val() != ""){
+                    //     layer.msg("已初查，无需再次初查!",{icon:2,time:1000});
+                    //     return;
+                    // }
                     $("#saminitiallyusername").val(data.name);
                     $("#saminitiallytime").val(data.time);
                     $("#saminitiallyuserid").val(data.id);
                 } else if (f == 3) {
-                    if($("#samauditer").val() != ""){
-                        layer.msg("已复核，无需再次复核!",{icon:2,time:1000});
-                    }
+                    // if($("#samauditerid").val() != ""){
+                    //     layer.msg("已复核，无需再次复核!",{icon:2,time:1000});
+                    //     return;
+                    // }
                     $("#samauditer").val(data.name);
                     $("#samauditedtime").val(data.time);
                     $("#samauditerid").val(data.id);
@@ -388,13 +391,28 @@ function doctorSign(f) {
                 },
                 function (data) {
                     if (data.success) {
+                        $("#samauditer").val($("#local_username").val());
+                        $("#samauditedtime").val(CurentTime(new Date()));
+                        $("#samauditerid").val($("#local_userid").val());
                         saveSign();
                     } else {
                         layer.msg(data.message, {icon: 2, time: 1000});
                         // location.reload();
-                        query();
+                        // query();
                     }
                 });
+        }else{
+            if(f==1){
+                $("#saminitiallyusername").val($("#local_username").val());
+                $("#saminitiallytime").val(CurentTime(new Date()));
+                $("#saminitiallyuserid").val($("#local_userid").val());
+            }
+            if(f == 3){
+                $("#samauditer").val($("#local_username").val());
+                $("#samauditedtime").val(CurentTime(new Date()));
+                $("#samauditerid").val($("#local_userid").val());
+            }
+            saveSign();
         }
     }
 }
@@ -402,13 +420,15 @@ function doctorSign(f) {
 function saveSign() {
     saveDiagnosisInfo();
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
-    if(rowData.samsamplestatus < 3 && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
-        layer.msg('该标本未切片或未制片无法初查或复核！', {icon: 2, time: 1000});
-        return;
-    }else if(rowData.sampathologystatus > 2){
-        layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
-        return;
-    }else if($("#binglizhenduan").length > 0 && $("#binglizhenduan").val() == "" && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
+    // if(rowData.samsamplestatus < 3 && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
+    //     layer.msg('该标本未切片或未制片无法初查或复核！', {icon: 2, time: 1000});
+    //     return;
+    // }else
+    //     if(rowData.sampathologystatus > 2){
+    //     layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
+    //     return;
+    // }else
+        if($("#binglizhenduan").length > 0 && $("#binglizhenduan").val() == "" && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
         layer.msg('该标本未填写诊断意见无法初查或复核！', {icon: 2, time: 1000});
         return;
     }else{
@@ -427,6 +447,7 @@ function saveSign() {
                     samreportor: $("#samreportor").val()
                 }, function (data) {
                     layer.msg('保存成功！', {icon: 1, time: 1000});
+                    MMMROW = crno;
                     query();
                 });
             });
@@ -444,6 +465,7 @@ function saveSign() {
                 samreportor: $("#samreportor").val()
             }, function (data) {
                 layer.msg('保存成功！', {icon: 1, time: 1000});
+                MMMROW = crno;
                 query();
             });
         }
@@ -955,7 +977,8 @@ function getSampleData1(id) {
                         for (var i = 0; i < x.length; i++) {
                             var e = x.elements[i];
                             if ($("#" + e.id).attr("rptItemId") == restestitemid) {
-                                $("#" + e.id).val(data[itm].restestresult);
+                                var reg=new RegExp("<br>","g");
+                                $("#" + e.id).val(data[itm].restestresult==null?"":data[itm].restestresult.replace(reg,"\n"));
                                 $("#" + e.id).attr("hiddenValue", resultid);
                                 if(patClass == 7 && $("#" + e.id).attr("type") == "hidden") {
                                     setSelectedValue(data[itm].restestresult);
@@ -1303,8 +1326,8 @@ function reportView(v, showPicNum, templateUrl) {
                             shade: 0.5,
                             content: data.url,
                             yes: function (index1, layero1) {
-                                print(data.url);
-                                // print11(data.writerString);
+                                // print(data.url);
+                                print11(data.writerString,data.sampleid);
                                 layer.close(index1);
                             },
                             btn2: function (index1, layero1) {
@@ -1334,8 +1357,8 @@ function reportView(v, showPicNum, templateUrl) {
                         });
                         layer.full(rptView);
                     } else {
-                        print(data.url);
-                        // print11(data.writerString);
+                        // print(data.url);
+                        print11(data.writerString);
                     }
                 });
             } else {
@@ -1346,12 +1369,19 @@ function reportView(v, showPicNum, templateUrl) {
 }
 
 
-function print11(strHtml) {
-    LODOP = getLodop();
-    LODOP.PRINT_INIT("打印报告单");
-    LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", strHtml);
-    //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
-    LODOP.PREVIEW();
+function print11(strHtml,sampleid) {
+    $.get("../diagnosis/updateprintStates", {
+        "sampleid": GRID_SELECTED_ROW_SAMPLEID
+    }, function (data) {
+        if(data.result == "true"){
+            LODOP = getLodop();
+            LODOP.PRINT_INIT("打印报告单");
+            LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", strHtml);
+            //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
+            // LODOP.PREVIEW();
+            LODOP.PRINT();
+        }
+    });
 }
 
 var crno = 0;
@@ -2006,8 +2036,12 @@ $(function () {
             }, 0);
             var ids = $("#sectionList").jqGrid('getDataIDs');
             if (ids != null && ids != "") {
-                crno = 1;
-                onRowSelect(1);
+                if(MMMROW != null && MMMROW != ""){
+                    crno = MMMROW;
+                }else{
+                    crno = 1;
+                }
+                onRowSelect(crno);
             }
             getColor();
         },

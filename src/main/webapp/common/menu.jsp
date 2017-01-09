@@ -1,4 +1,5 @@
-﻿﻿<%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
+<%@ page import="com.pims.webapp.controller.WebControllerUtil" %>
+<%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/base/base.css'/>" />
 <script type="text/javascript" src="../scripts/layer/layer.js"></script>
@@ -466,7 +467,7 @@
             height:20px!important;
         }
         .ui-widget-header,.ui-state-default.ui-corner-top{
-            background:white;
+            background:transparent;
         }
         .ui-widget-header,.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
             border:none!important;
@@ -501,6 +502,18 @@
             background:white!important;
             color:#323232!important;
        }
+       .ui-autocomplete-input{
+            border-style:solid;
+       }
+       .col-xs-12{
+            padding-left:3px;
+       }
+       .col-xs-12.leftContent{
+            padding:0px;
+       }
+       .ui-jqgrid .ui-jqgrid-hbox{
+            padding-right:0px;
+       }
 </style>
 
 <menu:useMenuDisplayer name="Velocity" config="navbarMenu.vm" permissions="rolesAdapter">
@@ -527,6 +540,7 @@
         <input type="hidden" id="scode" value="210800"/>
         <input type="hidden" id="pathologyLibId"/>
         <div id="hospital" class="collapse navbar-collapse" style="float:right;font-size:14px;margin-top:8px;color:white">
+            当前登录用户:<%="("+WebControllerUtil.getAuthUser().getUsername()+")   "+WebControllerUtil.getAuthUser().getName()%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%--我的未处理工作：<a href="#" style="color: #ffffff">（10）</a>|--%>
             病理库：
             <select style="background-color:transpare;border: 0;font-size: 14px;color: #ffffff"

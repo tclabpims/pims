@@ -40,7 +40,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
     @Override
     public List<PimsPathologyPieces> getSampleListNoPage(String code) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologyPieces where piesampleid = "+ code + "order by piesamplingno");
+        sb.append(" from PimsPathologyPieces where piesampleid = "+ code + "order by to_number(piesamplingno)");
         return getSession().createQuery(sb.toString()).list();
     }
 

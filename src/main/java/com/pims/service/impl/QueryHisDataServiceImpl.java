@@ -3,7 +3,10 @@ package com.pims.service.impl;
 import com.pims.model.*;
 import com.pims.service.QueryHisDataService;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
+import com.pims.service.pimssyspathology.PimsSampleResultManager;
 import com.smart.Constants;
+import com.smart.util.Config;
+import com.smart.util.ConvertUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -16,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/10/12.
@@ -88,7 +92,10 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
      */
     @Override
     public List queryPatientList(String query) {
-        StringBuffer sql = new StringBuffer("select b.brjzxh as key_no , b.brjzhm as patient_id,b.brdabh as inpatient_id,b.brdaxm as patient_name," +
+        StringBuffer sql = new StringBuffer("select key_no , patient_id,inpatient_id,patient_name,patient_sex,patient_birth,patient_age,patient_age_type," +
+                "patient_nation,patient_type,patient_dept, patient_dept_name,patient_ward,patient_ward_name, patient_bed, " +
+                "lczd,commpany,id_cardno,patient_address,phone_no, chargr_type  from( " +
+                "select b.brjzxh as key_no , b.brjzhm as patient_id,b.brdabh as inpatient_id,b.brdaxm as patient_name," +
                 "b.brdaxb as patient_sex,b.brcsrq as patient_birth,regexp_substr(b.brjznl,'[0-9]+') as patient_age," +
                 "substr(b.brjznl,-1) as patient_age_type,b.brdamz as patient_nation,'2' as patient_type,b.jzksid as patient_dept, " +
                 "b.jzksmc as patient_dept_name,b.jzksid as patient_ward, " +
@@ -109,16 +116,16 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 " '' as patient_nation,'3' as patient_type,c.SONGJIANKSDM as patient_dept,  " +
                 " c.SONGJIANKSMC as patient_dept_name,c.SONGJIANKSDM as patient_ward,c.SONGJIANKSMC patient_ward_name, '' as patient_bed, " +
                 " '' as lczd,'' as commpany,c.sfzh as id_cardno,'' as patient_address,c.LIANXIDH as phone_no,  " +
-                " '' as chargr_type from v_hsbtj_requestinfo c where  c.sqjlid ='"+query +"'");
+                " '' as chargr_type from v_hsbtj_requestinfo c where  c.sqjlid ='"+query +"') order by key_no desc");
         return jdbcTemplate.query(sql.toString(), new ResultSetExtractor<List>() {
             @Override
             public List extractData(ResultSet resultSet) throws SQLException, DataAccessException {
                 List result = new ArrayList();
                 while (resultSet.next()) {
                     PatientInfo pi = new PatientInfo();
-                    pi.setKey_no(resultSet.getLong("key_no"));//Id
-                    pi.setPatient_id(resultSet.getString("patient_id"));//住院号
-                    pi.setInpatient_id(resultSet.getString("inpatient_id"));//档案号
+                    pi.setKey_no(resultSet.getLong("key_no"));//Id 就诊ID(患者每一次来院的ID)  SAMINPATIENTID
+                    pi.setPatient_id(resultSet.getString("patient_id"));//住院号SAMPATIENTNUMBER
+                    pi.setInpatient_id(resultSet.getString("inpatient_id"));//档案号 SAMPATIENTID
                     pi.setPatient_name(resultSet.getString("patient_name"));//病人姓名
                     pi.setPatient_sex(resultSet.getString("patient_sex"));//性别
                     pi.setPatient_birth(resultSet.getDate("patient_birth"));//出生日期
@@ -292,5 +299,118 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 return result;
             }
         });
+    }
+
+    @Autowired
+    private PimsSampleResultManager pimsSampleResultManager;
+
+    @Override
+    public boolean insert(PimsPathologySample sample, PimsSysPathology psp) {
+        int patClass = Integer.parseInt(psp.getPatclass());
+        Map<String, String> resultMap = null;
+        String  zdjg = "";
+        if(patClass == 2) {
+            resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sample.getSampleid());
+            zdjg = resultMap.get("diagnosisResult");
+        } else if(patClass == 7) {
+            resultMap = pimsSampleResultManager.getHPVTestResult(sample.getSampleid());
+            zdjg = resultMap.get("diagnosisResult");
+        }
+        else {
+            PimsSampleResult result = pimsSampleResultManager.getSampleResultForPrint(sample.getSampleid());
+            zdjg = result == null ? "" : result.getRestestresult();
+        }
+        zdjg = zdjg.replaceAll("<br>"," ");
+        /**
+         * 住院报告单模式修改 1 门诊 2 住院
+         */
+        long mode = sample.getSampatienttype();
+        if(sample.getSampatienttype()==1)mode =2;
+        if(sample.getSampatienttype()==2) mode=1;
+        long agetype = sample.getSampatientagetype();
+        String ageString = "";
+        if(agetype == 1){
+            ageString = "岁";
+        }else if(agetype == 2){
+            ageString = "月";
+        }else if(agetype == 4){
+            ageString = "周";
+        }else if(agetype == 5){
+            ageString = "日";
+        }else if(agetype == 6){
+            ageString = "小时";
+        }
+        String reportUrl = Config.getString("report.path", "") + "&patienttype=" + mode + "&patientid=" + sample.getSaminpatientid() + "&sampleid=" + sample.getSaminspectionid();
+        reportUrl = reportUrl.replaceAll("&","'|| chr(38) ||'");
+        StringBuffer sb = new StringBuffer();
+        sb.append("insert into DI_LABSAMPLEINFO (" +
+                "BRYZID," +//病理编号
+                "JCYBID," +//条码号
+                "ZZJGDM," +//机构代码
+                "SJBRLX," +//受检病人类型
+                "SJBRID," +//就诊ID
+                "BRJZHM," +//住院卡号
+                "SJBRXM," +//患者姓名
+                "SJBRXB," +//性别(1男,2女,3未知)
+                "SJBRNL," +//年龄
+                "BRNLDW," +//年龄类型(1岁、2月、4周、5日、6小时)
+                "SJYEPB," +//是否婴儿
+                "SJBRCH," +//床号
+                "LCZDMC," +//临床诊断
+                "YBSJSJ," +//样本送检时间
+                "KDYSID," +//开单医生序号
+                "KDYSXM," +//开单医生姓名
+                "KDKSID," +//开单科室序号
+                "KDKSMC," +//开单科室名称
+                "YBJSSJ," +//样本接收时间
+                "ZXRYXM," +//执行人员姓名
+                "ZXKSMC," +//执行科室名称
+                "YBZXSJ," +//样本执行时间
+                "SHRYXM," +//审核人员姓名
+                "YBSHSJ," +//样本审核时间
+                "YBLXMC," +//样本类型名称
+                "YBJGSJ," +//样本结果时间
+                "JCMDDM," +//检查目的代码
+                "JCMDMC," +//检查目的名称
+                "JGBZSM," +//报告预览地址
+                "SFBLPB," +//是否病理判别
+                "YBZDNR," +//样本诊断内容
+                "BRDABH)" +//病案号
+                "values (" +
+                "'"+sample.getSampathologycode()+"'," +//病理编号
+                "'"+sample.getSaminspectionid()+"'," +//条码号
+                "'1001'," +//机构代码
+                ""+mode+"," +//受检病人类型 int
+                "'"+sample.getSaminpatientid()+"'," +//就诊ID
+                "'"+sample.getSampatientnumber()+"'," +//住院卡号
+                "'"+sample.getSampatientname()+"'," +//患者姓名
+                "'"+sample.getSampatientsex()+"'," +//性别(1男,2女,3未知)
+                ""+sample.getSampatientage()+"," +//年龄 int
+                "'"+ageString+"'," +//年龄类型(1岁、2月、4周、5日、6小时)
+                "0," +//是否婴儿 int
+                "'"+sample.getSampatientbed()+"'," +//床号
+                "'"+sample.getSampatientdignoses()+"'," +//临床诊断
+                "TO_DATE('"+ ConvertUtil.getFormatDateGMT(sample.getSamsendtime(), null)+"','YYYY-MM-DD HH24:MI:SS')," +//样本送检时间
+                "'"+sample.getSamsenddoctorid()+"'," +//开单医生序号
+                "'"+sample.getSamsenddoctorname()+"'," +//开单医生姓名
+                "'"+sample.getSamdeptcode()+"'," +//开单科室序号
+                "'"+sample.getSamdeptname()+"'," +//开单科室名称
+                "TO_DATE('"+ConvertUtil.getFormatDateGMT(sample.getSamreqtime(), null)+"','YYYY-MM-DD HH24:MI:SS')," +//样本接收时间
+                "'"+sample.getSaminitiallyusername()+"'," +//执行人员姓名
+                "'病理科'," +//执行科室名称
+                "TO_DATE('"+ConvertUtil.getFormatDateGMT(sample.getSamreqtime(), null)+"','YYYY-MM-DD HH24:MI:SS')," +//样本执行时间
+                "'"+sample.getSamauditer()+"'," +//审核人员姓名
+                "TO_DATE('"+ConvertUtil.getFormatDateGMT(sample.getSamauditedtime(), null)+"','YYYY-MM-DD HH24:MI:SS')," +//样本审核时间
+                "'"+sample.getSamsamplename()+"'," +//样本类型名称
+                "TO_DATE('"+ConvertUtil.getFormatDateGMT(sample.getSamreportedtime(), null)+"','YYYY-MM-DD HH24:MI:SS')," +//样本结果时间
+                "'"+sample.getSampathologyid()+"'," +//检查目的代码
+                "'"+psp.getPatnamech()+"'," +//检查目的名称
+                "'"+ reportUrl+"'," +//报告预览地址
+                "1," +//是否病理判别 int
+                "'"+zdjg+"'," +//样本诊断内容
+                "'"+sample.getSampatientid()+"')" //病案号
+                );
+        jdbcTemplate.execute(sb.toString());
+        return true;
     }
 }

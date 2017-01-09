@@ -78,9 +78,10 @@ function createNew22(brjzxh){
 		height: 500,
 		width: 1000,
 		postData:{"brjzxh":brjzxh},
-		colNames: ['ID','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址','会诊ID','住院病区ID','住院科室ID'],
+		colNames: ['就诊ID','档案号','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址','会诊ID','住院病区ID','住院科室ID'],
 		colModel: [
 			{name:'key_no',index:'key_no'},//ID
+			{name:'inpatient_id',index:'inpatient_id'},//档案号
 			{name:'patient_id',index:'patient_id'},//住院号
 			{name:'patient_name',index:'patient_name'},//病人姓名
 			{ name: 'patient_sex', index: 'patient_sex',formatter:'select',editoptions:{value:"1:男;2:女;3:未知"}},//性别
@@ -136,8 +137,9 @@ function fillpatinetinfo(data) {
 	// $("#samsendhospital").val(1);//送检医院
 	$("#sampatientdignoses").val(data.lczd);//临床诊断
 	$("#sampatienttype").val(data.patient_type);//患者类型
-	$("#saminpatientid").val(data.inpatient_id);//就诊id
-
+	$("#saminpatientid").val(data.key_no);//就诊id(患者每一次来院的id)
+	$("#sampatientid").val(data.inpatient_id);//患者唯一号(病案号)
+	$("#sampatientnumber").val(data.patient_id);//住院号
 }
 
 function NoSubmit(ev){
@@ -405,7 +407,14 @@ function saveInfo() {
 								samjcxm:$("#samjcxm").val(),//检查项目
 								sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
 								sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
-								samremark:$("#samremark").val()//不合格原因
+								samremark:$("#samremark").val(),//不合格原因
+
+								samauditedtime:$("#samauditedtime").val(),//审核时间
+								samauditerid:$("#samauditerid").val(),//审核人员id
+								samauditer:$("#samauditer").val(),//审核人员姓名
+								samreportedtime:$("#samreportedtime").val(),//报告时间
+								samreportorid:$("#samreportorid").val(),//报告医生id
+								samreportor:$("#samreportor").val()//报告医生姓名
 							},
 							function(data) {
 								if(data.success) {
@@ -498,7 +507,14 @@ function saveInfo() {
 					samjcxm:$("#samjcxm").val(),//检查项目
 					sampiecedoctorid:$("#sampiecedoctorid").val(),//首次取材医师既诊断医师ID
 					sampiecedoctorname:$("#sampiecedoctorname").val(),//首次取材医师既诊断医师
-					samremark:$("#samremark").val()//不合格原因
+					samremark:$("#samremark").val(),//不合格原因
+
+					samauditedtime:$("#samauditedtime").val(),//审核时间
+					samauditerid:$("#samauditerid").val(),//审核人员id
+					samauditer:$("#samauditer").val(),//审核人员姓名
+					samreportedtime:$("#samreportedtime").val(),//报告时间
+					samreportorid:$("#samreportorid").val(),//报告医生id
+					samreportor:$("#samreportor").val()//报告医生姓名
 				},
 				function(data) {
 					if(data.success) {
@@ -1284,7 +1300,7 @@ function getSampleData1(id) {
 			$("#samregisttime").val(CurentTime(new Date(data.samregisttime)));//登记时间
 			$("#samregisterid").val(data.samregisterid);//登记人员id
 			$("#samregistername").val(data.samregistername);//登记人员姓名
-			$("#saminitiallytime").val(data.saminitiallytime);//初诊时间
+			$("#saminitiallytime").val(CurentTime(new Date(data.saminitiallytime)));//初诊时间
 			$("#saminitiallyuserid").val(data.saminitiallyuserid);//初诊人员id
 			$("#saminitiallyusername").val(data.saminitiallyusername);//初诊人员姓名
 			$("#samisdeleted").val(data.samisdeleted);//删除标志（0正常，1已删除）
@@ -1310,6 +1326,13 @@ function getSampleData1(id) {
 			$("#sampiecedoctorid").val(data.sampiecedoctorid);//首次取材医师既诊断医师ID
 			$("#sampiecedoctorname").val(data.sampiecedoctorname);//首次取材医师既诊断医师
 			$("#samremark").val(data.samremark);//不合格原因
+
+			$("#samauditedtime").val(CurentTime(new Date(data.samauditedtime)));//审核时间
+			$("#samauditerid").val(data.samauditerid);//审核人员id
+			$("#samauditer").val(data.samauditer);//审核人员姓名
+			$("#samreportedtime").val(CurentTime(new Date(data.samreportedtime)));//报告时间
+			$("#samreportorid").val(data.samreportorid);//报告医生id
+			$("#samreportor").val(data.samreportor);//报告医生姓名
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}
