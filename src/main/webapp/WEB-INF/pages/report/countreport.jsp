@@ -45,7 +45,7 @@
 	<%--<div class="row">--%>
 		<%--<h5 style="float: left;width: 100%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/countshow.png" class="img_style">&nbsp;统计一览</strong></h5>--%>
 	<%--</div>--%>
-	<div class="row" id="div_2">
+	<div class="row" id="div_2" style="margin-left: 0px;margin-right: 0px">
 		<div class="widget-box widget-color-green ui-sortable-handle">
 			<div class="widget-header">
 				<h6 class="widget-title">统计一览</h6>

@@ -76,7 +76,7 @@ $(document).ready(function(){
 			<%--<h5 style="float: left;width: 25%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/reportsearch.png" class="img_style">&nbsp;报告查询条件</strong></h5>--%>
 			<%--<h5 style="float: left;width: 75%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/reportresult.png" class="img_style">&nbsp;报告查询结果</strong></h5>--%>
 		<%--</div>--%>
-		<div class="col-sm-3 leftContent" id="div_2">
+		<div class="col-sm-3 leftContent" id="div_2" style="margin-left: -5px">
 			<div id="div1" class="widget-box widget-color-green ui-sortable-handle">
 				<div class="widget-header">
 					<h6 class="widget-title">报告查询条件</h6>

@@ -141,7 +141,7 @@
                 </div>
             </div>
 
-            <div class="widget-body" style="display: block;">
+            <div class="widget-body" style="display: block;background-color: #F9F9F9">
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
                     <div class="scroll-content">
                         <div class="content">
@@ -158,38 +158,38 @@
                                                                                     style="width: 150px;height: 24px;"></div>
                             <div style="display:inline-block;width:100%"><label>病人名称：</label><input type="text" id="q_patientName" style="width: 150px;height: 24px;">
                                 <button onclick="query()" style="border-radius: 3px;border:1px solid #2274E4;background-color: #4190f7;color: #ffffff;padding:0 16px;float:right;margin-right:5px;"> 查询</button></div>
-                            <div style="display:block;">
-                                 <ul class="nav nav-tabs" style="">
-                                    <li class="active">
-                                        <a href="#" data-toggle="tab" onclick="query(-1)">全部</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-toggle="tab" onclick="query(0)">已申请</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-toggle="tab" onclick="query(1)">已接收</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-toggle="tab" onclick="query(2)">已完成</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-toggle="tab" onclick="query(3)">已签收</a>
-                                    </li>
-                                 </ul>
-                                <!--<div style="display:inline;padding-right: 5px">
-                                    <a href="#" onclick="query(-1)">全部</a>
-                                </div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(0)">已申请</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(1)">已接收</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(2)">已完成</a></div>
-                                <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(3)">已签收</a></div>-->
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div style="display: block;">
                 <div class="col-xs-12 leftContent">
+                    <div style="display:block;">
+                        <ul class="nav nav-tabs" style="">
+                            <li class="active">
+                                <a href="#" data-toggle="tab" onclick="query(-1)">全部</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" onclick="query(0)">已申请</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" onclick="query(1)">已接收</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" onclick="query(2)">已完成</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" onclick="query(3)">已签收</a>
+                            </li>
+                        </ul>
+                        <!--<div style="display:inline;padding-right: 5px">
+                            <a href="#" onclick="query(-1)">全部</a>
+                        </div>
+                        <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(0)">已申请</a></div>
+                        <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(1)">已接收</a></div>
+                        <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(2)">已完成</a></div>
+                        <div style="display:inline;padding-right: 5px"><a href="#" onclick="query(3)">已签收</a></div>-->
+                    </div>
                     <table id="sectionList"></table>
                     <div id="pager"></div>
                 </div>
@@ -209,51 +209,51 @@
                 </div>
             </div>
             <div class="widget-body" style="display: block;">
-                <div id="tabs" style="margin: 0 auto;">
+                <div id="tabs" style="margin: 0 auto;background-color: #F9F9F9;border-radius: 0px;">
                     <ul class="tabs nav nav-tabs">
                         <li class="active"><a href="#tabs-1" data-toggle="tab">病人基本信息</a></li>
                         <li><a href="#tabs-2" data-toggle="tab">取材信息</a></li>
                     </ul>
-                    <div id="tabs-1">
+                    <div id="tabs-1" style="border: 0">
                         <div style="margin-bottom: 10px">
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">病理号：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">病理号：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                     id="sampathologycode"></div>
                             <input type="hidden" id="sampleid"/>
                             <input type="hidden" id="customerId"/>
                             <input type="hidden" id="pathologyCode"/>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">条形码：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">条形码：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                     id="saminspectionid"></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">年龄：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">年龄：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                    id="sampatientage"></div>
                         </div>
                         <div style="margin-bottom: 10px">
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">病人姓名：</label><input type="text" style="width:45%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">病人姓名：</label><input type="text" style="width:45%;border-width: 1px" disabled
                                                                      id="sampatientname">详细
                             </div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">性别：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">性别：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                    id="sampatientgender"></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检医生：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检医生：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                      id="samsenddoctorid"></div>
                         </div>
                         <div style="margin-bottom: 10px">
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">住院号：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">住院号：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                     id="sampatientnumber"></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">常规收费：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled id=""></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检科室：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled id="samdeptname">
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">常规收费：</label><input type="text" style="width:65%;border-width: 1px" disabled id=""></div>
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检科室：</label><input type="text" style="width:65%;border-width: 1px" disabled id="samdeptname">
                             </div>
                         </div>
                         <div style="margin-bottom: 10px">
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">床号：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled id="sampatientbed">
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">床号：</label><input type="text" style="width:65%;border-width: 1px" disabled id="sampatientbed">
                             </div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">末次月经：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">末次月经：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                      id="reqlastmenstruation"></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检医院：</label><input type="text" style="width:65%;background:none!important;border-width: 1px" disabled
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检医院：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                      id="samsendhospital"></div>
                         </div>
                         <div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">绝经：</label><input type="checkbox" style="vertical-align:bottom"></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检材料：</label><input type="text" id="samsamplename" style="background:none!important;border-width: 1px;height:24px;padding-bottom:0px;width:65%" disabled></input></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">临床诊断：</label><input type="text" id="sampatientdignoses" style="background:none!important;border-width: 1px;height:24px;padding-bottom:0px;width:65%" disabled></input>
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检材料：</label><input type="text" id="samsamplename" style="border-width: 1px;height:24px;padding-bottom:0px;width:65%" disabled></input></div>
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">临床诊断：</label><input type="text" id="sampatientdignoses" style="border-width: 1px;height:24px;padding-bottom:0px;width:65%" disabled></input>
                             </div>
                         </div>
 
@@ -316,11 +316,11 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <div style="float:left;width: 40%;height: 100%;padding-left:5px;padding-right: 5px;display:inline">
-            <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
-            <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
-                <table id="lkItemList"></table>
+            <div class="widget-body" style="float:left;width: 40%;height: 100%;padding-left:5px;padding-right: 5px;margin-top:10px;display:inline">
+                <div style="width: 100%;height: 20px;;font-weight:bold;">白片信息</div>
+                <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
+                    <table id="lkItemList"></table>
+                </div>
             </div>
         </div>
     </div>

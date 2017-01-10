@@ -149,9 +149,6 @@
             margin-right: 5px;
             padding-left: 10px;
         }
-        #gbox_new{
-            width: 101.4%!important;
-        }
     </style>
 </head>
 <script>
@@ -185,7 +182,7 @@
 
 <div class="row" id="maincontent">
     <div id="checkSlide" class="col-xs-8">
-        <div class="widget-box widget-color-green ui-sortable-handle" style="margin-left: 12px">
+        <div class="widget-box widget-color-green ui-sortable-handle" style="margin-left: 10px">
             <div class="widget-header">
                 <h6 class="widget-title">耗材一览</h6>
                 <div class="widget-toolbar">
@@ -215,7 +212,7 @@
                     </div>
                 </div>
             </div>
-                <div class="col-xs-12 leftContent" style="margin-top: 5px;margin-left: -0.7%">
+                <div class="col-xs-12 leftContent" style="margin-top: 5px;">
                     <table id="new"></table>
                     <div id="pager"></div>
                 </div>

@@ -233,7 +233,7 @@
 </div>
 
 <div class="row" id="maincontent">
-    <div id="checkSlide" class="col-xs-8">
+    <div id="checkSlide" class="col-xs-8" style="padding-left: 3px">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
                 <h6 class="widget-title">玻片一览</h6>
@@ -268,7 +268,7 @@
                 </div>
             </div>
             <div style="display: block;">
-                <div class="col-xs-12 leftContent">
+                <div class="col-xs-12 leftContent" style="margin-top: 10px;">
                     <table id="new"></table>
                     <div id="pager"></div>
                 </div>

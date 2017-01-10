@@ -39,8 +39,8 @@
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
-	<h5 style="font-size: 14px;"><strong>&nbsp;基本信息</strong></h5>
-	<div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" >
+	<h5 style="font-size: 14px;color: #ffffff;background-color: rgb(135,184,127);height: 40px;line-height: 40px;padding-left: 5px;margin-bottom: 0px"><strong>&nbsp;基本信息</strong></h5>
+	<div class=" widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" >
 		<div style="margin-top: 10px;">
 			<table style="margin-bottom: 5px">
 				<span class="input_style">病种类别:</span>
@@ -64,8 +64,8 @@
 			</table>
 		</div>
 	</div>
-	<h5 style="font-size: 14px;"><strong>&nbsp;工作安排一览</strong></h5>
-	<div class="row">
+	<h5 style="font-size: 14px;color: #ffffff;background-color: rgb(135,184,127);height: 40px;line-height: 40px;padding-left: 5px;margin-bottom:0px"><strong>&nbsp;工作安排一览</strong></h5>
+	<div class="">
 		<div>
 			<div class="widget-body" style="overflow:auto;">
 				<div class="widget-main no-padding">
