@@ -3,6 +3,7 @@ package com.pims.model;
 import com.smart.Constants;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -196,6 +197,12 @@ public class PimsPathologySample {
     }
 
     public void setSamplesectionto(Date samplesectionto) {
+        if(samplesectionto != null){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(samplesectionto);
+            cal.add(Calendar.DAY_OF_YEAR, +1);
+            samplesectionto = new Date(cal.getTime().getTime());
+        }
         this.samplesectionto = samplesectionto;
     }
 

@@ -198,13 +198,40 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         return map;
     }
 
+
+    @RequestMapping(value = "/report/printList", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, String> printReportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String tasks = request.getParameter("tasks");
+        com.alibaba.fastjson.JSONArray taskList = JSON.parseArray(tasks);
+        List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+        if(taskList != null && taskList.size() > 0){
+            for(int i = 0;i< taskList.size();i++){
+                Map map = (Map) taskList.get(i);
+                PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                sample = pimsPathologySampleManager.getBySampleNo(sample.getSampleid());
+                String writerString = getReportHtml(request,sample);
+                Map<String, Object> map1 = new HashMap<String, Object>();
+                map1.put("sampleid",sample.getSampleid());
+                map1.put("writerString", writerString);
+                mapList.add(map1);
+            }
+        }
+        Map map = new HashMap<>();
+        map.put("writerString",mapList);
+        return map;
+    }
+
     @RequestMapping(value = "/updateprintStates", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, String> updateprintStates(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> map = new HashMap<>();
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
         PimsPathologySample sample = pimsPathologySampleManager.getBySampleNo(sampleId);
-        if(sample.getSamsamplestatus() == 6){
+        if(sample.getSamsamplestatus() < 8  && sample.getSamsamplestatus() > 4){
+            updateReportDataService.updateSts(sample);
+        }
+        if(sample.getSamsamplestatus() > 4){
             sample.setSamsamplestatus(8);
             pimsPathologySampleManager.save(sample);
         }
@@ -428,16 +455,16 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         else
         context.put("samreceivertime", "");
         context.put("sampatientdignoses", sample.getSampatientdignoses());
-//        if(StringUtils.isEmpty(sample.getSaminitiallyusername())){
-//            context.put("samreportor","");//条形码
-//        }
-        if(StringUtils.isEmpty(sample.getSamreportor())){
+        if(StringUtils.isEmpty(sample.getSaminitiallyusername())){
             context.put("samreportor","");//条形码
         }
+//        if(StringUtils.isEmpty(sample.getSamreportor())){
+//            context.put("samreportor","");//条形码
+//        }
         else{
             StringBuilder logoFileRoot1 = new StringBuilder();
-            logoFileRoot1.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSamreportor()+".jpg");
-//            logoFileRoot1.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSaminitiallyusername()+".jpg");
+//            logoFileRoot1.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSamreportor()+".jpg");
+            logoFileRoot1.append(Config.getString("dzqm.path","E:\\img\\dzqm") + File.separator + sample.getSaminitiallyusername()+".jpg");
 
             FileInputStream fileInputStream1 = new FileInputStream(logoFileRoot1.toString().replace("/","\\"));
             byte[] buffer1 = null;
@@ -463,10 +490,19 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             context.put("samauditer","data:image/jpg" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer)));//条形码
         }
 //        context.put("samauditer", sample.getSamauditer());
-        if(sample.getSamreportedtime() != null)
-        context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
+//        if(sample.getSamreportedtime() != null)
+//        context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
+//        else
+//        context.put("samreportedtime", "");
+        if(sample.getSamauditedtime() != null)
+            context.put("samreportedtime", Constants.DF2.format(sample.getSamauditedtime()));
         else
-        context.put("samreportedtime", "");
+            context.put("samreportedtime", "");
+
+        if(sample.getSamreportedtime() != null)
+            context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
+        else
+            context.put("samreportedtime", "");
 
         return context;
     }
@@ -690,6 +726,17 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         if (sample.getSamauditerid() != null && !"".equals(sample.getSamauditerid())) {
             sample.setSamsamplestatus(Constants.SAMPLE_STATUS_AUDIT);
         }
+        String f = request.getParameter("states");
+        if(f.equals("4")){
+            PimsPathologyReportPdf rpdf = pimsPathologyReportPdfManager.getPdfBySampleId(sample.getSampleid());
+            //删除PDF存储路径
+            pimsPathologyReportPdfManager.deletePDF(sample.getSampleid());
+            //删除37数据库上的记录
+            updateReportDataService.delete(sample);
+            PDFWebService pdfWebService = new PDFWebService();
+            pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
+            queryHisDataService.delete(sample);//删除HIS数据库
+        }
         pimsPathologySampleManager.sign(sample);
     }
 
@@ -895,6 +942,45 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @Autowired
     private QueryHisDataService queryHisDataService;
     /**
+     * 取消签发
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/resetqianfa*", method = RequestMethod.POST)
+    public String resetqianfa(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        JSONObject o = new JSONObject();
+        String tasks = request.getParameter("tasks");
+        com.alibaba.fastjson.JSONArray taskList = JSON.parseArray(tasks);
+        for(int i=0;i<taskList.size();i++){
+            Map map = (Map) taskList.get(i);
+            PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+            sample = pimsPathologySampleManager.getBySampleNo(sample.getSampleid());
+            if(sample.getSamsamplestatus() > 5){//已签发才允许撤销签发
+                sample.setSamsamplestatus(5);
+                sample.setSamreportedtime(null);
+                sample.setSamreportorid(null);
+                sample.setSamreportor(null);
+                sample = pimsPathologySampleManager.save(sample);
+                PimsPathologyReportPdf rpdf = pimsPathologyReportPdfManager.getPdfBySampleId(sample.getSampleid());
+                //删除PDF存储路径
+                pimsPathologyReportPdfManager.deletePDF(sample.getSampleid());
+                //删除37数据库上的记录
+                updateReportDataService.delete(sample);
+                PDFWebService pdfWebService = new PDFWebService();
+                pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
+                queryHisDataService.delete(sample);//删除HIS数据库
+            }
+        }
+        o.put("message", "取消签发成功！");
+        o.put("success", true);
+        PrintwriterUtil.print(response, o.toString());
+        return  null;
+    }
+
+    /**
      * 签发
      * @param request
      * @param response
@@ -911,14 +997,19 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             Map map = (Map) taskList.get(i);
             PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
             sample = pimsPathologySampleManager.getBySampleNo(sample.getSampleid());
-            if(sample.getSamsamplestatus() == 5){//已审核才允许签发
-                sample.setSamsamplestatus(6);
+            if(sample.getSamsamplestatus() > 4){//已审核才允许签发
+                if(sample.getSamsamplestatus() == 5){
+                    sample.setSamsamplestatus(6);
+                }
                 sample.setSamreportedtime(new Date());
                 sample.setSamreportorid(String.valueOf(user.getId()));
                 sample.setSamreportor(user.getName());
                 sample = pimsPathologySampleManager.save(sample);
                 String html = getReportHtml(request,sample);
                 GenericPdfUtil.html2Pdf(sample.getSampleid()+".pdf",html);
+                //删除PDF存储路径
+                pimsPathologyReportPdfManager.deletePDF(sample.getSampleid());
+                //重新生成PDF
                 PimsPathologyReportPdf rpdf = new PimsPathologyReportPdf();
                 rpdf.setPdffileid(sample.getSampleid());//Pdf文件Id
                 rpdf.setPdfsampleid(sample.getSampleid());//标本Id
@@ -936,11 +1027,15 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
                 rpdf.setPdfcreateuser(String.valueOf(user.getId()));//创建人员
                 rpdf = pimsPathologyReportPdfManager.save(rpdf);
                 PimsSysPathology psp = pimsSysPathologyManager.get(sample.getSampathologyid());
+                //删除37数据库上的记录
+                updateReportDataService.delete(sample);
                 updateReportDataService.insert(sample,rpdf,psp);//插入37数据库
                 PDFWebService pdfWebService = new PDFWebService();
+                pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
                 pdfWebService.uploadPdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//上传PDF
 //                pdfWebService.saveHisResult(sample,psp);
-                queryHisDataService.insert(sample,psp);
+                queryHisDataService.delete(sample);//删除HIS数据库
+                queryHisDataService.insert(sample,psp);//插入HIS数据库
             }
         }
         o.put("message", "签发成功！");

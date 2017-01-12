@@ -1,5 +1,6 @@
 package com.pims.service.pimspathologysample;
 
+import com.pims.model.Pdfinfo;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysColor;
@@ -134,4 +135,6 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
 
     List<PimsSysColor> getColor(PimsSysColor psc);
     //List<PimsSysColor> getColor2();
+
+    boolean updatebgjStates(Pdfinfo pi);
 }

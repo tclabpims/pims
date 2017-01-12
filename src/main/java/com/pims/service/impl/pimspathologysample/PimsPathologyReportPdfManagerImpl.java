@@ -24,4 +24,9 @@ public class PimsPathologyReportPdfManagerImpl extends GenericManagerImpl<PimsPa
     public PimsPathologyReportPdf getPdfBySampleId(Long sampleid) {
         return pimsPathologyReportPdfDao.getPdfBySampleId(sampleid);
     }
+
+    @Override
+    public boolean deletePDF(Long sampleid) {
+        return pimsPathologyReportPdfDao.deletePDF(sampleid);
+    }
 }

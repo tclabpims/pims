@@ -1,27 +1,19 @@
 package com.pims.service.impl;
 
 import com.pims.model.*;
-import com.pims.service.QueryHisDataService;
 import com.pims.service.UpdateReportDataService;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.service.pimssyspathology.PimsSampleResultManager;
 import com.smart.Constants;
-import com.smart.model.lis.Sample;
 import com.smart.util.Config;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class UpdateReportDataServiceImpl implements UpdateReportDataService {
@@ -127,5 +119,56 @@ public class UpdateReportDataServiceImpl implements UpdateReportDataService {
                 "'"+Constants.SDF.format(new Date())+"')");
 
         jdbcTemplate.execute(sb.toString());
+    }
+
+    @Override
+    public void delete(PimsPathologySample sample) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" delete from Report_Result_NewSystem where  check_id = '"+sample.getSampathologycode()+"' and sample_id = '"+
+                sample.getSaminspectionid()+"'");
+        jdbcTemplate.execute(sb.toString());
+    }
+
+    @Override
+    public void updateSts(PimsPathologySample sample) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" update from Report_Result_NewSystem set report_status = '已打印',isprint = 2  where check_id = '"+sample.getSampathologycode()+"' and sample_id = '"+
+                sample.getSaminspectionid()+"'");
+        jdbcTemplate.execute(sb.toString());
+    }
+    @Autowired
+    private PimsPathologySampleManager pimsPathologySampleManager;
+
+    @Override
+    public void updatepdf() {
+        StringBuffer sql = new StringBuffer(" select check_id,sample_id,printtime,printuser  from Report_Result_NewSystem where report_status = '已打印' and isprint=1 ");
+        List resultList = jdbcTemplate.query(sql.toString(), new ResultSetExtractor<List>() {
+            @Override
+            public List extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+                List result = new ArrayList();
+                while (resultSet.next()) {
+                    Pdfinfo pi = new Pdfinfo();
+                    pi.setCheck_id(resultSet.getString("check_id"));//病理编号
+                    pi.setSample_id(resultSet.getString("sample_id"));//条码号
+                    pi.setPrinttime(resultSet.getDate("printtime"));//打印时间
+                    pi.setPrintuser(resultSet.getString("printuser"));//打印人员
+                    result.add(pi);
+                }
+                return result;
+            }
+        });
+        if(resultList != null && resultList.size() > 0){
+            for(int i=0;i<resultList.size();i++){
+                Pdfinfo pi = (Pdfinfo) resultList.get(i);
+                boolean  resultstates =  pimsPathologySampleManager.updatebgjStates(pi);
+                if(resultstates){
+                    StringBuffer sb = new StringBuffer();
+                    sb.append(" update Report_Result_NewSystem set isprint = 2  " +
+                            "where check_id = '"+pi.getCheck_id()+"' and sample_id = '"+
+                            pi.getSample_id()+"'");
+                    jdbcTemplate.execute(sb.toString());
+                }
+            }
+        }
     }
 }

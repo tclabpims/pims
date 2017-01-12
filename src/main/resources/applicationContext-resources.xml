@@ -69,14 +69,9 @@
     <bean id="dataSource-z2" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <!--<property name="url" value="jdbc:oracle:thin:@10.31.96.30:1521:orcl" />-->
-        <!--<property name="username" value="hisinterface" />-->
-        <!--<property name="password" value="hisinterface" />-->
-        <!--<property name="url" value="jdbc:oracle:thin:@192.168.1.99:1521:orcl" />-->
-        <property name="url" value="jdbc:sqlserver://10.31.96.37:1433;DatabaseName=CuLeg" />
-        <!--<property name="url" value="jdbc:oracle:thin:@192.168.168.90:1521:orcl" />-->
+        <!--<property name="url" value="jdbc:sqlserver://10.31.96.37:1433;DatabaseName=tsdb_pathology" />-->
         <property name="username" value="sa" />
-        <property name="password" value="Abc1234" />
+        <property name="password" value="Abc123" />
     </bean>
     
     <!-- <bean id="dataSource-z1" class="org.apache.commons.dbcp.BasicDataSource"

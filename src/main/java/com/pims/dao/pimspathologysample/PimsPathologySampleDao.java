@@ -1,5 +1,6 @@
 package com.pims.dao.pimspathologysample;
 
+import com.pims.model.Pdfinfo;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysColor;
@@ -129,4 +130,7 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
 
     List<PimsSysColor> getColor(PimsSysColor psc);
     //List<PimsSysColor> getColor2();
+
+
+    boolean updatebgjStates(Pdfinfo pi);
 }

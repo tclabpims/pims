@@ -16,7 +16,7 @@ function csMarage(states) {
 					return;
 				}
 				if(rowData1.sampathologystatus > 1 && states == 1){//转送
-					layer.msg("只有未初查的标本才循序转送!",{icon:2,time:1000});
+					layer.msg("只有未初查的标本才允许转送!",{icon:2,time:1000});
 					result = false;
 					return;
 				}
@@ -36,7 +36,7 @@ function csMarage(states) {
 			return;
 		}
 		if(rowData.sampathologystatus > 1 && states == 1){//转送
-			layer.msg("只有未初查的标本才循序转送!",{icon:2,time:1000});
+			layer.msg("只有未初查的标本才允许转送!",{icon:2,time:1000});
 			result = false;
 			return;
 		}
