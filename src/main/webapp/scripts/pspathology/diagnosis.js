@@ -2129,6 +2129,7 @@ $(function () {
             {name: 'samsamplestatus', index: 'samsamplestatus', hidden: true}
         ],
         loadComplete: function () {
+            getColor();
             var table = this;
             setTimeout(function () {
                 updatePagerIcons(table);
@@ -2142,7 +2143,7 @@ $(function () {
                 }
                 onRowSelect(crno);
             }
-            getColor();
+
         },
         ondblClickRow: function (id) {
         },
@@ -2165,6 +2166,7 @@ $(function () {
         onCellSelect: function (id) {
             onRowSelect(id);
         }
+
     });
 
     $.get("../diagnosis/getpathnum",
@@ -2825,10 +2827,10 @@ function getColor(){
     $.ajax({
             type:"get",
             async:false,
-            url:"../pathologysample/sample/ajax/color2",
+            url:"../pathologysample/sample/ajax/color",
             data:{"colmodule":colmodule,
                   "colobject":Sample
-                },
+            },
             dataType: "json",
             success:function(data){
                 var da=data.rows;
@@ -2836,15 +2838,16 @@ function getColor(){
                 for(var i = 0;i<da.length;i++){
                     var state = da[i].colobjectstate;
                     var color = da[i].colvalue;
+//                    alert(da[i].colobjectstate);
+//                    alert(da[i].colvalue);
 //                    alert(color);
                     var ids = $("#sectionList").getGridParam("reccount");
                     for(var j=1;j<=ids;j++){
 	                var rowData = $("#sectionList").jqGrid('getRowData',j);
 //                    alert("表状态"+rowData.samsamplestatus);
 //                    alert("数据库状态"+state);
-
+//                    alert(rowData.sampathologystatus);
                     if(state==rowData.sampathologystatus){
-//                    alert(1);
                     $("#sectionList").children().children("tr[id='"+j+"']").children("td").eq(0).css("background-color",color);
                     }
                     }

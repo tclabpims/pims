@@ -149,6 +149,9 @@
             margin-right: 5px;
             padding-left: 10px;
         }
+        #gbox_new{
+            width: 101.4%!important;
+        }
     </style>
 </head>
 <script>
@@ -184,6 +187,7 @@
     <div id="checkSlide" class="col-xs-8">
         <div class="widget-box widget-color-green ui-sortable-handle" style="margin-left: 10px">
             <div class="widget-header">
+
                 <h6 class="widget-title">耗材一览</h6>
                 <div class="widget-toolbar">
                     <a href="#"  data-action="collapse" onclick="showandhiden(this)">
@@ -212,7 +216,7 @@
                     </div>
                 </div>
             </div>
-                <div class="col-xs-12 leftContent" style="margin-top: 5px;">
+                <div class="col-xs-12 leftContent" style="margin-top: 5px;margin-left: -0.7%">
                     <table id="new"></table>
                     <div id="pager"></div>
                 </div>
@@ -222,7 +226,6 @@
     <div id="checkSlide2" class="col-xs-4">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
-
                 <h6 class="widget-title">耗材详细信息</h6>
                 <div class="widget-toolbar">
                     <a href="#"  data-action="collapse" onclick="showandhiden(this)">
