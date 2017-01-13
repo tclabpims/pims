@@ -300,14 +300,14 @@
         </div>
         <div><h6>申请信息</h6></div>
         <div style="margin-bottom:5px;">
-            <div style="display: inline-block;float: left;width:33%">病理号：<input id="chipathologycode" style="border: 1px solid #b5b5b5;background:none!important;" disabled></div>
-            <div style="display: inline-block;width:33%;">医嘱类型：<input id="testItemChName" style="border: 1px solid #b5b5b5;background:none!important;"disabled></div>
-            <div style="display: inline-block;width:33%;float: right">申请时间：<input id="chireqtime" style="border: 1px solid #b5b5b5;background:none!important;"disabled></div>
+            <div style="display: inline-block;float: left;width:33%">病理号：<input id="chipathologycode" style="border: 1px solid #b5b5b5;background:#eee!important;" disabled></div>
+            <div style="display: inline-block;width:33%;">医嘱类型：<input id="testItemChName" style="border: 1px solid #b5b5b5;background:#eee!important;"disabled></div>
+            <div style="display: inline-block;width:33%;float: right">申请时间：<input id="chireqtime" style="border: 1px solid #b5b5b5;background:#eee!important;"disabled></div>
         </div>
         <div style="margin-bottom:5px;">
-            <div style="display: inline-block;width:33%;float: left">医嘱号：<input id="chiordercode" style="border: 1px solid #b5b5b5;background:none!important;"disabled></div>
-            <div style="display: inline-block;width:33%;">申请医生：<input id="chirequsername" style="border: 1px solid #b5b5b5;background:none!important;"disabled></div>
-            <div style="display: inline-block;width:33%;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border: 1px solid #b5b5b5;background:none!important;"disabled></div>
+            <div style="display: inline-block;width:33%;float: left">医嘱号：<input id="chiordercode" style="border: 1px solid #b5b5b5;background:#eee!important;"disabled></div>
+            <div style="display: inline-block;width:33%;">申请医生：<input id="chirequsername" style="border: 1px solid #b5b5b5;background:#eee!important;"disabled></div>
+            <div style="display: inline-block;width:33%;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border: 1px solid #b5b5b5;background:#eee!important;"disabled></div>
         </div>
         <div>
             <div style="float: left">
@@ -325,7 +325,7 @@
                                 <div>检测项目合计：<span id="itemCal"></span></div>
                             </div>
                         </div>
-                        <div  id="T2">
+                        <div  id="T2" style="border: 0px">
                             <div style=""  id="chargeItemListContainer">
                                 <div style="height:210px"><table id="childChargeList"></table></div>
                             </div>
@@ -356,11 +356,11 @@
                 <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
                     <table id="lkItemList"></table>
                 </div>
-                <div style="width: 100%;height: 25px;margin-top:3px;">
+                <div style="width: 100%;height: 25px;margin-top:15px;">
                     项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)" style="height:24px;width:140px"></select>
                 </div>
                 <div style="width: 100%;padding-top:5px"><button onclick="appendAll()" style="background:#e9e9e9;border-radius:3px;border:1px solid #c2c2c2">全部追加</button></div>
-                <div style="width: 100%;padding-top:5px">项目名称：<input id="itemName"/></div>
+                <div style="width: 100%;padding-top:15px">项目名称：<input id="itemName"/></div>
                 <div style="width: 100%;padding-top:5px;">
                     <table id="ckItemList"></table>
                 </div>

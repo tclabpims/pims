@@ -514,6 +514,19 @@
        .ui-jqgrid .ui-jqgrid-hbox{
             padding-right:0px;
        }
+    .ui-state-default.jqgrid-rownum{
+        border: 1px solid #E1E1E1!important;
+    }
+    textarea{
+        resize: none!important;
+    }
+    input{
+        padding-top: 0px!important;
+        padding-bottom: 0px!important;
+    }
+    .ui-jqgrid tr.jqgrow, .ui-jqgrid tr.ui-row-ltr, .ui-jqgrid tr.ui-row-rtl{
+        border: 1px solid #E1E1E1!important;
+    }
 </style>
 
 <menu:useMenuDisplayer name="Velocity" config="navbarMenu.vm" permissions="rolesAdapter">
@@ -621,4 +634,19 @@ $(function(){
 		    });
 	})
 
+</script>
+<script>
+    $(function(){
+       $("#menuheader ul li a").each(function(){
+		        $this = $(this);
+		        if($this[0].href==String(window.location)){
+		            if($this.text()=="病理诊断"){
+                        $this.parent().addClass("active");
+		            }else{
+                        $this.parent().parent().parent().addClass("active");
+		            }
+
+		        }
+		    });
+	})
 </script>

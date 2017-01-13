@@ -170,11 +170,9 @@ a.g-menu-item, a.soptclass, a.clearsearchclass { cursor: pointer; }
 	font-size: 11px
 }
 /*修改表格内样式*/
-#cb_new{
-	margin-left:3px;
-}
 #jqgh_new_cb{
 	padding-bottom:30px;
+	text-align: center!important;
 }
 .ui-jqgrid-view{
 	width:99%!important;
@@ -191,7 +189,7 @@ a.g-menu-item, a.soptclass, a.clearsearchclass { cursor: pointer; }
 	width: 100%!important;
 }
 #cb_sectionList{
-	margin-left:3px;
+	margin-left:6px;
 
 }
 #jqgh_sectionList_cb{

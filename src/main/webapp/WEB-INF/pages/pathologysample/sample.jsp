@@ -34,12 +34,6 @@
 		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
 		.btn-sm{padding:0 9px!important}
 		tr button{background:#e9e9e9!important;padding:0 10px;border:1px solid #c2c2c2!important;}
-		#cb_new{
-			margin-left:3px;
-		}
-		#jqgh_new_cb{
-			padding-bottom:30px;
-		}
 		.ui-jqgrid-view{
 			width:99%!important;
 			overflow: hidden;
@@ -466,7 +460,7 @@
 			</table>
 		</div>
 		<div id="formDialog" style="float: right;margin-top: 0px;padding-right: 15px" class="col-sm-8 rightContent" >
-			<form class="form-horizontal" style="background-color: #F9F9F9;height: 354px;border:1px solid #E0E0E0;"
+			<form class="form-horizontal" style="background-color: #F9F9F9;border:1px solid #E0E0E0;"
 				  action="#" method="post" id="sampleForm"  onkeypress="JavaScript:return NoSubmit(event);">
 				<button type="submit"id="saveButton1" style="display:none;">保存</button>
 				<div class="form-group" style="margin-top: 5px;margin-bottom: 5px">
@@ -540,7 +534,7 @@
 								<%out.print(request.getAttribute("samjcxm"));%>
 							</select>
 						</span>
-						<input id="samjcxm"  name="samjcxm" datatype="*" style="position:absolute;left:5px;width: 55%;padding-left: 10px" class="input_style" >
+						<input id="samjcxm"  name="samjcxm" datatype="*" style="position:absolute;left:4px;width: 55%;padding-left: 10px;border-right: 0" class="input_style" >
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">
@@ -615,7 +609,7 @@
 								<%out.print(request.getAttribute("samsenddoctorname"));%>
 							</select>
 						</span>
-						<input id="samsenddoctorname"  name="samsenddoctorname" style="position:absolute;left:5px;width: 55%;padding-left: 10px" class="input_style">
+						<input id="samsenddoctorname"  name="samsenddoctorname" style="position:absolute;left:4px;width: 55%;padding-left: 10px;border-right: 0" class="input_style">
 					</div>
 					<label class="col-sm-1 label_style" for="samdeptcode">送检科室:</label>
 					<div class="col-sm-3">
@@ -627,7 +621,7 @@
 								<%out.print(request.getAttribute("samdeptname"));%>
 							</select>
 						</span>
-						<input id="samdeptname"  name="samdeptname" datatype="*" style="position:absolute;left:5px;width: 55%;" class="input_style">
+						<input id="samdeptname"  name="samdeptname" datatype="*" style="position:absolute;left:4px;width: 55%;border-right: 0" class="input_style">
 					</div>
 					<label class="col-sm-1 label_style" >送检医院:</label>
 					<div class="col-sm-3 ">
@@ -637,7 +631,7 @@
 								<%out.print(request.getAttribute("samsendhospital"));%>
 							</select>
 						</span>
-						<input id="samsendhospital"  name="samsendhospital" datatype="*" style="position:absolute;left:5px;width: 55%;" class="input_style">
+						<input id="samsendhospital"  name="samsendhospital" datatype="*" style="position:absolute;left:4px;width: 55%;border-right:0" class="input_style">
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">
@@ -657,12 +651,12 @@
 				<div class="form-group" style="margin-bottom: 5px;">
 					<label style="font-size: 13px;"  class="col-sm-1 label_style">合格状态:</label>
 					<div class="col-sm-3 input_style">
-						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv"/>&nbsp;&nbsp;合格&nbsp;&nbsp;
-						<input type="radio" value="2" name="samsecondv"/>&nbsp;&nbsp;不合格
+						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv" id="standard"/>&nbsp;&nbsp;合格&nbsp;&nbsp;
+						<input type="radio" value="2" name="samsecondv" id="unstandard"/>&nbsp;&nbsp;不合格
 					</div>
 					<label class="col-sm-1 label_style" for="samremark">原因:</label>
 					<div class="col-sm-7">
-						<input  type="text" id="samremark" class="col-sm-10 input_style"/>
+						<input  type="text" id="samremark" class="col-sm-10 input_style" name="stantcon" />
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 5px;">
@@ -698,4 +692,12 @@
 			</div>
 		</div>
 	</div>
+<script>
+    $(function () {
+        $("#standard").click(function () {
+        $('#samremark').attr("readonly",true);})
+        $("#unstandard").click(function () {
+        $('#samremark').attr("readonly",false);})
+        })
+</script>
 </body>

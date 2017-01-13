@@ -120,6 +120,9 @@
             border:1px #c5c5c5 solid;
             min-height: 300px;
         }
+        #pager_left{
+            display: none;
+        }
     </style>
 
 </head>
@@ -294,10 +297,10 @@
                                     <button onclick="query()" style="background:#4190f7!important;padding:0 16px;border-radius:3px;color:white;font-size:12px;border:1px solid #2274e4;height:25px!important;margin-right: 10px"> 查询</button>
                                     </div>
                                         <div style="display:inline;text-align: right;">
-                                        <button onclick="receivecs(1)" style="border:1px solid #c2c2c2!important;border-radius:3px;background:#e9e9e9!important;margin:3px 8px 0 0;">抄送接收</button>
+                                        <button onclick="receivecs(1)" style="border:1px solid #2274e4!important;border-radius:3px;background:#4190f7!important;margin:3px 8px 0 0;color:#fff">抄送接收</button>
                                     </div>
                                     <div style="display:inline;text-align: right;">
-                                        <button onclick="receivecs(0)" style="border:1px solid #c2c2c2!important;border-radius:3px;background:#e9e9e9!important;margin-right:3px;">抄送取消</button>
+                                        <button onclick="receivecs(0)" style="border:1px solid #2274e4!important;border-radius:3px;background:#4190f7!important;margin-right:3px;color:#fff">抄送取消</button>
                                     </div>
                                 </div>
                             </div>
@@ -397,9 +400,9 @@
                                                                    id="sampatientage"></div>
                         </div>
                         <div style="margin-bottom: 5px">
-                            <div style="display: inline-block;width:30%"><label style="width:45%;;font-size: 12px">病人姓名：</label><input type="text"
+                            <div style="display: inline-block;width:30%"><label style="width:35%;;font-size: 12px;text-align:right">病人姓名：</label><input type="text"
                                                                      style="width:40%;height: 24px"
-                                                                     id="sampatientname"><a href="#" onclick="viewDetail()">详细</a>
+                                                                     id="sampatientname"><a href="#" onclick="viewDetail()"><button style="background: #4190f7!important;border-radius: 3px;color:#fff;border:1px solid #2274e4;margin-left: 3px;height: 25px">详细</button></a>
                             </div>
                             <div style="display: inline-block;width:33%"><label style="width:35%; text-align: right;font-size: 12px">性别：</label><input type="text"
                                                                    style="width:65%;height: 24px"
@@ -702,7 +705,7 @@
                 </div>
 
             </div>
-            <div id="tabs-MYZH" style="display: none">
+            <div id="tabs-MYZH" style="display: none;border: 0">
                 <div style="padding-bottom:2px;"><button onclick="saveResult('MYZHItem')">保存结果</button></div>
                 <div><table id="MYZHItem"></table></div>
             </div>
@@ -746,13 +749,16 @@
             <div class="widget-header">
                 <h6 class="widget-title">图像采集</h6>
                 <div class="widget-toolbar">
-                    <a href="#" data-action="collapse">
+                    <a href="#" data-action="collapse" onclick="showandhiden(this)">
                         <i class="ace-icon fa fa-chevron-up">隐藏</i>
                     </a>
                 </div>
             </div>
+            <div id="imgContainer" class="widget-body">
+
+            </div>
         </div>
-        <div id="imgContainer"></div>
+
     </div>
     <div class="row" style="display:none" id="templateGrid">
         <div class="col-xs-12 leftContent">

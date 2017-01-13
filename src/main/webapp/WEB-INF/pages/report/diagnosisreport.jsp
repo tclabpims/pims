@@ -24,13 +24,13 @@
 		/*.div_img{cursor:pointer;display: block;margin-bottom:11px;}*/
 		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
-		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
+		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:left;}
 		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
 		.inputstyle2{
-			margin-right:25%;
+			margin-right:20%;
 		}
 	</style>
 	<script type="text/javascript">
@@ -93,39 +93,40 @@ $(document).ready(function(){
 						<span class="col-sm-4 input_style">&nbsp;送检FROM:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style " value="${sevenday}" id="req_bf_time"/>
 						<div class="col-sm-2 ">
-							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0" onclick="searchList()">
+							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0;" onclick="searchList()">
 								<span style="color: white;">查询</span>
 							</button>
 						</div>
+						<div style="clear:both"></div>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-3 input_style">&nbsp;送检TO:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;送检TO:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style inputstyle2" value="${receivetime}"  id="req_af_time"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-3 input_style">&nbsp;病种类别:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;病种类别:&nbsp;</span>
 						<select id="logyid" class="col-sm-6 input_style inputstyle2">
 							<%out.println((String) request.getAttribute("logyids"));%>
 						</select>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-3 input_style">&nbsp;病理号码:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;病理号码:&nbsp;</span>
 						<input type="text" id="req_code" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-3 input_style">&nbsp;病人姓名:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;病人姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-3 input_style">&nbsp;住院号:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;住院号:&nbsp;</span>
 						<input type="text" id="sampatientnumber" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-3 input_style">&nbsp;床号:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;床号:&nbsp;</span>
 						<input type="text" id="sampatientbed" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-3 input_style">&nbsp;性别:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;性别:&nbsp;</span>
 						<select class="col-sm-6  input_style inputstyle2" id="sampatientsex">
 							<option value="">全部</option>
 							<option value="1">男</option>
@@ -134,31 +135,31 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;送检医生:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;送检医生:&nbsp;</span>
 						<input type="text" id="send_doctor" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;送检科室:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;送检科室:&nbsp;</span>
 						<input type="text" id="send_dept" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;送检医院:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;送检医院:&nbsp;</span>
 						<input type="text" id="send_hosptail" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;取材医生:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;取材医生:&nbsp;</span>
 						<input type="text" id="piedoctorname" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;切片医生:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;切片医生:&nbsp;</span>
 						<input type="text" id="parsectioneddoctor" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;诊断医生:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;诊断医生:&nbsp;</span>
 						<input type="text" id="saminitiallyusername" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;免疫组化:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;免疫组化:&nbsp;</span>
 						<select id="myzh" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
@@ -166,7 +167,7 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;特殊染色:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;特殊染色:&nbsp;</span>
 						<select id="tsrs" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
@@ -174,7 +175,7 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;分子病理:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;分子病理:&nbsp;</span>
 						<select id="fzbl" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
@@ -182,13 +183,13 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div style="margin-bottom: 5px">
-						<span class="col-sm-3 input_style">&nbsp;病理诊断:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;病理诊断:&nbsp;</span>
 						<input type="text" id="blzd" class="col-sm-6 input_style inputstyle2"/>
 					</div>
 					<div style="margin-bottom: 5px;">
-							<span class="col-sm-3 input_style">&nbsp;取材部位:&nbsp;</span>&nbsp;&nbsp;
+							<span class="col-sm-4 input_style">&nbsp;取材部位:&nbsp;</span>
 							<input type="text" id="qcbw" class="col-sm-6 input_style inputstyle2"/>
-							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
 
 					</div>
 				</div>
@@ -231,7 +232,7 @@ $(document).ready(function(){
 					<div class="form-group" style="margin-top:10px;margin-bottom: 5px;">
 						<label class="col-sm-1 label_style">基本信息:</label>
 						<div class="col-sm-11">
-							<textarea id="jbxx1" style="height: 50px;width: 90%"></textarea>
+							<textarea id="jbxx1" style="height: 50px;width: 91%"></textarea>
 						</div>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px;">
