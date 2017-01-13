@@ -30,8 +30,9 @@
     <task:scheduled-tasks>
         <task:scheduled ref="reagentOutCount" method="run" cron="0 0 6 * * ?"/>
 	</task:scheduled-tasks>
+    <!-- 同步更新报告机已打印单据,每5分钟同步一次-->
     <task:scheduled-tasks>
-        <task:scheduled ref="sampleNoClear" method="run" cron="0 0 0 * * ?"/>
+        <task:scheduled ref="updatepdfstates" method="run" cron="0 0/5 * * * ?"/>
     </task:scheduled-tasks>
 
     <!-- Activates scanning of @Autowired -->

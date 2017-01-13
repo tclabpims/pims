@@ -12,4 +12,9 @@ public interface PimsPathologyReportPdfDao extends GenericDao<PimsPathologyRepor
      * @return
      */
     PimsPathologyReportPdf getPdfBySampleId(Long sampleid);
+
+    /**
+     * 删除PDF 报告
+     */
+    boolean deletePDF(Long sampleid);
 }

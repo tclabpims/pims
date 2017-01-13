@@ -44,51 +44,30 @@ public class PDFWebService {
     private String weburl = Config.getString("webservice.path","");
 
     public String uploadPdf(String key,String path,PimsPathologyReportPdf rpdf) {
-
         String result = "";
-        //实例化访问对象
-//        Service service = new Service();
-//        try {
-//            //实例化调用对象
-//            Call call = (Call)service.createCall();
-//            //在调用对象中添加webservice地址
-//            call.setTargetEndpointAddress(new java.net.URL(url));
-//            //在调用对象中添加webservice对应的命名空间，以及将要调用的函数名
-//            call.setOperationName(new QName(namespace,"FileService"));
-//            //设置入参，第一个参数是命名空间以及参数名，这两个参数是采用一个Qname变量打包传入的，
-//            // 第二个参数是入参的类型（字符或者数字）第三个参数是入参种类
-//            //“IN”的含义代表入参
-//            call.addParameter(new QName(namespace,"key"),
-//                    org.apache.axis.encoding.XMLType.XSD_STRING, javax.xml.rpc.ParameterMode.IN);
-//            call.addParameter(new QName(namespace,"type"),
-//                    org.apache.axis.encoding.XMLType.XSD_STRING, javax.xml.rpc.ParameterMode.IN);
-//            call.addParameter(new QName(namespace,"path"),
-//                    org.apache.axis.encoding.XMLType.XSD_STRING, javax.xml.rpc.ParameterMode.IN);
-//            call.addParameter(new QName(namespace,"filename"),
-//                    org.apache.axis.encoding.XMLType.XSD_STRING, javax.xml.rpc.ParameterMode.IN);
-//            StringBuilder logoFileRoot = new StringBuilder();
-//            logoFileRoot.append(rpdf.getPdffilesavepath() + File.separator + rpdf.getPdffilename());
-//            FileInputStream fileInputStream = new FileInputStream(logoFileRoot.toString().replace("/","\\"));
-//            byte[] buffer = null;
-//            buffer = new byte[fileInputStream.available()];
-//            fileInputStream.read(buffer);
-//            fileInputStream.close();
-//            call.addParameter(new QName(namespace,"fs"),
-//                    XMLType.XSD_BYTE, javax.xml.rpc.ParameterMode.IN);
-//            //设置返回值格式（字符串或者组装对象）
-//            call.setReturnType(org.apache.axis.encoding.XMLType.SOAP_STRING);
-//            //调用，参入两个入参para1和para2的值，并且将返回值转换为String类型
-//            result = call.invoke(new Object[]{key,"Upload",path,rpdf.getPdffilename(),buffer}).toString();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-
         try {
             JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
             Client client = dcf.createClient(url);
             String type = "upload";
+            byte[] fs = toByteArray(rpdf.getPdffilesavepath() + File.separator + rpdf.getPdffilename());
+            String errorinfo = "";
+            String strfile = new String(org.apache.commons.codec.binary.Base64.encodeBase64(fs), "UTF-8");
+            Object[] objects = client.invoke("FileService", key, type, path, rpdf.getPdffilename(), fs, errorinfo);
+            if ((Boolean) objects[0] == true) {
+                System.out.println(objects[1].toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
+    public String deletePdf(String key,String path,PimsPathologyReportPdf rpdf) {
+        String result = "";
+        try {
+            JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+            Client client = dcf.createClient(url);
+            String type = "delete";
             byte[] fs = toByteArray(rpdf.getPdffilesavepath() + File.separator + rpdf.getPdffilename());
             String errorinfo = "";
             String strfile = new String(org.apache.commons.codec.binary.Base64.encodeBase64(fs), "UTF-8");

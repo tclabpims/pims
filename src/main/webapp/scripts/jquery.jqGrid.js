@@ -908,7 +908,7 @@ $.fn.jqGrid = function( pin ) {
 			url: "",
 			height: 150,
 			page: 1,
-			rowNum: 20,
+			rowNum: 200,
 			rowTotal : null,
 			records: 0,
 			pager: "",

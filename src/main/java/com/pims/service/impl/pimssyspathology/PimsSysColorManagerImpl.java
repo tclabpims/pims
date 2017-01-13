@@ -35,7 +35,7 @@ public class PimsSysColorManagerImpl extends GenericManagerImpl<PimsSysColor, Lo
     @Override
     public List<PimsSysColor> getSysColorList(GridQuery gridQuery) {
         StringBuilder qstr = new StringBuilder().append("select a.colorid,A.COLCUSTOMERID,a.coltype,A.Colowner,A.Colobject,")
-                .append("A.Colobjectstate,a.colvalue,B.Name,(select (case when (select c.name from lab_user c where to_number(A.Colowner)=c.id) is not null then (select c.name from lab_user c where to_number(A.Colowner)=c.id) else 'System' end) from dual) as uname,a.colmodule ")
+                .append("A.Colobjectstate,a.colvalue,B.Name,(select (case when (select c.name from lab_user c where to_number(A.Colowner)=c.id) is not null then (select c.name from lab_user c where to_number(A.Colowner)=c.id) else 'System' end) from dual) as uname,a.colmodule,a.colchinese ")
                 .append("from Pims_Sys_Color a,Lab_hospital b ")
                 .append("where a.COLCUSTOMERID=B.Id");
         String query = gridQuery.getQuery();
@@ -61,6 +61,7 @@ public class PimsSysColorManagerImpl extends GenericManagerImpl<PimsSysColor, Lo
                 psc.setColcustomername(obj[7]==null?"":String.valueOf(obj[7]));
                 psc.setColownername(obj[8]==null?"":String.valueOf(obj[8]));
                 psc.setColmodule(obj[9]==null?"":String.valueOf(obj[9]));
+                psc.setColchinese(obj[10]==null?"":String.valueOf(obj[10]));
                 result.add(psc);
             }
         }

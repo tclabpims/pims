@@ -120,8 +120,14 @@
             border:1px #c5c5c5 solid;
             min-height: 300px;
         }
-        #pager_left{
+
+        #pager_left {
             display: none;
+        }
+        input{
+            padding-top: 0px!important;
+            padding-bottom: 0px!important;
+
         }
     </style>
 
@@ -224,13 +230,17 @@
                     <i class="ace-icon fa fa-file-image-o "></i>
                     预览
                 </button>
-                <button type="button" class="btn btn-sm btn-warning" title="打印" onclick="reportView(2, null, null)">
+                <button type="button" class="btn btn-sm btn-warning" title="打印" onclick="printList()">
                     <i class="ace-icon fa fa-print "></i>
                     打印
                 </button>
                 <button type="button" class="btn btn-sm btn-success" title="发送" onclick="sendDoctor()">
                     <i class="ace-icon fa fa-paper-plane-o smaller-60"></i>
                     发送
+                </button>
+                <button type="button" class="btn btn-sm btn-success" title="取消发送" onclick="resetsendDoctor()">
+                    <i class="ace-icon fa fa-paper-plane-o smaller-60"></i>
+                    取消发送
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="转送" onclick="csMarage(1)">
                     <i class="ace-icon fa fa-external-link "></i>
@@ -281,15 +291,24 @@
                                     <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("logyids"))%>
                                 </select>
                             </div>
-                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">切片年月：</label><input type="text" id="samplesectionfrom" class="form_datetime"
-                                                            style="width: 150px;height:24px;">~<input type="text" class="form_datetime"
+                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">登记年月：</label><input type="text" id="samplesectionfrom" class="form_datetime" value="${sevenday}"
+                                                            style="width: 150px;height:24px;">~<input type="text" class="form_datetime" value="${receivetime}"
                                                                                          style="height:24px;width: 150px"
                                                                                          id="samplesectionto"></div>
-                            <div style="display:block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">条形码：</label><input type="text" id="saminspectionidq"
+                            <div style="display:block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">病理状态：</label>
+                                <%--<input type="text" id="saminspectionidq" style="height:24px;width: 150px">--%>
+                                <select id="saminspectionidq" style="height:24px;width:150px;">
+                                    <option value="">全部</option>
+                                    <option value="1">未报告</option>
+                                    <option value="2">已初查</option>
+                                    <option value="3">已审核</option>
+                                    <option value="5">已签发</option>
+                                    <option value="4">已打印</option>
+                                </select>
+                            </div>
+                            <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px;font-size:12px">病理编号：</label><input type="text" id="sampathologycodeq" value="${code}"
                                                                                    style="height:24px;width: 150px"></div>
-                            <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px;font-size:12px">病理号：</label><input type="text" id="sampathologycodeq" value="${code}"
-                                                                                   style="height:24px;width: 150px"></div>
-                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">病人名称：</label><input type="text" id="sampatientnameq" style="height:24px;width: 150px">
+                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">患者姓名：</label><input type="text" id="sampatientnameq" style="height:24px;width: 150px">
                             </div>
                             <div style="display:inline;">
                                 <div style="text-align: right;margin-top:3px;">
@@ -719,7 +738,7 @@
             </div>
             <div>
                 <hr style="border: 1px solid #49a7fe">
-                <div>报告日期：<input type="text"  id="samreportedtime" onchange="doctorSign(0)" readonly
+                <div>签发日期：<input type="text"  id="samreportedtime" onchange="doctorSign(0)" readonly
                                  name="samreportedtime">
                     <button onclick="delayReport()">延迟报告</button>
                 </div>

@@ -670,22 +670,29 @@ function CreateDataBill(datas) {
 		// var topheight1 = Math.floor(i/3)*24+ 3;
 		// var topheight2 = Math.floor(i/3)*24+ 8;
 		var leftwidth1 = 3;
-		if(i<3){
-			if(i%3 == 0){
-				leftwidth1 = 1;
-			}else if(i%3 == 1){
-				leftwidth1 = 28;
-			}else if(i%3 == 2){
-				leftwidth1 = 55;
-			}
-		}else{
-			if(i%3 == 0){
-				leftwidth1 = 1;
-			}else if(i%3 == 1){
-				leftwidth1 = 28;
-			}else if(i%3 == 2){
-				leftwidth1 = 55;
-			}
+		// if(i<3){
+		// 	if(i%3 == 0){
+		// 		leftwidth1 = 3;
+		// 	}else if(i%3 == 1){
+		// 		leftwidth1 = 30;
+		// 	}else if(i%3 == 2){
+		// 		leftwidth1 = 57;
+		// 	}
+		// }else{
+		// 	if(i%3 == 0){
+		// 		leftwidth1 = 1;
+		// 	}else if(i%3 == 1){
+		// 		leftwidth1 = 28;
+		// 	}else if(i%3 == 2){
+		// 		leftwidth1 = 55;
+		// 	}
+		// }
+		if(i%3 == 0){
+			leftwidth1 = 3;
+		}else if(i%3 == 1){
+			leftwidth1 = 30;
+		}else if(i%3 == 2){
+			leftwidth1 = 57;
 		}
 
 		LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","27mm","5mm","浙大国际医院");

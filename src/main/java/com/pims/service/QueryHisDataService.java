@@ -48,4 +48,6 @@ public interface QueryHisDataService {
 
     boolean insert(PimsPathologySample sample,PimsSysPathology psp);
 
+    boolean delete(PimsPathologySample sample);
+
 }

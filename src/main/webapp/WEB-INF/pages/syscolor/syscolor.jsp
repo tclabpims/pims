@@ -165,7 +165,7 @@
             <div class="form-group" style="margin-left:0px;margin-right:0px;">
                 <label class="col-xs-3 control-label no-padding-right" for="colmodule">模块 </label>
                 <div class="col-xs-8">
-                    <select type="text" id="colmodule" name="colmodule" class="col-xs-3" onchange="setSecond(this)">
+                    <select type="text" id="colmodule" name="colmodule" class="col-xs-3" onchange="setSecond1(this)">
                         <option value="0" selected="selected" >标本登记</option>
                         <option value="1">取材管理</option>
                         <option value="2">包埋管理</option>

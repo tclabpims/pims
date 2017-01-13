@@ -81,7 +81,7 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
     @Override
     public List getSampleList(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid");
+        sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid and piestate > 0 ");
         getSearchSql(sb,map);
         if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("1")){
             sb.append(" and exists (select 1 from PimsPathologyParaffin where pieparaffinid = paraffinid and parissectioned = 0) ");
@@ -99,7 +99,7 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
     @Override
     public int getReqListNum(PimsBaseModel map) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" select count(1) from pims_pathology_pieces,pims_pathology_sample where piesampleid = sampleid ");
+        sb.append(" select count(1) from pims_pathology_pieces,pims_pathology_sample where piesampleid = sampleid and piestate > 0  ");
         getSearchSql(sb,map);
         if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("1")){
             sb.append(" and exists (select 1 from Pims_Pathology_Paraffin where pieparaffinid = paraffinid and parissectioned = 0) ");

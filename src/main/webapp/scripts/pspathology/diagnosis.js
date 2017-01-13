@@ -20,6 +20,9 @@ var GRID_SELECTED_ROW_SAMPCUSTOMERID;
 
 var MMMROW;
 
+var scrotop;
+var scroleft;
+
 function showTemplate(v, target) {
     targetTextareaId = target;
     var a = $(function () {
@@ -129,47 +132,49 @@ function saveYJXB(rowData, patClass) {
 function saveDiagnosisInfo() {
     var x = document.getElementById("diagnosisInfoForm");
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
-    // if(rowData.sampathologystatus > 2){
-    //     layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
-    //     return;
-    // }
-    var patClass = rowData.patclass;
-    if (patClass == 2) {
-        saveYJXB(rowData, patClass);
+    if(rowData.sampathologystatus > 2){
+        layer.msg('标本已审核无法修改，如需修改请先撤销审核！', {icon: 2, time: 1000});
         return;
-    }
-    var customerId = rowData.samcustomerid;
-    var result = [];
-    var j = 0;
-    for (var i = 0; i < x.length; i++) {
-        if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
-            var e = x.elements[i];
-            var data = {};
-            data.resultid = $("#" + e.id).attr("hiddenValue");
-            data.resviewtype = e.type;
-            data.restestresult = e.value.replace(/\n|\r\n/g,"<br>");  ;
-            data.restestitemid = $("#" + e.id).attr("rptItemId");
-            data.resviewtitle = e.placeholder;
-            data.resviewsort = $("#" + e.id).attr("printOrder");
-            data.resinputsort = $("#" + e.id).attr("showOrder");
-            data.ressampleid = rowData.sampleid;
-            data.customerId = customerId;
-            result[j] = data;
-            j++;
+    }else {
+        var patClass = rowData.patclass;
+        if (patClass == 2) {
+            saveYJXB(rowData, patClass);
+            return;
         }
-    }
-    $.post('../diagnosis/saveResult', {result: JSON.stringify(result)}, function (data) {
+        var customerId = rowData.samcustomerid;
+        var result = [];
+        var j = 0;
         for (var i = 0; i < x.length; i++) {
             if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
                 var e = x.elements[i];
-                var restestitemid = $("#" + e.id).attr("rptItemId");
-                if (data[restestitemid]) {
-                    $("#" + e.id).attr("hiddenValue", data[restestitemid]);
-                }
+                var data = {};
+                data.resultid = $("#" + e.id).attr("hiddenValue");
+                data.resviewtype = e.type;
+                data.restestresult = e.value.replace(/\n|\r\n/g, "<br>");
+                ;
+                data.restestitemid = $("#" + e.id).attr("rptItemId");
+                data.resviewtitle = e.placeholder;
+                data.resviewsort = $("#" + e.id).attr("printOrder");
+                data.resinputsort = $("#" + e.id).attr("showOrder");
+                data.ressampleid = rowData.sampleid;
+                data.customerId = customerId;
+                result[j] = data;
+                j++;
             }
         }
-        // layer.msg('保存成功！',{icon:1,time:1000});
-    });
+        $.post('../diagnosis/saveResult', {result: JSON.stringify(result)}, function (data) {
+            for (var i = 0; i < x.length; i++) {
+                if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
+                    var e = x.elements[i];
+                    var restestitemid = $("#" + e.id).attr("rptItemId");
+                    if (data[restestitemid]) {
+                        $("#" + e.id).attr("hiddenValue", data[restestitemid]);
+                    }
+                }
+            }
+            layer.msg('保存成功！', {icon: 1, time: 1000});
+        });
+    }
 }
 
 function takingPicture() {
@@ -333,10 +338,11 @@ function doctorSign(f) {
         if($("#samauditerid").val() != "" && $("#samauditerid").val() != $("#local_userid").val()){
             result = false;
             layer.msg("您无权修改其他医生的复核签名!",{icon:2,time:1000});
-        }else if(rowData.sampathologystatus > 3){
-            result = false;
-            layer.msg("该标本已签发或已打印无法修改复核签名!",{icon:2,time:1000});
         }
+        // else if(rowData.sampathologystatus > 3){
+        //     result = false;
+        //     layer.msg("该标本已签发或已打印无法修改复核签名!",{icon:2,time:1000});
+        // }
     }
     if($("#binglizhenduan").length > 0 && $("#binglizhenduan").val() == ""){
         result = false;
@@ -394,7 +400,7 @@ function doctorSign(f) {
                         $("#samauditer").val($("#local_username").val());
                         $("#samauditedtime").val(CurentTime(new Date()));
                         $("#samauditerid").val($("#local_userid").val());
-                        saveSign();
+                        saveSign(f);
                     } else {
                         layer.msg(data.message, {icon: 2, time: 1000});
                         // location.reload();
@@ -412,13 +418,56 @@ function doctorSign(f) {
                 $("#samauditedtime").val(CurentTime(new Date()));
                 $("#samauditerid").val($("#local_userid").val());
             }
-            saveSign();
+            saveSign(f);
         }
     }
 }
 
-function saveSign() {
-    saveDiagnosisInfo();
+function saveSign(f) {
+    // saveDiagnosisInfo();
+    var x = document.getElementById("diagnosisInfoForm");
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
+    // if(rowData.sampathologystatus > 2){
+    //     layer.msg('标本已审核无法修改,如需修改请先撤销审核！', {icon: 2, time: 1000});
+    //     return;
+    // }
+    var patClass = rowData.patclass;
+    if (patClass == 2) {
+        saveYJXB(rowData, patClass);
+        return;
+    }
+    var customerId = rowData.samcustomerid;
+    var result = [];
+    var j = 0;
+    for (var i = 0; i < x.length; i++) {
+        if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
+            var e = x.elements[i];
+            var data = {};
+            data.resultid = $("#" + e.id).attr("hiddenValue");
+            data.resviewtype = e.type;
+            data.restestresult = e.value.replace(/\n|\r\n/g,"<br>");  ;
+            data.restestitemid = $("#" + e.id).attr("rptItemId");
+            data.resviewtitle = e.placeholder;
+            data.resviewsort = $("#" + e.id).attr("printOrder");
+            data.resinputsort = $("#" + e.id).attr("showOrder");
+            data.ressampleid = rowData.sampleid;
+            data.customerId = customerId;
+            result[j] = data;
+            j++;
+        }
+    }
+    $.post('../diagnosis/saveResult', {result: JSON.stringify(result)}, function (data) {
+        for (var i = 0; i < x.length; i++) {
+            if (x.elements[i].type == 'textarea' || x.elements[i].type == 'text' || x.elements[i].type == 'hidden') {
+                var e = x.elements[i];
+                var restestitemid = $("#" + e.id).attr("rptItemId");
+                if (data[restestitemid]) {
+                    $("#" + e.id).attr("hiddenValue", data[restestitemid]);
+                }
+            }
+        }
+        // layer.msg('保存成功！',{icon:1,time:1000});
+    });
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
     // if(rowData.samsamplestatus < 3 && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
     //     layer.msg('该标本未切片或未制片无法初查或复核！', {icon: 2, time: 1000});
@@ -448,6 +497,7 @@ function saveSign() {
                 }, function (data) {
                     layer.msg('保存成功！', {icon: 1, time: 1000});
                     MMMROW = crno;
+                    scrotop = $("#sectionList").parent().parent().scrollTop();
                     query();
                 });
             });
@@ -462,10 +512,12 @@ function saveSign() {
                 samauditer: $("#samauditer").val(),
                 samreportedtime: $("#samreportedtime").val(),
                 samreportorid: $("#samreportorid").val(),
-                samreportor: $("#samreportor").val()
+                samreportor: $("#samreportor").val(),
+                states:f
             }, function (data) {
                 layer.msg('保存成功！', {icon: 1, time: 1000});
                 MMMROW = crno;
+                scrotop = $("#sectionList").parent().parent().scrollTop();
                 query();
             });
         }
@@ -1226,7 +1278,9 @@ function query() {
         },
         page: 1
     }).trigger('reloadGrid');//重新载入
-
+    if(scrotop != null && scrotop != ""){
+        $("#sectionList").parent().parent().scrollTop(scrotop);
+    }
     $.get("../diagnosis/getpathnum",
         {"sampathologyid": sampathologyid,
         "samplesectionfrom": samplesectionfrom,
@@ -1382,6 +1436,51 @@ function print11(strHtml,sampleid) {
             LODOP.PRINT();
         }
     });
+}
+
+
+function printList() {
+    var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    var arr = new Array();
+    var result = true;
+    if(selectedIds.length > 0){
+        $(selectedIds).each(function () {
+                var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+                arr.push(rowData1);
+            }
+        );
+    }else{
+        var rowData = $("#sectionList").jqGrid('getRowData', crno);
+        if(rowData == null || rowData ==""){
+            result = false;
+            layer.msg("请选择病理标本再打印!",{icon:2,time:1000});
+            return;
+        }
+        arr.push(rowData);
+    }
+    if(result) {
+        $.get("../diagnosis/report/printList", {
+            "tasks": JSON.stringify(arr)
+        }, function (data) {
+            var writerString = data.writerString;
+            for(var i=0;i< writerString.length;i++){
+                var sampleidprint = writerString[i].sampleid;
+                var writering = writerString[i].writerString;
+                $.get("../diagnosis/updateprintStates", {
+                    "sampleid": sampleidprint
+                }, function (data) {
+                    if(data.result == "true"){
+                        LODOP = getLodop();
+                        LODOP.PRINT_INIT("打印报告单");
+                        LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", writering);
+                        //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
+                        // LODOP.PREVIEW();
+                        LODOP.PRINT();
+                    }
+                });
+            }
+        });
+    }
 }
 
 var crno = 0;
@@ -2030,6 +2129,7 @@ $(function () {
             {name: 'samsamplestatus', index: 'samsamplestatus', hidden: true}
         ],
         loadComplete: function () {
+            getColor();
             var table = this;
             setTimeout(function () {
                 updatePagerIcons(table);
@@ -2043,7 +2143,7 @@ $(function () {
                 }
                 onRowSelect(crno);
             }
-            getColor();
+
         },
         ondblClickRow: function (id) {
         },
@@ -2066,6 +2166,7 @@ $(function () {
         onCellSelect: function (id) {
             onRowSelect(id);
         }
+
     });
 
     $.get("../diagnosis/getpathnum",
@@ -2424,7 +2525,7 @@ $(function () {
         autoclose: true //选择日期后自动关闭
     });
     $(".form_datetime").datetimepicker({
-        //minView: "month", //选择日期后，不会再跳转去选择时分秒
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
         language: 'zh-CN', //汉化
         todayBtn: 1,
@@ -2642,6 +2743,58 @@ function sendDoctor(){
                 } else {
                     layer.msg(data.message, {icon:2, time: 1000});
                 }
+                MMMROW = crno;
+                scrotop = $("#sectionList").parent().parent().scrollTop();
+                query();
+            });
+    }
+}
+
+
+/**
+ * 取消签发
+ */
+function resetsendDoctor(){
+    var result = true;
+    var selectedIds = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    var arr = new Array();
+    if(selectedIds.length > 0){
+        $(selectedIds).each(function () {
+                var rowData1 = $("#sectionList").jqGrid('getRowData',this.toString());
+                if(rowData1.sampathologystatus < 4){//判断标本是否审核
+                    layer.msg("只有已签发的标本才可以撤销签发!",{icon:2,time:1000});
+                    result = false;
+                    return;
+                }
+                arr.push(rowData1);
+            }
+        );
+    }else{
+        var rowData = $("#sectionList").jqGrid('getRowData', crno);
+        if(rowData == null || rowData ==""){
+            result = false;
+            layer.msg("请选择病理标本再进行撤销签发!",{icon:2,time:1000});
+            return;
+        }
+        if(rowData.sampathologystatus < 4){//判断标本是否审核
+            layer.msg("只有已签发的标本才可以撤销签发!",{icon:2,time:1000});
+            result = false;
+            return;
+        }
+        arr.push(rowData);
+    }
+    if(result){
+        $.post("../diagnosis/resetqianfa", {
+                tasks:JSON.stringify(arr)
+            },
+            function(data) {
+                if(data.success) {
+                    layer.msg(data.message, {icon:1, time: 1000});
+                } else {
+                    layer.msg(data.message, {icon:2, time: 1000});
+                }
+                MMMROW = crno;
+                scrotop = $("#sectionList").parent().parent().scrollTop();
                 query();
             });
     }
@@ -2674,10 +2827,10 @@ function getColor(){
     $.ajax({
             type:"get",
             async:false,
-            url:"../pathologysample/sample/ajax/color2",
+            url:"../pathologysample/sample/ajax/color",
             data:{"colmodule":colmodule,
                   "colobject":Sample
-                },
+            },
             dataType: "json",
             success:function(data){
                 var da=data.rows;
@@ -2685,15 +2838,16 @@ function getColor(){
                 for(var i = 0;i<da.length;i++){
                     var state = da[i].colobjectstate;
                     var color = da[i].colvalue;
+//                    alert(da[i].colobjectstate);
+//                    alert(da[i].colvalue);
 //                    alert(color);
                     var ids = $("#sectionList").getGridParam("reccount");
                     for(var j=1;j<=ids;j++){
 	                var rowData = $("#sectionList").jqGrid('getRowData',j);
 //                    alert("表状态"+rowData.samsamplestatus);
 //                    alert("数据库状态"+state);
-
+//                    alert(rowData.sampathologystatus);
                     if(state==rowData.sampathologystatus){
-//                    alert(1);
                     $("#sectionList").children().children("tr[id='"+j+"']").children("td").eq(0).css("background-color",color);
                     }
                     }

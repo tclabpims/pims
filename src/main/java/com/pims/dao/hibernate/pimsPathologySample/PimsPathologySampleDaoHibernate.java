@@ -1,6 +1,7 @@
 package com.pims.dao.hibernate.pimsPathologySample;
 
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
+import com.pims.model.Pdfinfo;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysColor;
@@ -216,12 +217,12 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
             query.setLong("SamSampleStatus", sample.getSamsamplestatus());
         if(pathologyId > 0)
             query.setLong("SamPathologyId", sample.getSampathologyid());
-        if(StringUtils.isNotEmpty(inspectionId))
-            query.setString("SamInspectionId", sample.getSaminspectionid());
+//        if(StringUtils.isNotEmpty(inspectionId))
+//            query.setString("SamInspectionId", sample.getSaminspectionid());
         if(StringUtils.isNotEmpty(pathologyCode))
             query.setString("SamPathologyCode", sample.getSampathologycode());
-        if(StringUtils.isNotEmpty(patientName))
-            query.setString("SamPatientName", sample.getSampatientname());
+//        if(StringUtils.isNotEmpty(patientName))
+//            query.setString("SamPatientName", sample.getSampatientname());
         if(from == null && to != null) from = Constants.SDF.parse("1980-01-01 00:00:00");
         if(from != null && to == null) to = new Date();
         if(from != null) {
@@ -705,5 +706,18 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
     //    hql.append(" and colowner in('"+user.getId()+"','9999999999')");
     //    return pagingList(hql.toString());
     //}
+
+
+    @Override
+    public boolean updatebgjStates(Pdfinfo pi) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" update pims_pathology_sample set samsamplestatus = 8 where saminspectionid=:saminspectionid and" +
+                " sampathologycode =:sampathologycode");
+        Query query = getSession().createSQLQuery(sb.toString());
+        query.setString("saminspectionid", pi.getSample_id());
+        query.setString("sampathologycode", pi.getCheck_id());
+        query.executeUpdate();
+        return true;
+    }
 }
 

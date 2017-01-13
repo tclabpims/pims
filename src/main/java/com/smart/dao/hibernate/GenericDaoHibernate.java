@@ -260,6 +260,19 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         return query.list();
     }
 
+    public List pagingList(String s,Date req_bf_time,Date req_af_time) {
+        Session session = getSession();
+        SQLQuery query = session.createSQLQuery(s);
+        if(req_bf_time != null){
+            query.setDate("req_bf_time",req_bf_time);
+        }
+        if(req_af_time != null){
+            query.setDate("req_af_time",req_af_time);
+        }
+        System.out.println(s);
+        return query.list();
+    }
+
     public List pagingList(String s) {
         Session session = getSession();
         Query query = session.createQuery(s);

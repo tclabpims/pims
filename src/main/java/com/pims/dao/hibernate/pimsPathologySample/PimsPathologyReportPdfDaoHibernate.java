@@ -23,4 +23,12 @@ public class PimsPathologyReportPdfDaoHibernate extends GenericDaoHibernate<Pims
             return (PimsPathologyReportPdf)o;
         }
     }
+
+    @Override
+    public boolean deletePDF(Long sampleid) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" delete from pims_pathology_report_pdf where pdfsampleid ="+ sampleid);
+        getSession().createSQLQuery(sb.toString()).executeUpdate();
+        return true;
+    }
 }

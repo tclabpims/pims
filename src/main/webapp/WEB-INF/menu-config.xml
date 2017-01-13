@@ -90,7 +90,7 @@
             <Item name="LoanManagement" title="menu.LoanManagement" page="/othermanage/loanmanagement" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="PathologyLearningManagement" title="menu.PathologyLearningManagement" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="SpecialGlassPrint" title="menu.SpecialGlassPrint" page="/othermanage/specialglass" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
-            <Item name="AdviceGlassPrint" title="menu.AdviceGlassPrint" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="AdviceGlassPrint" title="menu.AdviceGlassPrint" page="/othermanage/orderslideprint" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="WorkingCopy" title="menu.WorkingCopy" page="/task/task" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 

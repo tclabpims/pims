@@ -1,6 +1,7 @@
 package com.pims.service.impl.pimspathologysample;
 
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
+import com.pims.model.Pdfinfo;
 import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsPathologySample;
 import com.pims.model.PimsSysColor;
@@ -66,13 +67,27 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
             sql.append("and p.sampathologyid=:SamPathologyId ");
         }
         if (StringUtils.isNotEmpty(inspectionId)) {
-            sql.append("and p.saminspectionid=:SamInspectionId ");
+            int inspectvalue = Integer.parseInt(inspectionId);
+            if(inspectvalue == 1){
+                sql.append("and p.samsamplestatus<4 ");
+            }else if(inspectvalue == 2){
+                sql.append("and p.samsamplestatus=4 ");
+            }else if(inspectvalue == 3){
+                sql.append("and p.samsamplestatus=5 ");
+            }else if(inspectvalue == 4){
+                sql.append("and p.samsamplestatus=8 ");
+            }else if(inspectvalue == 5){
+                sql.append("and p.samsamplestatus=6 ");
+            }
+
+//            sql.append("and p.saminspectionid=:SamInspectionId ");
         }
         if (StringUtils.isNotEmpty(pathologyCode)) {
             sql.append("and p.sampathologycode=:SamPathologyCode ");
         }
         if (StringUtils.isNotEmpty(patientName)) {
-            sql.append("and p.sampatientname=:SamPatientName ");
+//            sql.append("and p.sampatientname=:SamPatientName ");
+            sql.append("and p.sampatientname like '%"+patientName+"%' ");
         }
         if(from != null || to != null)
             sql.append("and p.sampleid in (select pp.parsampleid from PIMS_PATHOLOGY_PARAFFIN pp where pp.parsectionedtime between :samplesectionfrom and  :samplesectionto)");
@@ -267,4 +282,10 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     //public List<PimsSysColor> getColor2(){
     //    return pimsPathologySampleDao.getColor2();
     //}
+
+
+    @Override
+    public boolean updatebgjStates(Pdfinfo pi) {
+        return pimsPathologySampleDao.updatebgjStates(pi);
+    }
 }

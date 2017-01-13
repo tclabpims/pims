@@ -66,7 +66,7 @@ public class PimsPathologyOrderCheckDaoHibernate extends GenericDaoHibernate<Pim
     @Override
     public List orderFeeList(long orderId) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" from PimsPathologyFee where feecategory = "+ orderId);
+        sb.append(" from PimsPathologyFee where feecategory = '"+ orderId + "'");
         return getSession().createQuery(sb.toString()).list();
     }
 

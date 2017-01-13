@@ -56,6 +56,7 @@ public class PimsSysColorController extends PIMSBaseController {
             //    pimsSysColor.setColcreateuser(hisPimsSysColor.getColcreateuser());
             //    pimsSysColor.setColcreatetime(hisPimsSysColor.getColcreatetime());
             //}
+            pimsSysColor.setA();
             pimsSysColorManager.save(pimsSysColor);
             jj.put("message","保存成功！");
 
@@ -72,6 +73,7 @@ public class PimsSysColorController extends PIMSBaseController {
         PimsSysColor hisPimsSysColor = pimsSysColorManager.get(pimsSysColor.getColorid());
         pimsSysColor.setColcreateuser(hisPimsSysColor.getColcreateuser());
         pimsSysColor.setColcreatetime(hisPimsSysColor.getColcreatetime());
+        pimsSysColor.setA();
         pimsSysColorManager.save(pimsSysColor);
         jj.put("message","保存成功！");
         response.setContentType("application/json;charset=utf-8");

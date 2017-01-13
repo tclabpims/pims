@@ -613,26 +613,33 @@ function Setup() {//打印维护
 function CreateDataBill(datas) {
 	LODOP = getLodop();
 	LODOP.PRINT_INIT("");
-	LODOP.SET_PRINT_PAGESIZE(3,"97mm","17mm","A4");
+	LODOP.SET_PRINT_PAGESIZE(1,"80mm","24mm","A4");
 	for(i=0;i<datas.labOrders.length;i++){
 		var data = datas.labOrders[i];
 		var leftwidth1 = 3;
-		if(i<3){
-			if(i%3 == 0){
-				leftwidth1 = 1;
-			}else if(i%3 == 1){
-				leftwidth1 = 28;
-			}else if(i%3 == 2){
-				leftwidth1 = 55;
-			}
-		}else{
-			if(i%3 == 0){
-				leftwidth1 = 1;
-			}else if(i%3 == 1){
-				leftwidth1 = 28;
-			}else if(i%3 == 2){
-				leftwidth1 = 55;
-			}
+		// if(i<3){
+		// 	if(i%3 == 0){
+		// 		leftwidth1 = 3;
+		// 	}else if(i%3 == 1){
+		// 		leftwidth1 = 30;
+		// 	}else if(i%3 == 2){
+		// 		leftwidth1 = 57;
+		// 	}
+		// }else{
+		// 	if(i%3 == 0){
+		// 		leftwidth1 = 1;
+		// 	}else if(i%3 == 1){
+		// 		leftwidth1 = 28;
+		// 	}else if(i%3 == 2){
+		// 		leftwidth1 = 55;
+		// 	}
+		// }
+		if(i%3 == 0){
+			leftwidth1 = 3;
+		}else if(i%3 == 1){
+			leftwidth1 = 30;
+		}else if(i%3 == 2){
+			leftwidth1 = 57;
 		}
 
 		LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","27mm","5mm","浙大国际医院");

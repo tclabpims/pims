@@ -413,4 +413,13 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
         jdbcTemplate.execute(sb.toString());
         return true;
     }
+
+    @Override
+    public boolean delete(PimsPathologySample sample) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" delete from DI_LABSAMPLEINFO where BRYZID = '"+sample.getSampathologycode()
+                +"' and JCYBID = '"+sample.getSaminspectionid()+"'");
+        jdbcTemplate.execute(sb.toString());
+        return true;
+    }
 }

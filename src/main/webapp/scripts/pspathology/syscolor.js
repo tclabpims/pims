@@ -87,6 +87,7 @@ function AddSection() {
 
     clearData();
     $('#colvalue').colorpicker({color:"#ffffff"});
+    setSecond(0);
     layer.open({
         type: 1,
         area: ['800px', '500px'],
@@ -163,13 +164,14 @@ function editSection() {
         },
         success: function (msg) {
             //设置数据
+            setSecond(msg.colmodule);
             $('#colcustomername').val(rowData.colcustomername);
             $('#colownername').val(rowData.colownername);
             $('#colcustomercode').val(msg.colcustomercode);
             $('#coltype').val(msg.coltype);
             $('#colobject').val(msg.colobject);
             $('#colmodule').val(msg.colmodule);
-            setSecond(msg.colmodule);
+
             $('#colobjectstate'+msg.colmodule).val(msg.colobjectstate);
             $('#colvalue').val(msg.colvalue);
             $('#colowner').val(msg.colowner);
@@ -258,13 +260,13 @@ $(function () {
             },
 
             {
-                name: 'colobjectstate',
-                index: 'colobjectstate',
-                width: 30,
-                formatter: "select",
-                editoptions: {value: "0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中;8:报告已打印;9:未取材;10:待包埋;11:待切片;12:未制作;13:已制作;14:已打印;"}
+                name: 'colchinese',
+                index: 'colchinese',
+                width: 30
+//                formatter: "select",
+//                editoptions: {value: "0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中;8:已打印;9:未取材;10:待包埋;11:待切片;12:未制作;13:已制作;14:已打印;15:未报告"}
             },
-            {name: 'colmodule', index: 'colmodule', width: 30}
+            {name: 'colmodule', index: 'colmodule', width: 30,formatter: "select",editoptions: {value: "0:标本登记;1:取材管理;2:包埋管理;3:切片管理;4:制片管理;5:病理诊断;"}}
         ],
         loadComplete: function () {
             var table = this;
@@ -386,9 +388,56 @@ function updatePagerIcons(table) {
     })
 }
 
-function setSecond(obj){
+function setSecond1(obj){
     var val = obj.value;
     switch(val){
+        case ("0"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate0").css("display","block");
+            break;
+
+        case ("1"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate1").css("display","block");
+            break;
+
+        case ("2"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate2").css("display","block");
+            break;
+
+        case ("3"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate3").css("display","block");
+            break;
+
+        case ("4"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate4").css("display","block");
+            break;
+
+        case ("5"):
+            for(var i = 0;i<6;i++){
+                $("#colobjectstate"+i).css("display","none");
+            }
+            $("#colobjectstate5").css("display","block");
+            break;
+        }
+}
+
+function setSecond(obj){
+
+    switch(obj){
         case ("0"):
             for(var i = 0;i<6;i++){
                 $("#colobjectstate"+i).css("display","none");
