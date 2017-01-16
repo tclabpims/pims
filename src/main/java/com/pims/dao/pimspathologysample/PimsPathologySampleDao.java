@@ -133,4 +133,11 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
 
 
     boolean updatebgjStates(Pdfinfo pi);
+
+    /**
+     * 反推标本状态
+     * @param sample
+     * @return
+     */
+    int agoStates(PimsPathologySample sample);
 }

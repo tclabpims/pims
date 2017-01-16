@@ -978,7 +978,7 @@ $(function() {
 			{name:'samreqtime',hidden:true,formatter:function(cellvalue, options, row){return CurentTime(new Date(cellvalue))}},
 			{ name: 'samsecondv', index: 'samsecondv',width:'100px', align: "center",formatter:"select",editoptions:{value:"1:合格;2:不合格"}},
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;" +
-			"6:已发送;7:会诊中:8:报告已打印"},width:'100px', align: "center"},
+			"6:已发送;7:会诊中;8:报告已打印"},width:'100px', align: "center"},
 			{name:'sampatientsex',hidden:true},
 			{name:'sampatientage',hidden:true},
 			{name:'sampatientagetype',hidden:true},

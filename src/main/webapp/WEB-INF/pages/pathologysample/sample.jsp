@@ -34,6 +34,12 @@
 		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
 		.btn-sm{padding:0 9px!important}
 		tr button{background:#e9e9e9!important;padding:0 10px;border:1px solid #c2c2c2!important;}
+		#cb_new{
+			margin-left:3px;
+		}
+		#jqgh_new_cb{
+			padding-bottom:30px;
+		}
 		.ui-jqgrid-view{
 			width:99%!important;
 			overflow: hidden;
@@ -534,7 +540,7 @@
 								<%out.print(request.getAttribute("samjcxm"));%>
 							</select>
 						</span>
-						<input id="samjcxm"  name="samjcxm" datatype="*" style="position:absolute;left:4px;width: 55%;padding-left: 10px;border-right: 0" class="input_style" >
+						<input id="samjcxm"  name="samjcxm"  style="position:absolute;left:5px;width: 55%;padding-left: 10px" class="input_style" >
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-3">

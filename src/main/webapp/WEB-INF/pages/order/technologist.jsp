@@ -144,7 +144,7 @@
             <div class="widget-body" style="display: block;background-color: #F9F9F9">
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
                     <div class="scroll-content">
-                        <div class="content">
+                        <div class="content" id="searchcontent">
                             <div style="display:inline-block;width:100%"><label>医嘱类型：</label>
                                 <select id="q_specialCheck" style="height: 24px;width:150px">
                                     <option value="">--请选择--</option>
@@ -271,14 +271,14 @@
         </div>
         <div><h6>申请信息</h6></div>
         <div style="margin-bottom: 5px">
-            <div style="display: inline-block;width:33%;float: left">病理号：<input id="chipathologycode" style="border: 1px solid #b5b5b5"></div>
-            <div style="display: inline-block;width:33%;">医嘱类型：<input id="testItemChName" style="border: 1px solid #b5b5b5"></div>
-            <div style="display: inline-block;width:33%;float: right">申请时间：<input id="chireqtime" style="border: 1px solid #b5b5b5"></div>
+            <div style="display: inline-block;width:33%;float: left">病理号：<input id="chipathologycode" style="border: 1px solid #b5b5b5" disabled></div>
+            <div style="display: inline-block;width:33%;">医嘱类型：<input id="testItemChName" style="border: 1px solid #b5b5b5" disabled></div>
+            <div style="display: inline-block;width:33%;float: right">申请时间：<input id="chireqtime" style="border: 1px solid #b5b5b5" disabled></div>
         </div>
         <div style="margin-bottom: 5px">
-            <div style="display: inline-block;width:33%;float: left">医嘱号：<input id="chiordercode" style="border: 1px solid #b5b5b5"></div>
-            <div style="display: inline-block;width:33%;">申请医生：<input id="chirequsername" style="border: 1px solid #b5b5b5"></div>
-            <div style="display: inline-block;width:33%;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border: 1px solid #b5b5b5"></div>
+            <div style="display: inline-block;width:33%;float: left">医嘱号：<input id="chiordercode" style="border: 1px solid #b5b5b5" disabled></div>
+            <div style="display: inline-block;width:33%;">申请医生：<input id="chirequsername" style="border: 1px solid #b5b5b5" disabled></div>
+            <div style="display: inline-block;width:33%;float: right"><font color="red">总切片数</font>：<input id="chinullslidenum" style="border: 1px solid #b5b5b5" disabled></div>
         </div>
         <div>
             <div style="float: left">

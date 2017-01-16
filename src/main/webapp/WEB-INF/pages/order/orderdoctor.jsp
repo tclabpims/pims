@@ -173,7 +173,7 @@
             <div class="widget-body" style="display: block;background-color: #F9F9F9">
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;" id="yizhuleixin">
                     <div class="scroll-content">
-                        <div class="content">
+                        <div class="content" id = "searchcontent">
                             <div style="display:inline-block;width:100%"><label>医嘱类型：</label>
                                 <select id="q_specialCheck" style="height:24px;width:150px">
                                     <option value="">--请选择--</option>

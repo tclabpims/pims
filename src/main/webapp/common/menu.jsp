@@ -11,12 +11,17 @@
     var baseUrl = "<%=request.getContextPath()%>";
 
     $(document).ready(function () {
+
         $.get("../hpinfo/userrelatepathology", {}, function(data){
             var rows = data.rows;
             if (rows.length > 0) {
+                jQuery("#pathologyList1").jqGrid("clearGridData");
                 for (var i = 0; i < rows.length; i++) {
                     var obj = rows[i];
-                    $("#pathologyList").append("<option value='" + obj.pathologyid + "'>" + obj.patnamech + "</option>\n");
+//                    $("#pathologyList").append("<option value='" + obj.pathologyid + "'>" + obj.patnamech + "</option>\n");
+                    var thologyid = obj.pathologyid;
+                    var thologyname = obj.patnamech;
+                    $("#pathologyList1").jqGrid('addRowData',new Date().getTime(), {pathologyid:thologyid,patnamech:thologyname});
                     $("#pathologyType").append("<option value='" + obj.pathologyid + "'>" + obj.patnamech + "</option>\n");
                 }
                 var currentPathology = data.userdata;
@@ -25,7 +30,7 @@
                 } else {
                     layer.open({
                         type: 1,
-                        area: ['200px', '125px'],
+                        area: ['215px', '420px'],
                         fix: false, //不固定
                         maxmin: false,
                         shade: 0.6,
@@ -33,37 +38,54 @@
                         content: $("#pathologyListContainer"),
                         btn: ["确定"],
                         yes: function (index, layero) {
-                            var pathologyId = $("#pathologyList").val();
-                            var pathologyName = $("#pathologyList").find("option:selected").text();
+                            var id = $('#pathologyList1').jqGrid('getGridParam','selrow');
+                            var rowData = $("#pathologyList1").jqGrid('getRowData',id);
+//                            var pathologyId = $("#pathologyList").val();
+//                            var pathologyName = $("#pathologyList").find("option:selected").text();
+                            var pathologyId = rowData.pathologyid;
+                            var pathologyName = rowData.patnamech;
                             if (pathologyId != null && jQuery.trim(pathologyId) != "") {
                                 $.post('../hpinfo/userpathology', {
                                     pathologyLibId: pathologyId,
                                     pathologyLib: pathologyName
                                 }, function (data) {
+                                    $("#pathologyType").val(pathologyId);
                                     layer.close(index);
                                 });
                             } else {
                                 layer.close(index);
                             }
-                        },
-                        end: function (index,layero) {
-                            var pathologyId = $("#pathologyList").val();
-                            var pathologyName = $("#pathologyList").find("option:selected").text();
-                            if (pathologyId == null || jQuery.trim(pathologyId) == "") {
-                                var selectId = document.getElementById("pathologyList");
-                                //获取select下拉框中第一个值
-                                pathologyId = selectId.options[0].value;
-                                //获取select下拉框中第一个文本值
-                                pathologyName = selectId.options[0].text;
-
-                            }
-                            $.post('../hpinfo/userpathology', {
-                                pathologyLibId: pathologyId,
-                                pathologyLib: pathologyName
-                            }, function (data) {
-                                layer.close(index);
-                            });
                         }
+//                        end: function (index,layero) {
+////                            var pathologyId = $("#pathologyList").val();
+////                            var pathologyName = $("#pathologyList").find("option:selected").text();
+////                            if (pathologyId == null || jQuery.trim(pathologyId) == "") {
+////                                var selectId = document.getElementById("pathologyList");
+////                                //获取select下拉框中第一个值
+////                                pathologyId = selectId.options[0].value;
+////                                //获取select下拉框中第一个文本值
+////                                pathologyName = selectId.options[0].text;
+////
+////                            }
+//                            var rowData = $("#pathologyList1").jqGrid('getRowData',1);
+//                            var pathologyId = rowData.pathologyid;
+//                            var pathologyName = rowData.patnamech;
+//                            if (pathologyId == null || jQuery.trim(pathologyId) == "") {
+//                                var selectId = document.getElementById("pathologyType");
+//                                //获取select下拉框中第一个值
+//                                pathologyId = selectId.options[0].value;
+//                                //获取select下拉框中第一个文本值
+//                                pathologyName = selectId.options[0].text;
+//
+//                            }
+//                            $.post('../hpinfo/userpathology', {
+//                                pathologyLibId: pathologyId,
+//                                pathologyLib: pathologyName
+//                            }, function (data) {
+//                                $("#pathologyType").val(pathologyId);
+//                                layer.close(index);
+//                            });
+//                        }
                     });
                 }
             } else {
@@ -73,6 +95,39 @@
         });
     });
     $(function () {
+
+        $("#pathologyList1").jqGrid({
+            mtype: "GET",
+            datatype: "json",
+            width:215,
+            height:270,
+            colNames: ['id','病理库'],
+            colModel: [
+                { name: 'pathologyid', index: 'pathologyid', hidden: true },
+                { name: 'patnamech', index: 'patnamech', width: 180,align:"center"}
+            ],
+            loadComplete : function() {
+                var table = this;
+                setTimeout(function(){
+                    updatePagerIcons(table);
+                }, 0);
+            },
+            ondblClickRow: function (id) {
+                var rowData = $("#pathologyList1").jqGrid('getRowData', id);
+                var thologyid = rowData.pathologyid;
+                var thologyname = rowData.patnamech;
+                $.post('../hpinfo/userpathology', {
+                    pathologyLibId: thologyid,
+                    pathologyLib: thologyname
+                }, function (data) {
+                    $("#pathologyType").val(thologyid);
+                    var index = layer.index; //获取当前弹层的索引号
+                    layer.close(index);
+                });
+            },
+            rownumbers: true, // 显示行号
+            rownumWidth: 55
+        });
 
         var menuName = getQueryStringByName("m");
 
@@ -138,7 +193,7 @@
     function changePathol(){
         layer.open({
             type: 1,
-            area: ['200px', '125px'],
+            area: ['230px', '420px'],
             fix: false, //不固定
             maxmin: false,
             shade: 0.6,
@@ -146,37 +201,54 @@
             content: $("#pathologyListContainer"),
             btn: ["确定"],
             yes: function (index, layero) {
-                var pathologyId = $("#pathologyList").val();
-                var pathologyName = $("#pathologyList").find("option:selected").text();
+                var id = $('#pathologyList1').jqGrid('getGridParam','selrow');
+                var rowData = $("#pathologyList1").jqGrid('getRowData',id);
+//                            var pathologyId = $("#pathologyList").val();
+//                            var pathologyName = $("#pathologyList").find("option:selected").text();
+                var pathologyId = rowData.pathologyid;
+                var pathologyName = rowData.patnamech;
                 if (pathologyId != null && jQuery.trim(pathologyId) != "") {
                     $.post('../hpinfo/userpathology', {
                         pathologyLibId: pathologyId,
                         pathologyLib: pathologyName
                     }, function (data) {
+                        $("#pathologyType").val(pathologyId);
                         layer.close(index);
                     });
                 } else {
                     layer.close(index);
                 }
-            },
-            end: function (index,layero) {
-                var pathologyId = $("#pathologyList").val();
-                var pathologyName = $("#pathologyList").find("option:selected").text();
-                if (pathologyId == null || jQuery.trim(pathologyId) == "") {
-                    var selectId = document.getElementById("pathologyList");
-                    //获取select下拉框中第一个值
-                    pathologyId = selectId.options[0].value;
-                    //获取select下拉框中第一个文本值
-                    pathologyName = selectId.options[0].text;
-
-                }
-                $.post('../hpinfo/userpathology', {
-                    pathologyLibId: pathologyId,
-                    pathologyLib: pathologyName
-                }, function (data) {
-                    layer.close(index);
-                });
             }
+//            end: function (index,layero) {
+////                            var pathologyId = $("#pathologyList").val();
+////                            var pathologyName = $("#pathologyList").find("option:selected").text();
+////                            if (pathologyId == null || jQuery.trim(pathologyId) == "") {
+////                                var selectId = document.getElementById("pathologyList");
+////                                //获取select下拉框中第一个值
+////                                pathologyId = selectId.options[0].value;
+////                                //获取select下拉框中第一个文本值
+////                                pathologyName = selectId.options[0].text;
+////
+////                            }
+//                var rowData = $("#pathologyList1").jqGrid('getRowData',1);
+//                var pathologyId = rowData.pathologyid;
+//                var pathologyName = rowData.patnamech;
+//                if (pathologyId == null || jQuery.trim(pathologyId) == "") {
+//                    var selectId = document.getElementById("pathologyType");
+//                    //获取select下拉框中第一个值
+//                    pathologyId = selectId.options[0].value;
+//                    //获取select下拉框中第一个文本值
+//                    pathologyName = selectId.options[0].text;
+//
+//                }
+//                $.post('../hpinfo/userpathology', {
+//                    pathologyLibId: pathologyId,
+//                    pathologyLib: pathologyName
+//                }, function (data) {
+//                    $("#pathologyType").val(pathologyId);
+//                    layer.close(index);
+//                });
+//            }
         });
 
     }
@@ -583,10 +655,15 @@
         </div>
     </div>
 </menu:useMenuDisplayer>
-<div id="pathologyListContainer" style="display:none;alignment: center">
-    <div class="mainContent" style="text-align:center;">
-        <select id="pathologyList" onchange="union()">
-        </select>
+<%--<div id="pathologyListContainer" style="display:none;alignment: center">--%>
+    <%--<div class="mainContent" style="text-align:center;">--%>
+        <%--<select id="pathologyList" onchange="union()">--%>
+        <%--</select>--%>
+    <%--</div>--%>
+<%--</div>--%>
+<div style="display:none" id="pathologyListContainer">
+    <div class="col-xs-12 leftContent">
+        <table id="pathologyList1"></table>
     </div>
 </div>
 <div style="width:100%;float:left;height: 30px;background-color: #ffffff;padding-top:10px">

@@ -132,7 +132,7 @@ public class UpdateReportDataServiceImpl implements UpdateReportDataService {
     @Override
     public void updateSts(PimsPathologySample sample) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" update from Report_Result_NewSystem set report_status = '已打印',isprint = 2  where check_id = '"+sample.getSampathologycode()+"' and sample_id = '"+
+        sb.append(" update Report_Result_NewSystem set report_status = '已打印',isprint = 2  where check_id = '"+sample.getSampathologycode()+"' and sample_id = '"+
                 sample.getSaminspectionid()+"'");
         jdbcTemplate.execute(sb.toString());
     }

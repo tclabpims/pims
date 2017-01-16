@@ -552,6 +552,7 @@ $(function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
     var clientHeight = $(window).innerHeight();
+    var listwidth = $("#searchcontent").width();
 //    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150 - $('#yizhuleixin').height();
      var height =$("#diagnosis").height()  - $(".widget-box.widget-color-green.ui-sortable-handle").height()-41-35-250;
      if(height < 340){
@@ -561,6 +562,7 @@ $(function () {
          setTimeout(function(){
             height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
             $("#sectionList").setGridHeight(height);
+             $("#sectionList").setGridWidth(listwidth,true);
          },400);
          if(height < 340){
              height = 340;
@@ -619,6 +621,7 @@ $(function () {
         altRows: true,
         multiselect:true,
         height: height,
+        width:listwidth,
         rowNum: 100,
         rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号

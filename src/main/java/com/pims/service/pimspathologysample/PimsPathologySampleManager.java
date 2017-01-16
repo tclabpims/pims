@@ -137,4 +137,11 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
     //List<PimsSysColor> getColor2();
 
     boolean updatebgjStates(Pdfinfo pi);
+
+    /**
+     * 反推标本状态
+     * @param sample
+     * @return
+     */
+    int agoStates(PimsPathologySample sample);
 }

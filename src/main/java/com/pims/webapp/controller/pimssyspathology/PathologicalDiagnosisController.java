@@ -720,11 +720,13 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     @ResponseBody
     public void saveSign(HttpServletRequest request, HttpServletResponse response) throws Exception {
         PimsPathologySample sample = (PimsPathologySample) setBeanProperty(request, PimsPathologySample.class);
-        if (sample.getSaminitiallyuserid() != null && !"".equals(sample.getSaminitiallyuserid())) {
-            sample.setSamsamplestatus(Constants.SAMPLE_STATUS_INITIAL_DIAGNOSIS);
-        }
         if (sample.getSamauditerid() != null && !"".equals(sample.getSamauditerid())) {
             sample.setSamsamplestatus(Constants.SAMPLE_STATUS_AUDIT);
+        }else if (sample.getSaminitiallyuserid() != null && !"".equals(sample.getSaminitiallyuserid())) {
+            sample.setSamsamplestatus(Constants.SAMPLE_STATUS_INITIAL_DIAGNOSIS);
+        }else{
+            int stat = pimsPathologySampleManager.agoStates(sample);
+            sample.setSamsamplestatus(stat);
         }
         String f = request.getParameter("states");
         if(f.equals("4")){

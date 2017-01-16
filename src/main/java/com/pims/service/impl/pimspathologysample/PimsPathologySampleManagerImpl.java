@@ -90,7 +90,8 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
             sql.append("and p.sampatientname like '%"+patientName+"%' ");
         }
         if(from != null || to != null)
-            sql.append("and p.sampleid in (select pp.parsampleid from PIMS_PATHOLOGY_PARAFFIN pp where pp.parsectionedtime between :samplesectionfrom and  :samplesectionto)");
+//            sql.append("and p.sampleid in (select pp.parsampleid from PIMS_PATHOLOGY_PARAFFIN pp where pp.parsectionedtime between :samplesectionfrom and  :samplesectionto)");
+            sql.append("and (p.SAMREGISTTIME  between :samplesectionfrom and  :samplesectionto)");
     }
 
     @Override
@@ -287,5 +288,10 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     @Override
     public boolean updatebgjStates(Pdfinfo pi) {
         return pimsPathologySampleDao.updatebgjStates(pi);
+    }
+
+    @Override
+    public int agoStates(PimsPathologySample sample) {
+        return pimsPathologySampleDao.agoStates(sample);
     }
 }

@@ -677,7 +677,7 @@ function startPrint(data) {
 	CreateDataBill(data);
 	//开始打印
 	// LODOP.PRINT();
-	LODOP.PREVIEW();
+	// LODOP.PREVIEW();
 }
 
 $(function () {

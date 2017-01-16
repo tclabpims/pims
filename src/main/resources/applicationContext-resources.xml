@@ -69,7 +69,7 @@
     <bean id="dataSource-z2" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <!--<property name="url" value="jdbc:sqlserver://10.31.96.37:1433;DatabaseName=tsdb_pathology" />-->
+        <property name="url" value="jdbc:sqlserver://10.31.96.37:1433;DatabaseName=tsdb_pathology" />
         <property name="username" value="sa" />
         <property name="password" value="Abc123" />
     </bean>

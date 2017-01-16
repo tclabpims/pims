@@ -344,7 +344,9 @@ $(function () {
     });
 //    var clientHeight = $(window).innerHeight();
 //    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
-           var height =$("#diagnosis").height()  - $(".widget-box.widget-color-green.ui-sortable-handle").height()-41-35;
+    var listwidth = $("#searchcontent").width();
+
+    var height =$("#diagnosis").height()  - $(".widget-box.widget-color-green.ui-sortable-handle").height()-41-35;
            if(height < 340){
                height = 340;
            }
@@ -406,6 +408,7 @@ $(function () {
         shrinkToFit: true,
         altRows: true,
         height: height,
+        width:listwidth,
         rowNum: 10,
         multiselect:true,
         rowList: [10, 20, 30],

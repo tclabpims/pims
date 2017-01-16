@@ -115,7 +115,7 @@ function saveYJXB(rowData, patClass) {
             resviewtype: "other",
             restestresult: conclusions.join(","),
             restestitemid: 0,
-            resviewtitle: $("#c35").is(":checked") ? $("#s1").val() : "",
+            resviewtitle: $("#c35").is(":checked") ? $("#s1").val() : "111",
             resviewsort: "0",
             customerId: customerId,
             resinputsort: "textarea0",
@@ -125,7 +125,7 @@ function saveYJXB(rowData, patClass) {
         for (var i = 0; i <= 3; i++) {
             $("#textarea" + i).attr("hiddenValue", data["textarea" + i]);
         }
-        layer.alert('保存成功！');
+        // layer.alert('保存成功！');
     });
 }
 
@@ -221,6 +221,8 @@ function importImg() {
 }
 
 function viewDetail() {
+    var sampatientid = $("#sampatientid").val();
+    window.open("http://10.31.96.34/zwemr2/SysLogin.aspx?lcation=inside&gh=77004&ly=D&pid="+sampatientid+"&edt=N&gs=krd");
 
 }
 
@@ -334,10 +336,18 @@ function doctorSign(f) {
             result = false;
             layer.msg("该标本已审核无法修改初查签名!",{icon:2,time:1000});
         }
+        if(f == 2 && !($("#samauditerid").val() == null || $("#samauditerid").val() == "")){
+            result = false;
+            layer.msg("取消初查前请先撤销复核!",{icon:2,time:1000});
+        }
     }else if(f == 3 || f == 4 ){//复核签名，复核取消
         if($("#samauditerid").val() != "" && $("#samauditerid").val() != $("#local_userid").val()){
             result = false;
             layer.msg("您无权修改其他医生的复核签名!",{icon:2,time:1000});
+        }
+        if(f == 3 && ($("#saminitiallyuserid").val() == null || $("#saminitiallyuserid").val() == "")){
+            result = false;
+            layer.msg("请初查后再行复核!",{icon:2,time:1000});
         }
         // else if(rowData.sampathologystatus > 3){
         //     result = false;
@@ -350,42 +360,42 @@ function doctorSign(f) {
         return;
     }
     if(result){
-        if (f == 1 || f == 3 || (f == 0 && reportTime != '')) {
-            $.get("../diagnosis/signdoctor", {}, function (data) {
-                if (f == 1) {
-                    // if($("#saminitiallyuserid").val() != ""){
-                    //     layer.msg("已初查，无需再次初查!",{icon:2,time:1000});
-                    //     return;
-                    // }
-                    $("#saminitiallyusername").val(data.name);
-                    $("#saminitiallytime").val(data.time);
-                    $("#saminitiallyuserid").val(data.id);
-                } else if (f == 3) {
-                    // if($("#samauditerid").val() != ""){
-                    //     layer.msg("已复核，无需再次复核!",{icon:2,time:1000});
-                    //     return;
-                    // }
-                    $("#samauditer").val(data.name);
-                    $("#samauditedtime").val(data.time);
-                    $("#samauditerid").val(data.id);
-                } else {
-                    $("#samreportor").val(data.name);
-                    $("#samreportorid").val(data.id);
-                }
-            });
-        }
-
-        if (f == 2 || f == 4) {
-            if (f == 2) {
-                $("#saminitiallyusername").val('');
-                $("#saminitiallytime").val('');
-                $("#saminitiallyuserid").val('');
-            } else {
-                $("#samauditer").val('');
-                $("#samauditedtime").val('');
-                $("#samauditerid").val('');
-            }
-        }
+        // if (f == 1 || f == 3 ) {
+        //     $.get("../diagnosis/signdoctor", {}, function (data) {
+        //         if (f == 1) {
+        //             // if($("#saminitiallyuserid").val() != ""){
+        //             //     layer.msg("已初查，无需再次初查!",{icon:2,time:1000});
+        //             //     return;
+        //             // }
+        //             $("#saminitiallyusername").val(data.name);
+        //             $("#saminitiallytime").val(data.time);
+        //             $("#saminitiallyuserid").val(data.id);
+        //         } else if (f == 3) {
+        //             // if($("#samauditerid").val() != ""){
+        //             //     layer.msg("已复核，无需再次复核!",{icon:2,time:1000});
+        //             //     return;
+        //             // }
+        //             $("#samauditer").val(data.name);
+        //             $("#samauditedtime").val(data.time);
+        //             $("#samauditerid").val(data.id);
+        //         } else {
+        //             $("#samreportor").val(data.name);
+        //             $("#samreportorid").val(data.id);
+        //         }
+        //     });
+        // }
+        //
+        // if (f == 2 || f == 4) {
+        //     if (f == 2) {
+        //         $("#saminitiallyusername").val('');
+        //         $("#saminitiallytime").val('');
+        //         $("#saminitiallyuserid").val('');
+        //     } else {
+        //         $("#samauditer").val('');
+        //         $("#samauditedtime").val('');
+        //         $("#samauditerid").val('');
+        //     }
+        // }
         var arr = new Array();
         var rowData = $("#sectionList").jqGrid('getRowData', crno);
         arr.push(rowData);
@@ -408,16 +418,6 @@ function doctorSign(f) {
                     }
                 });
         }else{
-            if(f==1){
-                $("#saminitiallyusername").val($("#local_username").val());
-                $("#saminitiallytime").val(CurentTime(new Date()));
-                $("#saminitiallyuserid").val($("#local_userid").val());
-            }
-            if(f == 3){
-                $("#samauditer").val($("#local_username").val());
-                $("#samauditedtime").val(CurentTime(new Date()));
-                $("#samauditerid").val($("#local_userid").val());
-            }
             saveSign(f);
         }
     }
@@ -434,6 +434,93 @@ function saveSign(f) {
     var patClass = rowData.patclass;
     if (patClass == 2) {
         saveYJXB(rowData, patClass);
+        if(rowData.samsamplestatus < 3 ){
+            layer.confirm('该标本未完全切片或未完全制片是否继续操作？', {icon: 2, title:'警告'}, function(index) {
+                if(f==1){
+                    $("#saminitiallyusername").val($("#local_username").val());
+                    $("#saminitiallytime").val(CurentTime(new Date()));
+                    $("#saminitiallyuserid").val($("#local_userid").val());
+                }
+                if(f == 3){
+                    $("#samauditer").val($("#local_username").val());
+                    $("#samauditedtime").val(CurentTime(new Date()));
+                    $("#samauditerid").val($("#local_userid").val());
+                }
+                if (f == 2 || f == 4) {
+                    if (f == 2) {
+                        $("#saminitiallyusername").val('');
+                        $("#saminitiallytime").val('');
+                        $("#saminitiallyuserid").val('');
+                    } else {
+                        $("#samauditer").val('');
+                        $("#samauditedtime").val('');
+                        $("#samauditerid").val('');
+                    }
+                }
+
+                $.post('../diagnosis/saveSign', {
+                    sampleid: rowData.sampleid,
+                    saminitiallytime: $("#saminitiallytime").val(),
+                    saminitiallyuserid: $("#saminitiallyuserid").val(),
+                    saminitiallyusername: $("#saminitiallyusername").val(),
+                    samauditedtime: $("#samauditedtime").val(),
+                    samauditerid: $("#samauditerid").val(),
+                    samauditer: $("#samauditer").val(),
+                    samreportedtime: $("#samreportedtime").val(),
+                    samreportorid: $("#samreportorid").val(),
+                    samreportor: $("#samreportor").val(),
+                    states:f
+                }, function (data) {
+                    layer.msg('保存成功！', {icon: 1, time: 1000});
+                    MMMROW = crno;
+                    scrotop = $("#sectionList").parent().parent().scrollTop();
+                    query();
+                });
+            });
+        }else{
+
+            if(f==1){
+                $("#saminitiallyusername").val($("#local_username").val());
+                $("#saminitiallytime").val(CurentTime(new Date()));
+                $("#saminitiallyuserid").val($("#local_userid").val());
+            }
+            if(f == 3){
+                $("#samauditer").val($("#local_username").val());
+                $("#samauditedtime").val(CurentTime(new Date()));
+                $("#samauditerid").val($("#local_userid").val());
+            }
+            if (f == 2 || f == 4) {
+                if (f == 2) {
+                    $("#saminitiallyusername").val('');
+                    $("#saminitiallytime").val('');
+                    $("#saminitiallyuserid").val('');
+                } else {
+                    $("#samauditer").val('');
+                    $("#samauditedtime").val('');
+                    $("#samauditerid").val('');
+                }
+            }
+
+
+            $.post('../diagnosis/saveSign', {
+                sampleid: rowData.sampleid,
+                saminitiallytime: $("#saminitiallytime").val(),
+                saminitiallyuserid: $("#saminitiallyuserid").val(),
+                saminitiallyusername: $("#saminitiallyusername").val(),
+                samauditedtime: $("#samauditedtime").val(),
+                samauditerid: $("#samauditerid").val(),
+                samauditer: $("#samauditer").val(),
+                samreportedtime: $("#samreportedtime").val(),
+                samreportorid: $("#samreportorid").val(),
+                samreportor: $("#samreportor").val(),
+                states:f
+            }, function (data) {
+                layer.msg('保存成功！', {icon: 1, time: 1000});
+                MMMROW = crno;
+                scrotop = $("#sectionList").parent().parent().scrollTop();
+                query();
+            });
+        }
         return;
     }
     var customerId = rowData.samcustomerid;
@@ -483,6 +570,28 @@ function saveSign(f) {
     }else{
         if(rowData.samsamplestatus < 3 ){
             layer.confirm('该标本未完全切片或未完全制片是否继续操作？', {icon: 2, title:'警告'}, function(index) {
+                if(f==1){
+                    $("#saminitiallyusername").val($("#local_username").val());
+                    $("#saminitiallytime").val(CurentTime(new Date()));
+                    $("#saminitiallyuserid").val($("#local_userid").val());
+                }
+                if(f == 3){
+                    $("#samauditer").val($("#local_username").val());
+                    $("#samauditedtime").val(CurentTime(new Date()));
+                    $("#samauditerid").val($("#local_userid").val());
+                }
+                if (f == 2 || f == 4) {
+                    if (f == 2) {
+                        $("#saminitiallyusername").val('');
+                        $("#saminitiallytime").val('');
+                        $("#saminitiallyuserid").val('');
+                    } else {
+                        $("#samauditer").val('');
+                        $("#samauditedtime").val('');
+                        $("#samauditerid").val('');
+                    }
+                }
+
                 $.post('../diagnosis/saveSign', {
                     sampleid: rowData.sampleid,
                     saminitiallytime: $("#saminitiallytime").val(),
@@ -493,7 +602,8 @@ function saveSign(f) {
                     samauditer: $("#samauditer").val(),
                     samreportedtime: $("#samreportedtime").val(),
                     samreportorid: $("#samreportorid").val(),
-                    samreportor: $("#samreportor").val()
+                    samreportor: $("#samreportor").val(),
+                    states:f
                 }, function (data) {
                     layer.msg('保存成功！', {icon: 1, time: 1000});
                     MMMROW = crno;
@@ -502,6 +612,30 @@ function saveSign(f) {
                 });
             });
         }else{
+
+            if(f==1){
+                $("#saminitiallyusername").val($("#local_username").val());
+                $("#saminitiallytime").val(CurentTime(new Date()));
+                $("#saminitiallyuserid").val($("#local_userid").val());
+            }
+            if(f == 3){
+                $("#samauditer").val($("#local_username").val());
+                $("#samauditedtime").val(CurentTime(new Date()));
+                $("#samauditerid").val($("#local_userid").val());
+            }
+            if (f == 2 || f == 4) {
+                if (f == 2) {
+                    $("#saminitiallyusername").val('');
+                    $("#saminitiallytime").val('');
+                    $("#saminitiallyuserid").val('');
+                } else {
+                    $("#samauditer").val('');
+                    $("#samauditedtime").val('');
+                    $("#samauditerid").val('');
+                }
+            }
+
+
             $.post('../diagnosis/saveSign', {
                 sampleid: rowData.sampleid,
                 saminitiallytime: $("#saminitiallytime").val(),
@@ -780,14 +914,22 @@ function yjfullScreen() {
 function getItemInfo(v) {
     $("#ckItemList").jqGrid('clearGridData');
     if (v == null || v == "") return;
-    $.get("../package/testitems", {packageId: v}, function (data) {
-        var ret = data.rows;
-        if (ret != null && ret.length > 0) {
-            for (var i = 0; i < ret.length; i++) {
-                $("#ckItemList").jqGrid("addRowData", i, ret[i]);
-            }
-        }
-    })
+    jQuery("#ckItemList").jqGrid('setGridParam',{
+        url: "/package/testitems",
+        //发送数据
+        postData : {packageId: v}
+    }).trigger('reloadGrid');//重新载入
+    // $.get("../package/testitems", {packageId: v}, function (data) {
+    //     var ret = data.rows;
+    //     if (ret != null && ret.length > 0) {
+    //         var selectinfo = "<button onclick=\"appendItem()\">追加</button>";
+    //         for (var i = 0; i < ret.length; i++) {
+    //             $("#ckItemList").jqGrid("addRowData", i+1, ret[i]);
+    //             // jQuery("#ckItemList").jqGrid('setRowData', ret[i], { append: selectinfo, testitemid: ret[i].testitemid
+    //             //     , teschinesename: ret[i].teschinesename, tesenglishname: ret[i].tesenglishname, tesischarge: ret[i].tesischarge });
+    //         }
+    //     }
+    // })
 }
 
 function getPackageItems(pid) {
@@ -970,6 +1112,7 @@ function getSampleData1(id) {
             $("#sampathologycode").val(data.sampathologycode);//病理编号 11
             $("#sampatientnumber").val(data.sampatientnumber);//住院卡号/门诊卡号 11
             $("#sampatientname").val(data.sampatientname);//姓名 11
+            $("#sampatientid").val(data.sampatientid);//病案号
             var tt = data.sampatientsex;
             if (tt == 1)
                 $("#sampatientgender").val("男");//患者性别(1男,2女,3未知) 11
@@ -1434,6 +1577,9 @@ function print11(strHtml,sampleid) {
             //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
             // LODOP.PREVIEW();
             LODOP.PRINT();
+            MMMROW = crno;
+            scrotop = $("#sectionList").parent().parent().scrollTop();
+            query();
         }
     });
 }
@@ -1479,6 +1625,9 @@ function printList() {
                     }
                 });
             }
+            MMMROW = crno;
+            scrotop = $("#sectionList").parent().parent().scrollTop();
+            query();
         });
     }
 }
@@ -1558,7 +1707,7 @@ function removeItems() {
             for (var j = 0; j < lkrows.length; j++) {
                 var row = $("#lkItemList").jqGrid("getRowData", lkrows[j]);
                 if (itemrow.lkno == row.lkno) {
-                    if (orderType_ == "CHONGQIE" || orderType_ == "SHENQIE")row.totalItem = 0;
+                    if (orderType == "CHONGQIE" || orderType == "SHENQIE")row.totalItem = 0;
                     else {
                         row.totalItem = parseInt(row.totalItem) - 1;
                     }
@@ -2078,6 +2227,7 @@ $(function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
     var clientHeight = $(window).innerHeight();
+    var listwidth = $("#searchcotent").width();
 //    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
         var height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41+65;
         $("body").click(function(){
@@ -2155,6 +2305,7 @@ $(function () {
         shrinkToFit: true,
         altRows: true,
         height: height,
+        width:listwidth,
         rowNum: 500,
         rowList:[500,1000,1500],
         rownumbers: true, // 显示行号
@@ -2317,7 +2468,7 @@ $(function () {
         width: 300,
         colNames: ['追加', 'testitemid', '项目名称', '英文名称', 'tesischarge'],
         colModel: [
-            {name: 'append', index: 'append', formatter: buttonFormat},
+            {name: 'append', index: 'append', formatter: buttonFormat,width:20},
             {name: 'testitemid', index: 'testitemid', hidden: true},
             {name: 'teschinesename', index: 'teschinesename', width: 35},
             {name: 'tesenglishname', index: 'tesenglishname', width: 35},
@@ -2326,7 +2477,7 @@ $(function () {
         loadComplete: function () {
             var table = this;
             setTimeout(function () {
-                //updatePagerIcons(table);
+                updatePagerIcons(table);
             }, 0);
         },
         ondblClickRow: function (id) {

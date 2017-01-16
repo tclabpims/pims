@@ -218,38 +218,91 @@ var clientHeight= $(window).innerHeight();
 	// createNew2();
 	$("#pager_left").remove();
 	//巨检描述
-	$("#jjsj").autocomplete({
-		source: function( request, response ) {
-			$.ajax({
-				url: "../template/ajax/item",
-				dataType: "json",
-				data: {
-					name : request.term,//名称
-					sampathologyid:$("#sampathologyid").val()//病种类别
-				},
-				success: function( data ) {
-					response( $.map( data, function( result ) {
-						return {
-							label: result.id + " : " + result.name,
-							value: result.name,
-							id : result.id
-						}
-					}));
+	// $("#jjsj").autocomplete({
+	// 	source: function( request, response ) {
+	// 		$.ajax({
+	// 			url: "../template/ajax/item",
+	// 			dataType: "json",
+	// 			data: {
+	// 				name : request.term,//名称
+	// 				sampathologyid:$("#sampathologyid").val()//病种类别
+	// 			},
+	// 			success: function( data ) {
+	// 				response( $.map( data, function( result ) {
+	// 					return {
+	// 						label: result.id + " : " + result.name,
+	// 						value: result.name,
+	// 						id : result.id
+	// 					}
+	// 				}));
+	// 			}
+	// 		});
+	// 	},
+	// 	minLength: 0,
+	// 	select: function( event, ui ) {
+	// 		$( "#jjsj" ).val(ui.item.id);
+	// 		$( "#samjjsj" ).val(ui.item.value);
+	// 		//return false;
+	// 	}
+	// })
+	// 	.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+	// 	return $( "<li>" )
+	// 		.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
+	// 		.appendTo( ul );
+	// };
+
+	$("#templateList").jqGrid({
+		caption: "病理模板",
+		width: 790,
+		colNames: ['关键字', '内容'],
+		colModel: [
+			{name: 'temkey', index: 'temkey', width: 50},
+			{name: 'temcontent', index: 'temcontent', width: 300}
+		],
+		loadComplete: function () {
+			var table = this;
+			setTimeout(function () {
+				updatePagerIcons(table);
+			}, 0);
+			layer.open({
+				type: 1,
+				area: ['800px', '500px'],
+				fix: false, //不固定
+				maxmin: true,
+				shade: 0.5,
+				title: "模板",
+				content: $('#templateGrid'),
+				btn: ["确定", "取消"],
+				yes: function (index, layero) {
+					var id = $('#templateList').jqGrid('getGridParam', 'selrow');
+					if (id == null || id.length == 0) {
+						layer.msg('请先选择病种模板', {icon: 2, time: 1000});
+						return false;
+					}
+					var rowData = $("#templateList").jqGrid('getRowData', id);
+					$("#samjjsj").val(rowData.temcontent);
+					layer.close(index);
 				}
-			});
+			})
 		},
-		minLength: 0,
-		select: function( event, ui ) {
-			$( "#jjsj" ).val(ui.item.id);
-			$( "#samjjsj" ).val(ui.item.value);
-			//return false;
+		ondblClickRow: function (id,index) {
+			var rowData = $("#templateList").jqGrid('getRowData', id);
+			$("#samjjsj").val(rowData.temcontent);
+			layer.close(index);
+		},
+		viewrecords: true,
+		shrinkToFit: true,
+		altRows: true,
+		height: height,
+		rowNum: 100,
+		rowList:[100,200,300,400,500],
+		rownumbers: true, // 显示行号
+		rownumWidth: 35, // the width of the row numbers columns
+		pager: "#templatePager",
+		onSelectRow: function (id) {
+
 		}
-	})
-		.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-		return $( "<li>" )
-			.append( "<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value+ "</a>" )
-			.appendTo( ul );
-	};
+	});
 });
 /**
  * 初始化材块列表
@@ -789,6 +842,21 @@ function startPrint(data) {
 	//开始打印
 	// LODOP.PRINT();
 	LODOP.PREVIEW();
+}
+
+function showTemplate(v, target) {
+	targetTextareaId = target;
+	var a = $(function () {
+		jQuery("#templateList").jqGrid('setGridParam', {
+			url: "../diagnosis/getpathologytemp",
+			mtype: "GET",
+			datatype: "json",
+			postData: {
+				"type": v
+			},
+			page: 1
+		}).trigger('reloadGrid');//重新载入
+	})
 }
 
 

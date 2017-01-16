@@ -83,9 +83,9 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         StringBuffer sb = new StringBuffer();
         sb.append(" from PimsPathologyPieces,PimsPathologySample where piesampleid = sampleid and piestate > 0 ");
         getSearchSql(sb,map);
-        if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("1")){
-            sb.append(" and exists (select 1 from PimsPathologyParaffin where pieparaffinid = paraffinid and parissectioned = 0) ");
-        }
+//        if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("1")){
+//            sb.append(" and exists (select 1 from PimsPathologyParaffin where pieparaffinid = paraffinid and parissectioned = 0) ");
+//        }
         String orderby = (map.getSidx()==null|| map.getSidx().trim().equals(""))?"piecode":map.getSidx();
         sb.append(" order by  length(piecode) asc ," + orderby + " " +map.getSord());
         return pagingList(sb.toString(),map.getStart(),map.getEnd(),map.getReq_bf_time(),map.getReq_af_time());
@@ -101,9 +101,9 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
         StringBuffer sb = new StringBuffer();
         sb.append(" select count(1) from pims_pathology_pieces,pims_pathology_sample where piesampleid = sampleid and piestate > 0  ");
         getSearchSql(sb,map);
-        if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("1")){
-            sb.append(" and exists (select 1 from Pims_Pathology_Paraffin where pieparaffinid = paraffinid and parissectioned = 0) ");
-        }
+//        if(!StringUtils.isEmpty(map.getReq_sts()) && map.getReq_sts().equals("1")){
+//            sb.append(" and exists (select 1 from Pims_Pathology_Paraffin where pieparaffinid = paraffinid and parissectioned = 0) ");
+//        }
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time()).intValue();
     }
 

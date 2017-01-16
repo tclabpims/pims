@@ -719,5 +719,39 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         query.executeUpdate();
         return true;
     }
+
+    @Override
+    public int agoStates(PimsPathologySample sample) {
+        int result  = 0;
+        StringBuffer sb = new StringBuffer();
+        //查询是否有取材
+        sb.append(" SELECT COUNT(1) FROM PIMS_PATHOLOGY_PIECES S WHERE S.PIESAMPLEID=" + sample.getSampleid());
+        int piecenums = countTotal(sb.toString());
+        result = piecenums;
+        if(piecenums > 0){
+            sb = new StringBuffer();
+            //查询是否完全取材
+            sb.append(" SELECT COUNT(1) FROM PIMS_PATHOLOGY_PIECES S WHERE S.PIESTATE = 0 AND S.PIESAMPLEID="+ sample.getSampleid());
+            piecenums = countTotal(sb.toString());
+            if(piecenums == 0){//完全取材
+                result += 1;
+                sb = new StringBuffer();
+                //查询是否包埋
+                sb.append(" SELECT COUNT(1) FROM PIMS_PATHOLOGY_PIECES S WHERE S.PIEISEMBED = 0 AND S.PIESAMPLEID="+ sample.getSampleid());
+                piecenums = countTotal(sb.toString());
+                if(piecenums == 0){//完全包埋
+                    result += 1;
+                    sb = new StringBuffer();
+                    //查询是否完全切片
+                    sb.append(" SELECT COUNT(1) FROM PIMS_PATHOLOGY_PARAFFIN S WHERE S.PARISSECTIONED = 0 AND S.PARSAMPLEID="+ sample.getSampleid());
+                    piecenums = countTotal(sb.toString());
+                    if(piecenums == 0){
+                        result += 1;
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }
 
