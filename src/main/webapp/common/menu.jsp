@@ -30,7 +30,7 @@
                 } else {
                     layer.open({
                         type: 1,
-                        area: ['215px', '420px'],
+                        area: ['220px', '430px'],
                         fix: false, //不固定
                         maxmin: false,
                         shade: 0.6,
@@ -193,7 +193,7 @@
     function changePathol(){
         layer.open({
             type: 1,
-            area: ['230px', '420px'],
+            area: ['250px', '440px'],
             fix: false, //不固定
             maxmin: false,
             shade: 0.6,
@@ -662,7 +662,7 @@
     <%--</div>--%>
 <%--</div>--%>
 <div style="display:none" id="pathologyListContainer">
-    <div class="col-xs-12 leftContent">
+    <div class="col-xs-12">
         <table id="pathologyList1"></table>
     </div>
 </div>

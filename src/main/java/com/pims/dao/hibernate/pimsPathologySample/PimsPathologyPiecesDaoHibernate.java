@@ -165,9 +165,15 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         if(map == null || StringUtils.isEmpty(String.valueOf(map.getSampleid()))){
             return false;
         }else{
+            PimsPathologySample sample = pimsPathologyPiecesManager.getBySampleNo(map.getSampleid());
             StringBuffer sb = new StringBuffer();
-            sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
-                    ", samsamplestatus = "+ sts +",samjjsj='"+(StringUtils.isEmpty(map.getSamjjsj())?"":map.getSamjjsj())+"'  where sampleid = "+map.getSampleid());
+            if(sample.getSamsamplestatus() > 1){
+                sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
+                        ", samsamplestatus = "+ sample.getSamsamplestatus() +",samjjsj='"+(StringUtils.isEmpty(map.getSamjjsj())?"":map.getSamjjsj())+"'  where sampleid = "+map.getSampleid());
+            }else{
+                sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
+                        ", samsamplestatus = "+ sts +",samjjsj='"+(StringUtils.isEmpty(map.getSamjjsj())?"":map.getSamjjsj())+"'  where sampleid = "+map.getSampleid());
+            }
             getSession().createSQLQuery(sb.toString()).executeUpdate();
             return true;
         }

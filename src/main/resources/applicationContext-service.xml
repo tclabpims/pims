@@ -31,9 +31,9 @@
         <task:scheduled ref="reagentOutCount" method="run" cron="0 0 6 * * ?"/>
 	</task:scheduled-tasks>
     <!--&lt;!&ndash; 同步更新报告机已打印单据,每5分钟同步一次&ndash;&gt;-->
-    <task:scheduled-tasks>
-        <task:scheduled ref="updatepdfstates" method="run" cron="0 0/5 * * * ?"/>
-    </task:scheduled-tasks>
+    <!--<task:scheduled-tasks>-->
+        <!--<task:scheduled ref="updatepdfstates" method="run" cron="0 0/5 * * * ?"/>-->
+    <!--</task:scheduled-tasks>-->
 
     <!-- Activates scanning of @Autowired -->
     <context:annotation-config/>

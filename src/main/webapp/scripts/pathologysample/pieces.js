@@ -172,7 +172,7 @@ var clientHeight= $(window).innerHeight();
 		colModel: [
 			{name:'sampleid',hidden:true},
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", align:"center",
-				editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中:8:报告已打印"}},
+				editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊;8:已打印"}},
 			{ name: 'sampathologycode', index: 'sampathologycode',align:"center"},
 			{ name: 'sampatientname', index: 'sampatientname',align:"center"},
 			{ name: 'samsenddoctorname', index: 'samsenddoctorname',align:"center"},
