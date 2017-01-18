@@ -217,6 +217,15 @@
                     </div>
                 </div>
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                    <label class="col-xs-3 control-label no-padding-right" for="patuseflag"> 是否包埋</label>
+                    <div class="col-xs-8">
+                        <select type="text" id="patfirstn" name="patfirstn" class="col-xs-2">
+                            <option value="0">是</option>
+                            <option value="1">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="patclass"> 病种分类</label>
                     <div class="col-xs-8">
                         <select type="text" id="patclass" name="patclass" class="col-xs-4">

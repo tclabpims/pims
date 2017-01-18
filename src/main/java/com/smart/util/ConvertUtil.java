@@ -143,8 +143,8 @@ public final class ConvertUtil {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(v);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            return simpleDateFormat.format(calendar.getTime());
+//            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return simpleDateFormat.format(v);
         } catch (Exception ex) {
             return "";
         }

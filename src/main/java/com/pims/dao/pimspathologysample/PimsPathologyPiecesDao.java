@@ -82,4 +82,7 @@ public interface PimsPathologyPiecesDao extends GenericDao<PimsPathologyPieces,L
      * @return
      */
     JSONArray getSlideCode(JSONArray samplesList);
+
+    String getMinTime(Long sampleid);
+
 }

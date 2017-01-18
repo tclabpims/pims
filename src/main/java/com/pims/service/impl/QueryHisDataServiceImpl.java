@@ -111,7 +111,7 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 "a.ryzdmc as lczd,a.brdwmc as commpany,a.brsfzh as id_cardno,a.brjtdz as patient_address,a.brlxdh as phone_no, " +
                 "a.brlbid as chargr_type from v_hsbbi_recordhome a where  a.brzyzt > 1 and  (a.brdabh = '"+query+"' or a.brjzhm = '"+query+"')"+
                 "union all "+
-                "select c.SQMXID as key_no, c.BRSQHM as patient_id,sqjlid as inpatient_id,c.XINGMING as patient_name, " +
+                "select c.SQMXID as key_no, c.TIJIANBM as patient_id,sqjlid as inpatient_id,c.XINGMING as patient_name, " +
                 " c.XINGBIE as patient_sex,c.CHUSHENGRQ as patient_birth,'' as patient_age,'岁' as patient_age_type, " +
                 " '' as patient_nation,'3' as patient_type,c.SONGJIANKSDM as patient_dept,  " +
                 " c.SONGJIANKSMC as patient_dept_name,c.SONGJIANKSDM as patient_ward,c.SONGJIANKSMC patient_ward_name, '' as patient_bed, " +
@@ -340,7 +340,7 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
         }else if(agetype == 6){
             ageString = "小时";
         }
-        String reportUrl = Config.getString("report.path", "") + "&patienttype=" + mode + "&patientid=" + sample.getSaminpatientid() + "&sampleid=" + sample.getSaminspectionid();
+        String reportUrl = Config.getString("report.path", "") + "&patienttype=" + sample.getSampatienttype() + "&patientid=" + sample.getSaminpatientid() + "&sampleid=" + sample.getSaminspectionid();
         reportUrl = reportUrl.replaceAll("&","'|| chr(38) ||'");
         StringBuffer sb = new StringBuffer();
         sb.append("insert into DI_LABSAMPLEINFO (" +
@@ -372,6 +372,7 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 "YBJGSJ," +//样本结果时间
                 "JCMDDM," +//检查目的代码
                 "JCMDMC," +//检查目的名称
+                "JGLJDZ"+//地址
                 "JGBZSM," +//报告预览地址
                 "SFBLPB," +//是否病理判别
                 "YBZDNR," +//样本诊断内容
@@ -405,6 +406,7 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 "TO_DATE('"+ConvertUtil.getFormatDateGMT(sample.getSamreportedtime(), null)+"','YYYY-MM-DD HH24:MI:SS')," +//样本结果时间
                 "'"+sample.getSampathologyid()+"'," +//检查目的代码
                 "'"+psp.getPatnamech()+"'," +//检查目的名称
+                "'"+reportUrl+"',"+//地址
                 "'"+ reportUrl+"'," +//报告预览地址
                 "1," +//是否病理判别 int
                 "'"+zdjg+"'," +//样本诊断内容

@@ -753,5 +753,50 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         }
         return result;
     }
+
+    @Override
+    public List<PimsPathologySample> queryHisSample(Long sampleid, GridQuery gridQuery) {
+        StringBuffer sql = new StringBuffer("select p.sampleid,p.sampathologycode,p.samcustomerid,p.sampathologyid,p.samsenddoctorname," +
+                "p.samreportorid,p.samauditerid,p.saminitiallyuserid,sp.patclass,p.samsamplestatus,p.sampatientname from PIMS_PATHOLOGY_SAMPLE p, " +
+                "Pims_Sys_Pathology sp where p.SamPathologyId=sp.pathologyid and (p.SAMPATIENTID,p.SAMPATIENTNAME) IN " +
+                "(SELECT SAMPATIENTID,SAMPATIENTNAME FROM PIMS_PATHOLOGY_SAMPLE WHERE SAMPLEID = "+sampleid+") " +
+                "AND p.SAMISDELETED = 0 AND p.SAMPLEID <>"+ sampleid);
+        sql.append(" order by p.sampathologycode asc");
+        SQLQuery query = getSession().createSQLQuery(sql.toString());
+        query.setFirstResult(gridQuery.getStart());
+        query.setMaxResults(gridQuery.getEnd());
+        List<PimsPathologySample> ret = new ArrayList<>();
+        List lis = query.list();
+        if(lis.size() > 0) {
+            for(Object obj : lis) {
+                Object[] objects = (Object[])obj;
+                PimsPathologySample pps = new PimsPathologySample();
+                pps.setSampleid(((BigDecimal)objects[0]).longValue());
+                pps.setSampathologycode((String)objects[1]);
+                pps.setSamcustomerid(((BigDecimal)objects[2]).longValue());
+                pps.setSampathologyid(((BigDecimal)objects[3]).longValue());
+                pps.setSamsenddoctorname((String)objects[4]);
+                pps.setSamreportorid((String)objects[5]);
+                pps.setSamauditerid((String)objects[6]);
+                pps.setSaminitiallyuserid((String)objects[7]);
+                pps.setPatclass((String)objects[8]);
+                pps.setSamsamplestatus(((BigDecimal) objects[9]).longValue());
+                pps.setSampathologystatus(pps.pathologyStatus());
+                pps.setSampatientname((String)objects[10]);
+                ret.add(pps);
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    public Integer queryHisSampleNum(Long sampleid) {
+        StringBuffer sql = new StringBuffer("select count(1) cnt from PIMS_PATHOLOGY_SAMPLE p "+
+                " WHERE (p.SAMPATIENTID,p.SAMPATIENTNAME) IN " +
+                        "(SELECT SAMPATIENTID,SAMPATIENTNAME FROM PIMS_PATHOLOGY_SAMPLE WHERE SAMPLEID = "+sampleid+") " +
+                        "AND p.SAMISDELETED = 0 AND p.SAMPLEID <>"+ sampleid);
+        SQLQuery query = getSession().createSQLQuery(sql.toString());
+        return ((BigDecimal)query.uniqueResult()).intValue();
+    }
 }
 

@@ -564,7 +564,7 @@ function saveSign(f) {
     //     layer.msg('标本已审核无法修改！', {icon: 2, time: 1000});
     //     return;
     // }else
-        if($("#binglizhenduan").length > 0 && $("#binglizhenduan").val() == "" && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
+    if($("#binglizhenduan").length > 0 && $("#binglizhenduan").val() == "" && !($("#saminitiallyusername").val() == "" && $("#samauditer").val() == "" )){
         layer.msg('该标本未填写诊断意见无法初查或复核！', {icon: 2, time: 1000});
         return;
     }else{
@@ -1128,19 +1128,8 @@ function getSampleData1(id) {
             $("#reqlastmenstruation").val(data.reqlastmenstruation);//末次月经时间 11
             $("#sampatientbed").val(data.sampatientbed);//患者床号
             $("#sampatientage").val(data.sampatientage);//患者床号
-            $("#samregisttime").val(CurentTime(new Date(data.samregisttime)));//患者床号
 
-            $.post("../pathologysample/pieces/getfristpiece", {id: id}, function (data1) {
-                $("#span_id3").text(data1.hisnum);
-                if(data1.qcsj != ""){
-                    $("#qcsj").val(CurentTime(new Date(data1.qcsj)));//取材时间
-                }else{
-                    $("#qcsj").val("");//取材时间
-                }
-            });
-
-
-                createOptions(data.pathologyid, data.patIsSampling, data.specialCheck);
+            createOptions(data.pathologyid, data.patIsSampling, data.specialCheck);
 
             var mills = data.saminitiallytime;
             var t1;
@@ -1284,14 +1273,6 @@ function getSamplePicures(sampleId) {
             datatype: 'json',
             postData: {"reqId": sampleId}
         }).trigger('reloadGrid');//重新载入
-
-        //重新加载历次病理诊断信息
-        jQuery("#materialList1").jqGrid("clearGridData");
-        jQuery("#materialList1").jqGrid('setGridParam', {
-            url: "../diagnosis/hisquery",
-            datatype: 'json',
-            postData: {"id": sampleId}
-        }).trigger('reloadGrid');//重新载入
     });
 }
 
@@ -1407,11 +1388,11 @@ function queryList1(userid,num) {
                 if(data.noreceiveid == "0"){
                     $("#noreceiveid").html("");
                 }else
-                $("#noreceiveid").html("("+data.noreceiveid+")");
+                    $("#noreceiveid").html("("+data.noreceiveid+")");
                 if(data.noauditid == "0"){
                     $("#noauditid").html("");
                 }else
-                $("#noauditid").html("("+data.noauditid+")");
+                    $("#noauditid").html("("+data.noauditid+")");
 
             }
         }
@@ -1445,13 +1426,13 @@ function query() {
     }
     $.get("../diagnosis/getpathnum",
         {"sampathologyid": sampathologyid,
-        "samplesectionfrom": samplesectionfrom,
-        "samplesectionto": samplesectionto,
-        "saminspectionid": saminspectionid,
-        "sampathologycode": sampathologycode,
-        "sampatientname": sampatientname,
-        "samfirstv": $("#reqsts").val(),
-        "sampiecedoctorid":$("#user_id").val()
+            "samplesectionfrom": samplesectionfrom,
+            "samplesectionto": samplesectionto,
+            "saminspectionid": saminspectionid,
+            "sampathologycode": sampathologycode,
+            "sampatientname": sampatientname,
+            "samfirstv": $("#reqsts").val(),
+            "sampiecedoctorid":$("#user_id").val()
         }, function (data) {
             if(data.success){
                 if(data.noreceiveid == "0"){
@@ -1511,82 +1492,6 @@ function print(url) {
         LODOP.PRINT();
     })
 }
-
-function reportView1(v, showPicNum, templateUrl,id) {
-    var rowData = $("#materialList1").jqGrid('getRowData', id);
-    var patClass = rowData.patclass;
-    var sampleIdss = rowData.sampleid;
-    $.get("../diagnosis/report/getTemplate", {"sampleid": sampleIdss}, function (data) {
-            var rows = data.rows;
-            if (rows.length > 0) {
-                $("#reportTemplateSelect").empty();
-                for (var i = 0; i < rows.length; i++) {
-                    $("#reportTemplateSelect").append("<option value='" + rows[i].formweburl + "' picNum='" + rows[i].formpicturenum + "'>" + rows[i].formname + "</option>");
-                }
-                var picNum = showPicNum == null ? $("#reportTemplateSelect").find("option:first").attr("picNum") : showPicNum;
-                var template = templateUrl == null ? $("#reportTemplateSelect").find("option:first").val() : templateUrl;
-                $.get("../diagnosis/report/print", {
-                    "sampleid": sampleIdss,
-                    "templateUrl": template,
-                    "type": v,
-                    "picpictureclass": 2,
-                    "patClass": patClass,
-                    "picNum": picNum
-                }, function (data) {
-                    if (v == 1) {
-                        var rptView = layer.open({
-                            type: 2,
-                            title: "报告单预览",
-                            area: ['854px', '600px'],
-                            btn: ["打印", "切换模板", "关闭"],
-                            maxmin: true,
-                            shade: 0.5,
-                            content: data.url,
-                            yes: function (index1, layero1) {
-                                // print(data.url);
-                                print11(data.writerString,data.sampleid);
-                                layer.close(index1);
-                            },
-                            btn2: function (index1, layero1) {
-                                layer.open(
-                                    {
-                                        type: 1,
-                                        area: ['300px', '150px'],
-                                        fix: false, //不固定
-                                        maxmin: true,
-                                        shade: 0.5,
-                                        title: "选择报告打印模板",
-                                        content: $('#reportTemplateList'),
-                                        btn: ["确定", "取消"],
-                                        yes: function (index2, layero2) {
-                                            var selectedPicNum = $("#reportTemplateSelect").find("option:selected").attr("picNum");
-                                            var template = $("#reportTemplateSelect").find("option:selected").val();
-                                            layer.close(index2);
-                                            layer.close(rptView);
-                                            reportView1(1, selectedPicNum, template,id);
-                                        }
-                                    });
-                                return false;
-                            },
-                            btn3: function (index1, layero1) {
-                                layer.close(index1);
-                            }
-                        });
-                        layer.full(rptView);
-                    } else {
-                        // print(data.url);
-                        print11(data.writerString);
-                    }
-                });
-            } else {
-                layer.alert("该病例关联的病种还没有设置报告模板，请设置后再操作！");
-            }
-        }
-    );
-}
-
-
-
 
 function reportView(v, showPicNum, templateUrl) {
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
@@ -2262,52 +2167,52 @@ function setSelectView(selectId) {
 function insertTable(patClass) {
     if (patClass == 7) {
         if($('#dnaTestTable').length == 0) {
-        var div1 = $('#diagnosisInfoForm').children('div');
-        if(div1.length > 0) {
-            var lastChild = div1[div1.length-1];
-            var str='<div id="dnaTestTable"><table width="80%" border="1" cellspacing="0" style="font-size: 12px">' +
-                '<tr>' +
-                '<td align="center" height="14px"><strong>HPV型组</strong></td>' +
-                '<td align="center"><strong>亚型</strong></td>' +
-                '<td align="center"><strong>结果</strong></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="left" height="14px">A5/A6</td>' +
-                '<td align="left">51,56,66</td>' +
-                '<td align="left">' +
-                '<Select id="A5A6Result" onchange="setSelectView(\'A5A6Result\')">' +
-                '<option></option>' +
-                '<option value="阴性" style="color:#000">阴性</option>' +
-                '<option value="阳性" style="color:red">阳性</option>' +
-                '</select>' +
-                '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="left" height="14px">A7</td>' +
-                '<td align="left">18,39,45,59,68</td>' +
-                '<td align="left">' +
-                '<Select id="A7Result" onchange="setSelectView(\'A7Result\')">' +
-                '<option></option>' +
-                '<option value="阴性" style="color:#000">阴性</option>' +
-                '<option value="阳性" style="color:red">阳性</option>' +
-                '</select>' +
-                '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="left" height="14px">A9</td>' +
-                '<td align="left">16,31,33,35,52,58</td>' +
-                '<td align="left">' +
-                '<Select id="A9Result" onchange="setSelectView(\'A9Result\')">' +
-                '<option></option>' +
-                '<option value="阴性" style="color:#000">阴性</option>' +
-                '<option value="阳性" style="color:red">阳性</option>' +
-                '</select>' +
-                '</td>' +
-                '</tr>' +
-                '</table>' +
-                '</div>';
-            $(str).insertBefore(lastChild);
-        }
+            var div1 = $('#diagnosisInfoForm').children('div');
+            if(div1.length > 0) {
+                var lastChild = div1[div1.length-1];
+                var str='<div id="dnaTestTable"><table width="80%" border="1" cellspacing="0" style="font-size: 12px">' +
+                    '<tr>' +
+                    '<td align="center" height="14px"><strong>HPV型组</strong></td>' +
+                    '<td align="center"><strong>亚型</strong></td>' +
+                    '<td align="center"><strong>结果</strong></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="left" height="14px">A5/A6</td>' +
+                    '<td align="left">51,56,66</td>' +
+                    '<td align="left">' +
+                    '<Select id="A5A6Result" onchange="setSelectView(\'A5A6Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="left" height="14px">A7</td>' +
+                    '<td align="left">18,39,45,59,68</td>' +
+                    '<td align="left">' +
+                    '<Select id="A7Result" onchange="setSelectView(\'A7Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="left" height="14px">A9</td>' +
+                    '<td align="left">16,31,33,35,52,58</td>' +
+                    '<td align="left">' +
+                    '<Select id="A9Result" onchange="setSelectView(\'A9Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '</table>' +
+                    '</div>';
+                $(str).insertBefore(lastChild);
+            }
         }
     } else {
         var tableDiv = document.getElementById("dnaTestTable");
@@ -2324,11 +2229,11 @@ $(function () {
     var clientHeight = $(window).innerHeight();
     var listwidth = $("#searchcotent").width();
 //    var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
-        var height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41+65;
-        $("body").click(function(){
-           height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
-           $("#sectionList").setGridHeight(height);
-        })
+    var height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41+65;
+    $("body").click(function(){
+        height = $("#diagnosis").height() - $(".widget-box.widget-color-green.ui-sortable-handle").height()-35-41;
+        $("#sectionList").setGridHeight(height);
+    })
 
     var sampathologyid = $("#sampathologyid").val();
     var samplesectionfrom = $("#samplesectionfrom").val();
@@ -2675,59 +2580,6 @@ $(function () {
         rowList:[100,200,300,400,500],
         rownumbers: true // 显示行号
     });
-
-
-    $("#materialList1").jqGrid({
-        mtype: "GET",
-        datatype: "json",
-        width: 640,
-        colNames: ['病理状态', '病理号', '送检医生','患者姓名', '病种类别', 'id', 'samcustomerid', 'sampathologyid','samsamplestatus'],
-        colModel: [
-            {
-                name: 'sampathologystatus',
-                index: 'sampathologystatus',
-                width: 30,
-                formatter: "select",
-                editoptions: {value: "1:未报告;2:已初查;3:已审核;4:已打印;5:已签发"},align:"center"
-            },
-            {name: 'sampathologycode', index: 'sampathologycode', width: 40,align:"center"},
-            {name: 'samsenddoctorname', index: 'samsenddoctorname', hidden: true},
-            {name: 'sampatientname', index: 'sampatientname', width: 40,align:"center"},
-
-            {
-                name: 'patclass', index: 'patclass', width: 40, formatter: "select",align:"center",
-                editoptions: {value: "1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学"}
-            },
-            {name: 'sampleid', index: 'sampleid', hidden: true},
-            {name: 'samcustomerid', index: 'samcustomerid', hidden: true},
-            {name: 'sampathologyid', index: 'sampathologyid', hidden: true},
-            {name: 'samsamplestatus', index: 'samsamplestatus', hidden: true}
-        ],
-        loadComplete: function () {
-            var table = this;
-            setTimeout(function () {
-                updatePagerIcons(table);
-            }, 0);
-        },
-        ondblClickRow: function (id) {
-            reportView1(1, null, null,id);
-        },
-        viewrecords: true,
-        shrinkToFit: true,
-        altRows: true,
-        rowNum: 100,
-        rowList:[100,200,500],
-        rownumbers: true, // 显示行号
-        rownumWidth: 35, // the width of the row numbers columns
-        pager: "#pager44",
-        onSelectRow: function (id) {
-
-        },
-        onCellSelect: function (id) {
-        }
-
-    });
-
 
     $("#templateList").jqGrid({
         caption: "病理模板",
@@ -3124,33 +2976,33 @@ function getColor(){
     var colmodule = '5';
     var Sample = 'Sample';
     $.ajax({
-            type:"get",
-            async:false,
-            url:"../pathologysample/sample/ajax/color",
-            data:{"colmodule":colmodule,
-                  "colobject":Sample
-            },
-            dataType: "json",
-            success:function(data){
-                var da=data.rows;
+        type:"get",
+        async:false,
+        url:"../pathologysample/sample/ajax/color",
+        data:{"colmodule":colmodule,
+            "colobject":Sample
+        },
+        dataType: "json",
+        success:function(data){
+            var da=data.rows;
 //                alert(da.length);
-                for(var i = 0;i<da.length;i++){
-                    var state = da[i].colobjectstate;
-                    var color = da[i].colvalue;
+            for(var i = 0;i<da.length;i++){
+                var state = da[i].colobjectstate;
+                var color = da[i].colvalue;
 //                    alert(da[i].colobjectstate);
 //                    alert(da[i].colvalue);
 //                    alert(color);
-                    var ids = $("#sectionList").getGridParam("reccount");
-                    for(var j=1;j<=ids;j++){
-	                var rowData = $("#sectionList").jqGrid('getRowData',j);
+                var ids = $("#sectionList").getGridParam("reccount");
+                for(var j=1;j<=ids;j++){
+                    var rowData = $("#sectionList").jqGrid('getRowData',j);
 //                    alert("表状态"+rowData.samsamplestatus);
 //                    alert("数据库状态"+state);
 //                    alert(rowData.sampathologystatus);
                     if(state==rowData.sampathologystatus){
-                    $("#sectionList").children().children("tr[id='"+j+"']").children("td").eq(0).css("background-color",color);
-                    }
+                        $("#sectionList").children().children("tr[id='"+j+"']").children("td").eq(0).css("background-color",color);
                     }
                 }
             }
+        }
     });
 }

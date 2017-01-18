@@ -173,7 +173,7 @@ function  AddSection(){
                 patreportremark : $('#patreportremark').val(), patdefaultdiagnosis : $('#patdefaultdiagnosis').val(),
                 patcoddingprechar : $('#patcoddingprechar').val(), patcoddinglength : $('#patcoddinglength').val(),
                 patuseflag : $('#patuseflag').val(), patissampling : $('#patissampling').val(),
-                patisspecialcheck : $('#patisspecialcheck').val(), patclass : $('#patclass').val(),
+                patisspecialcheck : $('#patisspecialcheck').val(), patclass : $('#patclass').val(),patfirstn:$("#patfirstn").val(),
                 patstartcodding : $('#patstartcodding').val(), patsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
             },function(data){
                 layer.close(index);
@@ -248,6 +248,7 @@ function editSection(){
             $("#patissampling").val(msg.patissampling);
             $("#patisspecialcheck").val(msg.patisspecialcheck);
             $("#patclass").val(msg.patclass);
+            $("#patfirstn").val(msg.patfirstn);
             var sortNo = msg.patsort;
             $("#FN").val(sortNo.charAt(1));
             $("#SN").val(sortNo.charAt(2));
@@ -282,7 +283,7 @@ function editSection(){
                         patreportremark : $('#patreportremark').val(), patdefaultdiagnosis : $('#patdefaultdiagnosis').val(),
                         patcoddingprechar : $('#patcoddingprechar').val(), patcoddinglength : $('#patcoddinglength').val(),
                         patuseflag : $('#patuseflag').val(), patissampling : $('#patissampling').val(),
-                        patisspecialcheck : $('#patisspecialcheck').val(), patclass : $('#patclass').val(),
+                        patisspecialcheck : $('#patisspecialcheck').val(), patclass : $('#patclass').val(),patfirstn:$("#patfirstn").val(),
                         patstartcodding : $('#patstartcodding').val(), patsort : "A"+$("#FN").val()+$("#SN").val()+$("#TN").val()
                     },function(data){
                         layer.close(index);
@@ -333,7 +334,7 @@ $(function(){
         mtype: "GET",
         datatype: "json",
         width:$('.leftContent').width(),
-        colNames: ['pathologyid','排序号', '病种名称', '病种名称（英文）', '病种分类','使用状态','是否取材','是否特检'],
+        colNames: ['pathologyid','排序号', '病种名称', '病种名称（英文）', '病种分类','使用状态','是否取材','是否特检','是否包埋'],
         colModel: [
             { name: 'pathologyid', index: 'pathologyid', width: 30, hidden: true },
             { name: 'patsort', index: 'patsort', width: 30},
@@ -342,7 +343,9 @@ $(function(){
             { name: 'patclass', index: 'patclass', width: 50,formatter: "select", editoptions:{value:"1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学"}},
             { name: 'patuseflag', index: 'patuseflag', width: 30,formatter: "select", editoptions:{value:"0:使用;1:停用"}},
             { name: 'patissampling', index: 'patissampling', width: 30,formatter: "select", editoptions:{value:"0:是;1:否"}},
-            { name: 'patisspecialcheck', index: 'patisspecialcheck', width: 30,formatter: "select", editoptions:{value:"0:是;1:否"}}
+            { name: 'patisspecialcheck', index: 'patisspecialcheck', width: 30,formatter: "select", editoptions:{value:"0:是;1:否"}},
+            { name: 'patfirstn', index: 'patfirstn', width: 30,formatter: "select", editoptions:{value:"0:是;1:否"}}
+
         ],
         loadComplete : function() {
             var table = this;

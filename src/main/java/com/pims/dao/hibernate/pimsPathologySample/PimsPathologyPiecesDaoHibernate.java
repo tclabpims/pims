@@ -5,8 +5,10 @@ import com.pims.dao.pimspathologysample.PimsPathologyPiecesDao;
 import com.pims.dao.pimspathologysample.PimsPathologySampleDao;
 import com.pims.model.*;
 import com.pims.service.PimsUserManager;
+import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
 import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
+import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.smart.Constants;
 import com.smart.dao.hibernate.GenericDaoHibernate;
 import com.smart.model.user.User;
@@ -166,13 +168,20 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
             return false;
         }else{
             PimsPathologySample sample = pimsPathologyPiecesManager.getBySampleNo(map.getSampleid());
+
             StringBuffer sb = new StringBuffer();
             if(sample.getSamsamplestatus() > 1){
                 sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
                         ", samsamplestatus = "+ sample.getSamsamplestatus() +",samjjsj='"+(StringUtils.isEmpty(map.getSamjjsj())?"":map.getSamjjsj())+"'  where sampleid = "+map.getSampleid());
             }else{
-                sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
-                        ", samsamplestatus = "+ sts +",samjjsj='"+(StringUtils.isEmpty(map.getSamjjsj())?"":map.getSamjjsj())+"'  where sampleid = "+map.getSampleid());
+                PimsSysPathology psp = pimsSysPathologyManager.getSysPathologyById(sample.getSampathologyid());
+                if(psp != null && psp.getPatissampling().intValue() == 0 && psp.getPatfirstn() != null && psp.getPatfirstn().intValue() == 1 && sts == 1){
+                    sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
+                            ", samsamplestatus = 2,samjjsj='"+(StringUtils.isEmpty(map.getSamjjsj())?"":map.getSamjjsj())+"'  where sampleid = "+map.getSampleid());
+                }else{
+                    sb.append("update pims_pathology_sample set samisdecacified = "+map.getSamisdecacified()+",samissamplingall="+map.getSamissamplingall()+
+                            ", samsamplestatus = "+ sts +",samjjsj='"+(StringUtils.isEmpty(map.getSamjjsj())?"":map.getSamjjsj())+"'  where sampleid = "+map.getSampleid());
+                }
             }
             getSession().createSQLQuery(sb.toString()).executeUpdate();
             return true;
@@ -233,6 +242,10 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
 
     @Autowired
     private PimsUserManager userManager;
+    @Autowired
+    private PimsSysPathologyManager pimsSysPathologyManager;
+    @Autowired
+    private PimsPathologyParaffinManager pimsPathologyParaffinManager;
     /**
      * 更新标本信息及材块信息
      * @param piecesList 材块列表,sample 标本信息,sts 状态,state 逻辑更新标志
@@ -267,8 +280,42 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                             }
                         }
                     }
-                    piece.setPiestate((long) 1);
-                    piece = pimsPathologyPiecesManager.save(piece);
+                    PimsSysPathology psp = pimsSysPathologyManager.getSysPathologyById(sample.getSampathologyid());
+                    if(psp != null && psp.getPatissampling().intValue() == 0 && psp.getPatfirstn() != null && psp.getPatfirstn().intValue() == 1){
+                        piece.setPiestate((long) 2);
+                        piece.setPieisembed("1");
+                        piece = pimsPathologyPiecesManager.save(piece);
+                        PimsPathologyParaffin ppp = new PimsPathologyParaffin();
+//                        ppp.setParaffinid();//蜡块Id
+                        ppp.setParsampleid(sample.getSampleid());//标本Id
+                        ppp.setParpathologycode(sample.getSampathologycode());//病理编号
+                        ppp.setParname(piece.getPiecode());//蜡块名称
+                        ppp.setParparaffinno(Integer.parseInt(piece.getPiesamplingno()));//蜡块序号
+                        ppp.setParparaffincode(piece.getPiecode());//蜡块编号
+                        ppp.setParbarcode(piece.getPiecode());//蜡块条码号
+                        ppp.setParpiececount(piece.getPiecounts().intValue());//材块块数
+                        ppp.setParpieceids(String.valueOf(piece.getPieceid()));//材块Ids(多个之间用逗号隔开)
+                        ppp.setParnullslidenum(piece.getPienullslidenum());//取白片数量
+                        ppp.setParpieceparts(piece.getPieparts());//取材部位(多个之间用逗号隔开)
+                        ppp.setParissectioned(0);//是否已切片(0未切片，1已切片)
+//                        ppp.setParsectioneddoctor();//切片医生
+//                        ppp.setParsectionedtime();//切片时间
+//                        ppp.setParisprintlabel(0);//是否已打印标签
+//                        ppp.setParprintuser();//标签打印人员
+//                        ppp.setParprinttime();//标签打印时间
+//                        ppp.setParremaining();//剩余处理
+//                        ppp.setParfirstv();//预留字段1(Varchar)
+//                        ppp.setParsecondv();//预留字段2(Varchar)
+//                        ppp.setParfirstn();//预留字段3(Numberic)
+//                        ppp.setParfirstd();//预留字段4(Date)
+//                        ppp.setParcreatetime();//
+//                        ppp.setParcreateuse();//
+                        pimsPathologyParaffinManager.save(ppp);
+                    }else{
+                        piece.setPiestate((long) 1);
+                        piece = pimsPathologyPiecesManager.save(piece);
+
+                    }
                     //判断材块是不是补取
                     if(piece.getPiefirstn() != null){
                         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -392,5 +439,15 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         }
 
         return array;
+    }
+
+    @Override
+    public String getMinTime(Long sampleid) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("select to_char(min(PIESAMPLINGTIME),'YYYY-MM-DD HH24:MI:SS') AS PIESAMPLINGTIME " +
+                "from Pims_Pathology_Pieces where PIESAMPLEID="+sampleid);
+        Object o = getSession().createSQLQuery(sb.toString()).uniqueResult();
+        if(o == null) return "";
+        return o.toString();
     }
 }

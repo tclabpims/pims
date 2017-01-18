@@ -347,7 +347,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 //                        context.put("imgsrc","data:image/jpg" + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer1)));//条形码
                         map1.put("imgsrc" + (i + 1), "data:image/"+imgstyle + ";base64," + new String(org.apache.commons.codec.binary.Base64.encodeBase64(buffer1)));
                     }
-                    map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
+//                    map1.put("imgsrc" + (i + 1), request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + realPath);
 
                 }
             }
@@ -644,6 +644,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             bais.close();
 //            ImageIO.write(bufferedImage, "jpeg", dirPath);
             Thumbnails.of(dirPath).size(480,360).toFile(dirPath);
+            Thumbnails.of(dirPath).scale(1f).outputQuality(0.25f).toFile(dirPath);
         }
 
         PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), dirPath, picIndex, request, picPictureClass);
@@ -702,7 +703,8 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         File filePath = new File(uploadDir);
         if (uploadFiles.size() > 0) {
             for (File file : uploadFiles) {
-                Thumbnails.of(file).size(600,400).toFile(file);
+                Thumbnails.of(file).size(480,360).toFile(file);
+                Thumbnails.of(file).scale(1f).outputQuality(0.25f).toFile(file);
                 PimsPathologyPictures pp = saveImageFile(Long.valueOf(sampleId), file, (filePath.list().length + 1), request, picPictureClass);
                 Map<String, Object> map = new HashMap<>();
                 map.put("name", pp.getPicpicturename());
@@ -855,6 +857,20 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 //            mv.addObject("options", options);
 
         }
+        return mv;
+    }
+
+    @RequestMapping(value = "/diagnosissearch", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView diagnosissearch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mv = getmodelView(request);
+        User user = WebControllerUtil.getAuthUser();
+        Long hospitalId = user.getHospitalId();
+        Long pathologyId = user.getUserBussinessRelate().getPathologyLibId();
+        List<PimsSysReportItems> reportItemsList = pimsSysReportItemsManager.getRefFieldList(hospitalId, pathologyId);
+        List<PimsSysReqField> reqFields = psrm.getReqFieldList(hospitalId, pathologyId);
+        List<PimsSysCustomerBasedata> customerData = pimsSysCustomerBasedataManager.getCustomerDataList(hospitalId, pathologyId);
+        mv.addObject("diagnosisItems", HtmlGenerator.generate(reqFields, reportItemsList, customerData));
         return mv;
     }
 
@@ -1126,5 +1142,22 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 //
 //        return writer.toString();
 //    }
+
+    //查询历次病理诊断信息
+    @RequestMapping(method = {RequestMethod.GET}, value = "/hisquery")
+    @ResponseBody
+    public DataResponse hisquery(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String id = request.getParameter("id");
+        DataResponse dr = new DataResponse();
+        GridQuery gridQuery = new GridQuery(request);
+        List<PimsPathologySample> result = pimsPathologySampleManager.queryHisSample(Long.parseLong(id), gridQuery);
+        Integer total = pimsPathologySampleManager.queryHisSampleNum(Long.parseLong(id));
+        dr.setRecords(total);
+        dr.setPage(gridQuery.getPage());
+        dr.setTotal(getTotalPage(total, gridQuery.getRow(), gridQuery.getPage()));
+        dr.setRows(getResultMap(result));
+        response.setContentType(contentType);
+        return dr;
+    }
 
 }

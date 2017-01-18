@@ -137,6 +137,9 @@ function fillpatinetinfo(data) {
 	// $("#samsendhospital").val(1);//送检医院
 	$("#sampatientdignoses").val(data.lczd);//临床诊断
 	$("#sampatienttype").val(data.patient_type);//患者类型
+	if(data.patient_type == "3"){//门诊
+		$("#saminspectionid").val(data.inpatient_id);//条码号
+	}
 	$("#saminpatientid").val(data.key_no);//就诊id(患者每一次来院的id)
 	$("#sampatientid").val(data.inpatient_id);//患者唯一号(病案号)
 	$("#sampatientnumber").val(data.patient_id);//住院号

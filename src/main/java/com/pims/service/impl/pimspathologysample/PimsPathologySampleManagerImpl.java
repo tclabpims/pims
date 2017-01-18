@@ -294,4 +294,15 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public int agoStates(PimsPathologySample sample) {
         return pimsPathologySampleDao.agoStates(sample);
     }
+
+
+    @Override
+    public List<PimsPathologySample> queryHisSample(Long sampleid, GridQuery gridQuery) {
+        return pimsPathologySampleDao.queryHisSample(sampleid,gridQuery);
+    }
+
+    @Override
+    public Integer queryHisSampleNum(Long sampleid) {
+        return pimsPathologySampleDao.queryHisSampleNum(sampleid);
+    }
 }

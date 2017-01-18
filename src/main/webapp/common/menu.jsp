@@ -615,6 +615,7 @@
             <menu:displayMenu name="Home"/>
             <menu:displayMenu name="SpecimenDispose"/>
             <menu:displayMenu name="PathologicalDiagnosis"/>
+            <menu:displayMenu name="PathologicalDiagnosis1"/>
             <menu:displayMenu name="MedicalOrderTreatment"/>
             <menu:displayMenu name="InquiryStatistics"/>
             <menu:displayMenu name="OtherManage"/>

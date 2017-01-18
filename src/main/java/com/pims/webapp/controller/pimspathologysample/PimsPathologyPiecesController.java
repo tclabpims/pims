@@ -40,6 +40,8 @@ public class PimsPathologyPiecesController extends PIMSBaseController{
     private PimsPathologyPiecesManager pimsPathologyPiecesManager;
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private PimsPathologySampleManager pimsPathologySampleManager;
     /**
      * 渲染视图
      * @param request
@@ -212,6 +214,23 @@ public class PimsPathologyPiecesController extends PIMSBaseController{
         response.setContentType("name/html; charset=UTF-8");
         response.getWriter().write(o.toString());
         return null;
+    }
+
+    /**
+     * 获取标本取材时间
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getfristpiece*", method = RequestMethod.POST)
+    public void getfristpiece(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String id = request.getParameter("id");
+        String qcsj = pimsPathologyPiecesManager.getMinTime(Long.parseLong(id));
+        Integer num = pimsPathologySampleManager.queryHisSampleNum(Long.parseLong(id));
+        JSONObject o = new JSONObject();
+        o.put("qcsj", qcsj);
+        o.put("hisnum",num);
+        PrintwriterUtil.print(response, o.toString());
     }
 
 }

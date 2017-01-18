@@ -164,4 +164,9 @@ public class PimsPathologyPiecesManagerImpl extends GenericManagerImpl<PimsPatho
     public JSONArray getSlideCode(JSONArray samplesList) {
         return pimsPathologyPiecesDao.getSlideCode(samplesList);
     }
+
+    @Override
+    public String getMinTime(Long sampleid) {
+        return pimsPathologyPiecesDao.getMinTime(sampleid);
+    }
 }

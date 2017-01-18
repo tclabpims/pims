@@ -253,7 +253,7 @@
 				</div>
 				<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
 				<div class="widget-main no-padding">
-					<%--<h5 style="float: left;width: 60%;font-size: 14px;"><strong>&nbsp;巨检所见&nbsp;&nbsp;&nbsp;&nbsp;</strong>--%>
+					<h5 style="float: left;width: 60%;font-size: 14px;"><strong>&nbsp;巨检所见&nbsp;&nbsp;&nbsp;&nbsp;</strong>
 						<%--<input type="text" id="jjsj" style="width: 40%"/>--%>
 						&nbsp;&nbsp;<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px" onclick="showTemplate(0,'jujiansuojian')">
 							<span style="color: white">从模版选择</span>
@@ -261,7 +261,7 @@
 						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;height: 25px" onclick="saveAsTemplate(0,'samjjsj')">
 							<span style="color: white">模版保存</span>
 						</button>
-					<%--</h5>--%>
+					</h5>
 				</div>
 				<div class="widget-main no-padding">
 					<textarea id="samjjsj" style="width: 100%;height: 90px"></textarea>

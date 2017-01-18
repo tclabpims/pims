@@ -55,7 +55,7 @@
             <Item name="CustomerDiscount" title="menu.customerDiscount" page="/dsf/customerDiscount/viewCustomerDiscount" roles="ROLE_ADMIN"/>
         </Menu>-->
 
-        <Menu name="SpecimenReg" title="SpecimenReg.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        <Menu name="SpecimenReg" title="SpecimenReg.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER,ROLE_SEARCH">
         </Menu>
 
         <Menu name="SpecimenDispose" title="SpecimenDispose.title" page="/reagent/in" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
@@ -67,6 +67,9 @@
         </Menu>
 
         <Menu name="PathologicalDiagnosis" title="PathologicalDiagnosis.title" page="/diagnosis/diagnosis" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">
+        </Menu>
+
+        <Menu name="PathologicalDiagnosis1" title="PathologicalDiagnosis.title" page="/diagnosis/diagnosissearch" roles="ROLE_SEARCH">
         </Menu>
 
         <Menu name="MedicalOrderTreatment" title="MedicalOrderTreatment.title" page="/#" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">

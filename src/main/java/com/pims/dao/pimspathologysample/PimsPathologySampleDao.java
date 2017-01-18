@@ -140,4 +140,9 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
      * @return
      */
     int agoStates(PimsPathologySample sample);
+
+
+    List<PimsPathologySample> queryHisSample(Long sampleid, GridQuery gridQuery);
+
+    Integer queryHisSampleNum(Long sampleid);
 }

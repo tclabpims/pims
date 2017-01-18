@@ -144,4 +144,10 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
      * @return
      */
     int agoStates(PimsPathologySample sample);
+
+
+
+    List<PimsPathologySample> queryHisSample(Long sampleid, GridQuery gridQuery);
+
+    Integer queryHisSampleNum(Long sampleid);
 }

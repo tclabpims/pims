@@ -286,7 +286,7 @@ public class PimsPathologySampleController extends PIMSBaseController{
             //获取条码信息
             String samplecode = pimsPathologySampleManager.sampleCode();
             if(samplecode == null){
-                samplecode = "A12000230001";
+                samplecode = "A12005030001";
             }else{
                 samplecode = samplecode.substring(0,1)+(Long.parseLong(samplecode.substring(1))+1);
             }
@@ -294,7 +294,9 @@ public class PimsPathologySampleController extends PIMSBaseController{
             PimsHospitalPathologyInfo phi = pimsHospitalPathologyInfoManager.gethinfo(ppr);
             phi = searchCodeValue(phi);
             ppr.setSampathologycode(phi.getNumberPrefix()+phi.getNextNumber());
-            ppr.setSaminspectionid(samplecode);
+            if(StringUtils.isEmpty(ppr.getSaminspectionid())){
+                ppr.setSaminspectionid(samplecode);
+            }
             PimsSysPathology pathology = pimsSysPathologyManager.get(ppr.getSampathologyid());
             int patissampling = pathology.getPatissampling() == null?0:pathology.getPatissampling().intValue();
             if(patissampling == 0){//常规登记
