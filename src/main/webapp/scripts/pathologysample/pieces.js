@@ -360,9 +360,8 @@ function createNew1(reqid,width1){
 			var rec = jQuery("#new1").jqGrid('getRowData', rowid);
 			if (rec.piestate > "0" || rec.piefirstn != "") {
 				setTimeout(function () {
-					jQuery("#new1").jqGrid('restoreCell', iRow, iCol);
+					// jQuery("#new1").jqGrid('restoreCell', iRow, iCol);
 					//===>或者设置为只读
-					//$('#' + rowid + '_amount').attr('readonly', true);
 				}, 1);
 			}
 		},

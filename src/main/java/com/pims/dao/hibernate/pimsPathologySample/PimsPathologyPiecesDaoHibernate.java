@@ -322,6 +322,8 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                         pimsPathologyOrderManager.updateOrderState(piece.getPiefirstn(),1,user);
                         pimsPathologyOrderManager.updateOrderState(piece.getPiefirstn(),2,user);
                     }
+                }else{
+                    pimsPathologyPiecesManager.save(piece);
                 }
                 if (!list3.contains(piece.getPiedoctorid())) {
                     list3.add(piece.getPiedoctorid());
@@ -345,6 +347,8 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                 }
                 if(piece.getPiestate().longValue() == 0) {//未取材
                     piece = pimsPathologyPiecesManager.save(piece);
+                }else{
+                    pimsPathologyPiecesManager.save(piece);
                 }
                 list1.add(piece.getPieceid());
             }

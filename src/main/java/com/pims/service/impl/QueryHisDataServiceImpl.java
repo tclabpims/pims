@@ -372,7 +372,7 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
                 "YBJGSJ," +//样本结果时间
                 "JCMDDM," +//检查目的代码
                 "JCMDMC," +//检查目的名称
-                "JGLJDZ"+//地址
+                "JGLJDZ,"+//地址
                 "JGBZSM," +//报告预览地址
                 "SFBLPB," +//是否病理判别
                 "YBZDNR," +//样本诊断内容
