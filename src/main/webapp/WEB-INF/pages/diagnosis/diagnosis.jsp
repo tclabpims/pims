@@ -128,6 +128,9 @@
             padding-top: 0px!important;
             padding-bottom: 0px!important;
         }
+       .dropdown-menu{
+            z-index: 99999999!important;
+        }
     </style>
 
 </head>
@@ -156,33 +159,37 @@
         <table id="feediv"></table>
     </div>
 </div>
-<div id="delayReportForm" style="display: none">
-    <div style="padding-left:10px">
-        <div style="display: inline;float: left">病理号：<input id="chipathologycode" style="border-width: 0px 0px 1px 0px"></div>
-        <div style="display: inline;">条形码：<input id="testItemChName" style="border-width: 0px 0px 1px 0px"></div>
-        <div style="display: inline;float: right">送检医生：<input id="chireqtime" style="border-width: 0px 0px 1px 0px"></div>
+<div id="delayReportForm" style="display: none;">
+    <div style="padding-left:10px;margin-bottom: 5px;margin-top: 5px">
+        <div class="col-xs-4">病理号：<input id="chipathologycode"></div>
+        <div class="col-xs-4">条形码：<input id="testItemChName"></div>
+        <div class="col-xs-4">送检医生：<input id="chireqtime"></div>
+        <div style="clear: both"></div>
+    </div>
+    <div style="padding-left:10px;margin-bottom: 5px;margin-top: 5px">
+        <div class="col-xs-4">病人姓名：<input id="chiordercode"></div>
+        <div class="col-xs-4">送检科室：<input id="chirequsername"></div>
+        <div class="col-xs-4">送检医院：<input id="chinullslidenum"></div>
+        <div style="clear: both"></div>
     </div>
     <div style="padding-left:10px">
-        <div style="display: inline;float: left">病人姓名：<input id="chiordercode" style="border-width: 0px 0px 1px 0px"></div>
-        <div style="display: inline;">送检科室：<input id="chirequsername" style="border-width: 0px 0px 1px 0px"></div>
-        <div style="display: inline;float: right">送检医院：<input id="chinullslidenum" style="border-width: 0px 0px 1px 0px"></div>
+        <div class="col-xs-4">性别：<input id="patientAgent"></div>
+        <div class="col-xs-4">年龄：<input id="patientAge1"></div>
+        <div style="clear: both"></div>
     </div>
-    <div style="padding-left:10px">
-        <div style="display: inline;float: left">性别：<input id="patientAgent" style="border-width: 0px 0px 1px 0px"></div>
-        <div style="display: inline;">年龄：<input id="patientAge1" style="border-width: 0px 0px 1px 0px"></div>
-    </div>
-    <div style="border:0px solid black;width:100%;border-width:0px 0px 1px 0px;"></div>
+    <div style="border:0px solid black;width:100%;"></div>
     <div style="border:0px solid black;width:100%;padding-top:5px;padding-left:10px">
-        <div style="display: inline;float: left;z-index: 99999999 !important;" >
-            患者的病例诊断因：<select onchange="" id="delreasonid">
+        <div style="float:left;width:60%;z-index: 99999999 !important;" >
+            患者的病例诊断因：<select onchange="" id="delreasonid" style="height: 24px">
             <option value="">--请选择--</option>
             <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("logyids"))%>
         </select>延迟<input id="deldays" onchange="workdayafter(0)"> 工作日发送</div>
-        <div style="display: inline;padding-left: 10px">预计报告日期：<input type="text" class="form_datetime2" id="delreporttime" onchange="workdayafter(1)" ></div>
+        <div style="float: left;width: 40%;padding-top: 3px">预计报告日期：<input type="text" class="form_datetime2" id="delreporttime" onchange="workdayafter(1)" ></div>
+        <div style="clear: both"></div>
     </div>
     <div style="border:0px solid black;width:100%;padding-top:5px;padding-left:10px">
-        <div style="display: inline;border:0px solid black;width:50%;float: left">初步诊断：<textarea id="deldiagnosis"></textarea></div>
-        <div style="display: inline;border:0px solid black;width:50%;">延迟原因：<textarea id="delreason"></textarea></div>
+        <div style="display: inline;border:0px solid black;width:50%;float: left">初步诊断：<textarea id="deldiagnosis" style="vertical-align: top"></textarea></div>
+        <div style="display: inline;border:0px solid black;width:50%;">延迟原因：<textarea id="delreason" style="vertical-align: top"></textarea></div>
     </div>
 </div>
 <div class="row" id="toolbar">
@@ -785,8 +792,8 @@
                     </a>
                 </div>
             </div>
+            <div id="imgContainer" class="widget-body"></div>
         </div>
-        <div id="imgContainer"></div>
     </div>
     <div class="row" style="display:none" id="templateGrid">
         <div class="col-xs-12 leftContent">

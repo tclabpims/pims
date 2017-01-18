@@ -109,26 +109,26 @@
 			<div class="col-sm-4 leftContent" >
 				<form class="form-horizontal" id="sampleForm" >
 					<div class="form-group" style="margin-top:10px;margin-bottom: 5px;">
-						<label class="col-sm-2 label_style">基本信息:</label>
+						<label class="col-sm-2 label_style" style="text-align: left">基本信息:</label>
 						<div class="col-sm-10">
 							<textarea id="jbxx1" style="font-size:12px;height:70px;width:100%"></textarea>
 						</div>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style">临时诊断:</label>
+						<label class="col-sm-2 label_style" style="text-align: left">临时诊断:</label>
 						<div class="col-sm-10">
 							<textarea id="lczd" style="font-size:12px;height:70px;width:100%"></textarea>
 						</div>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style">病理诊断:</label>
+						<label class="col-sm-2 label_style" style="text-align: left">病理诊断:</label>
 						<div class="col-sm-10">
 							<textarea id="blzd" style="font-size:12px;height:70px;width:100%"></textarea>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="col-sm-8 rightContent" id="ctabs">
+			<div class="col-sm-8 rightContent" id="ctabs" style="padding-left: 20px">
 				<ul id="tabPanel" class="nav nav-tabs">
 					<li class="active">
 						<a href="#infotab" data-toggle="tab">

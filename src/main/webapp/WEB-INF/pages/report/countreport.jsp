@@ -25,7 +25,7 @@
 		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
-		.input_style{height: 24px;font-size: 12px!important;}
+		.input_style{height: 24px;font-size: 12px!important; padding-left: 15px}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_check{vertical-align:middle;height: 17px;margin-top: 0px!important;}
@@ -76,7 +76,7 @@
 					<input type="checkbox" class="input_check" id="ltj1" checked><span class="input_style">&nbsp;率统计&nbsp;</span>
 					<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<span>
-						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
+						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0 0" onclick="searchList()">
 							<span style="color: white;">查询</span>
 						</button>
 					</span>
@@ -95,7 +95,7 @@
 	</div>
 	<div>
 		<div id="rztj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--日志统计-->
-			<div style="font-size: 16px;text-align:center; " class="widget-header">工作日志统计报告</div>
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">工作日志统计报告</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
 				<div class="widget-main no-padding" style="margin-left: 5px">
@@ -111,7 +111,7 @@
 			</div>
 		</div>
 		<div id="bbytj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--标本源统计-->
-			<div style="font-size: 16px;text-align:center; " class="widget-header">标本来源统计报告</div>
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">标本来源统计报告</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div>
 				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
@@ -136,7 +136,7 @@
 			</div>
 		</div>
 		<div id="sftj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--收费统计-->
-			<div style="font-size: 16px;text-align:center; " class="widget-header">收费统计报告</div>
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">收费统计报告</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div>
 				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
