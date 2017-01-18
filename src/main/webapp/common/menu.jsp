@@ -589,9 +589,9 @@
     .ui-state-default.jqgrid-rownum{
         border: 1px solid #E1E1E1!important;
     }
-    textarea{
-        resize: none!important;
-    }
+    /*textarea{*/
+        /*resize: none!important;*/
+    /*}*/
     input{
         padding-top: 0px!important;
         padding-bottom: 0px!important;
