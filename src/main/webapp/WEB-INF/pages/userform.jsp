@@ -4,25 +4,47 @@
     <title><fmt:message key="userProfile.title"/></title>
     <meta name="menu" content="Individual"/>
 </head>
+<style>
+    #more button{
+        border-radius: 3px;
+        border: 1px solid #2274E4;
+        background: #4190f7;
+        color: #ffffff;
+        text-align: center;
 
+    }
+    #uploads1{
+        padding-left: 0px;
+    }
+    #uploadDialog{
+        padding-top: 20px;
+    }
+    .row{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .form-group{
+        padding-right: 0px;
+    }
+</style>
 <c:set var="delObject" scope="request"><fmt:message key="userList.user"/></c:set>
 <script type="text/javascript">var msgDelConfirm =
    "<fmt:message key="delete.confirm"><fmt:param value="${delObject}"/></fmt:message>";
 </script>
 
 <div class="row">
-<div class="col-sm-2">
-    <h2><fmt:message key="userProfile.heading"/></h2>
-    <c:choose>
-        <c:when test="${param.from == 'list'}">
-            <p><fmt:message key="userProfile.admin.message"/></p>
-        </c:when>
-        <c:otherwise>
-            <p><fmt:message key="userProfile.message"/></p>
-        </c:otherwise>
-    </c:choose>
-</div>
-<div class="col-sm-7">
+<div class="col-sm-7 col-sm-offset-1">
+    <div>
+        <h2><fmt:message key="userProfile.heading"/></h2>
+        <c:choose>
+            <c:when test="${param.from == 'list'}">
+                <p><fmt:message key="userProfile.admin.message"/></p>
+            </c:when>
+            <c:otherwise>
+                <p><fmt:message key="userProfile.message"/></p>
+            </c:otherwise>
+        </c:choose>
+    </div>
     <spring:bind path="user.*">
         <c:if test="${not empty status.errorMessages}">
             <div class="alert alert-danger alert-dismissable">
@@ -234,7 +256,7 @@ function onFormSubmit(theForm) {
 
 function createInput(){
     var count=1;
-    var str = '<div class="col-sm-12" style="margin-top:5px;"><input type="file" contentEditable="false" id="uploads' + count + '' +
+    var str = '<div class="col-sm-12" style="margin-top:5px;padding-left:0"><input type="file" contentEditable="false" id="uploads' + count + '' +
     '" name="uploads'+ count +'" class="col-sm-10"/><button onclick="removeInput(event,\'more\')" class="col-sm-2">'+'删除</button></div>';
     //document.getElementById(parentId).insertAdjacentHTML("beforeEnd",str);
      if($("#more").html()==""){

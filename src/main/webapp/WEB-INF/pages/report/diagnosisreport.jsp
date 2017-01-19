@@ -25,7 +25,7 @@
 		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:left;}
-		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
+		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;text-align: right}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
