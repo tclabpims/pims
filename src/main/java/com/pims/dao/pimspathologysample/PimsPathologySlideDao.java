@@ -66,6 +66,13 @@ public interface PimsPathologySlideDao extends GenericDao<PimsPathologySlide,Lon
     JSONArray getSlideCodepro(JSONArray samplesList);
 
     /**
+     * 获取医嘱玻片列表
+     * @param samplesList
+     * @return
+     */
+    JSONArray getSlideCodeproyz(JSONArray samplesList);
+
+    /**
      * 制片管理
      * @param slideList
      * @param sampleList

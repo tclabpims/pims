@@ -398,7 +398,7 @@ public class PimsPathologyParaffinDaoHibernate extends GenericDaoHibernate<PimsP
             builder.append("0 as childorderid, ");
             builder.append("0 as totalitem, ");
         }
-        builder.append("(select count(1) from Pims_Pathology_Slide s where s.slisampleid=:sampleId and s.SliUseFlag=0 and parparaffincode=s.SliParaffinCode) as parnullslidenum ");
+        builder.append("(select count(1) from Pims_Pathology_Slide s where s.slisampleid=:sampleId and s.SliUseFlag=0 and s.slislidetype = 1 and parparaffincode=s.SliParaffinCode) as parnullslidenum ");
         builder.append("from pims_pathology_paraffin where parsampleid=:sampleId ");
         if(orderId != null) {
             builder.append("and paraffinid in(select chiparaffinid from pims_pathology_order_child where chiorderid=:orderId )");

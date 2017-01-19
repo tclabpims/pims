@@ -12,6 +12,7 @@ import com.pims.service.pimspathologysample.PimsPathologyReportPdfManager;
 import com.pims.service.pimspathologysample.PimsPathologySampleManager;
 import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.*;
+import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.util.PDFWebService;
 import com.pims.webapp.controller.GridQuery;
 import com.pims.webapp.controller.PIMSBaseController;
@@ -1158,6 +1159,33 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         dr.setRows(getResultMap(result));
         response.setContentType(contentType);
         return dr;
+    }
+
+    @Autowired
+    private PimsSysReqTestitemManager pimsSysReqTestitemManager;//检查项目
+    /**
+     * 获取检测项目列表
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/ajax/reqtest*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getRequisitionInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        String pathologyid = request.getParameter("pathologyid");
+        String tesitemtype = request.getParameter("tesitemtype");
+        Map map = new HashMap();
+        map.put("pathologyid",pathologyid);
+        map.put("tesitemtype",tesitemtype);
+        List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(map);
+        if(list == null || list.size() == 0) {
+            return null;
+        }
+        dataResponse.setRows(getResultMap(list));
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
     }
 
 }

@@ -7,6 +7,7 @@ import com.pims.model.*;
 import com.pims.service.PimsUserManager;
 import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
 import com.pims.service.pimspathologysample.PimsPathologyPiecesManager;
+import com.pims.service.pimspathologysample.PimsPathologySlideManager;
 import com.pims.service.pimssyspathology.PimsPathologyOrderManager;
 import com.pims.service.pimssyspathology.PimsSysPathologyManager;
 import com.smart.Constants;
@@ -246,6 +247,8 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
     private PimsSysPathologyManager pimsSysPathologyManager;
     @Autowired
     private PimsPathologyParaffinManager pimsPathologyParaffinManager;
+    @Autowired
+    private PimsPathologySlideManager pimsPathologySlideManager;
     /**
      * 更新标本信息及材块信息
      * @param piecesList 材块列表,sample 标本信息,sts 状态,state 逻辑更新标志
@@ -323,7 +326,30 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                         pimsPathologyOrderManager.updateOrderState(piece.getPiefirstn(),2,user);
                     }
                 }else{
-                    pimsPathologyPiecesManager.save(piece);
+                    piece = pimsPathologyPiecesManager.save(piece);
+                    StringBuffer sb1 = new StringBuffer();
+                    sb1.append(" from PimsPathologyParaffin where parpieceids = '"+piece.getPieceid()+"'");
+                    Object o = getSession().createQuery(sb1.toString()).uniqueResult();
+                    if(o != null){
+                        PimsPathologyParaffin ppr = (PimsPathologyParaffin) o;
+                        if(ppr.getParpieceparts() != null && piece.getPieparts() != null
+                                &&  !ppr.getParpieceparts().equals(piece.getPieparts())){
+                            ppr.setParpieceparts(piece.getPieparts());
+                            ppr = pimsPathologyParaffinManager.save(ppr);
+                            sb1 = new StringBuffer();
+                            sb1.append(" from PimsPathologySlide where sliparaffinid ="+ ppr.getParaffinid());
+                            List<PimsPathologySlide> ppsList = getSession().createQuery(sb1.toString()).list();
+                            if(ppsList != null && ppsList.size() > 0){
+                                for(PimsPathologySlide pps:ppsList){
+                                    if(ppr.getParpieceparts() != null && (pps.getSlisamplingparts()==null || (pps.getSlisamplingparts() != null
+                                            &&  !ppr.getParpieceparts().equals(pps.getSlisamplingparts())))){
+                                        pps.setSlisamplingparts(ppr.getParpieceparts());
+                                        pimsPathologySlideManager.save(pps);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 if (!list3.contains(piece.getPiedoctorid())) {
                     list3.add(piece.getPiedoctorid());
@@ -349,6 +375,29 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                     piece = pimsPathologyPiecesManager.save(piece);
                 }else{
                     pimsPathologyPiecesManager.save(piece);
+                    StringBuffer sb1 = new StringBuffer();
+                    sb1.append(" from PimsPathologyParaffin where parpieceids = '"+piece.getPieceid()+"'");
+                    Object o = getSession().createQuery(sb1.toString()).uniqueResult();
+                    if(o != null){
+                        PimsPathologyParaffin ppr = (PimsPathologyParaffin) o;
+                        if(ppr.getParpieceparts() != null && piece.getPieparts() != null
+                                &&  !ppr.getParpieceparts().equals(piece.getPieparts())){
+                            ppr.setParpieceparts(piece.getPieparts());
+                            ppr = pimsPathologyParaffinManager.save(ppr);
+                            sb1 = new StringBuffer();
+                            sb1.append(" from PimsPathologySlide where sliparaffinid ="+ ppr.getParaffinid());
+                            List<PimsPathologySlide> ppsList = getSession().createQuery(sb1.toString()).list();
+                            if(ppsList != null && ppsList.size() > 0){
+                                for(PimsPathologySlide pps:ppsList){
+                                    if(ppr.getParpieceparts() != null && (pps.getSlisamplingparts() == null ||(pps.getSlisamplingparts() != null
+                                            &&  !ppr.getParpieceparts().equals(pps.getSlisamplingparts())))){
+                                        pps.setSlisamplingparts(ppr.getParpieceparts());
+                                        pimsPathologySlideManager.save(pps);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 list1.add(piece.getPieceid());
             }

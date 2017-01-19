@@ -57,6 +57,19 @@ public class PimsSysReqTestitemDaoHibernate extends GenericDaoHibernate<PimsSysR
             sb.append(name);
             sb.append("%')");
         }
+        if(!StringUtils.isEmpty((String)(map.get("name1")))){
+            String name = map.get("name1").toString().toUpperCase();
+            sb.append(" and ( upper(p.teschinesename) like '");
+            sb.append(name);
+            sb.append("%' or upper(p.tesenglishname) like '");
+            sb.append(name);
+            sb.append("%' or upper(p.tespinyincode) like '");
+            sb.append(name);
+            sb.append("%' or upper(p.tesfivestroke) like '");
+            sb.append(name);
+            sb.append("%')");
+        }
+        sb.append(" order by p.teschinesename");
         return getSession().createQuery(sb.toString()).list();
     }
 

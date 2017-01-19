@@ -39,6 +39,11 @@ public class PimsPathologyOrderCheckManagerImpl extends GenericManagerImpl<PimsP
     }
 
     @Override
+    public List<PimsPathologyOrderCheck> getOrderCheckByOrderChildId(long orderId) {
+        return pathologyOrderCheckDao.getOrderCheckByOrderChildId(orderId);
+    }
+
+    @Override
     public String calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode) {
         List li = pathologyOrderCheckDao.calCheckItemCharge(checkItemId, ordcustomercode);
         JSONObject res = new JSONObject();

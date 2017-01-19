@@ -124,6 +124,10 @@
                     <i class="ace-icon fa fa-check"></i>
                     完成
                 </button>
+                <button type="button" class="btn btn-sm btn-success" title="打印标签" onclick="printCode()">
+                    <i class="ace-icon fa fa-print"></i>
+                    打印标签
+                </button>
             </div>
         </div>
     </div>

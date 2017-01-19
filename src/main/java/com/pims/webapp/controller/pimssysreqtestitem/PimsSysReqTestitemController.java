@@ -74,7 +74,8 @@ public class PimsSysReqTestitemController extends PIMSBaseController{
 	public void queryTestItem(HttpServletRequest request, HttpServletResponse response) {
 		String query = request.getParameter("query");//项目名称
 		Map<String, Object> param = new HashMap<>();
-		param.put("name", query);
+//		param.put("name", query);
+		param.put("name1", query);
 		param.put("tesitemtype",request.getParameter("tesitemtype"));//项目类型
 		param.put("pathologyid",request.getParameter("pathologyid"));//病种ID
 		param.put("isCharge", request.getParameter("isCharge"));

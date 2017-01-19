@@ -16,6 +16,9 @@ public interface PimsPathologyOrderCheckDao extends GenericDao<PimsPathologyOrde
 
     List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId);
 
+    List<PimsPathologyOrderCheck> getOrderCheckByOrderChildId(long orderId);
+
+
     List calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode);
 
     void updateTestResult(JSONArray json, String name);

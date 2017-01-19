@@ -1416,8 +1416,8 @@ function query() {
             "saminspectionid": saminspectionid,
             "sampathologycode": sampathologycode,
             "sampatientname": sampatientname,
-            "samfirstv": $("#reqsts").val(),
-            "sampiecedoctorid":$("#user_id").val()
+            "samfirstv": '',
+            "sampiecedoctorid":''
         },
         page: 1
     }).trigger('reloadGrid');//重新载入

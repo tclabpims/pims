@@ -112,9 +112,40 @@ function updateState(state) {
     for(var i = 0; i < checkItems.length; i++) {
         var r = $("#checkItemList").jqGrid('getRowData', checkItems[i]);
         if(state == 2 && r.finishStatus == 0) {
-            unchecked = true;
-            layer.alert("项目："+r.chenamech+" 还没有完成检测");
-            break;
+            // unchecked = true;
+            // layer.alert("项目："+r.chenamech+" 还没有完成检测");
+            // break;
+            if(state == 2){
+                var order = $("#sectionList").jqGrid('getRowData', crno);
+                var orderType = order.tesenglishname,orderId = order.orderId;
+                var selected, items = [],j=0;
+                if(orderType == "MYZH" || orderType == "FZBL" || orderType == "TSRS") {
+                    selected = $("#checkItemList").jqGrid("getDataIDs");
+                    for(var i = 0; i < selected.length; i++) {
+                        var rowData = $("#checkItemList").jqGrid("getRowData",selected[i]);
+                        if(rowData.finishStatus == 1) continue;
+                        items[j] = rowData.checkid;
+                        j++;
+                    }
+                } else {
+                    selected = $("#materialPieceList").jqGrid("getDataIDs");
+                    for(var i = 0; i < selected.length; i++) {
+                        var rowData = $("#materialPieceList").jqGrid("getRowData",selected[i]);
+                        if(rowData.finishStatus == 1) continue;
+                        items[j] = rowData.childorderid;
+                        j++;
+                    }
+                }
+                if(items.length == 0) {
+                    return;
+                }
+                $.get("../order/updateitemstatus", {items:items.join(","), orderType:orderType, orderId:orderId}, function (data)
+                    {
+                        onRowSelect(crno);
+                    }
+                )
+            }
+
         }
     }
     if(unchecked) return;
@@ -130,6 +161,8 @@ function updateState(state) {
 
         });
     }else{doUpdate(rowData, state)};
+
+
 }
 
 function doUpdate(rowData, state) {
@@ -754,3 +787,108 @@ $(function () {
 
     getOrderItems();
 })
+
+function printCode() {
+    //打印标本条码号
+    var ids = $("#sectionList").jqGrid('getGridParam', 'selarrrow');
+    if(ids == null || ids == ""){
+        layer.msg("请选择打印数据!", {icon:2, time: 1000});
+        return;
+    }
+    var saveDatas = [];
+    $.each(ids, function (key, val) {
+        var rowData = $("#sectionList").jqGrid("getRowData", ids[key]);
+        saveDatas.push(rowData);
+    });
+    $.post("../pathologysample/slide/yzprintcode",{samples:JSON.stringify(saveDatas)},function(data){
+        data = jQuery.parseJSON(data);
+        startPrint(data);
+        // }
+    });
+}
+
+var LODOP; //声明为全局变量
+
+function Preview() {//打印预览
+    LODOP = getLodop();
+    CreateDataBill(data)
+    LODOP.PREVIEW();
+}
+function Setup() {//打印维护
+    LODOP = getLodop();
+    LODOP.PRINT_SETUP();
+}
+function CreateDataBill(datas) {
+    LODOP = getLodop();
+    LODOP.PRINT_INIT("");
+    LODOP.SET_PRINT_PAGESIZE(1,"80mm","24mm","A4");
+    for(i=0;i<datas.labOrders.length;i++){
+        var data = datas.labOrders[i];
+        // var topheight1 = Math.floor(i/3)*24+ 3;
+        // var topheight2 = Math.floor(i/3)*24+ 8;
+        var leftwidth1 = 3;
+        // if(i<3){
+        // 	if(i%3 == 0){
+        // 		leftwidth1 = 3;
+        // 	}else if(i%3 == 1){
+        // 		leftwidth1 = 30;
+        // 	}else if(i%3 == 2){
+        // 		leftwidth1 = 57;
+        // 	}
+        // }else{
+        // 	if(i%3 == 0){
+        // 		leftwidth1 = 1;
+        // 	}else if(i%3 == 1){
+        // 		leftwidth1 = 28;
+        // 	}else if(i%3 == 2){
+        // 		leftwidth1 = 55;
+        // 	}
+        // }
+        if(i%3 == 0){
+            leftwidth1 = 3;
+        }else if(i%3 == 1){
+            leftwidth1 = 30;
+        }else if(i%3 == 2){
+            leftwidth1 = 57;
+        }
+
+        LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","27mm","5mm","浙大国际医院");
+        LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+        // LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode); slisamplingparts
+        // LODOP.SET_PRINT_STYLEA(0,"Horient",2);
+        if(data.barcode.length >15){
+            LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","8mm",data.barcode);
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            if(data.slisamplingparts != null && data.slisamplingparts != ""){
+                LODOP.ADD_PRINT_TEXT("16mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+                LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+                LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            }
+        }else{
+            LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","4mm",data.barcode);
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+            LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            if(data.slisamplingparts != null && data.slisamplingparts != ""){
+                LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+                LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+                LODOP.SET_PRINT_STYLEA(0,"Bold",1);
+            }
+        }
+
+        if(i%3 == 2 || i == datas.labOrders.length -1){
+            LODOP.PRINT();
+            // LODOP.PREVIEW();
+        }
+    }
+
+}
+function startPrint(data) {
+    CreateDataBill(data);
+    //开始打印
+    // LODOP.PRINT();
+    // LODOP.PREVIEW();
+    // LODOP.PRINT_SETUP();
+}
+

@@ -28,8 +28,16 @@
     <script type="text/javascript" src="<c:url value='/scripts/pspathology/yjxbx.js'/>"></script>
     <%--<script type="text/javascript" src="<c:url value='/scripts/jquery.webcam.min.js'/>"></script>--%>
 
+    <link href="<c:url value='/styles/bootstrap.min.css'/>" rel="stylesheet" />
+    <link href="<c:url value='/styles/bootstrap-duallistbox.min.css'/>" rel="stylesheet" />
+    <script src="<c:url value='/scripts/bootstrap.min.js'/>"></script>
+    <script src="<c:url value='/scripts/jquery.bootstrap-duallistbox.min.js'/>"></script>
+
 
     <style>
+        /*.bootstrap-duallistbox-container .buttons{*/
+            /*display: none;*/
+        /*}*/
         .ui-jqgrid {
             border: 1px solid #ddd;
         }
@@ -111,10 +119,10 @@
         object:focus { outline:none; }
         .ui-jqgrid-sortable{text-align: center;}
         #maincontent .ui-jqgrid-htable{
-            width:490px!important;
+            width:490px;
         }
         #maincontent .ui-jqgrid-btable{
-            width:490px!important;
+            width:490px;
         }
         #imgContainer{
             border:1px #c5c5c5 solid;
@@ -968,30 +976,17 @@
                 <%--<button onclick="appendAll()">全部追加</button>--%>
             </div>
             <div id="rightListContainer" style="display: none">
-                <div style="width: 100%;height: 25px;">项目名称：<input id="itemName"></div>
+                <div style="width: 100%;height: 25px;">项目名称：<input id="itemName" onkeypress="getitemxm(this,event)"></div>
                 <div style="width: 100%;height: 35%;">
                     <table id="ckItemList"></table>
                 </div>
             </div>
-            <label class="col-sm-3 control-label no-padding-top" for="duallist"> Dual listbox </label>
-
-            <div class="col-sm-8">
-                <select multiple="multiple" size="10" name="duallistbox_demo1[]" id="duallist">
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3" selected="selected">Option 3</option>
-                    <option value="option4">Option 4</option>
-                    <option value="option5">Option 5</option>
-                    <option value="option6" selected="selected">Option 6</option>
-                    <option value="option7">Option 7</option>
-                    <option value="option8">Option 8</option>
-                    <option value="option9">Option 9</option>
-                    <option value="option0">Option 10</option>
-                </select>
-
-                <div class="hr hr-16 hr-dotted"></div>
-            </div>
         </div>
+        <%--<div class="col-xs-12">--%>
+            <%--<div class="form-group">--%>
+                <%--<select multiple="multiple" size="8" name="departlist[]" id="departlist" style="height: 200px !important;"></select>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </div>
 
     <div id="myFavorite" style="display: none">

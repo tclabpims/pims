@@ -176,6 +176,11 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     }
 
     private void setSlide(int slideNo, int slideCodeStart, int type, int number, PimsPathologyOrderChild orderChild, Long userId) {
+        List<PimsPathologyOrderCheck> ordercheckList = pimsPathologyOrderCheckManager.getOrderCheckByOrderChildId(orderChild.getChildorderid());
+        int num = 0;
+        if(ordercheckList != null && ordercheckList.size() > 0){
+            num = ordercheckList.size();
+        }
         for (int i = 0; i < number; i++) {
             slideNo++;
             slideCodeStart++;
@@ -190,8 +195,14 @@ public class PimsPathologyOrderController extends PIMSBaseController {
             newSlide.setSliifprint(0);
             newSlide.setSlisampleid(orderChild.getChisampleid());
             newSlide.setSlislidesource(2L);
-            newSlide.setSliuseflag(1L);
             newSlide.setSlitestitemid(orderChild.getTestItemId());
+            if( type == 0 && num > i){
+                newSlide.setSlitestitemname(ordercheckList.get(i).getChenamech());
+                newSlide.setSliuseflag(1L);
+            }else{
+                newSlide.setSliuseflag(0L);
+
+            }
             newSlide.setSlislideno(String.valueOf(slideNo));
             newSlide.setSlislidecode(orderChild.getChiparaffincode() + "-" + String.valueOf(slideCodeStart));
             newSlide.setSlislidetype(type);

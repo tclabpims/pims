@@ -16,6 +16,8 @@ public interface PimsPathologyOrderCheckManager extends GenericManager<PimsPatho
 
     List<PimsPathologyOrderCheck> getOrderCheckByOrderId(long orderId);
 
+    List<PimsPathologyOrderCheck> getOrderCheckByOrderChildId(long orderId);
+
     String calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode);
 
     /**

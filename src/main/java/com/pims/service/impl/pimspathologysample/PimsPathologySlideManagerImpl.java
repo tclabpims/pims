@@ -104,6 +104,11 @@ public class PimsPathologySlideManagerImpl extends GenericManagerImpl<PimsPathol
         return pimsPathologySlideDao.getSlideCodepro(samplesList);
     }
 
+    @Override
+    public JSONArray getSlideCodeproyz(JSONArray samplesList) {
+        return pimsPathologySlideDao.getSlideCodeproyz(samplesList);
+    }
+
     /**
      * 制片管理
      * @param slideList

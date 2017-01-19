@@ -50,6 +50,15 @@ public class PimsPathologyOrderCheckDaoHibernate extends GenericDaoHibernate<Pim
     }
 
     @Override
+    public List<PimsPathologyOrderCheck> getOrderCheckByOrderChildId(long orderId) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsPathologyOrderCheck where chechildorderid=:chechildorderid");
+        Query query = getSession().createQuery(sb.toString());
+        query.setParameter("chechildorderid", orderId);
+        return query.list();
+    }
+
+    @Override
     public List calCheckItemCharge(Set<Long> checkItemId, long ordcustomercode) {
         String sql = "select Rf.Refhischargename,Rf.Refhisprice,Rf.Referenceid,ps.chargeitemid from PIMS_SYS_CHARGEITEM_REF rf,PIMS_SYS_CHARGE_ITEMS ps where Rf.Chargeitemid=ps.chargeitemid and ps.testitemid in(:checkItemId) and rf.CUSTOMERID=:ordcustomercode";
         SQLQuery query = getSession().createSQLQuery(sql);
