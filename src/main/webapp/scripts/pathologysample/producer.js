@@ -467,6 +467,9 @@ function getSampleData(id) {
 			$("#sampatientsex").val(data.sampatientsex);
 			$("#sampatientdignoses").val(data.sampatientdignoses);
 			$("#samthirdv").val(data.samthirdv);
+			$("#samsendhospital").val(data.samsendhospital);
+			$("#sampatientage").val(data.sampatientage);
+			$("#sampatientagetype").val(data.sampatientagetype);
 		} else {
 			layer.msg("该申请单不存在！", {icon: 0, time: 1000});
 		}

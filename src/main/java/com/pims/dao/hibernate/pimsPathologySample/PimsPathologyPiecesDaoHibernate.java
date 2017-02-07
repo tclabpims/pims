@@ -503,4 +503,22 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
         if(o == null) return "";
         return o.toString();
     }
+
+    /**
+     *
+     * @param orderId
+     * @param state 1 更新 2 删除
+     * @return
+     */
+    @Override
+    public boolean updatePieceStates(Long orderId,int state) {
+        StringBuffer sb = new StringBuffer();
+        if(state == 1){
+            sb.append("update PIMS_PATHOLOGY_PIECES set piestate = 1 where piestate = 0 and piefirstn =" + orderId);
+        }else if(state == 2){
+            sb.append("delete from PIMS_PATHOLOGY_PIECES where piestate = 0 and piefirstn =" + orderId);
+        }
+        getSession().createSQLQuery(sb.toString()).executeUpdate();
+        return true;
+    }
 }

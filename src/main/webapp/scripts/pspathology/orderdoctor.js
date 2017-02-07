@@ -146,12 +146,34 @@ function hideOrShow(orderType) {
 }
 
 function updateState(state) {
-    if (crno == 0) {
-        layer.msg('请先选择医嘱', {icon: 2, time: 1000});
+    var checkItems = $("#sectionList").jqGrid("getGridParam","selarrrow");
+    if(checkItems.length == 0){
+        layer.msg('请选中需要执行的医嘱!', {icon: 2, time: 1000});
         return false;
     }
-    var rowData = $("#sectionList").jqGrid('getRowData', crno);
-    doUpdate(rowData, state);
+    // var checkItems = $('#sectionList').jqGrid('getDataIDs');
+    for(var i = 0; i < checkItems.length; i++) {
+        var rowData = $("#sectionList").jqGrid('getRowData', checkItems[i]);
+
+        // if (crno == 0) {
+        //     layer.msg('请先选择医嘱', {icon: 2, time: 1000});
+        //     return false;
+        // }
+        // var rowData = $("#sectionList").jqGrid('getRowData', crno);
+        if ((state == 1 || state == 2) && rowData.chiOrderType != "补取") {
+            layer.msg('只能接收或完成补取的医嘱!', {icon: 2, time: 1000});
+            return false;
+        }
+        if (state == 2) {
+            $.get("../order/updateitemstatus", {
+                    orderType: rowData.tesenglishname,
+                    orderId: rowData.orderId
+                }, function (data) {
+                }
+            )
+        }
+        doUpdate(rowData, state);
+    }
 }
 
 function  saveOrder() {
@@ -227,7 +249,7 @@ function chargeAdjust() {
 }
 
 function doUpdate(rowData, state) {
-    $.get("../order/updateorderstate", {orderState:state, orderId:rowData.orderId}, function(data){
+    $.get("../order/updateorderstate", {orderState:state, orderId:rowData.orderId,orderType: rowData.tesenglishname}, function(data){
         rowData.chiOrderState = state;
         $("#sectionList").jqGrid("setRowData", crno, rowData);
         layer.msg("操作成功！",{icon:1,time:1000});
@@ -259,7 +281,15 @@ function getSampleData1(id) {
             $("#reqlastmenstruation").val(data.reqlastmenstruation);//末次月经时间 11
             $("#sampatientbed").val(data.sampatientbed);//患者床号
             $("#sampatientage").val(data.sampatientage);//患者床号
-
+            $("#sampatientid").val(data.sampatientid);//病人ID
+            $("#samregisttime").val(CurentTime(new Date(data.samregisttime)));//登记时间
+            $.post("../pathologysample/pieces/getfristpiece", {id: id}, function (data1) {
+                if(data1.qcsj != ""){
+                    $("#qcsj").val(CurentTime(new Date(data1.qcsj)));//取材时间
+                }else{
+                    $("#qcsj").val("");//取材时间
+                }
+            });
             //重新加载取材信息列表
             jQuery("#materialList").jqGrid("clearGridData");
             jQuery("#materialList").jqGrid('setGridParam', {
@@ -279,6 +309,33 @@ function query() {
 
 function query(state) {
     STATES = state;
+    if(state == -1){//全部
+        $("#btCancel").attr("disabled", "disabled");//撤销医嘱
+        $("#btAccept").attr("disabled", "disabled");//接收
+        $("#btFinish").attr("disabled", "disabled");//完成
+        $("#btReceive").attr("disabled", "disabled");//签收
+    }else if(state == 0){//已申请
+        $("#btCancel").removeAttr("disabled");//撤销医嘱
+        $("#btAccept").removeAttr("disabled");//接收
+        $("#btFinish").attr("disabled", "disabled");//完成
+        $("#btReceive").attr("disabled", "disabled");//签收
+    }else if(state == 1){//已接收
+        $("#btCancel").attr("disabled", "disabled");//撤销医嘱
+        $("#btFinish").removeAttr("disabled");//完成
+        $("#btAccept").attr("disabled", "disabled");//接收
+        $("#btReceive").attr("disabled", "disabled");//签收
+    }else if(state == 2){//已完成
+        $("#btCancel").attr("disabled", "disabled");//撤销医嘱
+        $("#btReceive").removeAttr("disabled");//签收
+        $("#btAccept").attr("disabled", "disabled");//接收
+        $("#btFinish").attr("disabled", "disabled");//完成
+    }else if(state == 3){//已签收
+        $("#btCancel").attr("disabled", "disabled");//撤销医嘱
+        $("#btAccept").attr("disabled", "disabled");//接收
+        $("#btFinish").attr("disabled", "disabled");//完成
+        $("#btReceive").attr("disabled", "disabled");//签收
+    }
+
     var specialCheck = $("#q_specialCheck").val();
     var startDate = $("#q_startDate").val();
     var endDate = $("#q_endDate").val();
@@ -517,24 +574,25 @@ function onRowSelect(id) {
             getPackageItems(rowData.samPathologyId);
             $("#itemName").removeAttr("readonly");
         }
-        getWhitePiece(rowData.ordSampleId,rowData.orderId);
+
     }
+    getWhitePiece(rowData.ordSampleId,rowData.orderId);
     var state = rowData.chiOrderState;
-    if(state == 1 || state == 3) {
-        $("#btFinish").attr("disabled", "disabled");
-    } else if(state == 0 || state == 2) {
-        $("#btFinish").removeAttr("disabled");
-    }
-    if(state == 0 || state == 1) {
-        $("#btCancel").removeAttr("disabled");
-    } else {
-        $("#btCancel").attr("disabled","disabled");
-    }
-    if(state == 2){
-        $("#btReceive").removeAttr("disabled");
-    }else{
-        $("#btReceive").attr("disabled","disabled");
-    }
+    // if(state == 1 || state == 3) {
+    //     $("#btFinish").attr("disabled", "disabled");
+    // } else if(state == 0 || state == 2) {
+    //     $("#btFinish").removeAttr("disabled");
+    // }
+    // if(state == 0 || state == 1) {
+    //     $("#btCancel").removeAttr("disabled");
+    // } else {
+    //     $("#btCancel").attr("disabled","disabled");
+    // }
+    // if(state == 2){
+    //     $("#btReceive").removeAttr("disabled");
+    // }else{
+    //     $("#btReceive").attr("disabled","disabled");
+    // }
     setcolor(id);
     crno = id;
 }
@@ -548,6 +606,10 @@ function setcolor(id){
 }
 
 $(function () {
+    $("#btCancel").attr("disabled", "disabled");//撤销医嘱
+    $("#btAccept").attr("disabled", "disabled");//接收
+    $("#btFinish").attr("disabled", "disabled");//完成
+    $("#btReceive").attr("disabled", "disabled");//签收
     $(window).on('resize.jqGrid', function () {
         $('#sectionList').jqGrid('setGridWidth', $(".leftContent").width(), false);
     });
@@ -729,9 +791,18 @@ $(function () {
             if(row.checreatetime == "")
                 removeItem();
         },
+        beforeEditCell:function(rowid,cellname,v,iRow,iCol){
+            var rec = jQuery("#checkItemList").jqGrid('getRowData', rowid);
+            if (STATES < 3) {
+                setTimeout(function () {
+                    jQuery("#checkItemList").jqGrid('restoreCell', iRow, iCol);
+                    //===>或者设置为只读
+                }, 1);
+            }
+        },
         shrinkToFit: true,
         scrollOffset: 2,
-        rowNum: 10,
+        rowNum: 100,
         rownumbers: true // 显示行号
     });
 
@@ -775,21 +846,21 @@ $(function () {
             {
                 name: 'lkno',
                 index: 'lkno',
-                width: 55
+                width: 45
             },
             {
                 name: 'kucun',
                 index: 'kucun',
-                width: 40
+                width: 30
             },
             {
-                name: 'yuliu', index: 'yuliu', width: 45,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
+                name: 'yuliu', index: 'yuliu', width: 30,editable:true,edittype:'text',editrules: {edithidden:true,required:true,number:true}
             }
             ,
             {
                 name: 'slideNum',
                 index: 'slideNum',
-                width: 50
+                width: 30
             },
             {
                 name: 'childorderid',
@@ -807,7 +878,8 @@ $(function () {
                 hidden: true
             }
         ],
-        shrinkToFit: true,
+        autowidth:true,
+        // shrinkToFit: true,
         altRows: true,
         height: 100,
         rowNum: 5
@@ -1008,51 +1080,57 @@ $(function () {
     };
 
     //检查项目名称
-    $("#itemName").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: "../estitem/querytestitem",
-                dataType: "json",
-                data: {
-                    query: $("#itemName").val()//项目中文名称
-                },
-                success: function (data) {
-                    response($.map(data, function (result) {
-                        return {
-                            label: result.teschinesename,
-                            value: result.tesenglishname,
-                            id: result.testitemid,
-                            tesischarge: result.tesischarge
-                        }
-                    }));
-                }
-            });
-        },
-        minLength: 0,
-        select: function (event, ui) {
-            var paraffin = $("#lkItemList").jqGrid('getGridParam', 'selrow');
-            if(paraffin == null || paraffin.length == 0) return layer.alert("请先选择蜡块");
-            var lakuai = $("#lkItemList").jqGrid('getRowData', paraffin).lkno;
-            var row = {};
-            row.teschinesename = ui.item.label;
-            row.testitemid = ui.item.id;
-            row.tesischarge = ui.item.tesischarge;
-            row.tesenglishname = ui.item.value;
-            row.tesenglishname = ui.item.value;
-            row.paraffincode = lakuai;
-            row.finishStatus  = 0;
-            row.chirequsername  = $("#chirequsername").val();
-            appendItem(row);
-            /*$("#chinesename").val(ui.item.label);
-             $("#chienglishname").val(ui.item.value);
-             $("#testitemid").val(ui.item.id);*/
-        }
-    })
-        .data("ui-autocomplete")._renderItem = function (ul, item) {
-        return $("<li>")
-            .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
-            .appendTo(ul);
-    };
+    // $("#itemName").autocomplete({
+    //     source: function (request, response) {
+    //         $.ajax({
+    //             url: "../estitem/querytestitem",
+    //             dataType: "json",
+    //             data: {
+    //                 query: $("#itemName").val()//项目中文名称
+    //             },
+    //             success: function (data) {
+    //                 response($.map(data, function (result) {
+    //                     return {
+    //                         label: result.teschinesename,
+    //                         value: result.tesenglishname,
+    //                         id: result.testitemid,
+    //                         tesischarge: result.tesischarge
+    //                     }
+    //                 }));
+    //             }
+    //         });
+    //     },
+    //     minLength: 0,
+    //     select: function (event, ui) {
+    //         var paraffin = $("#lkItemList").jqGrid('getGridParam', 'selrow');
+    //         if(paraffin == null || paraffin.length == 0) return layer.alert("请先选择蜡块");
+    //         var lakuai = $("#lkItemList").jqGrid('getRowData', paraffin).lkno;
+    //         var row = {};
+    //         row.teschinesename = ui.item.label;
+    //         row.testitemid = ui.item.id;
+    //         row.tesischarge = ui.item.tesischarge;
+    //         row.tesenglishname = ui.item.value;
+    //         row.tesenglishname = ui.item.value;
+    //         row.paraffincode = lakuai;
+    //         row.finishStatus  = 0;
+    //         row.chirequsername  = $("#chirequsername").val();
+    //         appendItem(row);
+    //         /*$("#chinesename").val(ui.item.label);
+    //          $("#chienglishname").val(ui.item.value);
+    //          $("#testitemid").val(ui.item.id);*/
+    //     }
+    // })
+    //     .data("ui-autocomplete")._renderItem = function (ul, item) {
+    //     return $("<li>")
+    //         .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
+    //         .appendTo(ul);
+    // };
 
     getOrderItems();
 })
+
+function viewDetail() {
+    var sampatientid = $("#sampatientid").val();
+    window.open("http://10.31.96.34/zwemr2/SysLogin.aspx?lcation=inside&gh=77004&ly=D&pid="+sampatientid+"&edt=N&gs=krd");
+
+}

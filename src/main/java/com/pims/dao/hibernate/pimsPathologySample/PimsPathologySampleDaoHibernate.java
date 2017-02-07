@@ -727,7 +727,7 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         //查询是否有取材
         sb.append(" SELECT COUNT(1) FROM PIMS_PATHOLOGY_PIECES S WHERE S.PIESAMPLEID=" + sample.getSampleid());
         int piecenums = countTotal(sb.toString());
-        result = piecenums;
+        result = 0;
         if(piecenums > 0){
             sb = new StringBuffer();
             //查询是否完全取材

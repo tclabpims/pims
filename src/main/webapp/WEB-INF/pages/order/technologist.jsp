@@ -242,7 +242,7 @@
                         <div style="margin-bottom: 10px">
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">住院号：</label><input type="text" style="width:65%;border-width: 1px" disabled
                                                                     id="sampatientnumber"></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">常规收费：</label><input type="text" style="width:65%;border-width: 1px" disabled id=""></div>
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">登记时间：</label><input type="text" style="width:65%;border-width: 1px" disabled id="samregisttime"></div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检科室：</label><input type="text" style="width:65%;border-width: 1px" disabled id="samdeptname">
                             </div>
                         </div>
@@ -255,7 +255,8 @@
                                                                      id="samsendhospital"></div>
                         </div>
                         <div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">绝经：</label><input type="checkbox" style="vertical-align:bottom"></div>
+                            <div style="display: inline-block;width:30%"><label style="width:35%; text-align: right;font-size: 12px">取材时间：</label><input type="text" id="qcsj" disabled
+                                                                                                                                                         style="width:65%;height: 24px"></div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检材料：</label><input type="text" id="samsamplename" style="border-width: 1px;height:24px;padding-bottom:0px;width:65%" disabled></input></div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">临床诊断：</label><input type="text" id="sampatientdignoses" style="border-width: 1px;height:24px;padding-bottom:0px;width:65%" disabled></input>
                             </div>

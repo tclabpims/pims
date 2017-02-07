@@ -211,7 +211,14 @@ function getSampleData1(id) {
             $("#reqlastmenstruation").val(data.reqlastmenstruation);//末次月经时间 11
             $("#sampatientbed").val(data.sampatientbed);//患者床号
             $("#sampatientage").val(data.sampatientage);//患者床号
-
+            $("#samregisttime").val(CurentTime(new Date(data.samregisttime)));//登记时间
+            $.post("../pathologysample/pieces/getfristpiece", {id: id}, function (data1) {
+                if(data1.qcsj != ""){
+                    $("#qcsj").val(CurentTime(new Date(data1.qcsj)));//取材时间
+                }else{
+                    $("#qcsj").val("");//取材时间
+                }
+            });
             //重新加载取材信息列表
             jQuery("#materialList").jqGrid("clearGridData");
             jQuery("#materialList").jqGrid('setGridParam', {
@@ -507,7 +514,7 @@ $(function () {
         multiselect:true,
         shrinkToFit: true,
         scrollOffset: 2,
-        rowNum: 10,
+        rowNum: 100,
         rownumbers: true // 显示行号
     });
 

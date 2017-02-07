@@ -85,4 +85,6 @@ public interface PimsPathologyPiecesDao extends GenericDao<PimsPathologyPieces,L
 
     String getMinTime(Long sampleid);
 
+    boolean updatePieceStates(Long orderId,int state);// 1 更新 2 删除
+
 }

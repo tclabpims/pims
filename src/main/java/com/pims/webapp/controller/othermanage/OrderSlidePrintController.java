@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Controller
-@RequestMapping("/othermanage/orderslideprint")
+@RequestMapping("/othermanage/sample")
 public class OrderSlidePrintController extends PIMSBaseController {
     @Autowired
     private OrderSlidePrintManager orderSlidePrintManager;

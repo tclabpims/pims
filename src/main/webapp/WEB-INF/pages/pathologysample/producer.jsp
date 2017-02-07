@@ -157,6 +157,23 @@
 						</div>
 					</div>
 					<div class="form-group" style="margin-bottom: 5px;">
+						<label class="col-sm-2 label_style">年龄:</label>
+						<div class="col-sm-4 ">
+							<input class="input_style" type="text" id="sampatientage" name="sampatientage" style="float:left;width:40%;padding-left: 10px" readonly/>
+							<select class="input_style" style="float:left;width:25%" id="sampatientagetype">
+								<option value="1">岁</option>
+								<option value="2">月</option>
+								<option value="4">周</option>
+								<option value="5">日</option>
+								<option value="6">小时</option>
+							</select>
+						</div>
+						<label class="col-sm-2 label_style">送检单位:</label>
+						<div class="col-sm-4">
+							<input  class="input_style" type="text" id="samsendhospital" readonly/>
+						</div>
+					</div>
+					<div class="form-group" style="margin-bottom: 5px;">
 						<label class="col-sm-2 label_style" >住院号:</label>
 						<div class="col-sm-4 ">
 							<input class="input_style" type="text" id="sampatientnumber" readonly/>

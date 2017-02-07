@@ -89,7 +89,7 @@
                     });
                 }
             } else {
-                layer.alert("请先添加病种",{icon:1,title:"提示"});
+//                layer.alert("请先添加病种",{icon:1,title:"提示"});
                 return false;
             }
         });
@@ -626,7 +626,7 @@
         <input type="hidden" id="scode" value="210800"/>
         <input type="hidden" id="pathologyLibId"/>
         <div id="hospital" class="collapse navbar-collapse" style="float:right;font-size:14px;margin-top:8px;color:white">
-            当前登录用户:<%="("+WebControllerUtil.getAuthUser().getUsername()+")   "+WebControllerUtil.getAuthUser().getName()%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            当前登录用户:<%=WebControllerUtil.getAuthUser()==null?"":"("+WebControllerUtil.getAuthUser().getUsername()+")   "+WebControllerUtil.getAuthUser().getName()%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%--我的未处理工作：<a href="#" style="color: #ffffff">（10）</a>|--%>
             病理库：
             <select style="background-color:transpare;border: 0;font-size: 14px;color: #ffffff"

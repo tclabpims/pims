@@ -642,7 +642,7 @@ $(function () {
             var ids = jQuery("#new4").jqGrid('getDataIDs');
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
-                var deleteinfo = "<button style='border-radius:5px;border:1px solid #C2C2C2;' onclick='deleteinfo("+id+")' >删除</button>";
+                var deleteinfo = "<button style='border-radius:5px;border:1px solid #C2C2C2;' onclick=\"deleteinfo('"+id+"','4')\" >删除</button>";
                 jQuery("#new4").jqGrid('setRowData', ids[i], { deleteinfo: deleteinfo});
             }
         },
@@ -689,7 +689,7 @@ $(function () {
             var ids = jQuery("#new5").jqGrid('getDataIDs');
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
-                var deleteinfo = "<button style='border-radius:5px;border:1px solid #C2C2C2;' onclick='deleteinfo("+id+")' >删除</button>";
+                var deleteinfo = "<button style='border-radius:5px;border:1px solid #C2C2C2;' onclick=\"deleteinfo('"+id+"','5')\"  >删除</button>";
                 jQuery("#new5").jqGrid('setRowData', ids[i], { deleteinfo: deleteinfo});
             }
         },
@@ -783,12 +783,12 @@ $(function () {
  * 删除收藏记录
  * @param id
  */
-function deleteinfo(id){
-    var rowData = $("#new4").jqGrid('getRowData',id);
+function deleteinfo(id,num){
+    var rowData = $("#new"+num).jqGrid('getRowData',id);
     $.post("../favorite/deleteinfo",{favoriteid:rowData.favoriteid},function(data) {
         if(data.success) {
             layer.msg(data.message, {icon: 1, time: 1000});
-            jQuery("#new4").jqGrid('setGridParam',{
+            jQuery("#new"+num).jqGrid('setGridParam',{
                 url: "../favorite/query",
                 page : 1
             }).trigger('reloadGrid');//重新载入

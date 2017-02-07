@@ -27,7 +27,11 @@ function csMarage(states) {
 		var rowData = $("#sectionList").jqGrid('getRowData', crno);
 		if(rowData == null || rowData ==""){
 			result = false;
-			layer.msg("请选择病理标本再发起抄送!",{icon:2,time:1000});
+			if(states == 0){
+				layer.msg("请选择病理标本再发起抄送!",{icon:2,time:1000});
+			}else if(states == 1){
+				layer.msg("请选择病理标本再发起转送!",{icon:2,time:1000});
+			}
 			return;
 		}
 		if(rowData.sampathologystatus != 2 && states == 0){//抄送
@@ -56,7 +60,14 @@ function csMarage(states) {
 			},
 			function(data) {
 				if(data.success) {//已发起过抄送
-					layer.msg(data.message, {icon: 2,time: 1000});
+					if(states == 0){
+						layer.msg("标本不允许发起多次抄送!", {icon: 2,time: 1000});
+
+					}else if(states == 1){
+						layer.msg("标本不允许发起多次转送!", {icon: 2,time: 1000});
+
+					}
+					// layer.msg(data.message, {icon: 2,time: 1000});
 					return false;
 					//location.href='../consultation/cons.jsp?id='+ sampleid;
 				} else {
@@ -96,7 +107,14 @@ function csMarage(states) {
 									function(data) {
 										if(data.success) {
 											layer.close(index);
-											layer.msg(data.message, {icon:1, time: 1000});
+											// layer.msg(data.message, {icon:1, time: 1000});
+											if(states == 0){
+												layer.msg("发起抄送成功!", {icon: 2,time: 1000});
+
+											}else if(states == 1){
+												layer.msg("发起转送成功!", {icon: 2,time: 1000});
+
+											}
 											// location.href='../consultation/cons.jsp?id='+ sampleid;
 										} else {
 											layer.msg(data.message, {icon:2, time: 1000});

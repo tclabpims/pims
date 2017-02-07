@@ -427,6 +427,8 @@
                             <input type="hidden" id="customerId"/>
                             <input type="hidden" id="pathologyCode"/>
                             <input type="hidden" id="sampathologyid1"/>
+                            <input type="hidden" id="samissamplingall"/>
+
 
                             <div style="display: inline-block;width:33%"><label style="width:35% ; text-align: right;font-size: 12px">条形码：</label><input type="text" disabled
                                                                                                                                                          style="width:65%;height: 24px" id="saminspectionid"></div>

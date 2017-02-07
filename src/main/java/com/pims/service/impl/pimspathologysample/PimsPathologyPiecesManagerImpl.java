@@ -169,4 +169,9 @@ public class PimsPathologyPiecesManagerImpl extends GenericManagerImpl<PimsPatho
     public String getMinTime(Long sampleid) {
         return pimsPathologyPiecesDao.getMinTime(sampleid);
     }
+
+    @Override
+    public boolean updatePieceStates(Long orderId,int state) {
+        return pimsPathologyPiecesDao.updatePieceStates(orderId,state);
+    }
 }

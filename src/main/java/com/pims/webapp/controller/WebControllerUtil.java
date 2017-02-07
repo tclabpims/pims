@@ -11,7 +11,7 @@ public class WebControllerUtil {
 
     public static User getAuthUser() {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user != null) {
+        if(user != null && !user.equals("anonymousUser")) {
             return (User)user;
         }
         return null;

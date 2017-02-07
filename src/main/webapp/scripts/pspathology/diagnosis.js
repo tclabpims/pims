@@ -681,6 +681,10 @@ function reqyizhu() {
         layer.msg("请先选择医嘱类型！", {icon: 0, time: 1000});
         return false;
     }
+    if($("#samissamplingall").val() == 1 && yizhutype == 'BUQU'){
+        layer.msg("该标本已全取,无法进行补取操作！", {icon: 0, time: 1000});
+        return false;
+    }
     var rowData = $("#sectionList").jqGrid('getRowData', crno);
     layer.open({
         type: 1,
@@ -1161,6 +1165,7 @@ function getSampleData1(id) {
             $("#sampatientbed").val(data.sampatientbed);//患者床号
             $("#sampatientage").val(data.sampatientage);//患者床号
             $("#samregisttime").val(CurentTime(new Date(data.samregisttime)));//患者床号
+            $("#samissamplingall").val(data.samissamplingall);//是否全取
 
             $.post("../pathologysample/pieces/getfristpiece", {id: id}, function (data1) {
                 $("#span_id3").text(data1.hisnum);

@@ -86,4 +86,6 @@ public interface PimsPathologyPiecesManager extends GenericManager<PimsPathology
     JSONArray getSlideCode(JSONArray samplesList);
 
     String getMinTime(Long sampleid);
+
+    boolean updatePieceStates(Long orderId,int state);// 1 更新 2 删除
 }

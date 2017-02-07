@@ -88,11 +88,14 @@ public class PimsHospitalPathologyInfoController extends PIMSBaseController {
     public DataResponse userRelatePathology(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DataResponse dr = new DataResponse();
         User user = WebControllerUtil.getAuthUser();
-        List<PimsSysPathology> result = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        List<PimsSysPathology> result = new ArrayList<PimsSysPathology>();
+        if(user != null){
+            result = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        }
         dr.setRows(getResultMap(result));
         Map<String, Object> map = new HashMap<>();
-        UserBussinessRelate ubr = user.getUserBussinessRelate();
-        if (ubr == null) {
+//        UserBussinessRelate ubr = user.getUserBussinessRelate();
+        if (user == null || user.getUserBussinessRelate() == null) {
             map.put("pathologyLib", "");
             map.put("pathologyLibId", "");
         } else {

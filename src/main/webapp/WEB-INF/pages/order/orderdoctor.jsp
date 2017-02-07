@@ -137,17 +137,29 @@
                     <i class="ace-icon fa fa-arrow-right"></i>
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-warning" title="取消医嘱" id="btCancel" onclick="updateState(4)">
-                    <i class="ace-icon glyphicon glyphicon-remove"></i>
-                    取消医嘱
-                </button>
-                <button type="button" class="btn btn-sm btn-success" title="保存" id="btFinish" onclick="saveOrder()">
-                    <i class="ace-icon fa fa-floppy-o"></i>
-                    保存
-                </button>
                 <button type="button" class="btn btn-sm btn-info" title="计费调整" id="btChagreAdjust" onclick="hisChange()">
                     <i class="ace-icon glyphicon glyphicon-pencil"></i>
                     计费调整
+                </button>
+                <button type="button" class="btn btn-sm btn-warning " title="列表打印" id="printslide" onclick="printList()" >
+                    <i class="ace-icon fa fa-print bigger-110"></i>
+                    列表打印
+                </button>
+                <button type="button" class="btn btn-sm btn-warning" title="撤销医嘱" id="btCancel" onclick="updateState(4)">
+                    <i class="ace-icon glyphicon glyphicon-remove"></i>
+                    撤销医嘱
+                </button>
+                <%--<button type="button" class="btn btn-sm btn-success" title="保存" id="btFinish" onclick="saveOrder()">--%>
+                    <%--<i class="ace-icon fa fa-floppy-o"></i>--%>
+                    <%--保存--%>
+                <%--</button>--%>
+                <button type="button" class="btn btn-sm btn-warning" title="接收" id="btAccept" onclick="updateState(1)">
+                    <i class="ace-icon fa fa-folder-open-o"></i>
+                    接收
+                </button>
+                <button type="button" class="btn btn-sm btn-success" title="完成" id="btFinish" onclick="updateState(2)">
+                    <i class="ace-icon fa fa-check"></i>
+                    完成
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" title="签收" id="btReceive" onclick="updateState(3)">
                     <i class="ace-icon fa fa-folder-open-o"></i>
@@ -250,14 +262,15 @@
                             <input type="hidden" id="sampleid" style="height: 24px"/>
                             <input type="hidden" id="customerId" style="height: 24px"/>
                             <input type="hidden" id="pathologyCode" style="height: 24px"/>
+                            <input type="hidden" id="sampatientid" style="height: 24px"/>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">条形码：</label><input type="text" style="width:65%;border-width: 0px 0px 1px 0px;height: 24px;"disabled
                                                                     id="saminspectionid"></div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">年龄：</label><input type="text" style="width:65%;border-width: 0px 0px 1px 0px;height: 24px;"disabled
                                                                    id="sampatientage"></div>
                         </div>
                         <div style="margin-bottom: 10px">
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">病人姓名：</label><input type="text" style="width:45%;border-width: 0px 0px 1px 0px;height: 24px;"disabled
-                                                                     id="sampatientname"><a href="#">详细</a>
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">病人姓名：</label><input type="text" style="width:40%;border-width: 0px 0px 1px 0px;height: 24px;"disabled
+                                                                     id="sampatientname"><a href="#" onclick="viewDetail()"><button style="background: #4190f7!important;border-radius: 3px;color:#fff;border:1px solid #2274e4;margin-left: 3px;height: 25px">详细</button></a>
                             </div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">性别：</label><input type="text" style="width:65%;border-width: 0px 0px 1px 0px;height: 24px;"disabled
                                                                    id="sampatientgender"></div>
@@ -267,7 +280,7 @@
                         <div style="margin-bottom: 10px">
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">住院号：</label><input type="text" style="width:65%;border-width: 0px 0px 1px 0px;height: 24px;"disabled
                                                                     id="sampatientnumber"></div>
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">常规收费：</label><input type="text" style="width:65%;border-width: 0px 0px 1px 0px;height: 24px;"disabled id=""></div>
+                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">登记时间：</label><input type="text" style="width:65%;border-width: 0px 0px 1px 0px;height: 24px;"disabled id="samregisttime"></div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检科室：</label><input type="text" style="width:65%;border-width: 0px 0px 1px 0px;height: 24px"disabled id="samdeptname">
                             </div>
                         </div>
@@ -280,7 +293,8 @@
                                                                      id="samsendhospital"></div>
                         </div>
                         <div style="margin-bottom: 10px">
-                            <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">绝经：</label><input type="checkbox" style=""></div>
+                            <div style="display: inline-block;width:30%"><label style="width:35%; text-align: right;font-size: 12px">取材时间：</label><input type="text" id="qcsj" disabled
+                                                                                                                                                         style="width:65%;height: 24px"></div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">送检材料：</label><input type="text" id="samsamplename" style="border-width: 0px 0px 1px 0px;height:24px;width:65%"disabled></input></div>
                             <div style="display: inline-block;width:30%"><label style="display:inline-block;width:35%;text-align:right;font-size:12px">临床诊断：</label><input type="text" id="sampatientdignoses" style="border-width: 0px 0px 1px 0px;height:24px;width:65%"disabled></input>
                             </div>
@@ -356,14 +370,14 @@
                 <div style="width: 100%;padding-top:5px;" id="lakuaiListContainer">
                     <table id="lkItemList"></table>
                 </div>
-                <div style="width: 100%;height: 25px;margin-top:15px;">
-                    项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)" style="height:24px;width:140px"></select>
-                </div>
-                <div style="width: 100%;padding-top:5px"><button onclick="appendAll()" style="background:#e9e9e9;border-radius:3px;border:1px solid #c2c2c2">全部追加</button></div>
-                <div style="width: 100%;padding-top:15px">项目名称：<input id="itemName"/></div>
-                <div style="width: 100%;padding-top:5px;">
-                    <table id="ckItemList"></table>
-                </div>
+                <%--<div style="width: 100%;height: 25px;margin-top:15px;">--%>
+                    <%--项目套餐：<select id="itemPackage" onchange="getItemInfo(this.value)" style="height:24px;width:140px"></select>--%>
+                <%--</div>--%>
+                <%--<div style="width: 100%;padding-top:5px"><button onclick="appendAll()" style="background:#e9e9e9;border-radius:3px;border:1px solid #c2c2c2">全部追加</button></div>--%>
+                <%--<div style="width: 100%;padding-top:15px">项目名称：<input id="itemName"/></div>--%>
+                <%--<div style="width: 100%;padding-top:5px;">--%>
+                    <%--<table id="ckItemList"></table>--%>
+                <%--</div>--%>
             </div>
         </div>
     </div>

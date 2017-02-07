@@ -90,8 +90,7 @@
         &#12288;&#12288;&#12288;&#12288;②淋巴结病变、依靠核分裂像计数判断良恶性的某些软组织肿瘤(如平滑肌肿瘤)及主要依赖于侵袭
                     或转移才能判断为恶性的肿&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;瘤，一般需做常规石蜡切片确诊；</br>
         &#12288;&#12288;&#12288;&#12288;③脑组织含水量多，冰冻切片质量较差，诊断可能有难度。</br>
-        <div class="itemtitle">&#12288;&#12288;由于上述原因，当冰冻切片不能达到预期的目的时，需患者及家属谅解。同时患者有权选择快速的
-        术中需患者及家属谅解。同时患者有权选择快速的术中冰冻切片病理检查，也可选择更精确的常规
+        <div class="itemtitle">&#12288;&#12288;由于上述原因，当冰冻切片不能达到预期的目的时，需患者及家属谅解。同时患者有权选择快速的术中冰冻切片病理检查，也可选择更精确的常规
         石蜡切片病理检查。常规检查一般需5天出报告（节假日顺延）。</div>
     </div>
     <div class="line"></div>
@@ -101,8 +100,26 @@
     </div>
     <div class="line"></div>
     <div class="itemtitle">
-        医师签名：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;患者(代理/监护人)签名：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;关系：</br>
-        签署日期：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;签署日期：&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;※非本人签字
+        <table width="100%">
+            <tr>
+                <td width="12%"><span class="fieldname">医师签名：</span></td>
+                <td width="20%" class="txtstyle"></td>
+                <td width="20%"><span class="fieldname">患者(代理/监护人)签名：</span></td>
+                <td width="12%" class="txtstyle"></td>
+                <td width="12%"><span class="fieldname">关系：</span></td>
+                <td width="20%" class="txtstyle"></td>
+            </tr>
+            <tr>
+                <td width="12%"><span class="fieldname">签署日期：</span></td>
+                <td width="20%" class="txtstyle"></td>
+                <td width="12%"><span class="fieldname">签署日期：</span></td>
+                <td width="20%" class="txtstyle"></td>
+                <td width="12%"><span class="fieldname">※非本人签字</span></td>
+                <td width="20%" class="txtstyle"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="itemtitle">
     </div>
 </div>
 </body>

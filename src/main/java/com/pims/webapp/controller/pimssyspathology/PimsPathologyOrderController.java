@@ -150,10 +150,16 @@ public class PimsPathologyOrderController extends PIMSBaseController {
         if (orderType.equals(Constants.ORDER_TYPE_MYZH) || orderType.equals(Constants.ORDER_TYPE_FZBL)
                 || orderType.equals(Constants.ORDER_TYPE_TSRS))
             pimsPathologyOrderCheckManager.updateItemStatus(s);
-        if (orderType.equals(Constants.ORDER_TYPE_SHENQIE) || orderType.equals(Constants.ORDER_TYPE_CHONGQIE)) {
+        if (orderType.equals(Constants.ORDER_TYPE_SHENQIE) || orderType.equals(Constants.ORDER_TYPE_CHONGQIE)
+                || orderType.equals(Constants.ORDER_TYPE_BUQU)) {
             pimsPathologyOrderChildManager.updateChildItemStatus(s);
         }
-        saveSlide(orderId);
+        if(orderType.equals(Constants.ORDER_TYPE_BUQU)){
+            pimsPathologyPiecesManager.updatePieceStates(orderId,1);
+        }else{
+            saveSlide(orderId);
+        }
+//        saveSlide(orderId);
     }
 
     private void saveSlide(Long orderId) {
@@ -306,8 +312,12 @@ public class PimsPathologyOrderController extends PIMSBaseController {
     public void updateOrderState(HttpServletRequest request, HttpServletResponse response) throws Exception {
         long orderId = Long.valueOf(request.getParameter("orderId"));
         long orderState = Long.valueOf(request.getParameter("orderState"));
+        String orderType = request.getParameter("orderType");
         User user = WebControllerUtil.getAuthUser();
         pimsPathologyOrderManager.updateOrderState(orderId, orderState, user);
+        if(orderState == 4 && orderType != null && orderType.equals(Constants.ORDER_TYPE_BUQU)){
+            pimsPathologyPiecesManager.updatePieceStates(orderId,2);
+        }
     }
 
     @RequestMapping(value = "/orderchildandcheckitem", method = RequestMethod.GET)

@@ -3,22 +3,21 @@
 
 <head>
     <title><fmt:message key="ElectronicApplyManage.title"/></title>
-    <link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
+	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/ui.jqgrid.css'/>" />
 	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap-datetimepicker.min.css'/>" />
-	<link rel="stylesheet" type="text/css"  href="<c:url value='/styles/bootstrap.min.css'/>" />
 	<script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../scripts/i18n/grid.locale-cn.js"></script>
 	<script type="text/javascript" src="../scripts/jquery.jqGrid.js"></script>
 	<script type="text/javascript" src="<c:url value="/scripts/ace.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/scripts/ace-elements.min.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
-    <script type="text/javascript" src="../scripts/layer/layer.js"></script>
-    <script type="text/javascript" src="../scripts/his/hisrequest.js"></script>
+	<script type="text/javascript" src="<c:url value="/scripts/ace-elements.min.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
+	<script type="text/javascript" src="../scripts/layer/layer.js"></script>
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
-	<script type="text/javascript" src="../scripts/jquery.zclip.min.js"></script>
-	<script type="text/javascript" src="../scripts/jquery-ui.min.js"></script>
+	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
+	<script type="text/javascript" src="../scripts/his/hisrequest.js"></script>
 	<style>
 		.ui-autocomplete {
 			z-index: 99999999 !important;
