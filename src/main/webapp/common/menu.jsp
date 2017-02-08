@@ -1,3 +1,4 @@
+
 <%@ page import="com.pims.webapp.controller.WebControllerUtil" %>
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
@@ -621,12 +622,12 @@
             <menu:displayMenu name="OtherManage"/>
             <menu:displayMenu name="BasicData"/>
             <menu:displayMenu name="Individual"/>
-            <%--<menu:displayMenu name="ElectronicApplyManage"/>--%>
+            <menu:displayMenu name="ElectronicApplyManage"/>
         </ul>
         <input type="hidden" id="scode" value="210800"/>
         <input type="hidden" id="pathologyLibId"/>
         <div id="hospital" class="collapse navbar-collapse" style="float:right;font-size:14px;margin-top:8px;color:white">
-            当前登录用户:<%=WebControllerUtil.getAuthUser()==null?"":"("+WebControllerUtil.getAuthUser().getUsername()+")   "+WebControllerUtil.getAuthUser().getName()%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            当前用户:<%=WebControllerUtil.getAuthUser()==null?"":WebControllerUtil.getAuthUser().getName()%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <%--我的未处理工作：<a href="#" style="color: #ffffff">（10）</a>|--%>
             病理库：
             <select style="background-color:transpare;border: 0;font-size: 14px;color: #ffffff"

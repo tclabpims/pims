@@ -15,6 +15,8 @@ function getOrderItems(){
 }
 $(function () {
     getOrderItems();
+    var clientWidth = $(window).width();
+    var clientHeight = $(window).innerHeight() - $("#divx").height() - 200;
     $(".form_datetime1").datetimepicker({
         minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
@@ -30,18 +32,18 @@ $(function () {
 //			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
         colNames: ['医嘱类型','病理编号','患者姓名', '蜡块编号','医嘱项目','申请医生','申请日期','打印状态','总蜡块数'],
         colModel: [
-            { name: 'cheitemtype', index: 'cheitemtype',align:'center',width:'90px'},
-            { name: 'slipathologycode', align:'center',index: 'slipathologycode',width:'90px'},
-            { name: 'sampatientname', align:'center',index: 'sampatientname',width:'90px'},
-            { name: 'sliparaffincode', align:'center',index: 'sliparaffincode',width:'90px'},
-            { name: 'chenamech', align:'center',index: 'chenamech',width:'90px'},
-            { name: 'chirequsername',align:'center', index: 'chirequsername',width:'90px'},
-            {name:'chireqtime',align:'center',index:'chireqtime',width:'90px',formatter:function(cellvalue,options,row){
+            { name: 'cheitemtype', index: 'cheitemtype',align:'center'},
+            { name: 'slipathologycode', align:'center',index: 'slipathologycode'},
+            { name: 'sampatientname', align:'center',index: 'sampatientname'},
+            { name: 'sliparaffincode', align:'center',index: 'sliparaffincode'},
+            { name: 'chenamech', align:'center',index: 'chenamech'},
+            { name: 'chirequsername',align:'center', index: 'chirequsername'},
+            {name:'chireqtime',align:'center',index:'chireqtime',formatter:function(cellvalue,options,row){
                 if(cellvalue!=null){
                     return CurentTime(new Date(cellvalue));
                 }return '';}},
-            {name:'sliifprint',align:'center',index:'sliifprint', width:'170px',formatter:"select",editoptions:{value:"0:未打印;1:已打印;"}},
-            {name:'parpiececount',align:'center',index:'parpiececount',width:'90px',hidden:true}],
+            {name:'sliifprint',align:'center',index:'sliifprint',formatter:"select",editoptions:{value:"0:未打印;1:已打印;"}},
+            {name:'parpiececount',align:'center',index:'parpiececount',hidden:true}],
 //        formatter: "select", editoptions:{value:"0:借阅中;1:在库;"},
 //        formatter:function(cellvalue, options, row){
 //        if(cellvalue!=null){
@@ -76,8 +78,8 @@ $(function () {
         // },
         multiselect: true,   //默认选中
         viewrecords: true,
-        height:300,
-        width:800,
+        height:clientHeight,
+        width:clientWidth,
         shrinkToFit:false,
         autoScroll: true,
         rownumbers: true, // 显示行号

@@ -59,5 +59,10 @@ public interface PimsPathologyConsultationDao extends GenericDao<PimsPathologyCo
     PimsPathologyConsultation getConsInfo(Long id);
 
     boolean canChang(Long id);
-
+    /**
+     * 查询会诊是否都发表了意见
+     * @param id
+     * @return
+     */
+    boolean  conIsFinish(Long id);
 }

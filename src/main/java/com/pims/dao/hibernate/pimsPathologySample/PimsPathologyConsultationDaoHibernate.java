@@ -138,4 +138,15 @@ public class PimsPathologyConsultationDaoHibernate extends GenericDaoHibernate<P
         }
         return false;
     }
+
+    @Override
+    public boolean conIsFinish(Long id) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select count(1) from pims_consultation_detail where detstate=0 and detconsultationid="+ id);
+        int num = countTotal(sb.toString());
+        if(num == 0){
+            return true;
+        }
+        return false;
+    }
 }

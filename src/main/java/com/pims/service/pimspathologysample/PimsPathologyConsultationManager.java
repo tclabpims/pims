@@ -62,4 +62,11 @@ public interface PimsPathologyConsultationManager extends GenericManager<PimsPat
      */
     boolean canChang(Long id);
 
+    /**
+     * 查询会诊是否都发表了意见
+     * @param id
+     * @return
+     */
+    boolean  conIsFinish(Long id);
+
 }

@@ -135,7 +135,7 @@
 </head>
 <body>
 <div id="maincontent">
-	<div class="col-xs-12">
+	<div class="col-xs-12" id="divx">
 		<div>
 			<div style="display:inline-block">
 				<label>医嘱类型：</label>
@@ -185,7 +185,7 @@
 	<div class="row" id="materialGrid">
 		<div class="col-xs-12">
 			<table id="new"></table>
-			<div id="pager2"></div>
+			<div id="pager"></div>
 		</div>
 	</div>
 </div>

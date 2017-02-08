@@ -99,4 +99,9 @@ public class PimsPathologyConsultationManagerImpl extends GenericManagerImpl<Pim
     public boolean canChang(Long id) {
         return pimsPathologyConsultationDao.canChang(id);
     }
+
+    @Override
+    public boolean conIsFinish(Long id) {
+        return pimsPathologyConsultationDao.conIsFinish(id);
+    }
 }

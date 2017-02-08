@@ -12,6 +12,7 @@ import com.pims.webapp.controller.PIMSBaseController;
 import com.smart.Constants;
 import com.smart.model.user.User;
 import com.smart.model.user.UserBussinessRelate;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,13 +42,16 @@ public class HisMainController extends PIMSBaseController {
     private PimsCommonBaseDataManager pimsCommonBaseDataManager;//基础资料
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
+        ModelAndView view = new ModelAndView();
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, - 7);
         Date monday = c.getTime();
         String sevenDay = Constants.DF2.format(monday);
         String today = Constants.DF2.format(new Date());
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long logylibid = user.getUserBussinessRelate().getPathologyLibId();//病种库
+        User user = SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")?new User():
+                (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long logylibid = user.getUserBussinessRelate()==null?(StringUtils.isEmpty(request.getParameter("logylibid"))?185:Long.parseLong(request.getParameter("logylibid"))):
+                user.getUserBussinessRelate().getPathologyLibId();//病种库
         List<PimsSysReqTestitem> list = pimsSysReqTestitemManager.getTestitemInfo(null);//查询申请项目列表
         int nowyear = Calendar.getInstance().get(Calendar.YEAR);//获取当前年份
         String requisitionno = "";
@@ -58,18 +62,17 @@ public class HisMainController extends PIMSBaseController {
             long a = Long.valueOf(maxCode).longValue() + 1;
             requisitionno =  String.valueOf(a);
         }
-        List<PimsSysPathology> items = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId());
+        List<PimsSysPathology> items = pimsHospitalPathologyInfoManager.getPathologyByUserId(user.getId()==null?124:user.getId());
         StringBuilder builder = new StringBuilder();
         for(PimsSysPathology obj : items) {
             builder.append("<option value='").append(obj.getPathologyid()).append("' ");
-            if((String.valueOf(user.getUserBussinessRelate().getPathologyLibId())).equals(String.valueOf(obj.getPathologyid()))) {
+            if((String.valueOf(logylibid)).equals(String.valueOf(obj.getPathologyid()))) {
                 builder.append(" selected = 'selected' ");
             }
             builder.append(">").append(obj.getPatnamech()).append("</option>");
         }
-        ModelAndView view = new ModelAndView();
         view.addObject("logyids",builder.toString());
-        long hosptail = user.getHospitalId();
+        long hosptail = user.getHospitalId()==0?1:user.getHospitalId();
         //检查项目
         Map map = new HashMap();
         map.put("tesitemtype","4");
@@ -78,6 +81,11 @@ public class HisMainController extends PIMSBaseController {
         builder.append("<option value=''></option>");
         for(PimsSysReqTestitem obj : list1) {
             builder.append("<option value='").append(obj.getTestitemid()).append("' ");
+            if((String.valueOf(logylibid)).equals(String.valueOf(obj.getTespathologyid()))) {
+                builder.append(" selected = 'selected' ");
+                view.addObject("reqitemids",obj.getTestitemid());
+                view.addObject("reqitemnames",obj.getTeschinesename());
+            }
             builder.append(">").append(obj.getTespathologyid()+":"+obj.getTeschinesename()).append("</option>");
         }
         view.addObject("samjcxm",builder.toString());
@@ -102,7 +110,7 @@ public class HisMainController extends PIMSBaseController {
         view.addObject("requisitionno",requisitionno);//申请单号
         view.addObject("sevenday", sevenDay);//7天前
         view.addObject("receivetime", today);//当前时间
-        view.addObject("reqcustomerid",user.getHospitalId());//账号所属医院
+        view.addObject("reqcustomerid",hosptail);//账号所属医院
         view.addObject("reqpathologyid",logylibid);//当前用户选择的病例库
         view.addObject("reqsource",0);//申请单来源
         view.addObject("testList",getResultMap(list));//申请项目列表

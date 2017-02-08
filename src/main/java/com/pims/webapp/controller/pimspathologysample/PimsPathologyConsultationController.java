@@ -5,7 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.pims.model.*;
 import com.pims.service.his.PimsPathologyRequisitionManager;
 import com.pims.service.pimspathologysample.*;
+import com.pims.service.pimssyspathology.PimsSysCustomerBasedataManager;
+import com.pims.service.pimssyspathology.PimsSysPathologyManager;
+import com.pims.service.pimssyspathology.PimsSysReportItemsManager;
+import com.pims.service.pimssyspathology.PimsSysReqFieldManager;
 import com.pims.webapp.controller.PIMSBaseController;
+import com.pims.webapp.controller.WebControllerUtil;
+import com.pims.webapp.util.HtmlGenerator;
 import com.smart.model.user.User;
 import com.smart.webapp.util.DataResponse;
 import com.smart.webapp.util.PrintwriterUtil;
@@ -43,6 +49,15 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
     private PimsPathologyReceivemessageManager pimsPathologyReceivemessageManager;
     @Autowired
     private PimsPathologyMessageManager pimsPathologyMessageManager;
+    @Autowired
+    private PimsSysReqFieldManager psrm;
+
+    @Autowired
+    private PimsSysReportItemsManager pimsSysReportItemsManager;
+    @Autowired
+    private PimsSysCustomerBasedataManager pimsSysCustomerBasedataManager;
+    @Autowired
+    private PimsSysPathologyManager pimsSysPathologyManager;
 
     /**
      * 渲染视图
@@ -55,7 +70,17 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
         String sampleId = request.getParameter("id");
         //获取会诊详细信息
         PimsPathologyConsultation cons = pimsPathologyConsultationManager.getConsInfo(Long.parseLong(sampleId));
+        PimsPathologySample sample = pimsPathologySampleManager.getBySampleNo(Long.parseLong(sampleId));
+        User user = WebControllerUtil.getAuthUser();
+        Long hospitalId = user.getHospitalId();
+        Long pathologyId = sample.getSampathologyid();
+        List<PimsSysReportItems> reportItemsList = pimsSysReportItemsManager.getRefFieldList(hospitalId, pathologyId);
+        List<PimsSysReqField> reqFields = psrm.getReqFieldList(hospitalId, pathologyId);
+        List<PimsSysCustomerBasedata> customerData = pimsSysCustomerBasedataManager.getCustomerDataList(hospitalId, pathologyId);
+        PimsSysPathology psp = pimsSysPathologyManager.getSysPathologyById(pathologyId);
         ModelAndView  view =  getmodelView(request);
+        view.addObject("diagnosisItems", HtmlGenerator.generate(reqFields, reportItemsList, customerData));
+        view.addObject("patclass",psp.getPatclass());
         view.addObject("sampleId",sampleId);
         view.addObject("consultationid",cons.getConsultationid());
         view.addObject("consponsoreduserid",cons.getConsponsoreduserid());
@@ -299,6 +324,23 @@ public class PimsPathologyConsultationController extends PIMSBaseController{
             o.put("success", true);
             PrintwriterUtil.print(response, o.toString());
         }
+        return  null;
+    }
+
+    /**
+     * 查询会诊是否全部已发表意见
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/conisfinish*", method = RequestMethod.POST)
+    public String conIsFinish(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        JSONObject o = new JSONObject();
+        String id = request.getParameter("id");
+        boolean result = pimsPathologyConsultationManager.conIsFinish(Long.parseLong(id));
+        o.put("success", result);
+        PrintwriterUtil.print(response, o.toString());
         return  null;
     }
 }
