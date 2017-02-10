@@ -1,6 +1,7 @@
 package com.pims.dao.othermanage;
 
 
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsSlideRecord;
 import com.smart.dao.GenericDao;
 
@@ -15,7 +16,7 @@ public interface PimsSlideLoanRecordDao extends GenericDao<PimsSlideRecord,Long>
      * @param map
      * @return
      */
-    List<PimsSlideRecord> getRecordList(PimsSlideRecord map);
+    List<PimsSlideRecord> getRecordList(PimsSlideRecord map, PimsBaseModel ppr);
 
 //    boolean returnSlide(PimsSlideRecord map);
 }

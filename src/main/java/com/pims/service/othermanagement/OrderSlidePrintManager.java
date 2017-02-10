@@ -1,6 +1,7 @@
 package com.pims.service.othermanagement;
 
 
+import com.pims.model.PimsBaseModel;
 import com.smart.service.GenericManager;
 import java.util.Map;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 
 public interface OrderSlidePrintManager extends GenericManager{
-    List getLoanList(Map map);
+    List getLoanList(Map map, PimsBaseModel ppr);
 
     int getReqListNum(Map map);
 

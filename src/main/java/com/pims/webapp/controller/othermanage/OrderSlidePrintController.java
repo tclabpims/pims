@@ -76,15 +76,14 @@ public class OrderSlidePrintController extends PIMSBaseController {
         DataResponse dataResponse = new DataResponse();
         Map map =new HashedMap();
         PimsBaseModel ppr = new PimsBaseModel(request);
-        map.put("cheitemtype",request.getParameter("cheitemtype"));
+        map.put("slitestitemid",request.getParameter("cheitemtype"));
         map.put("sliifprint",request.getParameter("sliifprint"));
         map.put("slipathologycode",request.getParameter("slipathologycode"));
         map.put("chirequsername",request.getParameter("chirequsername"));
         map.put("sampatientname",request.getParameter("sampatientname"));
         map.put("applybftime",(request.getParameter("applybftime")== null|| request.getParameter("applybftime").equals(""))?null:new java.sql.Date(Constants.DF2.parse(request.getParameter("applybftime")).getTime()));
         map.put("applyaftime",(request.getParameter("applyaftime")== null|| request.getParameter("applyaftime").equals(""))?null:new java.sql.Date(Constants.DF2.parse(request.getParameter("applyaftime")).getTime()));
-        map.put("sidx",ppr.getSidx());
-        List list = orderSlidePrintManager.getLoanList(map);
+        List list = orderSlidePrintManager.getLoanList(map,ppr);
         int num = orderSlidePrintManager.getReqListNum(map);
         if (list == null || list.size() == 0) {
             return null;
@@ -96,8 +95,8 @@ public class OrderSlidePrintController extends PIMSBaseController {
             for(Object bean:list){
                 Map<String, Object> map1 = new HashMap<String, Object>();
                 Object[] pd = (Object[]) bean;
-                String[] st = {"sampatientname","slipathologycode","sliparaffincode","sliifprint",
-                        "chireqtime","chirequserid","chirequsername","cheorderitemid","chenamech","cheitemtype"};
+                String[] st = {"slitestitemid","slipathologycode","sliparaffincode","slitestitemname",
+                        "sliifprint","sampatientname","chirequserid","chirequsername","chireqtime","teschinesename"};
                 for(int i=0;i<st.length;i++){
                     Object o = pd[i];
                     map1.put(st[i],o);

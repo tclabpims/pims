@@ -24,8 +24,8 @@ public class OrderSlidePrintManagerImpl extends GenericManagerImpl implements Or
     }
 
     @Override
-    public List getLoanList(Map map){
-        return orderSlidePrintDao.getLoanList(map);
+    public List getLoanList(Map map, PimsBaseModel ppr){
+        return orderSlidePrintDao.getLoanList(map,ppr);
     }
 
     @Override

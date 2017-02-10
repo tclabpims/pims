@@ -124,11 +124,12 @@ public class LoanManagementController extends PIMSBaseController {
         @ResponseBody
         public DataResponse getFeeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
             DataResponse dataResponse = new DataResponse();
+            PimsBaseModel ppr = new PimsBaseModel(request);
             PimsSlideRecord rec = (PimsSlideRecord) setBeanProperty(request,PimsSlideRecord.class);
             if(rec == null){
                 return  null;
             }
-            List<PimsSlideRecord> list = pimsSlideLoanRecordManager.getRecordList(rec);
+            List<PimsSlideRecord> list = pimsSlideLoanRecordManager.getRecordList(rec,ppr);
             dataResponse.setRows(getResultMap(list));
             response.setContentType("text/html; charset=UTF-8");
             return dataResponse;

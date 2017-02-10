@@ -1,6 +1,7 @@
 package com.pims.service.impl.othermanagement;
 
 import com.pims.dao.othermanage.PimsSlideLoanRecordDao;
+import com.pims.model.PimsBaseModel;
 import com.pims.model.PimsSlideRecord;
 import com.pims.service.othermanagement.PimsSlideLoanRecordManager;
 import com.smart.service.impl.GenericManagerImpl;
@@ -24,8 +25,8 @@ public class PimsSlideLoanRecordManagerImpl extends GenericManagerImpl<PimsSlide
     }
 
     @Override
-    public List getRecordList(PimsSlideRecord map){
-        return pimsSlideLoanRecordDao.getRecordList(map);
+    public List getRecordList(PimsSlideRecord map, PimsBaseModel ppr){
+        return pimsSlideLoanRecordDao.getRecordList(map,ppr);
     }
 
 //    public boolean returnSlide(PimsSlideRecord map){

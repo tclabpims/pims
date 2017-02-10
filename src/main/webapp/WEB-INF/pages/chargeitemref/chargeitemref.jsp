@@ -129,7 +129,7 @@
                 <div class="form-group" style="margin-left:0px;margin-right:0px;">
                     <label class="col-xs-3 control-label no-padding-right" for="customerName"> 客户名称 </label>
                     <div class="col-xs-8" style="">
-                        <input type="text" id="customerName" name="customerName" onclick="showHospital()" placeholder="英文名称" class="col-xs-8"
+                        <input type="text" id="customerName" name="customerName" onclick="showHospital()" placeholder="客户名称" class="col-xs-8"
                                datatype="*2-255"/>
                         <input type="hidden" id="customercode" name="customercode">
                     </div>

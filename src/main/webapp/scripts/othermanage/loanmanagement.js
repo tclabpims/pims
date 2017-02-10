@@ -105,7 +105,7 @@ $(function() {
 		colNames: ['在库状态','病种类别','病理编号', '玻片编号','患者姓名','年龄','性别','制品日期'],
 		colModel: [
         { name: 'slicurrent', index: 'slicurrent',align:'center',width:'90px',formatter:"select",editoptions:{value:"0:借阅中;1:在库;"}},
-        { name: 'slipathologyid', align:'center',index: 'slipathologyid',width:'90px',formatter:"select",editoptions:{value:"181:常规病理;182:常规细胞学;183:骨髓细胞学;184:免疫组化;185:术中冰冻;186:外周血细胞;187:液基细胞学;188:HPV;"}},
+        { name: 'slipathologyid', align:'center',index: 'slipathologyid',width:'90px',formatter:"select",editoptions:{value:gettypes()}},
         { name: 'pathologyid', align:'center',index: 'pathologyid',width:'90px'},
         { name: 'sliid', align:'center',index: 'sliid',width:'90px'},
         { name: 'slipatientname', align:'center',index: 'slipatientname',width:'90px'},
@@ -189,14 +189,14 @@ function loanbtn() {
                 },function(data){
                          layer.msg(data.message, {icon: 0, time: 1000});
                          jQuery("#new").jqGrid("clearGridData");
-                                   jQuery("#new").jqGrid('setGridParam',{
-                                       url: "../othermanage/loanmanagement/ajax/slide",
-                                       //发送数据
-                               //		success: function(logyid) {
-                               //                            console.log(logyid);
-                               //                        },
-                                       page : 1
-                                   }).trigger('reloadGrid');//重新载入
+							   jQuery("#new").jqGrid('setGridParam',{
+								   url: "../othermanage/loanmanagement/ajax/slide",
+								   //发送数据
+						   //		success: function(logyid) {
+						   //                            console.log(logyid);
+						   //                        },
+								   page : 1
+							   }).trigger('reloadGrid');//重新载入
                       });
         }else{
         return layer.alert("请填写借阅人和预计归还日期！");
@@ -357,7 +357,7 @@ function createNew1(width) {
             {name:'slicustomername',index:'slicustomername'},
             {name:'sliouttime',index:'sliouttime',formatter:function(cellvalue, options, row){
             if(cellvalue!=null){
-return CurentTime(new Date(cellvalue))}return '';},width:'85px'}],
+				return CurentTime(new Date(cellvalue))}return '';},width:'85px'}],
             loadComplete : function() {
             			var table = this;
             			setTimeout(function(){
@@ -412,6 +412,32 @@ function gettypes(){
 	});
 	return str;
 }
+
+function filltypes(n){
+    //动态生成select内容
+    var str="";
+    $.ajax({
+        type:"get",
+        async:false,
+        url:"../hpinfo/userid",
+        dataType: "json",
+        success:function(data){
+            if (data != null) {
+                for(var i=0;i<data.length;i++){
+                    // if(i!=data.length-1){
+                    //     str+=data[i].id+":"+data[i].name+";";
+                    // }else{
+                    //     str+=data[i].id+":"+data[i].name;
+                    // }
+					if(data[i].id==n){
+						str=data[i].name;
+					}
+                }
+            }
+        }
+    });
+    return str;
+}
 /**
  * 查询功能
  */
@@ -456,15 +482,30 @@ function searchList2() {
 
 function fillInfo1(id){
     document.getElementById("deptandresult").innerHTML = "";
+    var type =null;
+    var rowData = $("#new").jqGrid('getRowData',id);
+    var n = rowData.slipathologyid;
+    var cur = "在库";
+    var sex = "男";
+    filltypes(n);
 	setcolor(id);
 	nowrow = id;
-	var rowData = $("#new").jqGrid('getRowData',id);
-	document.getElementById("slicurrenta").value = rowData.slicurrent;
-	document.getElementById("patientnamea").value = rowData.slipatientname;
-	document.getElementById("slipathologyida").value = rowData.slipathologyid;
-	document.getElementById("patientagea").value = rowData.slipatientage;
+	if(rowData.slicurrent=='1'){
+		cur = "在库";
+	}else {
+        cur = "借阅中";
+	}
+    if(rowData.slipatientsex=='1'){
+        sex = "男";
+    }else {
+        sex = "女";
+    }
+	document.getElementById("slicurrenta").value = cur;
+    document.getElementById("patientnamea").value = rowData.slipatientname;
+    document.getElementById("slipathologyida").value = filltypes(n);
+    document.getElementById("patientagea").value = rowData.slipatientage;
     document.getElementById("pathologyida").value = rowData.pathologyid;
-    document.getElementById("patientsexa").value = rowData.slipatientsex;
+    document.getElementById("patientsexa").value = sex;
 	if (id == null || id == 0) {
 		layer.msg('请先选择数据', {icon: 2, time: 1000});
 		return false;
@@ -497,7 +538,7 @@ function fillInfo1(id){
                    objtext.innerHTML=rowData2.sliresult;
                    objbody.appendChild(objtext);
                }
-            }},100);
+	 }},100);
 }
 
 function fillInfo2(id){

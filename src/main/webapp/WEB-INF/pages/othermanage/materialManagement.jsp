@@ -200,7 +200,7 @@
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline;">
-                                <label style="margin-left:10px">耗材名称：</label><input type="text" id="marname" style="width: 120px;height: 24px" autocomplete="off">
+                                <label style="margin-left:10px">耗材名称：</label><input type="text" id="marname" style="width: 120px;height: 27px" autocomplete="off">
                             </div>
                             <div>
                                 <label style="margin-left:10px;height:24px">在库状态：</label>

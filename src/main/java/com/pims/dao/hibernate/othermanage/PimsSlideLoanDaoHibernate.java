@@ -57,7 +57,7 @@ public class PimsSlideLoanDaoHibernate extends GenericDaoHibernate<PimsSlideLoan
         String orderby = (map.getSidx() == null || map.getSidx().trim().equals("")) ? "sliid" : map.getSidx();
         sb.append(" order by " + orderby + " " + map.getSord());
         System.out.println(sb.toString());
-        return pagingList(sb.toString());
+        return pagingList(sb.toString(),map.getStart(),map.getEnd());
     }
 
     @Override

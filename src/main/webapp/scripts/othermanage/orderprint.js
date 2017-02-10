@@ -30,20 +30,19 @@ $(function () {
         datatype: "json",
 //		postData:{"logyid":logyid,"sli_code":sli_code,"customer_name":customer_name,"patient_name":patient_name,
 //			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
-        colNames: ['医嘱类型','病理编号','患者姓名', '蜡块编号','医嘱项目','申请医生','申请日期','打印状态','总蜡块数'],
+        colNames: ['医嘱类型','病理编号','患者姓名', '蜡块编号','医嘱项目','申请医生','申请日期','打印状态'],
         colModel: [
-            { name: 'cheitemtype', index: 'cheitemtype',align:'center'},
+            { name: 'teschinesename', index: 'teschinesename',align:'center'},
             { name: 'slipathologycode', align:'center',index: 'slipathologycode'},
             { name: 'sampatientname', align:'center',index: 'sampatientname'},
             { name: 'sliparaffincode', align:'center',index: 'sliparaffincode'},
-            { name: 'chenamech', align:'center',index: 'chenamech'},
+            { name: 'slitestitemname', align:'center',index: 'slitestitemname'},
             { name: 'chirequsername',align:'center', index: 'chirequsername'},
             {name:'chireqtime',align:'center',index:'chireqtime',formatter:function(cellvalue,options,row){
                 if(cellvalue!=null){
                     return CurentTime(new Date(cellvalue));
                 }return '';}},
-            {name:'sliifprint',align:'center',index:'sliifprint',formatter:"select",editoptions:{value:"0:未打印;1:已打印;"}},
-            {name:'parpiececount',align:'center',index:'parpiececount',hidden:true}],
+            {name:'sliifprint',align:'center',index:'sliifprint',formatter:"select",editoptions:{value:"0:未打印;1:已打印;"}}],
 //        formatter: "select", editoptions:{value:"0:借阅中;1:在库;"},
 //        formatter:function(cellvalue, options, row){
 //        if(cellvalue!=null){
@@ -59,7 +58,6 @@ $(function () {
             return $(e.target).is('input[type=checkbox]');},
         loadComplete : function() {
             var table = this;
-
             var ids = $("#new").jqGrid('getDataIDs');
             if(ids != null && ids != ""){
                 nowrow = "1";
@@ -67,11 +65,11 @@ $(function () {
             //$("#new").setSelection(1);
         },
         ondblClickRow: function (id) {
-
+            fillInfo1(id);
 //			alert(id);
         },
         onCellSelect:function(id){
-
+            fillInfo1(id);
         },
         // onSelectRow:function(id){
         // 	fillInfo1(id);
@@ -89,6 +87,18 @@ $(function () {
         pager: "#pager"
     });
 });
+
+function fillInfo1(id) {
+    setcolor(id);
+}
+
+function setcolor(id){
+    var ids = $("#new").getDataIDs();
+    $.each(ids, function (key, val) {
+        $("#new").children().children("tr[id='"+ids[key]+"']").removeClass("ui-state-highlight");
+    });
+    $("#new").children().children("tr[id='"+id+"']").addClass("ui-state-highlight");
+}
 
 function CurentTime(now) {
     //var now = new Date();
@@ -177,14 +187,14 @@ function CreateDataBill() {
     LODOP.SET_PRINT_PAGESIZE(1,"80mm","24mm","A4");
     var ids = $("#new").jqGrid('getGridParam','selarrrow');
     for(i=0;i<ids.length;i++){
-        var rowData = $("#new").jqGrid('getRowData',ids);
+        var rowData = $("#new").jqGrid('getRowData',ids[i]);
         var sliparaffincode =rowData.sliparaffincode.split("-",1);
         var num = getTotal(sliparaffincode);
         var item = "";
-        if(rowData.cheitemtype=="免疫组化"){
+        if(rowData.teschinesename=="免疫组化"){
             item="免组";
         }else{
-            item=rowData.cheitemtype;
+            item=rowData.teschinesename;
         }
         // var topheight1 = Math.floor(i/3)*24+ 3;
         // var topheight2 = Math.floor(i/3)*24+ 8;
@@ -212,16 +222,16 @@ function CreateDataBill() {
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
         // LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode); slisamplingparts
         // LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-        LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","80mm","4mm",rowData.sliparaffincode+"/"+num);
+        LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","80mm","4mm",rowData.sliparaffincode);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","80mm","10mm",item+"("+rowData.chenamech+")");
+        LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","80mm","10mm","("+rowData.slitestitemname+")");
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-//		if(i%3 == 2 || i == datas.labOrders.length -1){
-//			LODOP.PRINT();
-//			// LODOP.PREVIEW();
-//		}
+		if(i%3 == 2 || i == ids.length -1){
+			LODOP.PRINT();
+			// LODOP.PREVIEW();
+		}
     }
 
 }
@@ -229,6 +239,7 @@ function startPrint() {
     CreateDataBill();
     //开始打印
 //	 LODOP.PRINT();
-    LODOP.PREVIEW();
+//     LODOP.PREVIEW();
     // LODOP.PRINT_SETUP();
 }
+

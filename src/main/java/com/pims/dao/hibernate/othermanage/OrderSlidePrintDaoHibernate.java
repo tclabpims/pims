@@ -22,8 +22,8 @@ public class OrderSlidePrintDaoHibernate extends GenericDaoHibernate implements 
     public OrderSlidePrintDaoHibernate(){super(PimsPathologyOrderCheck.class);}
 
     public StringBuffer getSearchSql(StringBuffer sb, Map map) {
-        if (!StringUtils.isEmpty((String)map.get("cheitemtype"))) {
-            sb.append(" and t.testitemid = '" + map.get("cheitemtype")+"'");//条形码
+        if (!StringUtils.isEmpty((String)map.get("slitestitemid"))) {
+            sb.append(" and s.slitestitemid = '" + map.get("slitestitemid")+"'");//条形码
         }
         if (!StringUtils.isEmpty((String)map.get("sliifprint"))) {
             sb.append(" and s.sliifprint = '" + map.get("sliifprint")+"'");//玻片id
@@ -52,14 +52,18 @@ public class OrderSlidePrintDaoHibernate extends GenericDaoHibernate implements 
      * @return
      */
     @Override
-    public List getLoanList(Map map) {
+    public List getLoanList(Map map, PimsBaseModel ppr) {
         StringBuffer sb = new StringBuffer();
         //蜡块号、病理编号、打印、病人姓名、申请时间、申请人id、申请人姓名、医嘱类型、检查项目类型
-        sb.append("select p.sampatientname,s.slipathologycode,s.sliparaffincode,s.sliifprint,c.chireqtime,c.chirequserid,c.chirequsername,k.cheorderitemid,k.chenamech,t.teschinesename from PIMS_PATHOLOGY_SLIDE s,PIMS_PATHOLOGY_SAMPLE p,PIMS_PATHOLOGY_ORDER_CHECK k,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t WHERE 1=1");
-        sb.append("and p.sampathologycode=k.chepathologycode and k.chepathologycode=c.chipathologycode and c.chipathologycode=s.slipathologycode and c.testitemid=t.testitemid");
+//        sb.append("select p.sampatientname,s.slipathologycode,s.sliparaffincode,s.sliifprint,c.chireqtime,c.chirequserid,c.chirequsername,k.cheorderitemid,k.chenamech,t.teschinesename from PIMS_PATHOLOGY_SLIDE s,PIMS_PATHOLOGY_SAMPLE p,PIMS_PATHOLOGY_ORDER_CHECK k,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t WHERE ");
+//        sb.append(" P.SAMPATHOLOGYCODE = K.CHEPATHOLOGYCODE AND K.CHEORDERID = C.CHIORDERID and C.TESTITEMID = T.TESTITEMID");
+        sb.append("SELECT s.slitestitemid,s.slipathologycode,s.sliparaffincode,s.slitestitemname,s.sliifprint,p.sampatientname,");
+        sb.append("c.chirequserid,c.chirequsername,c.chireqtime,t.teschinesename ");
+        sb.append("from PIMS_PATHOLOGY_SLIDE s,PIMS_PATHOLOGY_SAMPLE p,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t ");
+        sb.append("where s.slitestitemid = t.TESTITEMID and s.slipathologycode = p.SAMPATHOLOGYCODE and s.slifirstn = c.chiorderid");
         getSearchSql(sb, map);
-        String orderby = ((String) map.get("sidx") == null || ((String) map.get("sidx")).trim().equals("")) ? "sliparaffincode" :(String) map.get("sidx");
-        sb.append(" order by " + orderby + " ");
+        String orderby = (ppr.getSidx() == null || ((String) ppr.getSidx()).trim().equals("")) ? "sliparaffincode" :ppr.getSidx();
+        sb.append(" order by " + orderby + " " + ppr.getSord());
         System.out.println(sb.toString());
         SQLQuery query = getSession().createSQLQuery(sb.toString());
         if((Date)map.get("applybftime") != null){
@@ -68,14 +72,18 @@ public class OrderSlidePrintDaoHibernate extends GenericDaoHibernate implements 
         if((Date)map.get("applyaftime")!= null){
             query.setDate("applyaftime",(Date)map.get("applyaftime"));
         }
+        query.setFirstResult(ppr.getStart());
+        query.setMaxResults(ppr.getEnd());
         return query.list();
     }
 
     @Override
     public int getReqListNum(Map map) {
         StringBuffer sb = new StringBuffer();
-        sb.append("select p.sampatientname,s.slipathologycode,s.sliparaffincode,s.sliifprint,c.chireqtime,c.chirequserid,c.chirequsername,k.cheorderitemid,k.chenamech,t.teschinesename from PIMS_PATHOLOGY_SLIDE s,PIMS_PATHOLOGY_SAMPLE p,PIMS_PATHOLOGY_ORDER_CHECK k,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t WHERE 1=1");
-        sb.append("and p.sampathologycode=k.chepathologycode and k.chepathologycode=c.chipathologycode and c.chipathologycode=s.slipathologycode and c.testitemid=t.testitemid");
+        sb.append("SELECT s.slitestitemid,s.slipathologycode,s.sliparaffincode,s.slitestitemname,s.sliifprint,p.sampatientname,");
+        sb.append("c.chirequserid,c.chirequsername,c.chireqtime,t.teschinesename ");
+        sb.append("from PIMS_PATHOLOGY_SLIDE s,PIMS_PATHOLOGY_SAMPLE p,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t ");
+        sb.append("where s.slitestitemid = t.TESTITEMID and s.slipathologycode = p.SAMPATHOLOGYCODE and s.slifirstn = c.chiorderid");
         getSearchSql(sb, map);
         SQLQuery query = getSession().createSQLQuery(sb.toString());
         if((Date)map.get("applybftime") != null){

@@ -15,7 +15,7 @@
     <script type="text/javascript" src="<c:url value="/scripts/ace-elements.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/scripts/bootstrap-tag.min.js"/>"></script>
     <script type="text/javascript" src="../scripts/layer/layer.js"></script>
-    <script type="text/javascript" src="../scripts/othermanage/orderslideprint.js"></script>
+    <script type="text/javascript" src="../scripts/othermanage/specialSlidePrint.js"></script>
     <script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
     <script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
     <%--<script type="text/javascript" src="../scripts/consultation/cons1.js"></script>--%>
@@ -194,7 +194,7 @@
         <div class="row" id="materialGrid">
             <div class="col-xs-12 leftContent">
                 <table id="new"></table>
-                <div id="pager2"></div>
+                <div id="pager"></div>
             </div>
         </div>
     </div>

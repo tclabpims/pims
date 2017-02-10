@@ -34,7 +34,8 @@ public class PimsSysChargeItemsManagerImpl extends GenericManagerImpl<PimsSysCha
             qstr.append(" where p.chinesename||p.chienglishname  like '%").append(query).append("%'");
         }
         sidx = (sidx == null || sidx.trim().equals(""))?"p.chargeitemid ":sidx;
-        qstr.append(" order by  ").append(sidx).append(gridQuery.getSord());
+        qstr.append(" order by  ").append(sidx);
+        qstr.append(" "+gridQuery.getSord());
         return pimsSysChargeItemsDao.pagingList(qstr.toString(), gridQuery.getStart(), gridQuery.getEnd());
     }
 

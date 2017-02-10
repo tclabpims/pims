@@ -347,7 +347,7 @@ function CreateDataBill() {
     LODOP.ADD_PRINT_TEXTA("nameText","15mm","50mm","29mm","3mm","耗材名称");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-    LODOP.ADD_PRINT_TEXTA("nameText","15mm","75mm","29mm","3mm","制造商");
+    LODOP.ADD_PRINT_TEXTA("nameText","15mm","77mm","29mm","3mm","制造商");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
     LODOP.ADD_PRINT_TEXTA("nameText","15mm","100mm","29mm","3mm","登录者");
@@ -367,19 +367,19 @@ function CreateDataBill() {
 	    }else{
 	        rowData.marishas="在库";
 	    }
-	    LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","27mm","29mm","3mm",rowData.marishas);
+	    LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","25mm","29mm","3mm",rowData.marishas);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","48mm","29mm","3mm",rowData.marname);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","50mm","29mm","3mm",rowData.marname);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","72mm","29mm","3mm",rowData.manufacter);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","77mm","29mm","3mm",rowData.manufacter);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
         LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","100mm","29mm","3mm",rowData.loginuser);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","123mm","29mm","3mm",rowData.loginintime);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","125mm","29mm","3mm",rowData.loginintime);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
         LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","150mm","15mm","3mm",rowData.remarks);

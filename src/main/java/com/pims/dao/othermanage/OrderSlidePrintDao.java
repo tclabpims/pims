@@ -10,7 +10,7 @@ import java.util.List;
  * Created by zp on 2017/1/9.
  */
 public interface OrderSlidePrintDao extends GenericDao{
-    List getLoanList(Map map);
+    List getLoanList(Map map, PimsBaseModel ppr);
 
     int getReqListNum(Map map);
 
