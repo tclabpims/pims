@@ -414,6 +414,9 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         if(!StringUtils.isEmpty(map.getQcbw())){
             sb.append(" and sampleid in (select piesampleid from  pims_pathology_pieces s where upper(s.pieparts) like '"+map.getQcbw().toUpperCase()+"') ");//取材部位
         }
+        if(!StringUtils.isEmpty(map.getReq_sts())){
+            sb.append(" and samsamplestatus>='"+map.getReq_sts()+"'");//取材部位
+        }
         return sb;
     }
 
@@ -454,6 +457,31 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         return query.list();
     }
 
+//    /**
+//     * 查询报告列表
+//     * @param map
+//     * @return
+//     */
+//    @Override
+//    public List getReportList(PimsBaseModel map) {
+//        StringBuffer sb = new StringBuffer();
+//        sb.append("SELECT id,name,qcnum,ccnum,shnum from"+
+//                "(SELECT count(1) from PIMS_PATHOLOGY_PIECES p,LAB_USER u where p.PIEDOCTORID=u.id) as qcnum,"+
+//                "(SELECT count(1) from PIMS_PATHOLOGY_SAMPLE s,LAB_USER u where s.saminitiallyuserid=u.id) as ccnum,"+
+//                "(SELECT count(1) from PIMS_PATHOLOGY_SAMPLE s,LAB_USER u where s.saminitiallyuserid=u.id) as shnum"+
+//                "from LAB_USER u,PIMS_PATHOLOGY_PIECES p,PIMS_PATHOLOGY_SAMPLE s where s.saminitiallyuserid=u.id and p.PIEDOCTORID=u.id");
+////        getReportSql(map,sb);
+//        Query query = getSession().createSQLQuery(sb.toString());
+////        if(map.getReq_bf_time() != null){
+////            query.setDate("req_bf_time",map.getReq_bf_time());//送检开始时间
+////        }
+////        if(map.getReq_af_time() != null){
+////            query.setDate("req_af_time",map.getReq_af_time());//送检结束时间
+////        }
+//        query.setFirstResult(map.getStart());
+//        query.setMaxResults(map.getEnd());
+//        return query.list();
+//    }
     /**
      * 查询报表数量
      * @param map
