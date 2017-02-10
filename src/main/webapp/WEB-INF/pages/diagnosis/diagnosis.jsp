@@ -139,6 +139,8 @@
        .dropdown-menu{
             z-index: 99999999!important;
         }
+        .label_style{font-size: 13px;color: #323232;height: 20px;text-align:right;}
+        .input_style{height: 20px;font-size: 13px!important;}
     </style>
 
 </head>
@@ -261,7 +263,7 @@
                     转送</button>
                 <button type="button" class="btn btn-sm btn-primary" title="抄送管理" onclick="csMarage(0)">
                     <i class="ace-icon fa fa-cogs"></i>
-                    抄送管理
+                    抄送
                 </button>
                 <button type="button" class="btn btn-sm btn-info" title="发起会诊" onclick="consMarage()">
                     <i class="ace-icon fa fa-puzzle-piece "></i>
@@ -269,11 +271,11 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-warning" title="加入随访病例" onclick="addFavorite(1)">
                     <i class="ace-icon fa fa-bookmark "></i>
-                    加入随访病例
+                    加入随访
                 </button>
                 <button type="button" class="btn btn-sm btn-success" title="加入我的收藏" onclick="addFavorite(0)">
                     <i class="ace-icon fa fa-heart "></i>
-                    加入我的收藏
+                    加入收藏
                 </button>
             </div>
         </div>
@@ -296,22 +298,18 @@
                 <div class="widget-main padding-4 scrollable ace-scroll" style="position: relative;">
                     <div class="scroll-content">
                         <div class="content" id="searchcotent">
-                            <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">病种类别：</label>
+                            <table>
+                                <span class="input_style">病种类别：</span>
                                 <input type="hidden" id ="user_id" value="${local_userid}">
                                 <%--<input type="hidden" id ="local_username" value="${local_username}">--%>
                                 <input type="hidden" id ="reqsts" value="">
-                                <select onchange="" id="sampathologyid" style="height:24px;width:150px;">
+                                <select onchange="" id="sampathologyid"  class="input_style">
                                     <%--<option value="" <c:if test="${code != ''}"> selected</c:if>>--请选择--</option>--%>
                                     <%=StringEscapeUtils.unescapeHtml4((String) request.getAttribute("logyids"))%>
                                 </select>
-                            </div>
-                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">登记年月：</label><input type="text" id="samplesectionfrom" class="form_datetime" value="${sevenday}"
-                                                            style="width: 150px;height:24px;">~<input type="text" class="form_datetime" value="${receivetime}"
-                                                                                         style="height:24px;width: 150px"
-                                                                                         id="samplesectionto"></div>
-                            <div style="display:block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px">病理状态：</label>
+                                <span  class="input_style">病理状态：</span>
                                 <%--<input type="text" id="saminspectionidq" style="height:24px;width: 150px">--%>
-                                <select id="saminspectionidq" style="height:24px;width:150px;">
+                                <select id="saminspectionidq"  class="input_style">
                                     <option value="">全部</option>
                                     <option value="1">未报告</option>
                                     <option value="2">已初查</option>
@@ -319,6 +317,12 @@
                                     <option value="5">已签发</option>
                                     <option value="4">已打印</option>
                                 </select>
+                            </table>
+                            <div><label style="display:inline-block;width:64px;text-align:right;font-size:12px">登记年月：</label><input type="text" id="samplesectionfrom" class="form_datetime" value="${sevenday}"
+                                                            style="width: 150px;height:24px;">~<input type="text" class="form_datetime" value="${receivetime}"
+                                                                                         style="height:24px;width: 150px"
+                                                                                         id="samplesectionto"></div>
+                            <div style="display:block;">
                             </div>
                             <div style="display:inline-block;"><label style="display:inline-block;width:64px;text-align:right;font-size:12px;font-size:12px">病理编号：</label><input type="text" id="sampathologycodeq" value="${code}"
                                                                                    style="height:24px;width: 150px"></div>

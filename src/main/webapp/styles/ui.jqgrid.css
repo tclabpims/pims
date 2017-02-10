@@ -171,7 +171,7 @@ a.g-menu-item, a.soptclass, a.clearsearchclass { cursor: pointer; }
 }
 /*修改表格内样式*/
 #jqgh_new_cb{
-	padding-bottom:30px;
+	padding-bottom:20px;
 	text-align: center!important;
 }
 .ui-jqgrid-view{

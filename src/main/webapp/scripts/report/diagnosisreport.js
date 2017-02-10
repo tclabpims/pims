@@ -155,7 +155,7 @@ $(function() {
 			{ name: 'sampatientbed', index: 'sampatientbed',width:'100px'},//床号
 			{ name: 'sampatientsex', index: 'sampatientsex',formatter: "select", editoptions:{value:"1:男;2:女;3:未知"},width:'100px'},//性别
 			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;" +
-			"5:已审核;6:已发送;7:会诊中:8:报告已打印"},width:'100px'},//病理状态
+			"5:已审核;6:已发送;7:会诊中;8:已打印"},width:'100px'},//病理状态
 			{ name: 'samsendtime', index: 'samsendtime',formatter:function(cellvalue, options, row)
 			{if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))},width:'100px'},//送检日期
 			{ name: 'saminitiallytime', index: 'saminitiallytime',formatter:function(cellvalue, options, row)
@@ -167,9 +167,9 @@ $(function() {
 			{ name: 'parsectioneddoctor', index: 'parsectioneddoctor',width:'100px'},//切片医生
 			{ name: 'saminitiallyusername', index: 'saminitiallyusername',width:'100px'},//诊断医生
 			{ name: 'restestresult', index: 'restestresult',width:'100px'},//病理诊断
-			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'},//免疫组化
-			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'},//特殊染色
-			{ name: 'samsamplestatus', index: 'samsamplestatus',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'}//分子病理
+			{ name: 'myzhnum', index: 'myzhnum',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'},//免疫组化
+			{ name: 'tsrsnum', index: 'tsrsnum',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'},//特殊染色
+			{ name: 'fzblnum', index: 'fzblnum',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'}//分子病理
 		],
 		beforeSelectRow: function (rowid, e) {
 			return $(e.target).is('input[type=checkbox]');

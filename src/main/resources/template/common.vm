@@ -90,12 +90,12 @@
         #end
     </div>
     <div class="fieldname">病理诊断：</div>
-    <div style="width:90%;height:430px;padding-left:5px;padding-right: 20px;" class="txtstyle">
+    <div style="width:90%;height:300px;padding-left:5px;padding-right: 20px;" class="txtstyle">
         $!diagnosisResult
     </div>
-##    <div style="width:95%;height:230px;padding-left:5px;padding-right: 5px" class="txtstyle">
-##        $!samtestresult
-##    </div>
+    <div style="width:95%;height:130px;padding-left:5px;padding-right: 5px" class="txtstyle">
+        $!samtestresult
+    </div>
 
     #parse ("/template/reportFooter.vm")
 </div>

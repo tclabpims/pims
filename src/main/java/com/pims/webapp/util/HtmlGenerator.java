@@ -69,7 +69,7 @@ public class HtmlGenerator {
         TEXTAREA("textarea", "<div>\n" +
                 "<label for='#fieelementid'>#fieelementname</label>\n" +
                 "<button onclick=\"showTemplate(#rpttemplatetype,'#fieelementid')\">从模板选择</button>\n" +
-                "<button onclick=\"saveAsTemplate(#rpttemplatetype,'#fieelementid')\">存为模板</button>\n<div><textarea name='#fieelementid' id='#fieelementid' cols='65' rptItemId='#reportitemid' rows='2' printOrder='#printOrder' showOrder='#showOrder' hiddenValue='' placeholder='#fieelementname'></textarea></div>\n" +
+                "<button onclick=\"saveAsTemplate(#rpttemplatetype,'#fieelementid')\">存为模板</button>\n<div><textarea name='#fieelementid' id='#fieelementid' cols='85' rptItemId='#reportitemid' rows='4' printOrder='#printOrder' showOrder='#showOrder' hiddenValue='' placeholder='#fieelementname'></textarea></div>\n" +
                 "</div>\n"),
         SELECT("select", ""),
         RADIO("radio", ""),

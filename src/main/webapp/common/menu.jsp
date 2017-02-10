@@ -403,7 +403,7 @@
             border-bottom:1px solid #40a2fb!important;
         }
         #search_div_1{
-            min-height:136px!important;
+            /*min-height:136px!important;*/
         }
         button{
             height:26px!important;
@@ -521,7 +521,7 @@
             margin:0 16px 0 20px!important;
         }
         #search_div_1{
-            min-width:280px!important;
+            /*min-width:280px!important;*/
             padding:0!important;
         }
         #search_div_1 button{

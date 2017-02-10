@@ -231,6 +231,7 @@ public class PimsPathologyRequisitionDaoHibernate extends GenericDaoHibernate<Pi
                 if(String.valueOf(mater.getRequisitionid()).equals("0")){
                     mater.setRequisitionid(ppr.getRequisitionid());
                 }
+                mater.setReqmfirstv(ppr.getRequisitionno()+"_"+(i+1));
                 pimsRequisitionMaterialManager.save(mater);
             }
         }

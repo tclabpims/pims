@@ -313,7 +313,7 @@ function createNew1(reqid,width1){
 		url:"../pathologysample/pieces/ajax/getItem",
 		datatype: "json",
 		mtype:"GET",
-		height:130,
+		height:260,
 		width: width1,
 		// shrinkToFit:false,
 		// autoScroll: true,

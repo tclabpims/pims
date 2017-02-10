@@ -165,6 +165,10 @@
                     <i class="ace-icon fa fa-folder-open-o"></i>
                     签收
                 </button>
+                <button type="button" class="btn btn-sm btn-success" title="保存" id="btSave" onclick="saveOrder()">
+                    <i class="ace-icon fa fa-floppy-o"></i>
+                    保存
+                </button>
             </div>
         </div>
     </div>

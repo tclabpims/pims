@@ -879,6 +879,7 @@ function CreateDataBill(datas) {
             LODOP.SET_PRINT_STYLEA(0,"Bold",1);
             if(data.slisamplingparts != null && data.slisamplingparts != ""){
                 LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+                LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
                 LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
                 LODOP.SET_PRINT_STYLEA(0,"Bold",1);
             }

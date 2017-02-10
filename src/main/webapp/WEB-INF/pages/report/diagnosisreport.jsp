@@ -25,7 +25,7 @@
 		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:left;}
-		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;text-align: right}
+		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;text-align: left}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
@@ -90,7 +90,7 @@ $(document).ready(function(){
 					<div id="search_div_1" style="background-color: #F9F9F9;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;送检FROM:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;送检开始:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style " value="${sevenday}" id="req_bf_time"/>
 						<div class="col-sm-2 ">
 							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0;" onclick="searchList()">
@@ -100,7 +100,7 @@ $(document).ready(function(){
 						<div style="clear:both"></div>
 					</div>
 					<div style="margin-bottom: 5px;">
-						<span class="col-sm-4 input_style">&nbsp;送检TO:&nbsp;</span>
+						<span class="col-sm-4 input_style">&nbsp;送检结束:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style inputstyle2" value="${receivetime}"  id="req_af_time"/>
 					</div>
 					<div style="margin-bottom: 5px;">

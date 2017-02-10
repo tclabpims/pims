@@ -1656,49 +1656,64 @@ function printSlide(){
     );
 }
 function printSlideCode(datas,rowdatas) {
+	LODOP = getLodop();
+    // LODOP.PRINT_DESIGN ();
     for(i=0;i<datas.length;i++){
-        var data = datas[i];
-        LODOP = getLodop();
         LODOP.PRINT_INIT("");
-        LODOP.SET_PRINT_PAGESIZE(1,"51mm","32mm","A4");
-        LODOP.ADD_PRINT_TEXT("2mm","7mm","40mm","4mm","树兰(杭州)医院");
+        LODOP.SET_PRINT_PAGESIZE(1,"52mm","35mm","A4");
+        LODOP.ADD_PRINT_TEXT("2mm","4mm","40mm","4mm","树兰(杭州)医院");
         LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_BARCODE("6mm","2mm","30mm","10mm","128B",rowdatas.requisitionno);
+        LODOP.ADD_PRINT_BARCODE("6mm","4mm","40mm","10mm","128Auto",rowdatas.requisitionno);
+        // LODOP.ADD_PRINT_BARCODE("6mm","4mm","46mm","10mm","128Auto",datas[i].reqmfirstv);
+        LODOP.SET_PRINT_STYLEA(0, "ShowBarText", 0);
         LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-		LODOP.ADD_PRINT_TEXT("17mm","7mm","12mm","5mm","姓名:");
-		LODOP.ADD_PRINT_TEXT("17mm","17mm","20mm","5mm",rowdatas.reqpatientname);
-		LODOP.ADD_PRINT_TEXT("17mm","32mm","12mm","5mm","性别:");
-		var sex = "";
-		if(rowdatas.reqpatientsex == 1){
+        LODOP.ADD_PRINT_TEXT("17mm","0mm","50mm","5mm",datas[i].reqmfirstv);
+        LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+        // LODOP.ADD_PRINT_TEXT("17mm","2mm","12mm","5mm","姓名:");
+        // LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        // LODOP.ADD_PRINT_TEXT("17mm","14mm","20mm","5mm",rowdatas.reqpatientname);
+        // LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        // LODOP.ADD_PRINT_TEXT("17mm","32mm","12mm","5mm","性别:");
+        // LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        var sex = "";
+        if(rowdatas.reqpatientsex == 1){
 			sex = "男";
-		}else if(rowdatas.reqpatientsex == 2){
+        }else if(rowdatas.reqpatientsex == 2){
 			sex = "女";
-		}
-		LODOP.ADD_PRINT_TEXT("17mm","42mm","10mm","5mm",sex);
-		// LODOP.ADD_PRINT_TEXT("19mm","35mm","12mm","5mm","年龄:");
-		// var agetype = "";
-		// if(rowdatas.reqpatagetype == 1){
-		// 	agetype = "岁";
-		// }else if(rowdatas.reqpatagetype == 2){
-		// 	agetype = "月";
-		// }else if(rowdatas.reqpatagetype == 4){
-		// 	agetype = "周";
-		// }else if(rowdatas.reqpatagetype == 5){
-		// 	agetype = "日";
-		// }else if(rowdatas.reqpatagetype == 6){
-		// 	agetype = "小时";
-		// }
-		// LODOP.ADD_PRINT_TEXT("19mm","43mm","10mm","5mm",rowdatas.reqpatientage+agetype);
-        LODOP.ADD_PRINT_TEXT("21mm","7mm","20mm","5mm","取材部位:");
-		LODOP.ADD_PRINT_TEXT("21mm","27mm","20mm","5mm",datas[i].reqmsamplingparts);
+        }
+        // LODOP.ADD_PRINT_TEXT("17mm","44mm","6mm","5mm",sex);
+        // LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        // LODOP.ADD_PRINT_TEXT("19mm","35mm","12mm","5mm","年龄:");
+        var agetype = "";
+        if(rowdatas.reqpatagetype == 1){
+        	agetype = "岁";
+        }else if(rowdatas.reqpatagetype == 2){
+        	agetype = "月";
+        }else if(rowdatas.reqpatagetype == 4){
+        	agetype = "周";
+        }else if(rowdatas.reqpatagetype == 5){
+        	agetype = "日";
+        }else if(rowdatas.reqpatagetype == 6){
+        	agetype = "小时";
+        }
+        // LODOP.ADD_PRINT_TEXT("19mm","43mm","10mm","5mm",rowdatas.reqpatientage+agetype);
+        var patinfo = "姓名:"+ rowdatas.reqpatientname + " 性别:" + sex + " 年龄:" + rowdatas.reqpatientage+agetype;
+        LODOP.ADD_PRINT_TEXT("22mm","4mm","50mm","5mm",patinfo);
+        LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        // LODOP.ADD_PRINT_TEXT("21mm","2mm","20mm","5mm","取材部位:");
+        // LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        // LODOP.ADD_PRINT_TEXT("21mm","25mm","20mm","5mm",datas[i].reqmsamplingparts);
+        LODOP.ADD_PRINT_TEXT("27mm","4mm","50mm","5mm","取材部位:" + datas[i].reqmsamplingparts);
+        LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         // LODOP.ADD_PRINT_TEXTA("nameText","20mm","18mm","17mm","3mm",datas[i].reqmsamplingparts);
+        // LODOP.ADD_PRINT_TEXT("25mm","2mm","20mm","5mm","送检材料:");
+        // LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
+        // LODOP.ADD_PRINT_TEXT("25mm","25mm","20mm","5mm",datas[i].reqmmaterialname);
+        LODOP.ADD_PRINT_TEXT("32mm","4mm","50mm","5mm","送检材料:"+datas[i].reqmmaterialname);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
-        LODOP.ADD_PRINT_TEXT("25mm","7mm","20mm","5mm","送检材料:");
-        LODOP.ADD_PRINT_TEXT("25mm","27mm","20mm","5mm",datas[i].reqmmaterialname);
-        LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
-        //LODOP.PREVIEW();
-		LODOP.PRINT();
+        // LODOP.PREVIEW();
+        LODOP.PRINT();
     }
 
     // LODOP.PRINT();
@@ -1759,125 +1774,125 @@ function printReport() {
 
 
 
-var CreatedOKLodop7766=null;
-
-//====判断是否需要安装CLodop云打印服务器:====
-function needCLodop(){
-    try{
-        var ua=navigator.userAgent;
-        if (ua.match(/Windows\sPhone/i) !=null) return true;
-        if (ua.match(/iPhone|iPod/i) != null) return true;
-        if (ua.match(/Android/i) != null) return true;
-        if (ua.match(/Edge\D?\d+/i) != null) return true;
-        if (ua.match(/QQBrowser/i) != null) return false;
-        var verTrident=ua.match(/Trident\D?\d+/i);
-        var verIE=ua.match(/MSIE\D?\d+/i);
-        var verOPR=ua.match(/OPR\D?\d+/i);
-        var verFF=ua.match(/Firefox\D?\d+/i);
-        var x64=ua.match(/x64/i);
-        if ((verTrident==null)&&(verIE==null)&&(x64!==null))
-            return true; else
-        if ( verFF !== null) {
-            verFF = verFF[0].match(/\d+/);
-            if ( verFF[0] >= 42 ) return true;
-        } else
-        if ( verOPR !== null) {
-            verOPR = verOPR[0].match(/\d+/);
-            if ( verOPR[0] >= 32 ) return true;
-        } else
-        if ((verTrident==null)&&(verIE==null)) {
-            var verChrome=ua.match(/Chrome\D?\d+/i);
-            if ( verChrome !== null ) {
-                verChrome = verChrome[0].match(/\d+/);
-                if (verChrome[0]>=42) return true;
-            };
-        };
-        return false;
-    } catch(err) {return true;};
-};
-
-//====页面引用CLodop云打印必须的JS文件：====
-if (needCLodop()) {
-    var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
-    var oscript = document.createElement("script");
-    oscript.src ="http://localhost:8000/CLodopfuncs.js?priority=1";
-    head.insertBefore( oscript,head.firstChild );
-    //本机浏览器的后补端口8001：
-    oscript = document.createElement("script");
-    oscript.src ="http://localhost:8001/CLodopfuncs.js?priority=2";
-    head.insertBefore( oscript,head.firstChild );
-};
-
-//====获取LODOP对象的主过程：====
-function getLodop(oOBJECT,oEMBED){
-    var strHtmInstall="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-    var strHtmUpdate="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='install_lodop32.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
-    var strHtm64_Install="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop64.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-    var strHtm64_Update="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='install_lodop64.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
-    var strHtmFireFox="<br><br><font color='#FF00FF'>（注意：如曾安装过Lodop旧版附件npActiveXPLugin,请在【工具】->【附加组件】->【扩展】中先卸它）</font>";
-    var strHtmChrome="<br><br><font color='#FF00FF'>(如果此前正常，仅因浏览器升级或重安装而出问题，需重新执行以上安装）</font>";
-    var strCLodopInstall="<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
-    var strCLodopUpdate="<br><font color='#FF00FF'>CLodop云打印服务需升级!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行升级</a>,升级后请刷新页面。</font>";
-    var LODOP;
-    try{
-        var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
-        if (needCLodop()) {
-            try{ LODOP=getCLodop();} catch(err) {};
-            if (!LODOP && document.readyState!=="complete") {alert("C-Lodop没准备好，请稍后再试！"); return;};
-            if (!LODOP) {
-                if (isIE) document.write(strCLodopInstall); else
-                    document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
-                return;
-            } else {
-
-                if (CLODOP.CVERSION<"2.0.5.3") {
-                    if (isIE) document.write(strCLodopUpdate); else
-                        document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
-                };
-                if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
-                if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
-            };
-        } else {
-            var is64IE  = isIE && (navigator.userAgent.indexOf('x64')>=0);
-            //=====如果页面有Lodop就直接使用，没有则新建:==========
-            if (oOBJECT!=undefined || oEMBED!=undefined) {
-                if (isIE) LODOP=oOBJECT; else  LODOP=oEMBED;
-            } else if (CreatedOKLodop7766==null){
-                LODOP=document.createElement("object");
-                LODOP.setAttribute("width",0);
-                LODOP.setAttribute("height",0);
-                LODOP.setAttribute("style","position:absolute;left:0px;top:-100px;width:0px;height:0px;");
-                if (isIE) LODOP.setAttribute("classid","clsid:2105C259-1E0C-4534-8141-A753534CB4CA");
-                else LODOP.setAttribute("type","application/x-print-lodop");
-                document.documentElement.appendChild(LODOP);
-                CreatedOKLodop7766=LODOP;
-            } else LODOP=CreatedOKLodop7766;
-            //=====Lodop插件未安装时提示下载地址:==========
-            if ((LODOP==null)||(typeof(LODOP.VERSION)=="undefined")) {
-                if (navigator.userAgent.indexOf('Chrome')>=0)
-                    document.documentElement.innerHTML=strHtmChrome+document.documentElement.innerHTML;
-                if (navigator.userAgent.indexOf('Firefox')>=0)
-                    document.documentElement.innerHTML=strHtmFireFox+document.documentElement.innerHTML;
-                if (is64IE) document.write(strHtm64_Install); else
-                if (isIE)   document.write(strHtmInstall);    else
-                    document.documentElement.innerHTML=strHtmInstall+document.documentElement.innerHTML;
-                return LODOP;
-            };
-        };
-        if (LODOP.VERSION<"6.2.0.4") {
-            if (needCLodop())
-                document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML; else
-            if (is64IE) document.write(strHtm64_Update); else
-            if (isIE) document.write(strHtmUpdate); else
-                document.documentElement.innerHTML=strHtmUpdate+document.documentElement.innerHTML;
-            return LODOP;
-        };
-        //===如下空白位置适合调用统一功能(如注册语句、语言选择等):===
-        LODOP.SET_LICENSES("杭州同烁信息技术有限公司", "BD01DF8932E17DF1666BD1E7F683CA3B", "杭州同爍信息技術有限公司", "66C03A83361CEA25AAC8D4206D199A67");
-        LODOP.SET_LICENSES("THIRD LICENSE", "", "Tongshuo Information Technology Co.,Ltd.", "FA66F8318320BC028F60D106EB94691C");
-        //===========================================================
-        return LODOP;
-    } catch(err) {alert("getLodop出错:"+err);};
-};
+// var CreatedOKLodop7766=null;
+//
+// //====判断是否需要安装CLodop云打印服务器:====
+// function needCLodop(){
+//     try{
+//         var ua=navigator.userAgent;
+//         if (ua.match(/Windows\sPhone/i) !=null) return true;
+//         if (ua.match(/iPhone|iPod/i) != null) return true;
+//         if (ua.match(/Android/i) != null) return true;
+//         if (ua.match(/Edge\D?\d+/i) != null) return true;
+//         if (ua.match(/QQBrowser/i) != null) return false;
+//         var verTrident=ua.match(/Trident\D?\d+/i);
+//         var verIE=ua.match(/MSIE\D?\d+/i);
+//         var verOPR=ua.match(/OPR\D?\d+/i);
+//         var verFF=ua.match(/Firefox\D?\d+/i);
+//         var x64=ua.match(/x64/i);
+//         if ((verTrident==null)&&(verIE==null)&&(x64!==null))
+//             return true; else
+//         if ( verFF !== null) {
+//             verFF = verFF[0].match(/\d+/);
+//             if ( verFF[0] >= 42 ) return true;
+//         } else
+//         if ( verOPR !== null) {
+//             verOPR = verOPR[0].match(/\d+/);
+//             if ( verOPR[0] >= 32 ) return true;
+//         } else
+//         if ((verTrident==null)&&(verIE==null)) {
+//             var verChrome=ua.match(/Chrome\D?\d+/i);
+//             if ( verChrome !== null ) {
+//                 verChrome = verChrome[0].match(/\d+/);
+//                 if (verChrome[0]>=42) return true;
+//             };
+//         };
+//         return false;
+//     } catch(err) {return true;};
+// };
+//
+// //====页面引用CLodop云打印必须的JS文件：====
+// if (needCLodop()) {
+//     var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
+//     var oscript = document.createElement("script");
+//     oscript.src ="http://localhost:8000/CLodopfuncs.js?priority=1";
+//     head.insertBefore( oscript,head.firstChild );
+//     //本机浏览器的后补端口8001：
+//     oscript = document.createElement("script");
+//     oscript.src ="http://localhost:8001/CLodopfuncs.js?priority=2";
+//     head.insertBefore( oscript,head.firstChild );
+// };
+//
+// //====获取LODOP对象的主过程：====
+// function getLodop(oOBJECT,oEMBED){
+//     var strHtmInstall="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
+//     var strHtmUpdate="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='install_lodop32.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
+//     var strHtm64_Install="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='install_lodop64.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
+//     var strHtm64_Update="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='install_lodop64.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
+//     var strHtmFireFox="<br><br><font color='#FF00FF'>（注意：如曾安装过Lodop旧版附件npActiveXPLugin,请在【工具】->【附加组件】->【扩展】中先卸它）</font>";
+//     var strHtmChrome="<br><br><font color='#FF00FF'>(如果此前正常，仅因浏览器升级或重安装而出问题，需重新执行以上安装）</font>";
+//     var strCLodopInstall="<br><font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
+//     var strCLodopUpdate="<br><font color='#FF00FF'>CLodop云打印服务需升级!点击这里<a href='CLodopPrint_Setup_for_Win32NT.exe' target='_self'>执行升级</a>,升级后请刷新页面。</font>";
+//     var LODOP;
+//     try{
+//         var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
+//         if (needCLodop()) {
+//             try{ LODOP=getCLodop();} catch(err) {};
+//             if (!LODOP && document.readyState!=="complete") {alert("C-Lodop没准备好，请稍后再试！"); return;};
+//             if (!LODOP) {
+//                 if (isIE) document.write(strCLodopInstall); else
+//                     document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
+//                 return;
+//             } else {
+//
+//                 if (CLODOP.CVERSION<"2.0.5.3") {
+//                     if (isIE) document.write(strCLodopUpdate); else
+//                         document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
+//                 };
+//                 if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
+//                 if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
+//             };
+//         } else {
+//             var is64IE  = isIE && (navigator.userAgent.indexOf('x64')>=0);
+//             //=====如果页面有Lodop就直接使用，没有则新建:==========
+//             if (oOBJECT!=undefined || oEMBED!=undefined) {
+//                 if (isIE) LODOP=oOBJECT; else  LODOP=oEMBED;
+//             } else if (CreatedOKLodop7766==null){
+//                 LODOP=document.createElement("object");
+//                 LODOP.setAttribute("width",0);
+//                 LODOP.setAttribute("height",0);
+//                 LODOP.setAttribute("style","position:absolute;left:0px;top:-100px;width:0px;height:0px;");
+//                 if (isIE) LODOP.setAttribute("classid","clsid:2105C259-1E0C-4534-8141-A753534CB4CA");
+//                 else LODOP.setAttribute("type","application/x-print-lodop");
+//                 document.documentElement.appendChild(LODOP);
+//                 CreatedOKLodop7766=LODOP;
+//             } else LODOP=CreatedOKLodop7766;
+//             //=====Lodop插件未安装时提示下载地址:==========
+//             if ((LODOP==null)||(typeof(LODOP.VERSION)=="undefined")) {
+//                 if (navigator.userAgent.indexOf('Chrome')>=0)
+//                     document.documentElement.innerHTML=strHtmChrome+document.documentElement.innerHTML;
+//                 if (navigator.userAgent.indexOf('Firefox')>=0)
+//                     document.documentElement.innerHTML=strHtmFireFox+document.documentElement.innerHTML;
+//                 if (is64IE) document.write(strHtm64_Install); else
+//                 if (isIE)   document.write(strHtmInstall);    else
+//                     document.documentElement.innerHTML=strHtmInstall+document.documentElement.innerHTML;
+//                 return LODOP;
+//             };
+//         };
+//         if (LODOP.VERSION<"6.2.0.4") {
+//             if (needCLodop())
+//                 document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML; else
+//             if (is64IE) document.write(strHtm64_Update); else
+//             if (isIE) document.write(strHtmUpdate); else
+//                 document.documentElement.innerHTML=strHtmUpdate+document.documentElement.innerHTML;
+//             return LODOP;
+//         };
+//         //===如下空白位置适合调用统一功能(如注册语句、语言选择等):===
+//         LODOP.SET_LICENSES("杭州同烁信息技术有限公司", "BD01DF8932E17DF1666BD1E7F683CA3B", "杭州同爍信息技術有限公司", "66C03A83361CEA25AAC8D4206D199A67");
+//         LODOP.SET_LICENSES("THIRD LICENSE", "", "Tongshuo Information Technology Co.,Ltd.", "FA66F8318320BC028F60D106EB94691C");
+//         //===========================================================
+//         return LODOP;
+//     } catch(err) {alert("getLodop出错:"+err);};
+// };
 
 

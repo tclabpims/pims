@@ -8470,7 +8470,7 @@ textarea.form-control {
 }
 
 select {
-    padding: 3px 4px;
+    padding: 0px 4px;
     height: 30px
 }
 
@@ -12947,12 +12947,12 @@ th .lbl:only-child,td .lbl:only-child {
 }
 
 .ui-jqgrid .ui-jqgrid-htable th span.ui-jqgrid-resize {
-    height: 45px !important
+    height: 25px !important
 }
 
 .ui-jqgrid .ui-jqgrid-htable th div {
-    padding-top: 12px;
-    padding-bottom: 12px
+    padding-top: 3px;
+    padding-bottom: 2px
 }
 
 .ui-jqgrid-hdiv .ui-jqgrid-htable {
@@ -12975,7 +12975,7 @@ th .lbl:only-child,td .lbl:only-child {
 
 .ui-jqgrid tr.ui-row-ltr td,.ui-jqgrid tr.ui-row-rtl td {
     border-bottom: 1px solid #E1E1E1;
-    padding: 6px 4px;
+    padding: 2px 2px;
     border-color: #E1E1E1
 }
 

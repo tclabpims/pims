@@ -26,8 +26,8 @@
 		.div_img{cursor:pointer;display: block;margin-bottom:11px;}
 		.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}
 		.img_style{width: 18px;height: 23px}
-		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
-		.input_style{height: 24px;font-size: 12px!important;}
+		.label_style{font-size: 13px;color: #323232;height: 20px;text-align:right;}
+		.input_style{height: 20px;font-size: 13px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.btn-sm{padding:0 9px!important}
@@ -63,10 +63,10 @@
                 <i class="ace-icon glyphicon glyphicon-pencil bigger-110"></i>
                 计费调整
             </button>
-            <button type="button" class="btn btn-sm btn-primary " title="图像采集" onclick="takingPicture()">
-                <i class="ace-icon fa fa-picture-o bigger-110"></i>
-                图像采集
-            </button>
+            <%--<button type="button" class="btn btn-sm btn-primary " title="图像采集" onclick="takingPicture()">--%>
+                <%--<i class="ace-icon fa fa-picture-o bigger-110"></i>--%>
+                <%--图像采集--%>
+            <%--</button>--%>
             <button type="button" class="btn btn-sm btn-info " title="列表打印" onclick="printCode()">
                 <i class="ace-icon fa fa-file-text-o bigger-110"></i>
                 列表打印
@@ -101,7 +101,7 @@
 	<div>
 		<div>
 			<h5 style="float: left;width: 33.7%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:15px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;工作列表</strong></h5>
-			<h5 style="float: left;width: 50%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;取材管理</strong>
+			<h5 style="float: left;width: 66.3%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:12px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;取材管理</strong>
 				<span class="input_style">&nbsp;&nbsp;取材医生:</span>
 				<select id="doctor_id" class="input_style" style="width: 20%" onchange="searchDoctor('1')">
 					<%out.println(request.getAttribute("piecesname"));%>
@@ -111,18 +111,20 @@
 					<%out.println(request.getAttribute("piecesname"));%>
 				</select>
 			</h5>
-			<h5 style="float: left;width: 16.3%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;图像采集</strong></h5>
+			<%--<h5 style="float: left;width: 16.3%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;图像采集</strong></h5>--%>
 		</div>
 		<div class="col-sm-4 leftContent" id="div_2">
-			<div id="search_div_1" style="background-color: #F9F9F9;height: 156px;border:1px solid #E0E0E0;">
+			<div id="search_div_1" style="background-color: #F9F9F9;height: 90px;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
-					<table style="margin-bottom: 5px;">
-						<span style="width: 30%;" class="input_style">&nbsp;病种类别:&nbsp;</span>
+					<table style="margin-bottom: 3px;">
+						<span class="input_style">&nbsp;病种类别:&nbsp;</span>
 						<select id="logyid" class="input_style">
 							<%out.println((String) request.getAttribute("logyids"));%>
 						</select>
+						<span class="input_style">&nbsp;病理号码:&nbsp;</span>
+						<input type="text" id="send_dept" class="input_style" value="${code}"/>
 					</table>
-					<table style="margin-bottom: 5px;">
+					<table style="margin-bottom: 3px;">
 						<span class="input_style">&nbsp;登记年月:&nbsp;</span>
 						<input type="hidden" id="req_sts" value="0">
 						<input type="hidden" id="local_userid" value="${local_userid}"/><!--当前登录用户id-->
@@ -131,33 +133,26 @@
 						<span class="input_style">-</span>
 						<input type="text" class="form_datetime input_style" value="${receivetime}"  id="req_af_time"/>
 					</table>
-					<table style="margin-bottom: 5px;">
-						<span class="input_style">&nbsp;病理号码:&nbsp;</span>
-						<input type="text" id="send_dept" class="input_style" value="${code}"/>
-					</table>
-					<table style="margin-bottom: 5px;">
+					<table style="margin-bottom: 0px;">
 						<span class="input_style">&nbsp;病人姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="input_style"/>
+						<span class="input_style">&nbsp;补取医嘱:&nbsp;</span>&nbsp;&nbsp;
+						<input type="checkbox" id="send_doctor" value="1"/>&nbsp;&nbsp;
+						<span style="float: right;padding-right: 40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<span>
+								<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;
+							float: right;width:50px;padding: 0 2px;height: 20px!important;" onclick="searchList()">
+									<span style="color: white;">查询</span>
+								</button>
+							</span>
 					</table>
-					<%--<table style="margin-bottom: 5px;">--%>
+					<%--<table style="margin-bottom: 0px;">--%>
 						<%--<div class="input_style">--%>
 							<%--<span class="input_style">&nbsp;取材状态:&nbsp;</span>--%>
 							<%--<input type="radio" name="req_sts" value="0" checked/>&nbsp;未取&nbsp;--%>
 							<%--<input type="radio" name="req_sts" value="1"/>&nbsp;已取&nbsp;--%>
 						<%--</div>--%>
 					<%--</table>--%>
-					<table style="margin-bottom: 5px;">
-						<div class="input_style">
-							<span class="input_style">&nbsp;补取医嘱:&nbsp;</span>&nbsp;&nbsp;
-							<input type="checkbox" id="send_doctor" value="1"/>&nbsp;&nbsp;
-							<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-							<span>
-								<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
-									<span style="color: white;">查询</span>
-								</button>
-							</span>
-						</div>
-					</table>
 				</div>
 			</div>
 			<ul id="tabss" class="nav nav-tabs">
@@ -178,76 +173,70 @@
 				<div id="pager"></div>
 			</div>
 		</div>
-		<div class="col-sm-6 rightContent" id="formDialog">
+		<div class="col-sm-8 rightContent" id="formDialog">
 			<form class="form-horizontal" action="#" method="post" id="sampleForm" >
-				<div style="background-color: #F9F9F9;height: 235px;border:1px solid #E0E0E0;" id="div_main">
-					<div class="form-group" style="margin-top:10px;margin-bottom: 5px;">
-						<label class="col-sm-2 label_style" for="sampathologycode">病理编号:</label>
-						<div class="col-sm-4">
+				<div style="background-color: #F9F9F9;height: 110px;border:1px solid #E0E0E0;" id="div_main">
+					<div class="form-group" style="margin-top:10px;margin-bottom: 0px;">
+						<label class="col-sm-1 label_style" for="sampathologycode">病理编号:</label>
+						<div class="col-sm-2">
 							<input type="hidden" id="sampathologyid"><!--病种类别-->
 							<input type="hidden" id="sampleid"><!--标本id-->
 							<input type="hidden" id="samcustomerid"><!--客户id-->
 							<input type="hidden" id="samsamplestatus"><!--标本状态-->
 							<input type="text" class="input_style" id="sampathologycode" name="sampathologycode" readonly/>
 						</div>
-						<label class="col-sm-2 label_style" >送检医生:</label>
-						<div class="col-sm-4 ">
+						<label class="col-sm-1 label_style" >送检医生:</label>
+						<div class="col-sm-2 ">
 							<input class="input_style" type="text" id="samsenddoctorname" readonly/>
 						</div>
-					</div>
-					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style" for="sampatientname">病人姓名:</label>
-						<div class="col-sm-4 ">
-							<input class="input_style" type="text" id="sampatientname" name="sampatientname" readonly/>
-						</div>
-						<label class="col-sm-2 label_style">送检科室:</label>
-						<div class="col-sm-4">
+						<label class="col-sm-1 label_style">送检科室:</label>
+						<div class="col-sm-2">
 							<input  class="input_style" type="text" id="samdeptname" readonly/>
 						</div>
+						<label class="col-sm-1 label_style" for="samsamplename">送检材料:</label>
+						<div class="col-sm-2">
+							<input class="input_style col-sm-10" type="text" id="samsamplename" readonly/>
+						</div>
 					</div>
-					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style" >住院号:</label>
-						<div class="col-sm-4 ">
+					<div class="form-group" style="margin-bottom: 0px;">
+						<label class="col-sm-1 label_style" for="sampatientname">病人姓名:</label>
+						<div class="col-sm-2 ">
+							<input class="input_style" type="text" id="sampatientname" name="sampatientname" readonly/>
+						</div>
+						<label class="col-sm-1 label_style" >住院号:</label>
+						<div class="col-sm-2 ">
 							<input class="input_style" type="text" id="sampatientnumber" readonly/>
 						</div>
-						<label class="col-sm-2 label_style" for="samsamplename">送检材料:</label>
-						<div class="col-sm-4">
-							<input class="input_style" type="text" id="samsamplename" readonly/>
-						</div>
-					</div>
-					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style" >床号:</label>
-						<div class="col-sm-4 ">
+						<label class="col-sm-1 label_style" >床号:</label>
+						<div class="col-sm-2 ">
 							<input class="input_style" type="text" id="sampatientbed" readonly/>
 						</div>
-						<label class="col-sm-2 label_style" >标本状态:</label>
-						<div class="col-sm-1 input_style">
-							<input type="checkbox" id="samissamplingall" value="1"/>&nbsp;全取&nbsp;
-						</div>
-						<div class="col-sm-3 input_style">
-							<input type="checkbox" id="samisdecacified" value="1"/>&nbsp;脱钙&nbsp;
-						</div>
-					</div>
-					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style" for="sampatientsex">性&nbsp;别:</label>
-						<div class="col-sm-4">
-							<select class="col-sm-8 input_style" id="sampatientsex" disabled style="background-color:#f5f5f5;color: #666666;padding: 0">
+						<label class="col-sm-1 label_style" for="sampatientsex">性&nbsp;别:</label>
+						<div class="col-sm-2">
+							<select class="col-sm-10 input_style" id="sampatientsex" disabled style="background-color:#f5f5f5;color: #666666;padding: 0">
 								<option value="1">男</option>
 								<option value="2">女</option>
 								<option value="3">未知</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style" for="sampatientdignoses">临床诊断:</label>
-						<div class="col-sm-10">
-							<input type="text" id="sampatientdignoses" readonly class="col-sm-10 input_style"/>
+					<div class="form-group" style="margin-bottom: 0px;">
+						<label class="col-sm-1 label_style" >标本状态:</label>
+						<div class="col-sm-1 input_style">
+							<input type="checkbox" id="samissamplingall" value="1"/>&nbsp;全取&nbsp;
+						</div>
+						<div class="col-sm-1 input_style">
+							<input type="checkbox" id="samisdecacified" value="1"/>&nbsp;脱钙&nbsp;
+						</div>
+						<label class="col-sm-1 label_style" for="samthirdv">手术所见:</label>
+						<div class="col-sm-8">
+							<input type="text" id="samthirdv" readonly class="col-sm-11 input_style"/>
 						</div>
 					</div>
-					<div class="form-group" style="margin-bottom: 5px;">
-						<label class="col-sm-2 label_style" for="samthirdv">手术所见:</label>
-						<div class="col-sm-10">
-							<input type="text" id="samthirdv" readonly class="col-sm-10 input_style"/>
+					<div class="form-group" style="margin-bottom: 0px;">
+						<label class="col-sm-1 label_style" for="sampatientdignoses">临床诊断:</label>
+						<div class="col-sm-11">
+							<input type="text" id="sampatientdignoses" readonly class="col-sm-11 input_style"/>
 						</div>
 					</div>
 				</div>
@@ -286,9 +275,9 @@
 				</div>
 			</form>
 		</div>
-		<div class="col-sm-2 rightContent">
-			<div id="imgContainer"></div>
-		</div>
+		<%--<div class="col-sm-2 rightContent">--%>
+			<%--<div id="imgContainer"></div>--%>
+		<%--</div>--%>
 	</div>
 	<div style="text-align: left;margin-left:5px;display:none" id="templateForm">
 		<div style="text-align: left">

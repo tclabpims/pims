@@ -443,7 +443,8 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
                 " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'FZBL' and m.chisampleid = sampleid) as fzblnum," +
                 " rank() over (partition by a.sampleid order by b.piesamplingtime,b.pieceid) as tk " +
                 " from pims_pathology_sample a, pims_pathology_pieces b,pims_pathology_paraffin c,pims_sample_result d  " +
-                " where a.sampleid = b.piesampleid and a.sampleid = b.piesampleid and a.sampleid = c.parsampleid and b.pieparaffinid = c.paraffinid and a.sampleid = d.ressampleid ) where tk = 1 ");
+                " where a.sampleid = b.piesampleid and a.sampleid = b.piesampleid and a.sampleid = c.parsampleid and b.pieparaffinid = c.paraffinid " +
+                "and a.sampleid = d.ressampleid  and d.resinputsort=3 ) where tk = 1 ");
         getReportSql(map,sb);
         Query query = getSession().createSQLQuery(sb.toString());
         if(map.getReq_bf_time() != null){
@@ -502,7 +503,8 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
                 " where  m.Testitemid = n.Testitemid and n.Tesisorder = 1 and n.tesenglishname = 'FZBL' and m.chisampleid = sampleid) as fzblnum, " +
                 " rank() over (partition by a.sampleid order by b.piesamplingtime,b.pieceid) as tk " +
                 " from pims_pathology_sample a, pims_pathology_pieces b,pims_pathology_paraffin c,pims_sample_result d " +
-                " where a.sampleid = b.piesampleid  and a.sampleid = b.piesampleid and a.sampleid = c.parsampleid and b.pieparaffinid = c.paraffinid and a.sampleid = d.ressampleid  ) where tk = 1 ");
+                " where a.sampleid = b.piesampleid  and a.sampleid = b.piesampleid and a.sampleid = c.parsampleid and b.pieparaffinid = c.paraffinid " +
+                "and a.sampleid = d.ressampleid   and d.resinputsort=3 ) where tk = 1 ");
         getReportSql(map,sb);
         return countTotal(sb.toString(),map.getReq_bf_time(),map.getReq_af_time());
     }

@@ -188,7 +188,7 @@ function  saveOrder() {
     var paraffinItems = [];
     if(getOrderType(orderType) == 1) {
         //如果遗嘱状态是已完成 就可以保存检验结果了
-        if(orderState == 2) {
+        if(orderState == 2 || orderState == 3) {
             for(var i=0; i < itemNo.length; i++) {
                 var row = $("#checkItemList").jqGrid("getRowData", itemNo[i]);
                 var testItemResult = {};
