@@ -205,8 +205,8 @@
          </div>
      </div>
  </div>
-<div class="row" id="maincontent">
-    <div id="checkSlide" class="col-xs-3">
+<div class="col-sm-12" id="maincontent">
+    <div id="checkSlide" class="col-xs-3" style="padding-left: 14px">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
                 <h6 class="widget-title">会诊条件查询</h6>

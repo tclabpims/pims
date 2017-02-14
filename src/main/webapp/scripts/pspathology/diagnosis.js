@@ -2754,7 +2754,7 @@ $(function () {
             {
                 name: 'piestate',
                 index: 'piestate',
-                width: 60,
+                width: 90,
                 formatter: "select",
                 editoptions: {value: "0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"},align:"center"
             }//取材状态

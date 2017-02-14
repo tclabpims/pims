@@ -29,8 +29,26 @@
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.input_style{height: 20px;font-size: 12px!important; margin-bottom: 5px;padding:0px;}
-		.inputstyle2{
-			margin-right:20%;
+		/*.inputstyle2{*/
+			/*margin-right: 25%;*/
+		/*}*/
+		#div_2{
+			width: 25%;
+			float: left;
+		}
+		#formDialog{
+			width: 74%;
+			float: left;
+			margin-left: 1%;
+		}
+		#patient_name{
+			width: 50%!important;
+		}
+		#req_af_time{
+			width: 50%!important;
+		}
+		#req_bf_time{
+			width: 50%!important;
 		}
 	</style>
 	<script type="text/javascript">
@@ -76,10 +94,13 @@ $(document).ready(function(){
 			<%--<h5 style="float: left;width: 25%;font-size: 14px;"><strong>&nbsp;<img src="/styles/imagepims/reportsearch.png" class="img_style">&nbsp;报告查询条件</strong></h5>--%>
 			<%--<h5 style="float: left;width: 75%;font-size: 14px;margin-bottom: 12px"><strong>&nbsp;<img src="/styles/imagepims/reportresult.png" class="img_style">&nbsp;报告查询结果</strong></h5>--%>
 		<%--</div>--%>
-		<div class="col-sm-3 leftContent" id="div_2" style="margin-left: -5px">
+		<div class="leftContent" id="div_2" >
 			<div id="div1" class="widget-box widget-color-green ui-sortable-handle">
 				<div class="widget-header">
 					<h6 class="widget-title">报告查询条件</h6>
+					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;padding:0px 5px;" onclick="searchList()">
+						<span style="color: white;">查询</span>
+					</button>
 					<div class="widget-toolbar">
 						<a href="#"  data-action="collapse" onclick="showandhiden(this)">
 							<i id="a1" class="ace-icon fa fa-chevron-up">隐藏</i>
@@ -89,43 +110,44 @@ $(document).ready(function(){
 				<div class="widget-body" style="display:block">
 					<div id="search_div_1" style="background-color: #F9F9F9;border:1px solid #E0E0E0;">
 				<div style="margin-top:10px;">
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;送检开始:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style " value="${sevenday}" id="req_bf_time"/>
-						<div class="col-sm-2 ">
-							<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0;" onclick="searchList()">
-								<span style="color: white;">查询</span>
-							</button>
-						</div>
 						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;送检结束:&nbsp;</span>
 						<input type="text" class="col-sm-6 form_datetime input_style inputstyle2" value="${receivetime}"  id="req_af_time"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;病种类别:&nbsp;</span>
 						<select id="logyid" class="col-sm-6 input_style inputstyle2">
 							<%out.println((String) request.getAttribute("logyids"));%>
 						</select>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;病理号码:&nbsp;</span>
 						<input type="text" id="req_code" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;病人姓名:&nbsp;</span>
 						<input type="text" id="patient_name" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;住院号:&nbsp;</span>
 						<input type="text" id="sampatientnumber" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;床号:&nbsp;</span>
 						<input type="text" id="sampatientbed" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 						<span class="col-sm-4 input_style">&nbsp;性别:&nbsp;</span>
 						<select class="col-sm-6  input_style inputstyle2" id="sampatientsex">
 							<option value="">全部</option>
@@ -133,62 +155,74 @@ $(document).ready(function(){
 							<option value="2">女</option>
 							<option value="3">未知</option>
 						</select>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;送检医生:&nbsp;</span>
 						<input type="text" id="send_doctor" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;送检科室:&nbsp;</span>
 						<input type="text" id="send_dept" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;送检医院:&nbsp;</span>
 						<input type="text" id="send_hosptail" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;取材医生:&nbsp;</span>
 						<input type="text" id="piedoctorname" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;切片医生:&nbsp;</span>
 						<input type="text" id="parsectioneddoctor" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;诊断医生:&nbsp;</span>
 						<input type="text" id="saminitiallyusername" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;免疫组化:&nbsp;</span>
 						<select id="myzh" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
 							<option value="1">无</option>
 						</select>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;特殊染色:&nbsp;</span>
 						<select id="tsrs" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
 							<option value="1">无</option>
 						</select>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;分子病理:&nbsp;</span>
 						<select id="fzbl" class="col-sm-6 input_style inputstyle2">
 							<option value="">全部</option>
 							<option value="0">有</option>
 							<option value="1">无</option>
 						</select>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px">
+					<div style="margin-bottom: 0px">
 						<span class="col-sm-4 input_style">&nbsp;病理诊断:&nbsp;</span>
 						<input type="text" id="blzd" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 					</div>
-					<div style="margin-bottom: 5px;">
+					<div style="margin-bottom: 0px;">
 							<span class="col-sm-4 input_style">&nbsp;取材部位:&nbsp;</span>
 							<input type="text" id="qcbw" class="col-sm-6 input_style inputstyle2"/>
+						<div style="clear:both"></div>
 
 
 					</div>
@@ -197,7 +231,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-9 rightContent" id="formDialog">
+		<div class="rightContent" id="formDialog">
 			<div class="widget-box widget-color-green ui-sortable-handle">
 			<div class="widget-header">
 				<h6 class="widget-title">报告查询条件</h6>

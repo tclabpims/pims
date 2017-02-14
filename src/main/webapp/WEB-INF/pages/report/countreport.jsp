@@ -182,7 +182,7 @@
 			<div style="clear:both"></div>
 		</div>
 		<div id="gzltj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--工作量统计-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center;vertical-align:middle " class="widget-header">标本不合格表</h5>
+			<div style="width: 100%;font-size: 16px;text-align:center;vertical-align:middle;margin-top:0;line-height: 35px " class="widget-header">标本不合格表</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div>
 				<div class="widget-body" style="overflow:auto;margin-top: 5px">
@@ -214,8 +214,8 @@
 				<div style="clear:both"></div>
 			</div>
 		</div>
-		<div id="ltj" style="display:block"<%-- class="widget-box widget-color-green ui-sortable-handle"--%>><!--率统计-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
+		<div id="ltj" style="display:block" class="widget-box widget-color-green ui-sortable-handle" <%-- class="widget-box widget-color-green ui-sortable-handle"--%>><!--率统计-->
+			<div style="width: 100%;font-size: 16px;text-align:center;line-height: 35px "  class="widget-header">工作日志统计报告</div>
 			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
 				<div class="widget-main no-padding">

@@ -66,10 +66,11 @@
 <body>
 
 <div id="div_main">
-    <div class="col-xs-12">
-    <h5><strong>&nbsp;特殊玻片打印</strong></h5>
-    </div>
-    <div class="col-xs-4">
+    <div class="col-xs-12 widget-box widget-color-green ui-sortable-handle" style="padding: 0px;padding-bottom: 50px" >
+
+    <div class="widget-header" style="line-height: 35px;font-size: 16px">&nbsp;特殊玻片打印</div>
+       <div class="widget-body">
+        <div class="col-xs-4">
             <div style="margin-top:10%">
             <span style="width: 100%;">蜡块号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <input type="text" id="slideid1" class="input_style" value=""/>
@@ -78,8 +79,8 @@
             </div>
             </div>
             </div>
-    </div>
-    <div class="col-xs-4">
+
+        <div class="col-xs-4">
             <div style="margin-top:10%">
             <span style="width: 100%;">蜡块号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <input type="text" id="slideid2" class="input_style" value=""/>
@@ -91,8 +92,8 @@
             </button>
             </div>
             </div>
-    </div>
-    <div class="col-xs-4">
+        </div>
+        <div class="col-xs-4">
             <div style="margin-top:10%">
             <span style="width: 100%;">蜡块号:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <input type="text" id="slideid3" class="input_style" value=""/>
@@ -101,6 +102,8 @@
             </div>
             </div>
             </div>
-    </div>
+     </div>
+   </div>
+</div>
 </body>
 

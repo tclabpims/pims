@@ -32,6 +32,9 @@
 			margin-left: 0px!important;
 			margin-right: 0px!important;
 		}
+		#gbox_new{
+			border:0!important;
+		}
 
 	</style>
 </head>
@@ -63,7 +66,7 @@
 
 	<div class="widget-box widget-color-green ui-sortable-handle">
 			<div class="widget-header">
-				<h6 class="widget-title">延迟报告管理</h6>
+				<div class="widget-title" style="line-height: 35px">延迟报告管理</div>
 				<div class="widget-toolbar">
 					<a href="#"  data-action="collapse" onclick="showandhiden(this)">
 						<i class="ace-icon fa fa-chevron-up">隐藏</i>

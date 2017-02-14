@@ -1226,6 +1226,13 @@ function fillInfo1(id){
 	nowrow = id;
 	clearData();
 	var rowData = $("#new").jqGrid('getRowData',id);
+//	alert(rowData.samsecondv);
+	if(rowData.samsecondv==1) {
+                $('#samremark').attr("readonly",true);
+            }
+     else{
+      $('#samremark').attr("readonly",false);
+     }
 	if (id == null || id == 0) {
 		layer.msg('请先选择数据', {icon: 2, time: 1000});
 		return false;

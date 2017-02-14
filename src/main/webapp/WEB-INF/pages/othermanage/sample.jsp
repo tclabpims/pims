@@ -131,10 +131,24 @@
 			width:100%;
 			height:100px;
 		}
+		.row{
+			margin-left: 0px!important;
+			margin-right: 0px!important;
+		}
+		#materialGrid{
+			padding-top: 15px;
+		}
+		#divx{
+			padding-top:10px;
+		}
+		#q_specialCheck{
+			height: 24px;
+		}
 	</style>
 </head>
 <body>
-<div id="maincontent">
+<div id="maincontent" class="widget-box widget-color-green ui-sortable-handle">
+	<div class="widget-header" style="line-height: 35px">医嘱玻片打印</div>
 	<div class="col-xs-12" id="divx">
 		<div>
 			<div style="display:inline-block">
@@ -146,7 +160,7 @@
 			<div style="display:inline-block">
 				<label>申请年月：</label>
 				<input type="text" class="form_datetime1 input_style" id="applybftime"/>
-			</div>
+			</div>~
 			<div style="display:inline-block">
 				<input type="text" class="form_datetime1 input_style" id="applyaftime"/>
 			</div>
@@ -181,7 +195,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="tabs-2">
+	<div style="clear:both"></div>
+	<div id="tabs-2" >
 	<div class="row" id="materialGrid">
 		<div class="col-xs-12">
 			<table id="new"></table>

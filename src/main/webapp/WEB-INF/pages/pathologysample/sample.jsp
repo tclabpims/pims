@@ -34,9 +34,9 @@
 		.ui-jqgrid-labels{border-right: 1px solid #E1E1E1}
 		.btn-sm{padding:0 9px!important}
 		tr button{background:#e9e9e9!important;padding:0 10px;border:1px solid #c2c2c2!important;}
-		#cb_new{
-			margin-left:3px;
-		}
+		/*#cb_new{*/
+			/*margin-left:3px;*/
+		/*}*/
 		#jqgh_new_cb{
 			padding-bottom:20px;
 		}
@@ -59,7 +59,24 @@
 			width: 100%!important;
 		}
 		#req_id{
-			padding-left: 10px;
+			width: 25%;
+			padding-left: 15px;
+			float: left;
+
+
+		}
+		#sample_id{
+			width:25%;
+			float: left;
+			margin-left: 0px;
+		}
+		#formDialog{
+			width: 72%;
+			float: left;
+			margin-left: 1%;
+		}
+		#tabss{
+			width:99.7%;
 		}
 	</style>
 </head>
@@ -356,8 +373,8 @@
 		</div>
 	</div>
 	<div id="h5_1">
-		<h5 style="float: left;width: 33%;background-clip:content-box;background-color:rgb(135,184,127);padding-right:6px;height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;已登记标本一览</strong></h5>
-        <h5  style="float: left;width: 67%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;padding-left:4px"><strong>&nbsp;&nbsp;标本登记</strong></h5>
+		<h5 style="float: left;width: 25%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;line-height:40px;margin-top:0px!important;"><strong>&nbsp;&nbsp;已登记标本一览</strong></h5>
+        <h5  style="float: left;width: 74%;background-clip:content-box;background-color:rgb(135,184,127);height:40px;font-size:15px;color:#fff;padding-right:5px;line-height:40px;margin-top:0px!important;margin-left:1%"><strong>&nbsp;&nbsp;标本登记</strong></h5>
 	</div>
 	<ul id="tabss" class="nav nav-tabs">
 		<li class="active">
@@ -372,27 +389,35 @@
 		</li>
 	</ul>
 	<div id="div_main">
-		<div id="sample_id" class="row col-sm-4 leftContent" style="display: none;margin-left:-5px">
-			<div id = "search_div_1" style="background-color: #F9F9F9;height: 110px;border:1px solid #E0E0E0;">
+		<div id="sample_id" class="leftContent" style="display: none;">
+			<div id = "search_div_1" style="background-color: #F9F9F9;border:1px solid #E0E0E0;margin-bottom: 10px ">
 				<div style="margin-top: 10px">
-					<table style="margin-bottom: 3px">
+					<div style="margin-bottom: 3px">
 						<span class="input_style">&nbsp;&nbsp;登记年月:&nbsp;&nbsp;</span>
 						<input type="text" class="form_datetime input_style" placeholder="" value="${sevenday}" id="req_bf_time"/>
 						<span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
 						<input type="text" class="form_datetime input_style" placeholder="" value="${receivetime}"  id="req_af_time"/>
-					</table>
-					<table style="margin-bottom: 3px;">
+					</div>
+					<div style="margin-bottom: 3px;">
 						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
 						<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
-						<input type="hidden" id="local_logyid" value="${logyid}"/>
+						<input type="hidden" id="loca	l_logyid" value="${logyid}"/>
 						<input type="hidden" id="local_userid" value="${local_userid}"/>
 						<input type="hidden" id="local_username" value="${local_username}"/>
 						<select id="logyid" class="input_style">
 							<%out.println((String) request.getAttribute("logyids"));%>
 						</select>
-						<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
-						<input type="text" id="send_dept" class="input_style"/>
-					</table>
+					</div>
+					<div style="margin-bottom: 3px">
+						<span class="input_style">&nbsp;&nbsp;患者姓名:&nbsp;&nbsp;</span>
+						<input type="text" id="patient_name" class="input_style" />
+					</div>
+						<div style="margin-bottom: 3px">
+							<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>
+							<input type="text" id="send_dept" class="input_style"/>
+						</div>
+
+
 					<%--<table style="margin-bottom: 0px">--%>
 						<%--<span class="input_style">&nbsp;&nbsp;病理编号:&nbsp;&nbsp;</span>--%>
 						<%--<input type="text" id="send_dept" class="input_style"/>--%>
@@ -405,7 +430,7 @@
 						<%--<span class="input_style">&nbsp;&nbsp;送检医生:&nbsp;&nbsp;</span>--%>
 						<%--<input type="text" id="send_doctor" class="input_style"/>--%>
 					<%--</table>--%>
-					<table style="margin-bottom: 3px">
+					<div style="margin-bottom: 3px">
 						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病理状态:&nbsp;&nbsp;</span>
 						<select id="req_code" class="input_style">
 							<option value="">全部</option>
@@ -419,19 +444,16 @@
 							<option value="7">会诊中</option>
 							<option value="8">报告已打印</option>
 						</select>
-						<span class="input_style">&nbsp;&nbsp;患者姓名:&nbsp;&nbsp;</span>
-						<input type="text" id="patient_name" class="input_style"/>
-					</table>
-					<table style="margin-bottom: 0px;">
+					</div>
+					<div style="margin-bottom: 15px;">
 						<span class="input_style">&nbsp;&nbsp;合格状态:&nbsp;&nbsp;</span>
 						<input type="radio"   value="1" name="req_sts" checked/>合格
-						<input type="radio" value="2" name="req_sts"/>不合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span style="float: right;padding-right: 40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;
-							float: right;width:50px;padding: 0 2px;height: 20px!important;" onclick="searchList()">
+						<input type="radio" value="2" name="req_sts"/>不合格
+						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;right:15px;
+							width:50px;padding: 0 2px;height: 20px!important;" onclick="searchList()">
 							<span style="color: white;">查询</span>
 						</button>
-					</table>
+					</div>
 					<%--<table style="margin-bottom: 0px">--%>
 						<%--<div class="input_style">--%>
 							<%--<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病理状态:&nbsp;&nbsp;</span>--%>
@@ -470,7 +492,7 @@
 				</div>
 			</table>
 		</div>
-		<div id="req_id" class="row col-sm-4 leftContent" style="display: none;margin-left: 5px;">
+		<div id="req_id" class="leftContent" style="display: none;">
 			<table>
 				<div>
 					<div>
@@ -485,7 +507,7 @@
 				</div>
 			</table>
 		</div>
-		<div id="formDialog" style="float: right;margin-top: 0px;padding-right: 0px" class="col-sm-8 rightContent" >
+		<div id="formDialog" style="margin-top: 0px;padding-right: 0px" class="rightContent" >
 			<form class="form-horizontal" style="background-color: #F9F9F9;border:1px solid #E0E0E0;"
 				  action="#" method="post" id="sampleForm"  onkeypress="JavaScript:return NoSubmit(event);">
 				<button type="submit"id="saveButton1" style="display:none;">保存</button>
@@ -679,12 +701,12 @@
 					</div>
 					<label style="font-size: 13px;"  class="col-sm-1 label_style">合格状态:</label>
 					<div class="col-sm-2 input_style">
-						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv" id="standard"/>&nbsp;&nbsp;合格&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" value="1" name="samsecondv" id="standard"  />&nbsp;&nbsp;合格&nbsp;&nbsp;
 						<input type="radio" value="2" name="samsecondv" id="unstandard"/>&nbsp;&nbsp;不合格
 					</div>
 					<label class="col-sm-1 label_style" for="samremark">原因:</label>
 					<div class="col-sm-2">
-						<input  type="text" id="samremark" class="col-sm-10 input_style" name="stantcon" />
+						<input  type="text" id="samremark" class="col-sm-10 input_style" name="stantcon"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 0px;">
@@ -728,4 +750,5 @@
         $('#samremark').attr("readonly",false);})
         })
 </script>
+
 </body>

@@ -186,12 +186,12 @@ a.g-menu-item, a.soptclass, a.clearsearchclass { cursor: pointer; }
 	border-top:0!important;
 }
 #gbox_new{
-	width: 100%!important;
+	width: 101%!important;
 }
-#cb_sectionList{
-	margin-left:6px;
+#jqgh_sectionList_cb{
+	text-align: center;
 
 }
 #jqgh_sectionList_cb{
-	padding-bottom:30px;
+	padding-bottom:25px;
 }

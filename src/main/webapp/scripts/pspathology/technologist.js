@@ -593,7 +593,7 @@ $(function () {
         datatype: "json",
         mtype: "GET",
         height: 'auto',
-        width: 640,
+        width: 660,
         pager: "#pager2",
         colNames: ['病理号', '取材序号', '材块数', '白片数', '取材部位', '取材医生', '录入员', '取材时间', '特殊要求', '取材状态'],
         colModel: [
@@ -623,7 +623,7 @@ $(function () {
             {
                 name: 'piestate',
                 index: 'piestate',
-                width: 60,
+                width: 80,
                 formatter: "select",
                 editoptions: {value: "0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核"}
             }//取材状态

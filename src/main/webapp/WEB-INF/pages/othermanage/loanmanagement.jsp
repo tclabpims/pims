@@ -292,14 +292,14 @@
                             <div style="display: inline">患者姓名：<input type="text" style="width:93px;height: 24px"
                                                                     id="patientnamea"></div>
                         </div>
-                        <div style="padding-top: 10px">
+                        <div style="padding-top: 3px">
                             <div style="display: inline">病种类别：<input type="text" style="width:120px;height: 24px"
                                                                      id="slipathologyida">
                             </div>
                             <div style="display: inline">年龄：<input type="text" style="width:120px;height: 24px"
                                                                    id="patientagea"></div>
                         </div>
-                        <div style="padding-top: 10px;padding-bottom:20px;">
+                        <div style="padding-top: 3px;padding-bottom:20px;">
                             <div style="display: inline">病理编号：<input type="text" style="width:120px;height: 24px"
                                                                      id="pathologyida"></div>
                             <div style="display: inline">性别：<input type="text" style="width:120px;height: 24px"

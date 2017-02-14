@@ -144,8 +144,7 @@
 
         }
         #tabs-1 tbody tr td{
-            padding-bottom: 10px!important;
-            padding-top: 5px;
+            padding-bottom: 3px!important;
             margin-right: 5px;
             padding-left: 10px;
         }
@@ -202,13 +201,13 @@
                             <div style="display:inline;">
                                 <label style="margin-left:10px">耗材名称：</label><input type="text" id="marname" style="width: 120px;height: 27px" autocomplete="off">
                             </div>
-                            <div>
+                            <div style="display: inline-block">
                                 <label style="margin-left:10px;height:24px">在库状态：</label>
                                 <select id="current" style="width:50px;height:24px;margin-left:-4px">
                                 <option value="1">有</option>
                                 <option value="0">无</option>
                                 </select>
-                                <button type="button" class="btn-sm btn-info" onclick="searchList()" style="float:right;background-color: #4190f7!important;color:#ffffff;border-radius:3px;border:1px solid #2274E4;padding:0 16px;">
+                                <button type="button" class="btn-sm btn-info" onclick="searchList()" style="float:right;background-color: #4190f7!important;color:#ffffff;border-radius:3px;border:1px solid #2274E4;padding:0 16px;margin-left: 50px">
                                     查询
                                 </button>
                             </div>
@@ -216,7 +215,7 @@
                     </div>
                 </div>
             </div>
-                <div class="col-xs-12 leftContent" style="margin-top: 5px;margin-left: -0.7%">
+                <div class="col-xs-12 leftContent" style="margin-top: 5px;margin-left: -0.7%;padding:0px 5px">
                     <table id="new"></table>
                     <div id="pager"></div>
                 </div>
@@ -237,12 +236,12 @@
                 <div id="tabs" style="margin: 0 auto;">
 
                     <table id="tabs-1">
-                        <tr style="margin-top:10px ">
+                        <tr style="margin-top:10px; ">
 
 
-                            <td style="padding-left: 10px">耗材ID：<input type="text" style="width:120px;margin-left: 12px"
+                            <td style="padding-left: 10px;padding-top:5px">耗材ID：&nbsp;&nbsp;&nbsp;<input type="text" style="width:120px;"
                                 id="marid" disabled="disabled" autocomplete="off" value=""></td>
-                            <td >登录者：<input type="text" style="width:120px;margin-left: 12px"
+                            <td style="padding-top:5px">登录者：&nbsp;&nbsp;&nbsp;<input type="text" style="width:120px;"
                                 id="loginuser" disabled="disabled" value="" autocomplete="off" value=""/></td>
                                 <input id="loginuser2" style="display:none" value="${user}" autocomplete="off"/>
                         </tr>
@@ -256,14 +255,14 @@
                         </tr>
                         <tr style="margin-bottom:10px ">
                             <td style="padding-left: 10px">库存状态：<input type="radio" disabled="disabled" name="has" value="1" id="marishas" onclick="checkedhas()">有<input style="margin-left:10px" disabled="disabled" type="radio" name="has" value="0" id="marnothave" onclick="checkedhas2()">无</td>
-                            <td >制造商：<input type="text" disabled="disabled" style="width:120px;margin-left: 12px"
+                            <td >制造商：&nbsp;&nbsp;&nbsp;<input type="text" disabled="disabled" style="width:120px;"
                                                                                                id="manufacter" autocomplete="off" value=""></td>
                         </tr>
 
                     </table>
                 </div>
                 <div style="padding-bottom: 20px;padding-left: 10px;">
-                    备注：<textarea id='remarks' disabled="disabled" style="resize: none; vertical-align: text-top;width: 70%;height:150px" value="" autocomplete="off"></textarea>
+                    备注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea id='remarks' disabled="disabled" style="resize: none; vertical-align: text-top;width: 70%;height:150px" value="" autocomplete="off"></textarea>
                 </div>
             </div>
         </div>

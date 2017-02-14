@@ -600,6 +600,42 @@
     .ui-jqgrid tr.jqgrow, .ui-jqgrid tr.ui-row-ltr, .ui-jqgrid tr.ui-row-rtl{
         border: 1px solid #E1E1E1!important;
     }
+    .ui-jqgrid-btable tr.jqgrow td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow : ellipsis;
+    }
+    #gview_pathologyList1{
+        padding-left: 9px!important;
+    }
+    #jqgh_feediv_cb{
+        text-align: center;
+        padding-bottom: 20px;
+    }
+    #req_bf_time{
+        width:90px;
+    }
+    #req_af_time{
+        width: 90px;
+    }
+    #gbox_new{
+        border: 1px solid #e0e0e0;
+    }
+    #gbox_sectionList{
+        border: 1px solid #e0e0e0;
+        width: 100%!important;
+    }
+    #patient_name{
+        width: 90px;
+    }
+    #jqgh_new1_cb{
+        text-align: center;
+        padding-bottom: 20px;
+    }
+    #jqgh_checkItemList_cb{
+        text-align: center;
+        padding-bottom: 20px;
+    }
 </style>
 
 <menu:useMenuDisplayer name="Velocity" config="navbarMenu.vm" permissions="rolesAdapter">
