@@ -60,7 +60,7 @@ public class PimsBaseModel {
         this.patient_name = request.getParameter("patient_name");
         this.send_hosptail = request.getParameter("send_hosptail");
         this.req_bf_time = (request.getParameter("req_bf_time")== null|| request.getParameter("req_bf_time").equals(""))?null:new Date(Constants.DF2.parse(request.getParameter("req_bf_time")).getTime());
-        this.req_af_time = (request.getParameter("req_bf_time")== null|| request.getParameter("req_bf_time").equals(""))?null:new Date(Constants.DF2.parse(request.getParameter("req_af_time")).getTime());
+        this.req_af_time = (request.getParameter("req_af_time")== null|| request.getParameter("req_af_time").equals(""))?null:new Date(Constants.DF2.parse(request.getParameter("req_af_time")).getTime());
         if(this.req_af_time != null){
             cal.setTime(this.req_af_time);
             cal.add(Calendar.DAY_OF_YEAR, +1);
