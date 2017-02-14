@@ -290,7 +290,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             context.put("dnaResult", resultMap.get("dnaResult"));
             context.put("checkedItemsStr", resultMap.get("checkedItemsStr"));
             context.put("degree", resultMap.get("degree"));
-        } else if(patClass == 7) {
+        } else if(patClass == 7 || patClass == 10) {
             resultMap = pimsSampleResultManager.getHPVTestResult(sampleId);
             context.put("sampleAmount", resultMap.get("sampleAmount"));
             context.put("hpvResult", resultMap.get("hpvResult"));
