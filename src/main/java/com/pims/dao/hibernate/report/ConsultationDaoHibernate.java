@@ -16,9 +16,9 @@ import java.util.Map;
  * Created by zp on 2016/12/23.
  */
 @Repository("consultationDao")
-public class ConsultationDaoHibernate extends GenericDaoHibernate<ViewConsultationQuery,Long> implements ConsultationDao{
+public class ConsultationDaoHibernate extends GenericDaoHibernate implements ConsultationDao{
     public ConsultationDaoHibernate(){
-        super(ViewConsultationQuery.class);
+        super(PimsBaseModel.class);
     }
 
     //public List getDoctor(Map map){
@@ -84,7 +84,7 @@ public class ConsultationDaoHibernate extends GenericDaoHibernate<ViewConsultati
      * @return
      */
     @Override
-    public List<ViewConsultationQuery> getConsultationList(Map map,PimsBaseModel ppr) {
+    public List getConsultationList(Map map,PimsBaseModel ppr) {
         StringBuffer sb = new StringBuffer();
         sb.append("SELECT " +
                 "s.SAMPLEID, " +

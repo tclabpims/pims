@@ -7,8 +7,8 @@ import java.util.Map;
 /**
  * Created by zp on 2016/12/23.
  */
-public interface ConsultationDao extends GenericDao<ViewConsultationQuery,Long> {
-    List<ViewConsultationQuery> getConsultationList(Map map,PimsBaseModel ppr);
+public interface ConsultationDao extends GenericDao {
+    List getConsultationList(Map map,PimsBaseModel ppr);
 
     int getReqListNum(Map map);
 

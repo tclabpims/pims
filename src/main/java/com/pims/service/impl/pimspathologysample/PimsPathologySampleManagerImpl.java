@@ -305,4 +305,56 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     public Integer queryHisSampleNum(Long sampleid) {
         return pimsPathologySampleDao.queryHisSampleNum(sampleid);
     }
+
+    @Override
+    public List getQcgzl(PimsBaseModel map){
+        List list = pimsPathologySampleDao.getQcgzl(map);
+        String[] st = {"id","name","num"};
+        return ChangeList(st,list);
+    }
+
+    @Override
+    public List getKsgzl(PimsBaseModel map){
+        List list = pimsPathologySampleDao.getKsgzl(map);
+        String[] st = {"id","myzh","fzbl","tsrs"};
+        return ChangeList(st,list);
+    }
+
+    @Override
+    public List getCcgzl(PimsBaseModel map){
+        List list = pimsPathologySampleDao.getCcgzl(map);
+        String[] st = {"id","name","num"};
+        return ChangeList(st,list);
+    }
+
+    @Override
+    public List getScgzl(PimsBaseModel map){
+        List list = pimsPathologySampleDao.getScgzl(map);
+        String[] st = {"id","name","num"};
+        return ChangeList(st,list);
+    }
+
+    @Override
+    public List getBmgzl(PimsBaseModel map){
+        List list = pimsPathologySampleDao.getBmgzl(map);
+        String[] st = {"id","name","num"};
+        return ChangeList(st,list);
+    }
+
+    @Override
+    public List getQpgzl(PimsBaseModel map){
+        List list = pimsPathologySampleDao.getQpgzl(map);
+        String[] st = {"id","name","num"};
+        return ChangeList(st,list);
+    }
+
+    /**
+     * 术中冰冻结果表
+     */
+    @Override
+    public List getTworesults(PimsBaseModel map){
+        List list = pimsPathologySampleDao.getTworesults(map);
+        String[] st = {"name","samplename","result1","time1","result2","time2",};
+        return ChangeList(st,list);
+    }
 }

@@ -145,4 +145,39 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
     List<PimsPathologySample> queryHisSample(Long sampleid, GridQuery gridQuery);
 
     Integer queryHisSampleNum(Long sampleid);
+
+    /**
+     * 医生工作量
+     */
+    List getQcgzl(PimsBaseModel map);
+
+    /**
+     * 科室工作量
+     */
+    List getKsgzl(PimsBaseModel map);
+
+    /**
+     * 初查工作量
+     */
+    List getCcgzl(PimsBaseModel map);
+
+    /**
+     * 审查工作量
+     */
+    List getScgzl(PimsBaseModel map);
+
+    /**
+     * 包埋工作量
+     */
+    List getBmgzl(PimsBaseModel map);
+
+    /**
+     * 切片工作量
+     */
+    List getQpgzl(PimsBaseModel map);
+
+    /**
+     * 术中冰冻结果表
+     */
+    List getTworesults(PimsBaseModel map);
 }

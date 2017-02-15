@@ -100,7 +100,7 @@
 	<div>
 		<div id="rztj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--日志统计-->
 			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">工作日志统计报告</div>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
 				<div class="widget-main no-padding" style="margin-left: 5px">
 					<table id="rztj_new0" class="table-striped">
@@ -116,7 +116,7 @@
 		</div>
 		<div id="bbytj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--标本源统计-->
 			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">标本来源统计报告</div>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
 			<div>
 				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
 					<div class="widget-main no-padding">
@@ -141,7 +141,7 @@
 		</div>
 		<div id="sftj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--收费统计-->
 			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">收费统计报告</div>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
 			<div>
 				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 5px">
 					<div class="widget-main no-padding">
@@ -186,8 +186,9 @@
 			<div style="clear:both"></div>
 		</div>
 		<div id="gzltj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--工作量统计-->
-			<div style="font-size: 16px;text-align:center;vertical-align:middle;margin-top:0;line-height: 35px " class="widget-header">标本不合格表</div>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">标本不合格表</div>
+
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
 			<div>
 				<div class="widget-body" style="overflow:auto;margin-top: 5px">
 					<div class="widget-main no-padding">
@@ -218,9 +219,11 @@
 				<div style="clear:both"></div>
 			</div>
 		</div>
-		<div id="ltj" style="display:block" class="widget-box widget-color-green ui-sortable-handle" <%-- class="widget-box widget-color-green ui-sortable-handle"--%>><!--率统计-->
-			<div style="font-size: 16px;text-align:center;line-height: 35px "  class="widget-header">工作日志统计报告</div>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+		<div id="ltj" style="display: block;" class="widget-box widget-color-green ui-sortable-handle">
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">病理登记薄</div>
+
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
+			<div>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
 				<div class="widget-main no-padding">
 					<table id="bldjb" class="table-striped">
@@ -233,56 +236,88 @@
 					</table>
 				</div>
 			</div>
+			<div style="clear:both"></div>
 		</div>
-		<div id="fltj" style="display:block"><!--分类统计-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
-			<div class="widget-body" style="overflow:auto;margin-top: 5px">
+		</div>
+		<div id="gzl" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--分类统计-->
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">医生、技师工作量统计</div>
+
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
+			<div>
+				<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
+			<div class="widget-main no-padding">
+				<table id="gzl_new0" class="table-striped">
+				</table>
+			</div>
+			</div>
+			<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
 				<div class="widget-main no-padding">
-					<table id="fltj_new0" class="table-striped">
+					<table id="gzl_new1" class="table-striped">
 					</table>
 				</div>
 			</div>
-			<div class="widget-body" style="overflow:auto;margin-top: 5px">
+			<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
 				<div class="widget-main no-padding">
-					<table id="fltj_new1" class="table-striped">
+					<table id="gzl_new2" class="table-striped">
 					</table>
 				</div>
 			</div>
-		</div>
-		<div id="bbdjb" style="display:block"><!--标本登记簿-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
-			<div class="widget-body" style="overflow:auto;margin-top: 5px">
+			<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
 				<div class="widget-main no-padding">
-					<table id="bbdjb_new0" class="table-striped">
+					<table id="gzl_new3" class="table-striped">
 					</table>
 				</div>
 			</div>
-		</div>
-		<div id="bgqsb" style="display:block"><!--报告签收本-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
-			<div class="widget-body" style="overflow:auto;margin-top: 5px">
+			<div class="widget-body col-sm-4" style="overflow:auto;margin-top: 20px">
 				<div class="widget-main no-padding">
-					<table id="bgqsb_new0" class="table-striped">
+					<table id="gzl_new4" class="table-striped">
 					</table>
 				</div>
 			</div>
+				<div style="clear:both"></div>
+			</div>
 		</div>
-		<div id="jbnlfb" style="display:block"><!--疾病年龄分布-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+		<div id="bbdjb" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--标本登记簿-->
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">科室工作量统计</div>
+
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
+			<div>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
 				<div class="widget-main no-padding">
-					<table id="jbnlfb_new0" class="table-striped">
+					<table id="ksgzl_new" class="table-striped">
 					</table>
 				</div>
 			</div>
+			</div>
 		</div>
-		<div id="bdzddz" style="display:block"><!--冰冻诊断对照-->
+		<div id="bgqsb" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--报告签收本-->
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">冰冻与常规诊断对照表</div>
+				<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
+					<div>
+						<div class="widget-body" style="overflow:auto;margin-top: 5px">
+							<div class="widget-main no-padding">
+								<table id="bdjg_new0" class="table-striped">
+								</table>
+							</div>
+						</div>
+					</div>
+		</div>
+		<div id="jbnlfb" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--疾病年龄分布-->
 			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
+				<div>
+					<div class="widget-body" style="overflow:auto;margin-top: 5px">
+						<div class="widget-main no-padding">
+							<table id="jbnlfb_new0" class="table-striped">
+							</table>
+						</div>
+					</div>
+				</div>
+		</div>
+		<div id="bdzddz" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--冰冻诊断对照-->
+			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
+			<div>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
 				<div class="widget-main no-padding">
 					<table id="bdzddz_new0" class="table-striped">
@@ -295,15 +330,18 @@
 					</table>
 				</div>
 			</div>
+			</div>
 		</div>
-		<div id="hztj" style="display:block"><!--会诊统计-->
+		<div id="hztj" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--会诊统计-->
 			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
-			<span name="rqxx" class="input_style">统计日期:${sevenday}~${receivetime}</span>
+			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
+			<div>
 			<div class="widget-body" style="overflow:auto;margin-top: 5px">
 				<div class="widget-main no-padding">
 					<table id="hztj_new0" class="table-striped">
 					</table>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

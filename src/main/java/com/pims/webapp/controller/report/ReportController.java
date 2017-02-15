@@ -370,6 +370,7 @@ public class ReportController extends PIMSBaseController{
         return getInitializeView();
     }
 
+
     private ModelAndView getInitializeView(){
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, - 7);
@@ -417,6 +418,106 @@ public class ReportController extends PIMSBaseController{
         return dataResponse;
     }
 
+
+    /**
+     * 取材工作量
+     */
+    @RequestMapping(value = "/qcgzl*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getQcgzl(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getQcgzl(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 科室工作量
+     */
+    @RequestMapping(value = "/ksgzl*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getKsgzl(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getKsgzl(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 初查
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/ccgzl*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getCcgzl(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getCcgzl(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 审查
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/scgzl*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getScgzl(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getScgzl(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 包埋
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/Bmgzl*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getBmgzl(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getBmgzl(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
+    /**
+     * 切片
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/Qpgzl*", method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse getQpgzl(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        DataResponse dataResponse = new DataResponse();
+        PimsBaseModel ppr = new PimsBaseModel(request);
+        List<Map<String, Object>> list = pimsPathologySampleManager.getQpgzl(ppr);
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
     /**
      * 标本来源统计报告
      * @param request
@@ -452,6 +553,25 @@ public class ReportController extends PIMSBaseController{
         response.setContentType("text/html; charset=UTF-8");
         return dataResponse;
     }
+
+    /**
+     * 结果
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+     @RequestMapping(value = "/jgdz*", method = RequestMethod.GET)
+     @ResponseBody
+     public DataResponse getTworesults(HttpServletRequest request,HttpServletResponse response) throws Exception{
+         DataResponse dataResponse = new DataResponse();
+         PimsBaseModel ppr = new PimsBaseModel(request);
+         List<Map<String, Object>> list = pimsPathologySampleManager.getTworesults(ppr);
+         dataResponse.setRows(list);
+         response.setContentType("text/html; charset=UTF-8");
+         return dataResponse;
+     }
+
 
     /**
      *excel导出
@@ -557,6 +677,12 @@ public class ReportController extends PIMSBaseController{
         List<Map<String, Object>> list10 = pimsPathologySampleManager.getSftj(ppr);
         ppr.setReq_code("6");
         List<Map<String, Object>> list11 = pimsPathologySampleManager.getSftj(ppr);
+        ppr.setReq_code("");
+        List<Map<String, Object>> list14 = pimsPathologySampleManager.getQcgzl(ppr);
+        List<Map<String, Object>> list15 = pimsPathologySampleManager.getCcgzl(ppr);
+        List<Map<String, Object>> list16 = pimsPathologySampleManager.getScgzl(ppr);
+        List<Map<String, Object>> list17 = pimsPathologySampleManager.getBmgzl(ppr);
+        List<Map<String, Object>> list18 = pimsPathologySampleManager.getQpgzl(ppr);
         //linux下
         File dir = new File(sampleexcelUrl);
         dir.setWritable(true,false);
@@ -675,107 +801,130 @@ public class ReportController extends PIMSBaseController{
                             ws1.addCell(label1);
                         }
                     break;
-                    case 3:WritableSheet ws2 = wwb.createSheet("收费统计报告",2);
-                        Label label2 = new Label(0, 0, "收费来源");
-                        ws2.addCell(label2);
-                        label2 = new Label(1, 0, "送检医生");
-                        ws2.addCell(label2);
-                        label2 = new Label(2, 0, "数量");
-                        ws2.addCell(label2);
-                        label2 = new Label(4, 0, "送检科室");
-                        ws2.addCell(label2);
-                        label2 = new Label(5, 0, "数量");
-                        ws2.addCell(label2);
-                        label2 = new Label(7, 0, "送检医生");
-                        ws2.addCell(label2);
-                        label2 = new Label(8, 0, "数量");
-                        ws2.addCell(label2);
-                        label2 = new Label(10, 0, "收费列表");
-                        ws2.addCell(label2);
-                        label2 = new Label(11, 0, "金额");
-                        ws2.addCell(label2);
-                        label2 = new Label(13, 0, "收费明细项目");
-                        ws2.addCell(label2);
-                        label2 = new Label(14, 0, "金额");
-                        ws2.addCell(label2);
-                        label2 = new Label(16, 0, "报告医生");
-                        ws2.addCell(label2);
-                        label2 = new Label(17, 0, "金额");
-                        ws2.addCell(label2);
+                    case 3: WritableSheet ws2 = wwb.createSheet("收费统计报告(送检医院)",2);
+                            WritableSheet ws3 = wwb.createSheet("收费统计报告(送检科室)",3);
+                            WritableSheet ws4 = wwb.createSheet("收费统计报告(送检医生)",4);
+                            WritableSheet ws5 = wwb.createSheet("收费统计报告(收费列表)",5);
+                            WritableSheet ws6 = wwb.createSheet("收费统计报告(收费明细项目)",6);
+                            WritableSheet ws7 = wwb.createSheet("收费统计报告(报告医生)",7);
+                            Label label2 = new Label(0, 0, "送检医院");
+                            ws2.addCell(label2);
+                            label2 = new Label(1, 0, "数量");
+                            ws2.addCell(label2);
+                            Label label3 = new Label(0, 0, "送检科室");
+                            ws3.addCell(label3);
+                            label3 = new Label(1, 0, "数量");
+                            ws3.addCell(label3);
+                            Label label4 = new Label(0, 0, "送检医生");
+                            ws4.addCell(label4);
+                            label4 = new Label(1, 0, "数量");
+                            ws4.addCell(label4);
+                            Label label5 = new Label(0, 0, "收费列表");
+                            ws5.addCell(label5);
+                            label5 = new Label(1, 0, "数量");
+                            ws5.addCell(label5);
+                            Label label6 = new Label(0, 0, "收费明细项目");
+                            ws6.addCell(label6);
+                            label6 = new Label(1, 0, "数量");
+                            ws6.addCell(label6);
+                            Label label7 = new Label(0, 0, "报告医生");
+                            ws7.addCell(label7);
+                            label7 = new Label(1, 0, "数量");
+                            ws7.addCell(label7);
+//                        label2 = new Label(4, 0, "送检科室");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(5, 0, "数量");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(7, 0, "送检医生");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(8, 0, "数量");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(10, 0, "收费列表");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(11, 0, "金额");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(13, 0, "收费明细项目");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(14, 0, "金额");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(16, 0, "报告医生");
+//                        ws2.addCell(label2);
+//                        label2 = new Label(17, 0, "金额");
+//                        ws2.addCell(label2);
                         for(int i=0;i<list6.size();i++) {
                             map = (Map) list6.get(i);
-                            label2 = new Label(1, i + 1, String.valueOf(map.get("name")));//病种类别
+                            label2 = new Label(0, i + 1, String.valueOf(map.get("name")));//病种类别
                             ws2.addCell(label2);
-                            label2 = new Label(2, i + 1, String.valueOf(map.get("prices")));//病理号
+                            label2 = new Label(1, i + 1, String.valueOf(map.get("prices")));//病理号
                             ws2.addCell(label2);
                         }
                         for(int i=0;i<list7.size();i++) {
                             map = (Map) list7.get(i);
-                            label2 = new Label(4, i + 1, String.valueOf(map.get("name")));//病人姓名
-                            ws2.addCell(label2);
-                            label2 = new Label(5, i + 1, String.valueOf(map.get("prices")));//年龄
-                            ws2.addCell(label2);
+                            label3 = new Label(0, i + 1, String.valueOf(map.get("name")));//病人姓名
+                            ws3.addCell(label3);
+                            label3 = new Label(1, i + 1, String.valueOf(map.get("prices")));//年龄
+                            ws3.addCell(label3);
                         }
                         for(int i=0;i<list8.size();i++) {
                             map = (Map) list8.get(i);
-                            label2 = new Label(7, i + 1, String.valueOf(map.get("name")));//住院号
-                            ws2.addCell(label2);
-                            label2 = new Label(8, i + 1, String.valueOf(map.get("prices")));//床号
-                            ws2.addCell(label2);
+                            label4 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws4.addCell(label4);
+                            label4 = new Label(1, i + 1, String.valueOf(map.get("prices")));//床号
+                            ws4.addCell(label4);
                         }
                         for(int i=0;i<list9.size();i++) {
                             map = (Map) list9.get(i);
-                            label2 = new Label(10, i + 1, String.valueOf(map.get("name")));//住院号
-                            ws2.addCell(label2);
-                            label2 = new Label(11, i + 1, String.valueOf(map.get("prices")));//床号
-                            ws2.addCell(label2);
+                            label5 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws5.addCell(label5);
+                            label5 = new Label(1, i + 1, String.valueOf(map.get("prices")));//床号
+                            ws5.addCell(label5);
                         }
                         for(int i=0;i<list10.size();i++) {
                             map = (Map) list10.get(i);
-                            label2 = new Label(13, i + 1, String.valueOf(map.get("name")));//住院号
-                            ws2.addCell(label2);
-                            label2 = new Label(14, i + 1, String.valueOf(map.get("prices")));//床号
-                            ws2.addCell(label2);
+                            label6 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws6.addCell(label6);
+                            label6 = new Label(1, i + 1, String.valueOf(map.get("prices")));//床号
+                            ws6.addCell(label6);
                         }
                         for(int i=0;i<list11.size();i++) {
                             map = (Map) list11.get(i);
-                            label2 = new Label(16, i + 1,String.valueOf(String.valueOf(map.get("name"))));//住院号
-                            ws2.addCell(label2);
-                            label2 = new Label(17, i + 1, String.valueOf(map.get("prices")));//床号
-                            ws2.addCell(label2);
+                            label7 = new Label(0, i + 1,String.valueOf(String.valueOf(map.get("name"))));//住院号
+                            ws7.addCell(label7);
+                            label7 = new Label(1, i + 1, String.valueOf(map.get("prices")));//床号
+                            ws7.addCell(label7);
                         }
                     break;
-                    case 4:WritableSheet ws3 = wwb.createSheet("标本不合格表",3);
-                        Label label3 = new Label(0, 0, "样本ID");
-                        ws3.addCell(label3);
-                        label3 = new Label(1, 0, "病理编号");
-                        ws3.addCell(label3);
-                        label3 = new Label(2, 0, "患者姓名");
-                        ws3.addCell(label3);
-                        label3 = new Label(3, 0, "送检单位");
-                        ws3.addCell(label3);
-                        label3 = new Label(4, 0, "送检科室");
-                        ws3.addCell(label3);
-                        label3 = new Label(5, 0, "送检医生");
-                        ws3.addCell(label3);
-                        label3 = new Label(6, 0, "申请时间");
-                        ws3.addCell(label3);
-                        label3 = new Label(7, 0, "合格状态");
-                        ws3.addCell(label3);
-                        label3 = new Label(8, 0, "病理状态");
-                        ws3.addCell(label3);
-                        label3 = new Label(9, 0, "性别");
-                        ws3.addCell(label3);
-                        label3 = new Label(10, 0, "年龄");
-                        ws3.addCell(label3);
-                        label3 = new Label(11, 0, "年龄类型");
-                        ws3.addCell(label3);
-                        label3 = new Label(12, 0, "临床诊断");
-                        ws3.addCell(label3);
-                        label3 = new Label(13, 0, "送检时间");
-                        ws3.addCell(label3);
-                        label3 = new Label(14, 0, "登记时间");
-                        ws3.addCell(label3);
+                    case 4:WritableSheet ws8 = wwb.createSheet("标本不合格表",8);
+                        Label label8 = new Label(0, 0, "样本ID");
+                        ws8.addCell(label8);
+                        label8 = new Label(1, 0, "病理编号");
+                        ws8.addCell(label8);
+                        label8 = new Label(2, 0, "患者姓名");
+                        ws8.addCell(label8);
+                        label8 = new Label(3, 0, "送检单位");
+                        ws8.addCell(label8);
+                        label8 = new Label(4, 0, "送检科室");
+                        ws8.addCell(label8);
+                        label8 = new Label(5, 0, "送检医生");
+                        ws8.addCell(label8);
+                        label8 = new Label(6, 0, "申请时间");
+                        ws8.addCell(label8);
+                        label8 = new Label(7, 0, "合格状态");
+                        ws8.addCell(label8);
+                        label8 = new Label(8, 0, "病理状态");
+                        ws8.addCell(label8);
+                        label8 = new Label(9, 0, "性别");
+                        ws8.addCell(label8);
+                        label8 = new Label(10, 0, "年龄");
+                        ws8.addCell(label8);
+                        label8 = new Label(11, 0, "年龄类型");
+                        ws8.addCell(label8);
+                        label8 = new Label(12, 0, "临床诊断");
+                        ws8.addCell(label8);
+                        label8 = new Label(13, 0, "送检时间");
+                        ws8.addCell(label8);
+                        label8 = new Label(14, 0, "登记时间");
+                        ws8.addCell(label8);
 
 
                         for(int i=0;i<list12.size();i++){
@@ -800,79 +949,79 @@ public class ReportController extends PIMSBaseController{
                                 case 7:sts="会诊中";
                                 case 8:sts="报告已打印";
                             }
-                            label3 = new Label(0, i+1,  String.valueOf(list12.get(i).getSampleid()));//病种类别
-                            ws3.addCell(label3);
-                            label3 = new Label(1, i+1,  String.valueOf(list12.get(i).getSampathologycode()));//病理号
-                            ws3.addCell(label3);
-                            label3 = new Label(2, i+1,  String.valueOf(list12.get(i).getSampatientname()));//病人姓名
-                            ws3.addCell(label3);
-                            label3 = new Label(3, i+1,  String.valueOf(list12.get(i).getSamsendhospital()));//年龄
-                            ws3.addCell(label3);
-                            label3 = new Label(4, i+1,  String.valueOf(list12.get(i).getSamdeptname()));//住院号
-                            ws3.addCell(label3);
-                            label3 = new Label(5, i+1,  String.valueOf(list12.get(i).getSamsenddoctorname()));//床号
-                            ws3.addCell(label3);
-                            label3 = new Label(6, i+1,  String.valueOf(list12.get(i).getSamreqtime()));//性别
-                            ws3.addCell(label3);
-                            label3 = new Label(7, i+1,  hgsts);//病理状态
-                            ws3.addCell(label3);
-                            label3 = new Label(8, i+1,  sts);//送检日期
-                            ws3.addCell(label3);
-                            label3 = new Label(9, i+1,  sex);//诊断日期
-                            ws3.addCell(label3);
-                            label3 = new Label(10, i+1,  String.valueOf(list12.get(i).getSampatientage()));//诊断日期
-                            ws3.addCell(label3);
-                            label3 = new Label(11, i+1,  ageType);//诊断日期
-                            ws3.addCell(label3);
-                            label3 = new Label(12, i+1,  String.valueOf(list12.get(i).getSampatientdignoses()));//诊断日期
-                            ws3.addCell(label3);
-                            label3 = new Label(13, i+1,  String.valueOf(list12.get(i).getSamsendtime()));//诊断日期
-                            ws3.addCell(label3);
-                            label3 = new Label(14, i+1,  String.valueOf(list12.get(i).getSamregisttime()));//诊断日期
-                            ws3.addCell(label3);
+                            label8 = new Label(0, i+1,  String.valueOf(list12.get(i).getSampleid()));//病种类别
+                            ws8.addCell(label8);
+                            label8 = new Label(1, i+1,  String.valueOf(list12.get(i).getSampathologycode()));//病理号
+                            ws8.addCell(label8);
+                            label8 = new Label(2, i+1,  String.valueOf(list12.get(i).getSampatientname()));//病人姓名
+                            ws8.addCell(label8);
+                            label8 = new Label(3, i+1,  String.valueOf(list12.get(i).getSamsendhospital()));//年龄
+                            ws8.addCell(label8);
+                            label8 = new Label(4, i+1,  String.valueOf(list12.get(i).getSamdeptname()));//住院号
+                            ws8.addCell(label8);
+                            label8 = new Label(5, i+1,  String.valueOf(list12.get(i).getSamsenddoctorname()));//床号
+                            ws8.addCell(label8);
+                            label8 = new Label(6, i+1,  String.valueOf(list12.get(i).getSamreqtime()));//性别
+                            ws8.addCell(label8);
+                            label8 = new Label(7, i+1,  hgsts);//病理状态
+                            ws8.addCell(label8);
+                            label8 = new Label(8, i+1,  sts);//送检日期
+                            ws8.addCell(label8);
+                            label8 = new Label(9, i+1,  sex);//诊断日期
+                            ws8.addCell(label8);
+                            label8 = new Label(10, i+1,  String.valueOf(list12.get(i).getSampatientage()));//诊断日期
+                            ws8.addCell(label8);
+                            label8 = new Label(11, i+1,  ageType);//诊断日期
+                            ws8.addCell(label8);
+                            label8 = new Label(12, i+1,  String.valueOf(list12.get(i).getSampatientdignoses()));//诊断日期
+                            ws8.addCell(label8);
+                            label8 = new Label(13, i+1,  String.valueOf(list12.get(i).getSamsendtime()));//诊断日期
+                            ws8.addCell(label8);
+                            label8 = new Label(14, i+1,  String.valueOf(list12.get(i).getSamregisttime()));//诊断日期
+                            ws8.addCell(label8);
                         }
                     break;
-                    case 5:WritableSheet ws4 = wwb.createSheet("病理登记薄",4);
-                        Label label4 = new Label(0, 0, "病种类别");
-                        ws4.addCell(label4);
-                        label4 = new Label(1, 0, "病理编号");
-                        ws4.addCell(label4);
-                        label4 = new Label(2, 0, "患者姓名");
-                        ws4.addCell(label4);
-                        label4 = new Label(3, 0, "年龄");
-                        ws4.addCell(label4);
-                        label4 = new Label(4, 0, "住院号");
-                        ws4.addCell(label4);
-                        label4 = new Label(5, 0, "床号");
-                        ws4.addCell(label4);
-                        label4 = new Label(6, 0, "性别");
-                        ws4.addCell(label4);
-                        label4 = new Label(7, 0, "病理状态");
-                        ws4.addCell(label4);
-                        label4 = new Label(8, 0, "送检日期");
-                        ws4.addCell(label4);
-                        label4 = new Label(9, 0, "诊断日期");
-                        ws4.addCell(label4);
-                        label4 = new Label(10, 0, "送检医生");
-                        ws4.addCell(label4);
-                        label4 = new Label(11, 0, "送检科室");
-                        ws4.addCell(label4);
-                        label4 = new Label(12, 0, "送检医院");
-                        ws4.addCell(label4);
-                        label4 = new Label(13, 0, "取材医生");
-                        ws4.addCell(label4);
-                        label4 = new Label(14, 0, "切片医生");
-                        ws4.addCell(label4);
-                        label4 = new Label(15, 0, "诊断医生");
-                        ws4.addCell(label4);
-                        label4 = new Label(16, 0, "病理诊断");
-                        ws4.addCell(label4);
-                        label4 = new Label(17, 0, "免疫组化");
-                        ws4.addCell(label4);
-                        label4 = new Label(18, 0, "特殊染色");
-                        ws4.addCell(label4);
-                        label4 = new Label(19, 0, "分子病理");
-                        ws4.addCell(label4);
+                    case 5:WritableSheet ws9 = wwb.createSheet("病理登记薄",9);
+                        Label label9 = new Label(0, 0, "病种类别");
+                        ws9.addCell(label9);
+                        label9 = new Label(1, 0, "病理编号");
+                        ws9.addCell(label9);
+                        label9 = new Label(2, 0, "患者姓名");
+                        ws9.addCell(label9);
+                        label9 = new Label(3, 0, "年龄");
+                        ws9.addCell(label9);
+                        label9 = new Label(4, 0, "住院号");
+                        ws9.addCell(label9);
+                        label9 = new Label(5, 0, "床号");
+                        ws9.addCell(label9);
+                        label9 = new Label(6, 0, "性别");
+                        ws9.addCell(label9);
+                        label9 = new Label(7, 0, "病理状态");
+                        ws9.addCell(label9);
+                        label9 = new Label(8, 0, "送检日期");
+                        ws9.addCell(label9);
+                        label9 = new Label(9, 0, "诊断日期");
+                        ws9.addCell(label9);
+                        label9 = new Label(10, 0, "送检医生");
+                        ws9.addCell(label9);
+                        label9 = new Label(11, 0, "送检科室");
+                        ws9.addCell(label9);
+                        label9 = new Label(12, 0, "送检医院");
+                        ws9.addCell(label9);
+                        label9 = new Label(13, 0, "取材医生");
+                        ws9.addCell(label9);
+                        label9 = new Label(14, 0, "切片医生");
+                        ws9.addCell(label9);
+                        label9 = new Label(15, 0, "诊断医生");
+                        ws9.addCell(label9);
+                        label9 = new Label(16, 0, "病理诊断");
+                        ws9.addCell(label9);
+                        label9 = new Label(17, 0, "免疫组化");
+                        ws9.addCell(label9);
+                        label9 = new Label(18, 0, "特殊染色");
+                        ws9.addCell(label9);
+                        label9 = new Label(19, 0, "分子病理");
+                        ws9.addCell(label9);
                         String samsamplestatus = "已审核";
                         String myzhnum = "无";
                         String tsrsnum = "无";
@@ -915,60 +1064,128 @@ public class ReportController extends PIMSBaseController{
                                 age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
 
                             }
-                            label4 = new Label(0, i + 1, String.valueOf(map.get("sampathologyid")));//病种类别
-                            ws4.addCell(label4);
-                            label4 = new Label(1, i + 1, String.valueOf(map.get("sampathologycode")));//病理号
-                            ws4.addCell(label4);
-                            label4 = new Label(2, i + 1, String.valueOf(map.get("sampatientname")));//病人姓名
-                            ws4.addCell(label4);
-                            label4 = new Label(3, i + 1, age);//年龄
-                            ws4.addCell(label4);
-                            label4 = new Label(4, i + 1, String.valueOf(map.get("sampatientnumber")));//住院号
-                            ws4.addCell(label4);
-                            label4 = new Label(5, i + 1, String.valueOf(map.get("sampatientbed")));//床号
-                            ws4.addCell(label4);
-                            label4 = new Label(6, i + 1, sex);//性别
-                            ws4.addCell(label4);
-                            label4 = new Label(7, i + 1, samsamplestatus);//病理状态
-                            ws4.addCell(label4);
-                            label4 = new Label(8, i + 1, String.valueOf(map.get("samsendtime")));//送检日期
-                            ws4.addCell(label4);
-                            label4 = new Label(9, i + 1, String.valueOf(map.get("saminitiallytime")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(10, i + 1, String.valueOf(map.get("samsenddoctorname")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(11, i + 1, String.valueOf(map.get("samdeptname")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(12, i + 1, String.valueOf(map.get("samsendhospital")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(13, i + 1, String.valueOf(map.get("piedoctorname")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(14, i + 1, String.valueOf(map.get("parsectioneddoctor")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(15, i + 1, String.valueOf(map.get("saminitiallyusername")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(16, i + 1, String.valueOf(map.get("restestresult")));//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(17, i + 1, myzhnum);//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(18, i + 1, tsrsnum);//诊断日期
-                            ws4.addCell(label4);
-                            label4 = new Label(19, i + 1, fzblnum);//诊断日期
-                            ws4.addCell(label4);
+                            label9 = new Label(0, i + 1, String.valueOf(map.get("sampathologyid")));//病种类别
+                            ws9.addCell(label9);
+                            label9 = new Label(1, i + 1, String.valueOf(map.get("sampathologycode")));//病理号
+                            ws9.addCell(label9);
+                            label9 = new Label(2, i + 1, String.valueOf(map.get("sampatientname")));//病人姓名
+                            ws9.addCell(label9);
+                            label9 = new Label(3, i + 1, age);//年龄
+                            ws9.addCell(label9);
+                            label9 = new Label(4, i + 1, String.valueOf(map.get("sampatientnumber")));//住院号
+                            ws9.addCell(label9);
+                            label9 = new Label(5, i + 1, String.valueOf(map.get("sampatientbed")));//床号
+                            ws9.addCell(label9);
+                            label9 = new Label(6, i + 1, sex);//性别
+                            ws9.addCell(label9);
+                            label9 = new Label(7, i + 1, samsamplestatus);//病理状态
+                            ws9.addCell(label9);
+                            label9 = new Label(8, i + 1, String.valueOf(map.get("samsendtime")));//送检日期
+                            ws9.addCell(label9);
+                            label9 = new Label(9, i + 1, String.valueOf(map.get("saminitiallytime")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(10, i + 1, String.valueOf(map.get("samsenddoctorname")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(11, i + 1, String.valueOf(map.get("samdeptname")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(12, i + 1, String.valueOf(map.get("samsendhospital")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(13, i + 1, String.valueOf(map.get("piedoctorname")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(14, i + 1, String.valueOf(map.get("parsectioneddoctor")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(15, i + 1, String.valueOf(map.get("saminitiallyusername")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(16, i + 1, String.valueOf(map.get("restestresult")));//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(17, i + 1, myzhnum);//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(18, i + 1, tsrsnum);//诊断日期
+                            ws9.addCell(label9);
+                            label9 = new Label(19, i + 1, fzblnum);//诊断日期
+                            ws9.addCell(label9);
                         }
                         break;
-                    case 6:WritableSheet ws5 = wwb.createSheet("每日工作统计表1",5);
+                    case 6:
+                        WritableSheet ws10 = wwb.createSheet("取材医生工作量",10);
+                        WritableSheet ws11 = wwb.createSheet("初查医生工作量",11);
+                        WritableSheet ws12 = wwb.createSheet("审查医生工作量",12);
+                        WritableSheet ws13 = wwb.createSheet("包埋技师工作量",13);
+                        WritableSheet ws14 = wwb.createSheet("切片技师工作量",14);
+                        Label label10 = new Label(0, 0, "取材医生");
+                        ws10.addCell(label10);
+                        label10 = new Label(1, 0, "工作量");
+                        ws10.addCell(label10);
+                        Label label11 = new Label(0, 0, "初查医生");
+                        ws11.addCell(label11);
+                        label11 = new Label(1, 0, "工作量");
+                        ws11.addCell(label11);
+                        Label label12 = new Label(0, 0, "审查医生");
+                        ws12.addCell(label12);
+                        label12 = new Label(1, 0, "工作量");
+                        ws12.addCell(label12);
+                        Label label13 = new Label(0, 0, "包埋技师");
+                        ws13.addCell(label13);
+                        label13 = new Label(1, 0, "工作量");
+                        ws13.addCell(label13);
+                        Label label14 = new Label(0, 0, "切片技师");
+                        ws14.addCell(label14);
+                        label14 = new Label(1, 0, "工作量");
+                        ws14.addCell(label14);
+                        for(int i=0;i<list14.size();i++) {
+                            map = (Map) list14.get(i);
+                            label10 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws10.addCell(label10);
+                            label10 = new Label(1, i + 1, String.valueOf(map.get("num")));//床号
+                            ws10.addCell(label10);
+                        }
+                        for(int i=0;i<list15.size();i++) {
+                            map = (Map) list15.get(i);
+                            label11 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws11.addCell(label11);
+                            label11 = new Label(1, i + 1, String.valueOf(map.get("num")));//床号
+                            ws11.addCell(label11);
+                        }
+                        for(int i=0;i<list16.size();i++) {
+                            map = (Map) list16.get(i);
+                            label12 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws12.addCell(label12);
+                            label12 = new Label(1, i + 1, String.valueOf(map.get("num")));//床号
+                            ws12.addCell(label12);
+                        }
+                        for(int i=0;i<list17.size();i++) {
+                            map = (Map) list17.get(i);
+                            label13 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws13.addCell(label13);
+                            label13 = new Label(1, i + 1, String.valueOf(map.get("num")));//床号
+                            ws13.addCell(label13);
+                        }
+                        for(int i=0;i<list18.size();i++) {
+                            map = (Map) list18.get(i);
+                            label14 = new Label(0, i + 1, String.valueOf(map.get("name")));//住院号
+                            ws14.addCell(label14);
+                            label14 = new Label(1, i + 1, String.valueOf(map.get("num")));//床号
+                            ws14.addCell(label14);
+                        }
                     break;
-                    case 7:WritableSheet ws6 = wwb.createSheet("每日工作统计表1",6);
+                    case 7:WritableSheet ws15 = wwb.createSheet("科室工作量统计",15);
+                        Label label15 = new Label(0, 0, "科室");
+                        ws15.addCell(label15);
+                        label15 = new Label(1, 0, "免疫组化");
+                        ws15.addCell(label15);
+                        label15 = new Label(2, 0, "特殊染色");
+                        ws15.addCell(label15);
+                        label15 = new Label(3, 0, "分子病理");
+                        ws15.addCell(label15);
                     break;
-                    case 8:WritableSheet ws7 = wwb.createSheet("每日工作统计表1",7);
+                    case 8:WritableSheet ws16 = wwb.createSheet("每日工作统计表1",16);
                     break;
-                    case 9:WritableSheet ws8 = wwb.createSheet("每日工作统计表1",8);
-                    break;
-                    case 10:WritableSheet ws9 = wwb.createSheet("每日工作统计表1",9);
-                    break;
-                    case 11:WritableSheet ws10 = wwb.createSheet("每日工作统计表1",10);
-                    break;
+//                    case 9:WritableSheet ws8 = wwb.createSheet("每日工作统计表1",8);
+//                    break;
+//                    case 10:WritableSheet ws9 = wwb.createSheet("每日工作统计表1",9);
+//                    break;
+//                    case 11:WritableSheet ws10 = wwb.createSheet("每日工作统计表1",10);
+//                    break;
                 }
             }
             //**************往工作表中添加数据*****************

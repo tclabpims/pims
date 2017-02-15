@@ -828,5 +828,153 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         SQLQuery query = getSession().createSQLQuery(sql.toString());
         return ((BigDecimal)query.uniqueResult()).intValue();
     }
+
+    @Override
+    public List getQcgzl(PimsBaseModel map){
+        StringBuffer sql = new StringBuffer();
+        sql.append("select u.id,u.name,DECODE(sum(piecounts),null, 0, sum(piecounts)) piecounts FROM LAB_USER u LEFT JOIN PIMS_PATHOLOGY_PIECES p on u.id=p.piedoctorid ");
+        if (map.getReq_af_time() != null) {
+            sql.append(" and  p.piesamplingtime < :req_af_time ");//结束时间
+        }
+        if (map.getReq_bf_time() != null) {
+            sql.append(" and  p.piesamplingtime >= :req_bf_time ");//结束时间
+        }
+        sql.append("GROUP BY u.name,u.id ORDER BY u.id");
+        return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 科室工作量
+     */
+    @Override
+    public List getKsgzl(PimsBaseModel map){
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * from (SELECT E.PATNAMECH,S.slitestitemid from PIMS_SYS_PATHOLOGY E left join PIMS_PATHOLOGY_SAMPLE P on p.sampathologyid = e.pathologyid LEFT JOIN PIMS_PATHOLOGY_SLIDE s on p.sampathologycode = s.slipathologycode");
+        if (map.getReq_af_time() != null) {
+            sql.append(" and  s.slicreatetime < :req_af_time ");//结束时间
+        }
+        if (map.getReq_bf_time() != null) {
+            sql.append(" and  s.slicreatetime >= :req_bf_time ");//结束时间
+        }
+        sql.append(" ORDER BY E .PATNAMECH ");
+        sql.append(")pivot(count(slitestitemid) for slitestitemid in(37,38,39))");
+//        SQLQuery query = getSession().createSQLQuery(sql.toString());
+//        query.setDate("req_af_time",map.getReq_af_time());
+//        query.setDate("req_bf_time",map.getReq_bf_time());
+        return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 初查工作量
+     */
+    @Override
+    public List getCcgzl(PimsBaseModel map){
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT u.id,u.name,DECODE(count(saminitiallyuserid),null, 0, count(saminitiallyuserid)) as saminitiallyuserid from LAB_USER u LEFT JOIN PIMS_PATHOLOGY_SAMPLE p on u.id=p.saminitiallyuserid ");
+        if (map.getReq_af_time() != null) {
+            sql.append(" and  p.saminitiallytime < :req_af_time ");//结束时间
+        }
+        if (map.getReq_bf_time() != null) {
+            sql.append(" and  p.saminitiallytime >= :req_bf_time ");//结束时间
+        }
+        sql.append(" GROUP BY u.id,u.name ORDER BY u.id");
+        return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 审查工作量
+     */
+    @Override
+    public List getScgzl(PimsBaseModel map){
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT u.id,u.name,DECODE(count(samauditerid),null,0,count(samauditerid)) as samauditerid from LAB_USER u LEFT JOIN PIMS_PATHOLOGY_SAMPLE p on u.id=p.samauditerid");
+        if (map.getReq_af_time() != null) {
+            sql.append(" and  p.samauditedtime < :req_af_time ");//结束时间
+        }
+        if (map.getReq_bf_time() != null) {
+            sql.append(" and  p.samauditedtime >= :req_bf_time ");//结束时间
+        }
+        sql.append(" GROUP BY u.id,u.name ORDER BY u.id");
+        return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 包埋工作量
+     */
+    @Override
+    public List getBmgzl(PimsBaseModel map){
+        StringBuffer sql = new StringBuffer();
+        sql.append("select u.id,u.name,DECODE(count(pieembeddoctorid),null,0,count(pieembeddoctorid)) as pieembeddoctorid FROM LAB_USER u LEFT JOIN PIMS_PATHOLOGY_PIECES p on u.id=p.pieembeddoctorid ");
+        if (map.getReq_af_time() != null) {
+            sql.append(" and  p.pieembedtime < :req_af_time ");//结束时间
+        }
+        if (map.getReq_bf_time() != null) {
+            sql.append(" and  p.pieembedtime >= :req_bf_time ");//结束时间
+        }
+        sql.append(" GROUP BY u.id,u.name ORDER BY u.id");
+        return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 切片工作量
+     */
+    @Override
+    public List getQpgzl(PimsBaseModel map){
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT u.id,u.name,DECODE(COUNT (parsectioneddoctor),NULL,0,COUNT (parsectioneddoctor)) AS parsectioneddoctor from LAB_USER U LEFT JOIN PIMS_PATHOLOGY_PARAFFIN P ON u.name = p.parsectioneddoctor");
+        if (map.getReq_af_time() != null) {
+            sql.append(" and  p.parsectionedtime < :req_af_time ");//结束时间
+        }
+        if (map.getReq_bf_time() != null) {
+            sql.append(" and  p.parsectionedtime >= :req_bf_time ");//结束时间
+        }
+        sql.append(" GROUP BY u.id,u.name ORDER BY u.id");
+        return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    /**
+     * 术中冰冻结果表
+     */
+    @Override
+    public List getTworesults(PimsBaseModel map){
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT a.sampatientname,a.samsamplename,a.restestresult as result1,a.resinputtime as time1,b.restestresult as result2,b.resinputtime as time2 from (SELECT\n" +
+                "\ts.sampatientname,\n" +
+                "\ts.sampathologyid,\n" +
+                "\ts.samsamplename,\n" +
+                "\tr.restestresult,\n" +
+                "\tr.resinputtime\n" +
+                "FROM\n" +
+                "\tPIMS_PATHOLOGY_SAMPLE s RIGHT JOIN\n" +
+                "\tPIMS_SAMPLE_RESULT r\n" +
+                "on\n" +
+                "\tr.ressampleid = s.sampleid\n" +
+                "AND r.restestitemid = '89'\n" +
+                "AND s.sampathologyid = '181')  a,\n" +
+                "(SELECT\n" +
+                "\ts.sampatientname,\n" +
+                "\ts.sampathologyid,\n" +
+                "\ts.samsamplename,\n" +
+                "\tr.restestresult,\n" +
+                "\tr.resinputtime\n" +
+                "FROM\n" +
+                "\tPIMS_PATHOLOGY_SAMPLE s RIGHT JOIN\n" +
+                "\tPIMS_SAMPLE_RESULT r\n" +
+                "on\n" +
+                "\tr.ressampleid = s.sampleid\n" +
+                "AND r.restestitemid = '89'\n" +
+                "AND s.sampathologyid = '185'\n");
+        if (map.getReq_af_time() != null) {
+            sql.append(" and  r.resinputtime < :req_af_time ");//结束时间
+        }
+        if (map.getReq_bf_time() != null) {
+            sql.append(" and  r.resinputtime >= :req_bf_time ");//结束时间
+        }
+        sql.append(")  b \n" +
+                "WHERE a.sampatientname=b.sampatientname and a.samsamplename=b.samsamplename " +
+                "order by a.sampatientname");
+        return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
 }
+
 

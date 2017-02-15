@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by zp on 2016/12/26.
  */
 @Service("comsultationManager")
-public class ConsultationManagerImpl extends GenericManagerImpl<ViewConsultationQuery,Long> implements ConsultationManager{
+public class ConsultationManagerImpl extends GenericManagerImpl implements ConsultationManager{
 
 
     private ConsultationDao consultationDao;
@@ -25,7 +25,7 @@ public class ConsultationManagerImpl extends GenericManagerImpl<ViewConsultation
     }
 
     @Override
-    public List<ViewConsultationQuery> getConsultationList(Map map,PimsBaseModel ppr){
+    public List getConsultationList(Map map,PimsBaseModel ppr){
         return consultationDao.getConsultationList(map,ppr);
     }
 

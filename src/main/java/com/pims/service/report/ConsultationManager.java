@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * Created by zp on 2016/12/26.
  */
-public interface ConsultationManager extends GenericManager<ViewConsultationQuery,Long> {
-    List<ViewConsultationQuery> getConsultationList(Map map,PimsBaseModel ppr);
+public interface ConsultationManager extends GenericManager {
+    List getConsultationList(Map map,PimsBaseModel ppr);
 
     int getReqListNum(Map map);
 

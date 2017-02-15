@@ -513,86 +513,329 @@ $(function() {
         rownumWidth: 30, // the width of the row numbers columns
         pager: "#pager"
     });
+    $("#gzl_new0").jqGrid({
+        url: "../report/qcgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
+        colNames: ['取材医生','工作量'],
+        colModel: [
+            {name:'name',index:'name',align:'center'},//送检医生
+            {name:'num',index:'prices',align:'center'}//金额
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        height:150,
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        width: width2
+    });
+    $("#gzl_new1").jqGrid({
+        url: "../report/ccgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
+        colNames: ['初查医生','工作量'],
+        colModel: [
+            {name:'name',index:'name',align:'center'},//送检医生
+            {name:'num',index:'num',align:'center'}//金额
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        height:150,
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        width: width2
+    });
+    $("#gzl_new2").jqGrid({
+        url: "../report/scgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
+        colNames: ['审查医生','工作量'],
+        colModel: [
+            {name:'name',index:'name',align:'center'},//送检医生
+            {name:'num',index:'num',align:'center'}//金额
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        height:150,
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        width: width2
+    });
+    $("#gzl_new3").jqGrid({
+        url: "../report/Bmgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
+        colNames: ['包埋技师','工作量'],
+        colModel: [
+            {name:'name',index:'name',align:'center'},//送检医生
+            {name:'num',index:'num',align:'center'}//金额
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        height:150,
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        width: width2
+    });
+    $("#gzl_new4").jqGrid({
+        url: "../report/Qpgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
+        colNames: ['切片技师','工作量'],
+        colModel: [
+            {name:'name',index:'name',align:'center'},//送检医生
+            {name:'num',index:'num',align:'center'}//金额
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        height:150,
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        width: width2
+    });
+    $("#ksgzl_new").jqGrid({
+        url: "../report/ksgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
+        colNames: ['科室','免疫组化','特殊染色','分子病理'],
+        colModel: [
+            {name:'id',index:'id',align:'center'},//送检医生
+            {name:'myzh',index:'myzh',align:'center'},//送检医生
+            {name:'tsrs',index:'tsrs',align:'center'},//送检医生
+            {name:'fzbl',index:'fzbl',align:'center'}//金额
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        height:150,
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        width: width2
+    });
+
+    $("#bdjg_new0").jqGrid({
+        url: "../report/jgdz",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
+        colNames: ['患者姓名','部位','常规病理诊断结果','常规诊断时间','冰冻病理诊断结果','冰冻诊断时间'],
+        colModel: [
+            {name:'name',index:'name',align:'center'},//送检医生
+            {name:'samplename',index:'samplename',align:'center'},//送检医生
+            {name:'result1',index:'result1',align:'center'},//送检医生
+            {name:'time1',index:'time1',align:'center'},//送检医生
+            {name:'result2',index:'result2',align:'center'},//送检医生
+            {name:'time2',index:'time2',align:'center'}//金额
+        ],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+        },
+        viewrecords: true,
+        height:150,
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        width: width1
+    });
+
+
+    $(".sevenday").html($("#req_bf_time").val());
+    $(".receivetime").html($("#req_af_time").val());
 });
 /**
  * 查询数据
  */
 function searchList() {
-	var req_bf_time = $('#req_bf_time').val();//送检FROM
-	var req_af_time = $('#req_af_time').val();//送检TO
+	var req_bf_time = $("#req_bf_time").val();//送检FROM
+	var req_af_time = $("#req_af_time").val();//送检TO
+
+    $(".sevenday").html($("#req_bf_time").val());
+    $(".receivetime").html($("#req_af_time").val());
+    // alert(req_af_time);
+    // alert(req_bf_time);
+	// document.getElementById("sevenday")=$("#req_bf_time");
 	var req_sts = 2;
 	jQuery("#rztj_new0").jqGrid("clearGridData");
 	jQuery("#rztj_new0").jqGrid('setGridParam',{
 		url: "../report/rztj",
 		//发送数据
+        mtype: "GET",
+        datatype: "json",
 		postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
 	}).trigger('reloadGrid');//重新载入
 	jQuery("#rztj_new1").jqGrid("clearGridData");
 	jQuery("#rztj_new1").jqGrid('setGridParam',{
 		url: "../report/rztjinfo",
 		//发送数据
+        mtype: "GET",
+        datatype: "json",
 		postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
 	}).trigger('reloadGrid');//重新载入
 
 	jQuery("#bbytj_new0").jqGrid("clearGridData");
     jQuery("#bbytj_new0").jqGrid('setGridParam',{
-    url: "../report/bblytj",
+    	url: "../report/bblytj",
     //发送数据
-    postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":"1"}
+        mtype: "GET",
+        datatype: "json",
+    	postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":"1"}
     }).trigger('reloadGrid');//重新载入
     jQuery("#bbytj_new1").jqGrid("clearGridData");
     jQuery("#bbytj_new1").jqGrid('setGridParam',{
-    url: "../report/bblytj",
+    	url: "../report/bblytj",
     //发送数据
-    postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":"2"}
+        mtype: "GET",
+        datatype: "json",
+    	postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":"2"}
     }).trigger('reloadGrid');//重新载入
     jQuery("#bbytj_new2").jqGrid("clearGridData");
     jQuery("#bbytj_new2").jqGrid('setGridParam',{
-    url: "../report/bblytj",
+    	url: "../report/bblytj",
     //发送数据
-    postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":"3"}
+        mtype: "GET",
+        datatype: "json",
+    	postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":"3"}
     }).trigger('reloadGrid');//重新载入
     jQuery("#bhg").jqGrid("clearGridData");
     jQuery("#bhg").jqGrid('setGridParam',{
         url: "../pathologysample/sample/ajax/sample",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_sts":req_sts}
     }).trigger('reloadGrid');//重新载入
     jQuery("#bldjb").jqGrid("clearGridData");
     jQuery("#bldjb").jqGrid('setGridParam',{
         url: "../report/diagnosisreport/list",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_sts":5}
     }).trigger('reloadGrid');//重新载入
 	jQuery("#sftj_new0").jqGrid("clearGridData");
     jQuery("#sftj_new0").jqGrid('setGridParam',{
         url: "../report/sftj",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":1}
     }).trigger('reloadGrid');//重新载入
 	jQuery("#sftj_new1").jqGrid("clearGridData");
     jQuery("#sftj_new1").jqGrid('setGridParam',{
         url: "../report/sftj",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":2}
     }).trigger('reloadGrid');//重新载入
 	jQuery("#sftj_new2").jqGrid("clearGridData");
     jQuery("#sftj_new2").jqGrid('setGridParam',{
         url: "../report/sftj",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":3}
     }).trigger('reloadGrid');//重新载入
 	jQuery("#sftj_new3").jqGrid("clearGridData");
     jQuery("#sftj_new3").jqGrid('setGridParam',{
         url: "../report/sftj",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":4}
     }).trigger('reloadGrid');//重新载入
 	jQuery("#sftj_new4").jqGrid("clearGridData");
     jQuery("#sftj_new4").jqGrid('setGridParam',{
         url: "../report/sftj",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":5}
     }).trigger('reloadGrid');//重新载入
 	jQuery("#sftj_new5").jqGrid("clearGridData");
     jQuery("#sftj_new5").jqGrid('setGridParam',{
         url: "../report/sftj",
+        mtype: "GET",
+        datatype: "json",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_code":6}
     }).trigger('reloadGrid');//重新载入
-
+	jQuery("#gzl_new0").jqGrid("clearGridData");
+    jQuery("#gzl_new0").jqGrid('setGridParam',{
+        url: "../report/qcgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
+	jQuery("#gzl_new1").jqGrid("clearGridData");
+    jQuery("#gzl_new1").jqGrid('setGridParam',{
+        url: "../report/ccgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
+	jQuery("#gzl_new2").jqGrid("clearGridData");
+    jQuery("#gzl_new2").jqGrid('setGridParam',{
+        url: "../report/scgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
+	jQuery("#gzl_new3").jqGrid("clearGridData");
+    jQuery("#gzl_new3").jqGrid('setGridParam',{
+        url: "../report/Bmgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
+	jQuery("#gzl_new4").jqGrid("clearGridData");
+    jQuery("#gzl_new4").jqGrid('setGridParam',{
+        url: "../report/Qpgzl",
+        mtype: "GET",
+        datatype: "json",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
+	jQuery("#ksgzl_new").jqGrid("clearGridData");
+    jQuery("#ksgzl_new").jqGrid('setGridParam',{
+        url: "../report/ksgzl",
+        mtype: "GET",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
+    jQuery("#bdjg_new0").jqGrid("clearGridData");
+    jQuery("#bdjg_new0").jqGrid('setGridParam',{
+        url: "../report/jgdz",
+        mtype: "GET",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
 }
 function CurentTime(now) {
 	//var now = new Date();

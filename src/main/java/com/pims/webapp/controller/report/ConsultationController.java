@@ -151,7 +151,7 @@ public class ConsultationController extends PIMSBaseController {
         map.put("confinisheduserid", request.getParameter("confinisheduserid"));
         map.put("remarks", request.getParameter("remarks"));
         //map.put("samre",request.getParameter("samre"));
-        List<ViewConsultationQuery> list = consultationManager.getConsultationList(map,ppr);
+        List list = consultationManager.getConsultationList(map,ppr);
         //int num = consultationManager.getReqListNum(map);
         if (list == null || list.size() == 0) {
             return null;
@@ -262,7 +262,7 @@ public class ConsultationController extends PIMSBaseController {
         map.put("confinisheduserid", request.getParameter("confinisheduserid"));
         map.put("remarks", request.getParameter("remarks"));
         //map.put("samre",request.getParameter("samre"));
-        List<ViewConsultationQuery> list = consultationManager.getConsultationList(map,ppr);
+        List list = consultationManager.getConsultationList(map,ppr);
         List mapList = new ArrayList();
 
         if(list == null || list.size() == 0) {
