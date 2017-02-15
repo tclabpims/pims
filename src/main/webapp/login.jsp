@@ -512,7 +512,7 @@
                             <img src="images/paiban.png">
                         </div>
                         <div class="infobox-data">
-                            <a href="<c:url value="/his/hisrequest?hosptail=1"/>" data-target="#signup-box" class="user-signup-link">
+                            <a href="<c:url value="/his/his_main?hosptail=1&brjzxh=343920&patient_type=1"/>" data-target="#signup-box" class="user-signup-link">
                                 电子申请
                             </a>
                         </div>

@@ -286,6 +286,9 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
                     PimsSysPathology psp = pimsSysPathologyManager.getSysPathologyById(sample.getSampathologyid());
                     if(psp != null && psp.getPatissampling().intValue() == 0 && psp.getPatfirstn() != null && psp.getPatfirstn().intValue() == 1){
                         piece.setPiestate((long) 2);
+                        piece.setPieembedtime(new Date());
+//                        piece.setPieembeddoctorid(piece.get);
+//                        piece.setPieembeddoctorname();
                         piece.setPieisembed("1");
                         piece = pimsPathologyPiecesManager.save(piece);
                         PimsPathologyParaffin ppp = new PimsPathologyParaffin();
@@ -311,7 +314,7 @@ public class PimsPathologyPiecesDaoHibernate extends GenericDaoHibernate<PimsPat
 //                        ppp.setParsecondv();//预留字段2(Varchar)
 //                        ppp.setParfirstn();//预留字段3(Numberic)
 //                        ppp.setParfirstd();//预留字段4(Date)
-//                        ppp.setParcreatetime();//
+                        ppp.setParcreatetime(new Date());//
 //                        ppp.setParcreateuse();//
                         pimsPathologyParaffinManager.save(ppp);
                     }else{

@@ -346,7 +346,7 @@ function createNew1(reqid,width1){
 			{name:'slislidetype',index:'slislidetype',formatter: "select", editoptions:{value:"0:常规;1:白片"},align:'center'},//玻片类型
 			{name:'slislideno',index:'slislideno',align:'center'},//玻片序号
 			{ name: 'sliifprint', index: 'sliifprint',formatter: "select", editoptions:{value:"0:未打印;1:已打印"},width:100,align:'center'},//印刷状态
-			{name:'slisamplingparts',index:'slisamplingparts',width:100,align:'center'},//取材部位
+			{name:'slisamplingparts',index:'slisamplingparts',editable:true,width:100,align:'center'},//取材部位
 			{name:'slideid',hidden:true},//玻片id
 			{name:'slicustomerid',hidden:true},//客户代码
 			{name:'slicustomercode',hidden:true},//客户代码
@@ -369,22 +369,22 @@ function createNew1(reqid,width1){
 			//canChange(rowid,1);
 			LASTEDITROW1 = iRow;
 			LASTEDITCELL1 = iCol;
-			var rec = jQuery("#new1").jqGrid('getRowData', rowid);
-			if (rec.piestate > "0" || rec.piefirstn != "") {
-				setTimeout(function () {
-					jQuery("#new1").jqGrid('restoreCell', iRow, iCol);
-					//===>或者设置为只读
-					//$('#' + rowid + '_amount').attr('readonly', true);
-				}, 1);
-			}
+			// var rec = jQuery("#new1").jqGrid('getRowData', rowid);
+			// if (rec.piestate > "0" || rec.piefirstn != "") {
+			// 	setTimeout(function () {
+			// 		jQuery("#new1").jqGrid('restoreCell', iRow, iCol);
+			// 		//===>或者设置为只读
+			// 		//$('#' + rowid + '_amount').attr('readonly', true);
+			// 	}, 1);
+			// }
 		},
+		cellEdit:true,
 		viewrecords: true,
 		multiselect: true,
 		cellsubmit: "clientArray",
 		//autowidth: true,
 		//shrinkToFit:false,
 		//autoScroll: true,
-		cellEdit:true,
 		rownumbers : true
 	});
 }

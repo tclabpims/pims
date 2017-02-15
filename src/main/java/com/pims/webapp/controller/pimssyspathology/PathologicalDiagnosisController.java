@@ -446,14 +446,23 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         context.put("samsenddoctorname", sample.getSamsenddoctorname());
         context.put("samsamplename", sample.getSamsamplename());
         context.put("samtestresult", pimsPathologyOrderChildManager.getTestItemResult(sample.getSampleid()));
-        if(sample.getSamsendtime() != null)
-        context.put("samsendtime", Constants.DF2.format(sample.getSamsendtime()));
-        else
+        if(sample.getSamsendtime() != null) {
+            if(pathology.getPathologyid() == 185 ){
+                context.put("samsendtime", Constants.DF.format(sample.getSamsendtime()));
+            }else{
+                context.put("samsendtime", Constants.DF2.format(sample.getSamsendtime()));
+            }
+        }else
         context.put("samsendtime", "");
         context.put("sampatientaddress", sample.getSampatientaddress());
-        if(sample.getSamreceivertime() != null)
-        context.put("samreceivertime", Constants.DF2.format(sample.getSamreceivertime()));
-        else
+        if(sample.getSamreceivertime() != null) {
+            if(pathology.getPathologyid() == 185 ){
+                context.put("samreceivertime", Constants.DF.format(sample.getSamreceivertime()));
+            }else{
+                context.put("samreceivertime", Constants.DF2.format(sample.getSamreceivertime()));
+            }
+//            context.put("samreceivertime", Constants.DF2.format(sample.getSamreceivertime()));
+        }else
         context.put("samreceivertime", "");
         context.put("sampatientdignoses", sample.getSampatientdignoses());
         if(StringUtils.isEmpty(sample.getSaminitiallyusername())){
@@ -495,14 +504,24 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 //        context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
 //        else
 //        context.put("samreportedtime", "");
-        if(sample.getSamauditedtime() != null)
-            context.put("samreportedtime", Constants.DF2.format(sample.getSamauditedtime()));
-        else
+        if(sample.getSamauditedtime() != null) {
+            if (pathology.getPathologyid() == 185) {
+                context.put("samreportedtime", Constants.DF.format(sample.getSamauditedtime()));
+            } else {
+                context.put("samreportedtime", Constants.DF2.format(sample.getSamauditedtime()));
+            }
+//            context.put("samreportedtime", Constants.DF2.format(sample.getSamauditedtime()));
+        }else
             context.put("samreportedtime", "");
 
-        if(sample.getSamreportedtime() != null)
-            context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
-        else
+        if(sample.getSamreportedtime() != null) {
+            if(pathology.getPathologyid() == 185 ){
+                context.put("samreportedtime", Constants.DF.format(sample.getSamreportedtime()));
+            }else{
+                context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
+            }
+//            context.put("samreportedtime", Constants.DF2.format(sample.getSamreportedtime()));
+        }else
             context.put("samreportedtime", "");
 
         return context;

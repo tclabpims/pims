@@ -1,4 +1,4 @@
-<div style="height: 60px">
+<div style="height: 100px">
     <div class="logo" style="float: left"><img src="$!hospitalLogo" width="150px" height="55px"></div>
     <div class="logo" style="float: right"><img src="$!RhospitalLogo" width="150px" height="55px"></div>
 </div>
@@ -34,9 +34,9 @@
             <td width="8%" align="left">
                 <span class="txtstyle">#if($sampatientsex==1) 男 #elseif ($sampatientsex == 2)女 #else 未知 #end</span>  </td>
             <td width="8%"><span class="fieldname">年龄：</span></td>
-            <td width="21%" align="left"><span class="txtstyle">$!sampatientage </span> </td>
+            <td width="19%" align="left"><span class="txtstyle">$!sampatientage </span> </td>
             <td width="12%"><span class="fieldname">联系电话：</span></td>
-            <td width="16%" align="left"><span class="txtstyle">$!sampatientphoneno</span></td>
+            <td width="18%" align="left"><span class="txtstyle">$!sampatientphoneno</span></td>
         </tr>
         <tr>
             <td><span class="fieldname">住院/门诊号：</span></td>

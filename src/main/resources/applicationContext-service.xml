@@ -26,10 +26,10 @@
     <!-- Enable @AspectJ support -->
     <aop:aspectj-autoproxy/>
     
-    <!-- Enable @Scheduled support -->
-    <task:scheduled-tasks>
-        <task:scheduled ref="reagentOutCount" method="run" cron="0 0 6 * * ?"/>
-	</task:scheduled-tasks>
+    <!-- 发送报告到报告库 -->
+    <!--<task:scheduled-tasks>-->
+        <!--<task:scheduled ref="sendDataToLib" method="run" cron="0 0 0/1 * * ?"/>-->
+	<!--</task:scheduled-tasks>-->
     <!--&lt;!&ndash; 同步更新报告机已打印单据,每5分钟同步一次&ndash;&gt;-->
     <!--<task:scheduled-tasks>-->
         <!--<task:scheduled ref="updatepdfstates" method="run" cron="0 0/5 * * * ?"/>-->

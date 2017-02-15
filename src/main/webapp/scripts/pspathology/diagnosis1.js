@@ -2708,81 +2708,81 @@ $(function () {
     //     autoclose: true //选择日期后自动关闭
     // });
     //送检医生
-    $("#reqDoctor").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: "../basadata/ajax/item",
-                dataType: "json",
-                data: {
-                    name: request.term,//名称
-                    bddatatype: 3,//送检医生
-                    bdcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID//账号所属医院
-                },
-                success: function (data) {
-                    response($.map(data, function (result) {
-                        return {
-                            label: result.id + " : " + result.name,
-                            value: result.name,
-                            id: result.id
-                        }
-                    }));
-                }
-            });
-        },
-        minLength: 0,
-        select: function (event, ui) {
-            $("#reqDoctorId").val(ui.item.id);
-            $("#reqDoctor").val(ui.item.value);
-            //return false;
-        }
-    })
-        .data("ui-autocomplete")._renderItem = function (ul, item) {
-        return $("<li>")
-            .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
-            .appendTo(ul);
-    };
-
-    //检查项目名称
-    $("#itemName").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: "../estitem/querytestitem",
-                dataType: "json",
-                data: {
-                    query: $("#itemName").val(),//项目中文名称
-                    pathologyid:$("#sampathologyid1").val(),///病种类别
-                    tesitemtype:2
-                },
-                success: function (data) {
-                    response($.map(data, function (result) {
-                        return {
-                            label: result.teschinesename,
-                            value: result.tesenglishname,
-                            id: result.testitemid,
-                            tesischarge: result.tesischarge
-                        }
-                    }));
-                }
-            });
-        },
-        minLength: 0,
-        select: function (event, ui) {
-            var row = {};
-            row.tesenglishname = ui.item.value;
-            row.teschinesename = ui.item.label;
-            row.testitemid = ui.item.id;
-            row.tesischarge = ui.item.tesischarge;
-            appendItem(row);
-            /*$("#chinesename").val(ui.item.label);
-             $("#chienglishname").val(ui.item.value);
-             $("#testitemid").val(ui.item.id);*/
-        }
-    })
-        .data("ui-autocomplete")._renderItem = function (ul, item) {
-        return $("<li>")
-            .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
-            .appendTo(ul);
-    };
+    // $("#reqDoctor").autocomplete({
+    //     source: function (request, response) {
+    //         $.ajax({
+    //             url: "../basadata/ajax/item",
+    //             dataType: "json",
+    //             data: {
+    //                 name: request.term,//名称
+    //                 bddatatype: 3,//送检医生
+    //                 bdcustomerid: GRID_SELECTED_ROW_SAMPCUSTOMERID//账号所属医院
+    //             },
+    //             success: function (data) {
+    //                 response($.map(data, function (result) {
+    //                     return {
+    //                         label: result.id + " : " + result.name,
+    //                         value: result.name,
+    //                         id: result.id
+    //                     }
+    //                 }));
+    //             }
+    //         });
+    //     },
+    //     minLength: 0,
+    //     select: function (event, ui) {
+    //         $("#reqDoctorId").val(ui.item.id);
+    //         $("#reqDoctor").val(ui.item.value);
+    //         //return false;
+    //     }
+    // })
+    //     .data("ui-autocomplete")._renderItem = function (ul, item) {
+    //     return $("<li>")
+    //         .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
+    //         .appendTo(ul);
+    // };
+    //
+    // //检查项目名称
+    // $("#itemName").autocomplete({
+    //     source: function (request, response) {
+    //         $.ajax({
+    //             url: "../estitem/querytestitem",
+    //             dataType: "json",
+    //             data: {
+    //                 query: $("#itemName").val(),//项目中文名称
+    //                 pathologyid:$("#sampathologyid1").val(),///病种类别
+    //                 tesitemtype:2
+    //             },
+    //             success: function (data) {
+    //                 response($.map(data, function (result) {
+    //                     return {
+    //                         label: result.teschinesename,
+    //                         value: result.tesenglishname,
+    //                         id: result.testitemid,
+    //                         tesischarge: result.tesischarge
+    //                     }
+    //                 }));
+    //             }
+    //         });
+    //     },
+    //     minLength: 0,
+    //     select: function (event, ui) {
+    //         var row = {};
+    //         row.tesenglishname = ui.item.value;
+    //         row.teschinesename = ui.item.label;
+    //         row.testitemid = ui.item.id;
+    //         row.tesischarge = ui.item.tesischarge;
+    //         appendItem(row);
+    //         /*$("#chinesename").val(ui.item.label);
+    //          $("#chienglishname").val(ui.item.value);
+    //          $("#testitemid").val(ui.item.id);*/
+    //     }
+    // })
+    //     .data("ui-autocomplete")._renderItem = function (ul, item) {
+    //     return $("<li>")
+    //         .append("<a style='font-size:12px;font-family: 微软雅黑;'>" + item.id + "," + item.value + "</a>")
+    //         .appendTo(ul);
+    // };
 })
 
 function workdayafter(num) {

@@ -90,6 +90,32 @@ public class PIMSBaseController {
         return builder.toString();
     }
 
+    public String getOptions(List<PimsCommonBaseData> listbase,ModelAndView view){
+        StringBuilder builder = new StringBuilder();
+        builder.append("<option value=''></option>");
+        for(PimsCommonBaseData obj : listbase) {
+            builder.append("<option value='").append(obj.getDataid()).append("' ");
+            if(obj.getIsself() == 0) {
+                builder.append(" selected = 'selected' ");
+                if(obj.getBddatatype() == 1){//病区
+                    view.addObject("reqwardname1",obj.getBddatanamech());
+                    view.addObject("reqwardcode1",obj.getDataid());
+                }else if(obj.getBddatatype() == 2){//送检科室
+                    view.addObject("samdeptname1",obj.getBddatanamech());
+                    view.addObject("samdeptcode1",obj.getDataid());
+                }else if(obj.getBddatatype() == 3){//送检医生
+                    view.addObject("samsenddoctorname1",obj.getBddatanamech());
+                    view.addObject("samsenddoctorcode1",obj.getDataid());
+                }else if(obj.getBddatatype() == 4){//送检医院
+                    view.addObject("samsendhospital1",obj.getBddatanamech());
+                    view.addObject("samsendhospitalcode1",obj.getDataid());
+                }
+            }
+            builder.append(">").append(obj.getIsself()+":"+obj.getBddatanamech()).append("</option>");
+        }
+        return builder.toString();
+    }
+
     protected List<File> multifileUpload(MultipartFile[] imgFile, String path, String sampleId) throws IOException {
         List<File> ret = new ArrayList<>();
         File savePath = new File(path);

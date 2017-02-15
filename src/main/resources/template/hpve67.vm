@@ -101,57 +101,54 @@
         }
     </script>
 </head>
-<body>
+<body style="width:95%">
 <div>
     #parse ("/template/reportHead.vm")
     <div class="line"></div>
-    <div><span class="itemtitle">标本类型：</span><span>宫颈脱落细胞</span></div>
-    <div><span class="itemtitle">检测方法：</span><span>专利Invader酶切信号放大法</span></div>
-    <div><span class="itemtitle">检测组别：</span><span>检测14种国际癌症研究所（IARC）指定的高危型HPV，可分出不同的病毒组别</span></div>
+    <div><span class="fieldname">标本类型：</span><span class="txtstyle">宫颈脱落细胞</span></div>
+    <div><span class="fieldname">检测方法：</span><span class="txtstyle">TMA(转入介导的等温扩增法)</span></div>
+    <div><span class="fieldname">检测组别：</span><span class="txtstyle">检测14种国际癌症研究所（IARC）指定的高危型HPV，可分出16、18/45病毒型</span></div>
     <div class="line"></div>
-    <div class="itemtitle">检测结果：</div>
-    <div style="width:100%;height:150px;padding-left:5px">
-        <div><span class="itemtitle">标本量：</span><span id="sampleAmount">$!sampleAmount</span></div>
-        <div><span class="itemtitle">高危型HPV：</span><span id="hpvTestResult">$!diagnosisResult</span></div>
-    </div>
-    <div style="width:100%;height:200px;padding-left:5px">
-        <table width="65%" border="1" cellspacing="0" style="font-size: 12px">
+    <div class="txtstyle">检测HPV高危型：16，18，31，33，35，39，45，51，52，56，58，59，66，68</div>
+    <div class="fieldname">检测结果：HPV HR(E6/E7mRNA)：$!diagnosisResult</div>
+##    <div style="width:100%;height:150px;padding-left:5px" class="txtstyle">
+##        <span id="sampleAmount">$!diagnosisResult</span>
+##    </div>
+    <div class="fieldname">HPVE6/E7mRNA分型结果：</div>
+    <div style="width:100%;height:100px;padding-left:5px" class="txtstyle">
+        <table width="65%" border="1" cellspacing="0" >
             <tr>
-                <td align="center" height="14px"><strong>HPV型组</strong></td>
-                <td align="center"><strong>亚型</strong></td>
-                <td align="center"><strong>结果</strong></td>
+                <td align="center" height="16px"><strong>HPV 亚型</strong></td>
+                <td align="center"><strong>分型结果</strong></td>
             </tr>
             <tr>
-                <td align="left" height="14px">A5/A6</td>
-                <td align="left">51,56,66</td>
-                <td align="left">
+                <td align="center" height="16px">HPV16</td>
+                <td align="center">
                     <span id="A5A6Result"></span>
                 </td>
             </tr>
             <tr>
-                <td align="left" height="14px">A7</td>
-                <td align="left">18,39,45,59,68</td>
-                <td align="left">
+                <td align="center" height="16px">HPV18/45</td>
+                <td align="center">
                     <span id="A7Result"></span>
                 </td>
             </tr>
             <tr>
-                <td align="left" height="14px">A9</td>
-                <td align="left">16,31,33,35,52,58</td>
-                <td align="left">
+                <td align="center" height="16px">其余11型高危HPV</td>
+                <td align="center">
                     <span id="A9Result"></span>
                 </td>
             </tr>
         </table>
     </div>
-    <div class="line"></div>
+##    <div class="line"></div>
     <div>
-        <div class="itemtitle">结果分析提示：</div>
-        <div>1.高危型人乳头瘤病毒（HPV）的持续感染是引起子宫颈癌的主要原因，高危型HPV</div>
-        <div style="padding-left:10px">DNA检测是宫颈病变、宫颈癌病变及宫颈癌筛查的重要手段。</div>
-        <div>2.HPV阴性者请一年后复查。</div>
-        <div>3.HPV阳性者请医生结合宫颈脱落细胞学检查结果决定是否进行下一步检查和处理。</div>
-        <div>4.该结果仅对本次样本负责。</div>
+        <div class="fieldname">结果分析提示：</div>
+        <div class="txtstyle">1.高危型人乳头瘤病毒（HPV）的持续感染是引起子宫颈癌的主要原因，高危型HPV</div>
+        <div style="padding-left:10px" class="txtstyle">HPVE6/E7mRNA检测是宫颈病变及宫颈癌筛查的重要手段。</div>
+        <div class="txtstyle">2.HPV阴性者请一年后复诊，复诊结果仍为阴性，随访间隔可延长3-5年。</div>
+        <div class="txtstyle">3.HPV阳性者请医生结合宫颈脱落细胞学检查结果决定是否进行下一步检查和处理。</div>
+        <div class="txtstyle">4.该结果仅对本次样本负责。</div>
     </div>
     <div class="line"></div>
     #parse ("/template/reportFooter.vm")

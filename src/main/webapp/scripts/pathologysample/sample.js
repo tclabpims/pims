@@ -78,8 +78,9 @@ function createNew22(brjzxh){
 		height: 500,
 		width: 1000,
 		postData:{"brjzxh":brjzxh},
-		colNames: ['就诊ID','档案号','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','患者类型','联系地址','会诊ID','住院病区ID','住院科室ID'],
+		colNames: ['患者类型','就诊ID','档案号','住院号','病人姓名','性别','年龄','年龄类型', '住院科室','住院病区','床号','临床诊断','电话','联系地址','会诊ID','住院病区ID','住院科室ID'],
 		colModel: [
+			{ name: 'patient_type', index: 'patient_type',formatter:'select',editoptions:{value:"1:住院;2:门诊;3:体检"}},//患者类型
 			{name:'key_no',index:'key_no'},//ID
 			{name:'inpatient_id',index:'inpatient_id'},//档案号
 			{name:'patient_id',index:'patient_id'},//住院号
@@ -92,7 +93,7 @@ function createNew22(brjzxh){
 			{name:'patient_bed',index:'patient_bed'},//床号
 			{name:'lczd',index:'lczd'},//临床诊断
 			{name:'phone_no',hidden:true},//电话
-			{name:'patient_type',hidden:true},//患者类型
+			// {name:'patient_type',hidden:true},//患者类型
 			{name:'patient_address',hidden:true},//会诊ID
 			{name:'inpatient_id',hidden:true},//联系地址
 			{name:'patient_ward',hidden:true},//住院病区ID
@@ -103,6 +104,22 @@ function createNew22(brjzxh){
 			setTimeout(function(){
 				updatePagerIcons(table);
 			}, 0);
+		},
+		gridComplete:function(){
+			var rowIds = $("#new22").jqGrid('getDataIDs');
+			for(var k = 0; k<rowIds.length; k++) {
+				var rowData = $("#new22").jqGrid('getRowData', rowIds[k]);
+				if (rowData.patient_type == '1') {
+					//获取每行下的TD更改CSS
+					$("#new22").children().children("tr[id='"+rowIds[k]+"']").children("td").eq(0).css("background-color","red");
+				}else if (rowData.patient_type == '2') {
+					//获取每行下的TD更改CSS
+					$("#new22").children().children("tr[id='"+rowIds[k]+"']").children("td").eq(0).css("background-color","green");
+				}else if (rowData.patient_type == '3') {
+					//获取每行下的TD更改CSS
+					$("#new22").children().children("tr[id='"+rowIds[k]+"']").children("td").eq(0).css("background-color","yellow");
+				}
+			}
 		},
 		viewrecords: true,
 		rownumbers : true,

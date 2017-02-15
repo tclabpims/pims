@@ -1226,7 +1226,7 @@ function getSampleData1(id) {
                                 var reg=new RegExp("<br>","g");
                                 $("#" + e.id).val(data[itm].restestresult==null?"":data[itm].restestresult.replace(reg,"\n"));
                                 $("#" + e.id).attr("hiddenValue", resultid);
-                                if(patClass == 7 && $("#" + e.id).attr("type") == "hidden") {
+                                if((patClass == 7 || patClass == 10) && $("#" + e.id).attr("type") == "hidden") {
                                     setSelectedValue(data[itm].restestresult);
                                 }
                             }
@@ -1277,23 +1277,28 @@ function setSelectedValue(jsonStr) {
 
 function setYJXBDiagnosis(data) {
     var emptyResult = jQuery.isEmptyObject(data);
-    if (emptyResult) {
+    // if (emptyResult) {
         for (var i = 0; i <= 3; i++) {
             var e = $("#textarea" + i);
             e.val('');
             e.attr("hiddenValue", "");
         }
         for (var j = 1; j <= 40; j++) {
-            $("#c" + j).attr("checked", false);
+            $("#c"+j).attr("checked",false);
         }
+    if (emptyResult) {
         return;
     }
+    // }
     for (itm in data) {
         var resultid = data[itm].resultid;
         e = $("#" + itm);
         e.val(data[itm].restestresult);
         e.attr("hiddenValue", resultid);
     }
+    // setTimeout(function () {
+    //     setCheckStatus($("#textarea0").val());
+    // }, 1000);
     setCheckStatus($("#textarea0").val());
 }
 
@@ -1303,7 +1308,8 @@ function setCheckStatus(checkedIdStr) {
      }*/
     var array_ = checkedIdStr.split(",");
     for (var i = 0; i < array_.length; i++) {
-        $("#" + array_[i]).attr("checked", true);
+        // $("#" + array_[i]).attr("checked","checked");
+        $("#" + array_[i]).prop("checked", true);
     }
 }
 
@@ -2331,54 +2337,99 @@ function setSelectView(selectId) {
 function insertTable(patClass) {
     if (patClass == 7) {
         if($('#dnaTestTable').length == 0) {
-        var div1 = $('#diagnosisInfoForm').children('div');
-        if(div1.length > 0) {
-            var lastChild = div1[div1.length-1];
-            var str='<div id="dnaTestTable"><table width="80%" border="1" cellspacing="0" style="font-size: 12px">' +
-                '<tr>' +
-                '<td align="center" height="14px"><strong>HPV型组</strong></td>' +
-                '<td align="center"><strong>亚型</strong></td>' +
-                '<td align="center"><strong>结果</strong></td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="left" height="14px">A5/A6</td>' +
-                '<td align="left">51,56,66</td>' +
-                '<td align="left">' +
-                '<Select id="A5A6Result" onchange="setSelectView(\'A5A6Result\')">' +
-                '<option></option>' +
-                '<option value="阴性" style="color:#000">阴性</option>' +
-                '<option value="阳性" style="color:red">阳性</option>' +
-                '</select>' +
-                '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="left" height="14px">A7</td>' +
-                '<td align="left">18,39,45,59,68</td>' +
-                '<td align="left">' +
-                '<Select id="A7Result" onchange="setSelectView(\'A7Result\')">' +
-                '<option></option>' +
-                '<option value="阴性" style="color:#000">阴性</option>' +
-                '<option value="阳性" style="color:red">阳性</option>' +
-                '</select>' +
-                '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td align="left" height="14px">A9</td>' +
-                '<td align="left">16,31,33,35,52,58</td>' +
-                '<td align="left">' +
-                '<Select id="A9Result" onchange="setSelectView(\'A9Result\')">' +
-                '<option></option>' +
-                '<option value="阴性" style="color:#000">阴性</option>' +
-                '<option value="阳性" style="color:red">阳性</option>' +
-                '</select>' +
-                '</td>' +
-                '</tr>' +
-                '</table>' +
-                '</div>';
-            $(str).insertBefore(lastChild);
+            var div1 = $('#diagnosisInfoForm').children('div');
+            if(div1.length > 0) {
+                var lastChild = div1[div1.length-1];
+                var str='<div id="dnaTestTable"><table width="80%" border="1" cellspacing="0" style="font-size: 12px">' +
+                    '<tr>' +
+                    '<td align="center" height="14px"><strong>HPV型组</strong></td>' +
+                    '<td align="center"><strong>亚型</strong></td>' +
+                    '<td align="center"><strong>结果</strong></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="left" height="14px">A5/A6</td>' +
+                    '<td align="left">51,56,66</td>' +
+                    '<td align="left">' +
+                    '<Select id="A5A6Result" onchange="setSelectView(\'A5A6Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="left" height="14px">A7</td>' +
+                    '<td align="left">18,39,45,59,68</td>' +
+                    '<td align="left">' +
+                    '<Select id="A7Result" onchange="setSelectView(\'A7Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="left" height="14px">A9</td>' +
+                    '<td align="left">16,31,33,35,52,58</td>' +
+                    '<td align="left">' +
+                    '<Select id="A9Result" onchange="setSelectView(\'A9Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '</table>' +
+                    '</div>';
+                $(str).insertBefore(lastChild);
+            }
         }
+    } else if (patClass == 10) {
+        if($('#dnaTestTable').length == 0) {
+            var div1 = $('#diagnosisInfoForm').children('div');
+            if(div1.length > 0) {
+                var lastChild = div1[div1.length-1];
+                var str='<div id="dnaTestTable"><table width="80%" border="1" cellspacing="0" style="font-size: 12px">' +
+                    '<tr>' +
+                    '<td align="center" height="14px"><strong>HPV亚型</strong></td>' +
+                    '<td align="center"><strong>分型结果</strong></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="center" height="14px">HPV16</td>' +
+                    '<td align="center">' +
+                    '<Select id="A5A6Result" onchange="setSelectView(\'A5A6Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="center" height="14px">HPV18/45</td>' +
+                    '<td align="center">' +
+                    '<Select id="A7Result" onchange="setSelectView(\'A7Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td align="center" height="14px">其余11型高危HPV</td>' +
+                    '<td align="center">' +
+                    '<Select id="A9Result" onchange="setSelectView(\'A9Result\')">' +
+                    '<option></option>' +
+                    '<option value="阴性" style="color:#000">阴性</option>' +
+                    '<option value="阳性" style="color:red">阳性</option>' +
+                    '</select>' +
+                    '</td>' +
+                    '</tr>' +
+                    '</table>' +
+                    '</div>';
+                $(str).insertAfter(lastChild);
+            }
         }
-    } else {
+    }else {
         var tableDiv = document.getElementById("dnaTestTable");
         if(tableDiv != null) {
             tableDiv.parentNode.removeChild(tableDiv);
@@ -2435,7 +2486,7 @@ $(function () {
 
             {
                 name: 'patclass', index: 'patclass', width: 40, formatter: "select",align:"center",
-                editoptions: {value: "1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学"}
+                editoptions: {value: "1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学;10:HPVE6/E7"}
             },
             {name: 'sampleid', index: 'sampleid', hidden: true},
             {name: 'samcustomerid', index: 'samcustomerid', hidden: true},
@@ -2671,6 +2722,7 @@ $(function () {
                 setTotalNumValue(lakuai);
             }
             $("#ckItemList").jqGrid("delRowData", id);
+            $("#itemList tr:last").focus();
         },
         viewrecords: true,
         // shrinkToFit: true,
@@ -2735,10 +2787,7 @@ $(function () {
             {
                 name: 'pieparts',
                 index: 'pieparts',
-                width: 60,
-                edittype: "select",
-                formatter: "select",
-                editoptions: {value: "1:肌腱;2:肺;3:肝脏"},align:"center"
+                width: 60,align:"center"
             },//取材部位
             {name: 'piedoctorname', index: 'piedoctorname', width: 80,align:"center"},//取材医生
             {name: 'pierecordername', index: 'pierecordername', width: 80,align:"center"},//录入员

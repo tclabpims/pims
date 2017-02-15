@@ -340,7 +340,7 @@ public class QueryHisDataServiceImpl implements QueryHisDataService {
         }else if(agetype == 6){
             ageString = "小时";
         }
-        String reportUrl = Config.getString("report.path", "") + "&patienttype=" + sample.getSampatienttype() + "&patientid=" + sample.getSaminpatientid() + "&sampleid=" + sample.getSaminspectionid();
+        String reportUrl = Config.getString("report.path", "") + "&patienttype=" + sample.getSampatienttype() + "&patientid=" + sample.getSampatientnumber() + "&sampleid=" + sample.getSaminspectionid();
         reportUrl = reportUrl.replaceAll("&","'|| chr(38) ||'");
         StringBuffer sb = new StringBuffer();
         sb.append("insert into DI_LABSAMPLEINFO (" +

@@ -40,7 +40,7 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
     }
 
     public StringBuffer getSearchSql(StringBuffer sb,PimsBaseModel map){
-        sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieparaffinid = paraffinid ");
+        sb.append("where  sampleid = parsampleid and sampleid = piesampleid and pieceid = parpieceids ");
         if(!StringUtils.isEmpty(map.getReq_sts())){
             sb.append(" and parissectioned= " + map.getReq_sts());//切片状态
         }
@@ -685,7 +685,9 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
                         slide.setSliparaffinno(para.getParparaffinno());//蜡块序号
                         slide.setSliparaffincode(para.getParparaffincode());//蜡块编号
                         slide.setSliparaffinname(para.getParname());//蜡块名称
-                        slide.setSlisamplingparts(para.getParpieceparts());//取材部位
+                        if(StringUtils.isEmpty(slide.getSlisamplingparts())){
+                            slide.setSlisamplingparts(para.getParpieceparts());//取材部位
+                        }
                         slide.setSlicreateuser(String.valueOf(user.getId()));//创建用户
                         slide.setSlicreatetime(new Date());//创建时间
                         slide = pimsPathologySlideManager.save(slide);

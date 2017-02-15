@@ -307,7 +307,15 @@ function CurentTime(now) {
 
 function finishItem() {
     var order = $("#sectionList").jqGrid('getRowData', crno);
+    var totalnum = 0;
+    var allrowdata = $('#checkItemList').jqGrid('getRowData');
+    for(var i = 0; i < allrowdata.length; i++) {
+        var rowData = $("#checkItemList").jqGrid("getRowData",allrowdata[i]);
+        if(rowData.finishStatus == 1){
+            totalnum++;
+        }
 
+    }
     /*if(order.chiOrderState == 0) {
         layer.msg('请先接收医嘱', {icon: 2, time: 1000});
         return false;
@@ -345,10 +353,18 @@ function finishItem() {
     }
     $.get("../order/updateitemstatus", {items:items.join(","), orderType:orderType, orderId:orderId}, function (data)
         {
-            layer.alert("设置成功！");
-            onRowSelect(crno);
+            if(totalnum + j < allrowdata.length){
+                layer.alert("设置成功！");
+                onRowSelect(crno);
+            }
         }
     )
+    if(totalnum + j == allrowdata.length){
+        $.get("../order/updateorderstate", {orderState:2, orderId:orderId}, function(data){
+            layer.msg("操作成功！",{icon:1,time:1000});
+            query();
+        });
+    }
 }
 function setcolor(id){
     var ids = $("#sectionList").getDataIDs();
@@ -510,6 +526,21 @@ $(function () {
              setTimeout(function(){
              updatePagerIcons(table);
              }, 0);*/
+        },
+        gridComplete:function(){
+            var rowIds = $("#checkItemList").jqGrid('getDataIDs');
+            for(var k = 0; k<rowIds.length; k++) {
+                var rowData = $("#checkItemList").jqGrid('getRowData', rowIds[k]);
+                if (rowData.finishStatus == '1') {
+                    //获取每行下的TD更改CSS
+                    //第一种写法
+                    $("#checkItemList").children().children("tr[id='"+rowIds[k]+"']").children("td").eq(0).css("background-color","red");
+                }else if (rowData.finishStatus == '0') {
+                    //获取每行下的TD更改CSS
+                    //第一种写法
+                    $("#checkItemList").children().children("tr[id='"+rowIds[k]+"']").children("td").eq(0).css("background-color","green");
+                }
+            }
         },
         multiselect:true,
         shrinkToFit: true,

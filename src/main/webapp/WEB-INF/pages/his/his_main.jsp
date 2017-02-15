@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="../scripts/validform/Validform.min.js"></script>
 	<script type="text/javascript" src="../scripts/bootstrap-datetimepicker.min.js"></script>
 	<script src="<c:url value="/scripts/LodopFuncs.js"/>"></script>
-	<script type="text/javascript" src="../scripts/his/hisrequest1.js"></script>
+	<script type="text/javascript" src="../scripts/his/his_main.js"></script>
 	<style>
 		.ui-autocomplete {
 			z-index: 99999999 !important;
@@ -261,7 +261,7 @@
 							<%out.print(request.getAttribute("samjcxm"));%>
 						</select>
 					</span>
-							<input id="reqitemnames"  name="reqitemnames" datatype="*" style="position:absolute;left:5px;width: 82%" class="input_style" ${reqitemnames}>
+							<input id="reqitemnames"  name="reqitemnames" datatype="*" style="position:absolute;left:5px;width: 82%" class="input_style" value="${reqitemnames}">
 						</div>
 					</div>
 					<div class="col-sm-2">

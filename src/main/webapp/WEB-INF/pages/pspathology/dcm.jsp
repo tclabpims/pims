@@ -238,6 +238,7 @@
                             <option value="7">HPV</option>
                             <option value="8">外周血细胞</option>
                             <option value="9">骨髓细胞学</option>
+                            <option value="10">HPVE6/E7</option>
                         </select>
                     </div>
                 </div>
