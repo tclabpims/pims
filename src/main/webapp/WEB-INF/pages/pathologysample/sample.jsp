@@ -583,12 +583,12 @@
 					<div class="col-sm-2 ">
 						<input type="hidden" id="sampopuser"/><!--标本检查项目id-->
 						<%--<input class="input_style" type="text" id="samjcxm" name="samjcxm" datatype="*"/>--%>
-						<span style="overflow:hidden;padding-right:0px" class="input_style  col-sm-12">
+						<span style="overflow:hidden;padding-right:0px;" class="input_style  col-sm-12">
 							<select class="input_style col-sm-12" id="samjcxm1" onchange="fillval('sampopuser','samjcxm','sampathologyid','samjcxm1')">
 								<%out.print(request.getAttribute("samjcxm"));%>
 							</select>
 						</span>
-						<input id="samjcxm"  name="samjcxm"  style="position:absolute;left:5px;width: 85%;padding-left: 10px" class="input_style" >
+						<input id="samjcxm"  name="samjcxm"  style="position:absolute;left:5px;width: 85%;padding-left: 10px;border-right: 0" class="input_style" >
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-2">

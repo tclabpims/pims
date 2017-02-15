@@ -131,6 +131,22 @@
             width:100%;
             height:100px;
             }
+        #midtitle span{
+            text-align: right;
+
+        }
+        #checkSlide{
+            width: 25%;
+            float: left;
+        }
+        #checkSlide2{
+            width: 74%;
+            float: left;
+            margin-left: 1%;
+        }
+        #gbox_new{
+            width: auto!important;
+        }
     </style>
 </head>
 <script>
@@ -144,18 +160,23 @@
 <body>
  <div class="col-sm-12">
                 <button type="button" class="btn btn-sm btn-primary" title="上一个" onclick="">
+                    <i class="ace-icon fa fa-arrow-left"></i>
                     上一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="下一个" onclick="">
+                <button type="button" class="btn btn-sm btn-info" title="下一个" onclick="">
+                    <i class="ace-icon fa fa-arrow-right"></i>
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="列表打印" onclick="">
+                <button type="button" class="btn btn-sm btn-warning" title="列表打印" onclick="">
+                    <i class="ace-icon fa fa-file-text-o"></i>
                     列表打印
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="打印设置" onclick="setrow()">
+                <button type="button" class="btn btn-sm btn-success" title="打印设置" onclick="setrow()">
+                    <i class="ace-icon fa fa-cog"></i>
                     打印设置
                 </button>
-                <button type="button" class="btn btn-sm btn-primary" title="导出" id="savemar" onclick="daochu()">
+                <button type="button" class="btn btn-sm btn-info" title="导出" id="savemar" onclick="daochu()">
+                    <i class="ace-icon fa fa-share"></i>
                     导出
                 </button>
 </div>
@@ -206,84 +227,133 @@
      </div>
  </div>
 <div class="col-sm-12" id="maincontent">
-    <div id="checkSlide" class="col-xs-3" style="padding-left: 14px">
+    <div id="checkSlide"  style="padding-left: 14px">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
                 <h6 class="widget-title">会诊条件查询</h6>
                 <button type="button" class="btn btn-sm btn-primary" title="查询" onclick="getSearchList()">
                     查询
                 </button>
+                <div class="widget-toolbar">
+                    <a href="#"  data-action="collapse" onclick="showandhiden(this)">
+                        <i class="ace-icon fa fa-chevron-up">隐藏</i>
+                    </a>
+                </div>
             </div>
-            <div>发起年月:<input style="width:160px" type="text" id="consponsoredtime" class="form_datetime input_style" placeholder="" autocomplete="off"></div>
-            <div>结束年月:<input style="width:160px" type="text" id="confinishedtime" class="form_datetime input_style" placeholder="" autocomplete="off"></div>
-            <div><label>病种类别:</label>
-              <select id="logyids" style="width:100px">
-                   <%out.print(request.getAttribute("logyids"));%>
-              </select>
+            <div class="widget-body" style="background-color: #f9f9f9;padding-top: 10px;padding-bottom: 10px"id="midtitle">
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">发起年月:</span>
+                    <input class="col-sm-6" type="text" id="consponsoredtime" class="form_datetime input_style" placeholder="" autocomplete="off">
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">结束年月:</span>
+                    <input class="col-sm-6" type="text" id="confinishedtime" class="form_datetime input_style" placeholder="" autocomplete="off">
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">病种类别:</span>
+                    <select id="logyids" class="col-sm-6" style="height: 20px;margin-bottom: 5px">
+                        <%out.print(request.getAttribute("logyids"));%>
+                        <div style="clear: both"></div>
+                    </select>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">病理编号:</span>
+                    <input class="col-sm-6" type="text" id="sampathologycode"  placeholder="" autocomplete="off">
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">患者姓名:</span>
+                    <input class="col-sm-6" type="text" id="sampatientname"  placeholder="" autocomplete="off">
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">送检单位:</span>
+                    <div class="col-md-6" style="position: relative;padding-left: 0px;padding-right: 0px">
+                        <input id="samsendhospitalid" name="samsendhospitalid" type="hidden"/>
+                        <select id="hospitalname" class="input_style" onchange="fillval('samsendhospitalid','samsendhospital','hospitalname')" style="width: 100%;height: 20px">
+                            <%out.print(request.getAttribute("samsendhospital"));%>
+                        </select>
+                        <input id="samsendhospital"  name="samsendhospital" datatype="*" style="position:absolute;left:0;top:0;height:20px;width: 88%;border-width:1px;border-right: 0 " class="input_style">
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">送检科室:</span>
+                    <div class="col-md-6" style="position: relative;padding-left: 0px;padding-right: 0px">
+                        <input id="samdeptcode" name="samdeptcode" type="hidden"/>
+                        <select id="samdeptname1" style="width:100%;height: 20px" onchange="fillval('samdeptcode','samdeptname','samdeptname1')">
+                            <%out.print(request.getAttribute("samdeptname"));%>
+                        </select>
+                        <input id="samdeptname" name="samdeptname" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">送检医生:</span>
+                    <div class="col-md-6" style="position: relative;padding-left: 0px;padding-right: 0px">
+                        <input id="samsenddoctorid1" name="samsenddoctorid1" type="hidden"/>
+                        <select id="samsenddoctorname" style="width:100%;height: 20px" onchange="fillval('samsenddoctorid1','samsenddoctorname1','samsenddoctorname')">
+                            <%out.print(request.getAttribute("samsenddoctorname"));%>
+                        </select>
+                        <input id="samsenddoctorname1" name="samsenddoctorname1" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">会诊状态：</span>
+                    <select id="conconsultationstate" class="col-sm-6" style="height: 20px">
+                        <option value="">全部</option>
+                        <option value="0">会诊中</option>
+                        <option value="1">会诊终了</option>
+                        <option value="2">会诊取消</option>
+                    </select>
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">发起医生:</span>
+                    <div class="col-md-6" style="position: relative;padding-left: 0px;padding-right: 0px">
+                        <input id="samsenddoctorid2" name="samsenddoctorid2" type="hidden"/>
+                        <select id="consponsoredusername" style="width:100%;height: 20px" onchange="fillval('samsenddoctorid2','samsenddoctorname2','consponsoredusername')">
+                            <%out.print(request.getAttribute("samsenddoctorname"));%>
+                        </select>
+                        <input id="samsenddoctorname2" name="samsenddoctorname2" datatype="*" style="position:absolute;left:00px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div style="margin-bottom: 5px">
+                    <span class="col-sm-4">参与医生:</span>
+                    <div class="col-md-6" style="position: relative;padding-left: 0px;padding-right: 0px">
+                        <input id="samsenddoctorid3" name="samsenddoctorid3" type="hidden"/>
+                        <select id="detdoctorname" style="width:100%;height: 20px" onchange="fillval('samsenddoctorid3','samsenddoctorname3','detdoctorname')">
+                            <%out.print(request.getAttribute("samsenddoctorname"));%>
+                        </select>
+                        <input id="samsenddoctorname3" name="samsenddoctorname3" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div>
+                    <span  class="col-sm-4"> 病理诊断:</span>
+                    <textarea id='remarks' class="col-sm-6" style="resize: none; vertical-align: text-top;height:150px" value="" autocomplete="off"></textarea>
+                    <div style="clear: both"></div>
+                </div>
             </div>
-            <div>病理编号:<input style="width:160px" type="text" id="sampathologycode"  placeholder="" autocomplete="off"></div>
-            <div>患者姓名:<input style="width:160px" type="text" id="sampatientname"  placeholder="" autocomplete="off"></div>
-            <div>
-            <label>送检单位:</label>
-            <input id="samsendhospitalid" name="samsendhospitalid" type="hidden"/>
-            <select id="hospitalname" class="input_style" onchange="fillval('samsendhospitalid','samsendhospital','hospitalname')">
-                    <%out.print(request.getAttribute("samsendhospital"));%>
-            </select>
-            <input id="samsendhospital" name="samsendhospital" datatype="*" style="position:absolute;left:70px;width: 36.5%;height:24px" class="input_style">
-            </div>
-            <div>
-                <label>送检科室:</label>
-                <input id="samdeptcode" name="samdeptcode" type="hidden"/>
-                <select id="samdeptname1" style="width:200px" onchange="fillval('samdeptcode','samdeptname','samdeptname1')">
-                    <%out.print(request.getAttribute("samdeptname"));%>
-                </select>
-                <input id="samdeptname" name="samdeptname" datatype="*" style="position:absolute;left:70px;width: 54%;height:30px" class="input_style">
-            </div>
-            <div>
-                <label>送检医生:</label>
-                <input id="samsenddoctorid1" name="samsenddoctorid1" type="hidden"/>
-                <select id="samsenddoctorname" style="width:100px" onchange="fillval('samsenddoctorid1','samsenddoctorname1','samsenddoctorname')">
-                    <%out.print(request.getAttribute("samsenddoctorname"));%>
-                </select>
-                <input id="samsenddoctorname1" name="samsenddoctorname1" datatype="*" style="position:absolute;left:70px;width: 24%;height:30px" class="input_style">
-            </div>
-            <div>
-                <label>会诊状态：</label>
-                <select id="conconsultationstate" style="width:90px">
-                <option value="">全部</option>
-                <option value="0">会诊中</option>
-                <option value="1">会诊终了</option>
-                <option value="2">会诊取消</option>
-                </select>
-            </div>
-            <div>
-                <label>发起医生:</label>
-                <input id="samsenddoctorid2" name="samsenddoctorid2" type="hidden"/>
-                <select id="consponsoredusername" style="width:100px" onchange="fillval('samsenddoctorid2','samsenddoctorname2','consponsoredusername')">
-                    <%out.print(request.getAttribute("samsenddoctorname"));%>
-                </select>
-                <input id="samsenddoctorname2" name="samsenddoctorname2" datatype="*" style="position:absolute;left:70px;width: 24%;height:30px" class="input_style">
-            </div>
-            <div>
-                <label >参与医生:</label>
-                <input id="samsenddoctorid3" name="samsenddoctorid3" type="hidden"/>
-                <select id="detdoctorname" style="width:100px" onchange="fillval('samsenddoctorid3','samsenddoctorname3','detdoctorname')">
-                    <%out.print(request.getAttribute("samsenddoctorname"));%>
-                </select>
-                <input id="samsenddoctorname3" name="samsenddoctorname3" datatype="*" style="position:absolute;left:70px;width: 24%;height:30px" class="input_style">
-            </div>
-            <div>
-                    病理诊断:<textarea id='remarks' style="resize: none; vertical-align: text-top;width: 70%;height:150px" value="" autocomplete="off"></textarea>
-            </div>
+
         </div>
     </div>
 
-    <div id="checkSlide2" class="col-xs-9">
+    <div id="checkSlide2">
         <div class="widget-box widget-color-green ui-sortable-handle">
             <div class="widget-header">
                 <h6 class="widget-title">结果一览</h6>
+                <div class="widget-toolbar">
+                    <a href="#"  data-action="collapse" onclick="showandhiden(this)">
+                        <i class="ace-icon fa fa-chevron-up">隐藏</i>
+                    </a>
+                </div>
             </div>
-            <div style="display: block;">
+            <div style="display: block;" class="widget-body">
                 <div class="col-xs-12 leftContent">
                     <table id="new"></table>
                     <div id="pager"></div>

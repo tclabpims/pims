@@ -132,10 +132,10 @@
             height:100px;
             }
             input[type="text"]{
-                height:26px;
+                height:20px;
             }
             select{
-                height:26px!important;
+                height:20px!important;
             }
         #tabs-1 td{
             border-right: 0px;
@@ -199,7 +199,7 @@
                     <div class="scroll-content">
                         <div class="content">
                             <div style="display:inline;">
-                                <label style="margin-left:10px">耗材名称：</label><input type="text" id="marname" style="width: 120px;height: 27px" autocomplete="off">
+                                <label style="margin-left:10px">耗材名称：</label><input type="text" id="marname" style="width: 120px;height: 20px" autocomplete="off">
                             </div>
                             <div style="display: inline-block">
                                 <label style="margin-left:10px;height:24px">在库状态：</label>

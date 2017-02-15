@@ -136,13 +136,21 @@
 			margin-right: 0px!important;
 		}
 		#materialGrid{
-			padding-top: 15px;
+			/*padding-top: 15px;*/
+
 		}
 		#divx{
 			padding-top:10px;
 		}
 		#q_specialCheck{
 			height: 24px;
+		}
+		#gbox_new{
+			border: 0!important;
+		}
+		#divx{
+			background-color: #f9f9f9;
+			padding-bottom: 15px;
 		}
 	</style>
 </head>
@@ -164,15 +172,13 @@
 			<div style="display:inline-block">
 				<input type="text" class="form_datetime1 input_style" id="applyaftime"/>
 			</div>
-		</div>
-		<div>
 			<div style="display:inline-block">
 				<label>病理编号：</label>
 				<input type="text" class="input_style" id="pathologycode"/>
 			</div>
 			<div style="display:inline-block">
 				<label>申请医生：</label>
-				<input id="chirequsername" style="border: 1px solid #b5b5b5;background:none!important;"></div>
+				<input id="chirequsername" style="border: 1px solid #b5b5b5;"></div>
 		</div>
 		<div>
 			<div style="display:inline-block">
@@ -186,7 +192,7 @@
 					<option value="1">--已打印--</option>
 					<option value="0">--未打印--</option>
 				</select>
-				<button type="button" class="btn btn-sm btn-primary" title="查询" onclick="getSearchList()">
+				<button type="button" class="btn btn-sm btn-primary" title="查询" onclick="getSearchList()" style="margin-left: 150px">
 					查询
 				</button>
 				<button type="button"  class="btn btn-sm btn-primary" title="打印" onclick="startPrint()">

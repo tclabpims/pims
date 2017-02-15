@@ -44,6 +44,9 @@
 			float: left;
 			margin-left: 1%;
 		}
+		#gview_templateList{
+			left: 15px;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">

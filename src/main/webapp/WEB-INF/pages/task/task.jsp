@@ -40,8 +40,8 @@
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
 	<h5 style="font-size: 14px;color: #ffffff;background-color: #82af6f;height: 40px;line-height: 40px;padding-left: 5px;margin-bottom: 0px"><strong>&nbsp;基本信息</strong></h5>
-	<div class=" widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" >
-		<div style="margin-top: 10px;">
+	<div class=" widget-main" style="background-color: #f9f9f9;border:1px solid #E0E0E0;" >
+		<div >
 			<table style="margin-bottom: 5px">
 				<span class="input_style">病种类别:</span>
 				<select id="logyid" class="input_style">
@@ -49,9 +49,7 @@
 				</select>
 				<span class="input_style">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;病理号:</span>
 				<input type="text" class="input_style" id="req_code" onkeypress="receive(this,event)"/>
-			</table>
-			<table>
-				<span class="input_style">申请年月:</span>
+				<span class="input_style">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;申请年月:</span>
 				<input type="text" class="input_style form_datetime" value="${sevenday}" id="req_bf_time"/>
 				<span class="input_style">-</span>
 				<input type="text" class="input_style form_datetime" value="${receivetime}"  id="req_af_time"/>

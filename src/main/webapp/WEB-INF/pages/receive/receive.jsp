@@ -28,34 +28,47 @@
 		.input_style{height: 24px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
+		.row{
+			margin-left: 0!important;
+			margin-right: 0!important;
+		}
 	</style>
 </head>
 <body style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
-	<h5 style="font-size: 14px;"><strong>&nbsp;基本信息</strong></h5>
-	<div class="row widget-main" style="background-color: #E8E8E8;border:1px solid #E0E0E0;" id="div_0">
-		<div style="margin-top: 10px;">
-			<table style="margin-bottom: 5px">
-				<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
-				<input type="hidden" id="local_logyid" value="${logyid}"/>
-				<input type="hidden" id="local_userid" value="${local_userid}"/>
-				<input type="hidden" id="local_username" value="${local_username}"/>
-				<span class="input_style">发送时间:</span>
-				<input type="hidden" id="req_sts" value="0"/>
-				<input type="text" class="form_datetime input_style" id="req_bf_time"/>
-				<span class="input_style">-</span>
-				<input type="text" class="form_datetime input_style" id="req_af_time"/>
-				<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<div class="widget-box widget-color-green ui-sortable-handle" style="margin-top: 10px">
+	<div class="widget-header">
+		<h5 style="font-size: 14px;"><strong>&nbsp;基本信息</strong></h5>
+	</div>
+	<div class="widget-body">
+		<div class="row widget-main" style="background-color: #f9f9f9;border:1px solid #E0E0E0;" id="div_0">
+			<div style="margin-top: 10px;">
+				<table style="margin-bottom: 5px">
+					<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
+					<input type="hidden" id="local_logyid" value="${logyid}"/>
+					<input type="hidden" id="local_userid" value="${local_userid}"/>
+					<input type="hidden" id="local_username" value="${local_username}"/>
+					<span class="input_style">发送时间:</span>
+					<input type="hidden" id="req_sts" value="0"/>
+					<input type="text" class="form_datetime input_style" id="req_bf_time"/>
+					<span class="input_style">-</span>
+					<input type="text" class="form_datetime input_style" id="req_af_time"/>
+					<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<span>
 					<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right" onclick="searchList()">
 						<span style="color: white;">查询</span>
 					</button>
 				</span>
-			</table>
+				</table>
+			</div>
 		</div>
 	</div>
-	<table>
+</div>
+
+<div class="widget-box widget-color-green ui-sortable-handle" style="margin-top: 10px">
+	<div class="widget-header">
 		<h5 style="font-size: 14px;"><strong>&nbsp;消息一览</strong></h5>
-	</table>
+	</div>
+
 	<ul id="tabs" class="nav nav-tabs">
 		<li class="active">
 			<a href="0" data-toggle="tab">
@@ -84,6 +97,8 @@
 			</div>
 		</div>
 	</div>
+</div>
+
 
 <div id="formDialog" style="display:none;" class="col-sm-12">
 	<form class="form-horizontal" style="background-color: #F9F9F9;height: 430px;border:1px solid #E0E0E0;" action="#" method="post" id="sampleForm" >

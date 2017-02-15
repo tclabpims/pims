@@ -242,7 +242,7 @@
 			</div>
 		</fieldset>
 	    <h5><fmt:message key='electronic.Signature.display'/></h5>
-	    <img id="electronicSignature" alt="" src="${dzqm_imghtm}" border="0" width="120px" height="40px" style="border:1px solid #000000;">
+	    <img id="electronicSignature" alt="" src="${dzqm_imghtm}" border="1" width="120px" height="40px" style="border:1px solid #000000;">
 	    <div id="galleria"></div>
 	</div>
 </div>

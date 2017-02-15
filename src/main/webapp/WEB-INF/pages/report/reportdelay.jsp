@@ -25,7 +25,7 @@
 		/*.div_1{background-color: #F9F9F9;height: 106px;border:1px solid #E0E0E0}*/
 		.img_style{width: 18px;height: 23px}
 		.label_style{font-size: 12px;color: #323232;height: 24px;text-align:right;}
-		.input_style{height: 24px;font-size: 12px!important;}
+		.input_style{height: 20px;font-size: 12px!important;}
 		.ui-jqgrid-sortable{text-align: center;}
 		.ui-jqgrid-hbox{padding-right: 0px!important;}
 		.row{
@@ -73,8 +73,8 @@
 					</a>
 				</div>
 			</div>
-		<div class="row widget-main widget-body" style="background-color: #E8E8E8;border:1px solid #E0E0E0;height: " id="div_0">
-			<div  style="margin-top: 10px;">
+		<div class="row widget-main widget-body" style="background-color: #f9f9f9;border:1px solid #E0E0E0;" id="div_0">
+			<div>
 				<table style="margin-bottom: 5px">
 					<span class="input_style">申请FROM:&nbsp;</span>
 					<input type="text" class="form_datetime input_style" value="${sevenday}" id="req_bf_time"/>

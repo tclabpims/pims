@@ -50,6 +50,10 @@
 		#req_bf_time{
 			width: 50%!important;
 		}
+		#gbox_new{
+			border: 0!important;
+
+		}
 	</style>
 	<script type="text/javascript">
 
@@ -242,8 +246,8 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<div class="widget-body"  style="display: block;">
-				<div class="widget-main no-padding">
-					<table id="new" class="table-striped">
+				<div class="widget-main no-padding" >
+					<table id="new" class="table-striped" style="overflow:auto;">
 					</table>
 					<div id="pager"></div>
 				</div>

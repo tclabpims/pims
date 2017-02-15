@@ -66,7 +66,7 @@
 <body>
 
 <div id="div_main">
-    <div class="col-xs-12 widget-box widget-color-green ui-sortable-handle" style="padding: 0px;padding-bottom: 50px" >
+    <div class="col-xs-12 widget-box widget-color-green ui-sortable-handle" style="padding: 0px;padding-bottom: 50px;margin-top: 10px" >
 
     <div class="widget-header" style="line-height: 35px;font-size: 16px">&nbsp;特殊玻片打印</div>
        <div class="widget-body">

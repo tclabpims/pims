@@ -148,6 +148,10 @@
             margin-left: 0px!important;
             margin-right: 0px!important;
         }
+        #gbox_new{
+            width: 100%!important;
+            border: 0px!important;
+        }
     </style>
 </head>
 <script>
@@ -245,20 +249,20 @@
                         <div class="content">
                             <div style="display:inline;">
                                 <label style="margin-left:20px">病种类别：</label>
-                                <select id="slipathologyid" style="width: 100px;height: 24px">
+                                <select id="slipathologyid" style="width: 100px;height: 20px">
                                     <%out.println(request.getAttribute("logyids"));%>
                                 </select>
-                                <label style="margin-left:20px">病理编号：</label><input type="text" id="logyid" style="width: 120px;height: 24px;">
-                                <label style="margin-left:20px">患者姓名：</label><input type="text" id="patient_name" style="width: 120px;height: 24px;">
+                                <label style="margin-left:20px">病理编号：</label><input type="text" id="logyid" style="width: 120px;height: 20px;">
+                                <label style="margin-left:20px">患者姓名：</label><input type="text" id="patient_name" style="width: 120px;height: 20px;">
                             </div>
                             <div>
                                 <label style="margin-left:20px">在库状态：</label>
-                                <select id="current"  style="width: 100px;height: 24px">
+                                <select id="current"  style="width: 100px;height: 20px">
                                 <option value="">全部</option>
                                 <option value="">借阅中</option>
                                 <option value="">在库</option>
                                 </select>
-                                <label style="margin-left:20px">玻片编号：</label><input type="text" id="sliid" style="width: 120px; height: 24px;">
+                                <label style="margin-left:20px">玻片编号：</label><input type="text" id="sliid" style="width: 120px; height: 20px;">
                                 <button type="button" class="button2" onclick="searchList()" style="float:right;">
                                     查询
                                 </button>
@@ -287,22 +291,22 @@
 
                     <div id="tabs-1"style="background-color: #f9f9f9">
                         <div style="padding-top: 10px">
-                            <div style="display: inline">在库状态：<input type="text" style="width:120px;height: 24px"
+                            <div style="display: inline">在库状态：<input type="text" style="width:120px;height: 20px"
                                                                     id="slicurrenta"></div>
-                            <div style="display: inline">患者姓名：<input type="text" style="width:93px;height: 24px"
+                            <div style="display: inline">患者姓名：<input type="text" style="width:93px;height: 20px"
                                                                     id="patientnamea"></div>
                         </div>
                         <div style="padding-top: 3px">
-                            <div style="display: inline">病种类别：<input type="text" style="width:120px;height: 24px"
+                            <div style="display: inline">病种类别：<input type="text" style="width:120px;height: 20px"
                                                                      id="slipathologyida">
                             </div>
-                            <div style="display: inline">年龄：<input type="text" style="width:120px;height: 24px"
+                            <div style="display: inline">年龄：<input type="text" style="width:120px;height: 20px"
                                                                    id="patientagea"></div>
                         </div>
                         <div style="padding-top: 3px;padding-bottom:20px;">
-                            <div style="display: inline">病理编号：<input type="text" style="width:120px;height: 24px"
+                            <div style="display: inline">病理编号：<input type="text" style="width:120px;height: 20px"
                                                                      id="pathologyida"></div>
-                            <div style="display: inline">性别：<input type="text" style="width:120px;height: 24px"
+                            <div style="display: inline">性别：<input type="text" style="width:120px;height: 20px"
                                                                      id="patientsexa"></div>
                         </div>
                     </div>
