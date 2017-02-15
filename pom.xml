@@ -921,14 +921,14 @@
             <version>1.4</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.axis</groupId>
-            <artifactId>axis</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
             <groupId>javax.xml.rpc</groupId>
             <artifactId>com.springsource.javax.xml.rpc</artifactId>
             <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1211</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.w3c.css/sac -->
         <!--<dependency>-->
@@ -1173,9 +1173,9 @@
                 <jdbc.version>10.2.0.4.0</jdbc.version>
                 <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
                 <!--<jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:kftest</jdbc.url>-->
-                <jdbc.url>jdbc:oracle:thin:@10.31.96.38:1521:orcl</jdbc.url>
+                <!--<jdbc.url>jdbc:oracle:thin:@10.31.96.38:1521:orcl</jdbc.url>-->
                 <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
-                <!--<jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>-->
+                <jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>
                 <jdbc.username>pathology</jdbc.username>
                 <jdbc.password>pathology#123</jdbc.password>
                 <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>
@@ -1276,9 +1276,9 @@
         <jdbc.version>10.2.0.4.0</jdbc.version>
         <jdbc.driverClassName>oracle.jdbc.OracleDriver</jdbc.driverClassName>
         <!--<jdbc.url>jdbc:oracle:thin:@127.0.0.1:1521:kftest</jdbc.url>-->
-        <jdbc.url>jdbc:oracle:thin:@10.31.96.38:1521:orcl</jdbc.url>
+        <!--<jdbc.url>jdbc:oracle:thin:@10.31.96.38:1521:orcl</jdbc.url>-->
         <!--<jdbc.url>jdbc:oracle:thin:@192.168.168.90:1521:orcl</jdbc.url>-->
-        <!--<jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>-->
+        <jdbc.url>jdbc:oracle:thin:@192.168.1.99:1521:orcl</jdbc.url>
         <jdbc.username>pathology</jdbc.username>
         <jdbc.password>pathology#123</jdbc.password>
         <jdbc.validationQuery>SELECT 1 + 1 from DUAL</jdbc.validationQuery>

@@ -2486,7 +2486,7 @@ $(function () {
 
             {
                 name: 'patclass', index: 'patclass', width: 40, formatter: "select",align:"center",
-                editoptions: {value: "1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学;10:HPVE6/E7"}
+                editoptions: {value: "1:常规细胞学;2:液基细胞学;3:免疫组化;4:病理会诊;5:常规病理;6:术中冰冻;7:HPV;8:外周血细胞;9:骨髓细胞学;10:HPVE6/E7"}, hidden: true
             },
             {name: 'sampleid', index: 'sampleid', hidden: true},
             {name: 'samcustomerid', index: 'samcustomerid', hidden: true},
