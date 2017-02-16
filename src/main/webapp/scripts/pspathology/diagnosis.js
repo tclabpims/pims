@@ -1042,9 +1042,11 @@ function getOrderTabs(sampleId) {
         var myzh = document.getElementById("order_MYZH");
         var fzbl = document.getElementById("order_FZBL");
         var tsrs = document.getElementById("order_TSRS");
-        if (myzh != null)myzh.parentNode.removeChild(myzh);
-        if (fzbl != null)fzbl.parentNode.removeChild(fzbl);
-        if (tsrs != null)tsrs.parentNode.removeChild(tsrs);
+        if (myzh != null){
+            myzh.parentNode.removeChild(myzh);
+        }
+        if (fzbl != null){fzbl.parentNode.removeChild(fzbl);}
+        if (tsrs != null){tsrs.parentNode.removeChild(tsrs);}
         if (ret != null && ret.length > 0) {
             for (var i = 0; i < ret.length; i++) {
                 if (ret[i].tesenglishname == "MYZH" || ret[i].tesenglishname == "FZBL" || ret[i].tesenglishname == "TSRS") {
@@ -1062,42 +1064,48 @@ function getOrderTabs(sampleId) {
 }
 
 function initItemList(n, sampleId, testItemId) {
-    $("#" + n + "Item").jqGrid({
-        mtype: "GET",
-        url: "../order/getcheckitems?sampleId=" + sampleId + "&testItemId=" + testItemId,
-        datatype: "json",
-        cellEdit: true,
-        cellsubmit: 'clientArray',
-        colNames: ['checkid', '蜡块编号', '项目名称', '结果', '申请医生', '状态', '申请时间', 'chenameen', 'cheischarge'],
-        colModel: [
-            {name: 'checkid', index: 'checkid', hidden: true},
-            {name: 'chiparaffincode', index: 'chiparaffincode', width: 90},
-            {name: 'chenamech', index: 'chenamech', width: 120},
-            {
-                name: 'chetestresult',
-                index: 'chetestresult',
-                width: 120,
-                editable: true,
-                edittype: 'text',
-                editrules: {edithidden: true, required: true}
-            },
-            {name: 'checreateuser', index: 'checreateuser', width: 80},
-            {
-                name: 'finishstatus',
-                index: 'finishstatus',
-                width: 60,
-                formatter: "select",
-                editoptions: {value: "0:未完成;1:已完成;"}
-            },
-            {name: 'checreatetime', index: 'checreatetime', width: 100},
-            {name: 'chenameen', index: 'chenameen', hidden: true},
-            {name: 'cheischarge', index: 'cheischarge', hidden: true}
-        ],
-        multiselect: true,
-        shrinkToFit: true,
-        scrollOffset: 2,
-        rownumbers: true
-    });
+    // jQuery("#" + n + "Item").jqGrid("clearGridData");
+        jQuery("#" + n + "Item").jqGrid("clearGridData");
+        jQuery("#" + n + "Item").jqGrid('setGridParam',{
+            url: "../order/getcheckitems?sampleId=" + sampleId + "&testItemId=" + testItemId,
+            datatype: "json"
+        }).trigger('reloadGrid');//重新载入
+    // $("#" + n + "Item").jqGrid({
+    //     mtype: "GET",
+    //     url: "../order/getcheckitems?sampleId=" + sampleId + "&testItemId=" + testItemId,
+    //     datatype: "json",
+    //     cellEdit: true,
+    //     cellsubmit: 'clientArray',
+    //     colNames: ['checkid', '蜡块编号', '项目名称', '结果', '申请医生', '状态', '申请时间', 'chenameen', 'cheischarge'],
+    //     colModel: [
+    //         {name: 'checkid', index: 'checkid', hidden: true},
+    //         {name: 'chiparaffincode', index: 'chiparaffincode', width: 90},
+    //         {name: 'chenamech', index: 'chenamech', width: 120},
+    //         {
+    //             name: 'chetestresult',
+    //             index: 'chetestresult',
+    //             width: 120,
+    //             editable: true,
+    //             edittype: 'text',
+    //             editrules: {edithidden: true, required: true}
+    //         },
+    //         {name: 'checreateuser', index: 'checreateuser', width: 80},
+    //         {
+    //             name: 'finishstatus',
+    //             index: 'finishstatus',
+    //             width: 60,
+    //             formatter: "select",
+    //             editoptions: {value: "0:未完成;1:已完成;"}
+    //         },
+    //         {name: 'checreatetime', index: 'checreatetime', width: 100},
+    //         {name: 'chenameen', index: 'chenameen', hidden: true},
+    //         {name: 'cheischarge', index: 'cheischarge', hidden: true}
+    //     ],
+    //     multiselect: true,
+    //     shrinkToFit: true,
+    //     scrollOffset: 2,
+    //     rownumbers: true
+    // });
 }
 
 function saveResult(n) {
@@ -1746,6 +1754,8 @@ function printList() {
         arr.push(rowData);
     }
     if(result) {
+        LODOP = getLodop();
+        LODOP.PRINT_INIT("打印报告单");
         $.get("../diagnosis/report/printList", {
             "tasks": JSON.stringify(arr)
         }, function (data) {
@@ -1753,18 +1763,18 @@ function printList() {
             for(var i=0;i< writerString.length;i++){
                 var sampleidprint = writerString[i].sampleid;
                 var writering = writerString[i].writerString;
-                $.get("../diagnosis/updateprintStates", {
-                    "sampleid": sampleidprint
-                }, function (data) {
-                    if(data.result == "true"){
-                        LODOP = getLodop();
-                        LODOP.PRINT_INIT("打印报告单");
-                        LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", writering);
-                        //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
-                        // LODOP.PREVIEW();
-                        LODOP.PRINT();
-                    }
-                });
+                LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", writering);
+                LODOP.PRINT();
+                // $.get("../diagnosis/updateprintStates", {
+                //     "sampleid": sampleidprint
+                // }, function (data1) {
+                //     if(data1.result == "true"){
+                //         LODOP.ADD_PRINT_HTM("0", 0, "RightMargin:0cm", "BottomMargin:0mm", writering);
+                //         //LODOP.ADD_PRINT_HTM(0,0,"100%","100%",strHtml);
+                //         // LODOP.PREVIEW();
+                //         LODOP.PRINT();
+                //     }
+                // });
             }
             MMMROW = crno;
             scrotop = $("#sectionList").parent().parent().scrollTop();
@@ -3388,3 +3398,111 @@ function getitemxm(obj,event) {
             break;
     }
 }
+
+$(function () {
+    $("#MYZHItem").jqGrid({
+        mtype: "GET",
+        datatype: "json",
+        cellEdit: true,
+        cellsubmit: 'clientArray',
+        colNames: ['checkid', '蜡块编号', '项目名称', '结果', '申请医生', '状态', '申请时间', 'chenameen', 'cheischarge'],
+        colModel: [
+            {name: 'checkid', index: 'checkid', hidden: true},
+            {name: 'chiparaffincode', index: 'chiparaffincode', width: 90},
+            {name: 'chenamech', index: 'chenamech', width: 120},
+            {
+                name: 'chetestresult',
+                index: 'chetestresult',
+                width: 120,
+                editable: true,
+                edittype: 'text',
+                editrules: {edithidden: true, required: true}
+            },
+            {name: 'checreateuser', index: 'checreateuser', width: 80},
+            {
+                name: 'finishstatus',
+                index: 'finishstatus',
+                width: 60,
+                formatter: "select",
+                editoptions: {value: "0:未完成;1:已完成;"}
+            },
+            {name: 'checreatetime', index: 'checreatetime', width: 100},
+            {name: 'chenameen', index: 'chenameen', hidden: true},
+            {name: 'cheischarge', index: 'cheischarge', hidden: true}
+        ],
+        multiselect: true,
+        shrinkToFit: true,
+        scrollOffset: 2,
+        rownumbers: true
+    });
+    $("#FZBLItem").jqGrid({
+        mtype: "GET",
+        datatype: "json",
+        cellEdit: true,
+        cellsubmit: 'clientArray',
+        colNames: ['checkid', '蜡块编号', '项目名称', '结果', '申请医生', '状态', '申请时间', 'chenameen', 'cheischarge'],
+        colModel: [
+            {name: 'checkid', index: 'checkid', hidden: true},
+            {name: 'chiparaffincode', index: 'chiparaffincode', width: 90},
+            {name: 'chenamech', index: 'chenamech', width: 120},
+            {
+                name: 'chetestresult',
+                index: 'chetestresult',
+                width: 120,
+                editable: true,
+                edittype: 'text',
+                editrules: {edithidden: true, required: true}
+            },
+            {name: 'checreateuser', index: 'checreateuser', width: 80},
+            {
+                name: 'finishstatus',
+                index: 'finishstatus',
+                width: 60,
+                formatter: "select",
+                editoptions: {value: "0:未完成;1:已完成;"}
+            },
+            {name: 'checreatetime', index: 'checreatetime', width: 100},
+            {name: 'chenameen', index: 'chenameen', hidden: true},
+            {name: 'cheischarge', index: 'cheischarge', hidden: true}
+        ],
+        multiselect: true,
+        shrinkToFit: true,
+        scrollOffset: 2,
+        rownumbers: true
+    });
+    $("#TSRSItem").jqGrid({
+        mtype: "GET",
+        datatype: "json",
+        cellEdit: true,
+        cellsubmit: 'clientArray',
+        colNames: ['checkid', '蜡块编号', '项目名称', '结果', '申请医生', '状态', '申请时间', 'chenameen', 'cheischarge'],
+        colModel: [
+            {name: 'checkid', index: 'checkid', hidden: true},
+            {name: 'chiparaffincode', index: 'chiparaffincode', width: 90},
+            {name: 'chenamech', index: 'chenamech', width: 120},
+            {
+                name: 'chetestresult',
+                index: 'chetestresult',
+                width: 120,
+                editable: true,
+                edittype: 'text',
+                editrules: {edithidden: true, required: true}
+            },
+            {name: 'checreateuser', index: 'checreateuser', width: 80},
+            {
+                name: 'finishstatus',
+                index: 'finishstatus',
+                width: 60,
+                formatter: "select",
+                editoptions: {value: "0:未完成;1:已完成;"}
+            },
+            {name: 'checreatetime', index: 'checreatetime', width: 100},
+            {name: 'chenameen', index: 'chenameen', hidden: true},
+            {name: 'cheischarge', index: 'cheischarge', hidden: true}
+        ],
+        multiselect: true,
+        shrinkToFit: true,
+        scrollOffset: 2,
+        rownumbers: true
+    });
+})

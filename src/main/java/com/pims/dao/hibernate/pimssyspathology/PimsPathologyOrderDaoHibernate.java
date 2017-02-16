@@ -166,7 +166,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
 
     @Override
     public List getSampleOrder(long sampleId) {
-        SQLQuery query = getSession().createSQLQuery("select T.Teschinesename,T.Tesenglishname,T.Testitemid,T.Tesischarge from pims_pathology_order o,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t where o.ordsampleid=:sampleId and o.orderid=c.chiorderid and C.Testitemid=T.Testitemid and T.Tesisorder=1 group by T.Teschinesename,T.Tesenglishname,T.Testitemid,T.Tesischarge");
+        SQLQuery query = getSession().createSQLQuery("select T.Teschinesename,T.Tesenglishname,T.Testitemid,T.Tesischarge from pims_pathology_order o,PIMS_PATHOLOGY_ORDER_CHILD c,PIMS_SYS_REQ_TESTITEM t where o.ordsampleid=:sampleId and o.orderid=c.chiorderid and C.Testitemid=T.Testitemid and T.Tesisorder=1 and o.ordorderstate < 4 group by T.Teschinesename,T.Tesenglishname,T.Testitemid,T.Tesischarge");
         query.setParameter("sampleId", sampleId);
         return query.list();
     }

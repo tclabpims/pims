@@ -185,7 +185,7 @@
                 pathologyLibId: pathologyId,
                 pathologyLib: pathologyName
             }, function (data) {
-                location.reload();
+                location.reload(true);
 
             });
         }

@@ -216,6 +216,14 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
                 map1.put("sampleid",sample.getSampleid());
                 map1.put("writerString", writerString);
                 mapList.add(map1);
+                sample = pimsPathologySampleManager.getBySampleNo(sample.getSampleid());
+                if(sample.getSamsamplestatus() < 8  && sample.getSamsamplestatus() > 4){
+//                    updateReportDataService.updateSts(sample);
+                }
+                if(sample.getSamsamplestatus() > 4){
+                    sample.setSamsamplestatus(8);
+                    pimsPathologySampleManager.save(sample);
+                }
             }
         }
         Map map = new HashMap<>();
@@ -230,7 +238,7 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         Long sampleId = Long.valueOf(request.getParameter("sampleid"));
         PimsPathologySample sample = pimsPathologySampleManager.getBySampleNo(sampleId);
         if(sample.getSamsamplestatus() < 8  && sample.getSamsamplestatus() > 4){
-            updateReportDataService.updateSts(sample);
+//            updateReportDataService.updateSts(sample);
         }
         if(sample.getSamsamplestatus() > 4){
             sample.setSamsamplestatus(8);
@@ -756,10 +764,10 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
             //删除PDF存储路径
             pimsPathologyReportPdfManager.deletePDF(sample.getSampleid());
             //删除37数据库上的记录
-            updateReportDataService.delete(sample);
-            PDFWebService pdfWebService = new PDFWebService();
-            pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
-            queryHisDataService.delete(sample);//删除HIS数据库
+//            updateReportDataService.delete(sample);
+//            PDFWebService pdfWebService = new PDFWebService();
+//            pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
+//            queryHisDataService.delete(sample);//删除HIS数据库
         }
         pimsPathologySampleManager.sign(sample);
     }
@@ -1006,10 +1014,10 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
                 //删除PDF存储路径
                 pimsPathologyReportPdfManager.deletePDF(sample.getSampleid());
                 //删除37数据库上的记录
-                updateReportDataService.delete(sample);
-                PDFWebService pdfWebService = new PDFWebService();
-                pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
-                queryHisDataService.delete(sample);//删除HIS数据库
+//                updateReportDataService.delete(sample);
+//                PDFWebService pdfWebService = new PDFWebService();
+//                pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
+//                queryHisDataService.delete(sample);//删除HIS数据库
             }
         }
         o.put("message", "取消签发成功！");
@@ -1066,14 +1074,13 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
                 rpdf = pimsPathologyReportPdfManager.save(rpdf);
                 PimsSysPathology psp = pimsSysPathologyManager.get(sample.getSampathologyid());
                 //删除37数据库上的记录
-                updateReportDataService.delete(sample);
-                updateReportDataService.insert(sample,rpdf,psp);//插入37数据库
-                PDFWebService pdfWebService = new PDFWebService();
-                pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
-                pdfWebService.uploadPdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//上传PDF
-//                pdfWebService.saveHisResult(sample,psp);
-                queryHisDataService.delete(sample);//删除HIS数据库
-                queryHisDataService.insert(sample,psp);//插入HIS数据库
+//                updateReportDataService.delete(sample);
+//                updateReportDataService.insert(sample,rpdf,psp);//插入37数据库
+//                PDFWebService pdfWebService = new PDFWebService();
+//                pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
+//                pdfWebService.uploadPdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//上传PDF
+//                queryHisDataService.delete(sample);//删除HIS数据库
+//                queryHisDataService.insert(sample,psp);//插入HIS数据库
             }
         }
         o.put("message", "签发成功！");
