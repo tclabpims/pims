@@ -476,7 +476,7 @@ function searchList() {
 
 function searchList2() {
      var x= $('#slireturncustomerid').val();
-     alert(x);
+
  	jQuery("#new3").jqGrid("clearGridData");
  	jQuery("#new3").jqGrid('setGridParam',{
  		url: "../othermanage/loanmanagement/ajax/slide2",
