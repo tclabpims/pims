@@ -104,7 +104,14 @@ $(function() {
 //			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
 		colNames: ['在库状态','部位','病理编号', '玻片编号','患者姓名','病种类别','性别','年龄','年龄单位','制品日期'],
 		colModel: [
-        { name: 'slistockin', index: 'slistockin',align:'center',width:'90px',formatter:"select",editoptions:{value:"0:借阅中;1:在库;"}},
+        { name: 'slistockin', index: 'slistockin',align:'center',width:'90px',formatter:function(cellvalue,options,row){
+            if(cellvalue=='0'){
+                return cellvalue='借阅中';
+            }else if(cellvalue=='1'){return cellvalue='在库';
+			}else {
+                return cellvalue='未入库';
+		}
+        }},
         { name: 'samsamplename', align:'center',index: 'samsamplename',width:'90px'},
         { name: 'slipathologycode', align:'center',index: 'slipathologycode',width:'90px'},
         { name: 'slislidebarcode', align:'center',index: 'slislidebarcode',width:'90px'},
@@ -180,8 +187,7 @@ function loanbtn() {
     var ids = $("#new").jqGrid('getGridParam','selarrrow');
     for(var i=0;i<ids.length;i++){
     var rowData = $("#new").jqGrid('getRowData',ids[i]);
-    alert(rowData.slistockin);
-    if(rowData.slistockin=='1'){
+    if(rowData.slistockin=='1'||rowData.slistockin==''){
         if(x!=''&&y!=null){
 			 $.ajax({
 			 url:"../othermanage/loanmanagement/ajax/loan",
@@ -206,7 +212,7 @@ function loanbtn() {
         return layer.msg("请填写借阅人和预计归还日期！");
         }
     }else {
-        	return layer.msg("该玻片暂时无法借阅");
+		return layer.msg("该玻片暂时无法借阅");
     }
     }
 
@@ -808,24 +814,28 @@ function loanSlide(){
         var a = 0;
         for(var i=0;i<ids.length;i++){
         var rowData = $("#new").jqGrid('getRowData',ids[i]);
-
-        if(rowData.slicurrent==0){
+        if(rowData.slistockin=='0'){
             a++;
-            unloanable = rowData.sliid+","+unloanable;
+            unloanable = rowData.slislidebarcode+","+unloanable;
         }
-        }if(a>0){return layer.msg(unloanable+"以上玻片暂时无法借阅！");}
         }
-    layer.open({
-    			type: 1,
-    			area: ['500px','220px'],
-    			fix: false, //不固定
-    			maxmin: false,
-    			multiselect: true,
-    			rownumbers : true,
-    			shade:0.5,
-    			title: "借阅",
-    			content: $('#loanSlidePage')
-    });
+        if(a>0){
+        	alert(a);
+        	return layer.msg(unloanable+"以上玻片暂时无法借阅！");
+        }
+			layer.open({
+				type: 1,
+				area: ['500px','220px'],
+				fix: false, //不固定
+				maxmin: false,
+				multiselect: true,
+				rownumbers : true,
+				shade:0.5,
+				title: "借阅",
+				content: $('#loanSlidePage')
+			});
+
+        }
 }
 
 function returnSlide(){
