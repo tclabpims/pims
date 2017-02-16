@@ -1,6 +1,7 @@
 package com.pims.service.othermanagement;
 
 import com.pims.model.PimsBaseModel;
+import com.pims.model.PimsPathologySlide;
 import com.pims.model.PimsSlideLoan;
 import com.smart.service.GenericManager;
 
@@ -10,12 +11,14 @@ import java.util.Map;
 /**
  * Created by zp on 2016/11/16.
  */
-public interface PimsSlideLoanManager extends GenericManager<PimsSlideLoan,Long> {
-    List<PimsSlideLoan>   getLoanList(PimsBaseModel map);
+public interface PimsSlideLoanManager extends GenericManager<PimsPathologySlide,Long> {
+    List getLoanList(PimsBaseModel map);
+
+    List getLoanList2(PimsBaseModel map);
 
     int getReqListNum(PimsBaseModel map);
 
-    PimsSlideLoan getByLoanNo(Long id);
+    PimsPathologySlide getByLoanNo(Long id);
     //判断是否可被借阅
     boolean canChange(Long id, String sts);
     //修改 借阅中0/已归还1

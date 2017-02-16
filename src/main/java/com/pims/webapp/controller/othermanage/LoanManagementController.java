@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.pims.model.PimsBaseModel;
+import com.pims.model.PimsPathologySlide;
 import com.pims.model.PimsSlideLoan;
 import com.pims.model.PimsSlideRecord;
 import com.pims.service.othermanagement.PimsSlideLoanManager;
@@ -78,7 +79,7 @@ public class LoanManagementController extends PIMSBaseController {
         public DataResponse getRequisitionInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
             DataResponse dataResponse = new DataResponse();
             PimsBaseModel ppr = new PimsBaseModel(request);
-            List<PimsSlideLoan> list = pimsSlideLoanManager.getLoanList(ppr);
+            List list = pimsSlideLoanManager.getLoanList(ppr);
             int num = pimsSlideLoanManager.getReqListNum(ppr);
             if(list == null || list.size() == 0 ) {
                 return null;
@@ -86,7 +87,7 @@ public class LoanManagementController extends PIMSBaseController {
             dataResponse.setRecords(num);
             dataResponse.setPage(ppr.getPage());
             dataResponse.setTotal(getTotalPage(num, ppr.getRow(), ppr.getPage()));
-            dataResponse.setRows(getResultMap(list));
+            dataResponse.setRows(list);
             response.setContentType("text/html; charset=UTF-8");
             return dataResponse;
         }
@@ -147,16 +148,15 @@ public class LoanManagementController extends PIMSBaseController {
         public void loan(HttpServletRequest request, HttpServletResponse response) throws Exception {
             Map map = new HashedMap();
             map.put("sliid",request.getParameter("sliid"));
-            map.put("slicustomerid",request.getParameter("slicustomerid"));
             map.put("customer_name",request.getParameter("customer_name"));
-            map.put("sli_in_time",new java.sql.Date(Constants.DF2.parse(request.getParameter("sliintime")).getTime()));
-
+            map.put("slicustomerid",request.getParameter("slicustomerid"));
             User user = WebControllerUtil.getAuthUser();
             PimsSlideRecord psr = new PimsSlideRecord();
             psr.setSliid((String)map.get("sliid"));
             psr.setSlicustomername((String)map.get("customer_name"));
             psr.setSlimanagername(user.getUsername());
             psr.setSlitime(new Date());
+            psr.setSliintime(new java.sql.Date(Constants.DF2.parse(request.getParameter("sliintime")).getTime()));
             psr.setSlicustomerid((String)map.get("slicustomerid"));
             psr.setSlicurrent("0");
             pimsSlideLoanRecordManager.save(psr);
@@ -200,6 +200,21 @@ public class LoanManagementController extends PIMSBaseController {
         PimsBaseModel ppr = (PimsBaseModel)setBeanProperty(request,PimsBaseModel.class);
         pimsSlideLoanManager.returnSlide3(ppr);
     }
+
+    @RequestMapping(value = "/ajax/slide2*", method = {RequestMethod.POST, RequestMethod.GET}, produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public DataResponse getLoanList2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+            DataResponse dataResponse = new DataResponse();
+            PimsBaseModel ppr = new PimsBaseModel(request);
+            List list = pimsSlideLoanManager.getLoanList2(ppr);
+        if(list == null || list.size() == 0 ) {
+            return null;
+        }
+        dataResponse.setRows(list);
+        response.setContentType("text/html; charset=UTF-8");
+        return dataResponse;
+    }
+
 
         /**
          * 打印条码

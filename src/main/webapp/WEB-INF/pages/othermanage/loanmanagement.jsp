@@ -172,10 +172,10 @@
                     <i class="ace-icon fa fa-arrow-right bigger-110"></i>
                     下一个
                 </button>
-                <button type="button" class="btn btn-sm btn-warning" title="列表打印" id="print" onclick="printCode()">
+                <%--<button type="button" class="btn btn-sm btn-warning" title="列表打印" id="print" onclick="printCode()">
                     <i class="ace-icon fa fa-print bigger-110"></i>
                     列表打印
-                </button>
+                </button>--%>
                 <button type="button" class="btn btn-sm btn-success" title="借阅" id="loan" onclick="loanSlide()">
                     <i class="ace-icon fa fa-book bigger-110"></i>
                     借阅
@@ -259,8 +259,8 @@
                                 <label style="margin-left:20px">在库状态：</label>
                                 <select id="current"  style="width: 100px;height: 20px">
                                 <option value="">全部</option>
-                                <option value="">借阅中</option>
-                                <option value="">在库</option>
+                                <option value="0">借阅中</option>
+                                <option value="1">在库</option>
                                 </select>
                                 <label style="margin-left:20px">玻片编号：</label><input type="text" id="sliid" style="width: 120px; height: 20px;">
                                 <button type="button" class="button2" onclick="searchList()" style="float:right;">

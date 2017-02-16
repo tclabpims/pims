@@ -1,7 +1,7 @@
 package com.pims.dao.othermanage;
 
 import com.pims.model.PimsBaseModel;
-import com.pims.model.PimsSlideLoan;
+import com.pims.model.PimsPathologySlide;
 import com.smart.dao.GenericDao;
 import java.util.List;
 import java.util.Map;
@@ -9,15 +9,16 @@ import java.util.Map;
 /**
  * Created by zp on 2016/11/15.
  */
-public interface PimsSlideLoanDao extends GenericDao<PimsSlideLoan,Long> {
+public interface PimsSlideLoanDao extends GenericDao<PimsPathologySlide,Long> {
 
     /**
      * 查询标本列表
      * @param map
      * @return
      */
-    List<PimsSlideLoan> getLoanList(PimsBaseModel map);
+    List getLoanList(PimsBaseModel map);
 
+    List getLoanList2(PimsBaseModel map);
     /**
      * 查询标本数量
      * @param map
@@ -29,7 +30,7 @@ public interface PimsSlideLoanDao extends GenericDao<PimsSlideLoan,Long> {
      * @param id
      * @return
      */
-    PimsSlideLoan getByLoanNo(Long id);
+    PimsPathologySlide getByLoanNo(Long id);
 
     /**
      * 查询单据是否可被修改

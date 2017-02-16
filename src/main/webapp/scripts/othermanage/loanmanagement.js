@@ -102,16 +102,18 @@ $(function() {
 		datatype: "json",
 //		postData:{"logyid":logyid,"sli_code":sli_code,"customer_name":customer_name,"patient_name":patient_name,
 //			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
-		colNames: ['在库状态','病种类别','病理编号', '玻片编号','患者姓名','年龄','性别','制品日期'],
+		colNames: ['在库状态','部位','病理编号', '玻片编号','患者姓名','病种类别','性别','年龄','年龄单位','制品日期'],
 		colModel: [
-        { name: 'slicurrent', index: 'slicurrent',align:'center',width:'90px',formatter:"select",editoptions:{value:"0:借阅中;1:在库;"}},
-        { name: 'slipathologyid', align:'center',index: 'slipathologyid',width:'90px',formatter:"select",editoptions:{value:gettypes()}},
-        { name: 'pathologyid', align:'center',index: 'pathologyid',width:'90px'},
-        { name: 'sliid', align:'center',index: 'sliid',width:'90px'},
-        { name: 'slipatientname', align:'center',index: 'slipatientname',width:'90px'},
-        { name: 'slipatientage',align:'center', index: 'slipatientage',width:'90px'},
-        {name:'slipatientsex',align:'center',index:'slipatientsex',width:'90px',formatter:"select",editoptions:{value:"0:女;1:男;"}},
-        {name:'slimadetime',align:'center',index:'slimadetime', width:'170px',formatter:function(cellvalue,options,row){
+        { name: 'slistockin', index: 'slistockin',align:'center',width:'90px',formatter:"select",editoptions:{value:"0:借阅中;1:在库;"}},
+        { name: 'samsamplename', align:'center',index: 'samsamplename',width:'90px'},
+        { name: 'slipathologycode', align:'center',index: 'slipathologycode',width:'90px'},
+        { name: 'slislidebarcode', align:'center',index: 'slislidebarcode',width:'90px'},
+        { name: 'sampatientname', align:'center',index: 'sampatientname',width:'90px'},
+        { name: 'sampathologyid',hidden:true, align:'center',index: 'sampathologyid',width:'90px',formatter:"select",editoptions:{value:gettypes()}},
+        { name: 'sampatientsex',align:'center', index: 'sampatientsex',width:'90px',formatter:"select",editoptions:{value:"2:女;1:男;3:未知"}},
+        {name:'sampatientage',align:'center',index:'sampatientage',width:'90px'},
+        {name:'sampatientagetype',align:'center',index:'sampatientagetype',width:'90px',formatter:"select",editoptions:{value:"1:岁;"}},
+        {name:'slicreatetime',align:'center',index:'slicreatetime', width:'170px',formatter:function(cellvalue,options,row){
             if(cellvalue!=null){
                 return CurentTime(new Date(cellvalue));
             }return '';}
@@ -170,23 +172,25 @@ $(function() {
 
 
 function loanbtn() {
-    alert(1);
     var x = document.getElementById("sliloancustomername").value;
+
     var y = document.getElementById("sliloancustomerid").value;
     var z = document.getElementById("sliintime").value;
+    console.log(x,y,z);
     var ids = $("#new").jqGrid('getGridParam','selarrrow');
     for(var i=0;i<ids.length;i++){
     var rowData = $("#new").jqGrid('getRowData',ids[i]);
-    if(rowData.slicurrent=='1'){
-    alert(2);
+    alert(rowData.slistockin);
+    if(rowData.slistockin=='1'){
         if(x!=''&&y!=null){
-            $.get("../othermanage/loanmanagement/ajax/loan",
-                 {
-                "sliid":rowData.sliid,
+			 $.ajax({
+			 url:"../othermanage/loanmanagement/ajax/loan",
+			 type: "POST",
+			 data: {"sliid":rowData.slislidebarcode,
                 "customer_name":x,
                 "slicustomerid":y,
                 "sliintime":z
-                },function(data){
+                },success:function(data){
                          layer.msg(data.message, {icon: 0, time: 1000});
                          jQuery("#new").jqGrid("clearGridData");
 							   jQuery("#new").jqGrid('setGridParam',{
@@ -197,10 +201,12 @@ function loanbtn() {
 						   //                        },
 								   page : 1
 							   }).trigger('reloadGrid');//重新载入
-                      });
-        }else{
-        return layer.alert("请填写借阅人和预计归还日期！");
+			  		}
+        });}else{
+        return layer.msg("请填写借阅人和预计归还日期！");
         }
+    }else {
+        	return layer.msg("该玻片暂时无法借阅");
     }
     }
 
@@ -224,29 +230,29 @@ function returnbtn(){
     var ids = $("#new3").jqGrid('getGridParam','selarrrow');
 
      if(ids.length==0){
-            return layer.alert("请选择要归还的玻片！");
+            return layer.msg("请选择要归还的玻片！");
         }
     for(var i=0;i<ids.length;i++){
     var rowData = $("#new3").jqGrid('getRowData',ids[0]);
 
     if(ids.length>=2){
-        layer.alert("一次只能还一块玻片！");
+        layer.msg("一次只能还一块玻片！");
         return;
     }
     var dept = document.getElementById("slidept").value;
     var result = document.getElementById("sliresult").value;
 
     if(dept==''){
-        layer.alert("请填写诊断机构！");
+        layer.msg("请填写诊断机构！");
         return;
     }else {
         if(result==''){
-            layer.alert("请填写诊断结果");
+            layer.msg("请填写诊断结果");
             return;
         }
     }
        $.post("../othermanage/loanmanagement/ajax/return0",{
-                  sliid:rowData.sliid,
+                  sliid:rowData.slislidebarcode,
                   slicustomername:rowData.slicustomername,
                   slicustormerid:rowData.slicustomerid,
                   slidept:$("#slidept").val(),
@@ -257,7 +263,7 @@ function returnbtn(){
                    }
                    );
        $.post("../othermanage/loanmanagement/ajax/return3",{
-                   sliid:rowData.sliid
+                   sliid:rowData.slislidebarcode
                    },
                    function(data){
                         jQuery("#new").jqGrid("clearGridData");
@@ -350,14 +356,15 @@ function createNew1(width) {
     		height: 100,
     		width:width,
     		autowidth: true,
-    		colNames: ['选择','玻片编号','借阅人','借阅日期'],
+    		colNames: ['选择','玻片编号','借阅人','借阅日期','id'],
             colModel: [
             {name:'1',hidden:true},
-            {name:'sliid',index:'sliid',width:'85px'},//项目名称
+            {name:'slislidebarcode',index:'slislidebarcode',width:'85px'},//项目名称
             {name:'slicustomername',index:'slicustomername'},
             {name:'sliouttime',index:'sliouttime',formatter:function(cellvalue, options, row){
             if(cellvalue!=null){
-				return CurentTime(new Date(cellvalue))}return '';},width:'85px'}],
+				return CurentTime(new Date(cellvalue))}return '';},width:'85px'},
+                {name:'slicustomerid',hidden:true,index:'slicustomerid'}],
             loadComplete : function() {
             			var table = this;
             			setTimeout(function(){
@@ -463,14 +470,15 @@ function searchList() {
 
 function searchList2() {
      var x= $('#slireturncustomerid').val();
+     alert(x);
  	jQuery("#new3").jqGrid("clearGridData");
  	jQuery("#new3").jqGrid('setGridParam',{
- 		url: "../othermanage/loanmanagement/ajax/slide",
+ 		url: "../othermanage/loanmanagement/ajax/slide2",
  		//发送数据
  //		success: function(logyid) {
  //                            console.log(logyid);
  //                        },
- 		postData:{"slicustomerid":x},
+ 		postData:{"sliid":x},
  		page : 1
  	}).trigger('reloadGrid');//重新载入
 
@@ -484,27 +492,30 @@ function fillInfo1(id){
     document.getElementById("deptandresult").innerHTML = "";
     var type =null;
     var rowData = $("#new").jqGrid('getRowData',id);
-    var n = rowData.slipathologyid;
+    var n = rowData.sampathologyid;
     var cur = "在库";
     var sex = "男";
-    filltypes(n);
 	setcolor(id);
 	nowrow = id;
-	if(rowData.slicurrent=='1'){
+	if(rowData.slistockin=='1'){
 		cur = "在库";
-	}else {
+	}else if(rowData.slistockin=='0'){
         cur = "借阅中";
+	}else {
+		cur = "未知"
 	}
-    if(rowData.slipatientsex=='1'){
+    if(rowData.sampatientsex=='1'){
         sex = "男";
-    }else {
+    }else if (rowData.sampatientsex=='2'){
         sex = "女";
-    }
+    }else {
+    	sex = "未知";
+	}
 	document.getElementById("slicurrenta").value = cur;
-    document.getElementById("patientnamea").value = rowData.slipatientname;
+    document.getElementById("patientnamea").value = rowData.sampatientname;
     document.getElementById("slipathologyida").value = filltypes(n);
-    document.getElementById("patientagea").value = rowData.slipatientage;
-    document.getElementById("pathologyida").value = rowData.pathologyid;
+    document.getElementById("patientagea").value = rowData.sampatientage;
+    document.getElementById("pathologyida").value = rowData.slipathologycode;
     document.getElementById("patientsexa").value = sex;
 	if (id == null || id == 0) {
 		layer.msg('请先选择数据', {icon: 2, time: 1000});
@@ -513,7 +524,7 @@ function fillInfo1(id){
     jQuery("#new2").jqGrid('setGridParam',{
         url: "../othermanage/loanmanagement/ajax/rec",
         //发送数据
-        postData:{"sliid":rowData.sliid}
+        postData:{"sliid":rowData.slislidebarcode}
     }).trigger('reloadGrid');//重新载入
      //诊断机构诊断结果
      setTimeout(function(){
@@ -528,7 +539,7 @@ function fillInfo1(id){
                    document.getElementById("deptandresult").appendChild(objhead);
                    var objh = document.createElement("h6");
                    objh.className="widget-title";
-                   objh.innerHTML=rowData2.slidept+"诊断机构"+rowData2.slitime;
+                   objh.innerHTML="诊断结果：";
                    objhead.appendChild(objh);
                    var objbody = document.createElement("div");
                    objbody.className="widget-body result widget-main padding-4 scrollable ace-scroll";
@@ -722,10 +733,10 @@ function CreateDataBill() {
     for(var i=0;i<ids.length;i++){
 	    var rowData = $("#new").jqGrid('getRowData',ids[i]);
 	    var topheight1 = i*4+20;
-	    if(rowData.slicurrent=="0"){
-	        rowData.slicurrent="借阅中";
+	    if(rowData.slistockin=="0"){
+	        rowData.slistockin="借阅中";
 	    }else{
-	        rowData.slicurrent="在库";
+	        rowData.slistockin="在库";
 	    }
 	    if(rowData.slipatientsex=="0"){
             rowData.slipatientsex="女";
@@ -791,7 +802,7 @@ function loanSlide(){
 //    document.getElementById("loanSlidePage").style.display="block";
         var ids = $("#new").jqGrid('getGridParam','selarrrow');
         if(ids.length==0){
-                return layer.alert("请先选择玻片！");
+                return layer.msg("请先选择玻片！");
         }else{
         var unloanable = "";
         var a = 0;
@@ -802,7 +813,7 @@ function loanSlide(){
             a++;
             unloanable = rowData.sliid+","+unloanable;
         }
-        }if(a>0){return layer.alert(unloanable+"以上玻片暂时无法借阅！");}
+        }if(a>0){return layer.msg(unloanable+"以上玻片暂时无法借阅！");}
         }
     layer.open({
     			type: 1,
