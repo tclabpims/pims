@@ -85,8 +85,8 @@ $(function() {
 	var width1 = $("#checkSlide2").width();
 	var width3=$("#div_main").width()-890;
 	$("#diagnosis_result").css("width",width3);
-	//var logyid = $("#logyid").val();
-	var logyid =$('#logyid').val();
+	// var logyid = $("#logyid").val();
+    var logyid =$('#slipathologyid').val();
 	var slide_code = $('slide_code');
 	var customer_name = $('#customer_name').val();
 	var patient_name = $('#patient_name').val();
@@ -95,13 +95,13 @@ $(function() {
 	var sliid = $('#sliid').val();
 	var current = $('#current').val();
 	createNew1(width1);
+	
 	$("#new").jqGrid({
 		//caption:"标本列表",
 		url: "../othermanage/loanmanagement/ajax/slide",
 		mtype: "GET",
 		datatype: "json",
-//		postData:{"logyid":logyid,"sli_code":sli_code,"customer_name":customer_name,"patient_name":patient_name,
-//			"sli_in_time":sli_in_time,"sliid":sliid,"current":current},
+		postData:{"slipathologyid":logyid},
 		colNames: ['在库状态','部位','病理编号', '玻片编号','患者姓名','病种类别','性别','年龄','年龄单位','制品日期'],
 		colModel: [
         { name: 'slistockin', index: 'slistockin',align:'center',width:'90px',formatter:function(cellvalue,options,row){
@@ -187,7 +187,7 @@ function loanbtn() {
     var ids = $("#new").jqGrid('getGridParam','selarrrow');
     for(var i=0;i<ids.length;i++){
     var rowData = $("#new").jqGrid('getRowData',ids[i]);
-    if(rowData.slistockin=='1'||rowData.slistockin==''){
+    if(rowData.slistockin!='0'){
         if(x!=''&&y!=null){
 			 $.ajax({
 			 url:"../othermanage/loanmanagement/ajax/loan",
@@ -508,7 +508,7 @@ function fillInfo1(id){
 	}else if(rowData.slistockin=='0'){
         cur = "借阅中";
 	}else {
-		cur = "未知"
+		cur = "未入库"
 	}
     if(rowData.sampatientsex=='1'){
         sex = "男";

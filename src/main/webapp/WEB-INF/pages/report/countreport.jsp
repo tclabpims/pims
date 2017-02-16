@@ -314,7 +314,7 @@
 					</div>
 				</div>
 		</div>
-		<div id="bdzddz" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--冰冻诊断对照-->
+		<%--<div id="bdzddz" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--冰冻诊断对照-->
 			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
 			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
 			<div>
@@ -343,7 +343,7 @@
 				</div>
 			</div>
 			</div>
-		</div>
+		</div>--%>
 	</div>
 
 </body>
