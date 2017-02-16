@@ -95,7 +95,7 @@ $(function() {
 	var sliid = $('#sliid').val();
 	var current = $('#current').val();
 	createNew1(width1);
-	
+
 	$("#new").jqGrid({
 		//caption:"标本列表",
 		url: "../othermanage/loanmanagement/ajax/slide",
@@ -187,7 +187,7 @@ function loanbtn() {
     var ids = $("#new").jqGrid('getGridParam','selarrrow');
     for(var i=0;i<ids.length;i++){
     var rowData = $("#new").jqGrid('getRowData',ids[i]);
-    if(rowData.slistockin!='0'){
+    if(rowData.slistockin!='借阅中'){
         if(x!=''&&y!=null){
 			 $.ajax({
 			 url:"../othermanage/loanmanagement/ajax/loan",
@@ -503,9 +503,9 @@ function fillInfo1(id){
     var sex = "男";
 	setcolor(id);
 	nowrow = id;
-	if(rowData.slistockin=='1'){
+	if(rowData.slistockin=='在库'){
 		cur = "在库";
-	}else if(rowData.slistockin=='0'){
+	}else if(rowData.slistockin=='借阅中'){
         cur = "借阅中";
 	}else {
 		cur = "未入库"
@@ -739,7 +739,7 @@ function CreateDataBill() {
     for(var i=0;i<ids.length;i++){
 	    var rowData = $("#new").jqGrid('getRowData',ids[i]);
 	    var topheight1 = i*4+20;
-	    if(rowData.slistockin=="0"){
+	    if(rowData.slistockin=="借阅中"){
 	        rowData.slistockin="借阅中";
 	    }else{
 	        rowData.slistockin="在库";
@@ -814,13 +814,12 @@ function loanSlide(){
         var a = 0;
         for(var i=0;i<ids.length;i++){
         var rowData = $("#new").jqGrid('getRowData',ids[i]);
-        if(rowData.slistockin=='0'){
+        if(rowData.slistockin=='借阅中'){
             a++;
             unloanable = rowData.slislidebarcode+","+unloanable;
         }
         }
         if(a>0){
-        	alert(a);
         	return layer.msg(unloanable+"以上玻片暂时无法借阅！");
         }
 			layer.open({
