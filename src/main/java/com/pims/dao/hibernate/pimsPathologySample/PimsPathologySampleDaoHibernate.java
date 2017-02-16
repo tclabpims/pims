@@ -938,41 +938,70 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
     @Override
     public List getTworesults(PimsBaseModel map){
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT a.sampatientname,a.samsamplename,a.restestresult as result1,a.resinputtime as time1,b.restestresult as result2,b.resinputtime as time2 from (SELECT\n" +
-                "\ts.sampatientname,\n" +
-                "\ts.sampathologyid,\n" +
-                "\ts.samsamplename,\n" +
-                "\tr.restestresult,\n" +
-                "\tr.resinputtime\n" +
+        sql.append("SELECT * from (\n" +
+                "SELECT\n" +
+                "\ta.restestresult as restestresult1,\n" +
+                "\tb.samsamplename as samplename1,\n" +
+                "\tb.sampatientname as sampatientname1,\n" +
+                "\tb.sampatientid as sampatientid1,\n" +
+                "\tb.sampleid as sampleid1,\n" +
+                "\ta.ressampleid as ressampleid1,\n" +
+                "\ta.resinputtime as resinputtime1\n" +
+                "FROM \n" +
+                "\t(\n" +
+                "SELECT\n" +
+                "\t*\n" +
                 "FROM\n" +
-                "\tPIMS_PATHOLOGY_SAMPLE s RIGHT JOIN\n" +
-                "\tPIMS_SAMPLE_RESULT r\n" +
-                "on\n" +
-                "\tr.ressampleid = s.sampleid\n" +
-                "AND r.restestitemid = '89'\n" +
-                "AND s.sampathologyid = '181')  a,\n" +
+                "\tPIMS_SAMPLE_RESULT\n" +
+                "WHERE\n" +
+                "\trestestitemid = '89'\n" +
+                ") A\n" +
+                ", (\n" +
+                "\tSELECT\n" +
+                "\t\t*\n" +
+                "\tFROM\n" +
+                "\t\tPIMS_PATHOLOGY_SAMPLE\n" +
+                "\tWHERE\n" +
+                "\t\tsampathologyid = '185'\n" +
+                ") b WHERE A .RESSAMPLEID = b.SAMPLEID) i\n" +
+                ",\n" +
+                "(SELECT \n" +
+                "*\n" +
+                "from\n" +
                 "(SELECT\n" +
-                "\ts.sampatientname,\n" +
-                "\ts.sampathologyid,\n" +
-                "\ts.samsamplename,\n" +
-                "\tr.restestresult,\n" +
-                "\tr.resinputtime\n" +
+                "\ta.restestresult as restestresult2,\n" +
+                "\tb.samsamplename as samplename2,\n" +
+                "\tb.sampatientname as sampatientname2,\n" +
+                "\tb.sampatientid as sampatientid2,\n" +
+                "\tb.sampleid as sampleid2,\n" +
+                "\ta.ressampleid as ressampleid2,\n" +
+                "\ta.resinputtime as resinputtime2,\n" +
+                "ROW_number() over(PARTITION by b.sampatientid ORDER BY a.resinputtime DESC) as e\n" +
                 "FROM\n" +
-                "\tPIMS_PATHOLOGY_SAMPLE s RIGHT JOIN\n" +
-                "\tPIMS_SAMPLE_RESULT r\n" +
-                "on\n" +
-                "\tr.ressampleid = s.sampleid\n" +
-                "AND r.restestitemid = '89'\n" +
-                "AND s.sampathologyid = '185'\n");
+                "\t(\n" +
+                "SELECT\n" +
+                "\t*\n" +
+                "FROM\n" +
+                "\tPIMS_SAMPLE_RESULT\n" +
+                "WHERE\n" +
+                "\trestestitemid = '89'\n" +
+                ") A\n" +
+                ",(\n" +
+                "\tSELECT\n" +
+                "\t\t*\n" +
+                "\tFROM\n" +
+                "\t\tPIMS_PATHOLOGY_SAMPLE\n" +
+                "\tWHERE\n" +
+                "\t\tsampathologyid = '181'\n" +
+                ") b where A .RESSAMPLEID = b.SAMPLEID)\n" +
+                "WHERE e = '1') j WHERE i.SAMPATIENTID1=j.SAMPATIENTID2");
         if (map.getReq_af_time() != null) {
-            sql.append(" and  r.resinputtime < :req_af_time ");//结束时间
+            sql.append(" and  i.resinputtime1 < :req_af_time ");//结束时间
         }
         if (map.getReq_bf_time() != null) {
-            sql.append(" and  r.resinputtime >= :req_bf_time ");//结束时间
+            sql.append(" and  i.resinputtime1 >= :req_bf_time ");//结束时间
         }
-        sql.append(")  b \n" +
-                "WHERE a.sampatientname=b.sampatientname and a.samsamplename=b.samsamplename " +
-                "order by a.sampatientname");
+        sql.append(" order by i.resinputtime1");
         return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
     }
 }

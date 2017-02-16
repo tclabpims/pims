@@ -354,7 +354,7 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
     @Override
     public List getTworesults(PimsBaseModel map){
         List list = pimsPathologySampleDao.getTworesults(map);
-        String[] st = {"name","samplename","result1","time1","result2","time2",};
+        String[] st = {"restestresult1","samplename1","sampatientname1","sampatientid1","sampleid1","ressampleid1","resinputtime1","restestresult2","samplename2","sampatientname2","sampatientid2","sampleid2","ressampleid2","resinputtime2"};
         return ChangeList(st,list);
     }
 }

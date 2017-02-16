@@ -653,14 +653,15 @@ $(function() {
         mtype: "GET",
         datatype: "json",
         postData:{"req_bf_time":req_bf_time,"req_af_time":req_af_time},
-        colNames: ['患者姓名','部位','常规病理诊断结果','常规诊断时间','冰冻病理诊断结果','冰冻诊断时间'],
+        colNames: ['患者姓名','部位','常规病理诊断结果','常规诊断时间','部位','冰冻病理诊断结果','冰冻诊断时间'],
         colModel: [
-            {name:'name',index:'name',align:'center'},//送检医生
-            {name:'samplename',index:'samplename',align:'center'},//送检医生
-            {name:'result1',index:'result1',align:'center'},//送检医生
-            {name:'time1',index:'time1',align:'center'},//送检医生
-            {name:'result2',index:'result2',align:'center'},//送检医生
-            {name:'time2',index:'time2',align:'center'}//金额
+            {name:'sampatientname1',index:'sampatientname1',align:'center'},//送检医生
+            {name:'samplename1',index:'samplename1',align:'center'},//送检医生
+            {name:'restestresult1',index:'result1',align:'center'},//送检医生
+            {name:'resinputtime1',index:'time1',align:'center'},//送检医生
+            {name:'samplename2',index:'samplename2',align:'center'},//送检医生
+            {name:'restestresult2',index:'result2',align:'center'},//送检医生
+            {name:'resinputtime2',index:'time2',align:'center'}//金额
         ],
         loadComplete : function() {
             var table = this;
@@ -675,6 +676,90 @@ $(function() {
         width: width1
     });
 
+    $("#bgqsd").jqGrid({
+        url: "../report/diagnosisreport/list",
+        mtype: "GET",
+        datatype: "json",
+        postData:{"req_bf_time":req_bf_time,
+            "req_af_time":req_af_time,
+            "req_sts":6},
+        colNames: ['标本ID','病种类别', '病理号', '病人姓名','年龄','住院号','床号','性别','病理状态','送检日期','诊断日期','送检医生','送检科室','送检医院','取材医生',
+            '切片医生','诊断医生','病理诊断','免疫组化','特殊染色','分子病理'],
+        colModel: [
+            {name:'sampleid',hidden:true},//标本ID
+            { name: 'sampathologyid', index: 'sampathologyid',formatter: "select", editoptions:{value:gettypes()},width:'100px'},//病种类别
+            { name: 'sampathologycode', index: 'sampathologycode',width:'100px'},//病理号
+            { name: 'sampatientname', index: 'sampatientname',width:'100px'},//病人姓名
+            { name: 'sampatientage', index: 'sampatientage',formatter:function(cellvalue, options, row){
+                var cell1 = cellvalue.charAt(cellvalue.length - 1);
+                if(cell1 == "1"){
+                    cell1="岁";
+                }else if(cell1 == "2"){
+                    cell1="月";
+                }else if(cell1 == "4"){
+                    cell1="周";
+                }else if(cell1 == "5"){
+                    cell1="日";
+                }else if(cell1 == "6"){
+                    cell1="小时";
+                }
+                return cellvalue.substr(0,cellvalue.length-1)+cell1;
+            },width:'100px'},//年龄
+            { name: 'sampatientnumber', index: 'sampatientnumber',width:'100px'},//住院号
+            { name: 'sampatientbed', index: 'sampatientbed',width:'100px'},//床号
+            { name: 'sampatientsex', index: 'sampatientsex',formatter: "select", editoptions:{value:"0:男;1:女;2:未知"},width:'100px'},//性别
+            { name: 'samsamplestatus', index: 'samsamplestatus',formatter: "select", editoptions:{value:"0:未取材;1:已取材;2:已包埋;3:已切片;4:已初诊;" +
+            "5:已审核;6:已发送;7:会诊中;8:报告已打印"},width:'100px'},//病理状态
+            { name: 'samsendtime', index: 'samsendtime',formatter:function(cellvalue, options, row)
+            {if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))},width:'100px'},//送检日期
+            { name: 'saminitiallytime', index: 'saminitiallytime',formatter:function(cellvalue, options, row)
+            {if(cellvalue == "" || cellvalue == null){return ""}return CurentTime(new Date(cellvalue))},width:'100px'},//诊断日期
+            { name: 'samsenddoctorname', index: 'samsenddoctorname',width:'100px'},//送检医生
+            { name: 'samdeptname', index: 'samdeptname',width:'100px'},//送检科室
+            { name: 'samsendhospital', index: 'samsendhospital',width:'100px'},//送检医院
+            { name: 'piedoctorname', index: 'piedoctorname',width:'100px'},//取材医生
+            { name: 'parsectioneddoctor', index: 'parsectioneddoctor',width:'100px'},//切片医生
+            { name: 'saminitiallyusername', index: 'saminitiallyusername',width:'100px'},//诊断医生
+            { name: 'restestresult', index: 'restestresult',width:'100px'},//病理诊断
+            { name: 'myzhnum', index: 'myzhnum',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'},//免疫组化
+            { name: 'tsrsnum', index: 'tsrsnum',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'},//特殊染色
+            { name: 'fzblnum', index: 'fzblnum',formatter:function(cellvalue, options, row){if(cellvalue > 0){return "有"}return "无"},width:'100px'}//分子病理
+        ],
+        beforeSelectRow: function (rowid, e) {
+            return $(e.target).is('input[type=checkbox]');
+        },
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
+            var ids = $("#new").jqGrid('getDataIDs');
+            if(ids != null && ids != ""){
+                fillInfo(1);
+            }
+            //$("#new").setSelection(1);
+        },
+        ondblClickRow: function (id) {
+            fillInfo(id);
+        },
+        // onSelectRow:function(id){
+        // 	fillInfo();
+        // },
+        onCellSelect:function(id){
+            fillInfo(id);
+        },
+        multiselect: true,
+        viewrecords: true,
+        height:150,
+        width: width1,
+        shrinkToFit:false,
+        autoScroll: true,
+        rowNum: 100,
+        rowList:[100,200,300,400,500],
+        rownumbers: true, // 显示行号
+        rownumWidth: 30, // the width of the row numbers columns
+        pager: "#pager"
+    });
 
     $(".sevenday").html($("#req_bf_time").val());
     $(".receivetime").html($("#req_af_time").val());
@@ -835,6 +920,12 @@ function searchList() {
         url: "../report/jgdz",
         mtype: "GET",
         postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time}
+    }).trigger('reloadGrid');//重新载入
+    jQuery("#bgqsd").jqGrid("clearGridData");
+    jQuery("#bgqsd").jqGrid('setGridParam',{
+        url: "../report/diagnosisreport/list",
+        mtype: "GET",
+        postData : {"req_bf_time":req_bf_time,"req_af_time":req_af_time,"req_sts":6}
     }).trigger('reloadGrid');//重新载入
 }
 function CurentTime(now) {

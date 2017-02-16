@@ -73,11 +73,11 @@
 					<input type="checkbox" class="input_check" name="gs" id="xml" checked><span class="input_style">&nbsp;XML&nbsp;</span>
 				</div>
 				<div style="margin-bottom: 5px;">&nbsp;
-					<input type="checkbox" class="input_check" name="biao" value="1" id="rztj1"  checked><span class="input_style">&nbsp;日志统计&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="2" id="bbytj1" checked><span class="input_style">&nbsp;标本源统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="1" id="rztj1"  checked><span class="input_style">&nbsp;工作日志统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="2" id="bbytj1" checked><span class="input_style">&nbsp;标本来源统计&nbsp;</span>
 					<input type="checkbox" class="input_check" name="biao" value="3" id="sftj1" checked><span class="input_style">&nbsp;收费统计&nbsp;&#12288;</span>
-					<input type="checkbox" class="input_check" name="biao" value="4" id="gzltj1" checked><span class="input_style">&nbsp;工作量统计&nbsp;&#12288;</span>
-					<input type="checkbox" class="input_check" name="biao" value="5" id="ltj1" checked><span class="input_style">&nbsp;率统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="4" id="gzltj1" checked><span class="input_style">&nbsp;标本不合格统计&nbsp;&#12288;</span>
+					<input type="checkbox" class="input_check" name="biao" value="5" id="ltj1" checked><span class="input_style">&nbsp;病理登记薄&nbsp;</span>
 					<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<span>
 						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0 0" onclick="searchList()">
@@ -86,12 +86,12 @@
 					</span>
 				</div>
 				<div style="margin-bottom: 5px;">&nbsp;
-					<input type="checkbox" class="input_check" name="biao" value="6" id="fltj1" checked><span class="input_style">&nbsp;分类统计&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="7" id="bbdjb1" checked><span class="input_style">&nbsp;标本登记簿&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="8" id="bgqsb1" checked><span class="input_style">&nbsp;报告签收本&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="9" id="jbnlfb1" checked><span class="input_style">&nbsp;疾病年龄分布&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="10" id="bdzddz1" checked><span class="input_style">&nbsp;冰冻诊断对照&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="11" id="hztj1" checked><span class="input_style">&nbsp;会诊统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="6" id="fltj1" checked><span class="input_style">&nbsp;医生、技师工作量统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="7" id="bbdjb1" checked><span class="input_style">&nbsp;科室工作量统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="8" id="bgqsb1" checked><span class="input_style">&nbsp;冰冻与常规诊断对照表&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="9" id="jbnlfb1" checked><span class="input_style">&nbsp;报告签收单&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="10" id="bdzddz1" checked><span class="input_style">&nbsp;报告阳性单&nbsp;</span>
+					<%--<input type="checkbox" class="input_check" name="biao" value="11" id="hztj1" checked><span class="input_style">&nbsp;会诊统计&nbsp;</span>--%>
 				</div>
 			</div>
 		</div>
@@ -303,12 +303,12 @@
 					</div>
 		</div>
 		<div id="jbnlfb" style="display:block" class="widget-box widget-color-green ui-sortable-handle"><!--疾病年龄分布-->
-			<h5 style="width: 100%;font-size: 16px;text-align:center; ">工作日志统计报告</h5>
+			<div style="font-size: 16px;text-align:center;line-height: 35px " class="widget-header">报告签收单</div>
 			<span name="rqxx" class="input_style">统计日期:<div class="sevenday" style="display: inline-block"></div>~<div class="receivetime" style="display: inline-block"></div></span>
 				<div>
 					<div class="widget-body" style="overflow:auto;margin-top: 5px">
 						<div class="widget-main no-padding">
-							<table id="jbnlfb_new0" class="table-striped">
+							<table id="bgqsd" class="table-striped">
 							</table>
 						</div>
 					</div>

@@ -655,7 +655,38 @@ public class ReportController extends PIMSBaseController{
             }
             list13.add(map1);
         }
+        ppr.setReq_sts("6");
+        List list22 = pimsPathologySampleManager.getReportList(ppr);
+        List<Map<String, Object>> list21 = new ArrayList<Map<String, Object>>();
+        for(Object bean:list22){
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            Object[] pd = (Object[]) bean;
+            String[] st = {"sampleid","saminspectionid","sampathologyid","sampathologycode","sampatientname","sampatientage","sampatientnumber",
+                    "sampatientbed","sampatientsex","samsamplestatus","samsendtime","saminitiallytime","samsenddoctorname","samdeptname",
+                    "samsendhospital","piedoctorname","parsectioneddoctor","saminitiallyusername","restestresult","myzhnum","tsrsnum","fzblnum"};
+            for(int i=0;i<st.length;i++){
+                Object o = pd[i];
+                map1.put(st[i],o);
+            }
+            list21.add(map1);
+        }
         ppr.setReq_sts("");
+        ppr.setLogyid("188");
+        List list24 = pimsPathologySampleManager.getReportList(ppr);
+        List<Map<String, Object>> list23 = new ArrayList<Map<String, Object>>();
+        for(Object bean:list24){
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            Object[] pd = (Object[]) bean;
+            String[] st = {"sampleid","saminspectionid","sampathologyid","sampathologycode","sampatientname","sampatientage","sampatientnumber",
+                    "sampatientbed","sampatientsex","samsamplestatus","samsendtime","saminitiallytime","samsenddoctorname","samdeptname",
+                    "samsendhospital","piedoctorname","parsectioneddoctor","saminitiallyusername","restestresult","myzhnum","tsrsnum","fzblnum"};
+            for(int i=0;i<st.length;i++){
+                Object o = pd[i];
+                map1.put(st[i],o);
+            }
+            list23.add(map1);
+        }
+        ppr.setLogyid("");
         List<Map<String, Object>> list1 = pimsPathologySampleManager.getRztjInfo(ppr);
         List<Map<String, Object>> list2 = pimsPathologySampleManager.getRztj(ppr);
         ppr.setReq_sts("2");
@@ -683,6 +714,10 @@ public class ReportController extends PIMSBaseController{
         List<Map<String, Object>> list16 = pimsPathologySampleManager.getScgzl(ppr);
         List<Map<String, Object>> list17 = pimsPathologySampleManager.getBmgzl(ppr);
         List<Map<String, Object>> list18 = pimsPathologySampleManager.getQpgzl(ppr);
+        List<Map<String, Object>> list19 = pimsPathologySampleManager.getKsgzl(ppr);
+        List<Map<String, Object>> list20 = pimsPathologySampleManager.getTworesults(ppr);
+
+
         //linux下
         File dir = new File(sampleexcelUrl);
         dir.setWritable(true,false);
@@ -695,7 +730,12 @@ public class ReportController extends PIMSBaseController{
         {
             WritableWorkbook wwb = Workbook.createWorkbook(os);
             //创建Excel工作表 指定名称和位置
+            String myzhnum = "无";
+            String tsrsnum = "无";
+            String fzblnum = "无";
+            String sampathologyid = "1";
             for(int j=0;j<ar.length;j++){
+
                 switch (Integer.parseInt(ar[j])){
                     case 1:WritableSheet ws = wwb.createSheet("每日工作统计表",0);
                         Label label = new Label(0, 0, "病种类别");
@@ -720,17 +760,28 @@ public class ReportController extends PIMSBaseController{
                         ws.addCell(label);
                         for(int i=0;i<list1.size();i++){
                             map = (Map)list1.get(i);
-                            label = new Label(0, i+1,  String.valueOf(map.get("sampathologyid")));//病种类别
+                            switch (Integer.parseInt(String.valueOf(map.get("sampathologyid")))){
+                                case 181:sampathologyid="常规病理";break;
+                                case 182:sampathologyid="常规细胞学";break;
+                                case 183:sampathologyid="骨髓细胞学";break;
+                                case 185:sampathologyid="术中冰冻";break;
+                                case 186:sampathologyid="外周血细胞";break;
+                                case 187:sampathologyid="液基细胞学";break;
+                                case 188:sampathologyid="HPV";break;
+                                case 201:sampathologyid="外送TCT";break;
+                                case 222:sampathologyid="HPVE6/E7";break;
+                            }
+                            label = new Label(0, i+1,  sampathologyid);//病种类别
                             ws.addCell(label);
                             label = new Label(1, i+1,  String.valueOf(map.get("samsamplestatus0")));//病理号
                             ws.addCell(label);
                             label = new Label(2, i+1,  String.valueOf(map.get("samsamplestatus1")));//病人姓名
                             ws.addCell(label);
-                            label = new Label(3, i+1,  String.valueOf(map.get("samsamplestatus2")));//年龄
+                            label = new Label(3, i+1,  String.valueOf(map.get("samsamplestatus5")));//年龄
                             ws.addCell(label);
-                            label = new Label(4, i+1,  String.valueOf(map.get("samsamplestatus3")));//住院号
+                            label = new Label(4, i+1,  String.valueOf(map.get("samsamplestatus5")));//住院号
                             ws.addCell(label);
-                            label = new Label(5, i+1,  String.valueOf(map.get("samsamplestatus4")));//床号
+                            label = new Label(5, i+1,  String.valueOf(map.get("samsamplestatus5")));//床号
                             ws.addCell(label);
                             label = new Label(6, i+1,  String.valueOf(map.get("samsamplestatus5")));//性别
                             ws.addCell(label);
@@ -749,11 +800,11 @@ public class ReportController extends PIMSBaseController{
                         ws.addCell(label);
                         label = new Label(2, fn+1,  String.valueOf(map.get("samsamplestatus1")));//病人姓名
                         ws.addCell(label);
-                        label = new Label(3, fn+1,  String.valueOf(map.get("samsamplestatus2")));//年龄
+                        label = new Label(3, fn+1,  String.valueOf(map.get("samsamplestatus5")));//年龄
                         ws.addCell(label);
-                        label = new Label(4, fn+1,  String.valueOf(map.get("samsamplestatus3")));//住院号
+                        label = new Label(4, fn+1,  String.valueOf(map.get("samsamplestatus5")));//住院号
                         ws.addCell(label);
-                        label = new Label(5, fn+1,  String.valueOf(map.get("samsamplestatus4")));//床号
+                        label = new Label(5, fn+1,  String.valueOf(map.get("samsamplestatus5")));//床号
                         ws.addCell(label);
                         label = new Label(6, fn+1,  String.valueOf(map.get("samsamplestatus5")));//性别
                         ws.addCell(label);
@@ -1022,10 +1073,7 @@ public class ReportController extends PIMSBaseController{
                         ws9.addCell(label9);
                         label9 = new Label(19, 0, "分子病理");
                         ws9.addCell(label9);
-                        String samsamplestatus = "已审核";
-                        String myzhnum = "无";
-                        String tsrsnum = "无";
-                        String fzblnum = "无";
+
                         for(int i=0;i<list13.size();i++) {
                             String age = "未知";
                             map = list13.get(i);
@@ -1034,15 +1082,32 @@ public class ReportController extends PIMSBaseController{
                                 case 2:sex="女";
                                 case 3:sex="未知";
                             }
+                            switch (Integer.parseInt(String.valueOf(map.get("samsamplestatus")))){
+                                case 5:sts="已审核";break;
+                                case 6:sts="已发送";break;
+                                case 7:sts="会诊中";break;
+                                case 8:sts="报告已打印";break;
+                            }
+                            switch (Integer.parseInt(String.valueOf(map.get("sampathologyid")))){
+                                case 181:sampathologyid="常规病理";break;
+                                case 182:sampathologyid="常规细胞学";break;
+                                case 183:sampathologyid="骨髓细胞学";break;
+                                case 185:sampathologyid="术中冰冻";break;
+                                case 186:sampathologyid="外周血细胞";break;
+                                case 187:sampathologyid="液基细胞学";break;
+                                case 188:sampathologyid="HPV";break;
+                                case 201:sampathologyid="外送TCT";break;
+                                case 222:sampathologyid="HPVE6/E7";break;
+                            }
                             if(Integer.parseInt(String.valueOf(map.get("myzhnum")))>0){
                                 myzhnum = "有";
-                            }
+                            }else {myzhnum="无";}
                             if(Integer.parseInt(String.valueOf(map.get("tsrsnum")))>0){
                                 tsrsnum = "有";
-                            }
+                            }else {tsrsnum="无";}
                             if(Integer.parseInt(String.valueOf(map.get("fzblnum")))>0){
                                 fzblnum = "有";
-                            }
+                            }else {fzblnum="无";}
                             String cell1 = String.valueOf(map.get("sampatientage")).substring(String.valueOf(map.get("sampatientage")).length() - 1);
                             if(cell1.equals("1")){
                                 cell1="岁";
@@ -1064,7 +1129,7 @@ public class ReportController extends PIMSBaseController{
                                 age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
 
                             }
-                            label9 = new Label(0, i + 1, String.valueOf(map.get("sampathologyid")));//病种类别
+                            label9 = new Label(0, i + 1, sampathologyid);//病种类别
                             ws9.addCell(label9);
                             label9 = new Label(1, i + 1, String.valueOf(map.get("sampathologycode")));//病理号
                             ws9.addCell(label9);
@@ -1078,7 +1143,7 @@ public class ReportController extends PIMSBaseController{
                             ws9.addCell(label9);
                             label9 = new Label(6, i + 1, sex);//性别
                             ws9.addCell(label9);
-                            label9 = new Label(7, i + 1, samsamplestatus);//病理状态
+                            label9 = new Label(7, i + 1, sts);//病理状态
                             ws9.addCell(label9);
                             label9 = new Label(8, i + 1, String.valueOf(map.get("samsendtime")));//送检日期
                             ws9.addCell(label9);
@@ -1177,13 +1242,331 @@ public class ReportController extends PIMSBaseController{
                         ws15.addCell(label15);
                         label15 = new Label(3, 0, "分子病理");
                         ws15.addCell(label15);
+                        for(int i=0;i<list19.size();i++){
+                            map = (Map) list19.get(i);
+                            label15 = new Label(0, i + 1, String.valueOf(map.get("id")));//住院号
+                            ws15.addCell(label15);
+                            label15 = new Label(1, i + 1, String.valueOf(map.get("myzh")));//床号
+                            ws15.addCell(label15);
+                            label15 = new Label(2, i + 1, String.valueOf(map.get("tsrs")));//住院号
+                            ws15.addCell(label15);
+                            label15 = new Label(3, i + 1, String.valueOf(map.get("fzbl")));//床号
+                            ws15.addCell(label15);
+                        }
                     break;
-                    case 8:WritableSheet ws16 = wwb.createSheet("每日工作统计表1",16);
+                    case 8:WritableSheet ws16 = wwb.createSheet("冰冻与常规诊断对照表",16);
+                        Label label16 = new Label(0, 0, "患者姓名");
+                        ws16.addCell(label16);
+                        label16 = new Label(1, 0, "部位");
+                        ws16.addCell(label16);
+                        label16 = new Label(2, 0, "常规病理诊断结果");
+                        ws16.addCell(label16);
+                        label16 = new Label(3, 0, "常规诊断时间");
+                        ws16.addCell(label16);
+                        label16 = new Label(4, 0, "部位");
+                        ws16.addCell(label16);
+                        label16 = new Label(5, 0, "冰冻病理诊断结果");
+                        ws16.addCell(label16);
+                        label16 = new Label(6, 0, "冰冻诊断时间");
+                        ws16.addCell(label16);
+                        for(int i=0;i<list20.size();i++){
+                            map = (Map)list20.get(i);
+                            label16 = new Label(0, i + 1, String.valueOf(map.get("sampatientname1")));//床号
+                            ws16.addCell(label16);
+                            label16 = new Label(1, i + 1, String.valueOf(map.get("samplename2")));//床号
+                                ws16.addCell(label16);
+                            label16 = new Label(2, i + 1, String.valueOf(map.get("restestresult2")));//床号
+                                ws16.addCell(label16);
+                            label16 = new Label(3, i + 1, String.valueOf(map.get("resinputtime2")));//床号
+                                ws16.addCell(label16);
+                            label16 = new Label(4, i + 1, String.valueOf(map.get("samplename1")));//床号
+                                ws16.addCell(label16);
+                            label16 = new Label(5, i + 1, String.valueOf(map.get("restestresult1")));//床号
+                                ws16.addCell(label16);
+                            label16 = new Label(6, i + 1, String.valueOf(map.get("resinputtime1")));//床号
+                                ws16.addCell(label16);
+                        }
                     break;
-//                    case 9:WritableSheet ws8 = wwb.createSheet("每日工作统计表1",8);
-//                    break;
-//                    case 10:WritableSheet ws9 = wwb.createSheet("每日工作统计表1",9);
-//                    break;
+                    case 9:WritableSheet ws17 = wwb.createSheet("报告签收单",17);
+                        Label label17 = new Label(0, 0, "病种类别");
+                        ws17.addCell(label17);
+                        label17 = new Label(1, 0, "病理编号");
+                        ws17.addCell(label17);
+                        label17 = new Label(2, 0, "患者姓名");
+                        ws17.addCell(label17);
+                        label17 = new Label(3, 0, "年龄");
+                        ws17.addCell(label17);
+                        label17 = new Label(4, 0, "住院号");
+                        ws17.addCell(label17);
+                        label17 = new Label(5, 0, "床号");
+                        ws17.addCell(label17);
+                        label17 = new Label(6, 0, "性别");
+                        ws17.addCell(label17);
+                        label17 = new Label(7, 0, "病理状态");
+                        ws17.addCell(label17);
+                        label17 = new Label(8, 0, "送检日期");
+                        ws17.addCell(label17);
+                        label17 = new Label(9, 0, "诊断日期");
+                        ws17.addCell(label17);
+                        label17 = new Label(10, 0, "送检医生");
+                        ws17.addCell(label17);
+                        label17 = new Label(11, 0, "送检科室");
+                        ws17.addCell(label17);
+                        label17 = new Label(12, 0, "送检医院");
+                        ws17.addCell(label17);
+                        label17 = new Label(13, 0, "取材医生");
+                        ws17.addCell(label17);
+                        label17 = new Label(14, 0, "切片医生");
+                        ws17.addCell(label17);
+                        label17 = new Label(15, 0, "诊断医生");
+                        ws17.addCell(label17);
+                        label17 = new Label(16, 0, "病理诊断");
+                        ws17.addCell(label17);
+                        label17 = new Label(17, 0, "免疫组化");
+                        ws17.addCell(label17);
+                        label17 = new Label(18, 0, "特殊染色");
+                        ws17.addCell(label17);
+                        label17 = new Label(19, 0, "分子病理");
+                        ws17.addCell(label17);
+                        for(int i=0;i<list21.size();i++) {
+                            String age = "未知";
+                            map = (Map)list21.get(i);
+                            switch (Integer.parseInt(String.valueOf(map.get("sampatientsex")))){
+                                case 1:sex="男";
+                                case 2:sex="女";
+                                case 3:sex="未知";
+                            }
+                            switch (Integer.parseInt(String.valueOf(map.get("samsamplestatus")))){
+                                case 6:sts="已发送";break;
+                                case 7:sts="会诊中";break;
+                                case 8:sts="报告已打印";break;
+                            }
+                            switch (Integer.parseInt(String.valueOf(map.get("sampathologyid")))){
+                                case 181:sampathologyid="常规病理";break;
+                                case 182:sampathologyid="常规细胞学";break;
+                                case 183:sampathologyid="骨髓细胞学";break;
+                                case 185:sampathologyid="术中冰冻";break;
+                                case 186:sampathologyid="外周血细胞";break;
+                                case 187:sampathologyid="液基细胞学";break;
+                                case 188:sampathologyid="HPV";break;
+                                case 201:sampathologyid="外送TCT";break;
+                                case 222:sampathologyid="HPVE6/E7";break;
+                            }
+                            if(Integer.parseInt(String.valueOf(map.get("myzhnum")))>0){
+                                myzhnum = "有";
+                            }else {myzhnum="无";}
+                            if(Integer.parseInt(String.valueOf(map.get("tsrsnum")))>0){
+                                tsrsnum = "有";
+                            }else {tsrsnum="无";}
+                            if(Integer.parseInt(String.valueOf(map.get("fzblnum")))>0){
+                                fzblnum = "有";
+                            }else {fzblnum="无";}
+                            String cell1 = String.valueOf(map.get("sampatientage")).substring(String.valueOf(map.get("sampatientage")).length() - 1);
+                            if(cell1.equals("1")){
+                                cell1="岁";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+                            }else if(cell1.equals("2")){
+                                cell1="月";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }else if(cell1.equals("4")){
+                                cell1="周";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }else if(cell1.equals("5")){
+                                cell1="日";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }else if(cell1.equals("6")){
+                                cell1="小时";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }
+                            label17 = new Label(0, i + 1, sampathologyid);//病种类别
+                            ws17.addCell(label17);
+                            label17 = new Label(1, i + 1, String.valueOf(map.get("sampathologycode")));//病理号
+                            ws17.addCell(label17);
+                            label17 = new Label(2, i + 1, String.valueOf(map.get("sampatientname")));//病人姓名
+                            ws17.addCell(label17);
+                            label17 = new Label(3, i + 1, age);//年龄
+                            ws17.addCell(label17);
+                            label17 = new Label(4, i + 1, String.valueOf(map.get("sampatientnumber")));//住院号
+                            ws17.addCell(label17);
+                            label17 = new Label(5, i + 1, String.valueOf(map.get("sampatientbed")));//床号
+                            ws17.addCell(label17);
+                            label17 = new Label(6, i + 1, sex);//性别
+                            ws17.addCell(label17);
+                            label17 = new Label(7, i + 1, sts);//病理状态
+                            ws17.addCell(label17);
+                            label17 = new Label(8, i + 1, String.valueOf(map.get("samsendtime")));//送检日期
+                            ws17.addCell(label17);
+                            label17 = new Label(9, i + 1, String.valueOf(map.get("saminitiallytime")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(10, i + 1, String.valueOf(map.get("samsenddoctorname")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(11, i + 1, String.valueOf(map.get("samdeptname")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(12, i + 1, String.valueOf(map.get("samsendhospital")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(13, i + 1, String.valueOf(map.get("piedoctorname")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(14, i + 1, String.valueOf(map.get("parsectioneddoctor")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(15, i + 1, String.valueOf(map.get("saminitiallyusername")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(16, i + 1, String.valueOf(map.get("restestresult")));//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(17, i + 1, myzhnum);//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(18, i + 1, tsrsnum);//诊断日期
+                            ws17.addCell(label17);
+                            label17 = new Label(19, i + 1, fzblnum);//诊断日期
+                            ws17.addCell(label17);
+                        }
+                    break;
+                    case 10:WritableSheet ws18 = wwb.createSheet("报告阳性单",18);
+                        Label label18 = new Label(0, 0, "病种类别");
+                        ws18.addCell(label18);
+                        label18 = new Label(1, 0, "病理编号");
+                        ws18.addCell(label18);
+                        label18 = new Label(2, 0, "患者姓名");
+                        ws18.addCell(label18);
+                        label18 = new Label(3, 0, "年龄");
+                        ws18.addCell(label18);
+                        label18 = new Label(4, 0, "住院号");
+                        ws18.addCell(label18);
+                        label18 = new Label(5, 0, "床号");
+                        ws18.addCell(label18);
+                        label18 = new Label(6, 0, "性别");
+                        ws18.addCell(label18);
+                        label18 = new Label(7, 0, "病理状态");
+                        ws18.addCell(label18);
+                        label18 = new Label(8, 0, "送检日期");
+                        ws18.addCell(label18);
+                        label18 = new Label(9, 0, "诊断日期");
+                        ws18.addCell(label18);
+                        label18 = new Label(10, 0, "送检医生");
+                        ws18.addCell(label18);
+                        label18 = new Label(11, 0, "送检科室");
+                        ws18.addCell(label18);
+                        label18 = new Label(12, 0, "送检医院");
+                        ws18.addCell(label18);
+                        label18 = new Label(13, 0, "取材医生");
+                        ws18.addCell(label18);
+                        label18 = new Label(14, 0, "切片医生");
+                        ws18.addCell(label18);
+                        label18 = new Label(15, 0, "诊断医生");
+                        ws18.addCell(label18);
+                        label18 = new Label(16, 0, "病理诊断");
+                        ws18.addCell(label18);
+                        label18 = new Label(17, 0, "免疫组化");
+                        ws18.addCell(label18);
+                        label18 = new Label(18, 0, "特殊染色");
+                        ws18.addCell(label18);
+                        label18 = new Label(19, 0, "分子病理");
+                        ws18.addCell(label18);
+                        for(int i=0;i<list23.size();i++) {
+                            String age = "未知";
+                            map = (Map)list23.get(i);
+                            switch (Integer.parseInt(String.valueOf(map.get("sampatientsex")))){
+                                case 1:sex="男";
+                                case 2:sex="女";
+                                case 3:sex="未知";
+                            }
+                            switch (Integer.parseInt(String.valueOf(map.get("samsamplestatus")))){
+                                case 0:sts="已登记";break;
+                                case 1:sts="已取材";break;
+                                case 2:sts="已包埋";break;
+                                case 3:sts="已切片";break;
+                                case 4:sts="已初诊";break;
+                                case 5:sts="已审核";break;
+                                case 6:sts="已发送";break;
+                                case 7:sts="会诊中";break;
+                                case 8:sts="报告已打印";break;
+                            }
+                            switch (Integer.parseInt(String.valueOf(map.get("sampathologyid")))){
+                                case 181:sampathologyid="常规病理";break;
+                                case 182:sampathologyid="常规细胞学";break;
+                                case 183:sampathologyid="骨髓细胞学";break;
+                                case 185:sampathologyid="术中冰冻";break;
+                                case 186:sampathologyid="外周血细胞";break;
+                                case 187:sampathologyid="液基细胞学";break;
+                                case 188:sampathologyid="HPV";break;
+                                case 201:sampathologyid="外送TCT";break;
+                                case 222:sampathologyid="HPVE6/E7";break;
+                            }
+                            if(Integer.parseInt(String.valueOf(map.get("myzhnum")))>0){
+                                myzhnum = "有";
+                            }else {myzhnum="无";}
+                            if(Integer.parseInt(String.valueOf(map.get("tsrsnum")))>0){
+                                tsrsnum = "有";
+                            }else {tsrsnum="无";}
+                            if(Integer.parseInt(String.valueOf(map.get("fzblnum")))>0){
+                                fzblnum = "有";
+                            }else {fzblnum="无";}
+                            String cell1 = String.valueOf(map.get("sampatientage")).substring(String.valueOf(map.get("sampatientage")).length() - 1);
+                            if(cell1.equals("1")){
+                                cell1="岁";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+                            }else if(cell1.equals("2")){
+                                cell1="月";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }else if(cell1.equals("4")){
+                                cell1="周";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }else if(cell1.equals("5")){
+                                cell1="日";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }else if(cell1.equals("6")){
+                                cell1="小时";
+                                age = String.valueOf(map.get("sampatientage")).substring(0,String.valueOf(map.get("sampatientage")).length() - 1)+cell1;
+
+                            }
+                            label18 = new Label(0, i + 1, sampathologyid);//病种类别
+                            ws18.addCell(label18);
+                            label18 = new Label(1, i + 1, String.valueOf(map.get("sampathologycode")));//病理号
+                            ws18.addCell(label18);
+                            label18 = new Label(2, i + 1, String.valueOf(map.get("sampatientname")));//病人姓名
+                            ws18.addCell(label18);
+                            label18 = new Label(3, i + 1, age);//年龄
+                            ws18.addCell(label18);
+                            label18 = new Label(4, i + 1, String.valueOf(map.get("sampatientnumber")));//住院号
+                            ws18.addCell(label18);
+                            label18 = new Label(5, i + 1, String.valueOf(map.get("sampatientbed")));//床号
+                            ws18.addCell(label18);
+                            label18 = new Label(6, i + 1, sex);//性别
+                            ws18.addCell(label18);
+                            label18 = new Label(7, i + 1, sts);//病理状态
+                            ws18.addCell(label18);
+                            label18 = new Label(8, i + 1, String.valueOf(map.get("samsendtime")));//送检日期
+                            ws18.addCell(label18);
+                            label18 = new Label(9, i + 1, String.valueOf(map.get("saminitiallytime")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(10, i + 1, String.valueOf(map.get("samsenddoctorname")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(11, i + 1, String.valueOf(map.get("samdeptname")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(12, i + 1, String.valueOf(map.get("samsendhospital")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(13, i + 1, String.valueOf(map.get("piedoctorname")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(14, i + 1, String.valueOf(map.get("parsectioneddoctor")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(15, i + 1, String.valueOf(map.get("saminitiallyusername")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(16, i + 1, String.valueOf(map.get("restestresult")));//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(17, i + 1, myzhnum);//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(18, i + 1, tsrsnum);//诊断日期
+                            ws18.addCell(label18);
+                            label18 = new Label(19, i + 1, fzblnum);//诊断日期
+                            ws18.addCell(label18);
+                        }
+                    break;
 //                    case 11:WritableSheet ws10 = wwb.createSheet("每日工作统计表1",10);
 //                    break;
                 }
