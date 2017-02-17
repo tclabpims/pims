@@ -275,7 +275,7 @@
                         <select id="hospitalname" class="input_style" onchange="fillval('samsendhospitalid','samsendhospital','hospitalname')" style="width: 100%;height: 20px">
                             <%out.print(request.getAttribute("samsendhospital"));%>
                         </select>
-                        <input id="samsendhospital"  name="samsendhospital" datatype="*" style="position:absolute;left:0;top:0;height:20px;width: 88%;border-width:1px;border-right: 0 " class="input_style">
+                        <input id="samsendhospital"  name="samsendhospital" datatype="*" style="position:absolute;left:0;top:0;height:20px;width: 88%;border-width:1px;border-right: 0;top:0;border-color: #d5d5d5 " class="input_style">
                     </div>
                     <div style="clear: both"></div>
                 </div>
@@ -286,7 +286,7 @@
                         <select id="samdeptname1" style="width:100%;height: 20px" onchange="fillval('samdeptcode','samdeptname','samdeptname1')">
                             <%out.print(request.getAttribute("samdeptname"));%>
                         </select>
-                        <input id="samdeptname" name="samdeptname" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                        <input id="samdeptname" name="samdeptname" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0;top:0;border-color: #d5d5d5 " class="input_style">
                     </div>
                     <div style="clear: both"></div>
                 </div>
@@ -297,7 +297,7 @@
                         <select id="samsenddoctorname" style="width:100%;height: 20px" onchange="fillval('samsenddoctorid1','samsenddoctorname1','samsenddoctorname')">
                             <%out.print(request.getAttribute("samsenddoctorname"));%>
                         </select>
-                        <input id="samsenddoctorname1" name="samsenddoctorname1" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                        <input id="samsenddoctorname1" name="samsenddoctorname1" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0;top:0;border-color: #d5d5d5 " class="input_style">
                     </div>
                     <div style="clear: both"></div>
                 </div>
@@ -318,7 +318,7 @@
                         <select id="consponsoredusername" style="width:100%;height: 20px" onchange="fillval('samsenddoctorid2','samsenddoctorname2','consponsoredusername')">
                             <%out.print(request.getAttribute("samsenddoctorname"));%>
                         </select>
-                        <input id="samsenddoctorname2" name="samsenddoctorname2" datatype="*" style="position:absolute;left:00px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                        <input id="samsenddoctorname2" name="samsenddoctorname2" datatype="*" style="position:absolute;left:00px;width: 88%;height:20px;border-width: 1px;border-right: 0;top:0;border-color: #d5d5d5 " class="input_style">
                     </div>
                     <div style="clear: both"></div>
                 </div>
@@ -329,7 +329,7 @@
                         <select id="detdoctorname" style="width:100%;height: 20px" onchange="fillval('samsenddoctorid3','samsenddoctorname3','detdoctorname')">
                             <%out.print(request.getAttribute("samsenddoctorname"));%>
                         </select>
-                        <input id="samsenddoctorname3" name="samsenddoctorname3" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0" class="input_style">
+                        <input id="samsenddoctorname3" name="samsenddoctorname3" datatype="*" style="position:absolute;left:0px;width: 88%;height:20px;border-width: 1px;border-right: 0;top:0;border-color: #d5d5d5 " class="input_style">
                     </div>
                     <div style="clear: both"></div>
                 </div>

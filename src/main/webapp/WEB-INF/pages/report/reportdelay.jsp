@@ -89,7 +89,7 @@
 					<span class="input_style">申&nbsp;请&nbsp;TO:&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<input type="text" class="form_datetime input_style" value="${receivetime}"  id="req_af_time"/>
 					<span class="input_style">&nbsp;病人姓名:&nbsp;</span>
-					<input type="text" class="input_style" id="patient_name"/>
+					<input type="text" class="input_style" id="patient_name" style="width: auto"/>
 					<span class="input_style">&nbsp;送检医院:&nbsp;</span>
 					<input type="text" class="input_style" id="send_hosptail"/>
 					<span class="input_style">&nbsp;申请医生:&nbsp;</span>

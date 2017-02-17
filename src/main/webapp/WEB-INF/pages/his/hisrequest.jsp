@@ -263,7 +263,7 @@
 								<%out.print(request.getAttribute("reqwardname"));%>
 							</select>
 						</span>
-								<input id="reqpatientwardcode"  name="reqpatientwardcode" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style">
+								<input id="reqpatientwardcode"  name="reqpatientwardcode" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5 " class="input_style">
 							</div>
 							<label class="col-sm-1 label_style">科室:</label>
 							<div class="col-sm-2">
@@ -274,7 +274,7 @@
 								<%out.print(request.getAttribute("samdeptname"));%>
 							</select>
 						</span>
-								<input id="reqpatientdeptcode"  name="reqpatientdeptcode" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style">
+								<input id="reqpatientdeptcode"  name="reqpatientdeptcode" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5 " class="input_style">
 							</div>
 						</div>
 						<div class="form-group" style="margin-bottom: 0px;">
@@ -318,7 +318,7 @@
 							<%out.print(request.getAttribute("samsenddoctorname"));%>
 						</select>
 					</span>
-								<input id="reqsecondv"  style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style" >
+								<input id="reqsecondv"  style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5" class="input_style" >
 							</div>
 							<label class="col-sm-1 label_style" name="ssxx">手术电话:</label>
 							<div class="col-sm-2">
@@ -352,7 +352,7 @@
 							<%out.print(request.getAttribute("samjcxm"));%>
 						</select>
 					</span>
-								<input id="reqitemnames"  name="reqitemnames" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style" >
+								<input id="reqitemnames"  name="reqitemnames" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5" class="input_style" >
 							</div>
 							<label class="col-sm-1 label_style" >病种类别:</label>
 							<div class="col-sm-2">
@@ -379,7 +379,7 @@
 							<%out.print(request.getAttribute("samsenddoctorname"));%>
 						</select>
 					</span>
-								<input id="reqdoctorname"  name="reqdoctorname" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style" value="${reqdoctorname1}" >
+								<input id="reqdoctorname"  name="reqdoctorname" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5" class="input_style" value="${reqdoctorname1}" >
 							</div>
 							<label class="col-sm-1 label_style">申请电话:</label>
 							<div class="col-sm-2">
@@ -393,7 +393,7 @@
 							<%out.print(request.getAttribute("samsendhospital"));%>
 						</select>
 					</span>
-								<input id="reqsendhospital"  name="reqsendhospital" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style" value="${reqsendhospital1}">
+								<input id="reqsendhospital"  name="reqsendhospital" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5" class="input_style" value="${reqsendhospital1}">
 							</div>
 						</div>
 						<div class="form-group" style="margin-bottom: 0px">
@@ -406,7 +406,7 @@
 							<%out.print(request.getAttribute("samdeptname"));%>
 						</select>
 					</span>
-								<input id="reqdeptname"  name="reqdeptname" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style" value="${reqdeptname1}">
+								<input id="reqdeptname"  name="reqdeptname" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5" class="input_style" value="${reqdeptname1}">
 							</div>
 							<label class="col-sm-1 label_style">申请病区:</label>
 							<div class="col-sm-2">
@@ -417,7 +417,7 @@
 							<%out.print(request.getAttribute("reqwardname"));%>
 						</select>
 					</span>
-								<input id="reqwardname"  name="reqwardname" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0" class="input_style" value="${reqwardname1}">
+								<input id="reqwardname"  name="reqwardname" datatype="*" style="position:absolute;left:5px;width: 73%;border-width: 1px;border-right: 0;border-color: #d5d5d5" class="input_style" value="${reqwardname1}">
 							</div>
 						</div>
 						<div class="form-group" style="margin-bottom: 0px;">

@@ -47,6 +47,11 @@
 		#gview_templateList{
 			left: 15px;
 		}
+		#templateForm label{
+			display: inline-block;
+			width: 70px;
+			text-align: right;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
@@ -317,7 +322,7 @@
 			<%--<div id="imgContainer"></div>--%>
 		<%--</div>--%>
 	</div>
-	<div style="text-align: left;margin-left:5px;display:none" id="templateForm">
+	<div style="text-align: left;margin-left:5px;display:none;padding-top: 10px" id="templateForm">
 		<div style="text-align: left">
 			<div>
 				<div class="form-group" style="margin-top:5px;display:inline">
@@ -339,17 +344,17 @@
 					<input id="tempinyin" type="text">
 				</div>
 				<div class="form-group" style="margin-top:5px;display:inline">
-					<label class="control-label no-padding-right">五笔码:</label>
+					<label class="control-label no-padding-right">五笔码：</label>
 					<input type="text" checked id="temfivestroke">
 				</div>
 			</div>
 			<div>
 				<div class="form-group" style="margin-top:5px;display:inline">
-					<label class="control-label no-padding-right">简&nbsp;&nbsp;&nbsp; 码：</label>
+					<label class="control-label no-padding-right">简码：</label>
 					<input id="temspellcode" type="text">
 				</div>
 				<div class="form-group" style="margin-top:5px;display:inline">
-					<label class="control-label no-padding-right">排序号:</label>
+					<label class="control-label no-padding-right">排序号：</label>
 					A<select id="FN" name="FN">
 					<option value="0">0</option>
 					<option value="1">1</option>
@@ -390,7 +395,7 @@
 				</div>
 			</div>
 			<div class="form-group" style="margin-top:5px;">
-				<label class="control-label no-padding-right">模板内容：</label>
+				<label class="control-label no-padding-right" style="vertical-align: top">模板内容：</label>
 				<textarea id="temcontent" cols="80" rows="3"></textarea>
 			</div>
 		</div>

@@ -62,7 +62,7 @@
 			width: 25%;
 			padding-left: 15px;
 			float: left;
-
+			margin-right: 0.5%;
 
 		}
 		#sample_id{

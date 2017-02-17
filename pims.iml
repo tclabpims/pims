@@ -181,5 +181,7 @@
     <orderEntry type="library" name="Maven: com.zju:ss_css2:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.zju:pd4ml:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations-java5:15.0" level="project" />
+    <orderEntry type="library" name="fastdfs-client-java-1211" level="project" />
+    <orderEntry type="library" name="axis-1.4" level="project" />
   </component>
 </module>

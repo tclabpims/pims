@@ -234,7 +234,7 @@
     </div>
 </div>
 <div class="row" id="toolbar">
-    <div class="row" id="userGrid" style="display: none;">
+    <div class="row" id="userGrid" style="display: none;margin-right: 0">
         <div class="col-xs-12">
             <table id="sectionList3"></table>
             <div id="pager3"></div>
