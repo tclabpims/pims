@@ -12,7 +12,9 @@ import org.hibernate.criterion.Property;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/9/28.
@@ -62,5 +64,17 @@ public class PimsSysPathologyDaoHibernate extends GenericDaoHibernate<PimsSysPat
         StringBuffer sb = new StringBuffer();
         sb.append(" from PimsSysPathology where pathologyid="+pathologyId);
         return (PimsSysPathology)getSession().createQuery(sb.toString()).uniqueResult();
+    }
+
+    @Override
+    public Map<Long, PimsSysPathology> getPspMap(String sampleids) {
+        Map<Long, PimsSysPathology> map = new HashMap<>();
+        StringBuffer sb = new StringBuffer();
+        sb.append(" from PimsSysPathology where pathologyid in ("+sampleids+")");
+        List<PimsSysPathology> pspList = getSession().createQuery(sb.toString()).list();
+        for(PimsSysPathology psp:pspList){
+            map.put(psp.getPathologyid(),psp);
+        }
+        return map;
     }
 }

@@ -357,4 +357,9 @@ public class PimsPathologySampleManagerImpl extends GenericManagerImpl<PimsPatho
         String[] st = {"restestresult1","samplename1","sampatientname1","sampatientid1","sampleid1","ressampleid1","resinputtime1","restestresult2","samplename2","sampatientname2","sampatientid2","sampleid2","ressampleid2","resinputtime2"};
         return ChangeList(st,list);
     }
+
+    @Override
+    public Map<Long, PimsPathologySample> getSampleMap(String sampleids) {
+        return pimsPathologySampleDao.getSampleMap(sampleids);
+    }
 }

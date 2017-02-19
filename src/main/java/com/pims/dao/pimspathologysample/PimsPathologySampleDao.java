@@ -7,6 +7,7 @@ import com.pims.model.PimsSysColor;
 import com.pims.webapp.controller.GridQuery;
 import com.smart.dao.GenericDao;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by king on 2016/10/10.
@@ -180,4 +181,6 @@ public interface PimsPathologySampleDao extends GenericDao<PimsPathologySample,L
      * 术中冰冻结果表
      */
     List getTworesults(PimsBaseModel map);
+
+    Map<Long,PimsPathologySample> getSampleMap(String sampleids);
 }

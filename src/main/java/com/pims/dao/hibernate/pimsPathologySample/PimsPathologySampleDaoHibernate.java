@@ -18,9 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by king on 2016/10/10.
@@ -1003,6 +1001,18 @@ public class PimsPathologySampleDaoHibernate extends GenericDaoHibernate<PimsPat
         }
         sql.append(" order by i.resinputtime1");
         return pagingList(sql.toString(),map.getReq_bf_time(),map.getReq_af_time());
+    }
+
+    @Override
+    public Map<Long, PimsPathologySample> getSampleMap(String sampleids) {
+        Map<Long, PimsPathologySample> map = new HashMap<>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("  from PimsPathologySample where sampleid in ("+sampleids+")");
+        List<PimsPathologySample> sampleList = getSession().createQuery(sb.toString()).list();
+        for(PimsPathologySample sample:sampleList){
+            map.put(sample.getSampleid(),sample);
+        }
+        return map;
     }
 }
 

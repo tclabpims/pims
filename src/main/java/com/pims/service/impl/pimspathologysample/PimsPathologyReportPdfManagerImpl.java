@@ -7,6 +7,9 @@ import com.smart.service.impl.GenericManagerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Created by king on 2016/10/10.
@@ -28,5 +31,10 @@ public class PimsPathologyReportPdfManagerImpl extends GenericManagerImpl<PimsPa
     @Override
     public boolean deletePDF(Long sampleid) {
         return pimsPathologyReportPdfDao.deletePDF(sampleid);
+    }
+
+    @Override
+    public Map<Long,PimsPathologyReportPdf> getPDFList(String sampleids) {
+        return pimsPathologyReportPdfDao.getPDFList(sampleids);
     }
 }

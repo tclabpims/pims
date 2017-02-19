@@ -3,6 +3,9 @@ package com.pims.service.pimspathologysample;
 import com.pims.model.PimsPathologyReportPdf;
 import com.smart.service.GenericManager;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by king on 2016/10/10.
  */
@@ -17,6 +20,8 @@ public interface PimsPathologyReportPdfManager extends GenericManager<PimsPathol
      * 删除PDF 报告
      */
     boolean deletePDF(Long sampleid);
+
+    Map<Long,PimsPathologyReportPdf> getPDFList(String sampleids);
 
 
 }

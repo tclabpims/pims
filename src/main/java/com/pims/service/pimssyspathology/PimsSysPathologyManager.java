@@ -6,6 +6,7 @@ import com.pims.webapp.controller.GridQuery;
 import com.smart.service.GenericManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/9/28.
@@ -20,4 +21,6 @@ public interface PimsSysPathologyManager extends GenericManager<PimsSysPathology
     JSONArray getPathologyType();
 
     PimsSysPathology getSysPathologyById(long pathologyId);
+
+    Map<Long,PimsSysPathology> getPspMap(String sampleids);
 }

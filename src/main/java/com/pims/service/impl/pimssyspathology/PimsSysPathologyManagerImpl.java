@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 909436637@qq.com on 2016/9/28.
@@ -76,5 +77,10 @@ public class PimsSysPathologyManagerImpl extends GenericManagerImpl<PimsSysPatho
     @Override
     public PimsSysPathology getSysPathologyById(long pathologyId) {
         return pimsSysPathologyDao.getSysPathologyById(pathologyId);
+    }
+
+    @Override
+    public Map<Long, PimsSysPathology> getPspMap(String sampleids) {
+        return pimsSysPathologyDao.getPspMap(sampleids);
     }
 }

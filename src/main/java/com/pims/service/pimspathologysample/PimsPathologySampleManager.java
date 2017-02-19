@@ -187,4 +187,6 @@ public interface PimsPathologySampleManager extends GenericManager<PimsPathology
      * 术中冰冻结果表
      */
     List getTworesults(PimsBaseModel map);
+
+    Map<Long,PimsPathologySample> getSampleMap(String sampleids);
 }

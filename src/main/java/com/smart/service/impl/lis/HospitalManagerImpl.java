@@ -10,6 +10,7 @@ import com.smart.service.impl.GenericManagerImpl;
 import com.smart.service.lis.HospitalManager;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("hospitalManager")
 public class HospitalManagerImpl extends GenericManagerImpl<Hospital, Long> implements HospitalManager {
@@ -37,5 +38,10 @@ public class HospitalManagerImpl extends GenericManagerImpl<Hospital, Long> impl
 		StringBuilder hql = new StringBuilder("select count(1) cnt from lab_hospital psp");
 
 		return hospitalDao.countTotal(hql.toString());
+	}
+
+	@Override
+	public Map<Long, Hospital> getHosMap(String sampleids) {
+		return hospitalDao.getHosMap(sampleids);
 	}
 }

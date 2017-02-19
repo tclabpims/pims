@@ -11,6 +11,7 @@ import com.pims.util.PDFWebService;
 import com.smart.model.lis.Hospital;
 import com.smart.service.lis.HospitalManager;
 import com.smart.webapp.util.TestTubeUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,8 +170,26 @@ public class PDFReportToLib {
         final PDFWebService webService = new PDFWebService();
         try {
             FastDFSClient client = new FastDFSClient(TestTubeUtil.class.getClassLoader().getResource("fdfs_client.conf").getFile());
+            String sampleids = "";
+            String sampaths = "";
+            String samcus = "";
             for(SamplePdfTask task : sampleList) {
-                    PimsPathologyReportPdf pprp = pimsPathologyReportPdfManager.getPdfBySampleId(task.getTasksampleid());
+                sampleids += task.getTasksampleid() + ",";
+            }
+            if(!StringUtils.isEmpty(sampleids)){
+                sampleids = sampleids.substring(0,sampleids.length()-1);
+                Map<Long,PimsPathologyReportPdf> pdfmap = pimsPathologyReportPdfManager.getPDFList(sampleids);
+                Map<Long,PimsPathologySample> samplemap = pimsPathologySampleManager.getSampleMap(sampleids);
+                for(PimsPathologySample pps:samplemap.values()){
+                    sampaths += pps.getSampathologyid() + ",";
+                    samcus += pps.getSamcustomerid() + ",";
+                }
+                sampaths = sampaths.substring(0,sampaths.length()-1);
+                samcus = samcus.substring(0,samcus.length()-1);
+                Map<Long, PimsSysPathology> pspmap = pimsSysPathologyManager.getPspMap(sampaths);
+                Map<Long, Hospital> hosmap = hospitalManager.getHosMap(samcus);
+                for(SamplePdfTask task : sampleList){
+                    PimsPathologyReportPdf pprp = pdfmap.get(task.getTasksampleid());
                     if (pprp == null) {
                         task.setTaskstates(3);
                         task.setTaskfirstd(new Date());
@@ -178,20 +197,15 @@ public class PDFReportToLib {
                         continue;
                     }
                     String uploadFile = client.uploadFile(pprp.getPdffilesavepath()+ File.separator + pprp.getPdffilename(), "pdf");
-                    System.out.println("uploadFile======"+ uploadFile);
-    //                                String uploadFile = "1";
-
-                    PimsPathologySample sample = pimsPathologySampleManager.getBySampleNo(task.getTasksampleid());
-                    PimsSysPathology psp = pimsSysPathologyManager.getSysPathologyById(sample.getSampathologyid());
-                    Hospital hos = hospitalManager.get(sample.getSamcustomerid());
+                    PimsPathologySample sample = samplemap.get(task.getTasksampleid());
+                    PimsSysPathology psp = pspmap.get(sample.getSampathologyid());
+                    Hospital hos = hosmap.get(sample.getSamcustomerid());
                     int patClass = Integer.parseInt(psp.getPatclass());
                     Map<String, String> resultMap = new HashMap<String, String>();
                     if(patClass == 2) {
                         resultMap = pimsSampleResultManager.getYjxbDiagnosisResult(sample.getSampleid());
-    //                                    zdjg = resultMap.get("diagnosisResult");
                     } else if(patClass == 7) {
                         resultMap = pimsSampleResultManager.getHPVTestResult(sample.getSampleid());
-    //                                    zdjg = resultMap.get("diagnosisResult");
                     }else {
                         PimsSampleResult result = pimsSampleResultManager.getSampleResultForPrint(sample.getSampleid());
                         resultMap.put("diagnosisResult",result == null ? "" : result.getRestestresult());
@@ -205,11 +219,10 @@ public class PDFReportToLib {
                         samplePdfTaskManager.save(task);
                     }else{
                         task.setTaskstates(0);
-    //                                    task.setTaskresult(sendSuccess.get("Message").toString());
                         task.setTaskfirstd(new Date());
                         samplePdfTaskManager.save(task);
                     }
-
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
