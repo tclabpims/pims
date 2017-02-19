@@ -68,8 +68,9 @@
                      },
                      function (data) {
                        var result =  parent.childselect(checkvale,nowshow);
-                         if(checkvale == "false" && result > 0){
-                              $("#nowsampleid").val(result);
+                         if(checkvale == "false" && result != 0){
+                             $("#sampinfo").html("病理编号:"+ result.sampathologycode + " 病人姓名:"+result.sampatientname);
+                              $("#nowsampleid").val(result.sampleid);
                               $("#nowshow").val(nowshow+1);
                          }
              });
@@ -86,6 +87,7 @@
         <div>
             <input type="checkbox" id="continuousBox"><span style="font-size: 14px">连拍</span></input>
             <button id="snap">拍照</button>
+            <span id="sampinfo"style="font-size: 14px">病理编号:${sampathologycode} 病人姓名:${sampatientname}</span>
         </div>
         <div class="container">
         <video id="video" width="560px" height="420px" style="margin-top: 0px;margin-bottom: 0px"></video>

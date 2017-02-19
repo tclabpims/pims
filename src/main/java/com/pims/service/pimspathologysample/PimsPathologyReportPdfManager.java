@@ -17,4 +17,6 @@ public interface PimsPathologyReportPdfManager extends GenericManager<PimsPathol
      * 删除PDF 报告
      */
     boolean deletePDF(Long sampleid);
+
+
 }

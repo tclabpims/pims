@@ -31,7 +31,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
 
     @Override
     public List getOrders(GridQuery gridQuery, String specialCheck, String pathologyCode, String startDate, String endDate, String patientName, String orderState, String ingore) {
-        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,t.tesenglishname ");
+        StringBuilder builder = new StringBuilder("select o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,t.tesenglishname,s.sampathologycode ");
         builder.append("from PIMS_PATHOLOGY_ORDER o, PIMS_PATHOLOGY_ORDER_CHILD c, Pims_Pathology_Sample s,PIMS_SYS_REQ_TESTITEM t where ");
         builder.append("O.Orderid=C.Chiorderid and c.ChiSampleId=s.sampleid and t.testitemid=c.testItemId ");
         if(ingore != null ) {
@@ -59,7 +59,7 @@ public class PimsPathologyOrderDaoHibernate extends GenericDaoHibernate<PimsPath
         if(StringUtils.isNotEmpty(orderState)) {
             builder.append(" and c.ChiOrderState =:orderState ");
         }
-        builder.append(" group by o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,t.tesenglishname");
+        builder.append(" group by o.OrderId,o.OrderCode,o.OrdSampleId,o.OrdCustomerId,o.OrdPathologyCode,o.OrdOrderUser,t.teschinesename,c.ChiOrderState,s.SamPathologyId,t.tesenglishname,s.sampathologycode");
         builder.append(" order by o.orderid desc");
 
         SQLQuery query = getSession().createSQLQuery(builder.toString());

@@ -296,7 +296,7 @@
 					</h5>
 				</div>
 				<div class="widget-main no-padding">
-					<textarea id="samjjsj" style="width: 100%;height: 90px"></textarea>
+					<textarea id="samjjsj" style="width: 100%;height: 50px"></textarea>
 				</div>
 				<div style="margin-top: 14px;height:1px;background-color: #108CCF;"></div>
 				<div class="widget-main no-padding">

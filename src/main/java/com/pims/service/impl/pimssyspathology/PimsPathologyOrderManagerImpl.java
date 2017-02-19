@@ -48,6 +48,7 @@ public class PimsPathologyOrderManagerImpl extends GenericManagerImpl<PimsPathol
                 map.put("chiOrderState", row[7]);
                 map.put("samPathologyId", row[8]);
                 map.put("tesenglishname", row[9]);
+                map.put("sampathologycode", row[10]);
                 lis.add(map);
             }
         }

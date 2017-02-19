@@ -17,6 +17,8 @@ var PIC_TAKING_FROM = 2;
 var targetTextareaId;
 var GRID_SELECTED_ROW_SAMPLEID;
 var GRID_SELECTED_ROW_SAMPCUSTOMERID;
+var LASTEDITROW1 = "";
+var LASTEDITCELL1 = "";
 
 var MMMROW;
 
@@ -178,6 +180,7 @@ function saveDiagnosisInfo() {
 }
 
 function takingPicture() {
+    var rowData = $("#sectionList").jqGrid('getRowData', crno);
     layer.open({
         type: 2,
         title: '病理诊断>图像采集',
@@ -186,7 +189,8 @@ function takingPicture() {
         closeBtn: false,
         maxmin: false, //开启最大化最小化按钮
         area: ['640px', '540px'],
-        content: ["../diagnosis/camera?sampleId="+GRID_SELECTED_ROW_SAMPLEID +"&customerId="+ GRID_SELECTED_ROW_SAMPCUSTOMERID+"&nowshowrow="+crno],
+        content: ["../diagnosis/camera?sampleId="+GRID_SELECTED_ROW_SAMPLEID +"&customerId="+ GRID_SELECTED_ROW_SAMPCUSTOMERID+"&nowshowrow="+crno
+        +"&sampathologycode="+rowData.sampathologycode+"&sampatientname="+rowData.sampatientname],
         btn: ["关闭"],
         yes: function (index, layero) {
             //swfobject.removeSWF("Main");
@@ -1109,6 +1113,7 @@ function initItemList(n, sampleId, testItemId) {
 }
 
 function saveResult(n) {
+    $("#" + n).jqGrid("saveCell",LASTEDITROW1,LASTEDITCELL1);
     var selrows = $("#" + n).jqGrid('getGridParam', 'selarrrow');
     if (selrows == null || selrows.length == 0) {
         layer.alert("请先选择要保存的数据！");
@@ -3264,7 +3269,8 @@ function childselect(checkvale,num) {
             // $("#nowsampleid").val(rowData.sampleid);
             // $("#nowshow").val(num+1)
             onRowSelect(num+1);
-            return rowData.sampleid;
+            // return rowData.sampleid;
+            return rowData;
         }else{
             onRowSelect(num);
             return 0;
@@ -3430,6 +3436,11 @@ $(function () {
             {name: 'chenameen', index: 'chenameen', hidden: true},
             {name: 'cheischarge', index: 'cheischarge', hidden: true}
         ],
+        beforeEditCell:function(rowid,cellname,v,iRow,iCol){
+            //canChange(rowid,1);
+            LASTEDITROW1 = iRow;
+            LASTEDITCELL1 = iCol;
+        },
         multiselect: true,
         shrinkToFit: true,
         scrollOffset: 2,
@@ -3465,6 +3476,11 @@ $(function () {
             {name: 'chenameen', index: 'chenameen', hidden: true},
             {name: 'cheischarge', index: 'cheischarge', hidden: true}
         ],
+        beforeEditCell:function(rowid,cellname,v,iRow,iCol){
+            //canChange(rowid,1);
+            LASTEDITROW1 = iRow;
+            LASTEDITCELL1 = iCol;
+        },
         multiselect: true,
         shrinkToFit: true,
         scrollOffset: 2,
@@ -3500,6 +3516,11 @@ $(function () {
             {name: 'chenameen', index: 'chenameen', hidden: true},
             {name: 'cheischarge', index: 'cheischarge', hidden: true}
         ],
+        beforeEditCell:function(rowid,cellname,v,iRow,iCol){
+            //canChange(rowid,1);
+            LASTEDITROW1 = iRow;
+            LASTEDITCELL1 = iCol;
+        },
         multiselect: true,
         shrinkToFit: true,
         scrollOffset: 2,

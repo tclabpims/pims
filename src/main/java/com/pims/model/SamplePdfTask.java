@@ -21,7 +21,7 @@ public class SamplePdfTask {
     private String taskthirdv;
     private Date taskfirstd;
     private Date tasksecondd;
-    private Boolean taskfirstn;
+    private int taskfirstn;
 
     @Id
     @Column(name = "TASKID")
@@ -147,11 +147,11 @@ public class SamplePdfTask {
 
     @Basic
     @Column(name = "TASKFIRSTN")
-    public Boolean getTaskfirstn() {
+    public int getTaskfirstn() {
         return taskfirstn;
     }
 
-    public void setTaskfirstn(Boolean taskfirstn) {
+    public void setTaskfirstn(int taskfirstn) {
         this.taskfirstn = taskfirstn;
     }
 
@@ -164,7 +164,7 @@ public class SamplePdfTask {
 
         if (taskid != that.taskid) return false;
         if (tasksampleid != that.tasksampleid) return false;
-        if (taskstates != that.tasksampleid) return false;
+        if (taskstates != that.taskstates) return false;
         if (taskurl != null ? !taskurl.equals(that.taskurl) : that.taskurl != null) return false;
         if (taskresult != null ? !taskresult.equals(that.taskresult) : that.taskresult != null) return false;
         if (taskcreatetime != null ? !taskcreatetime.equals(that.taskcreatetime) : that.taskcreatetime != null)
@@ -176,7 +176,7 @@ public class SamplePdfTask {
         if (taskthirdv != null ? !taskthirdv.equals(that.taskthirdv) : that.taskthirdv != null) return false;
         if (taskfirstd != null ? !taskfirstd.equals(that.taskfirstd) : that.taskfirstd != null) return false;
         if (tasksecondd != null ? !tasksecondd.equals(that.tasksecondd) : that.tasksecondd != null) return false;
-        if (taskfirstn != null ? !taskfirstn.equals(that.taskfirstn) : that.taskfirstn != null) return false;
+        if (taskfirstn != that.taskfirstn) return false;
 
         return true;
     }
@@ -195,7 +195,7 @@ public class SamplePdfTask {
         result = 31 * result + (taskthirdv != null ? taskthirdv.hashCode() : 0);
         result = 31 * result + (taskfirstd != null ? taskfirstd.hashCode() : 0);
         result = 31 * result + (tasksecondd != null ? tasksecondd.hashCode() : 0);
-        result = 31 * result + (taskfirstn != null ? taskfirstn.hashCode() : 0);
+        result = 31 * result + (taskfirstn ^ (taskfirstn >>> 32));
         return result;
     }
 }

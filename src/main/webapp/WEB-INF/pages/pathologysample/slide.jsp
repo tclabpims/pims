@@ -215,4 +215,7 @@
 			</form>
 		</div>
 	</div>
+	<div id="slidepinfo" style="display:none;" class="col-sm-12">
+
+	</div>
 </body>

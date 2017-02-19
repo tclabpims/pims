@@ -524,6 +524,7 @@ function addRow(){
 		piefirstn:""//补取医嘱
 	};
 	$("#new1").jqGrid("addRowData", maxId, dataRow, "last");
+	$("#new1 tr:last").focus();
 }
 function delRow(){
 	var selectedIds = $("#new1").jqGrid("getGridParam","selarrrow");

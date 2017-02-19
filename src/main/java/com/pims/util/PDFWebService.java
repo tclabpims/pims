@@ -30,6 +30,7 @@ import javax.xml.namespace.QName;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -234,125 +235,165 @@ public class PDFWebService {
      * @param hos
      * @return
      */
-    public boolean reportLib(PimsPathologySample sample, Map<String,String> resultMap, String uploadFile,PimsSysPathology psp,Hospital hos) {
+    public Map reportLib(PimsPathologySample sample, Map<String,String> resultMap, String uploadFile,PimsSysPathology psp,Hospital hos,SamplePdfTask task) {
+        Map map = new HashMap();
         boolean flag = false;
         try {
             HttpClient httpClient = new HttpClient();
-            httpClient.getHostConfiguration().setHost(reportLibUrl + "report/saveReportLibInfo");
-            PostMethod method = new PostMethod(reportLibUrl + "report/saveReportLibInfo");
-            JSONObject libSampleInfo = new JSONObject();
+            if(task.getTaskfirstn() == 1){//增加
+                HttpClient httpClient1 = new HttpClient();
+                httpClient1.getHostConfiguration().setHost(reportLibUrl + "report/deleteReportLibInfo/");
+                PostMethod method1 = new PostMethod(reportLibUrl + "report/deleteReportLibInfo/");
+                JSONObject reportLibInfos = new JSONObject();
+                reportLibInfos.put("barCode", sample.getSaminspectionid());
+                reportLibInfos.put("reportType", "2");
+                RequestEntity requestEntity1 = new StringRequestEntity(reportLibInfos.toString(), "application/json", "UTF-8");
+                method1.setRequestEntity(requestEntity1);
+                method1.releaseConnection();
+                httpClient1.executeMethod(method1);
+                httpClient1.getHttpConnectionManager().closeIdleConnections(0);
 
-            //样本信息
-            libSampleInfo.put("barcode", sample.getSaminspectionid());//实验室条码信息
-            libSampleInfo.put("customid", sample.getSamcustomerid());//客户ID
-            libSampleInfo.put("age", sample.getSampatientage());//病人年龄
-            libSampleInfo.put("birthday", "");//出生日期
-            libSampleInfo.put("tester", sample.getSaminitiallyusername());//检验者
-            libSampleInfo.put("cycle", 0);//生理周期
-            libSampleInfo.put("departBed", sample.getSampatientbed());//病床号
-            libSampleInfo.put("description", "");//描述
-            libSampleInfo.put("diagnostic", sample.getSampatientdignoses());//病人诊断
-            libSampleInfo.put("fee", 0);//价格
-            libSampleInfo.put("hossection", sample.getSamdeptname());//在院科室名称
-            libSampleInfo.put("inspectionname", sample.getSamjcxm());//检验目的名称
-            libSampleInfo.put("part", sample.getSamsamplename());//采集部位
-            libSampleInfo.put("patientid", sample.getSampatientnumber());//病人就诊号
-            libSampleInfo.put("patientblh", sample.getSampatientid());//病人唯一号
-            libSampleInfo.put("patientname", sample.getSampatientname());//病人姓名
-            libSampleInfo.put("sampleno", sample.getSampathologycode());//样本编号
-            libSampleInfo.put("samplestatus", sample.getSamsamplestatus());//样本状态
-            libSampleInfo.put("sampletype", psp.getPatnamech());//样本类型名称
-            libSampleInfo.put("labdepartment", "病理科");//实验室部门名称
-            libSampleInfo.put("sex", sample.getSampatientsex()==1?"男":"女");//病人性别
-            String hosmode = "";
-            if(sample.getSampatienttype()==1){
-                hosmode = "住院";
-            }else if(sample.getSampatienttype()==2){
-                hosmode = "门诊";
-            }else if(sample.getSampatienttype()==3){
-                hosmode = "体检";
-            }else if(sample.getSampatienttype()==4){
-                hosmode = "婚检";
-            }else if(sample.getSampatienttype()==5){
-                hosmode = "科研";
-            }else if(sample.getSampatienttype()==6){
-                hosmode = "特勤";
-            }else if(sample.getSampatienttype()==7){
-                hosmode = "其他";
-            }
-            libSampleInfo.put("stayhospitalmode", hosmode);//在院方式
-            libSampleInfo.put("inspectionid", sample.getSampopuser());//检验目的序号
-            String agetype = "";
-            if(sample.getSampatientagetype() == 1){
-                agetype = "岁";
-            }else if(sample.getSampatientagetype() == 2){
-                agetype = "月";
-            }else if(sample.getSampatientagetype() == 4){
-                agetype = "周";
-            }else if(sample.getSampatientagetype() == 5){
-                agetype = "日";
-            }else if(sample.getSampatientagetype() == 6){
-                agetype = "小时";
-            }
-            libSampleInfo.put("ageunit", agetype);//年龄类型，年、月、周、天
-            libSampleInfo.put("customname", hos.getName());//客户名称
-            libSampleInfo.put("reporturl", uploadFile);//
-            libSampleInfo.put("preBarcode", sample.getSaminspectionid());//预制条码
-            libSampleInfo.put("customBarcode", "");//第三方客户条码
-            libSampleInfo.put("patientIdNumber", "");//身份证号
-            libSampleInfo.put("patientAddress", sample.getSampatientaddress());//病人地址
-            libSampleInfo.put("patientPhone", sample.getSampatientphoneno());//病人联系方式
-            libSampleInfo.put("reportType", 2);
+                httpClient.getHostConfiguration().setHost(reportLibUrl + "report/saveReportLibInfo2");
+                PostMethod method = new PostMethod(reportLibUrl + "report/saveReportLibInfo2");
+                JSONObject libSampleInfo = new JSONObject();
 
-            libSampleInfo.put("checkoperator", sample.getSamauditer());//审核医生
-            libSampleInfo.put("checktime", ConvertUtil.getFormatDateGMT(sample.getSamreportedtime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//审核时间
-            libSampleInfo.put("executor", sample.getSamregistername());//采样者
-            libSampleInfo.put("executetime", ConvertUtil.getFormatDateGMT(sample.getSamregisttime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//采样时间
-            libSampleInfo.put("ksreceiver", sample.getSamregistername());//实验室接收者
-            libSampleInfo.put("ksreceivetime", ConvertUtil.getFormatDateGMT(sample.getSamregisttime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//实验室接收时间
-            libSampleInfo.put("receiver", sample.getSamregistername());//接受者
-            libSampleInfo.put("receivetime", ConvertUtil.getFormatDateGMT(sample.getSamregisttime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//接收时间
-            libSampleInfo.put("requester", sample.getSaminitiallyusername());//开单医生
-            libSampleInfo.put("requesttime", ConvertUtil.getFormatDateGMT(sample.getSaminitiallytime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//开单时间
-            libSampleInfo.put("sender", sample.getSaminitiallyusername());//标本送出者
-            libSampleInfo.put("sendtime", ConvertUtil.getFormatDateGMT(sample.getSaminitiallytime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//标本送出时间
+                //样本信息
+                libSampleInfo.put("barcode", sample.getSaminspectionid());//实验室条码信息
+                libSampleInfo.put("customid", sample.getSamcustomerid());//客户ID
+                libSampleInfo.put("age", sample.getSampatientage());//病人年龄
+                libSampleInfo.put("birthday", "");//出生日期
+                libSampleInfo.put("tester", sample.getSaminitiallyusername());//检验者
+                libSampleInfo.put("cycle", 0);//生理周期
+                libSampleInfo.put("departBed", sample.getSampatientbed());//病床号
+                libSampleInfo.put("description", "");//描述
+                libSampleInfo.put("diagnostic", sample.getSampatientdignoses());//病人诊断
+                libSampleInfo.put("fee", 0);//价格
+                libSampleInfo.put("hossection", sample.getSamdeptname());//在院科室名称
+                libSampleInfo.put("inspectionname", sample.getSamjcxm());//检验目的名称
+                libSampleInfo.put("part", sample.getSamsamplename());//采集部位
+                libSampleInfo.put("patientid", sample.getSampatientnumber());//病人就诊号
+                libSampleInfo.put("patientblh", sample.getSampatientid());//病人唯一号
+                libSampleInfo.put("patientname", sample.getSampatientname());//病人姓名
+                libSampleInfo.put("sampleno", sample.getSampathologycode());//样本编号
+                libSampleInfo.put("samplestatus", sample.getSamsamplestatus());//样本状态
+                libSampleInfo.put("sampletype", psp.getPatnamech());//样本类型名称
+                libSampleInfo.put("labdepartment", "病理科");//实验室部门名称
+                libSampleInfo.put("sex", sample.getSampatientsex()==1?"男":"女");//病人性别
+                String hosmode = "";
+                if(sample.getSampatienttype()==1){
+                    hosmode = "住院";
+                }else if(sample.getSampatienttype()==2){
+                    hosmode = "门诊";
+                }else if(sample.getSampatienttype()==3){
+                    hosmode = "体检";
+                }else if(sample.getSampatienttype()==4){
+                    hosmode = "婚检";
+                }else if(sample.getSampatienttype()==5){
+                    hosmode = "科研";
+                }else if(sample.getSampatienttype()==6){
+                    hosmode = "特勤";
+                }else if(sample.getSampatienttype()==7){
+                    hosmode = "其他";
+                }
+                libSampleInfo.put("stayhospitalmode", hosmode);//在院方式
+                libSampleInfo.put("inspectionid", sample.getSampopuser());//检验目的序号
+                String agetype = "";
+                if(sample.getSampatientagetype() == 1){
+                    agetype = "岁";
+                }else if(sample.getSampatientagetype() == 2){
+                    agetype = "月";
+                }else if(sample.getSampatientagetype() == 4){
+                    agetype = "周";
+                }else if(sample.getSampatientagetype() == 5){
+                    agetype = "日";
+                }else if(sample.getSampatientagetype() == 6){
+                    agetype = "小时";
+                }
+                libSampleInfo.put("ageunit", agetype);//年龄类型，年、月、周、天
+                libSampleInfo.put("customname", hos.getName());//客户名称
+                libSampleInfo.put("reporturl", uploadFile);//
+                libSampleInfo.put("preBarcode", sample.getSaminspectionid());//预制条码
+                libSampleInfo.put("customBarcode", "");//第三方客户条码
+                libSampleInfo.put("patientIdNumber", "");//身份证号
+                libSampleInfo.put("patientAddress", sample.getSampatientaddress());//病人地址
+                libSampleInfo.put("patientPhone", sample.getSampatientphoneno());//病人联系方式
+                libSampleInfo.put("reportType", 2);
 
-            //结果信息
-            JSONArray libTestResult = new JSONArray();
-            JSONObject object = new JSONObject();
-            object.put("barcode", sample.getSaminspectionid());//条码号
-            object.put("customid", String.valueOf(sample.getSamcustomerid()));//客户代码
-            object.put("customname", hos.getName());//客户名称
-            object.put("sampleno", sample.getSampathologycode());//样本编号(病理编号)
-            object.put("viewresult", "");//大体所见
-            object.put("diagnosis", resultMap.get("diagnosisResult").replaceAll("<br>"," "));//诊断结果
-            object.put("createtime", ConvertUtil.getFormatDateGMT(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//上传时间
-            object.put("rev1", "");//
-            object.put("rev2", "");//
-            libTestResult.put(object);
-            JSONObject reportLibInfo = new JSONObject();
-            reportLibInfo.put("sampleInfo", libSampleInfo);
-            reportLibInfo.put("pathologyResultInfoList", libTestResult);
-            RequestEntity requestEntity = new StringRequestEntity(reportLibInfo.toString(), "application/json", "UTF-8");
-            method.setRequestEntity(requestEntity);
-            method.releaseConnection();
+                libSampleInfo.put("checkoperator", sample.getSamauditer());//审核医生
+                libSampleInfo.put("checktime", ConvertUtil.getFormatDateGMT(sample.getSamreportedtime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//审核时间
+                libSampleInfo.put("executor", sample.getSamregistername());//采样者
+                libSampleInfo.put("executetime", ConvertUtil.getFormatDateGMT(sample.getSamregisttime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//采样时间
+                libSampleInfo.put("ksreceiver", sample.getSamregistername());//实验室接收者
+                libSampleInfo.put("ksreceivetime", ConvertUtil.getFormatDateGMT(sample.getSamregisttime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//实验室接收时间
+                libSampleInfo.put("receiver", sample.getSamregistername());//接受者
+                libSampleInfo.put("receivetime", ConvertUtil.getFormatDateGMT(sample.getSamregisttime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//接收时间
+                libSampleInfo.put("requester", sample.getSaminitiallyusername());//开单医生
+                libSampleInfo.put("requesttime", ConvertUtil.getFormatDateGMT(sample.getSaminitiallytime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//开单时间
+                libSampleInfo.put("sender", sample.getSaminitiallyusername());//标本送出者
+                libSampleInfo.put("sendtime", ConvertUtil.getFormatDateGMT(sample.getSaminitiallytime(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//标本送出时间
 
-            httpClient.executeMethod(method);
-            if (method.getResponseBodyAsString() != null && !method.getResponseBodyAsString().isEmpty()) {
-                JSONObject obj = new JSONObject(method.getResponseBodyAsString());
-                if ((Integer) obj.get("State") == 0) {
-                    flag = false;
-                } else {
-                    flag = true;
+                //结果信息
+                JSONArray libTestResult = new JSONArray();
+                JSONObject object = new JSONObject();
+                object.put("barcode", sample.getSaminspectionid());//条码号
+                object.put("customid", String.valueOf(sample.getSamcustomerid()));//客户代码
+                object.put("customname", hos.getName());//客户名称
+                object.put("sampleno", sample.getSampathologycode());//样本编号(病理编号)
+                object.put("viewresult", "");//大体所见
+                object.put("diagnosis", resultMap.get("diagnosisResult").replaceAll("<br>"," "));//诊断结果
+                object.put("createtime", ConvertUtil.getFormatDateGMT(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"));//上传时间
+                object.put("rev1", "");//
+                object.put("rev2", "");//
+                libTestResult.put(object);
+                JSONObject reportLibInfo = new JSONObject();
+                reportLibInfo.put("sampleInfo", libSampleInfo);
+                reportLibInfo.put("pathologyResultInfoList", libTestResult);
+                RequestEntity requestEntity = new StringRequestEntity(reportLibInfo.toString(), "application/json", "UTF-8");
+                method.setRequestEntity(requestEntity);
+                method.releaseConnection();
+                httpClient.executeMethod(method);
+                httpClient.getHttpConnectionManager().closeIdleConnections(0);
+                if (method.getResponseBodyAsString() != null && !method.getResponseBodyAsString().isEmpty()) {
+                    JSONObject obj = new JSONObject(method.getResponseBodyAsString());
+                    if ((Integer) obj.get("State") == 0) {
+                        flag = false;
+                        map.put("resultinfo",obj.get("Message"));
+                    } else {
+                        flag = true;
+                    }
+                }
+            }else if(task.getTaskfirstn() == 2){
+                httpClient.getHostConfiguration().setHost(reportLibUrl + "report/deleteReportLibInfo/");
+                PostMethod method = new PostMethod(reportLibUrl + "report/deleteReportLibInfo/");
+                JSONObject reportLibInfo = new JSONObject();
+                reportLibInfo.put("barCode", sample.getSaminspectionid());
+                reportLibInfo.put("reportType", "2");
+                JSONObject reportLibInfo1 = new JSONObject();
+                reportLibInfo1.put("paramInfo",reportLibInfo);
+                RequestEntity requestEntity = new StringRequestEntity(reportLibInfo.toString(), "application/json", "UTF-8");
+                method.setRequestEntity(requestEntity);
+                method.releaseConnection();
+
+                httpClient.executeMethod(method);
+                httpClient.getHttpConnectionManager().closeIdleConnections(0);
+                if (method.getResponseBodyAsString() != null && !method.getResponseBodyAsString().isEmpty()) {
+                    JSONObject obj = new JSONObject(method.getResponseBodyAsString());
+                    if ((Integer) obj.get("State") == 0) {
+                        flag = false;
+                        map.put("resultinfo",obj.get("message"));
+                    } else {
+                        flag = true;
+                    }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             flag = false;
         }
 
-        return flag;
+        map.put("result",flag);
+        return map;
+
 
     }
 

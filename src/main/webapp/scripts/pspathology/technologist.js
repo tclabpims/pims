@@ -426,7 +426,7 @@ $(function () {
             endDate: $("#q_endDate").val(),
             patientName: $("#q_patientName").val()
         },
-        colNames: ['tesenglishname','特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId'],
+        colNames: ['tesenglishname','特检类型','病理号', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId'],
         colModel: [
             {
                 name: 'tesenglishname',
@@ -438,7 +438,8 @@ $(function () {
                 index: 'chiOrderType',
                 width: 30,align:"center"
             },
-            {name: 'orderCode', index: 'orderCode', width: 40,align:"center"},
+            {name: 'sampathologycode', index: 'sampathologycode', width: 40,align:"center"},
+            {name: 'orderCode', index: 'orderCode', width: 40,align:"center",hidden:true},
             {name: 'ordOrderUser', index: 'ordOrderUser', width: 40,align:"center"},
             {name: 'orderId', index: 'orderId', hidden: true},
             {name: 'ordSampleId', index: 'ordSampleId', hidden: true},
@@ -469,7 +470,7 @@ $(function () {
         multiselect:true,
         rowList: [10, 20, 30],
         rownumbers: true, // 显示行号
-        rownumWidth: 35, // the width of the row numbers columns
+        rownumWidth: 20, // the width of the row numbers columns
         pager: "#pager",
         beforeSelectRow: function (rowid, e) {
             return $(e.target).is('input[type=checkbox]');
@@ -624,7 +625,7 @@ $(function () {
         datatype: "json",
         mtype: "GET",
         height: 'auto',
-        width: 660,
+        width: $("#tabs").width(),
         pager: "#pager2",
         colNames: ['病理号', '取材序号', '材块数', '白片数', '取材部位', '取材医生', '录入员', '取材时间', '特殊要求', '取材状态'],
         colModel: [
@@ -840,7 +841,59 @@ function printCode() {
     });
     $.post("../pathologysample/slide/yzprintcode",{samples:JSON.stringify(saveDatas)},function(data){
         data = jQuery.parseJSON(data);
-        startPrint(data);
+        var htmlinfo = "<table align='center'style='border-right:1px solid ;border-bottom:1px solid'>";
+        var lenghts = data.labOrders.length;
+        for(i=0;i<lenghts;i++){
+            if(i + 2 < lenghts){
+                htmlinfo +="<tr><td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+                    "<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+                    "<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td></tr>";
+                htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].barcode+"</td><" +
+                    "td style='border-left:1px solid;' align='center'width='150px'>" +data.labOrders[i+1].barcode+"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+2].barcode+"</td></tr>";
+                htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].slisamplingparts+"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'>"+ data.labOrders[i+1].slisamplingparts+"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+2].slisamplingparts+"</td></tr>";
+                i = i+2;
+            }else if(i + 1 < lenghts){
+                htmlinfo +="<tr><td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+                    "<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+                    "<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'></td></tr>";
+                htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].barcode+"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+1].barcode +"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+                htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].slisamplingparts+"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+1].slisamplingparts +"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+                i = i+1;
+            }else if(i < lenghts){
+                htmlinfo +="<tr><td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+                    "<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'></td>" +
+                    "<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'></td></tr>";
+                htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].barcode+"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'></td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+                htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].slisamplingparts+"</td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'></td>" +
+                    "<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+            }
+        }
+        htmlinfo +="</table>";
+        $("#slidepinfo").html(htmlinfo);
+        layer.open({
+            type: 1,
+            title: "标签预览",
+            area: ['854px', '600px'],
+            btn: ["打印", "关闭"],
+            maxmin: true,
+            shade: 0.5,
+            content: $("#slidepinfo"),
+            yes: function (index1, layero1) {
+                startPrint(data);
+                layer.close(index1);
+            }
+        });
+        // startPrint(data);
         // }
     });
 }
@@ -865,23 +918,6 @@ function CreateDataBill(datas) {
         // var topheight1 = Math.floor(i/3)*24+ 3;
         // var topheight2 = Math.floor(i/3)*24+ 8;
         var leftwidth1 = 3;
-        // if(i<3){
-        // 	if(i%3 == 0){
-        // 		leftwidth1 = 3;
-        // 	}else if(i%3 == 1){
-        // 		leftwidth1 = 30;
-        // 	}else if(i%3 == 2){
-        // 		leftwidth1 = 57;
-        // 	}
-        // }else{
-        // 	if(i%3 == 0){
-        // 		leftwidth1 = 1;
-        // 	}else if(i%3 == 1){
-        // 		leftwidth1 = 28;
-        // 	}else if(i%3 == 2){
-        // 		leftwidth1 = 55;
-        // 	}
-        // }
         if(i%3 == 0){
             leftwidth1 = 3;
         }else if(i%3 == 1){
@@ -889,27 +925,35 @@ function CreateDataBill(datas) {
         }else if(i%3 == 2){
             leftwidth1 = 57;
         }
+        var leftwidth2 = 2;
+        if(i%3 == 0){
+            leftwidth2 = 2;
+        }else if(i%3 == 1){
+            leftwidth2 = 29;
+        }else if(i%3 == 2){
+            leftwidth2 = 56;
+        }
 
         LODOP.ADD_PRINT_TEXT("3mm",leftwidth1+"mm","27mm","5mm","浙大国际医院");
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
         // LODOP.ADD_PRINT_BARCODEA("patientCode","21.98mm","27.01mm","46.57mm",40,"128B",data.sampathologycode); slisamplingparts
         // LODOP.SET_PRINT_STYLEA(0,"Horient",2);
-        if(data.barcode.length >15){
+        if(data.barcode.length >12){
             LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","8mm",data.barcode);
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
             LODOP.SET_PRINT_STYLEA(0,"Bold",1);
             if(data.slisamplingparts != null && data.slisamplingparts != ""){
-                LODOP.ADD_PRINT_TEXT("16mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+                LODOP.ADD_PRINT_TEXT("16mm",leftwidth2+"mm","24mm","10mm",data.slisamplingparts);
                 LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
                 LODOP.SET_PRINT_STYLEA(0,"Bold",1);
             }
         }else{
             LODOP.ADD_PRINT_TEXT("8mm",leftwidth1+"mm","27mm","4mm",data.barcode);
-            LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+            LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
             LODOP.SET_PRINT_STYLEA(0,"Bold",1);
             if(data.slisamplingparts != null && data.slisamplingparts != ""){
-                LODOP.ADD_PRINT_TEXT("12mm",leftwidth1+"mm","24mm","10mm",data.slisamplingparts);
+                LODOP.ADD_PRINT_TEXT("12mm",leftwidth2+"mm","24mm","10mm",data.slisamplingparts);
                 LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
                 LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
                 LODOP.SET_PRINT_STYLEA(0,"Bold",1);

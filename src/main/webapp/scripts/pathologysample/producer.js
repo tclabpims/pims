@@ -595,8 +595,59 @@ function printCode() {
 	});
 	$.post("../pathologysample/slide/printcodeproducer",{samples:JSON.stringify(saveDatas)},function(data){
 		data = jQuery.parseJSON(data);
-		// console.log(data);
-		startPrint(data);
+		var htmlinfo = "<table align='center'style='border-right:1px solid ;border-bottom:1px solid'>";
+		var lenghts = data.labOrders.length;
+		for(i=0;i<lenghts;i++){
+			if(i + 2 < lenghts){
+				htmlinfo +="<tr><td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+					"<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+					"<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td></tr>";
+				htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].barcode+"</td><" +
+					"td style='border-left:1px solid;' align='center'width='150px'>" +data.labOrders[i+1].barcode+"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+2].barcode+"</td></tr>";
+				htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].slisamplingparts+"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'>"+ data.labOrders[i+1].slisamplingparts+"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+2].slisamplingparts+"</td></tr>";
+				i = i+2;
+			}else if(i + 1 < lenghts){
+				htmlinfo +="<tr><td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+					"<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+					"<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'></td></tr>";
+				htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].barcode+"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+1].barcode +"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+				htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].slisamplingparts+"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i+1].slisamplingparts +"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+				i = i+1;
+			}else if(i < lenghts){
+				htmlinfo +="<tr><td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'>浙大国际医院</td>" +
+					"<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'></td>" +
+					"<td style='border-left:1px solid;border-top:1px solid' align='center'width='150px'></td></tr>";
+				htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].barcode+"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'></td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+				htmlinfo +="<tr><td style='border-left:1px solid;' align='center'width='150px'>"+data.labOrders[i].slisamplingparts+"</td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'></td>" +
+					"<td style='border-left:1px solid;' align='center'width='150px'></td></tr>";
+			}
+		}
+		htmlinfo +="</table>";
+		$("#slidepinfo").html(htmlinfo);
+		layer.open({
+			type: 1,
+			title: "标签预览",
+			area: ['854px', '600px'],
+			btn: ["打印", "关闭"],
+			maxmin: true,
+			shade: 0.5,
+			content: $("#slidepinfo"),
+			yes: function (index1, layero1) {
+				startPrint(data);
+				layer.close(index1);
+			}
+		});
+		// startPrint(data);
 		// for(i=0;i<data.labOrders.length;i++){
 		// 	startPrint(data.labOrders[i]);
 		// }

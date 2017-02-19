@@ -643,7 +643,7 @@ $(function () {
             endDate: $("#q_endDate").val(),
             patientName: $("#q_patientName").val(),
         },
-        colNames: ['tesenglishname','特检类型', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId','chiParaffinCode'],
+        colNames: ['tesenglishname','特检类型','病理号', '医嘱号', '申请医生', 'orderId', 'ordSampleId', 'ordCustomerId', 'ordPathologyCode', 'chiOrderState', 'samPathologyId','chiParaffinCode'],
         colModel: [
             {
                 name: 'tesenglishname',
@@ -655,7 +655,8 @@ $(function () {
                 index: 'chiOrderType',
                 width: 30,align:"center"
             },
-            {name: 'orderCode', index: 'orderCode', width: 40,align:"center"},
+            {name: 'sampathologycode', index: 'sampathologycode', width: 40,align:"center"},
+            {name: 'orderCode', index: 'orderCode', width: 40,align:"center",hidden:true},
             {name: 'ordOrderUser', index: 'ordOrderUser', width: 40,align:"center"},
             {name: 'orderId', index: 'orderId', hidden: true},
             {name: 'ordSampleId', index: 'ordSampleId', hidden: true},
@@ -687,7 +688,7 @@ $(function () {
         rowNum: 100,
         rowList:[100,200,300,400,500],
         rownumbers: true, // 显示行号
-        rownumWidth: 35, // the width of the row numbers columns
+        rownumWidth: 20, // the width of the row numbers columns
         pager: "#pager",
         beforeSelectRow: function (rowid, e) {
             return $(e.target).is('input[type=checkbox]');
