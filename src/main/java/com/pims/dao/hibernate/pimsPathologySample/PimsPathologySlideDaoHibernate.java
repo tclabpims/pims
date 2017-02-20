@@ -607,20 +607,31 @@ public class PimsPathologySlideDaoHibernate extends GenericDaoHibernate<PimsPath
     public boolean updateProducer(JSONArray slideList, JSONArray sampleList, int sts, String sampleid, String username, String userid) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         StringBuffer sb_sample = new StringBuffer();//标本sql
-        sb_sample.append(" update pims_pathology_sample set samsamplestatus=3,sampiecedoctorid='"+userid+"',sampiecedoctorname='"+username+"' where sampleid =:sampleid");
+        sb_sample.append(" update pims_pathology_sample set samsamplestatus=:samsamplestatus,sampiecedoctorid='"+userid+"',sampiecedoctorname='"+username+"' where sampleid =:sampleid");
         StringBuffer sb_para = new StringBuffer();//蜡块sql
         sb_para.append(" from PimsPathologyParaffin where parsampleid=:parsampleid and rownum=1");
+        StringBuffer sbsam = new StringBuffer();
+        sbsam.append(" from PimsPathologySample where sampleid =:sampleid");
         if(sts == 1){//批量制片
             if(sampleList != null && sampleList.size() > 0){
                 for(int i = 0;i<sampleList.size();i++){
                     Map map = (Map) sampleList.get(i);
                     PimsPathologySample sample = (PimsPathologySample) setBeanProperty(map,PimsPathologySample.class);
+                    //获取标本信息
+                    Query querysam = getSession().createQuery(sbsam.toString());
+                    querysam.setLong("sampleid",sample.getSampleid());
+                    sample = (PimsPathologySample) querysam.uniqueResult();
                     //获取蜡块信息
                     Query querypara = getSession().createQuery(sb_para.toString());
                     querypara.setLong("parsampleid",sample.getSampleid());
                     PimsPathologyParaffin para = (PimsPathologyParaffin) querypara.uniqueResult();
                     //更新标本状态
                     Query query = getSession().createSQLQuery(sb_sample.toString());
+                    if(sample.getSamsamplestatus() > 3){
+                        query.setLong("samsamplestatus",sample.getSamsamplestatus());
+                    }else{
+                        query.setLong("samsamplestatus",3);
+                    }
                     query.setLong("sampleid",sample.getSampleid());
                     query.executeUpdate();
                     //自动切片

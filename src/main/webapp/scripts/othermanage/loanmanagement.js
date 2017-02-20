@@ -715,7 +715,7 @@ function CreateDataBill() {
     LODOP.ADD_PRINT_TEXTA("nameText","15mm","25mm","29mm","3mm","在库状态");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-    LODOP.ADD_PRINT_TEXTA("nameText","15mm","44mm","29mm","3mm","病种类型");
+    LODOP.ADD_PRINT_TEXTA("nameText","15mm","44mm","29mm","3mm","部位");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
     LODOP.SET_PRINT_STYLEA(0,"Bold",1);
     LODOP.ADD_PRINT_TEXTA("nameText","15mm","65mm","29mm","3mm","病理编号");
@@ -739,56 +739,38 @@ function CreateDataBill() {
     for(var i=0;i<ids.length;i++){
 	    var rowData = $("#new").jqGrid('getRowData',ids[i]);
 	    var topheight1 = i*4+20;
-	    if(rowData.slistockin=="借阅中"){
-	        rowData.slistockin="借阅中";
-	    }else{
-	        rowData.slistockin="在库";
-	    }
-	    if(rowData.slipatientsex=="0"){
-            rowData.slipatientsex="女";
-        }else{
-            rowData.slipatientsex="男";
-        }
-        if(rowData.slipathologyid=="181"){
-            rowData.slipathologyid="常规病理";
-        }else if(rowData.slipathologyid=="182"){
-            rowData.slipathologyid="常规细胞学";
-        }else if(rowData.slipathologyid=="183"){
-            rowData.slipathologyid="骨髓细胞学";
-        }else if(rowData.slipathologyid=="184"){
-            rowData.slipathologyid="免疫组化";
-        }else if(rowData.slipathologyid=="185"){
-            rowData.slipathologyid="术中冰冻";
-        }else if(rowData.slipathologyid=="186"){
-            rowData.slipathologyid="外周血细胞";
-        }else if(rowData.slipathologyid=="187"){
-            rowData.slipathologyid="液基细胞学";
-        }else if(rowData.slipathologyid=="188"){
-            rowData.slipathologyid="HPV";
-        }
 
-	    LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","27mm","29mm","3mm",rowData.slicurrent);
+	    if(rowData.sampatientsex=="2"){
+            rowData.sampatientsex="女";
+        }else if(rowData.sampatientsex='1'){
+            rowData.sampatientsex="男";
+        }else {
+            rowData.sampatientsex="未知";
+		}
+
+
+	    LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","27mm","29mm","3mm",rowData.slistockin);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","42mm","29mm","3mm",rowData.slipathologyid);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","42mm","29mm","3mm",rowData.samsamplename);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","62mm","29mm","3mm",rowData.pathologyid);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","62mm","29mm","3mm",rowData.slipathologycode);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","88mm","29mm","3mm",rowData.sliid);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","88mm","29mm","3mm",rowData.slislidebarcode);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","122mm","29mm","3mm",rowData.slipatientname);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","122mm","29mm","3mm",rowData.sampatientname);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","141mm","15mm","3mm",rowData.slipatientage);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","141mm","15mm","3mm",rowData.sampatientage);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","156mm","15mm","3mm",rowData.slipatientsex);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","156mm","15mm","3mm",rowData.sampatientsex);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
-        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","168mm","29mm","3mm",rowData.slimadetime);
+        LODOP.ADD_PRINT_TEXTA("nameText",topheight1+"mm","168mm","29mm","3mm",rowData.slicreatetime);
         LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
         LODOP.SET_PRINT_STYLEA(0,"Bold",1);
 

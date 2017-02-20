@@ -313,6 +313,30 @@ public class PimsSysColor {
                         break;
                 }
                 break;
+            case 6:
+                switch (Integer.parseInt(num2)){
+                    case 0:setColchinese("已申请");
+                        break;
+                    case 1:setColchinese("已接收");
+                        break;
+                    case 2:setColchinese("已完成");
+                        break;
+                    case 3:setColchinese("已签收");
+                        break;
+                }
+                break;
+            case 7:
+                switch (Integer.parseInt(num2)){
+                    case 0:setColchinese("已申请");
+                        break;
+                    case 1:setColchinese("已接收");
+                        break;
+                    case 2:setColchinese("已完成");
+                        break;
+                    case 3:setColchinese("已签收");
+                        break;
+                }
+                break;
         }
     }
 }

@@ -172,10 +172,10 @@
                     <i class="ace-icon fa fa-arrow-right bigger-110"></i>
                     下一个
                 </button>
-                <%--<button type="button" class="btn btn-sm btn-warning" title="列表打印" id="print" onclick="printCode()">
+                <button type="button" class="btn btn-sm btn-warning" title="列表打印" id="print" onclick="printCode()">
                     <i class="ace-icon fa fa-print bigger-110"></i>
                     列表打印
-                </button>--%>
+                </button>
                 <button type="button" class="btn btn-sm btn-success" title="借阅" id="loan" onclick="loanSlide()">
                     <i class="ace-icon fa fa-book bigger-110"></i>
                     借阅

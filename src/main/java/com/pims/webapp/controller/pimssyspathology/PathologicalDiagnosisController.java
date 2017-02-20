@@ -7,10 +7,7 @@ import com.alibaba.fastjson.parser.DefaultJSONParser;
 import com.pims.model.*;
 import com.pims.service.QueryHisDataService;
 import com.pims.service.UpdateReportDataService;
-import com.pims.service.pimspathologysample.PimsPathologyParaffinManager;
-import com.pims.service.pimspathologysample.PimsPathologyReportPdfManager;
-import com.pims.service.pimspathologysample.PimsPathologySampleManager;
-import com.pims.service.pimspathologysample.PimsPathologySlideManager;
+import com.pims.service.pimspathologysample.*;
 import com.pims.service.pimssyspathology.*;
 import com.pims.service.pimssysreqtestitem.PimsSysReqTestitemManager;
 import com.pims.util.PDFWebService;
@@ -155,6 +152,8 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
         mv.addObject("sampleId", request.getParameter("sampleId"));
         mv.addObject("customerId", request.getParameter("customerId"));
         mv.addObject("nowshow",request.getParameter("nowshowrow"));
+        mv.addObject("sampatientname",request.getParameter("sampatientname"));
+        mv.addObject("sampathologycode",request.getParameter("sampathologycode"));
         return mv;
     }
 
@@ -987,6 +986,8 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
     private UpdateReportDataService updateReportDataService;
     @Autowired
     private QueryHisDataService queryHisDataService;
+    @Autowired
+    private SamplePdfTaskManager samplePdfTaskManager;
     /**
      * 取消签发
      * @param request
@@ -1018,6 +1019,13 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 //                PDFWebService pdfWebService = new PDFWebService();
 //                pdfWebService.deletePdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//删除PDF
 //                queryHisDataService.delete(sample);//删除HIS数据库
+//                SamplePdfTask task = new SamplePdfTask();
+//                task.setTasksampleid(sample.getSampleid());//标本ID
+//                task.setTaskstates(1);//任务状态0上传失败1未上传2已上传
+//                task.setTaskcreatetime(new Date());//创建时间
+//                task.setTaskcreateuser(user.getName());//创建人
+//                task.setTaskfirstn(2);//类型1上传2删除
+//                samplePdfTaskManager.save(task);
             }
         }
         o.put("message", "取消签发成功！");
@@ -1081,6 +1089,13 @@ public class PathologicalDiagnosisController extends PIMSBaseController {
 //                pdfWebService.uploadPdf(Config.getString("pdf.key",""),Config.getString("pdf.upload.path",""),rpdf);//上传PDF
 //                queryHisDataService.delete(sample);//删除HIS数据库
 //                queryHisDataService.insert(sample,psp);//插入HIS数据库
+//                SamplePdfTask task = new SamplePdfTask();
+//                task.setTasksampleid(sample.getSampleid());//标本ID
+//                task.setTaskstates(1);//任务状态0上传失败1未上传2已上传
+//                task.setTaskcreatetime(new Date());//创建时间
+//                task.setTaskcreateuser(user.getName());//创建人
+//                task.setTaskfirstn(1);//类型1上传2删除
+//                samplePdfTaskManager.save(task);
             }
         }
         o.put("message", "签发成功！");

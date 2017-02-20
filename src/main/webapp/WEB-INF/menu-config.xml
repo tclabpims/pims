@@ -110,6 +110,7 @@
             <Item name="ChargeItemRef" title="menu.ChargeItemRef" page="/chargeitemref/chargeitemref" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="HospitalPathologyInfo" title="menu.HospitalPathologyInfo" page="/hpinfo/view" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
             <Item name="PackageInfo" title="menu.PackageInfo" page="/package/main" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
+            <Item name="delaydayssetting" title="menu.delaydayssetting" page="/report/delayData" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER"/>
         </Menu>
 
         <Menu name="Individual" title="individual.title" page="/userform" roles="ROLE_ADMIN,ROLE_USER,ROLE_WORKER">

@@ -595,7 +595,7 @@ function addSample() {
 	$("#sampatientbed").val("");//患者床号
 	$("#samsampleclass").val("1");//标本种类
 	$("#samsamplename").val();//标本名称(,多个检查项目名称之间用逗号隔开)
-	$("#sampopuser").val();//标本检查项目id(多个检验目的之间用逗号隔开)
+	$("#sampopuser").val($("#reqitemidnow").val());//标本检查项目id(多个检验目的之间用逗号隔开)
 	$("#samisemergency").val("");//是否加急(0不加急,1加急)
 	$("#samisdecacified").val("");//是否脱钙(0没有脱钙,1已脱钙)
 	$("#samissamplingall").val("");//是否全取(0,未全取,1全取)
@@ -633,7 +633,7 @@ function addSample() {
 	$("#samisdeleted").val("0");//删除标志（0正常，1已删除）
 	$("#samcreatetime").val(CurentTime(new Date()));//创建时间
 	$("#samcreateuser").val($("#local_userid").val());//创建人
-	$("#samjcxm").val("");//检查项目
+	$("#samjcxm").val($("#reqitemnamenow").val());//检查项目
 	$("input[name='samfirstv'][value='1']").prop("checked",true);//知情书
 	$("input[name='samsecondv'][value='1']").prop("checked",true);//合格状态
     $("#sampiecedoctorid").val("");//首次取材医师既诊断医师ID
