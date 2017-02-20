@@ -91,6 +91,11 @@ public class PimsPathologySampleController extends PIMSBaseController{
         builder.append("<option value=''></option>");
         for(PimsSysReqTestitem obj : list) {
             builder.append("<option value='").append(obj.getTestitemid()).append("' ");
+            if((String.valueOf(user.getUserBussinessRelate().getPathologyLibId())).equals(String.valueOf(obj.getTespathologyid()))) {
+                builder.append(" selected = 'selected' ");
+                view.addObject("reqitemids",obj.getTestitemid());
+                view.addObject("reqitemnames",obj.getTeschinesename());
+            }
             builder.append(">").append(obj.getTespathologyid()+":"+obj.getTeschinesename()).append("</option>");
         }
         view.addObject("samjcxm",builder.toString());

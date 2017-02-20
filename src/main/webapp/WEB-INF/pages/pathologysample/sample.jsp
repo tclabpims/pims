@@ -401,9 +401,11 @@
 					<div style="margin-bottom: 3px;">
 						<span style="width: 30%;" class="input_style">&nbsp;&nbsp;病种类别:&nbsp;&nbsp;</span>
 						<input type="hidden" id="lcal_hosptail" value="${send_hosptail}"/>
-						<input type="hidden" id="loca	l_logyid" value="${logyid}"/>
+						<input type="hidden" id="local_logyid" value="${logyid}"/>
 						<input type="hidden" id="local_userid" value="${local_userid}"/>
 						<input type="hidden" id="local_username" value="${local_username}"/>
+						<input type="hidden" id="reqitemidnow" value="${reqitemids}"/>
+						<input type="hidden" id="reqitemnamenow" value="${reqitemnames}"/>
 						<select id="logyid" class="input_style">
 							<%out.println((String) request.getAttribute("logyids"));%>
 						</select>
@@ -581,14 +583,14 @@
                     </div>
 					<label class="label_style col-sm-1">检查项目:</label>
 					<div class="col-sm-2 ">
-						<input type="hidden" id="sampopuser"/><!--标本检查项目id-->
+						<input type="hidden" id="sampopuser" value="${reqitemids}"/><!--标本检查项目id-->
 						<%--<input class="input_style" type="text" id="samjcxm" name="samjcxm" datatype="*"/>--%>
 						<span style="overflow:hidden;padding-right:0px;" class="input_style  col-sm-12">
 							<select class="input_style col-sm-12" id="samjcxm1" onchange="fillval('sampopuser','samjcxm','sampathologyid','samjcxm1')">
 								<%out.print(request.getAttribute("samjcxm"));%>
 							</select>
 						</span>
-						<input id="samjcxm"  name="samjcxm"  style="position:absolute;left:5px;width: 85%;padding-left: 10px;border-right: 0" class="input_style" >
+						<input id="samjcxm"  name="samjcxm"  style="position:absolute;left:5px;width: 85%;padding-left: 10px;border-right: 0" class="input_style" value="${reqitemnames}">
 					</div>
 					<label class="label_style col-sm-1" >病种类别:</label>
 					<div class="col-sm-2">
