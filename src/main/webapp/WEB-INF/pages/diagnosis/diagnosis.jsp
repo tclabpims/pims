@@ -171,7 +171,9 @@
             float: left;
             margin-left: 1%;
         }
-
+        #userGrid1{
+            margin-left:0px!important;
+        }
     </style>
 
 </head>

@@ -33,6 +33,17 @@
 			text-align: center;
 			padding-bottom: 20px;
 		}
+		#jqgh_bhg_cb{
+			text-align: center;
+			padding-bottom: 20px;
+		}
+		#jqgh_bgqsd_cb{
+			text-align: center;
+			padding-bottom: 20px;
+		}
+		#search_div_1 .input_style{
+			padding-left: 0px;
+		}
 	</style>
 </head>
 <body  style="font-family:'Microsoft YaHei',微软雅黑,'MicrosoftJhengHei'!important;">
