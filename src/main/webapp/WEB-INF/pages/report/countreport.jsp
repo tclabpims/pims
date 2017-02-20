@@ -73,11 +73,11 @@
 					<input type="checkbox" class="input_check" name="gs" id="xml" checked><span class="input_style">&nbsp;XML&nbsp;</span>
 				</div>
 				<div style="margin-bottom: 5px;">&nbsp;
-					<input type="checkbox" class="input_check" name="biao" value="1" id="rztj1"  checked><span class="input_style">&nbsp;工作日志统计&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="2" id="bbytj1" checked><span class="input_style">&nbsp;标本来源统计&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="3" id="sftj1" checked><span class="input_style">&nbsp;收费统计&nbsp;&#12288;</span>
-					<input type="checkbox" class="input_check" name="biao" value="4" id="gzltj1" checked><span class="input_style">&nbsp;标本不合格统计&nbsp;&#12288;</span>
-					<input type="checkbox" class="input_check" name="biao" value="5" id="ltj1" checked><span class="input_style">&nbsp;病理登记薄&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="1" id="rztj1"  checked onclick="show('rztj1','rztj')"><span class="input_style" >&nbsp;工作日志统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="2" id="bbytj1" checked onclick="show('bbytj1','bbytj')"><span class="input_style">&nbsp;标本来源统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="3" id="sftj1" checked onclick="show('sftj1','sftj')"><span class="input_style">&nbsp;收费统计&nbsp;&#12288;</span>
+					<input type="checkbox" class="input_check" name="biao" value="4" id="gzltj1" checked onclick="show('gzltj1','gzltj')"><span class="input_style">&nbsp;标本不合格统计&nbsp;&#12288;</span>
+					<input type="checkbox" class="input_check" name="biao" value="5" id="ltj1" checked onclick="show('ltj1','ltj')"><span class="input_style">&nbsp;病理登记薄&nbsp;</span>
 					<span style="float: right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<span>
 						<button type="button" style="border-radius:3px;border:1px solid #2274E4;background-color: #108CCF;float: right;padding:0 0" onclick="searchList()">
@@ -86,11 +86,11 @@
 					</span>
 				</div>
 				<div style="margin-bottom: 5px;">&nbsp;
-					<input type="checkbox" class="input_check" name="biao" value="6" id="fltj1" checked><span class="input_style">&nbsp;医生、技师工作量统计&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="7" id="bbdjb1" checked><span class="input_style">&nbsp;科室工作量统计&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="8" id="bgqsb1" checked><span class="input_style">&nbsp;冰冻与常规诊断对照表&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="9" id="jbnlfb1" checked><span class="input_style">&nbsp;报告签收单&nbsp;</span>
-					<input type="checkbox" class="input_check" name="biao" value="10" id="bdzddz1" checked><span class="input_style">&nbsp;报告阳性单&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="6" id="fltj1" checked onclick="show('fltj1','gzl')"><span class="input_style">&nbsp;医生、技师工作量统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="7" id="bbdjb1" checked onclick="show('bbdjb1','bbdjb')"><span class="input_style">&nbsp;科室工作量统计&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="8" id="bgqsb1" checked onclick="show('bgqsb1','bgqsb')"><span class="input_style">&nbsp;冰冻与常规诊断对照表&nbsp;</span>
+					<input type="checkbox" class="input_check" name="biao" value="9" id="jbnlfb1" checked onclick="show('jbnlfb1','jbnlfb')"><span class="input_style">&nbsp;报告签收单&nbsp;</span>
+					<%--<input type="checkbox" class="input_check" name="biao" value="10" id="bdzddz1" checked><span class="input_style" onclick="show(bdzddz1,)">&nbsp;报告阳性单&nbsp;</span>--%>
 					<%--<input type="checkbox" class="input_check" name="biao" value="11" id="hztj1" checked><span class="input_style">&nbsp;会诊统计&nbsp;</span>--%>
 				</div>
 			</div>

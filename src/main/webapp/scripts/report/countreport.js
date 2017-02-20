@@ -2,17 +2,26 @@
  * 初始化
  */
 $(function() {
-	$("#rztj1").attr('checked', 'checked');
-	$("#bbytj1").attr('checked', 'checked');
-	$("#sftj1").attr('checked', 'checked');
-	$("#gzltj1").attr('checked', 'checked');
-	$("#ltj1").attr('checked', 'checked');
-	$("#fltj1").attr('checked', 'checked');
-	$("#bbdjb1").attr('checked', 'checked');
-	$("#bgqsb1").attr('checked', 'checked');
-	$("#jbnlfb1").attr('checked', 'checked');
-	$("#bdzddz1").attr('checked', 'checked');
-	$("#hztj1").attr('checked', 'checked');
+    $(document).bind("keydown",function(e){
+        e=window.event||e;
+        if(e.keyCode==116){
+            e.keyCode = 0;
+            location.reload(true);
+            return false;
+        }
+    });
+
+	// $("#rztj1").attr('checked', 'checked');
+	// $("#bbytj1").attr('checked', 'checked');
+	// $("#sftj1").attr('checked', 'checked');
+	// $("#gzltj1").attr('checked', 'checked');
+	// $("#ltj1").attr('checked', 'checked');
+	// $("#fltj1").attr('checked', 'checked');
+	// $("#bbdjb1").attr('checked', 'checked');
+	// $("#bgqsb1").attr('checked', 'checked');
+	// $("#jbnlfb1").attr('checked', 'checked');
+	// $("#bdzddz1").attr('checked', 'checked');
+	// $("#hztj1").attr('checked', 'checked');
 	$(".form_datetime").datetimepicker({
 		minView: "month", //选择日期后，不会再跳转去选择时分秒
 		format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
@@ -1018,4 +1027,12 @@ function getBiao(){
         success : function(data) {
         }
     });
+}
+
+function show(id1,id2){
+	if($("#"+id1+"").is(':checked')){
+    	$("#"+id2+"").css("display","block");
+    }else {
+       $("#"+id2+"").css("display","none")
+    }
 }

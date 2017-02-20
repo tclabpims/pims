@@ -237,7 +237,7 @@ $(function () {
     var height = clientHeight - $('#head').height() - $('#toolbar').height() - $('.footer-content').height() - 150;
 
     $("#sectionList").jqGrid({
-        caption: "系统颜色设置列表",
+        caption: "标准延迟日设置列表",
         url: "../syscolor/query",
         mtype: "GET",
         datatype: "json",
@@ -266,7 +266,7 @@ $(function () {
 //                formatter: "select",
 //                editoptions: {value: "0:已登记;1:已取材;2:已包埋;3:已切片;4:已初诊;5:已审核;6:已发送;7:会诊中;8:已打印;9:未取材;10:待包埋;11:待切片;12:未制作;13:已制作;14:已打印;15:未报告"}
             },
-            {name: 'colmodule', index: 'colmodule', width: 30,formatter: "select",editoptions: {value: "0:标本登记;1:取材管理;2:包埋管理;3:切片管理;4:制片管理;5:病理诊断;"}}
+            {name: 'colmodule', index: 'colmodule', width: 30,formatter: "select",editoptions: {value: "0:标本登记;1:取材管理;2:包埋管理;3:切片管理;4:制片管理;5:病理诊断;6:医嘱处理-医院;7:医嘱处理-技师;"}}
         ],
         loadComplete: function () {
             var table = this;
@@ -369,7 +369,7 @@ function clearData() {
     $('#coltype').val('1');
     $('#colobject').val('Requisition');
     $('#colmodule').val('0');
-    for(var i=0;i<6;i++){
+    for(var i=0;i<8;i++){
     $('#colobjectstate'+i).val('0');}
     $('#colvalue').val('');
 }
@@ -390,94 +390,61 @@ function updatePagerIcons(table) {
 
 function setSecond1(obj){
     var val = obj.value;
-    switch(val){
-        case ("0"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate0").css("display","block");
-            break;
-
-        case ("1"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate1").css("display","block");
-            break;
-
-        case ("2"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate2").css("display","block");
-            break;
-
-        case ("3"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate3").css("display","block");
-            break;
-
-        case ("4"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate4").css("display","block");
-            break;
-
-        case ("5"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate5").css("display","block");
-            break;
+    // switch(val){
+    //     case ("0"):
+    for(var i = 0;i<8;i++){
+        $("#colobjectstate"+i).css("display","none");
+        if(i==7){
+            $("#colobjectstate"+i).css("display","none");
+            $("#colobjectstate"+val+"").css("display","block");
         }
+    }
+
+        //     break;
+        //
+        // case ("1"):
+        //     for(var i = 0;i<6;i++){
+        //         $("#colobjectstate"+i).css("display","none");
+        //     }
+        //     $("#colobjectstate1").css("display","block");
+        //     break;
+        //
+        // case ("2"):
+        //     for(var i = 0;i<6;i++){
+        //         $("#colobjectstate"+i).css("display","none");
+        //     }
+        //     $("#colobjectstate2").css("display","block");
+        //     break;
+        //
+        // case ("3"):
+        //     for(var i = 0;i<6;i++){
+        //         $("#colobjectstate"+i).css("display","none");
+        //     }
+        //     $("#colobjectstate3").css("display","block");
+        //     break;
+        //
+        // case ("4"):
+        //     for(var i = 0;i<6;i++){
+        //         $("#colobjectstate"+i).css("display","none");
+        //     }
+        //     $("#colobjectstate4").css("display","block");
+        //     break;
+        //
+        // case ("5"):
+        //     for(var i = 0;i<6;i++){
+        //         $("#colobjectstate"+i).css("display","none");
+        //     }
+        //     $("#colobjectstate5").css("display","block");
+        //     break;
+        // }
 }
 
 function setSecond(obj){
-
-    switch(obj){
-        case ("0"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate0").css("display","block");
-            break;
-
-        case ("1"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate1").css("display","block");
-            break;
-
-        case ("2"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate2").css("display","block");
-            break;
-
-        case ("3"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate3").css("display","block");
-            break;
-
-        case ("4"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate4").css("display","block");
-            break;
-
-        case ("5"):
-            for(var i = 0;i<6;i++){
-                $("#colobjectstate"+i).css("display","none");
-            }
-            $("#colobjectstate5").css("display","block");
-            break;
+    for(var i = 0;i<8;i++){
+        $("#colobjectstate"+i).css("display","none");
+        if(i==7){
+            $("#colobjectstate"+i).css("display","none");
+            $("#colobjectstate"+obj+"").css("display","block");
         }
+    }
 }

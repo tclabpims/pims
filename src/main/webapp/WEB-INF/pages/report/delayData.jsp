@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: zp
+  Date: 2017/2/17
+  Time: 13:02
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page language="java" errorPage="/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
@@ -172,8 +179,6 @@
                         <option value="3">切片管理</option>
                         <option value="4">制片管理</option>
                         <option value="5">病理诊断</option>
-                        <option value="6">医嘱处理医生</option>
-                        <option value="7">医嘱处理技师</option>
                     </select>
                 </div>
             </div>
@@ -213,20 +218,6 @@
                         <option value="3">已审核</option>
                         <option value="4">已签发</option>
                         <option value="5">已打印</option>
-                    </select>
-                    <select type="text" id="colobjectstate6" style="display:none" name="colobjectstate6" class="col-xs-3">
-                        <option value="0">已申请</option>
-                        <option value="1">已接收</option>
-                        <option value="2">已完成</option>
-                        <option value="3">已签收</option>
-                        <option value="4">已取消</option>
-                    </select>
-                    <select type="text" id="colobjectstate7" style="display:none" name="colobjectstate7" class="col-xs-3">
-                        <option value="0">已申请</option>
-                        <option value="1">已接收</option>
-                        <option value="2">已完成</option>
-                        <option value="3">已签收</option>
-                        <option value="4">已取消</option>
                     </select>
                 </div>
             </div>
